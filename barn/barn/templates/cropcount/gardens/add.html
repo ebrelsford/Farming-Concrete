@@ -1,0 +1,31 @@
+{% extends "cropcount/gardens/base.html" %}
+
+{% block title %}Add a garden{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }} Add a garden {% endblock %}
+
+{% block content %}
+    <h1>Add a garden</h1>
+
+    <div id="left">
+        <h2>Add the Crop Count for a garden we already know about</h2>
+        <input type="text" value="narrowdown" />
+        <ul>
+        {% for g in uncounted %}
+            <li><a href="{% url cropcount.views.garden_details g.id %}">{{ g.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div id="right">
+        <h2>Add the Crop Count for a new garden</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div id="inputs">
+                {{ form.as_p }}
+                <input type="submit" value="add" />
+            </div>
+        </form>
+    </div>
+{% endblock %}
+

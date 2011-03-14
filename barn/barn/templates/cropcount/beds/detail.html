@@ -1,0 +1,88 @@
+{% extends "cropcount/beds/base.html" %}
+
+{% block title %}{{ bed.garden.name }}, bed {{ bed.name }}{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }} <a href="{% url cropcount.views.garden_details bed.garden.id %}">{{ bed.garden.name }}</a> &gt;&gt; bed {{ bed.name }} {% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#errors').position({
+                'my': 'left top', 
+                'at': 'right top', 
+                'of': $('#new-plant'),
+                'offset': '10 0',
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+{% if bed %}
+    <h1><a href="{% url cropcount.views.garden_details bed.garden.id %}">{{ bed.garden.name }}</a>, bed {{ bed.name }}</h1>
+    <div id="plants">
+        <ul class="values">
+        {% for patch in bed.patch_set.all %}
+            <li class="{% cycle 'odd' 'even' %}">
+                <span class="type">{{ patch.variety }}</span>
+            
+                <span class="quantity">
+                    {% if patch.plants %}
+                    {{ patch.plants }} plants
+                    {% endif %}
+                   
+                    {% if patch.area %}
+                    {{ patch.area }} square feet
+                    {% endif %}
+                </span>
+
+                <span class="actions">
+                    <a href="{% url cropcount.views.delete_patch patch.id %}">
+                        <img src="/site_media/img/round_delete_small.png" title="remove this plant" />
+                    </a>
+                </span>
+
+            </li>
+        {% endfor %}
+            <li id="new-plant">
+                <span style="font-weight: bold; font-size: 11px; margin-top: 3px;">Add a new plant</span>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {{ form.non_field_errors }}
+                    <div id="inputs">
+                        <span class="type">
+                            {{ form.variety }}
+                        </span>
+                           
+                        <span class="quantity">
+                            {{ form.plants }} plants<br />
+                            and/or<br />
+                            {{ form.area }} square feet
+                        </span>
+
+                        <span class="actions">
+                            <input type="submit" value="add" />
+                        </span>
+                    </div>
+                    <div id="errors" style="float: right; position: absolute;">
+                        {{ form.errors }}
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div id="no-more-plants">
+        <h2>
+            <a href="{% url cropcount.views.garden_details bed.garden.id %}"><img src="/site_media/img/round_checkmark.png" /></a>
+            <a href="{% url cropcount.views.garden_details bed.garden.id %}">Done adding plants to this bed!</a>
+        </h2>
+    </div>
+{% else %}
+    <p>No such bed</p>
+{% endif %}
+{% endblock %}
+

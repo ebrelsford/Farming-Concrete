@@ -1,0 +1,152 @@
+body {
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Arial, Helvetica;
+}
+
+h1, h2 {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: #6EBE44;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #6EBE44;
+    text-decoration: underline;
+}
+
+#nav {
+    background: #0CA8A8;
+    display: block;
+    clear: both;
+    text-transform: uppercase;
+}
+
+#nav::after {
+    content: ".";
+    visibility: hidden;
+}
+
+#nav ul {
+    display: block;
+    clear: both;
+    padding: 0;
+    margin: 0;
+}
+
+#nav li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+    border-right: 1px solid white;
+}
+
+#nav li:hover {
+    background: #6EBE44;
+}
+
+#nav li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#main {
+    clear: both;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border-left: 5px solid #6EBE44;
+    border-right: 5px solid #6EBE44;
+    border-bottom: 5px solid #6EBE44;
+}
+
+#breadcrumbs {
+    font-size: 12px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#left {
+    float: left;
+    padding: 5px;
+    border-right: 1px dotted black;
+    width: 40%;
+}
+
+#right {
+    float: left;
+    display: block;
+    padding: 5px;
+    width: 40%;
+}
+
+#inputs p label {
+    display: inline-block;
+    width: 35%;
+}
+
+ul.errorlist {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    background: pink;
+    border: 1px solid red;
+    list-style: none;
+    padding-left: 0;
+}
+
+ul.values {
+    list-style: none;
+}
+#plants ul li span {
+    display: inline-block;
+}
+#plants .type {
+    width: 50%;
+}
+#plants .quantity {
+    width: 35%;
+}
+
+#beds .name, #beds .dimensions {
+    display: inline-block;
+}
+#beds .name {
+    width: 30%;
+}
+#beds .dimensions {
+    width: 45%;
+}
+#beds #plants {
+    margin-top: 5px;
+}
+#beds li.bed {
+    border-bottom: 1px dashed black;
+}
+
+ul.values {
+    width: 50%;
+}
+ul.values li {
+    padding: 3px;
+}
+ul.values li.odd {
+}
+ul.values li.even {
+    background-color: #F2E3C4;
+}
+
+/*** Map stuff ***/
+.olControlAttribution {
+    bottom: 3px !important;
+    font-size: 10px !important;
+}

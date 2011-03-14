@@ -1,0 +1,20 @@
+{% extends "cropcount/gardens/base.html" %}
+
+{% block title %}Counted gardens{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }} Gardens {% endblock %}
+{# breadcrumbs http://www.martin-geber.com/thought/2007/10/25/breadcrumbs-django-templates/ #}
+
+{% block content %}
+{% if counted_gardens %}
+    <h1>Counted gardens</h1>
+    <ul>
+    {% for garden in counted_gardens %}
+    <li><a href="{% url cropcount.views.garden_details garden.id %}">{{ garden.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No gardens are available</p>
+{% endif %}
+    <p><a href="{% url cropcount.views.add_garden %}">Add a garden</a></p>
+{% endblock %}

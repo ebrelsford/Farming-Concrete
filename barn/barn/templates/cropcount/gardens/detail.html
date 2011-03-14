@@ -1,0 +1,82 @@
+{% extends "cropcount/gardens/base.html" %}
+
+{% block title %}{{ garden.name }}{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }}{{ garden.name }}{% endblock %}
+
+{% block content %}
+{% if garden %}
+    <h1>{{ garden.name }}</h1>
+
+    <div id="beds">
+        <ul class="values">
+            {% for box in garden.box_set.all %}
+            <li class="bed">
+                <span class="name">
+                    <a href="{% url cropcount.views.bed_details box.id %}">bed {{ box.name }}</a>
+                </span> 
+                <span class="dimensions">
+                    {{ box.width }} ft x {{ box.length }} ft
+                </span>
+                <span class="actions">
+                    <a href="{% url cropcount.views.delete_bed box.id %}">
+                        <img src="/site_media/img/round_delete_small.png" title="remove this bed" />
+                    </a>
+                </span>
+                <div id="plants">
+                    <ul class="values">
+                        {% for patch in box.patch_set.all %}
+                        <li class="{% cycle 'odd' 'even' %}">
+                            <span class="type">{{ patch.variety.name }}</span>
+                            
+                            <span class="quantity">
+                                {% if patch.plants %}
+                                {{ patch.plants }} plants
+                                {% endif %}
+                                
+                                {% if patch.area %}
+                                {{ patch.area }} square feet
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="new-bed">
+        <h2>add new bed:</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+            {{ form.non_field_errors }}
+            <div id="errors">
+                {{ form.garden.errors }}{{ form.name.errors }}{{ form.length.errors }}{{ form.width.errors }}
+            </div>
+            <div id="inputs">
+                <div>
+                    {{ form.name.label_tag }}: {{ form.name }}
+                </div>
+                <div>
+                    Dimensions: {{ form.width }}ft x {{ form.length }}ft
+                </div>
+                <input type="submit" value="add" />
+            </div>
+        </form>
+    </div>
+    
+    <div id="no-more-beds">
+        <h2>
+            <a href="{% url cropcount.views.gardens %}"><img src="/site_media/img/round_checkmark.png" /></a>
+            <a href="{% url cropcount.views.gardens %}">Done adding beds to this garden!</a>
+        </h2>
+    </div>
+{% else %}
+    <p>No such garden</p>
+{% endif %}
+{% endblock %}
