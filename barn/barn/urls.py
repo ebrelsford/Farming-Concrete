@@ -5,6 +5,7 @@ admin.autodiscover()
 from django.conf import settings
 
 urlpatterns = patterns('',
+    (r'^$', 'django.contrib.auth.views.login'),
     (r'^cropcount/', include('cropcount.urls')),
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
 
