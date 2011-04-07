@@ -16,5 +16,8 @@
 {% else %}
     <p>No gardens are available</p>
 {% endif %}
-    <p><a href="{% url cropcount.views.add_garden %}">Add a garden</a></p>
+    <h2>
+        <a class="image" href="{% url cropcount.views.add_garden %}"><img src="/site_media/img/round_plus.png" /></a>
+        <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
+    </h2>
 {% endblock %}

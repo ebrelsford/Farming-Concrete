@@ -8,22 +8,21 @@
     <h1>Add a garden</h1>
 
     <div id="left">
-        <h2>Add the Crop Count for a garden we already know about</h2>
-        <input type="text" value="narrowdown" />
-        <ul>
-        {% for g in uncounted %}
-            <li><a href="{% url cropcount.views.garden_details g.id %}">{{ g.name }}</a></li>
-        {% endfor %}
-        </ul>
+        <h2>Do Crop Count for a garden we already know about</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ uncounted_garden_form.as_p }}
+            <input type="submit" value="do Crop Count" />
+        </form>
     </div>
     <div id="right">
-        <h2>Add the Crop Count for a new garden</h2>
+        <h2>Do Crop Count for a new garden</h2>
         <form method="post" action=".">
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div id="inputs">
                 {{ form.as_p }}
-                <input type="submit" value="add" />
+                <input type="submit" value="add garden and do Crop Count" />
             </div>
         </form>
     </div>

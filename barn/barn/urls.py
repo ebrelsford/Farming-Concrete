@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     (r'^cropcount/', include('cropcount.urls')),
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
 
+    (r'^ajax_select/', include('ajax_select.urls')),
+
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),

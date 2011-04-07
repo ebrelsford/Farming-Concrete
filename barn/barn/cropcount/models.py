@@ -1,6 +1,8 @@
 from django.db import models
 from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, DecimalField
 
+from ajax_select.fields import AutoCompleteSelectField
+
 from farmingconcrete.models import Garden, Variety
     
 class Box(models.Model):
@@ -48,31 +50,37 @@ class GardenForm(ModelForm):
 class BoxForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(), widget=HiddenInput())
 
-    name = CharField(
-        max_length=32,
-        error_messages={'required': "Please enter a name. If you don't have a name in mind, just number the beds."}
-    )
-    length = DecimalField(
-        max_digits=4,
-        decimal_places=1,
-        error_messages={'required': "Please enter dimensions. This lets us know how many acres of land are being used in this garden for growing food!"}
-    )
-    width = DecimalField(
-        max_digits=4,
-        decimal_places=1,
-        error_messages={'required': "Please enter dimensions. This lets us know how many acres of land are being used in this garden for growing food!"}
-    )
+    #name = CharField(
+        #max_length=32,
+        #error_messages={'required': "Please enter a name. If you don't have a name in mind, just number the beds."}
+    #)
+    #length = DecimalField(
+        #max_value=10000,
+        #min_value=0.1,
+        #max_digits=4,
+        #decimal_places=1,
+        #error_messages={'required': "Please enter dimensions. This lets us know how many acres of land are being used in this garden for growing food!"}
+    #)
+    #width = DecimalField(
+        #max_value=10000,
+        #min_value=0.1,
+        #max_digits=4,
+        #decimal_places=1,
+        #error_messages={'required': "Please enter dimensions. This lets us know how many acres of land are being used in this garden for growing food!"}
+    #)
 
     class Meta:
         model = Box
         exclude = ('added', 'updated')
         widgets = {
-            'length': TextInput(attrs={'size': 5}),
-            'width': TextInput(attrs={'size': 5}),
+            'name': TextInput(attrs={'size': 10}),
+            'length': TextInput(attrs={'size': 6, 'maxlength': 6}),
+            'width': TextInput(attrs={'size': 6, 'maxlength': 6}),
         }
 
 class PatchForm(ModelForm):
     box = ModelChoiceField(label='box', queryset=Box.objects.all(), widget=HiddenInput())
+    variety = AutoCompleteSelectField('variety', required=True)
 
     class Meta:
         model = Patch

@@ -10,6 +10,10 @@ h1, h2 {
     margin: 0;
 }
 
+img {
+    border: 0;
+}
+
 a {
     color: #6EBE44;
     text-decoration: none;
@@ -133,6 +137,29 @@ ul.values {
     border-bottom: 1px dashed black;
 }
 
+h2 a.image {
+}
+h2 a.text {
+    position: absolute;
+    padding-top: 3px;
+}
+
+ul.overview {
+    font-size: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+}
+ul.overview > li {
+    padding: 2px;
+}
+ul.overview > li.last {
+}
+ul.overview > li.even {
+    background-color: #F2E3C4;
+}
+
 ul.values {
     width: 50%;
 }
@@ -150,3 +177,34 @@ ul.values li.even {
     bottom: 3px !important;
     font-size: 10px !important;
 }
+
+/*** autocomplete ***/
+.ac_results {
+    width: 160px !important;
+}
+
+.ac_over {
+    background-color: #0CA8A8 !important;
+}
+
+input.ac_loading {
+	background: #FFF url('/site_media/img/loading-indicator.gif') no-repeat;
+	background-position: right;
+}
+
+
+/* change the X to an image */
+.results_on_deck .iconic, .results_on_deck .iconic:hover {
+    cursor: pointer;
+    float: left;
+    background: url(/site_media/img/round_delete_small.png) no-repeat;
+    color: transparent;
+    border: 0;
+    width: 16px;
+    padding-right: 2px;
+}
+
+.results_on_deck > div {
+    clear: both;
+}
+

@@ -44,36 +44,34 @@
                 </div>
             </li>
             {% endfor %}
+
+            <li id="new-bed">
+                <span style="font-weight: bold; margin-top: 5px;">Add a new bed</span>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {{ form.non_field_errors }}
+                    <div id="errors">
+                        {{ form.garden.errors }}{{ form.name.errors }}{{ form.length.errors }}{{ form.width.errors }}
+                    </div>
+                    <div id="inputs">
+                        <div>
+                            {{ form.name.label_tag }}: {{ form.name }}
+                            Dimensions: {{ form.width }}ft x {{ form.length }}ft
+                        </div>
+                        <input type="submit" value="add" />
+                    </div>
+                </form>
+            </li>
         </ul>
     </div>
-
-    <div id="new-bed">
-        <h2>add new bed:</h2>
-        <form method="post" action=".">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-            {% endfor %}
-            {{ form.non_field_errors }}
-            <div id="errors">
-                {{ form.garden.errors }}{{ form.name.errors }}{{ form.length.errors }}{{ form.width.errors }}
-            </div>
-            <div id="inputs">
-                <div>
-                    {{ form.name.label_tag }}: {{ form.name }}
-                </div>
-                <div>
-                    Dimensions: {{ form.width }}ft x {{ form.length }}ft
-                </div>
-                <input type="submit" value="add" />
-            </div>
-        </form>
-    </div>
     
-    <div id="no-more-beds">
+    <div id="no-more-beds" class="complete">
         <h2>
-            <a href="{% url cropcount.views.gardens %}"><img src="/site_media/img/round_checkmark.png" /></a>
-            <a href="{% url cropcount.views.gardens %}">Done adding beds to this garden!</a>
+            <a class="image" href="{% url cropcount.views.gardens %}"><img src="/site_media/img/round_checkmark.png" /></a>
+            <a class="text" href="{% url cropcount.views.gardens %}">Done adding beds to this garden!</a>
         </h2>
     </div>
 {% else %}

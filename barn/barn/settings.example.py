@@ -101,6 +101,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+
+    'ajax_select',
+
     'cropcount',
     'farmingconcrete',
 )
+
+AJAX_LOOKUP_CHANNELS = {
+    'variety': ('farmingconcrete.lookups', 'VarietyLookup'),
+    'uncounted_garden': ('cropcount.lookups', 'UncountedGardenLookup'),
+}

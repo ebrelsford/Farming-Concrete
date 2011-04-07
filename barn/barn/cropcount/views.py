@@ -5,10 +5,13 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.db import connection
-from django.db.models import Sum
+from django.db.models import Count, Sum
+
+from ajax_select import make_ajax_form
 
 from farmingconcrete.models import Garden
 from cropcount.models import Box, Patch, GardenForm, BoxForm, PatchForm
+from cropcount.forms import UncountedGardenForm
 
 @login_required
 def index(request):
@@ -25,6 +28,7 @@ def index(request):
     return render_to_response('cropcount/index.html', {
         'gardens': counted_gardens,
         'area': total_area,
+        'beds': Box.objects.all().aggregate(Count('id'))['id__count'],
         'plants': Patch.objects.all().aggregate(Sum('plants'))['plants__sum'],
         'recent_types': Patch.objects.all().order_by('-added')[:3],
     }, context_instance=RequestContext(request))
@@ -46,12 +50,18 @@ def add_garden(request):
         if form.is_valid():
             garden = form.save()
             return redirect(garden_details, garden.id)
+
+        uncounted_garden_form = UncountedGardenForm(request.POST)
+        if uncounted_garden_form.is_valid():
+            garden = uncounted_garden_form.cleaned_data['garden']
+            return redirect(garden_details, garden.id)
     else:
         form = GardenForm()
+        uncounted_garden_form = UncountedGardenForm()
 
     return render_to_response('cropcount/gardens/add.html', {
         'form': form,
-        'uncounted': Garden.uncounted().order_by('name'),
+        'uncounted_garden_form': uncounted_garden_form,
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -85,6 +95,7 @@ def bed_details(request, id):
             form.save()
             return redirect(bed_details, id)
     else:
+        #form = make_ajax_form(PatchForm(initial={ 'box': bed }), dict(variety='variety'))
         form = PatchForm(initial={ 'box': bed })
 
     return render_to_response('cropcount/beds/detail.html', {

@@ -45,7 +45,7 @@
             </li>
         {% endfor %}
             <li id="new-plant">
-                <span style="font-weight: bold; font-size: 11px; margin-top: 3px;">Add a new plant</span>
+                <span style="font-weight: bold; margin-top: 5px;">Add a new plant</span>
                 <form method="post" action=".">
                     {% csrf_token %}
                     {% for hidden in form.hidden_fields %}
@@ -54,13 +54,14 @@
                     {{ form.non_field_errors }}
                     <div id="inputs">
                         <span class="type">
+                            {{ form.variety.label_tag }}<br />
                             {{ form.variety }}
                         </span>
                            
                         <span class="quantity">
                             {{ form.plants }} plants<br />
-                            and/or<br />
-                            {{ form.area }} square feet
+                            <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
+                            {{ form.area }} sq ft
                         </span>
 
                         <span class="actions">
@@ -75,10 +76,10 @@
         </ul>
     </div>
 
-    <div id="no-more-plants">
+    <div id="no-more-plants" class="complete">
         <h2>
-            <a href="{% url cropcount.views.garden_details bed.garden.id %}"><img src="/site_media/img/round_checkmark.png" /></a>
-            <a href="{% url cropcount.views.garden_details bed.garden.id %}">Done adding plants to this bed!</a>
+            <a class="image" href="{% url cropcount.views.garden_details bed.garden.id %}"><img src="/site_media/img/round_checkmark.png" /></a>
+            <a class="text" href="{% url cropcount.views.garden_details bed.garden.id %}">Done adding plants to this bed!</a>
         </h2>
     </div>
 {% else %}
