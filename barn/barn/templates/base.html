@@ -17,12 +17,15 @@
         <div id="header">
             <img src="/site_media/header.jpg" />
         </div>
-        <div id="nav">
+        <div id="nav" class="nav">
             <ul>
-                <li><a href="{% url cropcount.views.index %}">Crop Count</a></li>
+                <li class="active"><a href="{% url cropcount.views.index %}">Crop Count</a></li>
                 <li><a href="/harvestcount">Harvest Count</a></li>
                 <li><a href="http://farmingconcrete.org">Blog</a></li>
             </ul>
+        </div>
+        <div id="subnav" class="nav">
+            {% block subnav %}{% endblock %}
         </div>
         <div id="main">
             <div id="breadcrumbs">

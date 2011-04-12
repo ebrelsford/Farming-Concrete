@@ -4,41 +4,59 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.db import connection
 from django.db.models import Count, Sum
 
 from ajax_select import make_ajax_form
 
 from farmingconcrete.models import Garden
+from cropcount.decorators import garden_type_aware
 from cropcount.models import Box, Patch, GardenForm, BoxForm, PatchForm
 from cropcount.forms import UncountedGardenForm
 
 @login_required
+def switch_garden_type(request, type='all'):
+    next = request.GET['next']
+    request.session['garden_type'] = type = _get_garden_type(type)
+    return redirect(next)
+
+@login_required
+@garden_type_aware
 def index(request):
     """Home page for Crop Count. Show current stats, give access to next actions."""
+    type = request.session['garden_type']
 
-    cursor = connection.cursor()
+    counted_gardens = Garden.objects.exclude(box=None)
+    beds = Box.objects.all()
+    patches = Patch.objects.all()
 
-    cursor.execute('SELECT COUNT(*) FROM farmingconcrete_garden WHERE id IN (SELECT garden_id FROM cropcount_box)')
-    counted_gardens = cursor.fetchone()[0]
-
-    cursor.execute('SELECT SUM(length * width) FROM cropcount_box')
-    total_area = cursor.fetchone()[0]
-
+    # filter more if we need to
+    if type != 'all':
+        counted_gardens = counted_gardens.filter(type=type)
+        beds = beds.filter(garden__type=type)
+        patches = patches.filter(box__garden__type=type)
+    
     return render_to_response('cropcount/index.html', {
-        'gardens': counted_gardens,
-        'area': total_area,
-        'beds': Box.objects.all().aggregate(Count('id'))['id__count'],
-        'plants': Patch.objects.all().aggregate(Sum('plants'))['plants__sum'],
-        'recent_types': Patch.objects.all().order_by('-added')[:3],
+        'gardens': counted_gardens.count(),
+        'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
+        'beds': beds.count(),
+        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+        'recent_types': patches.order_by('-added')[:3],
+        'type': type,
     }, context_instance=RequestContext(request))
 
 @login_required
+@garden_type_aware
 def gardens(request):
     """Show counted gardens, let user add more"""
 
+    type = request.session['garden_type']
+
+    counted_gardens = Garden.counted()
+    if type != 'all':
+        counted_gardens = counted_gardens.filter(type=type)
+
     return render_to_response('cropcount/gardens/index.html', {
-        'counted_gardens': Garden.counted().order_by('name'),
+        'counted_gardens': counted_gardens.order_by('name'),
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -122,11 +140,18 @@ def delete_bed(request, id):
 #
 
 @login_required
+@garden_type_aware
 def complete_geojson(request):
     """Get GeoJSON for all gardens counted so far"""
 
+    gardens = Garden.counted()
+
+    type = request.session['garden_type']
+    if type != 'all':
+        gardens = gardens.filter(type=type)
+
     return HttpResponse(
-        geojson.dumps(geojson.FeatureCollection(features=[_get_feature(g) for g in Garden.counted()])),
+        geojson.dumps(geojson.FeatureCollection(features=[_get_feature(g) for g in gardens])),
         mimetype='application/json'
     )
 
@@ -154,3 +179,8 @@ def _get_next_box_name(garden):
             next_box_name = ''
 
     return next_box_name
+
+def _get_garden_type(type):
+    if type in map(lambda l: l[0], Garden.TYPE_CHOICES):
+        return type
+    return 'all'

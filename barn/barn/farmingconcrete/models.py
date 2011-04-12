@@ -3,10 +3,10 @@ from django.db import models
 class Garden(models.Model):
 
     TYPE_CHOICES = (
-        ('communitygarden', 'community garden'),
-        ('schoolgarden', 'school garden'),
+        ('community', 'community garden'),
+        ('school', 'school garden'),
     )
-    type = models.CharField(max_length=32, choices=TYPE_CHOICES, default='communitygarden')
+    type = models.CharField(max_length=32, choices=TYPE_CHOICES, default='community')
     
     name = models.CharField('garden name', max_length=512)
     gardenid = models.CharField(max_length=64, null=True, blank=True)

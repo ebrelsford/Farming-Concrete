@@ -17,28 +17,31 @@
 {% block breadcrumbs %}{{ block.super }} Home {% endblock %}
 
 {% block content %}
-    <h1>Counted so far</h1>
+    <h1>{{ request.session.garden_type }} gardens counted so far</h1>
+
     <div id="left">
         <ul class="overview">
-            <li><b>{{ gardens }}</b> gardens</li>
-            <li class="even"><b>{{ beds }}</b> beds</li>
-            <li><b>{{ area }}</b> square feet</li>
-            <li class="even"><b>{{ plants }}</b> plants</li>
+            <li><b>{{ gardens|default:'0' }}</b> gardens</li>
+            <li class="even"><b>{{ beds|default:'0' }}</b> beds</li>
+            <li><b>{{ area|default:'0' }}</b> square feet</li>
+            <li class="even"><b>{{ plants|default:'0' }}</b> plants</li>
             <li class="last">
                 <span>most recent plant types:</span>
                 <ul>
                     {% for patch in recent_types %}
                     <li>{{ patch.variety.name }}</li>
+                    {% empty %}
+                    <li>None yet!</li>
                     {% endfor %}
                 </ul>
             </li>
         </ul>
         <h2>
-            <a class="image" href="{% url cropcount.views.gardens %}"><img src="/site_media/img/round_arrow_right.png" /></a>
+            <a class="image" href="{% url cropcount.views.gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
             <a class="text" href="{% url cropcount.views.gardens %}">View details</a>
         </h2>
         <h2>
-            <a class="image" href="{% url cropcount.views.add_garden %}"><img src="/site_media/img/round_plus.png" /></a>
+            <a class="image" href="{% url cropcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
             <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
         </h2>
     </div>

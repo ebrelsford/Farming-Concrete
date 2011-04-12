@@ -24,26 +24,26 @@ a:hover {
     text-decoration: underline;
 }
 
-#nav {
+.nav {
     background: #0CA8A8;
     display: block;
     clear: both;
     text-transform: uppercase;
 }
 
-#nav::after {
+.nav::after {
     content: ".";
     visibility: hidden;
 }
 
-#nav ul {
+.nav ul {
     display: block;
     clear: both;
     padding: 0;
     margin: 0;
 }
 
-#nav li {
+.nav li {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -51,16 +51,27 @@ a:hover {
     border-right: 1px solid white;
 }
 
-#nav li:hover {
-    background: #6EBE44;
-}
-
-#nav li a {
+.nav li a {
     color: white;
     text-decoration: none;
     padding: 10px 16px;
     font-size: 11px;
     font-weight: bold;
+}
+
+#nav li:hover,
+#nav li.active {
+    background: #098080;
+}
+
+#subnav {
+    background-color: #8CD1D1;
+    text-transform: none;
+}
+
+#subnav li:hover,
+#subnav li.active {
+    background: #65CFCF;
 }
 
 #main {

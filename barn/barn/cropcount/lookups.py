@@ -1,3 +1,4 @@
+from django.db import connection
 from django.db.models import Q
 
 from farmingconcrete.models import Garden
@@ -10,11 +11,8 @@ class UncountedGardenLookup(object):
 
         try:
             # get type field extraParam
-            from django.db import connection
             selected_type = request.GET['type']
-            print selected_type
             gardens = gardens.filter(type=selected_type)
-            print gardens._as_sql(connection)
         except KeyError:
             pass
 
