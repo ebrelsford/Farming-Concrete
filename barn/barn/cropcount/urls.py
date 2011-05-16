@@ -1,7 +1,5 @@
 from django.conf.urls.defaults import *
 
-from farmingconcrete.models import Garden
-
 urlpatterns = patterns('',
     (r'^$', 'cropcount.views.index'),
     (r'^gardens/$', 'cropcount.views.gardens'),
@@ -11,5 +9,4 @@ urlpatterns = patterns('',
     (r'^beds/(?P<id>\d+)/$', 'cropcount.views.bed_details'),
     (r'^beds/(?P<id>\d+)/delete/$', 'cropcount.views.delete_bed'),
     (r'^patches/(?P<id>\d+)/delete/$', 'cropcount.views.delete_patch'),
-    (r'^type/(?P<type>\w+)$', 'cropcount.views.switch_garden_type'),
 )

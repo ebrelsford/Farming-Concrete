@@ -4,7 +4,6 @@ var GardenMap = {
     epsg900913: new OpenLayers.Projection("EPSG:900913"),
 
     init: function(options, elem) {
-        //this.t = this;
         var t = this;
         this.options = $.extend({}, this.options, options);
 
@@ -16,7 +15,6 @@ var GardenMap = {
                 new OpenLayers.Control.Navigation(),
                 new OpenLayers.Control.Attribution(),
                 new OpenLayers.Control.LoadingPanel(),
-                /*new OpenLayers.Control.ZoomPanel()*/
             ],
             restrictedExtent: this.createBBox(-75.066, 41.526, -72.746, 39.953), 
             zoomToMaxExtent: function() {
@@ -31,16 +29,27 @@ var GardenMap = {
         });
         this.olMap.addLayer(cloudmade);
 
-        this.olMap.zoomToMaxExtent();
-
         /* add the base gardens layer */
-        this.getLayer('counted', '/cropcount/gardens/complete/geojson/', this.defaultStyle);
-        /*
-        this.surveyedGardensLayer = this.addSurveyedGardens();
-        this.unsurveyedGardensLayer = this.addUnsurveyedGardens();
+        if (this.options.type === 'all counted') {
+            this.getLayer('counted', '/cropcount/gardens/complete/geojson/', this.styles['default']);
+        }
+        else if (this.options.type === 'all harvested') {
+            this.getLayer('harvested', '/harvestcount/gardens/harvested/geojson/', this.styles['default']);
+        }
+        else if (this.options.type === 'single' && this.options.id !== null) {
+            var gardenLayer = this.getLayer('garden', '/fc/garden/' + this.options.id + '/geojson/', this.styles['single']);
+            var t = this;
 
-        this.addControls([this.surveyedGardensLayer, this.unsurveyedGardensLayer]);
-        */
+            gardenLayer.events.on({
+                'loadend': function() {
+                    var feature = gardenLayer.features[0];
+                    t.olMap.setCenter(new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y), 14);
+                },
+            });
+        }
+
+        this.hoverControl = this.getControlHoverFeature(this.olMap.layers[1]);
+        this.olMap.zoomToMaxExtent();
 
         return this;
     },
@@ -49,6 +58,8 @@ var GardenMap = {
         center: new OpenLayers.LonLat(-8230729.8555054, 4970948.0494563),
         initialZoom: 10,
         addContentToPopup: function(popup, feature) { ; },
+        type: 'all counted', /* or 'single' */
+        id: null, /* put something here if using type='single' */
     },
 
     createBBox: function(lon1, lat1, lon2, lat2) {
@@ -58,21 +69,20 @@ var GardenMap = {
         return b;
     },
 
-    defaultStyle: {
-        pointRadius: '5',
-        fillColor: '#3f9438',
-        fillOpacity: '0.4',
-        strokeOpacity: '0.8',
-        strokeWidth: 0,
+    styles: {
+        'default': {
+            pointRadius: '5',
+            fillColor: '#3f9438',
+            fillOpacity: '0.4',
+            strokeOpacity: '0.8',
+            strokeWidth: 0,
+        },
+        'single': { 
+            pointRadius: '6', 
+            fillColor: '#f9ff51', 
+            fillOpacity: '0.6',
+        },
     },
-
-    styles: [
-        { pointRadius: '6', fillColor: '#f9ff51', fillOpacity: '0.6' },
-        { pointRadius: '6', fillColor: '#f90000', fillOpacity: '0.4' },
-        { pointRadius: '8', fillColor: '#E8C051', fillOpacity: '0.8' },
-    ],
-
-    unsurveyedStyle: { pointRadius: '2', fillColor: '#0000FF', fillOpacity: '0.5', strokeWidth: 0 },
 
     getStyles: function(style) {
         return new OpenLayers.StyleMap({'default': style, 'select': {pointRadius: 15}, 'temporary': {pointRadius: 10}});
@@ -90,40 +100,6 @@ var GardenMap = {
         });
         this.olMap.addLayer(layer);
         return layer;
-    },
-
-    addStyles: function(layer) {
-        var filter1 = new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-            property: "picked0",
-            value: true
-        });
-        var filter2 = new OpenLayers.Filter.Comparison({
-            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-            property: "picked1",
-            value: true
-        });
-
-        var rulePicked = [];
-        rulePicked[0] = new OpenLayers.Rule({
-            filter: filter1,
-            symbolizer: this.styles[0]
-        });
-        rulePicked[1] = new OpenLayers.Rule({
-            filter: filter2,
-            symbolizer: this.styles[1]
-        });
-        rulePicked[2] = new OpenLayers.Rule({
-            filter: new OpenLayers.Filter.Logical({
-                type: OpenLayers.Filter.Logical.AND,
-                filters: [ filter1, filter2 ]
-            }),
-            symbolizer: this.styles[2]
-        });
-        rulePicked[3] = new OpenLayers.Rule({
-            elseFilter: true
-        });
-        layer.styleMap.styles['default'].addRules(rulePicked);
     },
 
     addControls: function(layers) {
@@ -188,27 +164,6 @@ var GardenMap = {
         this.olMap.addControl(selectControl);
         selectControl.activate();   
         return selectControl;
-    },
-
-
-    clearPicked: function(index) {
-        var attr = "picked" + index;
-        $.each(this.surveyedGardensLayer.features, function(i, feature) {
-            feature.attributes[attr] = false;
-        });
-        this.surveyedGardensLayer.redraw();
-    },
-
-    addGardenIdsToPicked: function(gardenIds, index) {
-        this.clearPicked(index);
-
-        var attr = "picked" + index;
-        $.each(this.surveyedGardensLayer.features, function(i, feature) {
-            if ($.inArray(parseInt(feature.fid), gardenIds) >= 0) {
-                feature.attributes[attr] = true;
-            }
-        });
-        this.surveyedGardensLayer.redraw();
     },
 
     hideLayer: function(name) {
@@ -290,13 +245,24 @@ var GardenMap = {
 
     selectAndCenterOnGarden: function(fid) {
         var feature = this.surveyedGardensLayer.getFeatureByFid(fid);
-        if (!feature) feature = this.unsurveyedGardensLayer.getFeatureByFid(fid);
         if (!feature) return;
 
         var l = new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y);
         this.olMap.setCenter(l, 15);
         this.selectControl.unselectAll();
         this.selectControl.select(feature);
+    },
+
+    highlightGarden: function(fid) {
+        var feature = this.olMap.layers[1].getFeatureByFid(fid);
+        if (!feature) return;
+
+        this.hoverControl.unselectAll();
+        this.hoverControl.select(feature);
+    },
+
+    unhighlightGarden: function() {
+        this.hoverControl.unselectAll();
     },
 
     getTransformedLonLat: function(longitude, latitude) {

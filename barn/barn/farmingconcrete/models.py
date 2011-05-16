@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import ModelForm, Form, ChoiceField
+from ajax_select.fields import AutoCompleteSelectField
 
 class Garden(models.Model):
 
@@ -48,3 +50,12 @@ class Variety(models.Model):
         return self.name
 
     name = models.CharField(max_length=64)
+
+class GardenForm(ModelForm):
+    class Meta:
+        model = Garden
+        exclude = ('gardenid', 'longitude', 'latitude', 'added', 'updated')
+
+class FindGardenForm(Form):
+    type = ChoiceField(choices=Garden.TYPE_CHOICES)
+    garden = AutoCompleteSelectField('garden', required=True)

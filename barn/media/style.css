@@ -95,7 +95,7 @@ a:hover {
     float: left;
     padding: 5px;
     border-right: 1px dotted black;
-    width: 40%;
+    width: 50%;
 }
 
 #right {
@@ -145,7 +145,7 @@ ul.values {
     margin-top: 5px;
 }
 #beds li.bed {
-    border-bottom: 1px dashed black;
+    border-bottom: 1px solid black;
 }
 
 h2 a.image {
@@ -172,7 +172,7 @@ ul.overview > li.even {
 }
 
 ul.values {
-    width: 50%;
+    /*width: 50%;*/
 }
 ul.values li {
     padding: 3px;
@@ -181,6 +181,22 @@ ul.values li.odd {
 }
 ul.values li.even {
     background-color: #F2E3C4;
+}
+
+.help_link {
+    font-weight: bold; 
+    font-size: 12px;
+    cursor: pointer; 
+    padding-left: 10px;
+}
+.help_box {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    border: 1px solid black;
+    padding: 3px;
+    width: 200px;
 }
 
 /*** Map stuff ***/

@@ -1,0 +1,31 @@
+{% extends "harvestcount/gardens/base.html" %}
+
+{% block title %}Add a harvest{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }} Add a harvest {% endblock %}
+
+{% block content %}
+    <h1>Add a harvest</h1>
+
+    <div id="left">
+        <h2>Add harvests for a garden we already know about</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ find_garden_form.as_p }}
+            <input type="submit" value="add harvests" />
+        </form>
+    </div>
+    <div id="right">
+        <h2>Add harvests for a new garden</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div id="inputs">
+                {{ form.as_p }}
+                <input type="submit" value="add garden and add harvests" />
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+

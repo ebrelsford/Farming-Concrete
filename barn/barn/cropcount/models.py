@@ -42,11 +42,6 @@ class Patch(models.Model):
             area = 0
         return "%s (%s), %s: %d (plants), %d (area)" % (self.box.garden.name, self.box.name, self.variety, self.plants, area)
 
-class GardenForm(ModelForm):
-    class Meta:
-        model = Garden
-        exclude = ('gardenid', 'longitude', 'latitude', 'added', 'updated')
-
 class BoxForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(), widget=HiddenInput())
 

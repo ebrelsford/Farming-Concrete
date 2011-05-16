@@ -5,6 +5,8 @@
 {% block breadcrumbs %}{{ block.super }} <a href="{% url cropcount.views.garden_details bed.garden.id %}">{{ bed.garden.name }}</a> &gt;&gt; bed {{ bed.name }} {% endblock %}
 
 {% block head %}
+    <script src="/site_media/js/jquery-util.js" type="text/javascript"></script>
+    <script src="/site_media/js/help.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#errors').position({
@@ -13,6 +15,9 @@
                 'of': $('#new-plant'),
                 'offset': '10 0',
             });
+
+            $('#variety_help').help({ text: 'Start typing the plant type that you are entering and choose the closest match. Please let us know if you want to enter a plant type that does not exist.' });
+            $('#quantity_help').help({ text: "Please enter the number of plants of this type and/or the area these plants are planted in. We prefer to know the number of plants, but sometimes that's difficult!" });
         });
     </script>
 {% endblock %}
@@ -22,6 +27,10 @@
     <h1><a href="{% url cropcount.views.garden_details bed.garden.id %}">{{ bed.garden.name }}</a>, bed {{ bed.name }}</h1>
     <div id="plants">
         <ul class="values">
+            <li style="font-weight: bold; border-bottom: 1px solid black;">
+                <span class="type">plant</span>
+                <span class="quantity">quantity</span>
+            </li>
         {% for patch in bed.patch_set.all %}
             <li class="{% cycle 'odd' 'even' %}">
                 <span class="type">{{ patch.variety }}</span>
@@ -44,7 +53,7 @@
 
             </li>
         {% endfor %}
-            <li id="new-plant">
+            <li id="new-plant" style="border-top: 1px solid black;">
                 <span style="font-weight: bold; margin-top: 5px;">Add a new plant</span>
                 <form method="post" action=".">
                     {% csrf_token %}
@@ -54,12 +63,12 @@
                     {{ form.non_field_errors }}
                     <div id="inputs">
                         <span class="type">
-                            {{ form.variety.label_tag }}<br />
+                            Plant type <span id="variety_help" class="help_link">help!</span><br />
                             {{ form.variety }}
                         </span>
                            
                         <span class="quantity">
-                            {{ form.plants }} plants<br />
+                            {{ form.plants }} plants<span id="quantity_help" class="help_link">help!</span><br />
                             <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
                             {{ form.area }} sq ft
                         </span>

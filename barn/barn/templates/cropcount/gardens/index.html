@@ -2,20 +2,52 @@
 
 {% block title %}Counted {{ request.session.garden_type }} gardens{% endblock %}
 
+{% block head %}
+    <script src="/site_media/js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
+    <script src="/site_media/js/cloudmade.js" type="text/javascript"></script>
+    <script src="/site_media/js/jquery-util.js" type="text/javascript"></script>
+    <script src="/site_media/js/map.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#map').gardenmap({
+                type: 'all counted',
+            });
+
+            $('#gardens li a').hover(
+                function() {
+                    var id = $(this).parent().attr('id');
+                    $('#map').data('gardenmap').highlightGarden(id);
+                },
+                function() {
+                    $('#map').data('gardenmap').unhighlightGarden();
+                }
+            );
+        });   
+    </script>
+{% endblock %}
+
 {% block breadcrumbs %}{{ block.super }} Gardens {% endblock %}
 {# breadcrumbs http://www.martin-geber.com/thought/2007/10/25/breadcrumbs-django-templates/ #}
 
 {% block content %}
-<h1>Counted {{ request.session.garden_type }} gardens</h1>
-<ul>
-{% for garden in counted_gardens %}
-    <li><a href="{% url cropcount.views.garden_details garden.id %}">{{ garden.name }}</a></li>
-{% empty %}
-    <li>None, yet!</li>
-{% endfor %}
-</ul>
-<h2>
-    <a class="image" href="{% url cropcount.views.add_garden %}"><img src="/site_media/img/round_plus.png" /></a>
-    <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
-</h2>
+<h1>{{ request.session.garden_type }} gardens counted so far</h1>
+<div id="left">
+    <ul id="gardens" style="list-style: none; padding: 0;">
+    {% for garden in counted_gardens %}
+    <li id="{{ garden.id }}"><a href="{% url cropcount.views.garden_details garden.id %}">{{ garden.name }}</a></li>
+    {% empty %}
+        <li>None, yet!</li>
+    {% endfor %}
+    </ul>
+</div>
+<div id="right">
+    <div id="map" style="width: 400px; height: 300px;"></div>
+</div>
+
+<div id="bottom" style="clear: both;">
+    <h2>
+        <a class="image" href="{% url cropcount.views.add_garden %}"><img src="/site_media/img/round_plus.png" /></a>
+        <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
+    </h2>
+</div>
 {% endblock %}

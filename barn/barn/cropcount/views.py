@@ -8,16 +8,11 @@ from django.db.models import Count, Sum
 
 from ajax_select import make_ajax_form
 
-from farmingconcrete.models import Garden
-from cropcount.decorators import garden_type_aware
-from cropcount.models import Box, Patch, GardenForm, BoxForm, PatchForm
+from farmingconcrete.models import Garden, GardenForm
+from farmingconcrete.geo import garden_collection
+from farmingconcrete.decorators import garden_type_aware
+from cropcount.models import Box, Patch, BoxForm, PatchForm
 from cropcount.forms import UncountedGardenForm
-
-@login_required
-def switch_garden_type(request, type='all'):
-    next = request.GET['next']
-    request.session['garden_type'] = type = _get_garden_type(type)
-    return redirect(next)
 
 @login_required
 @garden_type_aware
@@ -87,6 +82,8 @@ def garden_details(request, id):
     """Show details for a garden, let user add boxes"""
 
     garden = get_object_or_404(Garden, pk=id)
+    beds = Box.objects.filter(garden=garden)
+    patches = Patch.objects.filter(box__in=beds)
 
     if request.method == 'POST':
         form = BoxForm(request.POST)
@@ -99,6 +96,9 @@ def garden_details(request, id):
     return render_to_response('cropcount/gardens/detail.html', {
         'garden': garden,
         'form': form,
+        'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
+        'beds': beds.count(),
+        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -150,23 +150,11 @@ def complete_geojson(request):
     if type != 'all':
         gardens = gardens.filter(type=type)
 
-    return HttpResponse(
-        geojson.dumps(geojson.FeatureCollection(features=[_get_feature(g) for g in gardens])),
-        mimetype='application/json'
-    )
+    return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
 
 #
 # Utility functions
 #
-
-def _get_feature(garden):
-    """Get a GeoJSON Feature for a garden"""
-
-    return geojson.Feature(
-        garden.id,
-        geometry=geojson.Point(coordinates=(float(garden.longitude), float(garden.latitude)))
-    )
-
 def _get_next_box_name(garden):
     """If each box name for this garden so far has been an integer, guess it's the next integer"""
 
@@ -179,8 +167,3 @@ def _get_next_box_name(garden):
             next_box_name = ''
 
     return next_box_name
-
-def _get_garden_type(type):
-    if type in map(lambda l: l[0], Garden.TYPE_CHOICES):
-        return type
-    return 'all'
