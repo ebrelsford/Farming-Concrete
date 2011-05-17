@@ -23,6 +23,17 @@
             <ul>
                 <li class="active"><a href="{% url cropcount.views.index %}">Crop Count</a></li>
                 <li><a href="{% url harvestcount.views.index %}">Harvest Count</a></li>
+                <li><a href="{% url harvestcount.views.index %}">Reports</a></li>
+
+                {% if user.is_staff %}
+                <li><a href="/admin">Admin</a></li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url farmingconcrete.views.account %}">Your account</a></li>
+                <li><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li>
+                {% endif %}
+
                 <li><a href="http://farmingconcrete.org">Blog</a></li>
             </ul>
         </div>
