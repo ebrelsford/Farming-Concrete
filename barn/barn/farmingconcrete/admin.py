@@ -1,6 +1,7 @@
+from django.contrib import admin
+
 from farmingconcrete.models import Garden, Variety
 from cropcount.admin import BoxInline
-from django.contrib import admin
 
 class GardenAdmin(admin.ModelAdmin):
     #fields = ('name', 'address', 'neighborhood', 'borough', 'zip', 'gardenid',)
@@ -14,4 +15,3 @@ class VarietyAdmin(admin.ModelAdmin):
 
 admin.site.register(Garden, GardenAdmin)
 admin.site.register(Variety, VarietyAdmin)
-

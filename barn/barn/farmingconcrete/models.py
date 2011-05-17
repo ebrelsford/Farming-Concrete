@@ -3,7 +3,6 @@ from django.forms import ModelForm, Form, ChoiceField
 from ajax_select.fields import AutoCompleteSelectField
 
 class Garden(models.Model):
-
     TYPE_CHOICES = (
         ('community', 'community garden'),
         ('school', 'school garden'),
