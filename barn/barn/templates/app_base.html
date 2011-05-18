@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block subnav %}
+    <ul>
+        {% with request.session.garden_type.short_name as current_type %}
+        <li class="{% if not current_type %}active{% endif %}">
+            <a href="{% url farmingconcrete.views.switch_garden_type type='all' %}?next={{ request.path }}">all gardens</a>
+        </li>
+        {% for type in garden_types %}
+        <li class="{% if current_type == type.short_name %}active{% endif %}">
+            <a href="{% url farmingconcrete.views.switch_garden_type type=type.short_name %}?next={{ request.path }}">{{ type.name }}s</a>
+        </li>
+        {% endfor %}
+        {% endwith %}
+    </ul>
+{% endblock %}

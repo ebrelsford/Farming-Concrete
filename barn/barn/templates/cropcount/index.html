@@ -17,7 +17,7 @@
 {% block breadcrumbs %}{{ block.super }} Home {% endblock %}
 
 {% block content %}
-    <h1>{{ request.session.garden_type }} gardens counted so far</h1>
+    <h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
 
     <div id="left">
         <ul class="overview">
@@ -36,9 +36,10 @@
                 </ul>
             </li>
         </ul>
+        
         <h2>
             <a class="image" href="{% url cropcount.views.gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
-            <a class="text" href="{% url cropcount.views.gardens %}">View details</a>
+            <a class="text" href="{% url cropcount.views.gardens %}">{% if perms.farmingconcrete.can_edit_any_garden %}View details{% else %}View your gardens{% endif %}</a>
         </h2>
         <h2>
             <a class="image" href="{% url cropcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>

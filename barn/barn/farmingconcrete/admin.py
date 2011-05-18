@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from farmingconcrete.models import Garden, Variety
+from farmingconcrete.models import Garden, GardenType, Variety
 from cropcount.admin import BoxInline
 
 class GardenAdmin(admin.ModelAdmin):
@@ -14,4 +14,5 @@ class VarietyAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 admin.site.register(Garden, GardenAdmin)
+admin.site.register(GardenType)
 admin.site.register(Variety, VarietyAdmin)

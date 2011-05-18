@@ -1,6 +1,6 @@
 import geojson
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -8,11 +8,14 @@ from django.db.models import Count, Sum
 
 from ajax_select import make_ajax_form
 
-from farmingconcrete.models import Garden, GardenForm
+from farmingconcrete.models import Garden
+from farmingconcrete.forms import GardenForm
 from farmingconcrete.geo import garden_collection
 from farmingconcrete.decorators import garden_type_aware
 from cropcount.models import Box, Patch, BoxForm, PatchForm
 from cropcount.forms import UncountedGardenForm
+
+from middleware.http import Http403
 
 @login_required
 @garden_type_aware
@@ -50,6 +53,10 @@ def gardens(request):
     if type != 'all':
         counted_gardens = counted_gardens.filter(type=type)
 
+    if not request.user.has_perm('can_edit_any_garden'):
+        profile = request.user.get_profile()
+        counted_gardens = counted_gardens & profile.gardens.all()
+
     return render_to_response('cropcount/gardens/index.html', {
         'counted_gardens': counted_gardens.order_by('name'),
     }, context_instance=RequestContext(request))
@@ -59,7 +66,7 @@ def add_garden(request):
     """Add a garden--either a new one, or one we've uploaded"""
 
     if request.method == 'POST':
-        form = GardenForm(request.POST)
+        form = GardenForm(request.POST, user=request.user)
         if form.is_valid():
             garden = form.save()
             return redirect(garden_details, garden.id)
@@ -69,8 +76,8 @@ def add_garden(request):
             garden = uncounted_garden_form.cleaned_data['garden']
             return redirect(garden_details, garden.id)
     else:
-        form = GardenForm()
-        uncounted_garden_form = UncountedGardenForm()
+        form = GardenForm(user=request.user)
+        uncounted_garden_form = UncountedGardenForm(user=request.user)
 
     return render_to_response('cropcount/gardens/add.html', {
         'form': form,
@@ -82,6 +89,12 @@ def garden_details(request, id):
     """Show details for a garden, let user add boxes"""
 
     garden = get_object_or_404(Garden, pk=id)
+
+    if not request.user.has_perm('can_edit_any_garden'):
+        profile = request.user.get_profile()
+        if garden not in profile.gardens.all():
+            raise Http403
+
     beds = Box.objects.filter(garden=garden)
     patches = Patch.objects.filter(box__in=beds)
 

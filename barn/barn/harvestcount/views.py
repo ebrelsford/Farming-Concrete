@@ -4,7 +4,8 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
 from farmingconcrete.decorators import garden_type_aware
-from farmingconcrete.models import Garden, GardenForm, FindGardenForm
+from farmingconcrete.models import Garden
+from farmingconcrete.forms import GardenForm, FindGardenForm
 from harvestcount.models import Gardener, Harvest, HarvestForm
 
 @login_required
@@ -31,7 +32,7 @@ def index(request):
 @garden_type_aware
 def add_garden(request):
     if request.method == 'POST':
-        form = GardenForm(request.POST)
+        form = GardenForm(request.POST, user=request.user)
         if form.is_valid():
             garden = form.save()
             return redirect(garden_details, garden.id)
@@ -41,8 +42,8 @@ def add_garden(request):
             garden = find_garden_form.cleaned_data['garden']
             return redirect(garden_details, garden.id)
     else:
-        form = GardenForm()
-        find_garden_form = FindGardenForm()
+        form = GardenForm(user=request.user)
+        find_garden_form = FindGardenForm(user=request.user)
 
     return render_to_response('harvestcount/gardens/add.html', {
         'form': form,

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 
-from models import Garden
+from models import Garden, GardenType
 from farmingconcrete.geo import garden_collection, garden_feature
 
 @login_required
@@ -17,9 +17,11 @@ def switch_garden_type(request, type='all'):
     request.session['garden_type'] = type = _get_garden_type(type)
     return redirect(next)
 
-def _get_garden_type(type):
-    if type in map(lambda l: l[0], Garden.TYPE_CHOICES):
-        return type
+def _get_garden_type(short_name):
+    types = GardenType.objects.filter(short_name=short_name)
+    if types.count() > 0:
+        return types[0]
+
     return 'all'
 
 @login_required

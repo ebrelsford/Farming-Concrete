@@ -1,15 +1,18 @@
 from django.db import models
-from django.forms import ModelForm, Form, ChoiceField
-from ajax_select.fields import AutoCompleteSelectField
+
+class GardenType(models.Model):
+    class Meta:
+        ordering = ['name']
+
+    def __unicode__(self):
+        return self.name
+
+    name = models.CharField(max_length=64)
+    short_name = models.CharField(max_length=32)
 
 class Garden(models.Model):
-    TYPE_CHOICES = (
-        ('community', 'community garden'),
-        ('school', 'school garden'),
-    )
-    type = models.CharField(max_length=32, choices=TYPE_CHOICES, default='community')
-    
     name = models.CharField('garden name', max_length=512)
+    type = models.ForeignKey(GardenType)
     gardenid = models.CharField(max_length=64, null=True, blank=True)
     address = models.CharField('garden address', max_length=64)
 
@@ -28,6 +31,11 @@ class Garden(models.Model):
 
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        permissions = (
+            ('can_edit_any_garden', 'Can edit any garden'),
+        )
 
     def __unicode__(self):
         return self.name
@@ -49,12 +57,3 @@ class Variety(models.Model):
         return self.name
 
     name = models.CharField(max_length=64)
-
-class GardenForm(ModelForm):
-    class Meta:
-        model = Garden
-        exclude = ('gardenid', 'longitude', 'latitude', 'added', 'updated')
-
-class FindGardenForm(Form):
-    type = ChoiceField(choices=Garden.TYPE_CHOICES)
-    garden = AutoCompleteSelectField('garden', required=True)
