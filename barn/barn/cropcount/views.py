@@ -11,7 +11,7 @@ from ajax_select import make_ajax_form
 from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm
 from farmingconcrete.geo import garden_collection
-from farmingconcrete.decorators import garden_type_aware
+from farmingconcrete.decorators import garden_type_aware, in_section
 from cropcount.models import Box, Patch, BoxForm, PatchForm
 from cropcount.forms import UncountedGardenForm
 
@@ -19,6 +19,7 @@ from middleware.http import Http403
 
 @login_required
 @garden_type_aware
+@in_section('cropcount')
 def index(request):
     """Home page for Crop Count. Show current stats, give access to next actions."""
     type = request.session['garden_type']
@@ -44,6 +45,7 @@ def index(request):
 
 @login_required
 @garden_type_aware
+@in_section('cropcount')
 def gardens(request):
     """Show counted gardens, let user add more"""
 
@@ -62,6 +64,7 @@ def gardens(request):
     }, context_instance=RequestContext(request))
 
 @login_required
+@in_section('cropcount')
 def add_garden(request):
     """Add a garden--either a new one, or one we've uploaded"""
 
@@ -85,6 +88,7 @@ def add_garden(request):
     }, context_instance=RequestContext(request))
 
 @login_required
+@in_section('cropcount')
 def garden_details(request, id):
     """Show details for a garden, let user add boxes"""
 
@@ -115,6 +119,7 @@ def garden_details(request, id):
     }, context_instance=RequestContext(request))
 
 @login_required
+@in_section('cropcount')
 def bed_details(request, id):
     """Show bed details, let users add patches of plants to the current one"""
 
@@ -135,6 +140,7 @@ def bed_details(request, id):
     }, context_instance=RequestContext(request))
 
 @login_required
+@in_section('cropcount')
 def delete_patch(request, id):
     patch = get_object_or_404(Patch, pk=id)
     bed_id = patch.box.id
@@ -142,6 +148,7 @@ def delete_patch(request, id):
     return redirect(bed_details, bed_id) 
 
 @login_required
+@in_section('cropcount')
 def delete_bed(request, id):
     bed = get_object_or_404(Box, pk=id)
     garden_id = bed.garden.id
@@ -154,6 +161,7 @@ def delete_bed(request, id):
 
 @login_required
 @garden_type_aware
+@in_section('cropcount')
 def complete_geojson(request):
     """Get GeoJSON for all gardens counted so far"""
 

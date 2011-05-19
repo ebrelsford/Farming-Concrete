@@ -3,13 +3,14 @@ from django.db.models import Sum
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
-from farmingconcrete.decorators import garden_type_aware
+from farmingconcrete.decorators import garden_type_aware, in_section
 from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm, FindGardenForm
 from harvestcount.models import Gardener, Harvest, HarvestForm
 
 @login_required
 @garden_type_aware
+@in_section('harvestcount')
 def index(request):
     type = request.session['garden_type']
 
@@ -30,6 +31,7 @@ def index(request):
 
 @login_required
 @garden_type_aware
+@in_section('harvestcount')
 def add_garden(request):
     if request.method == 'POST':
         form = GardenForm(request.POST, user=request.user)
@@ -51,6 +53,7 @@ def add_garden(request):
     }, context_instance=RequestContext(request))
 
 @login_required
+@in_section('harvestcount')
 def garden_details(request, id):
     """Show details for a garden, let user add harvests"""
 
