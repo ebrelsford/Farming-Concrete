@@ -113,8 +113,7 @@ a:hover {
 ul.errorlist {
     margin-bottom: 0;
     padding-bottom: 0;
-    background: pink;
-    border: 1px solid red;
+    color: red;
     list-style: none;
     padding-left: 0;
 }
@@ -126,10 +125,13 @@ ul.values {
     display: inline-block;
 }
 #plants .type {
-    width: 50%;
+    width: 25%;
 }
 #plants .quantity {
     width: 35%;
+}
+#new-plant form #inputs span {
+    vertical-align: top;
 }
 
 #beds .name, #beds .dimensions {
@@ -192,7 +194,7 @@ ul.values li.even {
 .help_box {
     display: none;
     position: absolute;
-    z-index: 1000;
+    z-index: 2000;
     background: white;
     border: 1px solid black;
     padding: 3px;

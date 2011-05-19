@@ -12,8 +12,8 @@ from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm
 from farmingconcrete.geo import garden_collection
 from farmingconcrete.decorators import garden_type_aware, in_section
-from cropcount.models import Box, Patch, BoxForm, PatchForm
-from cropcount.forms import UncountedGardenForm
+from cropcount.models import Box, Patch
+from cropcount.forms import UncountedGardenForm, BoxForm, PatchForm
 
 from middleware.http import Http403
 

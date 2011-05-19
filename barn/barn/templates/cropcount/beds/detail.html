@@ -9,13 +9,6 @@
     <script src="/site_media/js/help.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#errors').position({
-                'my': 'left top', 
-                'at': 'right top', 
-                'of': $('#new-plant'),
-                'offset': '10 0',
-            });
-
             $('#variety_help').help({ text: 'Start typing the plant type that you are entering and choose the closest match. Please let us know if you want to enter a plant type that does not exist.' });
             $('#quantity_help').help({ text: "Please enter the number of plants of this type and/or the area these plants are planted in. We prefer to know the number of plants, but sometimes that's difficult!" });
         });
@@ -61,13 +54,20 @@
                     {{ hidden }}
                     {% endfor %}
                     {{ form.non_field_errors }}
+                    <div id="errors">
+                        {{ form.non_field_errors }}
+                    </div>
                     <div id="inputs">
                         <span class="type">
-                            Plant type <span id="variety_help" class="help_link">help!</span><br />
+                            {{ form.variety.errors }}
+                            {{ form.variety.label_tag }}
+                            <span id="variety_help" class="help_link">help!</span><br />
                             {{ form.variety }}
                         </span>
                            
                         <span class="quantity">
+                            {{ form.plants.errors }}
+                            {{ form.area.errors }}
                             {{ form.plants }} plants<span id="quantity_help" class="help_link">help!</span><br />
                             <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
                             {{ form.area }} sq ft
@@ -76,9 +76,6 @@
                         <span class="actions">
                             <input type="submit" value="add" />
                         </span>
-                    </div>
-                    <div id="errors" style="float: right; position: absolute;">
-                        {{ form.errors }}
                     </div>
                 </form>
             </li>

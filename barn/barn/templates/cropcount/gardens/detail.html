@@ -80,12 +80,14 @@
                     {% endfor %}
                     {{ form.non_field_errors }}
                     <div id="errors">
-                        {{ form.garden.errors }}{{ form.name.errors }}{{ form.length.errors }}{{ form.width.errors }}
+                        {{ form.garden.errors }}{{ form.name.errors }}{{ form.width.errors }}{{ form.length.errors }}
                     </div>
                     <div id="inputs">
                         <div>
-                            Number: {{ form.name }} <span id="number_help" class="help_link">help!</span><br />
-                            Dimensions: {{ form.width }}ft x {{ form.length }}ft <span id="dimensions_help" class="help_link">help!</span>
+                            {{ form.name.label_tag }}: {{ form.name }} <span id="number_help" class="help_link">help!</span><br />
+                        </div>
+                        <div>
+                            {{ form.width.label_tag }}: {{ form.width }}ft x {{ form.length }}ft <span id="dimensions_help" class="help_link">help!</span>
                         </div>
                         <input type="submit" value="add" />
                     </div>
