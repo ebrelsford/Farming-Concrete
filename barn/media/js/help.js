@@ -8,25 +8,13 @@ var Help = {
 
         this.positioned = false;
 
+        $(elem).text(t.options.label);
+
         $(elem).after('<div></div>').next()
             .attr('class', 'help_box')
             .attr('style', '')
             .text(t.options.text);
 
-        /*
-        $(elem).click(function() {
-            if (!t.positioned) {
-                $(this).next().position({
-                    'my': 'left bottom', 
-                    'at': 'right top', 
-                    'of': $(this),
-                });
-
-                t.positioned = true;
-            }
-            $(this).next().toggle();
-        });
-          */
         $(elem).hover(
             function() {
                 if (!t.positioned) {
@@ -34,21 +22,21 @@ var Help = {
                         'my': 'left bottom', 
                         'at': 'right top', 
                         'of': $(this),
-                        /*'offset': '10 0',*/
                     });
 
                     t.positioned = true;
                 }
-                $(this).next().toggle();
+                $(this).next().show();
             },
             function() {
-                $(this).next().toggle();
+                $(this).next().hide();
             }
         );
     },
 
     options: {
-        text: 'heeeeelp',
+        text: '',
+        label: '?',
     },
 
 };
