@@ -94,15 +94,14 @@ a:hover {
 #left {
     float: left;
     padding: 5px;
-    border-right: 1px dotted black;
+    /*border-right: 1px dotted black;*/
     width: 50%;
 }
 
 #right {
-    float: left;
+    float: right;
     display: block;
     padding: 5px;
-    width: 40%;
 }
 
 #inputs p label {
