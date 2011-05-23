@@ -108,7 +108,20 @@ def garden_details(request, id):
             box = form.save()
             return redirect(bed_details, box.id)
     else:
-        form = BoxForm(initial={ 'garden': garden, 'name': _get_next_box_name(garden) })
+        try:
+            most_recent_box = Box.objects.filter(garden=garden).order_by('-added')[0]
+            length = "%d" % most_recent_box.length
+            width = "%d" % most_recent_box.width
+        except IndexError:
+            length = ""
+            width = ""
+
+        form = BoxForm(initial={
+            'garden': garden, 
+            'name': _get_next_box_name(garden),
+            'length': length,
+            'width': width,
+        })
 
     return render_to_response('cropcount/gardens/detail.html', {
         'garden': garden,

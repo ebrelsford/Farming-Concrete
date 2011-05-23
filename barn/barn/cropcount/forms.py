@@ -7,7 +7,6 @@ from ajax_select.fields import AutoCompleteSelectField
 
 from farmingconcrete.models import Garden, GardenType
 from farmingconcrete.forms import GardenTypeField
-from accounts.models import UserProfile
 from cropcount.models import Box, Patch
 
 class UncountedGardenForm(Form):
