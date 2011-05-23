@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'ajax_select',
+    'south',
 
     'accounts',
     'cropcount',
