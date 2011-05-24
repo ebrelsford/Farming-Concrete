@@ -30,7 +30,7 @@ class Patch(models.Model):
     box = models.ForeignKey(Box)
     variety = models.ForeignKey(Variety)
     plants = models.IntegerField(null=True, blank=True)
-    area = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    area = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
