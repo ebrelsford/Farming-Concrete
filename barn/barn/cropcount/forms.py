@@ -5,9 +5,9 @@ from django.forms import Form, ModelForm, HiddenInput, ModelChoiceField, TextInp
 
 from ajax_select.fields import AutoCompleteSelectField
 
-from farmingconcrete.models import Garden, GardenType
+from farmingconcrete.models import Garden, GardenType, Variety
 from farmingconcrete.forms import GardenTypeField
-from cropcount.models import Box, Patch
+from models import Box, Patch
 
 class UncountedGardenForm(Form):
     type = GardenTypeField()
@@ -77,7 +77,7 @@ class PatchForm(ModelForm):
     )
     variety = AutoCompleteSelectField('variety', 
         label="Plant type", 
-        required=True,
+        required=False,
         error_messages={
             'required': "Please enter a plant type.",
         }
@@ -113,6 +113,24 @@ class PatchForm(ModelForm):
     class Meta:
         model = Patch
         exclude = ('added', 'updated')
+
+    def clean_variety(self):
+        """
+        Clean the variety field. It is an AutoCompleteSelectField, but if a user enters a variety that doesn't exist we try to accomodate it.
+
+        XXX if there is another error on the form, the variety is added but not shown when the form reloads. Ideally, a custom widget would be used instead.
+        """
+        variety = self.cleaned_data['variety']
+
+        if not variety:
+            variety_name = self.data['variety_text']
+            if variety_name:
+                variety = Variety(name=variety_name)
+                variety.save()
+            else:
+                raise ValidationError('Please enter a plant type.')
+
+        return variety
 
     def clean(self):
         super(PatchForm, self).clean()
