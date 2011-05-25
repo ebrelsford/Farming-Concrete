@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import Form, ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, IntegerField, DecimalField
 
@@ -43,6 +44,7 @@ class BedSizeField(DecimalField):
 
 class BoxForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(), widget=HiddenInput())
+    added_by = ModelChoiceField(label='added_by', queryset=User.objects.all(), widget=HiddenInput())
 
     name = CharField(
         max_length=32,
@@ -70,6 +72,10 @@ class BoxForm(ModelForm):
         return data
 
 class PatchForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(PatchForm, self).__init__(*args, **kwargs)
+
     box = ModelChoiceField(
         label='box', 
         queryset=Box.objects.all(), 
@@ -109,6 +115,7 @@ class PatchForm(ModelForm):
         widget=TextInput(attrs={'size': 3}),
         required=False
     )
+    added_by = ModelChoiceField(label='added_by', queryset=User.objects.all(), widget=HiddenInput())
 
     class Meta:
         model = Patch
@@ -125,7 +132,7 @@ class PatchForm(ModelForm):
         if not variety:
             variety_name = self.data['variety_text']
             if variety_name:
-                variety = Variety(name=variety_name)
+                variety = Variety(name=variety_name, added_by=self.user)
                 variety.save()
             else:
                 raise ValidationError('Please enter a plant type.')

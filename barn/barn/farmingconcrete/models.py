@@ -1,5 +1,7 @@
 from django.db import models
 
+from audit.models import AuditedModel
+
 class GardenType(models.Model):
     class Meta:
         ordering = ['name']
@@ -48,7 +50,7 @@ class Garden(models.Model):
     def uncounted():
         return Garden.objects.filter(box=None)
 
-class Variety(models.Model):
+class Variety(AuditedModel):
     class Meta:
         verbose_name_plural = 'Varieties'
         ordering = ['name']

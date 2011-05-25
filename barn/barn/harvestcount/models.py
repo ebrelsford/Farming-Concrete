@@ -3,16 +3,17 @@ from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, Ch
 
 from ajax_select.fields import AutoCompleteSelectField
 
+from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
 
-class Gardener(models.Model):
+class Gardener(AuditedModel):
     garden = models.ForeignKey(Garden)
     name = models.CharField(max_length=64)
 
     def __unicode__(self):
         return self.name
 
-class Harvest(models.Model):
+class Harvest(AuditedModel):
     gardener = models.ForeignKey(Gardener)
     variety = models.ForeignKey(Variety)
 
@@ -21,7 +22,6 @@ class Harvest(models.Model):
     area = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
 
     harvested = models.DateTimeField()
-    added = models.DateTimeField(auto_now_add=True)
 
 class HarvestForm(ModelForm):
     gardener = ModelChoiceField(label='gardener', queryset=Gardener.objects.all())

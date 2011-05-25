@@ -118,6 +118,7 @@ def garden_details(request, id):
 
         form = BoxForm(initial={
             'garden': garden, 
+            'added_by': request.user,
             'name': _get_next_box_name(garden),
             'length': length,
             'width': width,
@@ -139,13 +140,12 @@ def bed_details(request, id):
     bed = get_object_or_404(Box, pk=id)
 
     if request.method == 'POST':
-        form = PatchForm(request.POST)
+        form = PatchForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect(bed_details, id)
     else:
-        #form = make_ajax_form(PatchForm(initial={ 'box': bed }), dict(variety='variety'))
-        form = PatchForm(initial={ 'box': bed })
+        form = PatchForm(initial={ 'box': bed, 'added_by': request.user }, user=request.user)
 
     return render_to_response('cropcount/beds/detail.html', {
         'bed': bed,

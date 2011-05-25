@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'south',
 
     'accounts',
+    'audit',
     'cropcount',
     'farmingconcrete',
     'harvestcount',
