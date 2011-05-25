@@ -6,7 +6,8 @@ class VarietyLookup(object):
 
     def get_query(self, q, request):
         """ return a query set.  you also have access to request.user if needed """
-        return Variety.objects.filter(Q(name__icontains=q))
+        varieties = Variety.objects.filter(needs_moderation=False) | request.user.farmingconcrete_variety_added.all()
+        return varieties.filter(Q(name__icontains=q))
 
     def format_result(self, variety):
         """ the search results display in the dropdown menu.  may contain html and multiple-lines. will remove any |  """

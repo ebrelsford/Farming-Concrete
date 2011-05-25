@@ -59,3 +59,4 @@ class Variety(AuditedModel):
         return self.name
 
     name = models.CharField(max_length=64)
+    needs_moderation = models.BooleanField(default=False)
