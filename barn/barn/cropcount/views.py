@@ -134,16 +134,12 @@ def garden_details(request, id):
     beds = Box.objects.filter(garden=garden)
     patches = Patch.objects.filter(box__in=beds)
 
-    print 'hi!'
-
     if request.method == 'POST':
-        print 'post!'
         form = BoxForm(request.POST)
         if form.is_valid():
             box = form.save()
             return redirect(bed_details, box.id)
     else:
-        print 'not post!'
         try:
             most_recent_box = Box.objects.filter(garden=garden).order_by('-added')[0]
             length = "%d" % most_recent_box.length
