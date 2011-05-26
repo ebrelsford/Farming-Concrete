@@ -17,6 +17,26 @@ def switch_garden_type(request, type='all'):
     request.session['garden_type'] = type = _get_garden_type(type)
     return redirect(next)
 
+@login_required
+def gardens_geojson(request):
+    """Get GeoJSON for requested gardens"""
+
+    gardens = Garden.objects.all()
+
+    ids = request.GET.get('ids', None)
+    cropcount = request.GET.get('cropcount', None)
+    type = request.GET.get('type', None)
+
+    if ids:
+        ids = ids.split(',')
+        gardens = gardens.filter(id__in=ids)
+    if cropcount and cropcount != 'no':
+        gardens = gardens.exclude(box=None)
+    if type and type != 'all':
+        gardens = gardens.filter(type__short_name=type)
+
+    return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
+
 def _get_garden_type(short_name):
     types = GardenType.objects.filter(short_name=short_name)
     if types.count() > 0:

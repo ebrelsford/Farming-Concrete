@@ -47,6 +47,10 @@ var GardenMap = {
                 },
             });
         }
+        else {
+            this.getLayer('gardens', this.options.url + this.options.queryString, this.styles['default']);
+        }
+
 
         this.hoverControl = this.getControlHoverFeature(this.olMap.layers[1]);
         this.olMap.zoomToMaxExtent();
@@ -58,8 +62,10 @@ var GardenMap = {
         center: new OpenLayers.LonLat(-8230729.8555054, 4970948.0494563),
         initialZoom: 10,
         addContentToPopup: function(popup, feature) { ; },
-        type: 'all counted', /* or 'single' */
+        type: null, 
         id: null, /* put something here if using type='single' */
+        url: '/gardens/geojson?',
+        queryString: '',
     },
 
     createBBox: function(lon1, lat1, lon2, lat2) {

@@ -1,0 +1,33 @@
+{% extends "cropcount/gardens/list_gardens.html" %}
+
+{% block title %}
+{% with request.session.garden_type as garden_type %}
+All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }}
+{% with request.session.garden_type as garden_type %}
+All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block list_label %}
+{% with request.session.garden_type as garden_type %}
+All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block list %}
+{% for garden in counted_gardens %}
+<li id="{{ garden.id }}">
+    {% if perms.can_edit_any_garden %}
+    <a href="{% url cropcount.views.garden_details garden.id %}">{{ garden.name }}</a>
+    {% else %}
+    <label>{{ garden.name }}</label>
+    {% endif %}
+</li>
+{% empty %}
+None.
+{% endfor %}
+{% endblock %}

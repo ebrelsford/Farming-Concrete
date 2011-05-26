@@ -39,8 +39,38 @@ def index(request):
         'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'recent_types': patches.order_by('-added')[:3],
+        'recent_types': patches.order_by('-added').values_list('variety__name', flat=True)[:3],
         'type': type,
+    }, context_instance=RequestContext(request))
+
+@login_required
+@garden_type_aware
+@in_section('cropcount')
+def user_gardens(request):
+    """Show the user's gardens"""
+    type = request.session['garden_type']
+
+    profile = request.user.get_profile()
+    user_gardens = profile.gardens.all()
+
+    return render_to_response('cropcount/gardens/user_gardens.html', {
+        'user_gardens': user_gardens.order_by('name'),
+        'user_garden_ids': user_gardens.values_list('id', flat=True),
+    }, context_instance=RequestContext(request))
+
+@login_required
+@garden_type_aware
+@in_section('cropcount')
+def all_gardens(request):
+    """Show all counted gardens"""
+    type = request.session['garden_type']
+
+    counted_gardens = Garden.counted()
+    if type != 'all':
+        counted_gardens = counted_gardens.filter(type=type)
+
+    return render_to_response('cropcount/gardens/all_gardens.html', {
+        'counted_gardens': counted_gardens.order_by('name'),
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -55,12 +85,14 @@ def gardens(request):
     if type != 'all':
         counted_gardens = counted_gardens.filter(type=type)
 
-    if not request.user.has_perm('can_edit_any_garden'):
-        profile = request.user.get_profile()
-        counted_gardens = counted_gardens & profile.gardens.all()
+    #if not request.user.has_perm('can_edit_any_garden'):
+    profile = request.user.get_profile()
+    user_gardens = profile.gardens.all()
+    #counted_gardens = counted_gardens & profile.gardens.all()
 
     return render_to_response('cropcount/gardens/index.html', {
-        'counted_gardens': counted_gardens.order_by('name'),
+        'user_gardens': user_gardens.order_by('name'),
+        'counted_gardens': counted_gardens.all().order_by('name'),
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -102,12 +134,16 @@ def garden_details(request, id):
     beds = Box.objects.filter(garden=garden)
     patches = Patch.objects.filter(box__in=beds)
 
+    print 'hi!'
+
     if request.method == 'POST':
+        print 'post!'
         form = BoxForm(request.POST)
         if form.is_valid():
             box = form.save()
             return redirect(bed_details, box.id)
     else:
+        print 'not post!'
         try:
             most_recent_box = Box.objects.filter(garden=garden).order_by('-added')[0]
             length = "%d" % most_recent_box.length
@@ -167,24 +203,6 @@ def delete_bed(request, id):
     garden_id = bed.garden.id
     bed.delete()
     return redirect(garden_details, garden_id) 
-
-#
-# Views that do not output HTML
-#
-
-@login_required
-@garden_type_aware
-@in_section('cropcount')
-def complete_geojson(request):
-    """Get GeoJSON for all gardens counted so far"""
-
-    gardens = Garden.counted()
-
-    type = request.session['garden_type']
-    if type != 'all':
-        gardens = gardens.filter(type=type)
-
-    return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
 
 #
 # Utility functions

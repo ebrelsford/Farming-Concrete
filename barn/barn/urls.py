@@ -11,6 +11,11 @@ urlpatterns = patterns('',
     (r'^fc/', include('farmingconcrete.urls')),
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
 
+    (r'^gardens/geojson', 'farmingconcrete.views.gardens_geojson'),
+    (r'^gardens/(?P<id>\d+)/cropcount/$', 'cropcount.views.garden_details'),
+    (r'^gardens/cropcount/yours/$', 'cropcount.views.user_gardens'),
+    (r'^gardens/cropcount/counted/$', 'cropcount.views.all_gardens'),
+
     (r'^ajax_select/', include('ajax_select.urls')),
 
     # auth

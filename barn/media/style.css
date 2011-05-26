@@ -202,6 +202,11 @@ ul.values li.even {
     width: 200px;
 }
 
+ul.gardens {
+    list-style: none; 
+    padding-left: 20px;
+}
+
 /*** Map stuff ***/
 .olControlAttribution {
     bottom: 3px !important;
