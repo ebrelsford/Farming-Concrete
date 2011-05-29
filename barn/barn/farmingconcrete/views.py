@@ -3,13 +3,14 @@ import geojson
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import RequestContext
 
 from models import Garden, GardenType
 from farmingconcrete.geo import garden_collection, garden_feature
 
 @login_required
 def account(request):
-    return render_to_response('farmingconcrete/account.html', { })
+    return render_to_response('farmingconcrete/account.html', { }, context_instance=RequestContext(request))
 
 @login_required
 def switch_garden_type(request, type='all'):
