@@ -60,7 +60,9 @@
 <div id="right">
     <div id="map" style="width: 400px; height: 300px;"></div>
 </div>
+{% endblock %}
 
+{% block actions %}
 {% if user.is_superuser %}
 <div id="bottom" style="clear: both;">
     <h2>

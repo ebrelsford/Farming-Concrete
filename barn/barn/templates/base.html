@@ -55,7 +55,9 @@
             <div id="content">
 
                 {% block content %}{% endblock %}
-                <div style="clear: both;"></div>
+                <div id="bottom" style="clear: both;">
+                    {% block actions %}{% endblock %}
+                </div>
             </div>
         </div>
     </body>

@@ -19,81 +19,81 @@
 {% if bed %}
     <h1><a href="{% url cropcount.views.garden_details bed.garden.id %}">{{ bed.garden.name }}</a>, bed {{ bed.name }}</h1>
 
-        <div id="plants">
-            <ul class="values">
-                <li id="new-plant" style="border-bottom: 2px solid black; margin-bottom: 10px;">
-                    <span style="font-weight: bold; margin-top: 5px;">Add a new plant</span>
-                    <form method="post" action=".">
-                        {% csrf_token %}
-                        {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                        {% endfor %}
-                        <div id="errors">
-                            {{ form.non_field_errors }}
-                        </div>
-                        <div id="inputs">
-                            <span class="type">
-                                {{ form.variety.errors }}
-                                {{ form.variety.label_tag }}
-                                <span id="variety_help" class="help_link"></span><br />
-                                {{ form.variety }}
-                            </span>
-                               
-                            <span class="quantity">
-                                {{ form.plants.errors }}
-                                {{ form.area.errors }}
-                                {{ form.plants }} plants<span id="quantity_help" class="help_link"></span><br />
-                                <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
-                                {{ form.area }} sq ft
-                            </span>
+    <div id="plants">
+        <ul class="values">
+            <li id="new-plant" style="border-bottom: 2px solid black; margin-bottom: 10px;">
+                <span style="font-weight: bold; margin-top: 5px;">Add a new plant</span>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    <div id="errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                    <div id="inputs">
+                        <span class="type">
+                            {{ form.variety.errors }}
+                            {{ form.variety.label_tag }}
+                            <span id="variety_help" class="help_link"></span><br />
+                            {{ form.variety }}
+                        </span>
+                           
+                        <span class="quantity">
+                            {{ form.plants.errors }}
+                            {{ form.area.errors }}
+                            {{ form.plants }} plants<span id="quantity_help" class="help_link"></span><br />
+                            <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
+                            {{ form.area }} sq ft
+                        </span>
 
-                            <span class="actions">
-                                <input type="submit" value="add" />
-                            </span>
-                        </div>
-                    </form>
-                </li>
-                <li style="font-weight: bold; border-bottom: 1px solid black;">
-                    <span class="type">plant</span>
-                    <span class="quantity">quantity</span>
-                </li>
-            {% for patch in bed.patch_set.all %}
-                <li class="{% cycle 'odd' 'even' %}">
-                    <span class="type">{{ patch.variety }}</span>
-                
-                    <span class="quantity">
-                        {% if patch.plants %}
-                        {{ patch.plants }} plants
-                        {% endif %}
-                       
-                        {% if patch.area %}
-                        {{ patch.area }} square feet
-                        {% endif %}
-                    </span>
+                        <span class="actions">
+                            <input type="submit" value="add" />
+                        </span>
+                    </div>
+                </form>
+            </li>
+            <li style="font-weight: bold; border-bottom: 1px solid black;">
+                <span class="type">plant</span>
+                <span class="quantity">quantity</span>
+            </li>
+        {% for patch in bed.patch_set.all %}
+            <li class="{% cycle 'odd' 'even' %}">
+                <span class="type">{{ patch.variety }}</span>
+            
+                <span class="quantity">
+                    {% if patch.plants %}
+                    {{ patch.plants }} plants
+                    {% endif %}
+                   
+                    {% if patch.area %}
+                    {{ patch.area }} square feet
+                    {% endif %}
+                </span>
 
-                    <span class="actions">
-                        <a href="{% url cropcount.views.delete_patch patch.id %}">
-                            <img src="/site_media/img/round_delete_small.png" title="remove this plant" />
-                        </a>
-                    </span>
+                <span class="actions">
+                    <a href="{% url cropcount.views.delete_patch patch.id %}">
+                        <img src="/site_media/img/round_delete_small.png" title="remove this plant" />
+                    </a>
+                </span>
 
-                </li>
-            {% empty %}
-                <li>
-                    None, yet!
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-
-    <div id="no-more-plants" class="complete">
-        <h2>
-            <a class="image" href="{% url cropcount.views.garden_details bed.garden.id %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
-            <a class="text" href="{% url cropcount.views.garden_details bed.garden.id %}">Done adding plants to this bed!</a>
-        </h2>
+            </li>
+        {% empty %}
+            <li>
+                None, yet!
+            </li>
+        {% endfor %}
+        </ul>
     </div>
 {% else %}
     <p>No such bed</p>
 {% endif %}
 {% endblock %}
 
+{% block actions %}
+{{ block.super }}
+<h2>
+    <a class="image" href="{% url cropcount.views.garden_details bed.garden.id %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
+    <a class="text" href="{% url cropcount.views.garden_details bed.garden.id %}">Done adding plants to this bed!</a>
+</h2>
+{% endblock %}

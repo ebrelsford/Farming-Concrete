@@ -45,13 +45,14 @@
 <div id="right">
     <div id="map" style="width: 400px; height: 300px;"></div>
 </div>
+{% endblock %}
 
+{% block actions %}
+{{ block.super }}
 {% if perms.farmingconcrete.can_edit_any_garden %}
-<div id="bottom" style="clear: both;">
-    <h2>
-        <a class="image" href="{% url cropcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
-        <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
-    </h2>
-</div>
+<h2>
+    <a class="image" href="{% url cropcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
+    <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
+</h2>
 {% endif %}
 {% endblock %}

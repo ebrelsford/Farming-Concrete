@@ -108,13 +108,17 @@
 
     <div id="bottom" style="clear: both;">
         <div id="no-more-beds" class="complete">
-            <h2>
-                <a class="image" href="{% url cropcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
-                <a class="text" href="{% url cropcount.views.user_gardens %}">Done adding beds to this garden!</a>
-            </h2>
         </div>
     </div>
 {% else %}
     <p>No such garden</p>
 {% endif %}
+{% endblock %}
+
+{% block actions %}
+{{ block.super }}
+<h2>
+    <a class="image" href="{% url cropcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
+    <a class="text" href="{% url cropcount.views.user_gardens %}">Done adding beds to this garden!</a>
+</h2>
 {% endblock %}
