@@ -5,7 +5,8 @@ admin.autodiscover()
 from django.conf import settings
 
 urlpatterns = patterns('',
-    (r'^$', 'django.contrib.auth.views.login'),
+    (r'^$', 'farmingconcrete.views.index'),
+
     (r'^cropcount/', include('cropcount.urls')),
     (r'^harvestcount/', include('harvestcount.urls')),
     (r'^fc/', include('farmingconcrete.urls')),

@@ -8,6 +8,9 @@ from django.template import RequestContext
 from models import Garden, GardenType
 from farmingconcrete.geo import garden_collection, garden_feature
 
+def index(request):
+    return render_to_response('farmingconcrete/index.html', { }, context_instance=RequestContext(request))
+
 @login_required
 def account(request):
     return render_to_response('farmingconcrete/account.html', { }, context_instance=RequestContext(request))
