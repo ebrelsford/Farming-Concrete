@@ -25,7 +25,7 @@ def switch_garden_type(request, type='all'):
 def gardens_geojson(request):
     """Get GeoJSON for requested gardens"""
 
-    gardens = Garden.objects.all()
+    gardens = Garden.objects.exclude(latitude=None, longitude=None)
 
     ids = request.GET.get('ids', None)
     cropcount = request.GET.get('cropcount', None)
@@ -47,10 +47,3 @@ def _get_garden_type(short_name):
         return types[0]
 
     return 'all'
-
-@login_required
-def garden_geojson(request, id):
-    """Get the geojson for one garden"""
-
-    garden = get_object_or_404(Garden, pk=id)
-    return HttpResponse(geojson.dumps(garden_collection([garden,])), mimetype='application/json')

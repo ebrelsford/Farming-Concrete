@@ -37,7 +37,7 @@ var GardenMap = {
             this.getLayer('harvested', '/harvestcount/gardens/harvested/geojson/', this.styles['default']);
         }
         else if (this.options.type === 'single' && this.options.id !== null) {
-            var gardenLayer = this.getLayer('garden', '/fc/garden/' + this.options.id + '/geojson/', this.styles['single']);
+            var gardenLayer = this.getLayer('garden', this.options.url + 'ids=' + this.options.id, this.styles['single']);
             var t = this;
 
             gardenLayer.events.on({
