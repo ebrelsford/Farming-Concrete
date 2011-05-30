@@ -20,6 +20,19 @@ class Box(AuditedModel):
     def __unicode__(self):
         return "%s (%s), %d x %d" % (self.garden.name, self.name, self.length, self.width)
 
+    def __cmp__(self, other):
+        """sort naturally, with numbers in numeric order"""
+        if self.name.isdigit():
+            if other.name.isdigit():
+                return cmp(int(self.name), int(other.name))
+            else:
+                return -1
+        else:
+            if other.name.isdigit():
+                return 1
+            else:
+                return cmp(self.name, other.name)
+
 class Patch(AuditedModel):
     class Meta:
         verbose_name_plural = 'Patches'

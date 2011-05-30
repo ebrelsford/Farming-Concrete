@@ -58,7 +58,7 @@
         <div id="beds">
             <span style="font-weight: bold;">Current beds in this garden</span>
             <ul class="values">
-                {% for box in garden.box_set.all %}
+                {% for box in bed_list %}
                 <li class="bed">
                     <span class="name">
                         <a href="{% url cropcount.views.bed_details box.id %}">bed {{ box.name }}</a>

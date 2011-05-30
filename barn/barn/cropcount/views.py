@@ -22,17 +22,17 @@ from middleware.http import Http403
 @in_section('cropcount')
 def index(request):
     """Home page for Crop Count. Show current stats, give access to next actions."""
-    type = request.session['garden_type']
+    garden_type = request.session['garden_type']
 
     counted_gardens = Garden.objects.exclude(box=None)
     beds = Box.objects.all()
     patches = Patch.objects.all()
 
     # filter more if we need to
-    if type != 'all':
-        counted_gardens = counted_gardens.filter(type=type)
-        beds = beds.filter(garden__type=type)
-        patches = patches.filter(box__garden__type=type)
+    if garden_type != 'all':
+        counted_gardens = counted_gardens.filter(garden_type=garden_type)
+        beds = beds.filter(garden__type=garden_type)
+        patches = patches.filter(box__garden__type=garden_type)
     
     return render_to_response('cropcount/index.html', {
         'gardens': counted_gardens.count(),
@@ -40,7 +40,7 @@ def index(request):
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
         'recent_types': patches.order_by('-added').values_list('variety__name', flat=True)[:3],
-        'type': type,
+        'garden_type': garden_type,
     }, context_instance=RequestContext(request))
 
 @login_required
@@ -158,6 +158,7 @@ def garden_details(request, id):
 
     return render_to_response('cropcount/gardens/detail.html', {
         'garden': garden,
+        'bed_list': sorted(garden.box_set.all()),
         'form': form,
         'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
         'beds': beds.count(),
