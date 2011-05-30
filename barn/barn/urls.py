@@ -34,3 +34,5 @@ urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
 )
+
+handler500 = 'barn.views.server_error'
