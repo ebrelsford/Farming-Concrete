@@ -51,12 +51,12 @@ class Garden(models.Model):
         return Garden.objects.filter(box=None)
 
 class Variety(AuditedModel):
+    name = models.CharField(max_length=64)
+    needs_moderation = models.BooleanField(default=False)
+
     class Meta:
         verbose_name_plural = 'Varieties'
         ordering = ['name']
 
     def __unicode__(self):
         return self.name
-
-    name = models.CharField(max_length=64)
-    needs_moderation = models.BooleanField(default=False)
