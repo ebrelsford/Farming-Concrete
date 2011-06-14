@@ -23,10 +23,10 @@
 
     <div id="left">
         <ul class="overview">
-            <li><b>{{ gardens|default:'0' }}</b> gardens</li>
-            <li class="even"><b>{{ beds|default:'0' }}</b> beds</li>
+            <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
+            <li class="even"><b>{{ beds|default:'0' }}</b> bed{{ beds|pluralize }}</li>
             <li><b>{{ area|default:'0' }}</b> square feet</li>
-            <li class="even"><b>{{ plants|default:'0' }}</b> plants</li>
+            <li class="even"><b>{{ plants|default:'0' }}</b> plant{{ plants|pluralize }}</li>
             <li class="last">
                 <span>most recent plant types:</span>
                 <ul>

@@ -100,9 +100,9 @@
     <div id="right">
         <div id="map" style="width: 300px; height: 200px;"></div>
         <ul class="overview">
-            <li><b>{{ beds|default:"0" }}</b> beds</li>
+            <li><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
             <li><b>{{ area|default:"0" }}</b> square feet</li>
-            <li><b>{{ plants|default:"0" }}</b> plants</li>
+            <li><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
         </ul>
     </div>
 
