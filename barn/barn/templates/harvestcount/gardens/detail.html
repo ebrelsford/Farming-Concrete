@@ -101,8 +101,9 @@
                     {{ harvest.harvested|date:"n/j/y" }}
                 </span>
                 <span class="actions">
-                    {# delete #}
-                    <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
+                    <a class="delete" href="{% url harvestcount.views.delete_harvest harvest.id %}">
+                        <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
+                    </a>
                 </span>
             </li>
             {% endfor %}

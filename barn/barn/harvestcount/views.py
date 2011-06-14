@@ -113,3 +113,11 @@ def all_gardens(request):
         'gardens': gardens.order_by('name'),
         'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
+
+@login_required
+@in_section('harvestcount')
+def delete_harvest(request, id):
+    harvest = get_object_or_404(Harvest, pk=id)
+    garden_id = harvest.gardener.garden.id
+    harvest.delete()
+    return redirect(garden_details, garden_id) 
