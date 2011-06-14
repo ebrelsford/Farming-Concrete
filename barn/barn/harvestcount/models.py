@@ -18,4 +18,4 @@ class Harvest(AuditedModel):
     plants = models.IntegerField(null=True, blank=True)
     area = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
 
-    harvested = models.DateTimeField()
+    harvested = models.DateField()

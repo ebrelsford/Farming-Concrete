@@ -22,8 +22,11 @@
         });
 
         $('#id_harvested').datepicker({
-            dateFormat: 'm/d/yy',
+            dateFormat: 'mm/dd/yy',
             maxDate: '+0D',
+            buttonImage: '{{ MEDIA_URL }}img/calendar_1.png',
+            buttonImageOnly: true,
+            showOn: 'both',
         });
 
         $('#gardener_help').help({ text: 'Pick the gardener who grew this.' });

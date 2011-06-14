@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render_to_response, redirect, get_object_or_404
@@ -8,6 +10,8 @@ from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm, FindGardenForm
 from models import Gardener, Harvest
 from forms import HarvestForm
+
+from middleware.http import Http403
 
 @login_required
 @garden_type_aware
@@ -60,13 +64,27 @@ def garden_details(request, id):
 
     garden = get_object_or_404(Garden, pk=id)
 
+    if not request.user.has_perm('can_edit_any_garden'):
+        profile = request.user.get_profile()
+        if garden not in profile.gardens.all():
+            raise Http403
+
     if request.method == 'POST':
         form = HarvestForm(request.POST, user=request.user)
         if form.is_valid():
             harvest = form.save()
             return redirect(garden_details, id)
     else:
-        form = HarvestForm(initial={ 'garden': garden }, user=request.user)
+        try:
+            most_recent_harvest = Harvest.objects.filter(gardener__garden=garden).order_by('-harvested')[0]
+            harvested = most_recent_harvest.harvested
+        except IndexError:
+            harvested = date.today()
+
+        form = HarvestForm(initial={
+            'garden': garden,
+            'harvested': harvested
+        }, user=request.user)
 
     harvests = Harvest.objects.filter(gardener__garden=garden)
     return render_to_response('harvestcount/gardens/detail.html', {

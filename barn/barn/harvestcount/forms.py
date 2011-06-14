@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, DecimalField
+from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, DecimalField, DateInput
 
 from ajax_select.fields import AutoCompleteSelectField
 
@@ -26,6 +26,9 @@ class HarvestForm(ModelForm):
     class Meta:
         model = Harvest
         exclude = ('added',)
+        widgets = {
+            'harvested': DateInput(format='%m/%d/%Y'),
+        }
 
     def clean_gardener(self):
         gardener = self.cleaned_data['gardener']
