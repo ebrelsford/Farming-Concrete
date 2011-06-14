@@ -21,7 +21,7 @@ All harvested {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{%
 {% block list %}
 {% for garden in gardens %}
 <li id="{{ garden.id }}">
-    {% if perms.can_edit_any_garden %}
+    {% if perms.can_edit_any_garden or garden in user_gardens %}
     <a href="{% url harvestcount.views.garden_details garden.id %}">{{ garden.name }}</a>
     {% else %}
     <label>{{ garden.name }}</label>

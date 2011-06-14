@@ -49,14 +49,14 @@
     <a class="image" href="{% url cropcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
     <a class="text" href="{% url cropcount.views.user_gardens %}">View your gardens</a>
 </h2>
-{% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
     <a class="image" href="{% url cropcount.views.all_gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
     <a class="text" href="{% url cropcount.views.all_gardens %}">View all gardens</a>
 </h2>
-{% endif %}
+{% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
     <a class="image" href="{% url cropcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
     <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
 </h2>
+{% endif %}
 {% endblock %}

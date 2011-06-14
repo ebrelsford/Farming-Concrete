@@ -87,6 +87,8 @@ def user_gardens(request):
 
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
+    if type != 'all':
+        user_gardens = user_gardens.filter(type=type)
 
     return render_to_response('harvestcount/gardens/user_gardens.html', {
         'user_gardens': user_gardens.order_by('name'),
@@ -101,9 +103,13 @@ def all_gardens(request):
     type = request.session['garden_type']
 
     gardens = Garden.objects.exclude(gardener__harvest=None)
+    profile = request.user.get_profile()
+    user_gardens = profile.gardens.all()
     if type != 'all':
         gardens = gardens.filter(type=type)
+        user_gardens = user_gardens.filter(type=type)
 
     return render_to_response('harvestcount/gardens/all_gardens.html', {
         'gardens': gardens.order_by('name'),
+        'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))

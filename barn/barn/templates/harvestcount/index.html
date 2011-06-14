@@ -24,13 +24,13 @@
     <ul class="overview">
         <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
         <li class="even"><b>{{ gardeners|default:'0' }}</b> gardener{{ gardeners|pluralize }}</li>
-        <li class="odd"><b>{{ weight|default:'0' }}</b> pound{{ weight|pluralize }}</li>
+        <li class="odd"><b>{{ weight|floatformat|default:'0' }}</b> pound{{ weight|pluralize }}</li>
         <li class="even"><b>{{ plant_types|default:'0' }}</b> plant type{{ plant_types|pluralize }}</li>
         <li class="last">
             <span>most recent harvests:</span>
             <ul>
                 {% for harvest in recent_harvests %}
-                <li>{{ harvest.variety.name }}, {{ harvest.weight }} pound{{ harvest.weight|pluralize }}</li>
+                <li>{{ harvest.variety.name }}, {{ harvest.weight|floatformat }} pound{{ harvest.weight|pluralize }}</li>
                 {% empty %}
                 <li>None yet!</li>
                 {% endfor %}
@@ -48,11 +48,11 @@
     <a class="image" href="{% url harvestcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
     <a class="text" href="{% url harvestcount.views.user_gardens %}">View your gardens</a>
 </h2>
-{% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
     <a class="image" href="{% url harvestcount.views.all_gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
     <a class="text" href="{% url harvestcount.views.all_gardens %}">View all gardens</a>
 </h2>
+{% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
     <a class="image" href="{% url harvestcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
     <a class="text" href="{% url harvestcount.views.add_garden %}">Add a garden</a>

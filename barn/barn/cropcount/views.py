@@ -30,7 +30,7 @@ def index(request):
 
     # filter more if we need to
     if garden_type != 'all':
-        counted_gardens = counted_gardens.filter(garden_type=garden_type)
+        counted_gardens = counted_gardens.filter(type=garden_type)
         beds = beds.filter(garden__type=garden_type)
         patches = patches.filter(box__garden__type=garden_type)
     
@@ -52,6 +52,8 @@ def user_gardens(request):
 
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
+    if type != 'all':
+        user_gardens = user_gardens.filter(type=type)
 
     return render_to_response('cropcount/gardens/user_gardens.html', {
         'user_gardens': user_gardens.order_by('name'),
@@ -66,11 +68,15 @@ def all_gardens(request):
     type = request.session['garden_type']
 
     counted_gardens = Garden.counted()
+    profile = request.user.get_profile()
+    user_gardens = profile.gardens.all()
     if type != 'all':
         counted_gardens = counted_gardens.filter(type=type)
+        user_gardens = user_gardens.filter(type=type)
 
     return render_to_response('cropcount/gardens/all_gardens.html', {
         'counted_gardens': counted_gardens.order_by('name'),
+        'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
 
 @login_required
