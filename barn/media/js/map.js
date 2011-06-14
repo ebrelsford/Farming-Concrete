@@ -30,13 +30,7 @@ var GardenMap = {
         this.olMap.addLayer(cloudmade);
 
         /* add the base gardens layer */
-        if (this.options.type === 'all counted') {
-            this.getLayer('counted', '/cropcount/gardens/complete/geojson/', this.styles['default']);
-        }
-        else if (this.options.type === 'all harvested') {
-            this.getLayer('harvested', '/harvestcount/gardens/harvested/geojson/', this.styles['default']);
-        }
-        else if (this.options.type === 'single' && this.options.id !== null) {
+        if (this.options.type === 'single' && this.options.id !== null) {
             var gardenLayer = this.getLayer('garden', this.options.url + 'ids=' + this.options.id, this.styles['single']);
             var t = this;
 

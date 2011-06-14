@@ -9,7 +9,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#map').gardenmap({
-            type: 'all harvested'
+            queryString: 'harvestcount=yes&type={{ request.session.garden_type.short_name }}',
         });
     });   
 </script>
