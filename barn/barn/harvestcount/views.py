@@ -1,7 +1,9 @@
 from datetime import date
+import json
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from django.http import HttpResponseForbidden, HttpResponse, Http404
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
@@ -139,3 +141,28 @@ def delete_harvest(request, id):
     garden_id = harvest.gardener.garden.id
     harvest.delete()
     return redirect(garden_details, garden_id) 
+
+@login_required
+def quantity_for_last_harvest(request, id=None):
+    garden = id
+    gardener = request.GET.get('gardener', None)
+    variety = request.GET.get('variety', None)
+
+    result = {
+        'plants': '',
+        'area': '',
+    }
+    if garden and gardener and variety:
+        garden = get_object_or_404(Garden, pk=garden)
+        if not request.user.has_perm('can_edit_any_garden'):
+            profile = request.user.get_profile()
+            if garden not in profile.gardens.all():
+                return HttpResponseForbidden()
+        try:
+            harvest = Harvest.objects.filter(gardener__garden=garden, gardener__name=gardener, variety__name=variety).order_by('-harvested')[0]
+        except IndexError:
+            raise Http404
+
+        result['plants'] = harvest.plants
+        result['area'] = harvest.area
+    return HttpResponse(json.dumps(result), mimetype='application/json')

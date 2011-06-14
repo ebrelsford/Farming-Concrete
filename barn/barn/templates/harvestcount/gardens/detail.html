@@ -29,6 +29,16 @@
             showOn: 'both',
         });
 
+        $('#id_gardener_text, #id_variety_text').focusout(function() {
+            var gardener = $('#id_gardener_text').val();
+            var variety = $('#id_variety_text').val();
+            if (gardener && gardener !== '' && variety && variety !== '') {
+                $.getJSON('last_harvest?gardener=' + gardener + '&variety=' + variety, function(h) {
+                    $('#id_plants').val(h.plants);   
+                });
+            }
+        });
+
         $('#gardener_help').help({ text: 'Pick the gardener who grew this.' });
         $('#variety_help').help({ text: 'Pick the type of plant.' });
         $('#weight_help').help({ text: 'Enter the weight of the harvest.' });
@@ -65,6 +75,7 @@
                             <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
                             <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
                             <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
+                            {# TODO plants OR area #}
                             <label for="id_plants">Number of plants:</label> {{ form.plants }} <span id="plants_help" class="help_link">?</span><br />
                             <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
                         </div>
