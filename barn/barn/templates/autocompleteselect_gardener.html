@@ -1,0 +1,8 @@
+{% extends "autocompleteselect_base.html" %}
+
+{% block extraparams %}
+garden: function() {
+    return $('#id_garden').val();
+},
+{% endblock %}
+

@@ -6,7 +6,8 @@ from django.template import RequestContext
 from farmingconcrete.decorators import garden_type_aware, in_section
 from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm, FindGardenForm
-from harvestcount.models import Gardener, Harvest, HarvestForm
+from models import Gardener, Harvest
+from forms import HarvestForm
 
 @login_required
 @garden_type_aware
@@ -60,21 +61,49 @@ def garden_details(request, id):
     garden = get_object_or_404(Garden, pk=id)
 
     if request.method == 'POST':
-        form = HarvestForm(request.POST)
+        form = HarvestForm(request.POST, user=request.user)
         if form.is_valid():
             harvest = form.save()
             return redirect(garden_details, id)
     else:
-        #form = HarvestForm(initial={ 'garden': garden })
-        form = HarvestForm()
-        form.fields['gardener'].queryset = Gardener.objects.filter(garden=garden)
+        form = HarvestForm(initial={ 'garden': garden }, user=request.user)
 
     harvests = Harvest.objects.filter(gardener__garden=garden)
     return render_to_response('harvestcount/gardens/detail.html', {
         'garden': garden,
-        'harvests': harvests,
+        'harvests': harvests.order_by('harvested', 'gardener__name'),
         'form': form,
         'weight': harvests.aggregate(t=Sum('weight'))['t'],
         'plant_types': harvests.values('variety__id').distinct().count(),
         'plants': None,
+    }, context_instance=RequestContext(request))
+
+@login_required
+@garden_type_aware
+@in_section('harvestcount')
+def user_gardens(request):
+    """Show the user's gardens"""
+    type = request.session['garden_type']
+
+    profile = request.user.get_profile()
+    user_gardens = profile.gardens.all()
+
+    return render_to_response('harvestcount/gardens/user_gardens.html', {
+        'user_gardens': user_gardens.order_by('name'),
+        'user_garden_ids': user_gardens.values_list('id', flat=True),
+    }, context_instance=RequestContext(request))
+
+@login_required
+@garden_type_aware
+@in_section('harvestcount')
+def all_gardens(request):
+    """Show all harvested gardens"""
+    type = request.session['garden_type']
+
+    gardens = Garden.objects.exclude(gardener__harvest=None)
+    if type != 'all':
+        gardens = gardens.filter(type=type)
+
+    return render_to_response('harvestcount/gardens/all_gardens.html', {
+        'gardens': gardens.order_by('name'),
     }, context_instance=RequestContext(request))

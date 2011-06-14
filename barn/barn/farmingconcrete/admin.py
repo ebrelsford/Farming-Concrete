@@ -5,7 +5,8 @@ from cropcount.admin import BoxInline
 
 class GardenAdmin(admin.ModelAdmin):
     #fields = ('name', 'address', 'neighborhood', 'borough', 'zip', 'gardenid',)
-    list_display = ('name', 'neighborhood', 'borough',)
+    list_display = ('name', 'type', 'neighborhood', 'borough',)
+    list_filter = ('type', 'borough', 'neighborhood',)
     search_fields = ('name', 'neighborhood', 'borough',)
     inlines = (BoxInline,)
 

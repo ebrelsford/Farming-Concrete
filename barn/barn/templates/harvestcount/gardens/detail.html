@@ -21,9 +21,16 @@
             }
         });
 
+        $('#id_harvested').datepicker({
+            dateFormat: 'm/d/yy',
+            maxDate: '+0D',
+        });
+
         $('#gardener_help').help({ text: 'Pick the gardener who grew this.' });
         $('#variety_help').help({ text: 'Pick the type of plant.' });
         $('#weight_help').help({ text: 'Enter the weight of the harvest.' });
+        $('#plants_help').help({ text: 'Enter the number of plants the harvest came from.' });
+        $('#harvested_help').help({ text: 'Enter the date the harvest was taken.' });
     });   
 </script>
 {% endblock %}
@@ -37,39 +44,8 @@
     <div id="left">
     <div id="harvests">
         <ul class="values">
-            {% for harvest in harvests %}
-            <li class="harvest {% cycle 'odd' 'even' %}">
-                <span class="gardener">
-                    {# link to gardener? #}
-                    {{ harvest.gardener.name }}
-                </span> 
-                <span class="variety">
-                    {{ harvest.variety.name }}
-                </span>
-                <span class="weight">
-                    {{ harvest.weight }} pounds
-                </span>
-                <span class="dimensions">
-                    {% if harvest.plants %}
-                    {{ harvest.plants }} plants
-                    {% endif %}
-                    
-                    {% if harvest.area %}
-                    ({{ harvest.area }} square feet)
-                    {% endif %}
-                </span>
-                <span class="harvested">
-                    {{ harvest.harvested|date:"n/j/y" }}
-                </span>
-                <span class="actions">
-                    {# delete #}
-                    <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
-                </span>
-            </li>
-            {% endfor %}
-
-            <li id="new-harvest">
-                <span style="font-weight: bold; margin-top: 5px;">Add a new harvest</span>
+            <li id="new-harvest" style="border-bottom: 2px solid black; margin-bottom: 10px;">
+                <span style="font-weight: bold; margin-top: 5px;">Add a new harvest to this garden</span>
                 <form method="post" action=".">
                     {% csrf_token %}
                     {% for hidden in form.hidden_fields %}
@@ -82,16 +58,54 @@
                     </div>
                     <div id="inputs">
                         <div>
-                            Gardener: {{ form.gardener }} <span id="gardener_help" class="help_link">help!</span><br />
-                            Plant type: {{ form.variety }} <span id="variety_help" class="help_link">help!</span><br />
-                            Weight: {{ form.weight }} pounds <span id="weight_help" class="help_link">help!</span><br />
-                            Number of plants: {{ form.plants }}<br />
-                            Date: {{ form.harvested }}
+                            <li>
+                            <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
+                            <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
+                            <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
+                            <label for="id_plants">Number of plants:</label> {{ form.plants }} <span id="plants_help" class="help_link">?</span><br />
+                            <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
                         </div>
                         <input type="submit" value="add" />
                     </div>
                 </form>
             </li>
+            <li class="harvest" style="font-weight: bold; border-bottom: 1px solid black;">
+                <span class="gardener">gardener</span>
+                <span class="variety">plant type</span>
+                <span class="weight">lbs</span>
+                <span class="dimensions">plants</span>
+                <span class="harvested">date</span>
+            </li>
+            {% for harvest in harvests %}
+            <li class="harvest {% cycle 'odd' 'even' %}">
+                <span class="gardener">
+                    {# link to gardener? #}
+                    {{ harvest.gardener.name }}
+                </span> 
+                <span class="variety">
+                    {{ harvest.variety.name }}
+                </span>
+                <span class="weight">
+                    {{ harvest.weight|floatformat }}
+                </span>
+                <span class="dimensions">
+                    {% if harvest.plants %}
+                    {{ harvest.plants|floatformat }} plants
+                    {% endif %}
+                    
+                    {% if harvest.area %}
+                    ({{ harvest.area|floatformat }} square feet)
+                    {% endif %}
+                </span>
+                <span class="harvested">
+                    {{ harvest.harvested|date:"n/j/y" }}
+                </span>
+                <span class="actions">
+                    {# delete #}
+                    <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
+                </span>
+            </li>
+            {% endfor %}
         </ul>
     </div>
     </div>
@@ -99,9 +113,9 @@
     <div id="right">
         <div id="map" style="width: 300px; height: 200px;"></div>
         <ul class="overview">
-            <li><b>{{ harvests.count|default:"0" }}</b> harvests</li>
-            <li><b>{{ weight|default:"0" }}</b> pounds</li>
-            <li><b>{{ plant_types|default:"0" }}</b> plant types</li>
+            <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
+            <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
+            <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
         </ul>
     </div>
 

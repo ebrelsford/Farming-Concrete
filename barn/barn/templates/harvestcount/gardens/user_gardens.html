@@ -1,0 +1,37 @@
+{% extends "harvestcount/gardens/list_gardens.html" %}
+
+{% block title %}
+{% with request.session.garden_type as garden_type %}
+Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block breadcrumbs %}{{ block.super }}
+{% with request.session.garden_type as garden_type %}
+Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block map_params %}
+queryString: 'type={{ request.session.garden_type.short_name }}&harvestcount=yes&ids={% if user_garden_ids %}{{ user_garden_ids|join:"," }}{% else %}-1{% endif %}',
+{% endblock %}
+
+{% block list_label %}
+{% with request.session.garden_type as garden_type %}
+Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block list %}
+{% for garden in user_gardens %}
+<li id="{{ garden.id }}">
+    <a href="{% url harvestcount.views.garden_details garden.id %}">{{ garden.name }}</a>
+    {% if garden.box_set.count == 0 %}
+    no crop count yet
+    {% endif %}
+</li>
+{% empty %}
+None.
+{% endfor %}
+{% endblock %}
+

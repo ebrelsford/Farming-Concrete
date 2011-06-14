@@ -29,6 +29,7 @@ def gardens_geojson(request):
 
     ids = request.GET.get('ids', None)
     cropcount = request.GET.get('cropcount', None)
+    harvestcount = request.GET.get('harvestcount', None)
     type = request.GET.get('type', None)
 
     if ids:
@@ -36,6 +37,8 @@ def gardens_geojson(request):
         gardens = gardens.filter(id__in=ids)
     if cropcount and cropcount != 'no':
         gardens = gardens.exclude(box=None)
+    if harvestcount and harvestcount != 'no':
+        gardens = gardens.exclude(gardener__harvest=None)
     if type and type != 'all':
         gardens = gardens.filter(type__short_name=type)
 
