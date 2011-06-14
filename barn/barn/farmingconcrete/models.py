@@ -57,6 +57,9 @@ class Variety(AuditedModel):
     class Meta:
         verbose_name_plural = 'Varieties'
         ordering = ['name']
+        permissions = (
+            ('add_variety_unmoderated', 'Can add varieties without moderation'),
+        )
 
     def __unicode__(self):
         return self.name

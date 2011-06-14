@@ -16,7 +16,7 @@ class HarvestForm(ModelForm):
     )
     variety = AutoCompleteSelectField('variety',
         label='Plant type',
-        required=True
+        required=False
     )
 
     def __init__(self, *args, **kwargs):
@@ -52,8 +52,8 @@ class HarvestForm(ModelForm):
         if not variety:
             variety_name = self.data['variety_text']
             if variety_name:
-                # TODO if user is staff, variety doesn't need moderation
-                variety = Variety(name=variety_name, added_by=self.user, needs_moderation=True)
+                moderated = not self.user.has_perm('farmingconcrete.add_variety_unmoderated')
+                variety = Variety(name=variety_name, added_by=self.user, needs_moderation=moderated)
                 variety.save()
             else:
                 raise ValidationError('Please enter a plant type.')

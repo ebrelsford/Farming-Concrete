@@ -132,7 +132,8 @@ class PatchForm(ModelForm):
         if not variety:
             variety_name = self.data['variety_text']
             if variety_name:
-                variety = Variety(name=variety_name, added_by=self.user, needs_moderation=True)
+                moderated = not self.user.has_perm('farmingconcrete.add_variety_unmoderated')
+                variety = Variety(name=variety_name, added_by=self.user, needs_moderation=moderated)
                 variety.save()
             else:
                 raise ValidationError('Please enter a plant type.')
