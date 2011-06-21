@@ -35,6 +35,7 @@
             if (gardener && gardener !== '' && variety && variety !== '') {
                 $.getJSON('last_harvest?gardener=' + gardener + '&variety=' + variety, function(h) {
                     $('#id_plants').val(h.plants);   
+                    $('#id_area').val(h.area);   
                 });
             }
         });
@@ -75,8 +76,7 @@
                             <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
                             <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
                             <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
-                            {# TODO plants OR area #}
-                            <label for="id_plants">Number of plants:</label> {{ form.plants }} <span id="plants_help" class="help_link">?</span><br />
+                            <label for="id_plants">Plants <strong>or</strong> area:</label> {{ form.plants }} plants {{ form.area }} sq ft <span id="plants_help" class="help_link">?</span><br />
                             <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
                         </div>
                         <input type="submit" value="add" />
@@ -104,11 +104,11 @@
                 </span>
                 <span class="dimensions">
                     {% if harvest.plants %}
-                    {{ harvest.plants|floatformat }} plants
+                    {{ harvest.plants|floatformat }} plants{% if harvest.area %},{% endif %}
                     {% endif %}
                     
                     {% if harvest.area %}
-                    ({{ harvest.area|floatformat }} square feet)
+                    {{ harvest.area|floatformat }} sq ft
                     {% endif %}
                 </span>
                 <span class="harvested">

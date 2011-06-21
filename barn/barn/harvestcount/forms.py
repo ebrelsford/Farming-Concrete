@@ -27,6 +27,8 @@ class HarvestForm(ModelForm):
         model = Harvest
         exclude = ('added',)
         widgets = {
+            'area': TextInput(attrs={'size': 5, 'maxlength': 5}),
+            'plants': TextInput(attrs={'size': 5, 'maxlength': 5}),
             'harvested': DateInput(format='%m/%d/%Y'),
         }
 
@@ -62,10 +64,3 @@ class HarvestForm(ModelForm):
                 raise ValidationError('Please enter a plant type.')
 
         return variety
-
-class GardenerForm(ModelForm):
-    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(), widget=HiddenInput())
-
-    class Meta:
-        model = Gardener
-
