@@ -9,6 +9,10 @@
 jQuery(document).ready(function($){{% block script %}
     $("#{{html_id}}_text").val('{{current_result}}');
 
+    $('#{{ html_id }}_text').change(function() {
+        $('#{{ html_id }}').val('');
+    });
+
 	$("#{{html_id}}_text").autocomplete('{{lookup_url}}', {
 		width: 320,
 		formatItem: function(row) { return row[2]; },

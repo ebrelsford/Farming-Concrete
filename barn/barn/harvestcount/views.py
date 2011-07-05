@@ -78,14 +78,17 @@ def garden_details(request, id):
             return redirect(garden_details, id)
     else:
         try:
-            most_recent_harvest = Harvest.objects.filter(gardener__garden=garden).order_by('-harvested')[0]
+            most_recent_harvest = Harvest.objects.filter(gardener__garden=garden).order_by('-added')[0]
             harvested = most_recent_harvest.harvested
+            gardener = most_recent_harvest.gardener
         except IndexError:
             harvested = date.today()
+            gardener = None
 
         form = HarvestForm(initial={
             'garden': garden,
-            'harvested': harvested
+            'harvested': harvested,
+            'gardener': gardener.id,
         }, user=request.user)
 
     harvests = Harvest.objects.filter(gardener__garden=garden)
