@@ -9,7 +9,8 @@ from forms import FarmingConcretePasswordResetForm
 
 @csrf_protect
 def password_reset(request, email=None, is_admin_site=False, template_name='registration/password_reset_form.html',
-        email_template_name='registration/password_reset_email.html',
+        email_template_name='registration/password_reset_email.txt',
+        html_email_template_name='registration/password_reset_email.html',
         password_reset_form=FarmingConcretePasswordResetForm, token_generator=default_token_generator,
         post_reset_redirect=None):
     if post_reset_redirect is None:
@@ -21,6 +22,7 @@ def password_reset(request, email=None, is_admin_site=False, template_name='regi
             opts['use_https'] = request.is_secure()
             opts['token_generator'] = token_generator
             opts['email_template_name'] = email_template_name
+            opts['html_email_template_name'] = html_email_template_name
             opts['request'] = request
             if is_admin_site:
                 opts['domain_override'] = request.META['HTTP_HOST']

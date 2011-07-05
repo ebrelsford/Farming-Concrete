@@ -80,15 +80,15 @@ def garden_details(request, id):
         try:
             most_recent_harvest = Harvest.objects.filter(gardener__garden=garden).order_by('-added')[0]
             harvested = most_recent_harvest.harvested
-            gardener = most_recent_harvest.gardener
-        except IndexError:
+            gardener_id = most_recent_harvest.gardener.id
+        except:
             harvested = date.today()
-            gardener = None
+            gardener_id = None
 
         form = HarvestForm(initial={
             'garden': garden,
             'harvested': harvested,
-            'gardener': gardener.id,
+            'gardener': gardener_id,
         }, user=request.user)
 
     harvests = Harvest.objects.filter(gardener__garden=garden)
