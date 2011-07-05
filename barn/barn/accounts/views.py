@@ -1,15 +1,16 @@
 from django.core.urlresolvers import reverse
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.forms import PasswordResetForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 
+from forms import FarmingConcretePasswordResetForm
+
 @csrf_protect
 def password_reset(request, email=None, is_admin_site=False, template_name='registration/password_reset_form.html',
         email_template_name='registration/password_reset_email.html',
-        password_reset_form=PasswordResetForm, token_generator=default_token_generator,
+        password_reset_form=FarmingConcretePasswordResetForm, token_generator=default_token_generator,
         post_reset_redirect=None):
     if post_reset_redirect is None:
         post_reset_redirect = reverse('django.contrib.auth.views.password_reset_done')
