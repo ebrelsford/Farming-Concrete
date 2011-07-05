@@ -46,10 +46,10 @@
                 </div>
                 <div id="inputs">
                     <div>
-                        {{ form.name.label_tag }}: {{ form.name }} <span id="number_help" class="help_link"></span><br />
+                        <label for="id_name">{{ form.name.label }}:</label> {{ form.name }} <span id="number_help" class="help_link"></span><br />
                     </div>
                     <div>
-                        {{ form.width.label_tag }}: {{ form.width }}ft x {{ form.length }}ft <span id="dimensions_help" class="help_link"></span>
+                        <label for="id_width">{{ form.width.label }}:</label> {{ form.width }}ft x {{ form.length }}ft <span id="dimensions_help" class="help_link"></span>
                     </div>
                     <input type="submit" value="add" />
                 </div>

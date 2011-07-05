@@ -65,18 +65,21 @@
                     {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                     {% endfor %}
-                    {{ form.non_field_errors }}
                     <div id="errors">
-                        {{ form.errors }}
-                        {{ form.gardener.errors }}{{ form.name.errors }}{{ form.length.errors }}{{ form.width.errors }}
+                        {{ form.non_field_errors }}
                     </div>
                     <div id="inputs">
                         <div>
                             <li>
+                            {{ form.gardener.errors }}
                             <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
+                            {{ form.variety.errors }}
                             <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
+                            {{ form.weight.errors }}
                             <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
+                            {{ form.plants.errors }}{{ form.area.errors }}
                             <label for="id_plants">Plants <strong>or</strong> area:</label> {{ form.plants }} plants {{ form.area }} sq ft <span id="plants_help" class="help_link">?</span><br />
+                            {{ form.harvested.errors }}
                             <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
                         </div>
                         <input type="submit" value="add" />
