@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>Please log in. You should have received a username and password from the Farming Concrete team. If you've forgotten either, you can <a href="{% url django.contrib.auth.views.password_reset %}">reset your password</a>.</p>
+<p>Please log in. You should have received a username and password from the Farming Concrete team. If you've forgotten either, you can <a href="{% url accounts.views.password_reset %}">reset your password</a>.</p>
 
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
