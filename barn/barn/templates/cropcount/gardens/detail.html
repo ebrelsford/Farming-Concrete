@@ -116,6 +116,10 @@
 {% endblock %}
 
 {% block actions %}
+<h2>
+    <a class="image" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
+    <a class="text" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id %}">Download this as a spreadsheet</a>
+</h2>
 {{ block.super }}
 <h2>
     <a class="image" href="{% url cropcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>

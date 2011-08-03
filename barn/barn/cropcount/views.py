@@ -1,4 +1,7 @@
 import geojson
+from datetime import date
+
+import unicodecsv
 
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -206,6 +209,27 @@ def delete_bed(request, id):
     garden_id = bed.garden.id
     bed.delete()
     return redirect(garden_details, garden_id) 
+
+@login_required
+def download_garden_cropcount_as_csv(request, id):
+    garden = get_object_or_404(Garden, pk=id)
+
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s Crop Count (%s).csv"' % (garden.name, date.today().strftime('%m-%d-%Y'))
+
+    writer = unicodecsv.writer(response)
+    writer.writerow(['bed', 'crop', 'plants', 'area (square feet)'])
+
+    for bed in sorted(garden.box_set.all()):
+        for patch in bed.patch_set.all():
+            writer.writerow([
+                bed.name,
+                patch.variety.name,
+                patch.plants or '',
+                patch.area or '',
+            ])
+
+    return response
 
 #
 # Utility functions
