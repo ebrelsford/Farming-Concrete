@@ -217,7 +217,7 @@ def download_garden_cropcount_as_csv(request, id):
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename="%s Crop Count (%s).csv"' % (garden.name, date.today().strftime('%m-%d-%Y'))
 
-    writer = unicodecsv.writer(response)
+    writer = unicodecsv.writer(response, encoding='utf-8')
     writer.writerow(['bed', 'crop', 'plants', 'area (square feet)'])
 
     for bed in sorted(garden.box_set.all()):

@@ -1,6 +1,8 @@
 from datetime import date
 import json
 
+import unicodecsv
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import HttpResponseForbidden, HttpResponse, Http404
@@ -169,3 +171,26 @@ def quantity_for_last_harvest(request, id=None):
         result['plants'] = harvest.plants
         result['area'] = float(harvest.area)
     return HttpResponse(json.dumps(result), mimetype='application/json')
+
+@login_required
+def download_garden_harvestcount_as_csv(request, id):
+    garden = get_object_or_404(Garden, pk=id)
+
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s Harvest Count (%s).csv"' % (garden.name, date.today().strftime('%m-%d-%Y'))
+
+    writer = unicodecsv.writer(response, encoding='utf-8')
+    writer.writerow(['gardener', 'plant type', 'pounds', 'number of plants', 'area (square feet)', 'date'])
+
+    for gardener in garden.gardener_set.all():
+        for harvest in gardener.harvest_set.all():
+            writer.writerow([
+                gardener.name,
+                harvest.variety.name,
+                harvest.weight,
+                harvest.plants or '',
+                harvest.area or '',
+                harvest.harvested.strftime('%m-%d-%Y')
+            ])
+
+    return response

@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     (r'^gardens/cropcount/counted/$', 'cropcount.views.all_gardens'),
 
     (r'^gardens/(?P<id>\d+)/harvestcount/$', 'harvestcount.views.garden_details'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/csv/$', 'harvestcount.views.download_garden_harvestcount_as_csv'),
     (r'^gardens/(?P<id>\d+)/harvestcount/last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
     (r'^gardens/harvestcount/yours/$', 'harvestcount.views.user_gardens'),
     (r'^gardens/harvestcount/harvested/$', 'harvestcount.views.all_gardens'),
