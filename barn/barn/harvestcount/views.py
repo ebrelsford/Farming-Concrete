@@ -169,7 +169,10 @@ def quantity_for_last_harvest(request, id=None):
             raise Http404
 
         result['plants'] = harvest.plants
-        result['area'] = float(harvest.area)
+        try:
+            result['area'] = float(harvest.area)
+        except:
+            result['area'] = None
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
 @login_required
