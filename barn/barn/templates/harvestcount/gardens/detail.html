@@ -8,6 +8,7 @@
 <script src="{{ MEDIA_URL }}js/jquery-util.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}js/help.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}jquery.tablesorter.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#map').gardenmap({
@@ -45,6 +46,10 @@
         $('#weight_help').help({ text: 'Enter the weight of the harvest.' });
         $('#plants_help').help({ text: 'Enter the number of plants the harvest came from.' });
         $('#harvested_help').help({ text: 'Enter the date the harvest was taken.' });
+
+        $('table.sorted').tablesorter({
+            widgets: ['zebra',],       
+        });
     });   
 </script>
 {% endblock %}
@@ -55,57 +60,61 @@
 {% if garden %}
     <h1>{{ garden.name }}</h1>
 
+    <div class="details">
     <div id="left">
     <div id="harvests">
-        <ul class="values">
-            <li id="new-harvest" style="border-bottom: 2px solid black; margin-bottom: 10px;">
-                <span style="font-weight: bold; margin-top: 5px;">Add a new harvest to this garden</span>
-                <form method="post" action=".">
-                    {% csrf_token %}
-                    {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                    {% endfor %}
-                    <div id="errors">
-                        {{ form.non_field_errors }}
+        <div id="new-harvest">
+            <span style="font-weight: bold; margin-top: 5px;">Add a new harvest to this garden</span>
+            <form method="post" action=".">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                <div id="errors">
+                    {{ form.non_field_errors }}
+                </div>
+                <div id="inputs">
+                    <div>
+                        {{ form.gardener.errors }}
+                        <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
+                        {{ form.variety.errors }}
+                        <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
+                        {{ form.weight.errors }}
+                        <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
+                        {{ form.plants.errors }}{{ form.area.errors }}
+                        <label for="id_plants">Plants <strong>or</strong> area:</label> {{ form.plants }} plants {{ form.area }} sq ft <span id="plants_help" class="help_link">?</span><br />
+                        {{ form.harvested.errors }}
+                        <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
                     </div>
-                    <div id="inputs">
-                        <div>
-                            <li>
-                            {{ form.gardener.errors }}
-                            <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
-                            {{ form.variety.errors }}
-                            <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
-                            {{ form.weight.errors }}
-                            <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
-                            {{ form.plants.errors }}{{ form.area.errors }}
-                            <label for="id_plants">Plants <strong>or</strong> area:</label> {{ form.plants }} plants {{ form.area }} sq ft <span id="plants_help" class="help_link">?</span><br />
-                            {{ form.harvested.errors }}
-                            <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
-                        </div>
-                        <input type="submit" value="add" />
-                    </div>
-                </form>
-            </li>
-            <li class="harvest" style="font-weight: bold; border-bottom: 1px solid black;">
-                <span class="gardener">gardener</span>
-                <span class="variety">plant type</span>
-                <span class="weight">lbs</span>
-                <span class="dimensions">quantity</span>
-                <span class="harvested">date</span>
-            </li>
+                    <input type="submit" value="add" />
+                </div>
+            </form>
+        </div>
+
+        <table class="sorted">
+            <thead>
+            <tr>
+                <th class="gardener">gardener</th>
+                <th class="variety">plant type</th>
+                <th class="weight">lbs</th>
+                <th class="dimensions">quantity</th>
+                <th class="harvested">date</th>
+            </tr>
+            </thead>
+
+            <tbody>
             {% for harvest in harvests %}
-            <li class="harvest {% cycle 'odd' 'even' %}">
-                <span class="gardener">
-                    {# link to gardener? #}
+            <tr>
+                <td class="gardener">
                     {{ harvest.gardener.name }}
-                </span> 
-                <span class="variety">
+                </td> 
+                <td class="variety">
                     {{ harvest.variety.name }}
-                </span>
-                <span class="weight">
+                </td>
+                <td class="weight">
                     {{ harvest.weight|floatformat }}
-                </span>
-                <span class="dimensions">
+                </td>
+                <td class="dimensions">
                     {% if harvest.plants %}
                     {{ harvest.plants|floatformat }} plants{% if harvest.area %},{% endif %}
                     {% endif %}
@@ -113,18 +122,19 @@
                     {% if harvest.area %}
                     {{ harvest.area|floatformat }} sq ft
                     {% endif %}
-                </span>
-                <span class="harvested">
+                </td>
+                <td class="harvested">
                     {{ harvest.harvested|date:"n/j/y" }}
-                </span>
-                <span class="actions">
+                </td>
+                <td class="actions">
                     <a class="delete" href="{% url harvestcount.views.delete_harvest harvest.id %}">
                         <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
                     </a>
-                </span>
-            </li>
+                </td>
+            </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
     </div>
     </div>
 
@@ -135,6 +145,7 @@
             <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
             <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
         </ul>
+    </div>
     </div>
 {% else %}
     <p>No such garden</p>

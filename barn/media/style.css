@@ -94,8 +94,10 @@ a:hover {
 #left {
     float: left;
     padding: 5px;
-    /*border-right: 1px dotted black;*/
     width: 50%;
+}
+.details #left {
+    width: 60%;
 }
 
 #right {
@@ -265,3 +267,33 @@ input.ac_loading {
 .results_on_deck > div {
     clear: both;
 }
+
+#new-harvest {
+    border-bottom: 2px solid black;
+}
+
+/*
+ * sorted table styles
+ */
+table.sorted {
+    width: 100%;
+}
+table.sorted thead tr .header {
+    background-image: url(/site_media/img/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+    padding-right: 15px;
+}
+table.sorted thead tr .headerSortUp {
+    background-image: url(/site_media/img/asc.gif);
+}
+table.sorted thead tr .headerSortDown {
+    background-image: url(/site_media/img/desc.gif);
+}
+table.sorted tbody tr.odd {
+}
+table.sorted tbody tr.even {
+    background-color: #F2E3C4;
+}
+
