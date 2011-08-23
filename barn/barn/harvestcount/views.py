@@ -76,7 +76,7 @@ def garden_details(request, id):
     if request.method == 'POST':
         form = HarvestForm(request.POST, user=request.user)
         if form.is_valid():
-            harvest = form.save()
+            form.save()
             return redirect(garden_details, id)
     else:
         try:

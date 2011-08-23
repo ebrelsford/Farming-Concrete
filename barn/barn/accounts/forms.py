@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.tokens import default_token_generator
@@ -16,7 +15,6 @@ class FarmingConcretePasswordResetForm(PasswordResetForm):
         """
         Generates a one-use only link for resetting password and sends to the user
         """
-        from django.core.mail import send_mail
         for user in self.users_cache:
             if not domain_override:
                 current_site = get_current_site(request)

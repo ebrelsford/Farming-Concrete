@@ -1,6 +1,3 @@
-from django.db import connection
-from django.db.models import Q
-
 from models import Gardener
 
 class GardenerLookup(object):

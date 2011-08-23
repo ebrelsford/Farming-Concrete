@@ -6,7 +6,7 @@ from django.forms import Form, ModelForm, HiddenInput, ModelChoiceField, TextInp
 
 from ajax_select.fields import AutoCompleteSelectField
 
-from farmingconcrete.models import Garden, GardenType, Variety
+from farmingconcrete.models import Garden, Variety
 from farmingconcrete.forms import GardenTypeField
 from models import Box, Patch
 

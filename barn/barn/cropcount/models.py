@@ -1,7 +1,5 @@
 from django.db import models
 
-from ajax_select.fields import AutoCompleteSelectField
-
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
     

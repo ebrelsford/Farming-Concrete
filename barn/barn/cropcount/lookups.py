@@ -1,6 +1,3 @@
-from django.db import connection
-from django.db.models import Q
-
 from farmingconcrete.models import Garden
 
 class UncountedGardenLookup(object):

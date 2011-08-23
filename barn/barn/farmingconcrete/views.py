@@ -2,11 +2,11 @@ import geojson
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
 from models import Garden, GardenType
-from farmingconcrete.geo import garden_collection, garden_feature
+from farmingconcrete.geo import garden_collection
 
 def index(request):
     return render_to_response('farmingconcrete/index.html', { }, context_instance=RequestContext(request))

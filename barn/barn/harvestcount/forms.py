@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, DecimalField, DateInput, ValidationError
+from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, DateInput, ValidationError
 
 from ajax_select.fields import AutoCompleteSelectField
 

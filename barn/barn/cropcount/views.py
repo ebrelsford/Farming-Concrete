@@ -1,19 +1,15 @@
-import geojson
 from datetime import date
 
 import unicodecsv
 
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum
-
-from ajax_select import make_ajax_form
+from django.db.models import Sum
 
 from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm
-from farmingconcrete.geo import garden_collection
 from farmingconcrete.decorators import garden_type_aware, in_section
 from models import Box, Patch
 from forms import UncountedGardenForm, BoxForm, PatchForm
