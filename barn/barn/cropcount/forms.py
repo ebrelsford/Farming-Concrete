@@ -6,8 +6,9 @@ from django.forms import Form, ModelForm, HiddenInput, ModelChoiceField, TextInp
 
 from ajax_select.fields import AutoCompleteSelectField
 
-from farmingconcrete.models import Garden, Variety
 from farmingconcrete.forms import GardenTypeField
+from farmingconcrete.models import Garden
+from farmingconcrete.utils import get_variety
 from models import Box, Patch
 
 class UncountedGardenForm(Form):
@@ -132,9 +133,7 @@ class PatchForm(ModelForm):
         if not variety:
             variety_name = self.data['variety_text']
             if variety_name:
-                moderated = not self.user.has_perm('farmingconcrete.add_variety_unmoderated')
-                variety = Variety(name=variety_name, added_by=self.user, needs_moderation=moderated)
-                variety.save()
+                variety = get_variety(variety_name, self.user)
             else:
                 raise ValidationError('Please enter a plant type.')
 
