@@ -10,7 +10,7 @@ class UncountedGardenLookup(object):
             # get type field extraParam
             selected_type = request.GET['type']
             gardens = gardens.filter(type=selected_type)
-        except KeyError:
+        except:
             pass
 
         return gardens
