@@ -18,6 +18,11 @@ $(document).ready(function() {
     $('table.sorted').tablesorter({
         widgets: ['zebra',],       
     });
+
+    $('.collapsible .expander').click(function() {
+        $(this).parent().toggleClass('collapsed');
+        return false;
+    });
 });
 </script>
 {% endblock %}
@@ -31,9 +36,11 @@ $(document).ready(function() {
         {% if beds %}
         <div id="cropcount" style="border-bottom: 1px dashed black; margin-bottom: 100px;">
             <h2>Crop Count</h2>
-            <div class="beds section">
-                <h3>Details</h3>
+            <div class="beds section collapsible collapsed">
+                <h3 class="expander"><a href="#">Click to show/hide full crop count</a></h3>
+                <div class="expandee">
                 {% include "cropcount/gardens/snippet.html" %}
+                </div>
             </div>
             <div class="totals section">
                 <h3>Totals</h3>

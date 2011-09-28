@@ -330,3 +330,7 @@ table.cycled tbody tr.even {
 .report .section {
     margin-bottom: 50px;
 }
+
+.collapsible.collapsed .expandee {
+    display: none;
+}
