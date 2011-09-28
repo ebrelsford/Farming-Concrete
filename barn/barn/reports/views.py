@@ -30,11 +30,11 @@ def garden_report(request, id=None):
 @login_required
 def bar_chart_plants_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    patches = Patch.objects.filter(box__garden=garden)
-    crops = patches.values('variety__name').annotate(plants=Sum('plants'), area=Sum('area'))
+    patches = Patch.objects.filter(box__garden=garden).exclude(plants=None)
+    crops = patches.values('variety__name').annotate(plants=Sum('plants'))
 
     data = {
-        'data': [[c['plants'] for c in crops if c['plants'] is not None]],
+        'data': [[c['plants'] for c in crops]],
     }
     labels = {
         'x': '',
@@ -42,18 +42,18 @@ def bar_chart_plants_per_crop(request, id=None):
         'title': '',
     }
 
-    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[c['variety__name'] for c in crops if c['plants'] is not None])
+    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[c['variety__name'] for c in crops])
     response = HttpResponse(img_str, 'image/png')
     return response
 
 @login_required
 def bar_chart_weight_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = Harvest.objects.filter(gardener__garden=garden)
+    harvests = Harvest.objects.filter(gardener__garden=garden).exclude(weight=None)
     harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight'))
 
     data = {
-        'data': [[h['weight'] for h in harvest_totals if h['weight'] is not None]],
+        'data': [[h['weight'] for h in harvest_totals]],
     }
     labels = {
         'x': '',
@@ -61,6 +61,6 @@ def bar_chart_weight_per_crop(request, id=None):
         'title': '',
     }
 
-    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[h['variety__name'] for h in harvest_totals if h['weight'] is not None])
+    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[h['variety__name'] for h in harvest_totals])
     response = HttpResponse(img_str, 'image/png')
     return response
