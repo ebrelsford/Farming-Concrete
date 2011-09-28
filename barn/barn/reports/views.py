@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -8,6 +9,7 @@ from farmingconcrete.models import Garden
 from harvestcount.models import Harvest
 from reports.chart_builders import create_chart_as_png_str
 
+@login_required
 def garden_report(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     beds = garden.box_set.all()
@@ -25,6 +27,7 @@ def garden_report(request, id=None):
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }, context_instance=RequestContext(request))
 
+@login_required
 def bar_chart_plants_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     patches = Patch.objects.filter(box__garden=garden)
@@ -43,6 +46,7 @@ def bar_chart_plants_per_crop(request, id=None):
     response = HttpResponse(img_str, 'image/png')
     return response
 
+@login_required
 def bar_chart_weight_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     harvests = Harvest.objects.filter(gardener__garden=garden)
