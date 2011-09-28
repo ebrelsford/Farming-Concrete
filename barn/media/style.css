@@ -99,6 +99,9 @@ a:hover {
 .details #left {
     width: 60%;
 }
+.map-page #left {
+    width: 60%;
+}
 
 #right {
     float: right;
@@ -289,6 +292,7 @@ table.sorted thead tr .header {
     background-image: url(/site_media/img/bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
+    border-bottom: 1px solid black;
     cursor: pointer;
     padding-right: 15px;
 }
@@ -303,4 +307,26 @@ table.sorted tbody tr.odd {
 table.sorted tbody tr.even {
     background-color: #F2E3C4;
 }
+table.cycled tbody tr.odd {
+}
+table.cycled tbody tr.even {
+    background-color: #F2E3C4;
+}
 
+
+.map-page table.totals {
+    width: 100%;
+}
+.map-page table.totals th {
+    text-align: left;
+}
+.map-page table.totals td {
+}
+
+.report #cropcount {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.report .section {
+    margin-bottom: 50px;
+}

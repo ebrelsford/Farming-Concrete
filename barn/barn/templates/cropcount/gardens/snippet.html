@@ -1,0 +1,47 @@
+<div id="beds">
+    <span style="font-weight: bold;">Current beds in this garden</span>
+    <ul class="values">
+        {% for box in beds %}
+        <li class="bed">
+            <span class="name">
+                {% if user.is_authenticated %}
+                <a href="{% url cropcount.views.bed_details box.id %}">bed {{ box.name }}</a>
+                {% else %}
+                bed {{ box.name }}
+                {% endif %}
+            </span> 
+            <span class="dimensions">
+                {{ box.width }} ft x {{ box.length }} ft
+            </span>
+            {% if editable %}
+            <span class="actions">
+                <a class="delete" href="{% url cropcount.views.delete_bed box.id %}">
+                    <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
+                </a>
+            </span>
+            {% endif %}
+            <div id="plants">
+                <ul class="values">
+                    {% for patch in box.patch_set.all %}
+                    <li class="{% cycle 'odd' 'even' %}">
+                        <span class="type">{{ patch.variety.name }}</span>
+                        
+                        <span class="quantity">
+                            {% if patch.plants %}
+                            {{ patch.plants }} plants
+                            {% endif %}
+                            {% if patch.area %}
+                            {{ patch.area }} square feet
+                            {% endif %}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+    {% empty %}
+        <li>None yet!</li>
+    {% endfor %}
+    </ul>
+</div>
+

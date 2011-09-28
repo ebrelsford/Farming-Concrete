@@ -21,7 +21,6 @@ def switch_garden_type(request, type='all'):
     request.session['garden_type'] = type = _get_garden_type(type)
     return redirect(next)
 
-@login_required
 def gardens_geojson(request):
     """Get GeoJSON for requested gardens"""
 
