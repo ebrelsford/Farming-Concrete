@@ -14,7 +14,7 @@ class GardenTypeField(ModelChoiceField):
             kwargs['queryset'] = GardenType.objects.all()
         super(GardenTypeField, self).__init__(*args, **kwargs)
 
-        if user:
+        if user and not user.has_perm('can_edit_any_garden'):
             try:
                 profile = user.get_profile()
                 if profile and profile.garden_types.count() > 0:
