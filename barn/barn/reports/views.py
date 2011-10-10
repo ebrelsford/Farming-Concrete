@@ -51,7 +51,7 @@ def bar_chart_plants_per_crop(request, id=None):
 def bar_chart_weight_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     harvests = Harvest.objects.filter(gardener__garden=garden).exclude(weight=None)
-    harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight'))
+    harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight')).order_by('variety__name')
 
     data = {
         'data': [[h['weight'] for h in harvest_totals]],
@@ -70,7 +70,7 @@ def bar_chart_weight_per_crop(request, id=None):
 def bar_chart_weight_per_gardener(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     harvests = Harvest.objects.filter(gardener__garden=garden).exclude(weight=None)
-    gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight'))
+    gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight')).order_by('gardener__name')
 
     data = {
         'data': [[g['weight'] for g in gardener_totals]],
