@@ -24,6 +24,7 @@ def garden_report(request, id=None):
         'crops': patches.values('variety__name').annotate(plants=Sum('plants'), area=Sum('area')),
         'harvests': harvests,
         'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),
+        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }, context_instance=RequestContext(request))
 
@@ -62,5 +63,24 @@ def bar_chart_weight_per_crop(request, id=None):
     }
 
     img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[h['variety__name'] for h in harvest_totals])
+    response = HttpResponse(img_str, 'image/png')
+    return response
+
+@login_required
+def bar_chart_weight_per_gardener(request, id=None):
+    garden = get_object_or_404(Garden, id=id)
+    harvests = Harvest.objects.filter(gardener__garden=garden).exclude(weight=None)
+    gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight'))
+
+    data = {
+        'data': [[g['weight'] for g in gardener_totals]],
+    }
+    labels = {
+        'x': '',
+        'y': 'total weight measured (lbs)',
+        'title': '',
+    }
+
+    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[g['gardener__name'] for g in gardener_totals])
     response = HttpResponse(img_str, 'image/png')
     return response

@@ -88,24 +88,46 @@ $(document).ready(function() {
         <div class="section">
             <h3>Totals</h3>
             <strong>total weight:</strong> {{ total_weight }} pounds
-            <h4>total weighed by crop</h4>
-            <table class="sorted">
-                <thead>
-                    <tr>
-                        <th>plant type</th>
-                        <th>lbs</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for harvest_total in harvest_totals %}
-                    <tr>
-                        <td>{{ harvest_total.variety__name }}</td>
-                        <td>{{ harvest_total.weight|floatformat }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id %}" />
+            <div class="subsection">
+                <h4>total weighed by crop</h4>
+                <table class="sorted">
+                    <thead>
+                        <tr>
+                            <th>plant type</th>
+                            <th>lbs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for harvest_total in harvest_totals %}
+                        <tr>
+                            <td>{{ harvest_total.variety__name }}</td>
+                            <td>{{ harvest_total.weight|floatformat }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id %}" />
+            </div>
+            <div class="subsection">
+                <h4>total weighed by gardener</h4>
+                <table class="sorted">
+                    <thead>
+                        <tr>
+                            <th>gardener name</th>
+                            <th>lbs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for gardener_total in gardener_totals %}
+                        <tr>
+                            <td>{{ gardener_total.gardener__name }}</td>
+                            <td>{{ gardener_total.weight|floatformat }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
+            </div>
         </div>
         {% endif %}
 
