@@ -1,0 +1,44 @@
+<div id="cropcount" style="border-bottom: 1px dashed black; margin-bottom: 100px;">
+    <h2>Crop Count</h2>
+    <div class="beds section collapsible collapsed">
+        <h3 class="expander"><a href="#">Click to show/hide full crop count</a></h3>
+        <div class="expandee">
+        {% include "cropcount/gardens/snippet.html" %}
+        </div>
+    </div>
+    <div class="totals section">
+        <h3>Totals</h3>
+        <table class="totals cycled">
+            <tr class="odd">
+                <th>number of beds</th><td>{{ total_beds }}</td>
+            </tr>
+            <tr class="even">
+                <th>area under production</th><td>{{ total_area|floatformat }} sq ft</td>
+            </tr>
+            <tr class="odd">
+                <th>plants</th><td>{{ total_plants }}</td>
+            </tr>
+        </table>
+        <h4>plants per crop</h4>
+        <table class="sorted">
+            <thead>
+                <tr>
+                    <th>plant type</th>
+                    <th>plants</th>
+                    <th>area</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for crop in crops %}
+                <tr>
+                    <td>{{ crop.variety__name }}</td>
+                    <td>{{ crop.plants|default:"" }}</td>
+                    <td>{{ crop.area|default:"" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <img src="{% url reports.views.bar_chart_plants_per_crop id=garden.id %}" />
+    </div>
+</div>
+

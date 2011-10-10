@@ -11,7 +11,7 @@
 
     <tbody>
     {% for harvest in harvests %}
-    <tr>
+    <tr class="{% cycle "odd" "even" %}">
         <td class="gardener">
             {{ harvest.gardener.name }}
         </td> 
