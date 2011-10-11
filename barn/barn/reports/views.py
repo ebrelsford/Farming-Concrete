@@ -1,4 +1,7 @@
+import json
+
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -7,7 +10,8 @@ from django.template import RequestContext
 from cropcount.models import Patch
 from farmingconcrete.models import Garden
 from harvestcount.models import Harvest
-from reports.chart_builders import create_chart_as_png_str
+from chart_builders import create_chart_as_png_str
+from models import SharedReport
 
 @login_required
 def garden_report(request, id=None):
@@ -27,6 +31,10 @@ def garden_report(request, id=None):
         'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }, context_instance=RequestContext(request))
+
+def shared_garden_report(request, access_key=None):
+    shared = get_object_or_404(SharedReport, access_key=access_key)
+    return garden_report(request, id=shared.garden.id)
 
 @login_required
 def bar_chart_plants_per_crop(request, id=None):
@@ -84,3 +92,14 @@ def bar_chart_weight_per_gardener(request, id=None):
     img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[g['gardener__name'] for g in gardener_totals])
     response = HttpResponse(img_str, 'image/png')
     return response
+
+@login_required
+def share(request, id=None):
+    garden = get_object_or_404(Garden, id=id)
+    shared = SharedReport(garden=garden)
+    shared.save()
+    results = {
+        'url': request.build_absolute_uri(reverse(shared_garden_report, kwargs=dict(access_key=shared.access_key))),
+    }
+    return HttpResponse(json.dumps(results), mimetype='application/json')
+

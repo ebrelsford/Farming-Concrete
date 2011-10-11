@@ -334,3 +334,23 @@ table.cycled tbody tr.even {
 .collapsible.collapsed .expandee {
     display: none;
 }
+
+.share {
+}
+
+.share .sharebox {
+    display: none; 
+    font-size: 16px; 
+    font-weight: normal;
+    background-color: #FBF4E7;
+    border: 1px solid lightGray;
+    padding: 10px;
+}
+
+.share.shared .sharebox {
+    display: block;
+}
+
+.share .sharebox .url {
+    font-weight: bold;
+}
