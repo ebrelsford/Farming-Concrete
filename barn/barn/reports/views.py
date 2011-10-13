@@ -18,12 +18,20 @@ from models import SharedReport
 REPORT_START = date(2011, 01, 01)
 REPORT_END = date(2012, 01, 01)
 
+def _harvests(garden, start=REPORT_START, end=REPORT_END):
+    """Get valid harvests for the given garden"""
+    return Harvest.objects.filter(gardener__garden=garden, harvested__gte=start, harvested__lt=end)
+
+def _patches(garden, start=REPORT_START, end=REPORT_END):
+    """Get valid patches for the given garden"""
+    return Patch.objects.filter(box__garden=garden, added__gte=start, added__lt=end)
+
 @login_required
 def garden_report(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     beds = garden.box_set.all()
-    patches = Patch.objects.filter(box__garden=garden, added__gte=REPORT_START, added__lt=REPORT_END)
-    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=REPORT_START, harvested__lt=REPORT_END)
+    patches = _patches(garden)
+    harvests = _harvests(garden)
     return render_to_response('reports/garden.html', {
         'garden': garden,
         'beds': sorted(beds),
@@ -44,7 +52,7 @@ def shared_garden_report(request, access_key=None):
 @login_required
 def bar_chart_plants_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    patches = Patch.objects.filter(box__garden=garden, added__gte=REPORT_START, added__lt=REPORT_END).exclude(plants=None)
+    patches = _patches(garden).exclude(plants=None)
     crops = patches.values('variety__name').annotate(plants=Sum('plants'))
 
     data = {
@@ -63,7 +71,7 @@ def bar_chart_plants_per_crop(request, id=None):
 @login_required
 def bar_chart_weight_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=REPORT_START, harvested__lt=REPORT_END).exclude(weight=None)
+    harvests = _harvests(garden).exclude(weight=None)
     harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight')).order_by('variety__name')
 
     data = {
@@ -82,7 +90,7 @@ def bar_chart_weight_per_crop(request, id=None):
 @login_required
 def bar_chart_weight_per_gardener(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=REPORT_START, harvested__lt=REPORT_END).exclude(weight=None)
+    harvests = _harvests(garden).exclude(weight=None)
     gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight')).order_by('gardener__name')
 
     data = {
