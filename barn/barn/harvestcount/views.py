@@ -17,6 +17,10 @@ from forms import HarvestForm
 
 from middleware.http import Http403
 
+# TODO parameterize
+HARVESTED_START = date(2011, 01, 01)
+HARVESTED_END = date(2012, 01, 01)
+
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
@@ -28,7 +32,7 @@ def index(request):
         gardens = gardens.filter(type=type)
 
     gardeners = Gardener.objects.filter(garden__in=gardens)
-    harvests = Harvest.objects.filter(gardener__in=gardeners)
+    harvests = Harvest.objects.filter(gardener__in=gardeners, harvested__gte=HARVESTED_START, harvested__lt=HARVESTED_END)
 
     return render_to_response('harvestcount/index.html', {
         'gardens': gardens.distinct().count(),
@@ -68,7 +72,7 @@ def garden_details(request, id):
 
     garden = get_object_or_404(Garden, pk=id)
 
-    if not request.user.has_perm('can_edit_any_garden'):
+    if not request.user.has_perm('farmingconcrete.can_edit_any_garden'):
         profile = request.user.get_profile()
         if garden not in profile.gardens.all():
             raise Http403
@@ -93,7 +97,7 @@ def garden_details(request, id):
             'gardener': gardener_id,
         }, user=request.user)
 
-    harvests = Harvest.objects.filter(gardener__garden=garden)
+    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=HARVESTED_START, harvested__lt=HARVESTED_END)
     return render_to_response('harvestcount/gardens/detail.html', {
         'garden': garden,
         'harvests': harvests.order_by('harvested', 'gardener__name'),

@@ -1,3 +1,4 @@
+from datetime import date
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -13,12 +14,16 @@ from harvestcount.models import Harvest
 from chart_builders import create_chart_as_png_str
 from models import SharedReport
 
+# TODO parameterize
+REPORT_START = date(2011, 01, 01)
+REPORT_END = date(2012, 01, 01)
+
 @login_required
 def garden_report(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     beds = garden.box_set.all()
-    patches = Patch.objects.filter(box__garden=garden)
-    harvests = Harvest.objects.filter(gardener__garden=garden)
+    patches = Patch.objects.filter(box__garden=garden, added__gte=REPORT_START, added__lt=REPORT_END)
+    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=REPORT_START, harvested__lt=REPORT_END)
     return render_to_response('reports/garden.html', {
         'garden': garden,
         'beds': sorted(beds),
@@ -39,7 +44,7 @@ def shared_garden_report(request, access_key=None):
 @login_required
 def bar_chart_plants_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    patches = Patch.objects.filter(box__garden=garden).exclude(plants=None)
+    patches = Patch.objects.filter(box__garden=garden, added__gte=REPORT_START, added__lt=REPORT_END).exclude(plants=None)
     crops = patches.values('variety__name').annotate(plants=Sum('plants'))
 
     data = {
@@ -58,7 +63,7 @@ def bar_chart_plants_per_crop(request, id=None):
 @login_required
 def bar_chart_weight_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = Harvest.objects.filter(gardener__garden=garden).exclude(weight=None)
+    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=REPORT_START, harvested__lt=REPORT_END).exclude(weight=None)
     harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight')).order_by('variety__name')
 
     data = {
@@ -77,7 +82,7 @@ def bar_chart_weight_per_crop(request, id=None):
 @login_required
 def bar_chart_weight_per_gardener(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = Harvest.objects.filter(gardener__garden=garden).exclude(weight=None)
+    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=REPORT_START, harvested__lt=REPORT_END).exclude(weight=None)
     gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight')).order_by('gardener__name')
 
     data = {

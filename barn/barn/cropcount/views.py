@@ -16,6 +16,10 @@ from forms import UncountedGardenForm, BoxForm, PatchForm
 
 from middleware.http import Http403
 
+# TODO parameterize
+PATCH_ADDED_START = date(2011, 01, 01)
+PATCH_ADDED_END = date(2012, 01, 01)
+
 @login_required
 @garden_type_aware
 @in_section('cropcount')
@@ -25,7 +29,7 @@ def index(request):
 
     counted_gardens = Garden.objects.exclude(box=None)
     beds = Box.objects.all()
-    patches = Patch.objects.all()
+    patches = Patch.objects.filter(added__gte=PATCH_ADDED_START, added__lt=PATCH_ADDED_END)
 
     # filter more if we need to
     if garden_type != 'all':
@@ -137,7 +141,7 @@ def garden_details(request, id):
             raise Http403
 
     beds = Box.objects.filter(garden=garden)
-    patches = Patch.objects.filter(box__in=beds)
+    patches = Patch.objects.filter(box__in=beds, added__gte=PATCH_ADDED_START, added__lt=PATCH_ADDED_END)
 
     if request.method == 'POST':
         form = BoxForm(request.POST)
