@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from cropcount.models import Patch
+from cropcount.models import Box, Patch
 from farmingconcrete.models import Garden
 from harvestcount.models import Harvest
 from chart_builders import create_chart_as_png_str
@@ -29,8 +29,8 @@ def _patches(garden, start=REPORT_START, end=REPORT_END):
 @login_required
 def garden_report(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    beds = garden.box_set.all()
     patches = _patches(garden)
+    beds = Box.objects.filter(patch__in=patches).distinct()
     harvests = _harvests(garden)
     return render_to_response('reports/garden.html', {
         'garden': garden,

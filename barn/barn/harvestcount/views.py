@@ -21,18 +21,22 @@ from middleware.http import Http403
 HARVESTED_START = date(2011, 01, 01)
 HARVESTED_END = date(2012, 01, 01)
 
+def _harvests(start=HARVESTED_START, end=HARVESTED_END):
+    """Get current harvests"""
+    return Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
+
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
 def index(request):
     type = request.session['garden_type']
 
-    gardens = Garden.objects.exclude(gardener__harvest=None)
+    harvests = _harvests()
     if type != 'all':
-        gardens = gardens.filter(type=type)
+        harvests = harvests.filter(garden__type=type)
 
-    gardeners = Gardener.objects.filter(garden__in=gardens)
-    harvests = Harvest.objects.filter(gardener__in=gardeners, harvested__gte=HARVESTED_START, harvested__lt=HARVESTED_END)
+    gardeners = Gardener.objects.filter(harvest__in=harvests).distinct()
+    gardens = Garden.objects.filter(gardener__in=gardeners).distinct()
 
     return render_to_response('harvestcount/index.html', {
         'gardens': gardens.distinct().count(),
@@ -97,7 +101,7 @@ def garden_details(request, id):
             'gardener': gardener_id,
         }, user=request.user)
 
-    harvests = Harvest.objects.filter(gardener__garden=garden, harvested__gte=HARVESTED_START, harvested__lt=HARVESTED_END)
+    harvests = _harvests().filter(gardener__garden=garden)
     return render_to_response('harvestcount/gardens/detail.html', {
         'garden': garden,
         'harvests': harvests.order_by('harvested', 'gardener__name'),
@@ -131,7 +135,7 @@ def all_gardens(request):
     """Show all harvested gardens"""
     type = request.session['garden_type']
 
-    gardens = Garden.objects.exclude(gardener__harvest=None)
+    gardens = Garden.objects.exclude(gardener__harvest=None).filter(gardener__harvest__harvested__gte=HARVESTED_START, gardener__harvest__harvested__lt=HARVESTED_END).distinct()
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
     if type != 'all':
@@ -189,15 +193,15 @@ def download_garden_harvestcount_as_csv(request, id):
     writer = unicodecsv.writer(response, encoding='utf-8')
     writer.writerow(['gardener', 'plant type', 'pounds', 'number of plants', 'area (square feet)', 'date'])
 
-    for gardener in garden.gardener_set.all():
-        for harvest in gardener.harvest_set.all():
-            writer.writerow([
-                gardener.name,
-                harvest.variety.name,
-                harvest.weight,
-                harvest.plants or '',
-                harvest.area or '',
-                harvest.harvested.strftime('%m-%d-%Y')
-            ])
+    harvests = _harvests().filter(gardener__garden=garden).distinct()
+    for harvest in harvests.order_by('gardener__name', 'variety__name'):
+        writer.writerow([
+            harvest.gardener.name,
+            harvest.variety.name,
+            harvest.weight,
+            harvest.plants or '',
+            harvest.area or '',
+            harvest.harvested.strftime('%m-%d-%Y')
+        ])
 
     return response

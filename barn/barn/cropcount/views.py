@@ -20,6 +20,10 @@ from middleware.http import Http403
 PATCH_ADDED_START = date(2011, 01, 01)
 PATCH_ADDED_END = date(2012, 01, 01)
 
+def _patches(start=PATCH_ADDED_START, end=PATCH_ADDED_END):
+    """Get current patches"""
+    return Patch.objects.filter(added__gte=start, added__lt=end)
+
 @login_required
 @garden_type_aware
 @in_section('cropcount')
@@ -27,18 +31,15 @@ def index(request):
     """Home page for Crop Count. Show current stats, give access to next actions."""
     garden_type = request.session['garden_type']
 
-    counted_gardens = Garden.objects.exclude(box=None)
-    beds = Box.objects.all()
-    patches = Patch.objects.filter(added__gte=PATCH_ADDED_START, added__lt=PATCH_ADDED_END)
-
-    # filter more if we need to
+    patches = _patches()
     if garden_type != 'all':
-        counted_gardens = counted_gardens.filter(type=garden_type)
-        beds = beds.filter(garden__type=garden_type)
-        patches = patches.filter(box__garden__type=garden_type)
+        patches = patches.filter(garden__type=garden_type)
+
+    beds = Box.objects.filter(patch__in=patches).distinct()
+    gardens = Garden.objects.filter(box__in=beds).distinct()
     
     return render_to_response('cropcount/index.html', {
-        'gardens': counted_gardens.count(),
+        'gardens': gardens.count(),
         'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
@@ -70,7 +71,7 @@ def all_gardens(request):
     """Show all counted gardens"""
     type = request.session['garden_type']
 
-    counted_gardens = Garden.counted()
+    counted_gardens = Garden.counted().filter(box__patch__added__gte=PATCH_ADDED_START, box__patch__added__lt=PATCH_ADDED_END).distinct()
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
     if type != 'all':
@@ -90,7 +91,7 @@ def gardens(request):
 
     type = request.session['garden_type']
 
-    counted_gardens = Garden.counted()
+    counted_gardens = Garden.counted().filter(box__patch__added__gte=PATCH_ADDED_START, box__patch__added__lt=PATCH_ADDED_END).distinct()
     if type != 'all':
         counted_gardens = counted_gardens.filter(type=type)
 
@@ -140,8 +141,8 @@ def garden_details(request, id):
         if garden not in profile.gardens.all():
             raise Http403
 
-    beds = Box.objects.filter(garden=garden)
-    patches = Patch.objects.filter(box__in=beds, added__gte=PATCH_ADDED_START, added__lt=PATCH_ADDED_END)
+    patches = _patches.filter(box__garden=garden)
+    beds = Box.objects.filter(patch__in=patches).distinct()
 
     if request.method == 'POST':
         form = BoxForm(request.POST)
@@ -220,8 +221,11 @@ def download_garden_cropcount_as_csv(request, id):
     writer = unicodecsv.writer(response, encoding='utf-8')
     writer.writerow(['bed', 'crop', 'plants', 'area (square feet)'])
 
-    for bed in sorted(garden.box_set.all()):
-        for patch in bed.patch_set.all():
+    patches = _patches.filter(box__garden=garden).distinct()
+    beds = Box.objects.filter(patch__in=patches).distinct()
+
+    for bed in sorted(beds):
+        for patch in patches:
             writer.writerow([
                 bed.name,
                 patch.variety.name,
