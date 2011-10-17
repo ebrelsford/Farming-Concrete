@@ -38,8 +38,6 @@ def index(request):
     gardeners = Gardener.objects.filter(harvest__in=harvests).distinct()
     gardens = Garden.objects.filter(gardener__in=gardeners).distinct()
 
-    print gardeners
-
     return render_to_response('harvestcount/index.html', {
         'gardens': gardens.count(),
         'gardeners': gardeners.count(),
