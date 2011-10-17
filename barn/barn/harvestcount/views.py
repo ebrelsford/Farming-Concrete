@@ -33,7 +33,7 @@ def index(request):
 
     harvests = _harvests()
     if type != 'all':
-        harvests = harvests.filter(garden__type=type)
+        harvests = harvests.filter(gardener__garden__type=type)
 
     gardeners = Gardener.objects.filter(harvest__in=harvests).distinct()
     gardens = Garden.objects.filter(gardener__in=gardeners).distinct()
