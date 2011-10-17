@@ -33,7 +33,7 @@ def index(request):
 
     patches = _patches()
     if garden_type != 'all':
-        patches = patches.filter(garden__type=garden_type)
+        patches = patches.filter(box__garden__type=garden_type)
 
     beds = Box.objects.filter(patch__in=patches).distinct()
     gardens = Garden.objects.filter(box__in=beds).distinct()

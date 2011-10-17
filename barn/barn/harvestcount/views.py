@@ -29,18 +29,20 @@ def _harvests(start=HARVESTED_START, end=HARVESTED_END):
 @garden_type_aware
 @in_section('harvestcount')
 def index(request):
-    type = request.session['garden_type']
+    garden_type = request.session['garden_type']
 
     harvests = _harvests()
-    if type != 'all':
-        harvests = harvests.filter(gardener__garden__type=type)
+    if garden_type != 'all':
+        harvests = harvests.filter(gardener__garden__type=garden_type).distinct()
 
     gardeners = Gardener.objects.filter(harvest__in=harvests).distinct()
     gardens = Garden.objects.filter(gardener__in=gardeners).distinct()
 
+    print gardeners
+
     return render_to_response('harvestcount/index.html', {
-        'gardens': gardens.distinct().count(),
-        'gardeners': gardeners.distinct().count(),
+        'gardens': gardens.count(),
+        'gardeners': gardeners.count(),
         'weight': harvests.aggregate(t=Sum('weight'))['t'],
         'plant_types': harvests.values('variety__id').distinct().count(),
         'recent_harvests': harvests.order_by('-added')[:3],
