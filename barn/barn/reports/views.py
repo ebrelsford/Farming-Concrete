@@ -28,6 +28,15 @@ def _patches(garden, start=REPORT_START, end=REPORT_END):
 
 @login_required
 def garden_report(request, id=None):
+    return _render_garden_report(request, id=id)
+
+def shared_garden_report(request, access_key=None):
+    shared = get_object_or_404(SharedReport, access_key=access_key)
+    return _render_garden_report(request, id=shared.garden.id)
+
+def _render_garden_report(request, id=None):
+    """render the report for a given garden"""
+
     garden = get_object_or_404(Garden, id=id)
     patches = _patches(garden)
     beds = Box.objects.filter(patch__in=patches).distinct()
@@ -44,10 +53,6 @@ def garden_report(request, id=None):
         'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }, context_instance=RequestContext(request))
-
-def shared_garden_report(request, access_key=None):
-    shared = get_object_or_404(SharedReport, access_key=access_key)
-    return garden_report(request, id=shared.garden.id)
 
 @login_required
 def bar_chart_plants_per_crop(request, id=None):
