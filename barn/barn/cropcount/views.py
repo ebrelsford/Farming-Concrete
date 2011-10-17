@@ -141,7 +141,7 @@ def garden_details(request, id):
         if garden not in profile.gardens.all():
             raise Http403
 
-    patches = _patches.filter(box__garden=garden)
+    patches = _patches().filter(box__garden=garden)
     beds = Box.objects.filter(patch__in=patches).distinct()
 
     if request.method == 'POST':
