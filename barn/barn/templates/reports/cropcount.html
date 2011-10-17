@@ -1,5 +1,6 @@
-<div id="cropcount" style="border-bottom: 1px dashed black; margin-bottom: 100px;">
+<div>
     <h2>Crop Count</h2>
+    {% if beds %}
     <div class="beds section collapsible collapsed">
         <h3 class="expander"><a href="#">Click to show/hide full crop count</a></h3>
         <div class="expandee">
@@ -40,5 +41,8 @@
         </table>
         <img src="{% url reports.views.bar_chart_plants_per_crop id=garden.id %}" />
     </div>
+    {% else %}
+    No crop count is on record for this garden.
+    {% endif %}
 </div>
 

@@ -1,4 +1,5 @@
 <h2>Harvest Count</h2>
+{% if harvests %}
 <div class="harvests section collapsible collapsed">
     <h3 class="expander"><a href="#">Click to show/hide full harvest count</a></h3>
     <div class="expandee">
@@ -49,4 +50,7 @@
         <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
     </div>
 </div>
+{% else %}
+No harvest count is on record for this garden.
+{% endif %}
 
