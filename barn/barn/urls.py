@@ -26,11 +26,12 @@ urlpatterns = patterns('',
     (r'^gardens/harvestcount/harvested/$', 'harvestcount.views.all_gardens'),
 
     (r'^gardens/(?P<id>\d+)/report/$', 'reports.views.garden_report'),
-    (r'^gardens/(?P<access_key>.+)/report/$', 'reports.views.shared_garden_report'),
     (r'^gardens/(?P<id>\d+)/report/charts/plants_per_crop$', 'reports.views.bar_chart_plants_per_crop'),
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_crop$', 'reports.views.bar_chart_weight_per_crop'),
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_gardener$', 'reports.views.bar_chart_weight_per_gardener'),
     (r'^gardens/(?P<id>\d+)/report/share$', 'reports.views.share'),
+
+    (r'^reports/(?P<access_key>.+)/$', 'reports.views.shared_garden_report'),
 
     (r'^ajax_select/', include('ajax_select.urls')),
 
