@@ -3,6 +3,7 @@ from django.contrib import admin
 from models import Garden, GardenType, Variety
 from cropcount.admin import BoxInline
 from cropcount.models import Patch
+from estimates.models import EstimatedCost, EstimatedYield
 from harvestcount.models import Harvest
 
 class GardenAdmin(admin.ModelAdmin):
@@ -39,6 +40,8 @@ class VarietyAdmin(admin.ModelAdmin):
 
         Patch.objects.filter(variety__in=unmoderated).update(variety=moderated)
         Harvest.objects.filter(variety__in=unmoderated).update(variety=moderated)
+        EstimatedCost.objects.filter(variety__in=unmoderated).update(variety=moderated)
+        EstimatedYield.objects.filter(variety__in=unmoderated).update(variety=moderated)
         unmoderated.delete()
         self.message_user(request, 'Consolidated %d varieties on %s' % (num_consolidated, moderated.name))
 
