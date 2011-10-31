@@ -168,7 +168,7 @@ def garden_details(request, id):
 
     return render_to_response('cropcount/gardens/detail.html', {
         'garden': garden,
-        'bed_list': sorted(garden.box_set.all()),
+        'bed_list': sorted(beds),
         'form': form,
         'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
         'beds': beds.count(),
