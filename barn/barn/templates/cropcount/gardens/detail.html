@@ -57,6 +57,7 @@
         </div>
         <div id="beds">
             <span style="font-weight: bold;">Current beds in this garden for {{ year }}</span>
+            {% if bed_list %}
             <ul class="values">
                 {% for month in bed_months %}
                 <li class="month">
@@ -75,6 +76,9 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <p>No beds yet.</p>
+            {% endif %}
         </div>
     </div>
 

@@ -92,6 +92,7 @@
         </div>
 
         <span style="font-weight: bold;">Harvests for {{ year }}</span>
+        {% if harvests %}
         <table class="sorted">
             <thead>
             <tr>
@@ -109,6 +110,9 @@
             {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <p>No harvests yet.</p>
+        {% endif %}
     </div>
     </div>
 
