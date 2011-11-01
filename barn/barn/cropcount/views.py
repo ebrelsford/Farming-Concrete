@@ -224,7 +224,7 @@ def download_garden_cropcount_as_csv(request, id):
     writer = unicodecsv.writer(response, encoding='utf-8')
     writer.writerow(['bed', 'crop', 'plants', 'area (square feet)'])
 
-    patches = _patches.filter(box__garden=garden).distinct()
+    patches = _patches().filter(box__garden=garden).distinct()
     beds = Box.objects.filter(patch__in=patches).distinct()
 
     for bed in sorted(beds):
