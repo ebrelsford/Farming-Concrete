@@ -174,6 +174,7 @@ def garden_details(request, id):
         'form': form,
         'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
         'bed_months': bed_months,
+        'year': PATCH_ADDED_START.year,
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
     }, context_instance=RequestContext(request))
