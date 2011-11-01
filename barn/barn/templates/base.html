@@ -24,6 +24,9 @@
         </div>
         <div id="nav" class="nav">
             <ul>
+                <li>
+                    <a href="{% url farmingconcrete.views.index %}">Home</a>
+                </li>
                 <li class="{% if request.session.section == 'cropcount' %}active{% endif %}">
                     <a href="{% url cropcount.views.index %}">Crop Count</a>
                 </li>
