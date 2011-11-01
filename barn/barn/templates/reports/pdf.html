@@ -1,0 +1,118 @@
+<!doctype html>
+
+<head>
+
+    <style>
+        .page {
+            width: 100%;
+        }
+        .header {
+            text-align: right;
+            width: 100%;
+        }
+
+        .footer {
+            padding-top: 100px;
+        }
+
+        .garden-name {
+            font-size: 36px;
+        }
+        .center {
+            width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            clear: both;
+        }
+        .footer {
+            clear: both;
+        }
+
+        .summary {
+            padding-left: 80px;
+        }
+        .summary .quantity {
+            font-weight: bold;
+        }
+
+        .spacer {
+            padding: 20px;
+        }
+
+        table tr.even {
+            background-color: #F2E3C4;
+        }
+
+        .crop-chart h2 {
+            text-align: center;
+        }
+        .gardener-table h2 {
+            text-align: center;
+        }
+        .gardener-table table {
+            width: 90%;
+        }
+        .gardener-table table th {
+            text-align: left;
+        }
+        .gardener-table table td {
+            padding: 2px;
+        }
+    </style>
+
+</head>
+
+<body class="pdfreport">
+   
+    <div class="page">
+        <div class="header">
+            <h1>2011 Farming Concrete report</h1>
+        </div>
+
+        <h1 class="garden-name">{{ garden.name }}</h1>
+
+        <table>
+            <tr>
+                <td class="gardener-table" width="50%" valign="top">
+                    <h2>Total recorded per gardener</h2>
+                    {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
+                </td>
+                <td class="crop-chart" width="50%" valign="top">
+                    <h2>Total recorded per crop</h2>
+                    <img src="{{ charts.weight_per_crop.image.url }}" width="480px" height="480px" />
+                </td>
+            </tr>
+            <tr class="spacer">
+                <td></td>
+            </tr>
+            <tr>
+                <td class="summary" colspan="2">
+                    <table>
+                        <tr><td>
+                            Number of people who recorded:
+                        </td></tr>
+                        <tr><td class="quantity">
+                            {{ gardener_totals|length }} gardener{{ gardener_totals|pluralize }}
+                        </td></tr>
+                        <tr><td>
+                            Total pounds recorded:
+                        </td></tr>
+                        <tr><td class="quantity">
+                            {{ total_weight }} pounds
+                        </td></tr>
+                        <tr><td>
+                            Estimated dollar value of harvest recorded:
+                        </td></tr>
+                        <tr><td class="quantity">
+                            $12000
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            We used a combination of Whole Foods, Green market, and BK Farmyards for pricing data to best account for the local and almost entirely organic nature of community gardening in New York City.
+        </div>
+    </div>
+</body>

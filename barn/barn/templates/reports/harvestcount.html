@@ -31,22 +31,7 @@
     </div>
     <div class="subsection">
         <h4>total weighed by gardener</h4>
-        <table class="sorted">
-            <thead>
-                <tr>
-                    <th>gardener name</th>
-                    <th>lbs</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for gardener_total in gardener_totals %}
-                <tr>
-                    <td>{{ gardener_total.gardener__name }}</td>
-                    <td>{{ gardener_total.weight|floatformat }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% include "reports/harvestcount_gardener_table.html" %}
         <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
     </div>
 </div>

@@ -30,6 +30,8 @@ urlpatterns = patterns('',
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_crop$', 'reports.views.bar_chart_weight_per_crop'),
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_gardener$', 'reports.views.bar_chart_weight_per_gardener'),
     (r'^gardens/(?P<id>\d+)/report/share$', 'reports.views.share'),
+    (r'^gardens/(?P<id>\d+)/report/pdf$', 'reports.views.pdf'),
+    (r'^gardens/(?P<id>\d+)/report/pdftest$', 'reports.views.pdftest'),
 
     (r'^reports/(?P<access_key>.+)/$', 'reports.views.shared_garden_report'),
 

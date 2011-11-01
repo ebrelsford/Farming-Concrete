@@ -1,18 +1,23 @@
 from datetime import date
 import json
+from StringIO import StringIO
 
 from django.contrib.auth.decorators import login_required
+from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from django_xhtml2pdf.utils import render_to_pdf_response
+
 from cropcount.models import Box, Patch
 from farmingconcrete.models import Garden
 from harvestcount.models import Harvest
-from chart_builders import create_chart_as_png_str
-from models import SharedReport
+from charts import plants_per_crop, weight_per_crop, weight_per_gardener
+from models import SharedReport, Chart
 
 # TODO parameterize
 REPORT_START = date(2011, 01, 01)
@@ -57,58 +62,19 @@ def _render_garden_report(request, id=None):
 @login_required
 def bar_chart_plants_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    patches = _patches(garden).exclude(plants=None)
-    crops = patches.values('variety__name').annotate(plants=Sum('plants'))
-
-    data = {
-        'data': [[c['plants'] for c in crops]],
-    }
-    labels = {
-        'x': '',
-        'y': 'number of plants',
-        'title': '',
-    }
-
-    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[c['variety__name'] for c in crops])
-    response = HttpResponse(img_str, 'image/png')
+    response = HttpResponse(plants_per_crop(garden), 'image/png')
     return response
 
 @login_required
 def bar_chart_weight_per_crop(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = _harvests(garden).exclude(weight=None)
-    harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight')).order_by('variety__name')
-
-    data = {
-        'data': [[h['weight'] for h in harvest_totals]],
-    }
-    labels = {
-        'x': '',
-        'y': 'total weight measured (lbs)',
-        'title': '',
-    }
-
-    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[h['variety__name'] for h in harvest_totals])
-    response = HttpResponse(img_str, 'image/png')
+    response = HttpResponse(weight_per_crop(garden), 'image/png')
     return response
 
 @login_required
 def bar_chart_weight_per_gardener(request, id=None):
     garden = get_object_or_404(Garden, id=id)
-    harvests = _harvests(garden).exclude(weight=None)
-    gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight')).order_by('gardener__name')
-
-    data = {
-        'data': [[g['weight'] for g in gardener_totals]],
-    }
-    labels = {
-        'x': '',
-        'y': 'total weight measured (lbs)',
-        'title': '',
-    }
-
-    img_str = create_chart_as_png_str('barchart', data, labels, '', xlabels=[g['gardener__name'] for g in gardener_totals])
-    response = HttpResponse(img_str, 'image/png')
+    response = HttpResponse(weight_per_gardener(garden), 'image/png')
     return response
 
 @login_required
@@ -121,3 +87,43 @@ def share(request, id=None):
     }
     return HttpResponse(json.dumps(results), mimetype='application/json')
 
+@login_required
+def pdf(request, id=None):
+    garden = get_object_or_404(Garden, id=id)
+    harvests = _harvests(garden)
+
+    return render_to_pdf_response('reports/pdf.html', context=RequestContext(request, {
+        'garden': garden,
+        'charts': _make_charts(garden),
+        'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
+        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
+    }), pdfname='report.pdf')
+
+@login_required
+def pdftest(request, id=None):
+    garden = get_object_or_404(Garden, id=id)
+    harvests = _harvests(garden)
+
+    return render_to_response('reports/pdf.html', RequestContext(request, {
+        'garden': garden,
+        'charts': _make_charts(garden),
+        'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
+        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
+    }))
+
+def _make_charts(garden):
+    charts = {}
+
+    chart_functions = [plants_per_crop, weight_per_crop, weight_per_gardener,]
+
+    for f in chart_functions:
+        try:
+            label = f.__name__
+            c = Chart(garden=garden, label=label)
+            temp_file = File(StringIO(f(garden)))
+            c.image.save('%d_%s.png' % (garden.id, label), ContentFile(temp_file.read()), save=True)
+            charts[label] = c
+        except:
+            pass
+
+    return charts

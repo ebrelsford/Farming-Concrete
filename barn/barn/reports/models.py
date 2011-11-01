@@ -13,3 +13,8 @@ class SharedReport(models.Model):
     def save(self, *args, **kwargs):
         self.access_key = sha1(str(self.garden.id + random())).hexdigest()
         super(SharedReport, self).save(*args, **kwargs)
+
+class Chart(models.Model):
+    garden = models.ForeignKey(Garden)
+    label = models.CharField(max_length=32)
+    image = models.ImageField(upload_to='charts')

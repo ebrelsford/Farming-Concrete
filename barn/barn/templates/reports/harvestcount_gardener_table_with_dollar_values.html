@@ -1,0 +1,20 @@
+<table class="sorted">
+    <thead>
+        <tr>
+            <th>gardener name</th>
+            <th>lbs</th>
+            <th>dollar value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for gardener_total in gardener_totals %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td>{{ gardener_total.gardener__name }}</td>
+            <td>{{ gardener_total.weight|floatformat }}</td>
+            <td>$n/a</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
