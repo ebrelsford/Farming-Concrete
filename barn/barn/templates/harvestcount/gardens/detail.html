@@ -105,34 +105,7 @@
 
             <tbody>
             {% for harvest in harvests %}
-            <tr>
-                <td class="gardener">
-                    {{ harvest.gardener.name }}
-                </td> 
-                <td class="variety">
-                    {{ harvest.variety.name }}
-                </td>
-                <td class="weight">
-                    {{ harvest.weight|floatformat }}
-                </td>
-                <td class="dimensions">
-                    {% if harvest.plants %}
-                    {{ harvest.plants|floatformat }} plants{% if harvest.area %},{% endif %}
-                    {% endif %}
-                    
-                    {% if harvest.area %}
-                    {{ harvest.area|floatformat }} sq ft
-                    {% endif %}
-                </td>
-                <td class="harvested">
-                    {{ harvest.harvested|date:"n/j/y" }}
-                </td>
-                <td class="actions">
-                    <a class="delete" href="{% url harvestcount.views.delete_harvest harvest.id %}">
-                        <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
-                    </a>
-                </td>
-            </tr>
+            {% include "harvestcount/gardens/detail_harvest_snippet.html" %}
             {% endfor %}
             </tbody>
         </table>
