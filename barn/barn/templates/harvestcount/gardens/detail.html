@@ -131,6 +131,10 @@
     <a class="image" href="{% url harvestcount.views.download_garden_harvestcount_as_csv id=garden.id %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
     <a class="text" href="{% url harvestcount.views.download_garden_harvestcount_as_csv id=garden.id %}">Download this as a spreadsheet</a>
 </h2>
+<h2>
+    <a class="image" href="{% url cropcount.views.garden_details id=garden.id %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="text" href="{% url cropcount.views.garden_details id=garden.id %}">Switch to Crop Count</a>
+</h2>
 {{ block.super }}
 <h2>
     <a class="image" href="{% url harvestcount.views.index %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
