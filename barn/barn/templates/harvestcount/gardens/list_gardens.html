@@ -28,7 +28,7 @@
 </script>
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ block.super }} <a href="{% url harvestcount.views.index %}">harvest count</a> &gt;&gt; {% endblock %}
 
 {% block content %}
 <h1>

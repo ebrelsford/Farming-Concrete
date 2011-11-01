@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}<a href="{% url farmingconcrete.views.index %}">home</a> &gt;&gt; {% endblock %}
+
 {% block subnav %}
     <ul>
         {% with request.session.garden_type.short_name as current_type %}
