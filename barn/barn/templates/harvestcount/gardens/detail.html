@@ -44,8 +44,8 @@
         $('#gardener_help').help({ text: 'Pick the gardener who grew this.' });
         $('#variety_help').help({ text: 'Pick the type of plant.' });
         $('#weight_help').help({ text: 'Enter the weight of the harvest.' });
-        $('#plants_help').help({ text: 'Enter the number of plants the harvest came from.' });
-        $('#harvested_help').help({ text: 'Enter the date the harvest was taken.' });
+        $('#plants_help').help({ text: 'Enter the number of plants the harvest came from. This may seem redundant if you did a crop count for this garden, but we assume that not everyone doing harvest count will do crop count. We also assume that some gardeners might only weigh the produce for a segment of their crop.' });
+        $('#harvested_help').help({ text: 'Enter the date the harvest was taken. This helps us look at harvest over time and estimate yields for rotations within a growing season.' });
 
         $('table.sorted').tablesorter({
             widgets: ['zebra',],       
