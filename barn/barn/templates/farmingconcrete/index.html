@@ -2,18 +2,54 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
-<p>This is the <a href="http://farmingconcrete.org">Farming Concrete</a> Barn, where we store our data.</p>
+{% block head %}
+<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/jquery-util.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#map').gardenmap({
+            queryString: 'participating=yes',
+        });
+    });   
+</script>
+{% endblock %}
 
-{% if not user.is_authenticated %}
-<p>If you are a gardener and would like to start entering data, please <a href="{% url django.contrib.auth.views.login %}">log in</a> first. If you don't yet have a login, please email us at gardens (at) farmingconcrete (dot) org. If you are just visiting, we will eventually have some public reports here for you to view.</p>
-{% else %}
-<p>There are a few things you can do here:
-    <ul>
-        <li><a href="{% url cropcount.views.index %}">Crop Count</a>: how many beds does your garden have? and how many plants are in them?</li>
-        <li><a href="{% url harvestcount.views.index %}">Harvest Count</a>: how much food are your plants producing?</li>
-    </ul>
-</p>
-<p>If you have any problems or questions, please email us at <strong>gardens (at) farmingconcrete (dot) org</strong>.<p>
+{% block content %}
+<div id="left">
+    <p>This is the <a href="http://farmingconcrete.org">Farming Concrete</a> Barn, where we store our data.</p>
+
+    {% if not user.is_authenticated %}
+    <p>If you are a gardener and would like to start entering data, please <a href="{% url django.contrib.auth.views.login %}">log in</a> first. If you don't yet have a login, please email us at gardens (at) farmingconcrete (dot) org. If you are just visiting, we will eventually have some public reports here for you to view.</p>
+    {% else %}
+    <p>There are a few things you can do here:
+        <ul>
+            <li><a href="{% url cropcount.views.index %}">Crop Count</a>: how many beds does your garden have? and how many plants are in them?</li>
+            <li><a href="{% url harvestcount.views.index %}">Harvest Count</a>: how much food are your plants producing?</li>
+        </ul>
+    </p>
+
+    {% if user_gardens %}
+    <p>You have access to the following garden{{ user_gardens|pluralize }}:
+        <ul>
+            {% for garden in user_gardens %}
+            <li>
+            {{ garden.name }}
+                <ul>
+                    <li><a href="{% url cropcount.views.garden_details id=garden.id %}">view crop count</a></li>
+                    <li><a href="{% url harvestcount.views.garden_details id=garden.id %}">view harvest count</a></li>
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </p>
+    {% endif %}
+
+    <p>If you have any problems or questions, please email us at <strong>gardens (at) farmingconcrete (dot) org</strong>.<p>
+</div>
+<div id="right">
+    <div id="map" style="width: 400px; height: 300px;"></div>
+</div>
 {% endif %}
 {% endblock %}

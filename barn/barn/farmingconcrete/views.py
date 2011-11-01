@@ -1,4 +1,3 @@
-from datetime import date
 import geojson
 
 from django.contrib.auth.decorators import login_required
@@ -10,13 +9,14 @@ from models import Garden, GardenType
 from farmingconcrete.geo import garden_collection
 
 # TODO parameterize
-PATCH_ADDED_START = date(2011, 01, 01)
-PATCH_ADDED_END = date(2012, 01, 01)
-HARVESTED_START = date(2011, 01, 01)
-HARVESTED_END = date(2012, 01, 01)
+CURRENT_YEAR = 2011
 
 def index(request):
-    return render_to_response('farmingconcrete/index.html', { }, context_instance=RequestContext(request))
+    profile = request.user.get_profile()
+    user_gardens = profile.gardens.all()
+    return render_to_response('farmingconcrete/index.html', {
+        'user_gardens': user_gardens.order_by('name'),
+    }, context_instance=RequestContext(request))
 
 @login_required
 def account(request):
@@ -36,18 +36,22 @@ def gardens_geojson(request):
     ids = request.GET.get('ids', None)
     cropcount = request.GET.get('cropcount', None)
     harvestcount = request.GET.get('harvestcount', None)
+    participating = request.GET.get('participating', None)
     type = request.GET.get('type', None)
 
     if ids:
         ids = ids.split(',')
         gardens = gardens.filter(id__in=ids)
     if cropcount and cropcount != 'no':
-        gardens = gardens.exclude(box=None).filter(box__patch__added__gte=PATCH_ADDED_START, box__patch__added__lt=PATCH_ADDED_END).distinct()
+        gardens = gardens.filter(box__patch__added__year=CURRENT_YEAR)
     if harvestcount and harvestcount != 'no':
-        gardens = gardens.exclude(gardener__harvest=None).filter(gardener__harvest__harvested__gte=HARVESTED_START, gardener__harvest__harvested__lt=HARVESTED_END).distinct()
+        gardens = gardens.filter(gardener__harvest__harvested__year=CURRENT_YEAR)
+    if participating and participating != 'no':
+        gardens = gardens.filter(box__patch__added__year=CURRENT_YEAR) | gardens.filter(gardener__harvest__harvested__year=CURRENT_YEAR)
     if type and type != 'all':
         gardens = gardens.filter(type__short_name=type)
 
+    gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
 
 def _get_garden_type(short_name):
