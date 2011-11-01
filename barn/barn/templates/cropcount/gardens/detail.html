@@ -58,41 +58,22 @@
         <div id="beds">
             <span style="font-weight: bold;">Current beds in this garden</span>
             <ul class="values">
-                {% for box in bed_list %}
-                <li class="bed">
-                    <span class="name">
-                        <a href="{% url cropcount.views.bed_details box.id %}">bed {{ box.name }}</a>
-                    </span> 
-                    <span class="dimensions">
-                        {{ box.width }} ft x {{ box.length }} ft
-                    </span>
-                    <span class="actions">
-                        <a class="delete" href="{% url cropcount.views.delete_bed box.id %}">
-                            <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
-                        </a>
-                    </span>
-                    <div id="plants">
-                        <ul class="values">
-                            {% for patch in box.patch_set.all %}
-                            <li class="{% cycle 'odd' 'even' %}">
-                                <span class="type">{{ patch.variety.name }}</span>
-                                
-                                <span class="quantity">
-                                    {% if patch.plants %}
-                                    {{ patch.plants }} plants
-                                    {% endif %}
-                                    {% if patch.area %}
-                                    {{ patch.area }} square feet
-                                    {% endif %}
-                                </span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                {% for month in bed_months %}
+                <li class="month">
+                    <span class="month-name">Added in {{ month }}</span>
+                    <ul class="values">
+                    {% for box in bed_list %}
+                        {% with m=box.added|date:"F" %}
+                        {% if m == month %}
+                        <li class="bed">
+                        {% include "cropcount/gardens/detail_bed_snippet.html" %}
+                        </li>
+                        {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                    </ul>
                 </li>
-            {% empty %}
-                <li>None yet!</li>
-            {% endfor %}
+                {% endfor %}
             </ul>
         </div>
     </div>

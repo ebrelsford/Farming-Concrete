@@ -166,11 +166,14 @@ def garden_details(request, id):
             'width': width,
         })
 
+    bed_months = beds.values_list('added', flat=True).order_by('added')
+    bed_months = tuple(set([month.strftime('%B') for month in bed_months]))
     return render_to_response('cropcount/gardens/detail.html', {
         'garden': garden,
         'bed_list': sorted(beds),
         'form': form,
         'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
+        'bed_months': bed_months,
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
     }, context_instance=RequestContext(request))

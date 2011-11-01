@@ -149,6 +149,12 @@ ul.values {
     vertical-align: top;
 }
 
+#beds .month {
+    padding-top: 15px;
+}
+#beds .month .month-name {
+    font-style: italic;
+}
 #beds .name, #beds .dimensions {
     display: inline-block;
 }
