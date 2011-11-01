@@ -109,6 +109,7 @@ def garden_details(request, id):
         'weight': harvests.aggregate(t=Sum('weight'))['t'],
         'plant_types': harvests.values('variety__id').distinct().count(),
         'plants': None,
+        'year': HARVESTED_START.year,
     }, context_instance=RequestContext(request))
 
 @login_required
