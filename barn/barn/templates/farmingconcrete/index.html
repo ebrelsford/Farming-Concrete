@@ -39,7 +39,7 @@
         <ul>
             {% for garden in user_gardens %}
             <li>
-            {{ garden.name }}
+            <a href="{% url farmingconcrete.views.garden_details id=garden.id %}">{{ garden.name }}</a>
                 <ul>
                     <li><a href="{% url cropcount.views.garden_details id=garden.id %}">view crop count</a></li>
                     <li><a href="{% url harvestcount.views.garden_details id=garden.id %}">view harvest count</a></li>

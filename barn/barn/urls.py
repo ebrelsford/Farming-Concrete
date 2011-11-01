@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 
     (r'^gardens/geojson', 'farmingconcrete.views.gardens_geojson'),
 
+    (r'^gardens/(?P<id>\d+)/$', 'farmingconcrete.views.garden_details'),
+
     (r'^gardens/(?P<id>\d+)/cropcount/$', 'cropcount.views.garden_details'),
     (r'^gardens/(?P<id>\d+)/cropcount/csv/$', 'cropcount.views.download_garden_cropcount_as_csv'),
     (r'^gardens/cropcount/yours/$', 'cropcount.views.user_gardens'),
