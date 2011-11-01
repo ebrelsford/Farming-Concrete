@@ -12,10 +12,12 @@ from farmingconcrete.geo import garden_collection
 CURRENT_YEAR = 2011
 
 def index(request):
-    profile = request.user.get_profile()
-    user_gardens = profile.gardens.all()
+    user_gardens = []
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+        user_gardens = profile.gardens.all().order_by('name')
     return render_to_response('farmingconcrete/index.html', {
-        'user_gardens': user_gardens.order_by('name'),
+        'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
 
 @login_required
