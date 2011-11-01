@@ -14,18 +14,15 @@ from cropcount.models import Box, Patch
 from harvestcount.models import Harvest
 
 # TODO parameterize
-PATCH_ADDED_START = date(2011, 01, 01)
-PATCH_ADDED_END = date(2012, 01, 01)
-HARVESTED_START = date(2011, 01, 01)
-HARVESTED_END = date(2012, 01, 01)
+CURRENT_YEAR = 2011
 
-def _harvests(start=HARVESTED_START, end=HARVESTED_END):
+def _harvests(year=CURRENT_YEAR):
     """Get current harvests"""
-    return Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
+    return Harvest.objects.filter(harvested__year=year)
 
-def _patches(start=PATCH_ADDED_START, end=PATCH_ADDED_END):
+def _patches(year=CURRENT_YEAR):
     """Get current patches"""
-    return Patch.objects.filter(added__gte=start, added__lt=end)
+    return Patch.objects.filter(added__year=year)
 
 def index(request):
     user_gardens = []
