@@ -25,7 +25,7 @@ Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
 {% block list %}
 {% for garden in user_gardens %}
 <li id="{{ garden.id }}">
-    <a href="{% url harvestcount.views.garden_details garden.id %}">{{ garden.name }}</a>
+    <a href="{% url harvestcount.views.garden_details id=garden.id year=request.session.year %}">{{ garden.name }}</a>
 </li>
 {% empty %}
 None.

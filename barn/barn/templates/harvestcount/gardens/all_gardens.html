@@ -22,7 +22,7 @@ All harvested {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{%
 {% for garden in gardens %}
 <li id="{{ garden.id }}">
     {% if perms.can_edit_any_garden or garden in user_gardens %}
-    <a href="{% url harvestcount.views.garden_details garden.id %}">{{ garden.name }}</a>
+    <a href="{% url harvestcount.views.garden_details id=garden.id year=request.session.year %}">{{ garden.name }}</a>
     {% else %}
     <label>{{ garden.name }}</label>
     {% endif %}

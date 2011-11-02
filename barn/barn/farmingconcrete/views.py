@@ -1,4 +1,3 @@
-from datetime import date
 import geojson
 
 from django.contrib.auth.decorators import login_required
@@ -9,22 +8,23 @@ from django.template import RequestContext
 
 from middleware.http import Http403
 from models import Garden, GardenType
+from farmingconcrete.decorators import year_in_session
 from farmingconcrete.geo import garden_collection
 from cropcount.models import Box, Patch
 from harvestcount.models import Harvest
 
-# TODO parameterize
-CURRENT_YEAR = 2011
+from settings import FARMINGCONCRETE_YEAR
 
-def _harvests(year=CURRENT_YEAR):
+def _harvests(year=FARMINGCONCRETE_YEAR):
     """Get current harvests"""
     return Harvest.objects.filter(harvested__year=year)
 
-def _patches(year=CURRENT_YEAR):
+def _patches(year=FARMINGCONCRETE_YEAR):
     """Get current patches"""
     return Patch.objects.filter(added__year=year)
 
-def index(request):
+@year_in_session
+def index(request, year=None):
     user_gardens = []
     if request.user.is_authenticated():
         profile = request.user.get_profile()
@@ -34,7 +34,8 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 @login_required
-def garden_details(request, id):
+@year_in_session
+def garden_details(request, id, year=None):
     garden = get_object_or_404(Garden, pk=id)
 
     if not request.user.has_perm('can_edit_any_garden'):
@@ -42,9 +43,9 @@ def garden_details(request, id):
         if garden not in profile.gardens.all():
             raise Http403
 
-    patches = _patches().filter(box__garden=garden)
+    patches = _patches(year=year).filter(box__garden=garden)
     beds = Box.objects.filter(patch__in=patches).distinct()
-    harvests = _harvests().filter(gardener__garden=garden)
+    harvests = _harvests(year=year).filter(gardener__garden=garden)
 
     return render_to_response('farmingconcrete/gardens/detail.html', {
         'garden': garden,
@@ -76,16 +77,17 @@ def gardens_geojson(request):
     harvestcount = request.GET.get('harvestcount', None)
     participating = request.GET.get('participating', None)
     type = request.GET.get('type', None)
+    year = request.GET.get('year', FARMINGCONCRETE_YEAR)
 
     if ids:
         ids = ids.split(',')
         gardens = gardens.filter(id__in=ids)
     if cropcount and cropcount != 'no':
-        gardens = gardens.filter(box__patch__added__year=CURRENT_YEAR)
+        gardens = gardens.filter(box__patch__added__year=year)
     if harvestcount and harvestcount != 'no':
-        gardens = gardens.filter(gardener__harvest__harvested__year=CURRENT_YEAR)
+        gardens = gardens.filter(gardener__harvest__harvested__year=year)
     if participating and participating != 'no':
-        gardens = gardens.filter(box__patch__added__year=CURRENT_YEAR) | gardens.filter(gardener__harvest__harvested__year=CURRENT_YEAR)
+        gardens = gardens.filter(box__patch__added__year=year) | gardens.filter(gardener__harvest__harvested__year=year)
     if type and type != 'all':
         gardens = gardens.filter(type__short_name=type)
 

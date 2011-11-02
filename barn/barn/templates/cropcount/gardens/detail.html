@@ -56,7 +56,7 @@
             </form>
         </div>
         <div id="beds">
-            <span style="font-weight: bold;">Current beds in this garden for {{ year }}</span>
+            <span style="font-weight: bold;">Current beds in this garden for {{ request.session.year }}</span>
             {% if bed_list %}
             <ul class="values">
                 {% for month in bed_months %}
@@ -102,8 +102,8 @@
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
-    <a class="text" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id %}">Download this as a spreadsheet</a>
+    <a class="image" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
+    <a class="text" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
 </h2>
 <h2>
     <a class="image" href="{% url harvestcount.views.garden_details id=garden.id %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
@@ -111,7 +111,7 @@
 </h2>
 {{ block.super }}
 <h2>
-    <a class="image" href="{% url cropcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
-    <a class="text" href="{% url cropcount.views.user_gardens %}">Done adding beds to this garden!</a>
+    <a class="image" href="{% url cropcount.views.user_gardens year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
+    <a class="text" href="{% url cropcount.views.user_gardens year=request.session.year %}">Done adding beds to this garden!</a>
 </h2>
 {% endblock %}

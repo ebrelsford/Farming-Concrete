@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#map').gardenmap({
-            queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}',
+            queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
         });
     });   
 </script>
@@ -46,17 +46,17 @@
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url cropcount.views.user_gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
-    <a class="text" href="{% url cropcount.views.user_gardens %}">View your gardens</a>
+    <a class="image" href="{% url cropcount.views.user_gardens year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="text" href="{% url cropcount.views.user_gardens year=request.session.year %}">View your gardens</a>
 </h2>
 <h2>
-    <a class="image" href="{% url cropcount.views.all_gardens %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
-    <a class="text" href="{% url cropcount.views.all_gardens %}">View all gardens</a>
+    <a class="image" href="{% url cropcount.views.all_gardens year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="text" href="{% url cropcount.views.all_gardens year=request.session.year %}">View all gardens</a>
 </h2>
 {% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
-    <a class="image" href="{% url cropcount.views.add_garden %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
-    <a class="text" href="{% url cropcount.views.add_garden %}">Add a garden</a>
+    <a class="image" href="{% url cropcount.views.add_garden year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
+    <a class="text" href="{% url cropcount.views.add_garden year=request.session.year %}">Add a garden</a>
 </h2>
 {% endif %}
 {% endblock %}

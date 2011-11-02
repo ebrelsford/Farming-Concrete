@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#map').gardenmap({
-            queryString: 'participating=yes',
+            queryString: 'participating=yes&year={{ request.session.year }}',
         });
     });   
 </script>

@@ -1,11 +1,11 @@
 <span class="name">
-    <a href="{% url cropcount.views.bed_details box.id %}">bed {{ box.name }}</a>
+    <a href="{% url cropcount.views.bed_details id=box.id year=request.session.year %}">bed {{ box.name }}</a>
 </span> 
 <span class="dimensions">
     {{ box.width }} ft x {{ box.length }} ft
 </span>
 <span class="actions">
-    <a class="delete" href="{% url cropcount.views.delete_bed box.id %}">
+    <a class="delete" href="{% url cropcount.views.delete_bed id=box.id year=request.session.year %}">
         <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
     </a>
 </span>

@@ -5,28 +5,26 @@ admin.autodiscover()
 from django.conf import settings
 
 urlpatterns = patterns('',
-    (r'^$', 'farmingconcrete.views.index'),
-
-    (r'^cropcount/', include('cropcount.urls')),
-    (r'^harvestcount/', include('harvestcount.urls')),
-    (r'^fc/', include('farmingconcrete.urls')),
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
-
+    (r'^(?:(?P<year>\d{4})/)?$', 'farmingconcrete.views.index'),
+    (r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?$', 'farmingconcrete.views.garden_details'),
     (r'^gardens/geojson', 'farmingconcrete.views.gardens_geojson'),
 
-    (r'^gardens/(?P<id>\d+)/$', 'farmingconcrete.views.garden_details'),
+    # crop count
+    (r'^cropcount/(?:(?P<year>\d{4})/)?', include('cropcount.urls')),
+    (r'^cropcount/yours/(?:(?P<year>\d{4})/)?$', 'cropcount.views.user_gardens'),
+    (r'^cropcount/counted/(?:(?P<year>\d{4})/)?$', 'cropcount.views.all_gardens'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?$', 'cropcount.views.garden_details'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?csv/$', 'cropcount.views.download_garden_cropcount_as_csv'),
 
-    (r'^gardens/(?P<id>\d+)/cropcount/$', 'cropcount.views.garden_details'),
-    (r'^gardens/(?P<id>\d+)/cropcount/csv/$', 'cropcount.views.download_garden_cropcount_as_csv'),
-    (r'^gardens/cropcount/yours/$', 'cropcount.views.user_gardens'),
-    (r'^gardens/cropcount/counted/$', 'cropcount.views.all_gardens'),
+    # harvest count
+    (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('harvestcount.urls')),
+    (r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.user_gardens'),
+    (r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.all_gardens'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.garden_details'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$', 'harvestcount.views.download_garden_harvestcount_as_csv'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
 
-    (r'^gardens/(?P<id>\d+)/harvestcount/$', 'harvestcount.views.garden_details'),
-    (r'^gardens/(?P<id>\d+)/harvestcount/csv/$', 'harvestcount.views.download_garden_harvestcount_as_csv'),
-    (r'^gardens/(?P<id>\d+)/harvestcount/last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
-    (r'^gardens/harvestcount/yours/$', 'harvestcount.views.user_gardens'),
-    (r'^gardens/harvestcount/harvested/$', 'harvestcount.views.all_gardens'),
-
+    # reports
     (r'^gardens/(?P<id>\d+)/report/$', 'reports.views.garden_report'),
     (r'^gardens/(?P<id>\d+)/report/charts/plants_per_crop$', 'reports.views.bar_chart_plants_per_crop'),
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_crop$', 'reports.views.bar_chart_weight_per_crop'),
@@ -34,10 +32,7 @@ urlpatterns = patterns('',
     (r'^gardens/(?P<id>\d+)/report/share$', 'reports.views.share'),
     (r'^gardens/(?P<id>\d+)/report/pdf$', 'reports.views.pdf'),
     (r'^gardens/(?P<id>\d+)/report/pdftest$', 'reports.views.pdftest'),
-
     (r'^reports/(?P<access_key>.+)/$', 'reports.views.shared_garden_report'),
-
-    (r'^ajax_select/', include('ajax_select.urls')),
 
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),
@@ -54,6 +49,11 @@ urlpatterns = patterns('',
     # admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+
+    # miscellany
+    (r'^ajax_select/', include('ajax_select.urls')),
+    (r'^fc/', include('farmingconcrete.urls')),
+    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
 )
 
 handler500 = 'barn.views.server_error'

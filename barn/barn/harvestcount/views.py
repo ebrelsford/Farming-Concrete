@@ -9,29 +9,27 @@ from django.http import HttpResponseForbidden, HttpResponse, Http404
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
-from farmingconcrete.decorators import garden_type_aware, in_section
+from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
 from farmingconcrete.models import Garden
 from farmingconcrete.forms import GardenForm, FindGardenForm
 from models import Gardener, Harvest
 from forms import HarvestForm
 
 from middleware.http import Http403
+from settings import FARMINGCONCRETE_YEAR
 
-# TODO parameterize
-HARVESTED_START = date(2011, 01, 01)
-HARVESTED_END = date(2012, 01, 01)
-
-def _harvests(start=HARVESTED_START, end=HARVESTED_END):
+def _harvests(year=FARMINGCONCRETE_YEAR):
     """Get current harvests"""
-    return Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
+    return Harvest.objects.filter(harvested__year=year)
 
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
-def index(request):
+@year_in_session
+def index(request, year=None):
     garden_type = request.session['garden_type']
 
-    harvests = _harvests()
+    harvests = _harvests(year=year)
     if garden_type != 'all':
         harvests = harvests.filter(gardener__garden__type=garden_type).distinct()
 
@@ -49,17 +47,18 @@ def index(request):
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
-def add_garden(request):
+@year_in_session
+def add_garden(request, year=None):
     if request.method == 'POST':
         form = GardenForm(request.POST, user=request.user)
         if form.is_valid():
             garden = form.save()
-            return redirect(garden_details, garden.id)
+            return redirect(garden_details, id=garden.id, year=year)
 
         find_garden_form = FindGardenForm(request.POST)
         if find_garden_form.is_valid():
             garden = find_garden_form.cleaned_data['garden']
-            return redirect(garden_details, garden.id)
+            return redirect(garden_details, id=garden.id, year=year)
     else:
         form = GardenForm(user=request.user)
         find_garden_form = FindGardenForm(user=request.user)
@@ -71,7 +70,8 @@ def add_garden(request):
 
 @login_required
 @in_section('harvestcount')
-def garden_details(request, id):
+@year_in_session
+def garden_details(request, id, year=None):
     """Show details for a garden, let user add harvests"""
 
     garden = get_object_or_404(Garden, pk=id)
@@ -85,7 +85,7 @@ def garden_details(request, id):
         form = HarvestForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect(garden_details, id)
+            return redirect(garden_details, id=id, year=year)
     else:
         try:
             most_recent_harvest = Harvest.objects.filter(gardener__garden=garden).order_by('-added')[0]
@@ -101,7 +101,7 @@ def garden_details(request, id):
             'gardener': gardener_id,
         }, user=request.user)
 
-    harvests = _harvests().filter(gardener__garden=garden)
+    harvests = _harvests(year=year).filter(gardener__garden=garden)
     return render_to_response('harvestcount/gardens/detail.html', {
         'garden': garden,
         'harvests': harvests.order_by('harvested', 'gardener__name'),
@@ -109,13 +109,13 @@ def garden_details(request, id):
         'weight': harvests.aggregate(t=Sum('weight'))['t'],
         'plant_types': harvests.values('variety__id').distinct().count(),
         'plants': None,
-        'year': HARVESTED_START.year,
     }, context_instance=RequestContext(request))
 
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
-def user_gardens(request):
+@year_in_session
+def user_gardens(request, year=None):
     """Show the user's gardens"""
     type = request.session['garden_type']
 
@@ -132,11 +132,12 @@ def user_gardens(request):
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
-def all_gardens(request):
+@year_in_session
+def all_gardens(request, year=None):
     """Show all harvested gardens"""
     type = request.session['garden_type']
 
-    gardens = Garden.objects.exclude(gardener__harvest=None).filter(gardener__harvest__harvested__gte=HARVESTED_START, gardener__harvest__harvested__lt=HARVESTED_END).distinct()
+    gardens = Garden.objects.exclude(gardener__harvest=None).filter(gardener__harvest__harvested__year=year).distinct()
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
     if type != 'all':
@@ -150,14 +151,16 @@ def all_gardens(request):
 
 @login_required
 @in_section('harvestcount')
-def delete_harvest(request, id):
+@year_in_session
+def delete_harvest(request, id, year=None):
     harvest = get_object_or_404(Harvest, pk=id)
     garden_id = harvest.gardener.garden.id
     harvest.delete()
-    return redirect(garden_details, garden_id) 
+    return redirect(garden_details, id=garden_id, year=year) 
 
 @login_required
-def quantity_for_last_harvest(request, id=None):
+@year_in_session
+def quantity_for_last_harvest(request, id=None, year=None):
     garden = id
     gardener = request.GET.get('gardener', None)
     variety = request.GET.get('variety', None)
@@ -185,7 +188,8 @@ def quantity_for_last_harvest(request, id=None):
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
 @login_required
-def download_garden_harvestcount_as_csv(request, id):
+@year_in_session
+def download_garden_harvestcount_as_csv(request, id, year=None):
     garden = get_object_or_404(Garden, pk=id)
 
     response = HttpResponse(mimetype='text/csv')
@@ -194,7 +198,7 @@ def download_garden_harvestcount_as_csv(request, id):
     writer = unicodecsv.writer(response, encoding='utf-8')
     writer.writerow(['gardener', 'plant type', 'pounds', 'number of plants', 'area (square feet)', 'date'])
 
-    harvests = _harvests().filter(gardener__garden=garden).distinct()
+    harvests = _harvests(year=year).filter(gardener__garden=garden).distinct()
     for harvest in harvests.order_by('gardener__name', 'variety__name'):
         writer.writerow([
             harvest.gardener.name,
