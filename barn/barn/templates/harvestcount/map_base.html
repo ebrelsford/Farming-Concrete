@@ -1,0 +1,27 @@
+{% extends "harvestcount/base.html" %}
+
+{% block head %}
+<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#map').gardenmap({
+            {% block map_params %}
+            {% endblock %}
+        });
+    });   
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="left">
+    {% block left %}{% endblock %}
+</div>
+
+<div id="right">
+    <div id="map"></div>
+    {% block right %}{% endblock %}
+</div>
+{% endblock %}
+

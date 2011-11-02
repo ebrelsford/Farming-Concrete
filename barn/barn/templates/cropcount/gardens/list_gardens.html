@@ -1,20 +1,15 @@
-{% extends "cropcount/gardens/base.html" %}
+{% extends "cropcount/map_base.html" %}
 
 {% block title %}Counted {{ request.session.garden_type }} gardens{% endblock %}
 
+{% block map_params %}
+queryString: 'type={{ request.session.garden_type.short_name }}&cropcount=yes&year={{ request.session.year }}',
+{% endblock %}
+
 {% block head %}
-<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/jquery-util.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
+{{ block.super }}
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#map').gardenmap({
-            {% block map_params %}
-            queryString: 'type={{ request.session.garden_type.short_name }}&cropcount=yes&year={{ request.session.year }}',
-            {% endblock %}
-        });
-
         $('.gardens li a,label').hover(
             function() {
                 var id = $(this).parent().attr('id');
@@ -36,15 +31,14 @@
     {{ request.session.garden_type }} gardens counted so far
     {% endblock %}
 </h1>
-<div id="left">
-    <ul class="gardens">
-    {% block list %}
-    {% endblock %}
-    </ul>
-</div>
-<div id="right">
-    <div id="map" style="width: 400px; height: 300px;"></div>
-</div>
+{{ block.super }}
+{% endblock %}
+
+{% block left %}
+<ul class="gardens">
+{% block list %}
+{% endblock %}
+</ul>
 {% endblock %}
 
 {% block actions %}

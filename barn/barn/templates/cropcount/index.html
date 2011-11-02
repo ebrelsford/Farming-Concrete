@@ -1,47 +1,40 @@
-{% extends "cropcount/base.html" %}
+{% extends "cropcount/map_base.html" %}
 
 {% block title %}Crop Count{% endblock %}
 
+{% block map_params %}
+queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
+{% endblock %}
+
 {% block head %}
-<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/jquery-util.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#map').gardenmap({
-            queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
-        });
-    });   
-</script>
+{{ block.super }}
 {% endblock %}
 
 {% block breadcrumbs %}{{ block.super }} crop count{% endblock %}
 
 {% block content %}
-    <h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
+<h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
 
-    <div id="left">
-        <ul class="overview">
-            <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
-            <li class="even"><b>{{ beds|default:'0' }}</b> bed{{ beds|pluralize }}</li>
-            <li><b>{{ area|default:'0'|floatformat }}</b> square feet</li>
-            <li class="even"><b>{{ plants|default:'0' }}</b> plant{{ plants|pluralize }}</li>
-            <li class="last">
-                <span>most recent plant types:</span>
-                <ul>
-                    {% for plant_type in recent_types %}
-                    <li>{{ plant_type }}</li>
-                    {% empty %}
-                    <li>None yet!</li>
-                    {% endfor %}
-                </ul>
-            </li>
+{{ block.super }}
+{% endblock %}
+
+{% block left %}
+<ul class="overview">
+    <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
+    <li class="even"><b>{{ beds|default:'0' }}</b> bed{{ beds|pluralize }}</li>
+    <li><b>{{ area|default:'0'|floatformat }}</b> square feet</li>
+    <li class="even"><b>{{ plants|default:'0' }}</b> plant{{ plants|pluralize }}</li>
+    <li class="last">
+        <span>most recent plant types:</span>
+        <ul>
+            {% for plant_type in recent_types %}
+            <li>{{ plant_type }}</li>
+            {% empty %}
+            <li>None yet!</li>
+            {% endfor %}
         </ul>
-    </div>
-    <div id="right">
-        <div id="map" style="width: 400px; height: 300px;"></div>
-    </div>
+    </li>
+</ul>
 {% endblock %}
 
 {% block actions %}

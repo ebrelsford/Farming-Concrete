@@ -321,6 +321,15 @@ table.cycled tbody tr.even {
 }
 
 
+#right #map {
+    width: 400px; 
+    height: 300px;
+}
+.garden-details #right #map {
+    width: 300px; 
+    height: 200px;
+}
+
 .map-page table.totals {
     width: 100%;
 }

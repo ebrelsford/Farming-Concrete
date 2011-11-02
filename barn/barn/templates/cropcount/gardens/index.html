@@ -1,18 +1,15 @@
-{% extends "cropcount/gardens/base.html" %}
+{% extends "cropcount/map_base.html" %}
 
 {% block title %}Counted {{ request.session.garden_type }} gardens{% endblock %}
 
+{% block map_params %}
+queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}',
+{% endblock %}
+
 {% block head %}
-<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/jquery-util.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
+{{ block.super }}
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#map').gardenmap({
-            queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}',
-        });
-
         $('.gardens li a,label').hover(
             function() {
                 var id = $(this).parent().attr('id');
@@ -30,36 +27,35 @@
 
 {% block content %}
 <h1>{{ request.session.garden_type }} gardens counted so far</h1>
-<div id="left">
-    {% if not user.is_superuser %}
-    Your gardens
-    <ul class="gardens">
-        {% for garden in user_gardens %}
-        <li id="{{ garden.id }}">
-            <a href="{% url cropcount.views.garden_details garden.id year=request.session.year %}">{{ garden.name }}</a>
-            {% if garden.box_set.count == 0 %}
-            no crop count yet
-            {% endif %}
-        </li>
-        {% empty %}
-        None.
-        {% endfor %}
-    </ul>
-    {% endif %}
-    Other gardens
-    <ul class="gardens">
-        {% for garden in counted_gardens %}
-        {% if garden not in user_gardens %}
-        <li id="{{ garden.id }}"><label href="{% url cropcount.views.garden_details garden.id year=request.session.year %}">{{ garden.name }}</label></li>
+{{ block.super }}
+{% endblock %}
+
+{% block left %}
+{% if not user.is_superuser %}
+Your gardens
+<ul class="gardens">
+    {% for garden in user_gardens %}
+    <li id="{{ garden.id }}">
+        <a href="{% url cropcount.views.garden_details garden.id year=request.session.year %}">{{ garden.name }}</a>
+        {% if garden.box_set.count == 0 %}
+        no crop count yet
         {% endif %}
-        {% empty %}
-        <li>None, yet!</li>
-        {% endfor %}
-    </ul>
-</div>
-<div id="right">
-    <div id="map" style="width: 400px; height: 300px;"></div>
-</div>
+    </li>
+    {% empty %}
+    None.
+    {% endfor %}
+</ul>
+{% endif %}
+Other gardens
+<ul class="gardens">
+    {% for garden in counted_gardens %}
+    {% if garden not in user_gardens %}
+    <li id="{{ garden.id }}"><label href="{% url cropcount.views.garden_details garden.id year=request.session.year %}">{{ garden.name }}</label></li>
+    {% endif %}
+    {% empty %}
+    <li>None, yet!</li>
+    {% endfor %}
+</ul>
 {% endblock %}
 
 {% block actions %}

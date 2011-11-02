@@ -1,18 +1,13 @@
-{% extends "harvestcount/base.html" %}
+{% extends "harvestcount/map_base.html" %}
 
 {% block title %}Harvest Count{% endblock %}
 
+{% block map_params %}
+queryString: 'harvestcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
+{% endblock %}
+
 {% block head %}
-<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#map').gardenmap({
-            queryString: 'harvestcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
-        });
-    });   
-</script>
+{{ block.super }}
 {% endblock %}
 
 {% block breadcrumbs %}{{ block.super }} harvest count{% endblock %}
@@ -20,27 +15,26 @@
 {% block content %}
 <h1>{{ request.session.garden_type }} gardens harvested so far</h1>
 
-<div id="left">
-    <ul class="overview">
-        <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
-        <li class="even"><b>{{ gardeners|default:'0' }}</b> gardener{{ gardeners|pluralize }}</li>
-        <li class="odd"><b>{{ weight|floatformat|default:'0' }}</b> pound{{ weight|pluralize }}</li>
-        <li class="even"><b>{{ plant_types|default:'0' }}</b> plant type{{ plant_types|pluralize }}</li>
-        <li class="last">
-            <span>most recent harvests:</span>
-            <ul>
-                {% for harvest in recent_harvests %}
-                <li>{{ harvest.variety.name }}, {{ harvest.weight|floatformat }} pound{{ harvest.weight|pluralize }}</li>
-                {% empty %}
-                <li>None yet!</li>
-                {% endfor %}
-            </ul>
-        </li>
-    </ul>
-</div>
-<div id="right">
-    <div id="map" style="width: 400px; height: 300px;"></div>
-</div>
+{{ block.super }}
+{% endblock %}
+
+{% block left %}
+<ul class="overview">
+    <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
+    <li class="even"><b>{{ gardeners|default:'0' }}</b> gardener{{ gardeners|pluralize }}</li>
+    <li class="odd"><b>{{ weight|floatformat|default:'0' }}</b> pound{{ weight|pluralize }}</li>
+    <li class="even"><b>{{ plant_types|default:'0' }}</b> plant type{{ plant_types|pluralize }}</li>
+    <li class="last">
+        <span>most recent harvests:</span>
+        <ul>
+            {% for harvest in recent_harvests %}
+            <li>{{ harvest.variety.name }}, {{ harvest.weight|floatformat }} pound{{ harvest.weight|pluralize }}</li>
+            {% empty %}
+            <li>None yet!</li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
 {% endblock %}
 
 {% block actions %}
