@@ -75,7 +75,7 @@ $(document).ready(function() {
             <span class="month-name">Added in {{ month }}</span>
             <ul class="values">
             {% for box in bed_list %}
-                {% with m=box.added|date:"F" %}
+                {% with box.added|date:"F" as m %}
                 {% if m == month %}
                 <li class="bed">
                 {% include "cropcount/gardens/detail_bed_snippet.html" %}
