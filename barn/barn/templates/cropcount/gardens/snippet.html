@@ -5,7 +5,7 @@
         <li class="bed">
             <span class="name">
                 {% if user.is_authenticated %}
-                <a href="{% url cropcount.views.bed_details box.id year=request.session.year %}">bed {{ box.name }}</a>
+                <a href="{% url cropcount.views.bed_details id=box.id year=request.session.year %}">bed {{ box.name }}</a>
                 {% else %}
                 bed {{ box.name }}
                 {% endif %}
