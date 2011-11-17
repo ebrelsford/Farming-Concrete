@@ -137,7 +137,7 @@ def all_gardens(request, year=None):
     """Show all harvested gardens"""
     type = request.session['garden_type']
 
-    gardens = Garden.objects.exclude(gardener__harvest=None).filter(gardener__harvest__harvested__year=year).distinct()
+    gardens = Garden.objects.filter(gardener__harvest__harvested__year=year).distinct()
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
     if type != 'all':
