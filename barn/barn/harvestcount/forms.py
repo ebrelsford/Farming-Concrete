@@ -40,8 +40,7 @@ class HarvestForm(ModelForm):
             gardener_name = self.data['gardener_text']
             if gardener_name:
                 garden = Garden.objects.get(pk=self.data['garden'])
-                gardener = Gardener(name=gardener_name, garden=garden, added_by=self.user)
-                gardener.save()
+                gardener = get_gardener(gardener_name, garden, self.user)
             else:
                 raise ValidationError('Please enter a gardener.')
 
@@ -63,3 +62,18 @@ class HarvestForm(ModelForm):
                 raise ValidationError('Please enter a plant type.')
 
         return variety
+
+def get_gardener(name, garden, user):
+    """Get a gardener with the given name, creating it if necessary"""
+    if not name or not garden or not user:
+        return None
+
+    # try to find an already-existing gardener with that name
+    gardeners = Gardener.objects.filter(name__iexact=name, garden=garden) 
+    if gardeners:
+        return gardeners[0]
+
+    # else create one
+    gardener = Gardener(name=name, added_by=user, garden=garden)
+    gardener.save()
+    return gardener
