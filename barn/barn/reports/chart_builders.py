@@ -52,7 +52,7 @@ def _create_barchart_figure(data_dct, labels_dct, template,
     else:
         colors = colors_default
     # With data unpacked, start building matplotlib Figure:
-    the_figure = Figure((6,6))
+    the_figure = Figure((10,10))
     the_figure.subplots_adjust(left=0.08, bottom=0.2)
     ax = the_figure.add_subplot(1, 1, 1)
     plotted_data = []

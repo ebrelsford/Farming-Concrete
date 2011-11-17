@@ -43,35 +43,31 @@ $(document).ready(function() {
 <div>2011 Farming Concrete Report</div>
 
 <div class="map-page report">
-    <div id="left">
-        <div class="tabs">
-            <ul>
-                <li><a href="#cropcount">Crop Count</a></li>
-                <li><a href="#harvestcount">Harvest Count</a></li>
-                <!--
-                <li><a href="#other">Other</a></li>
-                -->
-            </ul>
+    <div id="map" style="width: 100%; height: 150px;"></div>
 
-            <div id="cropcount">
-            {% include "reports/cropcount.html" %}
-            </div>
-
-            <div id="harvestcount">
-            {% include "reports/harvestcount.html" %}
-            </div>
-
+    <div class="tabs">
+        <ul>
+            <li><a href="#cropcount">Crop Count</a></li>
+            <li><a href="#harvestcount">Harvest Count</a></li>
             <!--
-            <div id="other">
-                TODO: compare with rest of the city?
-                TODO: Estimated yield using crop count (if no harvest count?)
-            </div>
+            <li><a href="#other">Other</a></li>
             -->
-        </div>
-    </div>
+        </ul>
 
-    <div id="right">
-        <div id="map" style="width: 300px; height: 200px;"></div>
+        <div id="cropcount">
+        {% include "reports/cropcount.html" %}
+        </div>
+
+        <div id="harvestcount">
+        {% include "reports/harvestcount.html" %}
+        </div>
+
+        <!--
+        <div id="other">
+            TODO: compare with rest of the city?
+            TODO: Estimated yield using crop count (if no harvest count?)
+        </div>
+        -->
     </div>
 
     <div id="bottom" style="clear: both;"> </div>
