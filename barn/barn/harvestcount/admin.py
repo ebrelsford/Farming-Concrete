@@ -4,7 +4,7 @@ from django.contrib import admin
 class GardenerAdmin(admin.ModelAdmin):
     #fields = ('name', 'address', 'neighborhood', 'borough', 'zip', 'gardenid',)
     list_display = ('name', 'garden',)
-    search_fields = ('name', 'garden',)
+    search_fields = ('name', 'garden__name',)
 
 class HarvestAdmin(admin.ModelAdmin):
     fields = ('variety', 'weight', 'plants',)
