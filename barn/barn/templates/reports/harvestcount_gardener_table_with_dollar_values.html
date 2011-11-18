@@ -1,17 +1,17 @@
 <table class="sorted">
     <thead>
         <tr>
-            <th>gardener name</th>
-            <th>lbs</th>
-            <th>dollar value</th>
+            <th align="center">gardener name</th>
+            <th align="center">lbs</th>
+            <th align="center">dollar value *</th>
         </tr>
     </thead>
     <tbody>
         {% for gardener_total in gardener_totals %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ gardener_total.gardener__name }}</td>
-            <td>{{ gardener_total.weight|floatformat }}</td>
-            <td>$n/a</td>
+            <td align="right">{{ gardener_total.weight|floatformat }}</td>
+            <td align="right">$n/a</td>
         </tr>
         {% endfor %}
     </tbody>
