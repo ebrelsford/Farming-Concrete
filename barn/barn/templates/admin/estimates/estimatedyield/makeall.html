@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}Make yield estimates{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">      
+    <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+    <a href="../../">Estimates</a> &rsaquo; 
+    <a href="../">Estimated yields</a> &rsaquo;
+    {% trans 'Make yield estimates' %}      
+</div>
+{% endblock %}                 
+
+
+{% block content %}
+<div id="content-main">
+    <h1>Make yield estimates</h1>
+
+    {% if do_stuff %}
+    <p>Stuff is done!</p>
+    {% endif %}
+
+    <p>Make new yield estimates for harvests recorded between {{ start }} and {{ end }}?</p>
+
+    <form action="." method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes" />
+    </form>
+</div>
+{% endblock %}
