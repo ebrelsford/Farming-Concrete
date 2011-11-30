@@ -3,12 +3,25 @@
 <head>
 
     <style>
+        @page {
+            margin-top: 50pt;
+            margin-left: 25pt;
+            margin-right: 25pt;
+        }
+
+        table, table tr, table td,
+        img,
+        div {
+            padding: 0;
+            margin: 0;
+        }
+
+
         .page {
             page-break-after: always;
             width: 100%;
         }
         .header {
-            text-align: right;
             width: 100%;
         }
 
@@ -19,6 +32,8 @@
 
         .garden-name {
             font-size: 36px;
+            font-weight: bold;
+            padding-top: 10px;
         }
         .center {
             width: 320px;
@@ -30,15 +45,21 @@
             clear: both;
         }
 
+        .banner {
+            padding-bottom: 15px;
+        }
+
         .summary {
-            padding-left: 80px;
+            padding-left: 280px;
         }
         .summary .quantity {
             font-weight: bold;
         }
+        .summary table {
+        }
 
         .spacer {
-            padding: 20px;
+            padding: 5px;
         }
 
         table tr.even {
@@ -67,18 +88,28 @@
 <body class="pdfreport">
    
     <div class="page">
-        <div class="header">
-            <h1 style="float: right; border-bottom: 1px solid black; padding: 0; margin: 0; width: 100%;">2011 Harvest Report</h1>
-            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="85px" align="left" />
-            <div style="clear: both;"></div>
+
+        <div class="header" style="border-bottom: 1px solid black;">
+            <table>
+                <tr>
+                    <td width="49%" valign="bottom">
+                        <img src="{{ MEDIA_URL }}img/report/logo-rgb.png" width="400px" height="83px" />
+                    </td>
+                    <td width="49%" height="100%" valign="bottom" style="padding-bottom: 0;">
+                        <h1 style="padding: 0; margin: 0; font-size: 32px; text-align: right;" valign="bottom">2011 Harvest Report</h1>
+                    </td>
+                </tr>
+            </table>
         </div>
 
-        <h2 class="garden-name" style="padding-bottom: 0; margin-bottom: 0;">{{ garden.name }}</h2>
+        <div class="garden-name">{{ garden.name }}</div>
 
-        <img src="{{ MEDIA_URL }}img/report/radishes.JPG" width="3260" height="620" style="margin: 0; padding: 0; width: 100%;" />
+        <div class="banner">
+            <img src="{{ MEDIA_URL }}img/report/radishes.JPG" width="3260" height="620" style="width: 100%;" />
+        </div>
 
-        <table>
-            <tr style="padding-top: 10px;">
+        <table style="padding-top: 25px;">
+            <tr>
                 <td class="gardener-table" width="50%" valign="top">
                     <h3>Total recorded per gardener</h3>
                     {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
