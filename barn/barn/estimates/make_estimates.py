@@ -15,7 +15,9 @@ def make_all_yield_estimates(start, end, by_gardener=True):
             estimated=datetime.now(), 
             notes="added via admin", 
             should_be_used=True, 
-            pounds_per_plant=str(pounds_per_plant)
+            pounds_per_plant=str(pounds_per_plant),
+            valid_start=start,
+            valid_end=end
         )
         estimated_yield.save()
 

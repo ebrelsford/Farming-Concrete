@@ -7,7 +7,7 @@ from estimates.admin_views import make_yield_estimates
 
 class EstimatedYieldAdmin(admin.ModelAdmin):
     search_fields = ('variety__name',)
-    list_display = ('variety', 'estimated', 'pounds_per_plant', 'notes', 'should_be_used')
+    list_display = ('variety', 'estimated', 'valid_start', 'valid_end', 'pounds_per_plant', 'notes', 'should_be_used')
     list_filter = ('estimated', 'should_be_used', 'variety')
 
     def make_yield_estimates_success(self, request):
@@ -30,7 +30,7 @@ class EstimatedYieldAdmin(admin.ModelAdmin):
 
 class EstimatedCostAdmin(admin.ModelAdmin):
     search_fields = ('variety__name',)
-    list_display = ('variety', 'estimated', 'cost_per_pound', 'source', 'notes', 'organic', 'should_be_used')
+    list_display = ('variety', 'estimated', 'valid_start', 'valid_end', 'cost_per_pound', 'source', 'notes', 'organic', 'should_be_used')
     list_filter = ('estimated', 'source', 'should_be_used', 'variety')
 
 admin.site.register(EstimatedYield, EstimatedYieldAdmin)

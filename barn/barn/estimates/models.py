@@ -6,6 +6,8 @@ class Estimate(models.Model):
     estimated = models.DateField()
     notes = models.TextField(null=True, blank=True)
     should_be_used = models.BooleanField(default=True)
+    valid_start = models.DateField()
+    valid_end = models.DateField()
 
     class Meta:
         abstract = True
