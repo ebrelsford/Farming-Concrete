@@ -40,15 +40,15 @@ def _patches(garden=None, start=REPORT_START, end=REPORT_END):
 
 @login_required
 def index(request):
-    patches = _patches()
+    patches = _patches().distinct()
     beds = Box.objects.filter(patch__in=patches).distinct()
     harvests = _harvests()
 
     # TODO estimates for crops that weren't weighed + actual weights for those which were?
-    crops = patches.values('variety__id', 'variety__name', 'added').annotate(plants=Sum('plants'), area=Sum('area'))
+    crops = patches.values('variety__id', 'variety__name').annotate(plants=Sum('plants'), area=Sum('area')).distinct()
     for crop in crops:
-        # XXX using added is a quickfix until user can specify a date for the patch
-        crop['estimate'] = _estimate_yield(crop['variety__id'], crop['added'], crop['plants'])
+        # XXX should use 'added' to get more granular estimated yield
+        crop['estimate'] = _estimate_yield(crop['variety__id'], date(2011, 6, 1), crop['plants'])
 
     return render_to_response('reports/index.html', {
         'beds': sorted(beds),

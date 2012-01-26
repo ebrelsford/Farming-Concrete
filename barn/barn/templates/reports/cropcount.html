@@ -1,14 +1,16 @@
 <div>
     <h2>Crop Count</h2>
     {% if beds %}
+
+    {% if garden %}
     <div class="beds section collapsible collapsed">
-        {% if garden %}
         <h3 class="expander"><a href="#">Click to show/hide full crop count</a></h3>
         <div class="expandee">
         {% include "cropcount/gardens/snippet.html" %}
         </div>
-        {% endif %}
     </div>
+    {% endif %}
+
     <div class="totals section">
         <h3>Totals</h3>
         <table class="totals cycled">
