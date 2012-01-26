@@ -4,9 +4,41 @@
 
     <style>
         @page {
-            margin-top: 50pt;
-            margin-left: 25pt;
-            margin-right: 25pt;
+            size: letter portrait;
+            margin-top: .5cm;
+            margin-left: .5cm;
+            margin-right: .5cm;
+            margin-bottom: .5cm;
+
+            @frame header {
+                -pdf-frame-content: headerContent;
+                top: 1.5cm;
+                height: 8cm;
+                margin-left: 1cm;
+                margin-right: .5cm;
+            }
+            @frame middle {
+                top: 9.5cm;
+                margin-left: 1cm;
+                margin-right: .5cm;
+            }
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 1cm;
+                height: 3cm;
+                margin-left: .5cm;
+            }
+        }
+
+        @font-face {
+            font-family: "LinoLetterStd";
+            src: url({{ MEDIA_URL }}img/report/LinoLetterStd-Black.ttf);
+        }
+
+        @font-face {
+            font-family: "LinoLetterStd";
+            src: url('{{ MEDIA_URL }}img/report/LinoLetterStd-Bold.ttf');
+            font-weight: bold;
         }
 
         table, table tr, table td,
@@ -18,31 +50,35 @@
 
 
         .page {
+            position: relative;
+            top: 10cm;
             page-break-after: always;
-            width: 100%;
-        }
-        .header {
-            width: 100%;
         }
 
         .footer {
-            padding-top: 100px;
             border-bottom: 1px solid black;
+        }
+        .pagenumber {
+            padding-top: 15px;
+            text-align: right;
+        }
+
+        .header {
+            border-bottom: .5pt solid black;
+        }
+
+        .title {
+            font-family: LinoLetterStd; 
+            font-size: 32px; 
+            text-align: right;
+            vertical-align: bottom;
         }
 
         .garden-name {
+            font-family: LinoLetterStd;
             font-size: 36px;
             font-weight: bold;
-            padding-top: 10px;
-        }
-        .center {
-            width: 320px;
-            margin-left: auto;
-            margin-right: auto;
-            clear: both;
-        }
-        .footer {
-            clear: both;
+            padding-top: 30px;
         }
 
         .banner {
@@ -50,10 +86,11 @@
         }
 
         .summary {
-            padding-left: 280px;
+            font-size: 16px;
         }
         .summary .quantity {
             font-weight: bold;
+            padding-bottom: 5px;
         }
         .summary table {
         }
@@ -66,8 +103,10 @@
             background-color: #F2E3C4;
         }
 
-        .crop-chart h3 {
+        .section h3 {
             text-align: center;
+            font-family: LinoLetterStd;
+            font-size: 18px;
         }
         .gardener-table h3 {
             text-align: center;
@@ -86,17 +125,17 @@
 </head>
 
 <body class="pdfreport">
-   
-    <div class="page">
 
-        <div class="header" style="border-bottom: 1px solid black;">
+    <div id="headerContent">
+
+        <div class="header">
             <table>
                 <tr>
-                    <td width="49%" valign="bottom">
+                    <td width="49%" style="padding-top: -25px;">
                         <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
                     </td>
-                    <td width="49%" height="100%" valign="bottom" style="padding-bottom: 0;">
-                        <h1 style="padding: 0; margin: 0; font-size: 32px; text-align: right;" valign="bottom">2011 Harvest Report</h1>
+                    <td width="49%" valign="bottom">
+                        <h1 class="title">2011 Harvest Report</h1>
                     </td>
                 </tr>
             </table>
@@ -108,49 +147,73 @@
             <img src="{{ MEDIA_URL }}img/report/radishes.JPG" width="3260" height="620" style="width: 100%;" />
         </div>
 
+    </div>
+
+    <div class="page">
         <table style="padding-top: 25px;">
             <tr>
-                <td class="gardener-table" width="50%" valign="top">
+                <td class="section gardener-table" width="50%" valign="top">
                     <h3>Total recorded per gardener</h3>
                     {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
                 </td>
-                <td class="crop-chart" width="50%" valign="top">
+                <td class="section crop-chart" width="50%" valign="top">
                     <h3>Total recorded per crop</h3>
                     <img src="{{ charts.weight_per_crop.image.url }}" width="480px" height="480px" />
                 </td>
             </tr>
             <tr class="spacer">
                 <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td class="summary" colspan="2">
                     <table>
-                        <tr><td>
-                            Number of people who recorded:
-                        </td></tr>
-                        <tr><td class="quantity">
-                            {{ gardener_totals|length }} gardener{{ gardener_totals|pluralize }}
-                        </td></tr>
-                        <tr><td>
-                            Total pounds recorded:
-                        </td></tr>
-                        <tr><td class="quantity">
-                            {{ total_weight }} pounds
-                        </td></tr>
-                        <tr><td>
-                            Estimated dollar value of harvest recorded:
-                        </td></tr>
-                        <tr><td class="quantity">
-                            $n/a
-                        </td></tr>
+                        <tr>
+                            <td style="width: 150px;">
+                            </td>
+                            <td style="width: 65px;">
+                                <img src="{{ MEDIA_URL }}img/report/left_bracket.png" width="63" height="203" />
+                            </td>
+                            <td style="width: 320px;">
+                                <table>
+                                    <tr><td>
+                                        Number of people who recorded:
+                                    </td></tr>
+                                    <tr><td class="quantity">
+                                        {{ gardener_totals|length }} gardener{{ gardener_totals|pluralize }}
+                                    </td></tr>
+                                    <tr><td>
+                                        Total pounds recorded:
+                                    </td></tr>
+                                    <tr><td class="quantity">
+                                        {{ total_weight }} pounds
+                                    </td></tr>
+                                    <tr><td>
+                                        Estimated dollar value of harvest recorded:
+                                    </td></tr>
+                                    <tr><td class="quantity">
+                                        $n/a
+                                    </td></tr>
+                                </table>
+                            </td>
+                            <td style="width: 65px;">
+                                <img src="{{ MEDIA_URL }}img/report/right_bracket.png" width="63" height="203" />
+                            </td>
+                        </tr>
                     </table>
                 </td>
             </tr>
         </table>
+    </div>
 
+    <div id="footerContent">
         <div class="footer">
             * We used a combination of Whole Foods, Green market, and BK Farmyards for pricing data to best account for the local and almost entirely organic nature of community gardening in New York City.
         </div>
+        <div class="pagenumber">
+            <pdf:pagenumber>
+        </div>
     </div>
+   
 
 </body>

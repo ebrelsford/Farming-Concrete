@@ -2,10 +2,12 @@
     <h2>Crop Count</h2>
     {% if beds %}
     <div class="beds section collapsible collapsed">
+        {% if garden %}
         <h3 class="expander"><a href="#">Click to show/hide full crop count</a></h3>
         <div class="expandee">
         {% include "cropcount/gardens/snippet.html" %}
         </div>
+        {% endif %}
     </div>
     <div class="totals section">
         <h3>Totals</h3>
@@ -27,6 +29,7 @@
                     <th>plant type</th>
                     <th>plants</th>
                     <th>area</th>
+                    <th>estimated yield (lbs)</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,11 +38,14 @@
                     <td>{{ crop.variety__name }}</td>
                     <td>{{ crop.plants|default:"" }}</td>
                     <td>{{ crop.area|default:"" }}</td>
+                    <td>{{ crop.estimate|default:"" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% if garden %}
         <img src="{% url reports.views.bar_chart_plants_per_crop id=garden.id %}" />
+        {% endif %}
     </div>
     {% else %}
     No crop count is on record for this garden.

@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
 
     # reports
+    (r'^reports/$', 'reports.views.index'),
     (r'^gardens/(?P<id>\d+)/report/$', 'reports.views.garden_report'),
     (r'^gardens/(?P<id>\d+)/report/charts/plants_per_crop$', 'reports.views.bar_chart_plants_per_crop'),
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_crop$', 'reports.views.bar_chart_weight_per_crop'),
@@ -32,7 +33,7 @@ urlpatterns = patterns('',
     (r'^gardens/(?P<id>\d+)/report/share$', 'reports.views.share'),
     (r'^gardens/(?P<id>\d+)/report/pdf$', 'reports.views.pdf'),
     (r'^gardens/(?P<id>\d+)/report/pdftest$', 'reports.views.pdftest'),
-    (r'^reports/(?P<access_key>.+)/$', 'reports.views.shared_garden_report'),
+    (r'^reports/shared/(?P<access_key>.+)/$', 'reports.views.shared_garden_report'),
 
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),

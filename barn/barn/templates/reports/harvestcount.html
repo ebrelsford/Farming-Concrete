@@ -1,10 +1,12 @@
 <h2>Harvest Count</h2>
 {% if harvests %}
 <div class="harvests section collapsible collapsed">
+    {% if garden %}
     <h3 class="expander"><a href="#">Click to show/hide full harvest count</a></h3>
     <div class="expandee">
     {% include "harvestcount/gardens/snippet.html" %}
     </div>
+    {% endif %}
 </div>
 <div class="section">
     <h3>Totals</h3>
@@ -27,12 +29,16 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if garden %}
         <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id %}" />
+        {% endif %}
     </div>
     <div class="subsection">
         <h4>total weighed by gardener</h4>
         {% include "reports/harvestcount_gardener_table.html" %}
+        {% if garden %}
         <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
+        {% endif %}
     </div>
 </div>
 {% else %}
