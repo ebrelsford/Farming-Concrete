@@ -24,25 +24,38 @@ from models import SharedReport, Chart
 REPORT_START = date(2011, 01, 01)
 REPORT_END = date(2012, 01, 01)
 
-def _harvests(garden=None, start=REPORT_START, end=REPORT_END):
+def _harvests(garden=None, borough=None, start=REPORT_START, end=REPORT_END):
     """Get valid harvests for the given garden"""
+    harvests = Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
     if garden:
-        return Harvest.objects.filter(gardener__garden=garden, harvested__gte=start, harvested__lt=end)
-    else:
-        return Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
+        return harvests.filter(gardener__garden=garden)
+    elif borough:
+        return harvests.filter(gardener__garden__borough=borough)
 
-def _patches(garden=None, start=REPORT_START, end=REPORT_END):
+    return harvests
+
+def _patches(garden=None, borough=None, start=REPORT_START, end=REPORT_END):
     """Get valid patches for the given garden"""
+    patches = Patch.objects.filter(added__gte=start, added__lt=end)
     if garden:
-        return Patch.objects.filter(box__garden=garden, added__gte=start, added__lt=end)
-    else:
-        return Patch.objects.filter(added__gte=start, added__lt=end)
+        return patches.filter(box__garden=garden)
+    elif borough:
+        return patches.filter(box__garden__borough=borough)
+    
+    return patches
 
-@login_required
-def index(request):
-    patches = _patches().distinct()
+def _report_common_context(borough=None, garden=None):
+    if borough:
+        patches = _patches(borough=borough).distinct()
+        harvests = _harvests(borough=borough)
+    elif garden:
+        patches = _patches(garden=garden)
+        harvests = _harvests(garden=garden)
+    else:
+        patches = _patches().distinct()
+        harvests = _harvests()
+
     beds = Box.objects.filter(patch__in=patches).distinct()
-    harvests = _harvests()
 
     # TODO estimates for crops that weren't weighed + actual weights for those which were?
     crops = patches.values('variety__id', 'variety__name').annotate(plants=Sum('plants'), area=Sum('area')).distinct()
@@ -50,7 +63,7 @@ def index(request):
         # XXX should use 'added' to get more granular estimated yield
         crop['estimate'] = _estimate_yield(crop['variety__id'], date(2011, 6, 1), crop['plants'])
 
-    return render_to_response('reports/index.html', {
+    return {
         'beds': sorted(beds),
         'total_beds': beds.count(),
         'total_area': sum([b.length * b.width for b in beds]),
@@ -61,7 +74,32 @@ def index(request):
         'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),
         'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
-    }, context_instance=RequestContext(request))
+    }
+
+@login_required
+def index(request):
+    context = _report_common_context()
+    year = request.session['year']
+    cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
+    harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
+    context['cropcount_gardens_count'] = cropcount_gardens.distinct().count()
+    context['harvestcount_gardens_count'] = harvestcount_gardens.distinct().count()
+    context['boroughs'] = (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
+
+    return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
+
+@login_required
+def borough_report(request, borough=None):
+    context = _report_common_context(borough=borough)
+    context['borough'] = borough
+
+    year = request.session['year']
+    cropcount_gardens = Garden.objects.filter(borough=borough, box__patch__added__year=year)
+    harvestcount_gardens = Garden.objects.filter(borough=borough, gardener__harvest__harvested__year=year)
+    context['cropcount_gardens_count'] = cropcount_gardens.distinct().count()
+    context['harvestcount_gardens_count'] = harvestcount_gardens.distinct().count()
+
+    return render_to_response('reports/borough.html', context, context_instance=RequestContext(request))
 
 @login_required
 def garden_report(request, id=None):
@@ -80,32 +118,11 @@ def _estimate_yield(variety_id, recorded_date, plants):
 
 def _render_garden_report(request, id=None):
     """render the report for a given garden"""
-
     garden = get_object_or_404(Garden, id=id)
-    patches = _patches(garden)
-    beds = Box.objects.filter(patch__in=patches).distinct()
-    harvests = _harvests(garden)
+    context = _report_common_context(garden=garden)
+    context['garden'] = garden
 
-    # TODO estimates for crops that weren't weighed + actual weights for those which were?
-    crops = patches.values('variety__id', 'variety__name', 'added').annotate(plants=Sum('plants'), area=Sum('area'))
-    for crop in crops:
-        # XXX using added is a quickfix until user can specify a date for the patch
-        crop['estimate'] = _estimate_yield(crop['variety__id'], crop['added'], crop['plants'])
-
-    return render_to_response('reports/garden.html', {
-        'garden': garden,
-
-        'beds': sorted(beds),
-        'total_beds': beds.count(),
-        'total_area': sum([b.length * b.width for b in beds]),
-        'total_plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'crops': crops,
-
-        'harvests': harvests,
-        'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),
-        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
-        'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
-    }, context_instance=RequestContext(request))
+    return render_to_response('reports/garden.html', context, context_instance=RequestContext(request))
 
 @login_required
 def bar_chart_plants_per_crop(request, id=None):

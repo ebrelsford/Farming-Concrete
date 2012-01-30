@@ -77,6 +77,7 @@ def gardens_geojson(request):
     harvestcount = request.GET.get('harvestcount', None)
     participating = request.GET.get('participating', None)
     type = request.GET.get('type', None)
+    borough = request.GET.get('borough', None)
     year = request.GET.get('year', FARMINGCONCRETE_YEAR)
 
     if ids:
@@ -90,6 +91,8 @@ def gardens_geojson(request):
         gardens = gardens.filter(box__patch__added__year=year) | gardens.filter(gardener__harvest__harvested__year=year)
     if type and type != 'all':
         gardens = gardens.filter(type__short_name=type)
+    if borough:
+        gardens = gardens.filter(borough=borough)
 
     gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')

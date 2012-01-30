@@ -14,6 +14,11 @@
     <div class="totals section">
         <h3>Totals</h3>
         <table class="totals cycled">
+            {% if cropcount_gardens_count %}
+            <tr class="even">
+                <th>participating gardens</th><td>{{ cropcount_gardens_count }}</td>
+            </tr>
+            {% endif %}
             <tr class="odd">
                 <th>number of beds</th><td>{{ total_beds }}</td>
             </tr>
@@ -50,7 +55,6 @@
         {% endif %}
     </div>
     {% else %}
-    No crop count is on record for this garden.
+    No crop count available.
     {% endif %}
 </div>
-

@@ -1,47 +1,59 @@
-<h2>Harvest Count</h2>
-{% if harvests %}
-<div class="harvests section collapsible collapsed">
+<div>
+    <h2>Harvest Count</h2>
+    {% if harvests %}
+
     {% if garden %}
-    <h3 class="expander"><a href="#">Click to show/hide full harvest count</a></h3>
-    <div class="expandee">
-    {% include "harvestcount/gardens/snippet.html" %}
+    <div class="harvests section collapsible collapsed">
+        <h3 class="expander"><a href="#">Click to show/hide full harvest count</a></h3>
+        <div class="expandee">
+        {% include "harvestcount/gardens/snippet.html" %}
+        </div>
     </div>
     {% endif %}
-</div>
-<div class="section">
-    <h3>Totals</h3>
-    <strong>total weight:</strong> {{ total_weight }} pounds
-    <div class="subsection">
-        <h4>total weighed by crop</h4>
-        <table class="sorted">
-            <thead>
-                <tr>
-                    <th>plant type</th>
-                    <th>lbs</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for harvest_total in harvest_totals %}
-                <tr>
-                    <td>{{ harvest_total.variety__name }}</td>
-                    <td>{{ harvest_total.weight|floatformat }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% if garden %}
-        <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id %}" />
-        {% endif %}
-    </div>
-    <div class="subsection">
-        <h4>total weighed by gardener</h4>
-        {% include "reports/harvestcount_gardener_table.html" %}
-        {% if garden %}
-        <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
-        {% endif %}
-    </div>
-</div>
-{% else %}
-No harvest count is on record for this garden.
-{% endif %}
 
+    <div class="totals section">
+        <h3>Totals</h3>
+        <table class="totals cycled">
+            {% if harvestcount_gardens_count %}
+            <tr class="even">
+                <th>participating gardens</th><td>{{ harvestcount_gardens_count }}</td>
+            </tr>
+            {% endif %}
+            <tr class="odd">
+                <th>harvested weight</th><td>{{ total_weight }}</td>
+            </tr>
+        </table>
+        <div class="subsection">
+            <h4>total weighed by crop</h4>
+            <table class="sorted">
+                <thead>
+                    <tr>
+                        <th>plant type</th>
+                        <th>lbs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for harvest_total in harvest_totals %}
+                    <tr>
+                        <td>{{ harvest_total.variety__name }}</td>
+                        <td>{{ harvest_total.weight|floatformat }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if garden %}
+            <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id %}" />
+            {% endif %}
+        </div>
+        <div class="subsection">
+            <h4>total weighed by gardener</h4>
+            {% include "reports/harvestcount_gardener_table.html" %}
+            {% if garden %}
+            <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    No harvest count available.
+    {% endif %}
+</div>
