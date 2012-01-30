@@ -12,3 +12,13 @@ queryString: 'participating=yes&type={{ request.session.garden_type.short_name }
 {% block page_title %}
 <h1>2011 City-Wide Report</h1>
 {% endblock %}
+
+{% block borough_nav %}
+<div class="nav">
+    <ul>
+        {% for borough in boroughs %}
+        <li><a href="{% url reports.views.borough_report borough=borough %}">{{ borough }}</a>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

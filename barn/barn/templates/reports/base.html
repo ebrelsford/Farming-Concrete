@@ -36,6 +36,8 @@ $(document).ready(function() {
 <div class="map-page report">
     <div id="map" style="width: 100%; height: {% if garden %}150{% else %}350{% endif %}px;"></div>
 
+    {% block borough_nav %}{% endblock %}
+
     <div class="tabs">
         <ul>
             <li><a href="#cropcount">Crop Count</a></li>
