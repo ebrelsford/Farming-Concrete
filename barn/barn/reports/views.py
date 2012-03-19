@@ -13,11 +13,11 @@ from django.template import RequestContext
 
 from django_xhtml2pdf.utils import render_to_pdf_response
 
+from charts import plants_per_crop, weight_per_crop, weight_per_gardener, estimated_weight_per_crop
 from cropcount.models import Box, Patch
-from estimates.models import EstimatedYield
+from estimates.common import estimate_for_harvests_by_gardener, estimate_for_patches
 from farmingconcrete.models import Garden
 from harvestcount.models import Harvest
-from charts import plants_per_crop, weight_per_crop, weight_per_gardener
 from models import SharedReport, Chart
 
 # TODO parameterize
@@ -56,23 +56,16 @@ def _report_common_context(borough=None, garden=None):
         harvests = _harvests()
 
     beds = Box.objects.filter(patch__in=patches).distinct()
-
-    # TODO estimates for crops that weren't weighed + actual weights for those which were?
-    crops = patches.values('variety__id', 'variety__name').annotate(plants=Sum('plants'), area=Sum('area')).distinct()
-    for crop in crops:
-        # XXX should use 'added' to get more granular estimated yield
-        crop['estimate'] = _estimate_yield(crop['variety__id'], date(2011, 6, 1), crop['plants'])
-
     return {
         'beds': sorted(beds),
         'total_beds': beds.count(),
         'total_area': sum([b.length * b.width for b in beds]),
         'total_plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'crops': crops,
+        'crops': estimate_for_patches(patches, estimate_yield=True)['crops'],
 
         'harvests': harvests,
         'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),
-        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
+        'harvestcount_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }
 
@@ -108,13 +101,6 @@ def garden_report(request, id=None):
 def shared_garden_report(request, access_key=None):
     shared = get_object_or_404(SharedReport, access_key=access_key)
     return _render_garden_report(request, id=shared.garden.id)
-
-def _estimate_yield(variety_id, recorded_date, plants):
-    estimates = EstimatedYield.objects.filter(variety__id=variety_id, valid_start__lte=recorded_date, valid_end__gt=recorded_date, should_be_used=True)
-    try:
-        return estimates[0].pounds_per_plant * plants
-    except:
-        return None
 
 def _render_garden_report(request, id=None):
     """render the report for a given garden"""
@@ -156,12 +142,31 @@ def share(request, id=None):
 def pdf(request, id=None):
     garden = get_object_or_404(Garden, id=id)
     harvests = _harvests(garden)
+    patches = _patches(garden)
+
+    cropcount_estimates = estimate_for_patches(patches, estimate_yield=True, estimate_value=True)
+    harvestcount_estimates = estimate_for_harvests_by_gardener(harvests, estimate_value=True)
+    harvestcount_totals = harvests.values('gardener__name').annotate(weight=Sum('weight'))
+    for row in harvestcount_totals:
+        row['value'] = harvestcount_estimates['gardener_values'][row['gardener__name']]
+
+    charts = _make_charts(garden, medium='print')
+    for key, c in charts.items():
+        print c.image.url
 
     return render_to_pdf_response('reports/pdf.html', context=RequestContext(request, {
         'garden': garden,
-        'charts': _make_charts(garden),
-        'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
-        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
+        'has_harvestcount': harvests.count() > 0,       
+        'has_cropcount': patches.count() > 0,       
+
+        'charts': charts,
+
+        'harvestcount_total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
+        'harvestcount_estimated_total_value': harvestcount_estimates['total_value'],
+        'harvestcount_totals': harvestcount_totals,
+
+        'cropcount_estimated_pounds': cropcount_estimates['total_yield'],
+        'cropcount_estimated_value': cropcount_estimates['total_value'],
     }), pdfname='report.pdf')
 
 @login_required
@@ -172,21 +177,21 @@ def pdftest(request, id=None):
     return render_to_response('reports/pdf.html', RequestContext(request, {
         'garden': garden,
         'charts': _make_charts(garden),
-        'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
-        'gardener_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
+        'harvestcount_total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
+        'harvestcount_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
     }))
 
-def _make_charts(garden):
+def _make_charts(garden, medium="screen"):
     charts = {}
 
-    chart_functions = [plants_per_crop, weight_per_crop, weight_per_gardener,]
+    chart_functions = [weight_per_crop, estimated_weight_per_crop]
 
     for f in chart_functions:
         try:
             label = f.__name__
             c = Chart(garden=garden, label=label)
-            temp_file = File(StringIO(f(garden)))
-            c.image.save('%d_%s.png' % (garden.id, label), ContentFile(temp_file.read()), save=True)
+            temp_file = File(StringIO(f(garden, medium=medium)))
+            c.image.save('%d_%s_%s.png' % (garden.id, label, medium), ContentFile(temp_file.read()), save=True)
             charts[label] = c
         except:
             pass

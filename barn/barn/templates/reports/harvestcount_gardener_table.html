@@ -6,7 +6,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for gardener_total in gardener_totals %}
+        {% for gardener_total in harvestcount_totals %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ gardener_total.gardener__name }}</td>
             <td>{{ gardener_total.weight|floatformat }}</td>

@@ -7,6 +7,15 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import numpy as np
 
+figsize = {
+    'screen': (8, 8),
+    'print': (10, 10),
+}
+
+dpi = {
+    'screen': 100,
+    'print': 300,
+}
 
 # See http://matplotlib.sourceforge.net/users/customizing.html
 font_params = {
@@ -31,7 +40,7 @@ linestyles_default = itertools.cycle([
 
 def _create_barchart_figure(data_dct, labels_dct, template,
                            show_title=False, set_y_origin_zero=True,
-                           x_zero_indexed=False, xlabels=[]):
+                           x_zero_indexed=False, xlabels=[], medium="screen"):
     """
     Given 1+ sequences, create and return a Matplotlib Figure(Canvas)
     barchart visualization.
@@ -52,8 +61,8 @@ def _create_barchart_figure(data_dct, labels_dct, template,
     else:
         colors = colors_default
     # With data unpacked, start building matplotlib Figure:
-    the_figure = Figure((10,10))
-    the_figure.subplots_adjust(left=0.08, bottom=0.2)
+    the_figure = Figure(figsize=figsize[medium], dpi=dpi[medium])
+    the_figure.subplots_adjust(left=0.08, bottom=0.2, top=.99)
     ax = the_figure.add_subplot(1, 1, 1)
     plotted_data = []
     bar_width = 0.7
@@ -96,7 +105,7 @@ def _create_barchart_figure(data_dct, labels_dct, template,
     return FigureCanvas(the_figure)
 
 def create_chart_as_png_str(chart_type, data_dct,
-                            labels_dct=None, template=None, xlabels=None):
+                            labels_dct=None, template=None, xlabels=None, medium="screen"):
     """
     This is the public-facing API call to create and return a chart as
     a PNG-format string.
@@ -113,7 +122,7 @@ def create_chart_as_png_str(chart_type, data_dct,
         figure_fn = _create_barchart_figure
     else:
         raise Exception("Unknown chart_type %s" % chart_type)
-    figure = figure_fn(data_dct, labels_dct, template, xlabels=xlabels)
+    figure = figure_fn(data_dct, labels_dct, template, xlabels=xlabels, medium=medium)
     # From here on, PNG-specific code happens.
     #
     # Note: there's no need to specify resolution/DPI for web-usage,
