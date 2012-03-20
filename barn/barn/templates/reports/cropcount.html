@@ -38,9 +38,13 @@
                     <th>plants</th>
                     <th>area</th>
                     {% if not garden %}
-                    <th>avg yield overall (lbs per plant)</th>
+                    <th>avg yield overall<br />(lbs per plant)</th>
                     {% endif %}
                     <th>estimated yield (lbs)</th>
+                    {% if not garden and type %}
+                    <th>avg yield for {{ type.name }}s<br />(lbs per plant)</th>
+                    <th>estimated yield using {{ type.name }}s avg<br />(lbs per plant)</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -53,6 +57,10 @@
                     <td>{{ crop.average_yield|default:"" }}</td>
                     {% endif %}
                     <td>{{ crop.estimated_yield|default:"" }}</td>
+                    {% if not garden and type %}
+                    <td>{{ crop.type_average_yield|default:"" }}</td>
+                    <td>{{ crop.type_estimated_yield|default:"" }}</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

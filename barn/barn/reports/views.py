@@ -1,4 +1,3 @@
-from datetime import date
 import json
 from StringIO import StringIO
 
@@ -68,7 +67,7 @@ def _report_common_context(borough=None, garden=None, type=None, year=None):
         'total_beds': beds.count(),
         'total_area': sum([b.length * b.width for b in beds]),
         'total_plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'crops': estimate_for_patches(patches, estimate_yield=True)['crops'],
+        'crops': estimate_for_patches(patches, estimate_yield=True, garden_type=type)['crops'],
 
         'harvests': harvests,
         'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),

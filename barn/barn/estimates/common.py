@@ -4,9 +4,12 @@ from django.db.models import Sum
 
 from models import EstimatedCost, EstimatedYield
 
-def _find_estimated_crop_yield(variety_id, recorded_date):
+def _find_estimated_crop_yield(variety_id, recorded_date, garden_type=None):
     try:
-        return EstimatedYield.objects.filter(variety__id=variety_id, valid_start__lte=recorded_date, valid_end__gt=recorded_date, should_be_used=True)[0].pounds_per_plant
+        yields = EstimatedYield.objects.filter(variety__id=variety_id, valid_start__lte=recorded_date, valid_end__gt=recorded_date, should_be_used=True)
+        if garden_type:
+            yields = yields.filter(garden_type=garden_type)
+        return yields[0].pounds_per_plant
     except:
         return None
 
@@ -47,7 +50,7 @@ def estimate_for_harvests(harvests, estimate_value=False):
         'total_value': total_value,
     }
 
-def estimate_for_patches(patches, estimate_yield=False, estimate_value=False):
+def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, garden_type=None):
     """
     Estimate the pounds yielded by the given patches, including a total of all patches.
     """
@@ -59,6 +62,10 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False):
             # XXX TODO should use 'added' to get more granular estimated yield
             crop['average_yield'] = _find_estimated_crop_yield(crop['variety__id'], date(2011, 6, 1))
             crop['estimated_yield'] = estimated_yield = (crop['average_yield'] or 0) * (crop['plants'] or 0)
+
+            if garden_type:
+                crop['type_average_yield'] = _find_estimated_crop_yield(crop['variety__id'], date(2011, 6, 1))
+                crop['type_estimated_yield'] = (crop['type_average_yield'] or 0) * (crop['plants'] or 0)
             total_yield += estimated_yield or 0
         if estimate_value:
             crop['estimated_value'] = estimated_value = _estimate_value(crop['variety__id'], date(2011, 6, 1), crop['estimated_yield'])
