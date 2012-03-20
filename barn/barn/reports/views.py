@@ -24,26 +24,24 @@ def _harvests(garden=None, borough=None, type=None, year=2011): # TODO un-hard-c
     harvests = Harvest.objects.filter(harvested__year=year)
     if garden:
         return harvests.filter(gardener__garden=garden)
-    elif borough:
-        if type:
-            return harvests.filter(gardener__garden__borough=borough, gardener__garden__type__name=type)
-        else:
-            return harvests.filter(gardener__garden__borough=borough)
+    if borough:
+        harvests = harvests.filter(gardener__garden__borough=borough)
+    if type:
+        harvests = harvests.filter(gardener__garden__type__name=type)
 
-    return harvests
+    return harvests.distinct()
 
 def _patches(garden=None, borough=None, type=None, year=2011): # TODO un-hard-code
     """Get valid patches for the given garden"""
     patches = Patch.objects.filter(added__year=year)
     if garden:
         return patches.filter(box__garden=garden)
-    elif borough:
-        if type:
-            return patches.filter(box__garden__borough=borough, box__garden__type__name=type)
-        else:
-            return patches.filter(box__garden__borough=borough)
+    if borough:
+        patches = patches.filter(box__garden__borough=borough)
+    if type:
+        patches = patches.filter(box__garden__type__name=type)
     
-    return patches
+    return patches.distinct()
 
 def _boroughs(year):
     cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
@@ -51,16 +49,8 @@ def _boroughs(year):
     return (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
 
 def _report_common_context(borough=None, garden=None, type=None, year=None):
-    if borough:
-        patches = _patches(borough=borough, type=type, year=year).distinct()
-        harvests = _harvests(borough=borough, type=type, year=year)
-    elif garden:
-        patches = _patches(garden=garden, year=year)
-        harvests = _harvests(garden=garden, year=year)
-    else:
-        patches = _patches(year=year).distinct()
-        harvests = _harvests(year=year)
-
+    patches = _patches(borough=borough, garden=garden, type=type, year=year).distinct()
+    harvests = _harvests(borough=borough, garden=garden, type=type, year=year)
     beds = Box.objects.filter(patch__in=patches).distinct()
     return {
         'beds': sorted(beds),
