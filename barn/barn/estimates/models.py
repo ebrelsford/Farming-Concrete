@@ -1,6 +1,6 @@
 from django.db import models
 
-from farmingconcrete.models import Variety
+from farmingconcrete.models import GardenType, Variety
 
 class Estimate(models.Model):
     estimated = models.DateField()
@@ -8,6 +8,7 @@ class Estimate(models.Model):
     should_be_used = models.BooleanField(default=True)
     valid_start = models.DateField()
     valid_end = models.DateField()
+    garden_type = models.ForeignKey(GardenType, null=True, blank=True)
 
     class Meta:
         abstract = True

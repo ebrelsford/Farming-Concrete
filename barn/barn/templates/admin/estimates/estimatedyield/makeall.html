@@ -17,14 +17,11 @@
 <div id="content-main">
     <h1>Make yield estimates</h1>
 
-    {% if do_stuff %}
-    <p>Stuff is done!</p>
-    {% endif %}
-
     <p>Make new yield estimates for harvests recorded between {{ start }} and {{ end }}?</p>
 
     <form action="." method="post">
         {% csrf_token %}
+        <input type="checkbox" id="by_garden_type" name="by_garden_type"><label for="by_garden_type"> Estimate by garden type</br>
         <input type="submit" value="Yes" />
     </form>
 </div>
