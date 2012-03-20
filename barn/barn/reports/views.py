@@ -79,6 +79,8 @@ def _report_common_context(borough=None, garden=None, type=None, year=None):
 def index(request, year=2011): # TODO un-hard-code
     borough = request.GET.get('borough', None)
     type = request.GET.get('type', None)
+    if type:
+        type = GardenType.objects.get(short_name=type);
 
     context = _report_common_context(borough=borough, type=type, year=year)
     cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
@@ -87,16 +89,15 @@ def index(request, year=2011): # TODO un-hard-code
         cropcount_gardens = cropcount_gardens.filter(borough=borough)
         harvestcount_gardens = harvestcount_gardens.filter(borough=borough)
     if type:
-        cropcount_gardens = cropcount_gardens.filter(type__name=type)
-        harvestcount_gardens = harvestcount_gardens.filter(type__name=type)
+        cropcount_gardens = cropcount_gardens.filter(type=type)
+        harvestcount_gardens = harvestcount_gardens.filter(type=type)
 
     context['cropcount_gardens_count'] = cropcount_gardens.distinct().count()
     context['harvestcount_gardens_count'] = harvestcount_gardens.distinct().count()
     context['boroughs'] = _boroughs(year)
     context['year'] = year
     context['borough'] = borough
-    if type:
-        context['type'] = GardenType.objects.get(short_name=type);
+    context['type'] = type
 
     return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
 
