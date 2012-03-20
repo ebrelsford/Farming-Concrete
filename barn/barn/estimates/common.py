@@ -64,7 +64,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
             crop['estimated_yield'] = estimated_yield = (crop['average_yield'] or 0) * (crop['plants'] or 0)
 
             if garden_type:
-                crop['type_average_yield'] = _find_estimated_crop_yield(crop['variety__id'], date(2011, 6, 1))
+                crop['type_average_yield'] = _find_estimated_crop_yield(crop['variety__id'], date(2011, 6, 1), garden_type=garden_type)
                 crop['type_estimated_yield'] = (crop['type_average_yield'] or 0) * (crop['plants'] or 0)
             total_yield += estimated_yield or 0
         if estimate_value:
