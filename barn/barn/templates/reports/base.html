@@ -13,7 +13,7 @@ $(document).ready(function() {
     $('#map').gardenmap({
         {% block map_options %}
         initialZoom: 10,
-        queryString: 'participating=yes&type={{ request.session.garden_type.short_name }}&borough={{ borough }}&year={{ request.session.year }}',
+        queryString: 'participating=yes&{% if type %}type={{ type.short_name }}&{% endif %}{% if borough %}borough={{ borough }}&{% endif %}year={{ year }}',
         {% endblock %}
     });
 
@@ -22,6 +22,20 @@ $(document).ready(function() {
     });
 
     $('.tabs').tabs();
+
+    $('.filter').change(function() {
+        function buildQueryString() {
+            var params = {};
+            $('.filter').each(function() {
+                var selection = $(this).find(':selected').val();
+                if (selection === 'all') return;
+                params[$(this).attr('name')] = selection;
+            });
+            return params;
+        }
+        var params = buildQueryString();
+        window.location = '/reports/{{ year }}?' + $.param(params);
+    });
 
     {% block extra_scripts %}{% endblock %}
 });
@@ -35,7 +49,23 @@ $(document).ready(function() {
 <div class="map-page report">
     <div id="map" style="width: 100%; height: {% if garden %}150{% else %}350{% endif %}px;"></div>
 
-    {% block borough_nav %}{% endblock %}
+    {% if not garden %}
+    borough:
+    <select class="filter" name="borough">
+        <option value="all">all</option>
+        {% for select_borough in boroughs %}
+        <option value="{{ select_borough }}"{% if borough|lower == select_borough|lower %} selected="selected"{% endif %}>{{ select_borough }}</option>
+        {% endfor %}
+    </select>
+
+    garden type:
+    <select class="filter" name="type">
+        <option value="all">all</option>
+        {% for select_type in garden_types %}
+        <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>{{ select_type.name }}s</option>
+        {% endfor %}
+    </select>
+    {% endif %}
 
     <div class="tabs">
         <ul>

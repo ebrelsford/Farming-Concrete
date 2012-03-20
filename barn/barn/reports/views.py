@@ -16,7 +16,7 @@ from django_xhtml2pdf.utils import render_to_pdf_response
 from charts import plants_per_crop, weight_per_crop, weight_per_gardener, estimated_weight_per_crop
 from cropcount.models import Box, Patch
 from estimates.common import estimate_for_harvests_by_gardener, estimate_for_patches
-from farmingconcrete.models import Garden
+from farmingconcrete.models import Garden, GardenType
 from harvestcount.models import Harvest
 from models import SharedReport, Chart
 
@@ -24,30 +24,41 @@ from models import SharedReport, Chart
 REPORT_START = date(2011, 01, 01)
 REPORT_END = date(2012, 01, 01)
 
-def _harvests(garden=None, borough=None, start=REPORT_START, end=REPORT_END):
+def _harvests(garden=None, borough=None, type=None, start=REPORT_START, end=REPORT_END):
     """Get valid harvests for the given garden"""
     harvests = Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
     if garden:
         return harvests.filter(gardener__garden=garden)
     elif borough:
-        return harvests.filter(gardener__garden__borough=borough)
+        if type:
+            return harvests.filter(gardener__garden__borough=borough, gardener__garden__type__name=type)
+        else:
+            return harvests.filter(gardener__garden__borough=borough)
 
     return harvests
 
-def _patches(garden=None, borough=None, start=REPORT_START, end=REPORT_END):
+def _patches(garden=None, borough=None, type=None, start=REPORT_START, end=REPORT_END):
     """Get valid patches for the given garden"""
     patches = Patch.objects.filter(added__gte=start, added__lt=end)
     if garden:
         return patches.filter(box__garden=garden)
     elif borough:
-        return patches.filter(box__garden__borough=borough)
+        if type:
+            return patches.filter(box__garden__borough=borough, box__garden__type__name=type)
+        else:
+            return patches.filter(box__garden__borough=borough)
     
     return patches
 
-def _report_common_context(borough=None, garden=None):
+def _boroughs(year):
+    cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
+    harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
+    return (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
+
+def _report_common_context(borough=None, garden=None, type=None):
     if borough:
-        patches = _patches(borough=borough).distinct()
-        harvests = _harvests(borough=borough)
+        patches = _patches(borough=borough, type=type).distinct()
+        harvests = _harvests(borough=borough, type=type)
     elif garden:
         patches = _patches(garden=garden)
         harvests = _harvests(garden=garden)
@@ -70,29 +81,29 @@ def _report_common_context(borough=None, garden=None):
     }
 
 @login_required
-def index(request):
-    context = _report_common_context()
-    year = request.session['year']
+def index(request, year=2011):
+    borough = request.GET.get('borough', None)
+    type = request.GET.get('type', None)
+
+    context = _report_common_context(borough=borough, type=type)
     cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
+    if borough:
+        cropcount_gardens = cropcount_gardens.filter(borough=borough)
+        harvestcount_gardens = harvestcount_gardens.filter(borough=borough)
+    if type:
+        cropcount_gardens = cropcount_gardens.filter(type__name=type)
+        harvestcount_gardens = harvestcount_gardens.filter(type__name=type)
+
     context['cropcount_gardens_count'] = cropcount_gardens.distinct().count()
     context['harvestcount_gardens_count'] = harvestcount_gardens.distinct().count()
-    context['boroughs'] = (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
+    context['boroughs'] = _boroughs(year)
+    context['year'] = year
+    context['borough'] = borough
+    if type:
+        context['type'] = GardenType.objects.get(short_name=type);
 
     return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
-
-@login_required
-def borough_report(request, borough=None):
-    context = _report_common_context(borough=borough)
-    context['borough'] = borough
-
-    year = request.session['year']
-    cropcount_gardens = Garden.objects.filter(borough=borough, box__patch__added__year=year)
-    harvestcount_gardens = Garden.objects.filter(borough=borough, gardener__harvest__harvested__year=year)
-    context['cropcount_gardens_count'] = cropcount_gardens.distinct().count()
-    context['harvestcount_gardens_count'] = harvestcount_gardens.distinct().count()
-
-    return render_to_response('reports/borough.html', context, context_instance=RequestContext(request))
 
 @login_required
 def garden_report(request, id=None):

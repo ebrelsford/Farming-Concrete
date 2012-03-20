@@ -26,7 +26,11 @@ urlpatterns = patterns('',
 
     # reports
     (r'^reports/$', 'reports.views.index'),
-    (r'^reports/borough/(?P<borough>.+)/$', 'reports.views.borough_report'),
+    (r'^reports/(?P<year>\d+)', 'reports.views.index'), # TODO finish this
+                       
+    #(r'^reports/borough/(?P<borough>\w+)/$', 'reports.views.borough_report'),
+    #(r'^reports/borough/(?P<borough>\w+)/(?P<type>.+)/$', 'reports.views.borough_report'),
+
     (r'^gardens/(?P<id>\d+)/report/$', 'reports.views.garden_report'),
     (r'^gardens/(?P<id>\d+)/report/charts/plants_per_crop$', 'reports.views.bar_chart_plants_per_crop'),
     (r'^gardens/(?P<id>\d+)/report/charts/weight_per_crop$', 'reports.views.bar_chart_weight_per_crop'),
