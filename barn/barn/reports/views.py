@@ -20,13 +20,9 @@ from farmingconcrete.models import Garden, GardenType
 from harvestcount.models import Harvest
 from models import SharedReport, Chart
 
-# TODO parameterize
-REPORT_START = date(2011, 01, 01)
-REPORT_END = date(2012, 01, 01)
-
-def _harvests(garden=None, borough=None, type=None, start=REPORT_START, end=REPORT_END):
+def _harvests(garden=None, borough=None, type=None, year=2011): # TODO un-hard-code
     """Get valid harvests for the given garden"""
-    harvests = Harvest.objects.filter(harvested__gte=start, harvested__lt=end)
+    harvests = Harvest.objects.filter(harvested__year=year)
     if garden:
         return harvests.filter(gardener__garden=garden)
     elif borough:
@@ -37,9 +33,9 @@ def _harvests(garden=None, borough=None, type=None, start=REPORT_START, end=REPO
 
     return harvests
 
-def _patches(garden=None, borough=None, type=None, start=REPORT_START, end=REPORT_END):
+def _patches(garden=None, borough=None, type=None, year=2011): # TODO un-hard-code
     """Get valid patches for the given garden"""
-    patches = Patch.objects.filter(added__gte=start, added__lt=end)
+    patches = Patch.objects.filter(added__year=year)
     if garden:
         return patches.filter(box__garden=garden)
     elif borough:
@@ -55,16 +51,16 @@ def _boroughs(year):
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     return (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
 
-def _report_common_context(borough=None, garden=None, type=None):
+def _report_common_context(borough=None, garden=None, type=None, year=None):
     if borough:
-        patches = _patches(borough=borough, type=type).distinct()
-        harvests = _harvests(borough=borough, type=type)
+        patches = _patches(borough=borough, type=type, year=year).distinct()
+        harvests = _harvests(borough=borough, type=type, year=year)
     elif garden:
-        patches = _patches(garden=garden)
-        harvests = _harvests(garden=garden)
+        patches = _patches(garden=garden, year=year)
+        harvests = _harvests(garden=garden, year=year)
     else:
-        patches = _patches().distinct()
-        harvests = _harvests()
+        patches = _patches(year=year).distinct()
+        harvests = _harvests(year=year)
 
     beds = Box.objects.filter(patch__in=patches).distinct()
     return {
@@ -81,11 +77,11 @@ def _report_common_context(borough=None, garden=None, type=None):
     }
 
 @login_required
-def index(request, year=2011):
+def index(request, year=2011): # TODO un-hard-code
     borough = request.GET.get('borough', None)
     type = request.GET.get('type', None)
 
-    context = _report_common_context(borough=borough, type=type)
+    context = _report_common_context(borough=borough, type=type, year=year)
     cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     if borough:
@@ -106,17 +102,17 @@ def index(request, year=2011):
     return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
 
 @login_required
-def garden_report(request, id=None):
-    return _render_garden_report(request, id=id)
+def garden_report(request, id=None, year=2011): # TODO un-hard-code?
+    return _render_garden_report(request, id=id, year=year)
 
 def shared_garden_report(request, access_key=None):
     shared = get_object_or_404(SharedReport, access_key=access_key)
     return _render_garden_report(request, id=shared.garden.id)
 
-def _render_garden_report(request, id=None):
+def _render_garden_report(request, id=None, year=None):
     """render the report for a given garden"""
     garden = get_object_or_404(Garden, id=id)
-    context = _report_common_context(garden=garden)
+    context = _report_common_context(garden=garden, year=year)
     context['garden'] = garden
 
     return render_to_response('reports/garden.html', context, context_instance=RequestContext(request))

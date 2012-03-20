@@ -2,7 +2,7 @@
 
 {% block title %}{{ year }} {% if borough %}{{ borough|title }}{% else %}City-wide{% endif %}{% if type %} {{ type.name|title }}s{% endif %} Report{% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <a href="{% url reports.views.index %}">reports</a> &gt;&gt; {{ borough }} {% endblock %}
+{% block breadcrumbs %}{{ block.super }} <a href="{% url reports.views.index %}">reports</a> {% endblock %}
 
 {% block page_title %}
 <h1>{{ year }} {% if borough %}{{ borough|title }}{% else %}City-wide{% endif %}{% if type %} {{ type.name|title }}s{% endif %} Report</h1>
