@@ -38,7 +38,7 @@ def index(request, year=None):
     
     return render_to_response('cropcount/index.html', {
         'gardens': gardens.count(),
-        'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
+        'area': sum([b.length * b.width for b in beds]),
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
         'recent_types': patches.order_by('-added').values_list('variety__name', flat=True)[:3],
@@ -180,7 +180,7 @@ def garden_details(request, id, year=None):
         'garden': garden,
         'bed_list': sorted(beds),
         'form': form,
-        'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
+        'area': sum([b.length * b.width for b in beds]),
         'bed_months': bed_months,
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
