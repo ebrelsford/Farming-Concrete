@@ -52,12 +52,18 @@ def _report_common_context(borough=None, garden=None, type=None, year=None):
     patches = _patches(borough=borough, garden=garden, type=type, year=year).distinct()
     harvests = _harvests(borough=borough, garden=garden, type=type, year=year)
     beds = Box.objects.filter(patch__in=patches).distinct()
+    estimated_yield = estimate_for_patches(patches, estimate_yield=True, estimate_value=True, garden_type=type)
+
     return {
         'beds': sorted(beds),
         'total_beds': beds.count(),
         'total_area': sum([b.length * b.width for b in beds]),
         'total_plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'crops': estimate_for_patches(patches, estimate_yield=True, garden_type=type)['crops'],
+        'crops': estimated_yield['crops'],
+        'total_estimated_yield': estimated_yield['total_yield'],
+        'total_estimated_yield_type': estimated_yield['total_yield_by_garden_type'],
+        'total_estimated_value': estimated_yield['total_value'],
+        'total_estimated_value_type': estimated_yield['total_value_by_garden_type'],
 
         'harvests': harvests,
         'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),
