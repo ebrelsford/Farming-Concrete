@@ -20,5 +20,7 @@ class HarvestAdmin(admin.ModelAdmin):
             bit = "%s harvests" % rows
         self.message_user(request, "%s marked as unreportable" % bit) 
 
+    actions = (mark_as_unreportable,)
+
 admin.site.register(Gardener, GardenerAdmin)
 admin.site.register(Harvest, HarvestAdmin)
