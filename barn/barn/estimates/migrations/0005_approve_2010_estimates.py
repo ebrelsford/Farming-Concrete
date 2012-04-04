@@ -1,21 +1,24 @@
 # encoding: utf-8
-import datetime
-from south.db import db
 from south.v2 import DataMigration
-from django.db import models
 
 class Migration(DataMigration):
 
     def forwards(self, orm):
         "use all most recent estimates for 2010 data"
-        for variety in orm.Variety.objects.all():
-            estimated_yield = orm.EstimatedYield.objects.filter(variety=variety, valid_start__year=2010).order_by('-estimated')[0]
-            estimated_yield.should_be_used = True
-            estimated_yield.save()
+        for variety in orm['farmingconcrete.Variety'].objects.all():
+            try:
+                estimated_yield = orm.EstimatedYield.objects.filter(variety=variety, valid_start__year=2010).order_by('-estimated')[0]
+                estimated_yield.should_be_used = True
+                estimated_yield.save()
+            except:
+                pass
 
-            estimated_cost = orm.EstimatedCost.objects.filter(variety=variety, valid_start__year=2010).order_by('-estimated')[0]
-            estimated_cost.should_be_used = True
-            estimated_cost.save()
+            try:
+                estimated_cost = orm.EstimatedCost.objects.filter(variety=variety, valid_start__year=2010).order_by('-estimated')[0]
+                estimated_cost.should_be_used = True
+                estimated_cost.save()
+            except:
+                pass
 
 
     def backwards(self, orm):
