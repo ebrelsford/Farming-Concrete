@@ -19,3 +19,4 @@ class Harvest(AuditedModel):
     area = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
 
     harvested = models.DateField()
+    reportable = models.BooleanField(default=True)
