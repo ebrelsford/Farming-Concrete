@@ -10,7 +10,7 @@ def _find_yield_estimate(variety, start, end, _by_gardener=True, garden_type=Non
     """Find an estiated yield for the given variety using harvests recorded in the given date range"""
 
     # get total weight, maximum plants by gardener
-    harvests = Harvest.objects.filter(variety=variety, harvested__gte=start, harvested__lt=end)
+    harvests = Harvest.objects.filter(reportable=True, variety=variety, harvested__gte=start, harvested__lt=end)
     if garden_type:
         harvests = harvests.filter(gardener__garden__type=garden_type)
     if not harvests.count():
