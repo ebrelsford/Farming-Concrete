@@ -68,8 +68,6 @@ def estimated_weight_per_crop(garden, medium="screen"):
     patches = _patches(garden).exclude(plants=None)
     estimated_yields = estimate_for_patches(patches, estimate_yield=True)['crops']
 
-    print estimated_yields
-
     data = {
         'data': [[y['estimated_yield'] or 0 for y in estimated_yields]],
     }
