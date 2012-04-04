@@ -31,15 +31,22 @@ def _harvests(garden=None, borough=None, type=None, year=2011): # TODO un-hard-c
 
     return harvests.distinct()
 
-def _patches(garden=None, borough=None, type=None, year=2011): # TODO un-hard-code
+def _patches(garden=None, borough=None, type=None, year=2011, use_all_cropcount=False): # TODO un-hard-code
     """Get valid patches for the given garden"""
     patches = Patch.objects.filter(added__year=year)
+    gardens_last_year = Garden.objects.exclude(box__patch__added__year=year).filter(box__patch__added__year=(int(year)-1))
+
     if garden:
-        return patches.filter(box__garden=garden)
-    if borough:
-        patches = patches.filter(box__garden__borough=borough)
-    if type:
-        patches = patches.filter(box__garden__type__name=type)
+        patches = patches.filter(box__garden=garden)
+    else:
+        if borough:
+            patches = patches.filter(box__garden__borough=borough)
+            gardens_last_year = gardens_last_year.filter(borough=borough)
+        if type:
+            patches = patches.filter(box__garden__type__name=type)
+            gardens_last_year = gardens_last_year.filter(type__name=type)
+        if use_all_cropcount:
+            patches = patches | Patch.objects.filter(box__garden__in=gardens_last_year)
     
     return patches.distinct()
 
@@ -48,8 +55,8 @@ def _boroughs(year):
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     return (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
 
-def _report_common_context(borough=None, garden=None, type=None, year=None):
-    patches = _patches(borough=borough, garden=garden, type=type, year=year).distinct()
+def _report_common_context(borough=None, garden=None, type=None, year=None, use_all_cropcount=False):
+    patches = _patches(borough=borough, garden=garden, type=type, year=year, use_all_cropcount=use_all_cropcount).distinct()
     harvests = _harvests(borough=borough, garden=garden, type=type, year=year)
     beds = Box.objects.filter(patch__in=patches).distinct()
     estimated_yield = estimate_for_patches(patches, estimate_yield=True, estimate_value=True, garden_type=type)
@@ -75,11 +82,13 @@ def _report_common_context(borough=None, garden=None, type=None, year=None):
 def index(request, year=2011): # TODO un-hard-code
     borough = request.GET.get('borough', None)
     type = request.GET.get('type', None)
+    use_all_cropcount = request.GET.get('use_all_cropcount', False)
+
     if type:
         type = GardenType.objects.get(short_name=type);
 
-    context = _report_common_context(borough=borough, type=type, year=year)
-    cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
+    context = _report_common_context(borough=borough, type=type, year=year, use_all_cropcount=use_all_cropcount)
+    cropcount_gardens = Garden.objects.filter(box__in=context['beds']) # TODO likely slow, should move to wherever filtering happens (eg, _patches())
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     if borough:
         cropcount_gardens = cropcount_gardens.filter(borough=borough)
@@ -94,6 +103,7 @@ def index(request, year=2011): # TODO un-hard-code
     context['year'] = year
     context['borough'] = borough
     context['type'] = type
+    context['use_all_cropcount'] = use_all_cropcount
 
     return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
 

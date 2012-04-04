@@ -26,10 +26,13 @@ $(document).ready(function() {
     $('.filter').change(function() {
         function buildQueryString() {
             var params = {};
-            $('.filter').each(function() {
+            $('select.filter').each(function() {
                 var selection = $(this).find(':selected').val();
                 if (selection === 'all') return;
                 params[$(this).attr('name')] = selection;
+            });
+            $('.filter[type="checkbox"]:checked').each(function() {
+                params[$(this).attr('name')] = 'yes';
             });
             return params;
         }
@@ -50,21 +53,25 @@ $(document).ready(function() {
     <div id="map" style="width: 100%; height: {% if garden %}150{% else %}350{% endif %}px;"></div>
 
     {% if not garden %}
-    borough:
-    <select class="filter" name="borough">
-        <option value="all">all</option>
-        {% for select_borough in boroughs %}
-        <option value="{{ select_borough }}"{% if borough|lower == select_borough|lower %} selected="selected"{% endif %}>{{ select_borough }}</option>
-        {% endfor %}
-    </select>
+    <div>
+        borough:
+        <select class="filter" name="borough">
+            <option value="all">all</option>
+            {% for select_borough in boroughs %}
+            <option value="{{ select_borough }}"{% if borough|lower == select_borough|lower %} selected="selected"{% endif %}>{{ select_borough }}</option>
+            {% endfor %}
+        </select>
 
-    garden type:
-    <select class="filter" name="type">
-        <option value="all">all</option>
-        {% for select_type in garden_types %}
-        <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>{{ select_type.name }}s</option>
-        {% endfor %}
-    </select>
+        garden type:
+        <select class="filter" name="type">
+            <option value="all">all</option>
+            {% for select_type in garden_types %}
+            <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>{{ select_type.name }}s</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>(experimental!)
+        <input class="filter" type="checkbox" id="use_all_cropcount" name="use_all_cropcount" {% if use_all_cropcount %}checked="checked" {% endif %}/> <label for="use_all_cropcount"> Add previous years' cropcounts for gardens without one this year</label>
     {% endif %}
 
     <div class="tabs">
