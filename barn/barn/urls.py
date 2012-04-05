@@ -1,9 +1,10 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import include, patterns, url
 from django.contrib import admin
 admin.autodiscover()
 
 from django.conf import settings
 
+import accounts.urls
 import reports.urls
 
 urlpatterns = patterns('',
@@ -32,15 +33,9 @@ urlpatterns = patterns('',
 
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),
-    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
-    (r'^accounts/password/change/$', 'django.contrib.auth.views.password_change'),
-    (r'^accounts/password/change/done/$', 'django.contrib.auth.views.password_change_done'),
     (r'^accounts/password/reset/$', 'accounts.views.password_reset'),
     (r'^accounts/password/reset/email=(?P<email>.*)$', 'accounts.views.password_reset'),
-    (r'^accounts/password/reset/done/$', 'django.contrib.auth.views.password_reset_done'),
-    (r'^accounts/password/reset/confirm?uid=(?P<uidb36>.*)&token=(?P<token>.*)$', 'django.contrib.auth.views.password_reset_confirm'),
-    (r'^accounts/password/reset/complete/$', 'django.contrib.auth.views.password_reset_complete'),
+    (r'^accounts/', include(accounts.urls.built_in_auth_urls)),
 
     # admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
