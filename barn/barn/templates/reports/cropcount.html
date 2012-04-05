@@ -16,36 +16,44 @@
         <table class="totals cycled">
             {% if cropcount_gardens_count %}
             <tr class="even">
-                <th>participating gardens</th><td>{{ cropcount_gardens_count }}</td>
+                <th>participating gardens</th>
+                <td class="number">{{ cropcount_gardens_count }}</td>
             </tr>
             {% endif %}
             <tr class="odd">
-                <th>number of beds</th><td>{{ total_beds }}</td>
+                <th>number of beds</th>
+                <td class="number">{{ total_beds }}</td>
             </tr>
             <tr class="even">
-                <th>area under production</th><td>{{ total_area|floatformat }} sq ft</td>
+                <th>area under production</th>
+                <td class="number">{{ total_area|floatformat }} sq ft</td>
             </tr>
             <tr class="odd">
-                <th>plants</th><td>{{ total_plants }}</td>
+                <th>plants</th>
+                <td class="number">{{ total_plants }}</td>
             </tr>
             {% if total_estimated_yield %}
             <tr class="even">
-                <th>estimated yield</th><td>{{ total_estimated_yield|floatformat }} lbs</td>
+                <th>estimated yield</th>
+                <td class="number">{{ total_estimated_yield|floatformat }} lbs</td>
             </tr>
             {% endif %}
             {% if total_estimated_yield_type %}
             <tr class="odd">
-                <th>estimated yield using {{ type }} yields</th><td>{{ total_estimated_yield_type|floatformat }} lbs</td>
+                <th>estimated yield using {{ type }} yields</th>
+                <td class="number">{{ total_estimated_yield_type|floatformat }} lbs</td>
             </tr>
             {% endif %}
             {% if total_estimated_value %}
             <tr class="even">
-                <th>estimated value</th><td>${{ total_estimated_value|floatformat:"0" }}</td>
+                <th>estimated value</th>
+                <td class="number">${{ total_estimated_value|floatformat:"0" }}</td>
             </tr>
             {% endif %}
             {% if total_estimated_value_type %}
             <tr class="odd">
-                <th>estimated value using {{ type }} yields</th><td>${{ total_estimated_value_type|floatformat:"0" }}</td>
+                <th>estimated value using {{ type }} yields</th>
+                <td class="number">${{ total_estimated_value_type|floatformat:"0" }}</td>
             </tr>
             {% endif %}
         </table>
@@ -72,18 +80,18 @@
             <tbody>
                 {% for crop in crops %}
                 <tr>
-                    <td>{{ crop.variety__name }}</td>
-                    <td>{{ crop.plants|default:"" }}</td>
-                    <td>{{ crop.area|default:"" }}</td>
+                    <td class="number">{{ crop.variety__name }}</td>
+                    <td class="number">{{ crop.plants|default:"" }}</td>
+                    <td class="number">{{ crop.area|default:"" }}</td>
                     {% if not garden %}
-                    <td>{{ crop.average_yield|default:"" }}</td>
+                    <td class="number">{{ crop.average_yield|default:"" }}</td>
                     {% endif %}
-                    <td>{{ crop.estimated_yield|default:"" }}</td>
-                    <td>{% if crop.estimated_value %}${{ crop.estimated_value|floatformat:"0" }}{% endif %}</td>
+                    <td class="number">{{ crop.estimated_yield|default:"" }}</td>
+                    <td class="number">{% if crop.estimated_value %}${{ crop.estimated_value|floatformat:"0" }}{% endif %}</td>
                     {% if not garden and type %}
-                    <td>{{ crop.type_average_yield|default:"" }}</td>
-                    <td>{{ crop.type_estimated_yield|default:"" }}</td>
-                    <td>{% if crop.type_estimated_value %}${{ crop.type_estimated_value|floatformat:"0" }}{% endif %}</td>
+                    <td class="number">{{ crop.type_average_yield|default:"" }}</td>
+                    <td class="number">{{ crop.type_estimated_yield|default:"" }}</td>
+                    <td class="number">{% if crop.type_estimated_value %}${{ crop.type_estimated_value|floatformat:"0" }}{% endif %}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}

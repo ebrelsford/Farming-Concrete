@@ -16,11 +16,13 @@
         <table class="totals cycled">
             {% if harvestcount_gardens_count %}
             <tr class="even">
-                <th>participating gardens</th><td>{{ harvestcount_gardens_count }}</td>
+                <th>participating gardens</th>
+                <td class="number">{{ harvestcount_gardens_count }}</td>
             </tr>
             {% endif %}
             <tr class="odd">
-                <th>harvested weight</th><td>{{ total_weight }}</td>
+                <th>harvested weight</th>
+                <td class="number">{{ total_weight }}</td>
             </tr>
         </table>
         <div class="subsection">
@@ -36,7 +38,7 @@
                     {% for harvest_total in harvest_totals %}
                     <tr>
                         <td>{{ harvest_total.variety__name }}</td>
-                        <td>{{ harvest_total.weight|floatformat }}</td>
+                        <td class="number">{{ harvest_total.weight|floatformat }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -339,6 +339,10 @@ table.cycled tbody tr.even {
 .map-page table.totals td {
 }
 
+td.number {
+    text-align: right;
+}
+
 .report .section {
     margin-bottom: 50px;
 }

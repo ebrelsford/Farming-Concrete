@@ -10,14 +10,14 @@
         {% for gardener, totals in harvestcount_gardener_totals.items %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ gardener }}</td>
-            <td align="right">{{ totals.weight|floatformat }}</td>
-            <td class="last_column" align="right">${{ totals.value|floatformat:"0" }}</td>
+            <td class="number">{{ totals.weight|floatformat }}</td>
+            <td class="last_column number">${{ totals.value|floatformat:"0" }}</td>
         </tr>
         {% endfor %}
         <tr class="totals">
             <td>Total</td>
-            <td align="right">{{ harvestcount_total_weight|floatformat }}</td>
-            <td class="last_column" align="right">${{ harvestcount_estimated_total_value|floatformat:"0" }}</td>
+            <td class="number">{{ harvestcount_total_weight|floatformat }}</td>
+            <td class="last_column number">${{ harvestcount_estimated_total_value|floatformat:"0" }}</td>
         </tr>
     </tbody>
 </table>
