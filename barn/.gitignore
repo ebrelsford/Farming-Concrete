@@ -4,7 +4,9 @@ barn/settings.py
 .svn
 bin
 build
-Django-1.2.4
 include
 lib
-MySQL-python-1.2.3
+media/charts/
+dump/
+scripts/
+notes/
