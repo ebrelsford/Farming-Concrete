@@ -76,7 +76,6 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
 
     for crop in crops:
         year = crop['min_added'].year # for now, only use year. could make this an option or use multiple functions.
-        print year
         variety_id = crop['variety__id']
 
         # find average/estimate overall yield for the patches given containing this crop
