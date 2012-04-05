@@ -1,9 +1,3 @@
-<div>
-    {% for k in harvestcount_estimated_value.keys %}
-    {{ k }}, {{ harvestcount_estimated_value.k }} :
-    {% endfor %}
-</div>
-
 <table class="sorted">
     <thead>
         <tr>
@@ -13,11 +7,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for gardener_total in harvestcount_totals %}
+        {% for gardener, totals in harvestcount_gardener_totals.items %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td>{{ gardener_total.gardener__name }}</td>
-            <td align="right">{{ gardener_total.weight|floatformat }}</td>
-            <td class="last_column" align="right">${{ gardener_total.value|floatformat:"0" }}</td>
+            <td>{{ gardener }}</td>
+            <td align="right">{{ totals.weight|floatformat }}</td>
+            <td class="last_column" align="right">${{ totals.value|floatformat:"0" }}</td>
         </tr>
         {% endfor %}
         <tr class="totals">
@@ -27,5 +21,3 @@
         </tr>
     </tbody>
 </table>
-
-

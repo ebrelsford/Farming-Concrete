@@ -42,14 +42,14 @@
                 </tbody>
             </table>
             {% if garden %}
-            <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id %}" />
+            <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id year=year %}" />
             {% endif %}
         </div>
         <div class="subsection">
             <h4>total weighed by gardener</h4>
-            {% include "reports/harvestcount_gardener_table.html" %}
+            {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
             {% if garden %}
-            <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id %}" />
+            <img src="{% url reports.views.bar_chart_weight_per_gardener id=garden.id year=year %}" />
             {% endif %}
         </div>
     </div>

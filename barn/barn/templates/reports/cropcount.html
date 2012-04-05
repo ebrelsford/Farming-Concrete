@@ -90,7 +90,7 @@
             </tbody>
         </table>
         {% if garden %}
-        <img src="{% url reports.views.bar_chart_plants_per_crop id=garden.id %}" />
+        <img src="{% url reports.views.bar_chart_plants_per_crop id=garden.id year=year %}" />
         {% endif %}
     </div>
     {% else %}

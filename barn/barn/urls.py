@@ -4,6 +4,8 @@ admin.autodiscover()
 
 from django.conf import settings
 
+import reports.urls
+
 urlpatterns = patterns('',
     (r'^(?:(?P<year>\d{4})/)?$', 'farmingconcrete.views.index'),
     (r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?$', 'farmingconcrete.views.garden_details'),
@@ -25,20 +27,8 @@ urlpatterns = patterns('',
     (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
 
     # reports
-    (r'^reports/$', 'reports.views.index'),
-    (r'^reports/(?P<year>\d+)', 'reports.views.index'), # TODO finish this
-                       
-    #(r'^reports/borough/(?P<borough>\w+)/$', 'reports.views.borough_report'),
-    #(r'^reports/borough/(?P<borough>\w+)/(?P<type>.+)/$', 'reports.views.borough_report'),
-
-    (r'^gardens/(?P<id>\d+)/report/$', 'reports.views.garden_report'),
-    (r'^gardens/(?P<id>\d+)/report/charts/plants_per_crop$', 'reports.views.bar_chart_plants_per_crop'),
-    (r'^gardens/(?P<id>\d+)/report/charts/weight_per_crop$', 'reports.views.bar_chart_weight_per_crop'),
-    (r'^gardens/(?P<id>\d+)/report/charts/weight_per_gardener$', 'reports.views.bar_chart_weight_per_gardener'),
-    (r'^gardens/(?P<id>\d+)/report/share$', 'reports.views.share'),
-    (r'^gardens/(?P<id>\d+)/report/pdf$', 'reports.views.pdf'),
-    (r'^gardens/(?P<id>\d+)/report/pdftest$', 'reports.views.pdftest'),
-    (r'^reports/shared/(?P<access_key>.+)/$', 'reports.views.shared_garden_report'),
+    url(r'^reports/', include(reports.urls.main_patterns)),
+    url(r'^gardens/(?P<id>\d+)/report/', include(reports.urls.garden_patterns)),
 
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),

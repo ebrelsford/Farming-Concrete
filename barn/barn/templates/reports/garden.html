@@ -15,7 +15,7 @@ $('.collapsible .expander').click(function() {
 
 $('.share > a').click(function() {
     if ($(this).parent().hasClass('shared')) return false;
-    $.getJSON('{% url reports.views.share id=garden.id %}', function(data) {
+    $.getJSON('{% url reports.views.share id=garden.id year=year %}', function(data) {
         $('.share .sharebox').find('.url').text(data.url).attr('href', data.url);
         $('.share').addClass('shared')
     });
@@ -25,7 +25,7 @@ $('.share > a').click(function() {
 
 {% block page_title %}
 <h1>{{ garden.name }}</h1>
-<div>2011 Farming Concrete Report</div>
+<div>{{ year }} Farming Concrete Report</div>
 {% endblock %}
 
 {% block actions %}

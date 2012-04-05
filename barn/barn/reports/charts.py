@@ -1,5 +1,3 @@
-from datetime import date
-
 from django.db.models import Sum
 
 from chart_builders import create_chart_as_png_str
@@ -7,20 +5,16 @@ from cropcount.models import Patch
 from harvestcount.models import Harvest
 from estimates.common import estimate_for_patches
 
-# TODO parameterize
-REPORT_START = date(2011, 01, 01)
-REPORT_END = date(2012, 01, 01)
-
-def _harvests(garden, start=REPORT_START, end=REPORT_END):
+def _harvests(garden, year=None):
     """Get valid harvests for the given garden"""
-    return Harvest.objects.filter(gardener__garden=garden, harvested__gte=start, harvested__lt=end)
+    return Harvest.objects.filter(gardener__garden=garden, harvested__year=year)
 
-def _patches(garden, start=REPORT_START, end=REPORT_END):
+def _patches(garden, year=None):
     """Get valid patches for the given garden"""
-    return Patch.objects.filter(box__garden=garden, added__gte=start, added__lt=end)
+    return Patch.objects.filter(box__garden=garden, added__year=year)
 
-def plants_per_crop(garden, medium="screen"):
-    patches = _patches(garden).exclude(plants=None)
+def plants_per_crop(garden, year=None, medium="screen"):
+    patches = _patches(garden, year=year).exclude(plants=None)
     crops = patches.values('variety__name').annotate(plants=Sum('plants'))
 
     data = {
@@ -34,8 +28,8 @@ def plants_per_crop(garden, medium="screen"):
 
     return create_chart_as_png_str('barchart', data, labels, '', xlabels=[c['variety__name'] for c in crops], medium=medium)
 
-def weight_per_crop(garden, medium="screen"):
-    harvests = _harvests(garden).exclude(weight=None)
+def weight_per_crop(garden, year=None, medium="screen"):
+    harvests = _harvests(garden, year=year).exclude(weight=None)
     harvest_totals = harvests.values('variety__name').annotate(weight=Sum('weight')).order_by('variety__name')
 
     data = {
@@ -49,8 +43,8 @@ def weight_per_crop(garden, medium="screen"):
 
     return create_chart_as_png_str('barchart', data, labels, '', xlabels=[h['variety__name'] for h in harvest_totals], medium=medium)
 
-def weight_per_gardener(garden, medium="screen"):
-    harvests = _harvests(garden).exclude(weight=None)
+def weight_per_gardener(garden, year=None, medium="screen"):
+    harvests = _harvests(garden, year=year).exclude(weight=None)
     gardener_totals = harvests.values('gardener__name').annotate(weight=Sum('weight')).order_by('gardener__name')
 
     data = {
@@ -64,8 +58,8 @@ def weight_per_gardener(garden, medium="screen"):
 
     return create_chart_as_png_str('barchart', data, labels, '', xlabels=[g['gardener__name'] for g in gardener_totals], medium=medium)
 
-def estimated_weight_per_crop(garden, medium="screen"):
-    patches = _patches(garden).exclude(plants=None)
+def estimated_weight_per_crop(garden, year=None, medium="screen"):
+    patches = _patches(garden, year=year).exclude(plants=None)
     estimated_yields = estimate_for_patches(patches, estimate_yield=True)['crops']
 
     data = {

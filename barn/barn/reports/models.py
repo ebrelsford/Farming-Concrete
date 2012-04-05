@@ -7,6 +7,7 @@ from farmingconcrete.models import Garden
 
 class SharedReport(models.Model):
     garden = models.ForeignKey(Garden)
+    valid_year = models.PositiveIntegerField()
     access_key = models.CharField(max_length=40, blank=True)
     added = models.DateTimeField(auto_now_add=True)
 

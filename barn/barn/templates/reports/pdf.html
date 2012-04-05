@@ -151,7 +151,7 @@
                             <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
                         </td>
                         <td width="49%" valign="bottom">
-                            <h1 class="title">2011 Harvest Report</h1>
+                            <h1 class="title">{{ year }} Harvest Report</h1>
                         </td>
                     </tr>
                 </table>
@@ -235,7 +235,7 @@
                             <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
                         </td>
                         <td width="49%" valign="bottom">
-                            <h1 class="title">2011 Crop Report</h1>
+                            <h1 class="title">{{ year }} Crop Report</h1>
                         </td>
                     </tr>
                 </table>
@@ -277,7 +277,7 @@
                                         </tr>
                                         <tr>
                                             <td class="quantity">
-                                                {{ cropcount_estimated_pounds|floatformat:"0" }} pound{{ cropcount_estimated_pounds|pluralize }}
+                                                {{ total_estimated_yield|floatformat:"0" }} pound{{ total_estimated_yield|pluralize }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -285,7 +285,7 @@
                                         </tr>
                                         <tr>
                                             <td class="quantity">
-                                                ${{ cropcount_estimated_value|floatformat:"0" }}
+                                                ${{ total_estimated_value|floatformat:"0" }}
                                             </td>
                                         </tr>
                                     </table>

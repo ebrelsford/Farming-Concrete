@@ -20,3 +20,6 @@ class Harvest(AuditedModel):
 
     harvested = models.DateField()
     reportable = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return "Harvest (%d) %s, %.2f pounds of %s" % (self.id, self.gardener.name, self.weight, self.variety.name,)
