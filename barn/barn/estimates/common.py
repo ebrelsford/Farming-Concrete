@@ -32,7 +32,8 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
     for row in gardener_variety_weights:
         gardener = row['gardener__name']
         weight = row['pounds']
-        gardener_totals[gardener] = dict(value=0, weight=0)
+        if gardener not in gardener_totals:
+            gardener_totals[gardener] = dict(value=0, weight=0)
 
         row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(2011, 6, 1), weight) # TODO un-hard-code
 
