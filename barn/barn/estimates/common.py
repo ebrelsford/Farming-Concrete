@@ -25,25 +25,32 @@ def _find_estimated_dollar_value(variety_id, year):
 
 def estimate_for_harvests_by_gardener_and_variety(harvests):
     """Estimate value of harvests for the given harvests, grouped by gardener and variety"""
-    gardener_variety_weights = harvests.values('variety__id', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
+    gardener_variety_weights = harvests.values('variety__id', 'variety__name', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
     total_value = 0
     gardener_totals = {}
+    crop_totals = {}
 
     for row in gardener_variety_weights:
+        crop = row['variety__name']
         gardener = row['gardener__name']
         weight = row['pounds']
         if gardener not in gardener_totals:
             gardener_totals[gardener] = dict(value=0, weight=0)
+        if crop not in crop_totals:
+            crop_totals[crop] = dict(value=0, weight=0)
 
         row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(2011, 6, 1), weight) # TODO un-hard-code
 
         gardener_totals[gardener]['value'] += estimated_value or 0
         gardener_totals[gardener]['weight'] += weight or 0
+        crop_totals[crop]['value'] += estimated_value or 0
+        crop_totals[crop]['weight'] += weight or 0
         total_value += estimated_value or 0
 
     return {
         'gardener_variety_weights': gardener_variety_weights,
         'gardener_totals': gardener_totals,
+        'crop_totals': crop_totals,
         'total_value': total_value,
     }
 

@@ -1,15 +1,15 @@
 <table class="sorted">
     <thead>
         <tr>
-            <th align="center">gardener name</th>
+            <th align="center">crop</th>
             <th align="center">pounds</th>
             <th class="last_column" align="center">dollar value *</th>
         </tr>
     </thead>
     <tbody>
-        {% for gardener, totals in harvestcount_gardener_totals %}
+        {% for crop, totals in harvestcount_crop_totals %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td>{{ gardener }}</td>
+            <td>{{ crop }}</td>
             <td class="number">
                 {% if totals.weight %}
                 {{ totals.weight|floatformat }}

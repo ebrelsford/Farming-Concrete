@@ -154,7 +154,8 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
         'harvestcount_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
         'harvestcount_total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
         'harvestcount_estimated_total_value': harvestcount_estimates['total_value'],
-        'harvestcount_gardener_totals': harvestcount_estimates['gardener_totals'],
+        'harvestcount_gardener_totals': [(k, harvestcount_estimates['gardener_totals'][k]) for k in sorted(harvestcount_estimates['gardener_totals'])],
+        'harvestcount_crop_totals': [(k, harvestcount_estimates['crop_totals'][k]) for k in sorted(harvestcount_estimates['crop_totals'])],
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }
     if garden:

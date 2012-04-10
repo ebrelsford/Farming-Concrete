@@ -1,7 +1,5 @@
 <!doctype html>
-
 <head>
-
     <style>
         @page {
             size: letter portrait;
@@ -69,6 +67,56 @@
             vertical-align: bottom;
         }
 
+        #cover-sheet .garden-name {
+            text-align: center;
+            padding-top: 50px;
+            padding-bottom: 0;
+            margin: 0;
+        }
+
+        #cover-sheet .report-name {
+            font-family: LinoLetterStd;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        #cover-sheet .page-name {
+            font-family: LinoLetterStd;
+            font-size: 22px;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            padding-bottom: 10px;
+            padding-top: 50px;
+        }
+
+        #cover-sheet .logo {
+            padding-left: 400px;
+            padding-top: 250px;
+        }
+
+        #cover-sheet .summary {
+            font-family: LinoLetterStd;
+            font-weight: bold;
+        }
+        #cover-sheet .summary td {
+            text-align: left;
+        }
+        #cover-sheet .summary td.data {
+            width: 375px;
+            vertical-align: top;
+            padding-top: 70px;
+        }
+        #cover-sheet.crop-and-harvest .summary td.data {
+            padding-top: 10px;
+        }
+        #cover-sheet .summary td.quantity {
+            text-align: right;
+        }
+
         .garden-name {
             font-family: LinoLetterStd;
             font-size: 36px;
@@ -78,15 +126,14 @@
         }
 
         .banner {
-            /*padding-bottom: 10px;*/
         }
 
         .summary {
             font-size: 16px;
         }
         .summary .quantity {
-            font-weight: bold;
             padding-bottom: 5px;
+            font-weight: normal;
         }
         .summary table {
         }
@@ -139,10 +186,77 @@
             text-align: center;
         }
     </style>
-
 </head>
-
 <body class="pdfreport">
+    <div class="page {% if has_cropcount and has_harvestcount %}crop-and-harvest{% endif %}" id="cover-sheet">
+        <div>
+            <h1 class="garden-name">{{ garden.name }} long long name</h1>
+            <h2 class="report-name">{{ year }} Farming Concrete Report</h2>
+        </div>
+        <pdf:nextframe>
+        <div class="middle">
+            <h3 class="page-name">At a glance:</h3>
+            <div class="summary">
+                <table>
+                    <tr>
+                        <td style="width: 80px;">
+                        </td>
+                        <td style="width: 91px;">
+                            <img src="{{ MEDIA_URL }}img/report/left_bracket_large.tiff" width="91" height="300" />
+                        </td>
+                        <td class="data">
+                            <table>
+                                {% if has_harvestcount %}
+                                <tr><td>
+                                    Number of people who recorded:
+                                </td></tr>
+                                <tr><td class="quantity">
+                                    {{ harvestcount_totals|length }}
+                                </td></tr>
+                                <tr><td>
+                                    Total pounds recorded:
+                                </td></tr>
+                                <tr><td class="quantity">
+                                    {{ harvestcount_total_weight|floatformat }}
+                                </td></tr>
+                                <tr><td>
+                                    Estimated dollar value* of harvest recorded:
+                                </td></tr>
+                                <tr><td class="quantity">
+                                    ${{ harvestcount_estimated_total_value|floatformat:"0" }}
+                                </td></tr>
+                                {% endif %}
+                                {% if has_cropcount %}
+                                <tr>
+                                    <td>Total estimated weight:</td>
+                                </tr>
+                                <tr>
+                                    <td class="quantity">
+                                        {{ total_estimated_yield|floatformat:"0" }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total estimated dollar value*:</td>
+                                </tr>
+                                <tr>
+                                    <td class="quantity">
+                                        ${{ total_estimated_value|floatformat:"0" }}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </td>
+                        <td style="width: 91px;">
+                            <img src="{{ MEDIA_URL }}img/report/right_bracket_large.tiff" width="91" height="300" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="logo">
+                <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+            </div>
+        </div>
+    </div>
 
     {% if has_harvestcount %}
     <div class="page">
@@ -167,63 +281,40 @@
                 <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
             </div>
         </div>
+        <pdf:nextframe>
+        <div class="middle section data-table">
+            <h3>Total harvest per gardener</h3>
+            {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
+            <h3>Total harvest per crop</h3>
+            {% include "reports/harvestcount_crop_table_with_dollar_values.html" %}
+        </div>
+    </div>
+    <div class="page">
+        <div class="headerContent">
+            <div class="header">
+                <table>
+                    <tr>
+                        <td width="49%" style="padding-top: -25px;">
+                            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                        </td>
+                        <td width="49%" valign="bottom">
+                            <h1 class="title">{{ year }} Harvest Report</h1>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <div class="middle">
-            <table>
-                <tr>
-                    <td class="section data-table" width="50%" valign="top">
-                        <h3>Total harvest per gardener</h3>
-                        {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
-                    </td>
+            {# TODO if name too long, banner disappears! #}
+            <div class="garden-name">{{ garden.name }}</div>
 
-                    <td class="section chart" width="50%" valign="top">
-                        <h3>Total harvest per crop</h3>
-                        <img src="{{ charts.weight_per_crop.image.url }}" />
-                    </td>
-                </tr>
-                <tr class="spacer">
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="summary" colspan="2">
-                        <table>
-                            <tr>
-                                <td style="width: 150px;">
-                                </td>
-                                <td style="width: 65px;">
-                                    <img src="{{ MEDIA_URL }}img/report/left_bracket.png" width="63" height="203" />
-                                </td>
-                                <td style="width: 320px;">
-                                    <table>
-                                        <tr><td>
-                                            Number of people who recorded:
-                                        </td></tr>
-                                        <tr><td class="quantity">
-                                            {{ harvestcount_totals|length }} gardener{{ harvestcount_totals|pluralize }}
-                                        </td></tr>
-                                        <tr><td>
-                                            Total pounds recorded:
-                                        </td></tr>
-                                        <tr><td class="quantity">
-                                            {{ harvestcount_total_weight|floatformat }} pounds
-                                        </td></tr>
-                                        <tr><td>
-                                            Estimated dollar value* of harvest recorded:
-                                        </td></tr>
-                                        <tr><td class="quantity">
-                                            ${{ harvestcount_estimated_total_value|floatformat:"0" }}
-                                        </td></tr>
-                                    </table>
-                                </td>
-                                <td style="width: 65px;">
-                                    <img src="{{ MEDIA_URL }}img/report/right_bracket.png" width="63" height="203" />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+            <div class="banner">
+                <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
+            </div>
+        </div>
+        <pdf:nextframe>
+        <div class="middle section chart">
+            <h3>Total harvest per crop</h3>
+            <img src="{{ charts.weight_per_crop.image.url }}" width="900px" />
         </div>
     </div>
     {% endif %}
@@ -251,56 +342,38 @@
                 <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
             </div>
         </div>
+        <pdf:nextframe>
+        <div class="middle section data-table">
+            <h3>Estimated garden yield per crop</h3>
+            {% include "reports/cropcount_crop_table_with_dollar_values.html" %}
+        </div>
+    </div>
+    <div class="page">
+        <div class="headerContent">
+            <div class="header">
+                <table>
+                    <tr>
+                        <td width="49%" style="padding-top: -25px;">
+                            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                        </td>
+                        <td width="49%" valign="bottom">
+                            <h1 class="title">{{ year }} Crop Report</h1>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <div class="middle">
-            <table>
-                <tr>
-                    <td class="section chart" colspan="2" width="100%" valign="top">
-                        <h3>Estimated garden yield</h3>
-                        <img src="{{ charts.estimated_weight_per_crop.image.url }}" width="600px" />
-                    </td>
-                </tr>
-                <tr class="spacer">
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="summary" colspan="2">
-                        <table>
-                            <tr>
-                                <td style="width: 180px;">
-                                </td>
-                                <td style="width: 65px;">
-                                    <img src="{{ MEDIA_URL }}img/report/left_bracket.png" height="180px" />
-                                </td>
-                                <td style="width: 220px;">
-                                    <table>
-                                        <tr>
-                                            <td>Total estimated weight:</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="quantity">
-                                                {{ total_estimated_yield|floatformat:"0" }} pound{{ total_estimated_yield|pluralize }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total estimated dollar value*:</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="quantity">
-                                                ${{ total_estimated_value|floatformat:"0" }}
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td style="width: 65px;">
-                                    <img src="{{ MEDIA_URL }}img/report/right_bracket.png" height="180px" />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+            {# TODO if name too long, banner disappears! #}
+            <div class="garden-name">{{ garden.name }}</div>
+
+            <div class="banner">
+                <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
+            </div>
+        </div>
+        <pdf:nextframe>
+        <div class="middle section chart">
+            <h3>Estimated garden yield</h3>
+            <img src="{{ charts.estimated_weight_per_crop.image.url }}" width="900px" />
         </div>
     </div>
     {% endif %}
@@ -313,5 +386,4 @@
             <pdf:pagenumber>
         </div>
     </div>
-
 </body>

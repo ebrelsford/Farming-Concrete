@@ -1,25 +1,25 @@
 <table class="sorted">
     <thead>
         <tr>
-            <th align="center">gardener name</th>
+            <th align="center">crop</th>
             <th align="center">pounds</th>
             <th class="last_column" align="center">dollar value *</th>
         </tr>
     </thead>
     <tbody>
-        {% for gardener, totals in harvestcount_gardener_totals %}
+        {% for crop in crops|dictsort:"variety__name" %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td>{{ gardener }}</td>
+            <td>{{ crop.variety__name }}</td>
             <td class="number">
-                {% if totals.weight %}
-                {{ totals.weight|floatformat }}
+                {% if crop.estimated_yield %}
+                {{ crop.estimated_yield|floatformat }}
                 {% else %}
                 (unknown)
                 {% endif %}
             </td>
             <td class="last_column number">
-                {% if totals.value %}
-                ${{ totals.value|floatformat:"0" }}
+                {% if crop.estimated_value %}
+                {{ crop.estimated_value|floatformat:"0" }}
                 {% else %}
                 (unknown)
                 {% endif %}
@@ -28,8 +28,8 @@
         {% endfor %}
         <tr class="totals">
             <td>Total</td>
-            <td class="number">{{ harvestcount_total_weight|floatformat }}</td>
-            <td class="last_column number">${{ harvestcount_estimated_total_value|floatformat:"0" }}</td>
+            <td class="number">{{ total_estimated_yield|floatformat }}</td>
+            <td class="last_column number">${{ total_estimated_value|floatformat:"0" }}</td>
         </tr>
     </tbody>
 </table>
