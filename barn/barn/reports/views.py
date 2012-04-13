@@ -84,6 +84,7 @@ def pdf(request, id=None, year=None): # TODO un-hard-code
 
     context = _context(garden=garden, year=year)
     context['charts'] = _make_charts(garden, year=year, medium='print')
+    context['garden_name_length'] = len(garden.name)
     return render_to_pdf_response('reports/pdf.html', context=RequestContext(request, context), pdfname='report.pdf')
 
 #

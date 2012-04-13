@@ -12,6 +12,7 @@
             }
             @frame middle {
                 top: 7cm;
+                bottom: 3.5cm;
                 margin-left: 1cm;
                 margin-right: .5cm;
             }
@@ -20,6 +21,56 @@
                 bottom: .5cm;
                 height: 3cm;
                 margin-left: .5cm;
+            }
+        }
+
+        @page harvestcount-pages {
+            size: letter portrait;
+
+            @frame header {
+                -pdf-frame-content: harvestcount-header-content;
+                top: 1cm;
+                height: 7cm;
+                margin-left: 1cm;
+                margin-right: .5cm;
+            }
+            @frame middle {
+                top: 7cm;
+                bottom: 2.5cm;
+                margin-left: 1cm;
+                margin-right: .5cm;
+            }
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: .5cm;
+                height: 1.5cm;
+                margin-left: .5cm;
+                margin-right: .5cm;
+            }
+        }
+
+        @page cropcount-pages {
+            size: letter portrait;
+
+            @frame header {
+                -pdf-frame-content: cropcount-header-content;
+                top: 1cm;
+                height: 7cm;
+                margin-left: 1cm;
+                margin-right: .5cm;
+            }
+            @frame middle {
+                top: 7cm;
+                bottom: 2.5cm;
+                margin-left: 1cm;
+                margin-right: .5cm;
+            }
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: .5cm;
+                height: 1.5cm;
+                margin-left: .5cm;
+                margin-right: .5cm;
             }
         }
 
@@ -42,8 +93,6 @@
         }
 
         .page {
-            position: relative;
-            top: 10cm;
             page-break-after: always;
         }
 
@@ -123,6 +172,14 @@
             font-weight: bold;
             padding-top: 25px;
             padding-bottom: -20px; margin-bottom: 0;
+        }
+        .garden-name.long {
+            font-size: 24px;
+            padding-bottom: -10px;
+        }
+        .garden-name.very-long {
+            font-size: 18px;
+            padding-bottom: -10px;
         }
 
         .banner {
@@ -256,32 +313,17 @@
                 <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
             </div>
         </div>
+        {% if has_harvestcount %}
+        <pdf:nexttemplate name="harvestcount-pages">
+        {% else %}
+            {% if has_cropcount %}
+            <pdf:nexttemplate name="cropcount-pages">
+            {% endif %}
+        {% endif %}
     </div>
 
     {% if has_harvestcount %}
     <div class="page">
-        <div class="headerContent">
-            <div class="header">
-                <table>
-                    <tr>
-                        <td width="49%" style="padding-top: -25px;">
-                            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
-                        </td>
-                        <td width="49%" valign="bottom">
-                            <h1 class="title">{{ year }} Harvest Report</h1>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {# TODO if name too long, banner disappears! #}
-            <div class="garden-name">{{ garden.name }}</div>
-
-            <div class="banner">
-                <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
-            </div>
-        </div>
-        <pdf:nextframe>
         <div class="middle section data-table">
             <h3>Total harvest per gardener</h3>
             {% include "reports/harvestcount_gardener_table_with_dollar_values.html" %}
@@ -290,93 +332,72 @@
         </div>
     </div>
     <div class="page">
-        <div class="headerContent">
-            <div class="header">
-                <table>
-                    <tr>
-                        <td width="49%" style="padding-top: -25px;">
-                            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
-                        </td>
-                        <td width="49%" valign="bottom">
-                            <h1 class="title">{{ year }} Harvest Report</h1>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {# TODO if name too long, banner disappears! #}
-            <div class="garden-name">{{ garden.name }}</div>
-
-            <div class="banner">
-                <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
-            </div>
-        </div>
-        <pdf:nextframe>
         <div class="middle section chart">
             <h3>Total harvest per crop</h3>
-            <img src="{{ charts.weight_per_crop.image.url }}" width="900px" />
+            <img src="{{ charts.weight_per_crop.image.url }}" width="850px" />
         </div>
+        {% if has_cropcount %}
+        <pdf:nexttemplate name="cropcount-pages">
+        {% endif %}
     </div>
     {% endif %}
    
     {% if has_cropcount %}
     <div class="page">
-        <div class="headerContent">
-            <div class="header">
-                <table>
-                    <tr>
-                        <td width="49%" style="padding-top: -25px;">
-                            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
-                        </td>
-                        <td width="49%" valign="bottom">
-                            <h1 class="title">{{ year }} Crop Report</h1>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {# TODO if name too long, banner disappears! #}
-            <div class="garden-name">{{ garden.name }}</div>
-
-            <div class="banner">
-                <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
-            </div>
-        </div>
-        <pdf:nextframe>
         <div class="middle section data-table">
             <h3>Estimated garden yield per crop</h3>
             {% include "reports/cropcount_crop_table_with_dollar_values.html" %}
         </div>
     </div>
     <div class="page">
-        <div class="headerContent">
-            <div class="header">
-                <table>
-                    <tr>
-                        <td width="49%" style="padding-top: -25px;">
-                            <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
-                        </td>
-                        <td width="49%" valign="bottom">
-                            <h1 class="title">{{ year }} Crop Report</h1>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {# TODO if name too long, banner disappears! #}
-            <div class="garden-name">{{ garden.name }}</div>
-
-            <div class="banner">
-                <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
-            </div>
-        </div>
-        <pdf:nextframe>
         <div class="middle section chart">
             <h3>Estimated garden yield</h3>
-            <img src="{{ charts.estimated_weight_per_crop.image.url }}" width="900px" />
+            <img src="{{ charts.estimated_weight_per_crop.image.url }}" width="850px" />
         </div>
     </div>
     {% endif %}
+
+    <div id="harvestcount-header-content">
+        <div class="header">
+            <table>
+                <tr>
+                    <td width="49%" style="padding-top: -25px;">
+                        <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                    </td>
+                    <td width="49%" valign="bottom">
+                        <h1 class="title">{{ year }} Harvest Report</h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="garden-name{% if garden_name_length > 33 %} {% if garden_name_length <= 60 %} long {% else %} very-long {% endif %} {% endif %}">
+            {{ garden.name }}
+        </div>
+        <div class="banner">
+            <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
+        </div>
+    </div>
+
+    <div id="cropcount-header-content">
+        <div class="header">
+            <table>
+                <tr>
+                    <td width="49%" style="padding-top: -25px;">
+                        <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                    </td>
+                    <td width="49%" valign="bottom">
+                        <h1 class="title">{{ year }} Crop Report</h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="garden-name{% if garden_name_length > 33 %} {% if garden_name_length <= 60 %} long {% else %} very-long {% endif %} {% endif %}">
+            {{ garden.name }}
+        </div>
+        <div class="banner">
+            <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
+        </div>
+    </div>
 
     <div id="footerContent">
         <div class="footer">
@@ -386,4 +407,5 @@
             <pdf:pagenumber>
         </div>
     </div>
+
 </body>
