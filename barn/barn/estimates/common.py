@@ -25,19 +25,23 @@ def _find_estimated_dollar_value(variety_id, year):
 
 def estimate_for_harvests_by_gardener_and_variety(harvests):
     """Estimate value of harvests for the given harvests, grouped by gardener and variety"""
-    gardener_variety_weights = harvests.values('variety__id', 'variety__name', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
+    gardener_variety_weights = harvests.values('variety__id', 'variety__name', 'gardener__garden__name', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
     total_value = 0
     gardener_totals = {}
     crop_totals = {}
+    garden_totals = {}
 
     for row in gardener_variety_weights:
         crop = row['variety__name']
         gardener = row['gardener__name']
+        garden = row['gardener__garden__name']
         weight = row['pounds']
         if gardener not in gardener_totals:
             gardener_totals[gardener] = dict(value=0, weight=0)
         if crop not in crop_totals:
             crop_totals[crop] = dict(value=0, weight=0)
+        if garden not in garden_totals:
+            garden_totals[garden] = dict(value=0, weight=0)
 
         row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(2011, 6, 1), weight) # TODO un-hard-code
 
@@ -45,12 +49,15 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
         gardener_totals[gardener]['weight'] += weight or 0
         crop_totals[crop]['value'] += estimated_value or 0
         crop_totals[crop]['weight'] += weight or 0
+        garden_totals[garden]['value'] += estimated_value or 0
+        garden_totals[garden]['weight'] += weight or 0
         total_value += estimated_value or 0
 
     return {
         'gardener_variety_weights': gardener_variety_weights,
         'gardener_totals': gardener_totals,
         'crop_totals': crop_totals,
+        'garden_totals': garden_totals,
         'total_value': total_value,
     }
 
@@ -76,21 +83,26 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
     #
     # This is slightly complicated by our desire to make estimates valid only for certain dates.
     #
-    crops = patches.values('variety__id', 'variety__name').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
+    crops = patches.values('variety__id', 'variety__name', 'box__garden__name').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
     total_value = 0
     total_value_by_garden_type = 0
     total_yield = 0
     total_yield_by_garden_type = 0
+    garden_totals = {}
 
     for crop in crops:
         year = crop['min_added'].year # for now, only use year. could make this an option or use multiple functions.
         variety_id = crop['variety__id']
+        garden_name = crop['box__garden__name']
+        if garden_name not in garden_totals:
+            garden_totals[garden_name] = dict(value=0, weight=0)
 
         # find average/estimate overall yield for the patches given containing this crop
         if estimate_yield:
             crop['average_yield'] = _find_estimated_crop_yield(variety_id, year)
             crop['estimated_yield'] = estimated_yield = (crop['average_yield'] or 0) * (crop['plants'] or 0)
             total_yield += estimated_yield or 0
+            garden_totals[garden_name]['weight'] += estimated_yield or 0
 
             # if we have a garden type, get average/estimate for that type
             if garden_type:
@@ -105,6 +117,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
                 continue
             crop['estimated_value'] = estimated_value = cost_per_pound * crop['estimated_yield']
             total_value += estimated_value or 0
+            garden_totals[garden_name]['value'] += estimated_value or 0
 
             # if we have a garden type, find estimated value using that estimated yield
             if garden_type:
@@ -116,6 +129,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
         'total_yield_by_garden_type': total_yield_by_garden_type,
         'total_value': total_value,
         'total_value_by_garden_type': total_value_by_garden_type,
+        'garden_totals': garden_totals,
     }
 
 def _estimate_value(variety_id, recorded_date, pounds):

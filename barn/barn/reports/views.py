@@ -128,6 +128,44 @@ def _boroughs(year):
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     return (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
 
+def _consolidate_totals(harvest_totals, crop_totals):
+    """
+    Smoosh cropcounts and harvestcounts together, preferring cropcounts when
+    gardens have them. This gives us a more inclusive picture of numbers,
+    since not all gardens have cropcounts.
+    """
+    gardens = set(harvest_totals.keys() + crop_totals.keys())
+    overall_weight = 0
+    overall_value = 0
+    overall_gardens = []
+
+    for garden in gardens:
+        # prefer cropcount, assuming it will be more complete
+        if garden in crop_totals:
+            overall_weight += crop_totals[garden]['weight']
+            overall_value += crop_totals[garden]['value']
+            overall_gardens.append({
+                'name': garden,
+                'participation': 'cropcount',
+                'weight': crop_totals[garden]['weight'],
+                'value': crop_totals[garden]['value'],
+            })
+        else:
+            overall_weight += harvest_totals[garden]['weight']
+            overall_value += harvest_totals[garden]['value']
+            overall_gardens.append({
+                'name': garden,
+                'participation': 'harvestcount',
+                'weight': harvest_totals[garden]['weight'],
+                'value': harvest_totals[garden]['value'],
+            })
+
+    return {
+        'overall_weight': overall_weight,
+        'overall_value': overall_value,
+        'overall_gardens': overall_gardens,
+    }
+
 def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=False):
     """get the common context for all reports"""
     patches = _patches(borough=borough, garden=garden, type=type, year=year, use_all_cropcount=use_all_cropcount).distinct()
@@ -165,6 +203,12 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
             'has_harvestcount': harvests.count() > 0,       
             'has_cropcount': patches.count() > 0,       
         })
+    else:
+        garden_harvest_totals = harvestcount_estimates['garden_totals']
+        garden_crop_totals = estimated_yield['garden_totals']
+        context.update(
+            _consolidate_totals(garden_harvest_totals, garden_crop_totals)
+        )
     return context
 
 #

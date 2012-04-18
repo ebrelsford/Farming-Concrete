@@ -76,9 +76,18 @@ $(document).ready(function() {
 
     <div class="tabs">
         <ul>
+            {% if not garden %}
+            <li><a href="#overall">Overall</a></li>
+            {% endif %}
             <li><a href="#cropcount">Crop Count</a></li>
             <li><a href="#harvestcount">Harvest Count</a></li>
         </ul>
+
+        {% if not garden %}
+        <div id="overall">
+        {% include "reports/overall.html" %}
+        </div>
+        {% endif %}
 
         <div id="cropcount">
         {% include "reports/cropcount.html" %}
