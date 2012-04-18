@@ -78,10 +78,6 @@ $(document).ready(function() {
         <ul>
             <li><a href="#cropcount">Crop Count</a></li>
             <li><a href="#harvestcount">Harvest Count</a></li>
-            <!--
-            TODO if garden
-            <li><a href="#other">Other</a></li>
-            -->
         </ul>
 
         <div id="cropcount">
@@ -92,13 +88,6 @@ $(document).ready(function() {
         {% include "reports/harvestcount.html" %}
         </div>
 
-        <!--
-        TODO if garden
-        <div id="other">
-            TODO: compare with rest of the city?
-            TODO: Estimated yield using crop count (if no harvest count?)
-        </div>
-        -->
     </div>
 
     <div id="bottom" style="clear: both;"> </div>
@@ -107,4 +96,3 @@ $(document).ready(function() {
 
 {% block actions %}
 {% endblock %}
-
