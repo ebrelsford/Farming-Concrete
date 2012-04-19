@@ -78,16 +78,16 @@
                 </tr>
             </thead>
             <tbody>
-                {% for crop in crops %}
+                {% for crop in variety_totals %}
                 <tr>
-                    <td class="number">{{ crop.variety__name }}</td>
+                    <td class="number">{{ crop.name }}</td>
                     <td class="number">{{ crop.plants|default:"" }}</td>
                     <td class="number">{{ crop.area|default:"" }}</td>
                     {% if not garden %}
                     <td class="number">{{ crop.average_yield|default:"" }}</td>
                     {% endif %}
                     <td class="number">{{ crop.estimated_yield|default:"" }}</td>
-                    <td class="number">{% if crop.estimated_value %}${{ crop.estimated_value|floatformat:"0" }}{% endif %}</td>
+                    <td class="number">{% if crop.value %}${{ crop.value|floatformat:"0" }}{% endif %}</td>
                     {% if not garden and type %}
                     <td class="number">{{ crop.type_average_yield|default:"" }}</td>
                     <td class="number">{{ crop.type_estimated_yield|default:"" }}</td>

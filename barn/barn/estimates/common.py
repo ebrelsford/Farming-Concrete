@@ -88,11 +88,15 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
     total_value_by_garden_type = 0
     total_yield = 0
     total_yield_by_garden_type = 0
+    variety_totals = {}
     garden_totals = {}
 
     for crop in crops:
         year = crop['min_added'].year # for now, only use year. could make this an option or use multiple functions.
         variety_id = crop['variety__id']
+        variety_name = crop['variety__name']
+        if variety_name not in variety_totals:
+            variety_totals[variety_name] = dict(area=0, plants=0, value=0, estimated_yield=0, type_estimated_value=None, type_average_yield=None, type_estimated_yield=None)
         garden_name = crop['box__garden__name']
         if garden_name not in garden_totals:
             garden_totals[garden_name] = dict(value=0, weight=0)
@@ -103,11 +107,17 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
             crop['estimated_yield'] = estimated_yield = (crop['average_yield'] or 0) * (crop['plants'] or 0)
             total_yield += estimated_yield or 0
             garden_totals[garden_name]['weight'] += estimated_yield or 0
+            variety_totals[variety_name]['average_yield'] = crop['average_yield']
+            variety_totals[variety_name]['estimated_yield'] += crop['estimated_yield']
+            variety_totals[variety_name]['plants'] += crop['plants'] or 0
+            variety_totals[variety_name]['area'] += crop['area'] or 0
 
             # if we have a garden type, get average/estimate for that type
             if garden_type:
                 crop['type_average_yield'] = _find_estimated_crop_yield(variety_id, year, garden_type=garden_type)
                 crop['type_estimated_yield'] = (crop['type_average_yield'] or 0) * (crop['plants'] or 0)
+                variety_totals[variety_name]['type_average_yield'] = crop['type_average_yield']
+                variety_totals[variety_name]['type_estimated_yield'] = crop['type_estimated_yield']
                 total_yield_by_garden_type += crop['type_estimated_yield']
 
         # find estimated dollar value of the crop yield for the given patches
@@ -118,11 +128,28 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
             crop['estimated_value'] = estimated_value = cost_per_pound * crop['estimated_yield']
             total_value += estimated_value or 0
             garden_totals[garden_name]['value'] += estimated_value or 0
+            variety_totals[variety_name]['value'] += estimated_value or 0
 
             # if we have a garden type, find estimated value using that estimated yield
             if garden_type:
                 crop['type_estimated_value'] = cost_per_pound * crop['type_estimated_yield']
+                variety_totals[variety_name]['type_estimated_value'] += crop['type_estimated_value']
                 total_value_by_garden_type += crop['type_estimated_value']
+
+    variety_totals_t = []
+    for variety in variety_totals:
+        variety_totals_t.append({
+            'name': variety,
+            'area': variety_totals[variety]['area'],
+            'average_yield': variety_totals[variety]['average_yield'],
+            'estimated_yield': variety_totals[variety]['estimated_yield'],
+            'plants': variety_totals[variety]['plants'],
+            'type_estimated_value': variety_totals[variety]['type_estimated_value'],
+            'type_average_yield': variety_totals[variety]['type_average_yield'],
+            'type_estimated_yield': variety_totals[variety]['type_estimated_yield'],
+            'value': variety_totals[variety]['value'],
+        })
+
     return {
         'crops': crops,
         'total_yield': total_yield,
@@ -130,6 +157,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
         'total_value': total_value,
         'total_value_by_garden_type': total_value_by_garden_type,
         'garden_totals': garden_totals,
+        'variety_totals': variety_totals_t,
     }
 
 def _estimate_value(variety_id, recorded_date, pounds):
