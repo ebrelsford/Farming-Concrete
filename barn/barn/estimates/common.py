@@ -84,6 +84,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
     # This is slightly complicated by our desire to make estimates valid only for certain dates.
     #
     crops = patches.values('variety__id', 'variety__name', 'box__garden__name').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
+    total_plants_with_yields = 0
     total_value = 0
     total_value_by_garden_type = 0
     total_yield = 0
@@ -111,6 +112,9 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
             variety_totals[variety_name]['estimated_yield'] += crop['estimated_yield']
             variety_totals[variety_name]['plants'] += crop['plants'] or 0
             variety_totals[variety_name]['area'] += crop['area'] or 0
+
+            if crop['average_yield']:
+                total_plants_with_yields += crop['plants'] or 0
 
             # if we have a garden type, get average/estimate for that type
             if garden_type:
@@ -156,6 +160,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
         'total_yield_by_garden_type': total_yield_by_garden_type,
         'total_value': total_value,
         'total_value_by_garden_type': total_value_by_garden_type,
+        'total_plants_with_yields': total_plants_with_yields,
         'garden_totals': garden_totals,
         'variety_totals': variety_totals_t,
     }

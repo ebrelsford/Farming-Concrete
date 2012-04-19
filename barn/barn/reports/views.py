@@ -188,6 +188,7 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
         'total_estimated_value': estimated_yield['total_value'],
         'total_estimated_value_type': estimated_yield['total_value_by_garden_type'],
         'variety_totals': estimated_yield['variety_totals'],
+        'total_plants_with_yields': estimated_yield['total_plants_with_yields'],
 
         'harvests': harvests,
         'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),

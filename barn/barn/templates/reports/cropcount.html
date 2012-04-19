@@ -32,26 +32,30 @@
                 <th>plants</th>
                 <td class="number">{{ total_plants }}</td>
             </tr>
-            {% if total_estimated_yield %}
             <tr class="even">
+                <th>plants with estimated yields</th>
+                <td class="number">{{ total_plants_with_yields }}</td>
+            </tr>
+            {% if total_estimated_yield %}
+            <tr class="odd">
                 <th>estimated yield</th>
                 <td class="number">{{ total_estimated_yield|floatformat }} lbs</td>
             </tr>
             {% endif %}
             {% if total_estimated_yield_type %}
-            <tr class="odd">
+            <tr class="even">
                 <th>estimated yield using {{ type }} yields</th>
                 <td class="number">{{ total_estimated_yield_type|floatformat }} lbs</td>
             </tr>
             {% endif %}
             {% if total_estimated_value %}
-            <tr class="even">
+            <tr class="odd">
                 <th>estimated value</th>
                 <td class="number">${{ total_estimated_value|floatformat:"0" }}</td>
             </tr>
             {% endif %}
             {% if total_estimated_value_type %}
-            <tr class="odd">
+            <tr class="even">
                 <th>estimated value using {{ type }} yields</th>
                 <td class="number">${{ total_estimated_value_type|floatformat:"0" }}</td>
             </tr>
