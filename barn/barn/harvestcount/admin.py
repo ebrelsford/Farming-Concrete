@@ -20,7 +20,16 @@ class HarvestAdmin(admin.ModelAdmin):
             bit = "%s harvests" % rows
         self.message_user(request, "%s marked as unreportable" % bit) 
 
-    actions = (mark_as_unreportable,)
+    def mark_as_reportable(self, request, queryset):
+        """mark a set of varieties as reportable"""
+        rows = queryset.update(reportable=True)
+        if rows == 1:
+            bit = "1 harvest"
+        else:
+            bit = "%s harvests" % rows
+        self.message_user(request, "%s marked as reportable" % bit) 
+
+    actions = (mark_as_unreportable, mark_as_reportable,)
 
 admin.site.register(Gardener, GardenerAdmin)
 admin.site.register(Harvest, HarvestAdmin)
