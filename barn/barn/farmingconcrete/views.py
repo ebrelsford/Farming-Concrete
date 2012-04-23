@@ -1,7 +1,7 @@
 import geojson
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
@@ -93,7 +93,8 @@ def gardens_geojson(request):
     elif harvestcount and harvestcount != 'no':
         gardens = gardens.filter(gardener__harvest__harvested__year=year)
     elif participating and participating != 'no':
-        gardens = gardens.filter(box__patch__added__year=year) | gardens.filter(gardener__harvest__harvested__year=year)
+        gardens = gardens.filter(Q(box__patch__added__year=year) | 
+                                 Q(gardener__harvest__harvested__year=year))
 
     gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
