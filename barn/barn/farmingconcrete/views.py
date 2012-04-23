@@ -83,16 +83,17 @@ def gardens_geojson(request):
     if ids:
         ids = ids.split(',')
         gardens = gardens.filter(id__in=ids)
-    if cropcount and cropcount != 'no':
-        gardens = gardens.filter(box__patch__added__year=year)
-    if harvestcount and harvestcount != 'no':
-        gardens = gardens.filter(gardener__harvest__harvested__year=year)
-    if participating and participating != 'no':
-        gardens = gardens.filter(box__patch__added__year=year) | gardens.filter(gardener__harvest__harvested__year=year)
     if type and type != 'all':
         gardens = gardens.filter(type__short_name=type)
     if borough:
         gardens = gardens.filter(borough=borough)
+
+    if cropcount and cropcount != 'no':
+        gardens = gardens.filter(box__patch__added__year=year)
+    elif harvestcount and harvestcount != 'no':
+        gardens = gardens.filter(gardener__harvest__harvested__year=year)
+    elif participating and participating != 'no':
+        gardens = gardens.filter(box__patch__added__year=year) | gardens.filter(gardener__harvest__harvested__year=year)
 
     gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
