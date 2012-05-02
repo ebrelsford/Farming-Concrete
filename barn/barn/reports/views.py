@@ -95,7 +95,7 @@ def harvest_map_data(request):
     neighborhood = request.GET.get('neighborhood', None)
     variety = request.GET.get('variety', None)
     year = request.GET.get('year', None)
-    if year and year == '2011':
+    if year:
         totals = _get_harvest_map_data(borough=borough,
                                         neighborhood=neighborhood, 
                                         variety=variety, year=int(year))
