@@ -115,7 +115,7 @@ def gardens_harvest_map_kml(request):
     kml = simplekml.Kml()
     f = kml.newfolder()
     for g in gardens:
-        f.newpoint(name=g.name, coords=[(g.latitude, g.longitude)])
+        f.newpoint(name=g.name, coords=[(g.longitude, g.latitude)])
     return HttpResponse(kml.kml(format=False),
                         mimetype='application/vnd.google-earth.kml+xml')
 
