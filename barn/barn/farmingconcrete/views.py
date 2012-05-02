@@ -115,9 +115,9 @@ def gardens_harvest_map_kml(request):
     kml = simplekml.Kml()
     f = kml.newfolder()
     for g in gardens:
+        # TODO placemark + id
         f.newpoint(name=g.name, coords=[(g.longitude, g.latitude)])
-    return HttpResponse(kml.kml(format=False),
-                        mimetype='application/vnd.google-earth.kml+xml')
+    return HttpResponse(kml.kml(format=False), mimetype='application/xml')
 
 def _gardens(borough=None, neighborhood=None, variety=None, year=None):
     gardens = Garden.objects.exclude(latitude=None, longitude=None)
