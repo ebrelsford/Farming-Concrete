@@ -1,4 +1,5 @@
 import geojson
+import simplekml
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Q
@@ -98,6 +99,45 @@ def gardens_geojson(request):
 
     gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
+
+def gardens_harvest_map_kml(request):
+    """Get GeoJSON for requested gardens for harvest map"""
+
+    type = request.GET.get('type', None)
+    borough = request.GET.get('borough', None)
+    neighborhood = request.GET.get('neighborhood', None)
+    year = request.GET.get('year', FARMINGCONCRETE_YEAR)
+    variety = request.GET.get('variety', None)
+
+    gardens = _gardens(borough=borough, neighborhood=neighborhood, year=year, 
+                       variety=variety)
+
+    kml = simplekml.Kml()
+    f = kml.newfolder()
+    for g in gardens:
+        f.newpoint(name=g.name, coords=[(g.latitude, g.longitude)])
+    return HttpResponse(kml.kml(format=False),
+                        mimetype='application/vnd.google-earth.kml+xml')
+
+def _gardens(borough=None, neighborhood=None, variety=None, year=None):
+    gardens = Garden.objects.exclude(latitude=None, longitude=None)
+
+    if borough:
+        gardens = gardens.filter(borough=borough)
+    if borough:
+        gardens = gardens.filter(neighborhood=neighborhood)
+
+    if variety:
+        gardens = gardens.filter(Q(gardener__harvest__harvested__year=year,
+                                   gardener__harvest__variety__name=variety) |
+                                 Q(box__patch__added__year=year,
+                                   box__patch__variety__name=variety))
+    else:
+        gardens = gardens.filter(Q(gardener__harvest__harvested__year=year) |
+                                 Q(box__patch__added__year=year))
+
+    gardens = gardens.distinct()
+    return gardens
 
 def _get_garden_type(short_name):
     types = GardenType.objects.filter(short_name=short_name)

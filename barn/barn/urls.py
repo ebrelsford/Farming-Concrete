@@ -45,6 +45,10 @@ urlpatterns = patterns('',
     (r'^ajax_select/', include('ajax_select.urls')),
     (r'^fc/', include('farmingconcrete.urls')),
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
+
+    (r'^harvestmap/gardens/kml', 'farmingconcrete.views.gardens_harvest_map_kml'),
+    (r'^harvestmap/data', 'reports.views.harvest_map_data'),
+
 )
 
 handler500 = 'barn.views.server_error'

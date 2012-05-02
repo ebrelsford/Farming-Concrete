@@ -79,7 +79,7 @@ def share(request, id=None, year=None):
     return HttpResponse(json.dumps(results), mimetype='application/json')
 
 @login_required
-def pdf(request, id=None, year=None): # TODO un-hard-code
+def pdf(request, id=None, year=None):
     garden = get_object_or_404(Garden, id=id)
 
     context = _context(garden=garden, year=year)
@@ -87,23 +87,44 @@ def pdf(request, id=None, year=None): # TODO un-hard-code
     context['garden_name_length'] = len(garden.name)
     return render_to_pdf_response('reports/pdf.html', context=RequestContext(request, context), pdfname='report.pdf')
 
+def harvest_map_data(request):
+    """
+    Get data for the harvest map.
+    """
+    borough = request.GET.get('borough', None)
+    neighborhood = request.GET.get('neighborhood', None)
+    variety = request.GET.get('variety', None)
+    year = request.GET.get('year', None)
+    if year and year == '2011':
+        totals = _get_harvest_map_data(borough=borough,
+                                        neighborhood=neighborhood, 
+                                        variety=variety, year=int(year))
+    else:
+        totals = {}
+    
+    return HttpResponse(json.dumps(totals), mimetype='application/json')
+
 #
 # common data-loading/filtering methods
 #
 
-def _harvests(garden=None, borough=None, type=None, year=None):
+def _harvests(garden=None, borough=None, neighborhood=None, type=None, 
+              year=None):
     """Get valid harvests for the given garden"""
     harvests = Harvest.objects.filter(harvested__year=year)
     if garden:
         return harvests.filter(gardener__garden=garden)
     if borough:
         harvests = harvests.filter(gardener__garden__borough=borough)
+    if neighborhood:
+        harvests = harvests.filter(gardener__garden__neighborhood=neighborhood)
     if type:
         harvests = harvests.filter(gardener__garden__type__name=type)
 
     return harvests.distinct()
 
-def _patches(garden=None, borough=None, type=None, year=None, use_all_cropcount=False):
+def _patches(garden=None, borough=None, neighborhood=None, type=None,
+             year=None, use_all_cropcount=False):
     """Get valid patches for the given garden"""
     patches = Patch.objects.filter(added__year=year)
     gardens_last_year = Garden.objects.exclude(box__patch__added__year=year).filter(box__patch__added__year=(int(year)-1))
@@ -114,6 +135,8 @@ def _patches(garden=None, borough=None, type=None, year=None, use_all_cropcount=
         if borough:
             patches = patches.filter(box__garden__borough=borough)
             gardens_last_year = gardens_last_year.filter(borough=borough)
+        if neighborhood:
+            patches = patches.filter(box__garden__neighborhood=neighborhood)
         if type:
             patches = patches.filter(box__garden__type__name=type)
             gardens_last_year = gardens_last_year.filter(type__name=type)
@@ -164,6 +187,31 @@ def _consolidate_totals(harvest_totals, crop_totals):
         'overall_weight': overall_weight,
         'overall_value': overall_value,
         'overall_gardens': overall_gardens,
+    }
+
+def _get_harvest_map_data(borough=None, neighborhood=None, variety=None, 
+                          type=None, year=None):
+    patches = _patches(borough=borough, neighborhood=neighborhood, 
+                       year=year).distinct()
+    beds = Box.objects.filter(patch__in=patches).distinct()
+    harvests = _harvests(borough=borough, neighborhood=neighborhood, type=type,
+                         year=year)
+    
+    estimated_yield = estimate_for_patches(patches, estimate_yield=True,
+                                           estimate_value=True,
+                                           garden_type=type)
+    harvestcount_estimates = estimate_for_harvests_by_gardener_and_variety(harvests)
+
+    garden_harvest_totals = harvestcount_estimates['garden_totals']
+    garden_crop_totals = estimated_yield['garden_totals']
+    overall = _consolidate_totals(garden_harvest_totals, garden_crop_totals)
+
+    return {
+        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+        'pounds': int(round(overall['overall_weight'], -1)), # nearest ten
+        'area': float(sum([b.length * b.width for b in beds])),
+        'cost': int(round(overall['overall_value'], -1)), # nearest ten
+        'gardens': [], # TODO (by id)
     }
 
 def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=False):
@@ -249,5 +297,6 @@ def _make_charts(garden, year=None, medium="screen"):
             charts[label] = c
         except:
             pass
+
 
     return charts
