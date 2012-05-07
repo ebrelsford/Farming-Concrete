@@ -66,6 +66,7 @@ def data(request):
     if variety == 'all': variety = None
 
     # get from cache if possible, for most likely queries (borough + year)
+    totals = None
     if not neighborhood and not variety:
         cache_key = 'harvestmap_views_data_%s_%s' % (borough, year)
         totals = cache.get(cache_key)
