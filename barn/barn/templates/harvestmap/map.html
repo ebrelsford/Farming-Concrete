@@ -1,0 +1,290 @@
+{% load dict %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+    	<title>Farming Concrete: Harvest Map</title>
+
+        <link rel="icon" href="http://farmingconcrete.org/wp-content/themes/arthemia/images/rwfavicon.ico" />
+        <link rel="shortcut icon" href="http://farmingconcrete.org/wp-content/themes/arthemia/images/rwfavicon.ico" />
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="http://static.ebrelsford.com/lib/js/OpenLayers/fc.js"></script>
+        
+        {% comment %}
+        TODO compress?
+        {% endcomment %}
+
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-util.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.smartresize.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/map-buttons.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/number_format.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/harvestmap_map.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/cloudmade.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/harvestmap_map_init.js"></script>
+
+        <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/harvestmap/style.css" />
+        <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/harvestmap/jquery-ui-1.8.4.custom.css" />
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-21831100-3']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="http://www.farmingconcrete.org/"><img src="http://barn.farmingconcrete.org/site_media/header.jpg" /></a>
+            </div>
+        </div>
+
+        <div id="content">
+        <div id="picker">
+            Highlight gardens in
+            {% for n_year in neighborhoods %}
+            <select class="neighborhood year-dependent {{ n_year }}"
+                {% if n_year != year %}style="display: none;"{% endif %}>
+                <option class="all">all neighborhoods</option>
+                {% for neighborhood in neighborhoods|get:n_year %}
+                <option class="{{ neighborhood.borough }}">
+                {{ neighborhood.neighborhood }}
+                </option>
+                {% endfor %}
+            </select>
+            {% endfor %},
+            {% for b_year in boroughs %}
+            <select class="borough year-dependent {{ b_year }}"
+                {% if b_year != year %}style="display: none;"{% endif %}>
+                <option class="all" selected="true">all boroughs</option>
+                {% for borough in boroughs|get:b_year %}
+                <option>{{ borough }}</option>
+                {% endfor %}
+            </select>
+            {% endfor %}
+            that grew
+            {% for v_year in varieties %}
+            <select class="vegetables year-dependent {{ v_year }}"
+                {% if v_year != year %}style="display: none;"{% endif %}>
+                <option class="all">all varieties</option>
+                {% for variety in varieties|get:v_year %}
+                <option>{{ variety }}</option>
+                {% endfor %}
+            </select>
+            {% endfor %}
+            in
+            <select id="year">
+                <option>2010</option>
+                <option selected="selected">2011</option>
+            </select>
+            <a id="update_map">Update</a>
+            <div id="update_loading_indicator"></div>
+        </div>
+
+        <div id="side">
+            <div id="legend" class="menu">
+                <ul id="stats">
+                    <li id="gardens">
+                        <div class="details">
+                            <span>This is the number of gardens that have been included so far in crop inventory.</span>
+                        </div>
+                        <span class="name">Gardens <a class="show_details">?</a></span>
+                        <span class="value">0</span>
+                    </li>
+                    <li id="area">
+                        <div class="details">
+                            <span>This is the total area under food production for the gardens selected. We currently only have area by garden, so we do not provide it when a variety is selected.</span>
+                        </div>
+                        <span class="name">Area <a class="show_details">?</a></span>
+                        <span class="value">0</span>
+                    </li>
+                    <li id="plants">
+                        <div class="details">
+                            <span>The number of plants in each food-producing raised bed is counted by crop. A map of the garden is drawn to place these beds in the context of the rest of the garden.</span>
+                        </div>
+                        <span class="name">Total plants <a class="show_details">?</a></span>
+                        <span class="value">0</span>
+                    </li>
+                    <li id="pounds">
+                        <div class="details">
+                            The total pounds are estimated using 
+                            <ol>
+                                <li>the total plants by variety as found during a crop inventory and</li>
+                                <li>the average weight harvested from a single plant of that variety as measured by participating gardeners.</li>
+                            </ol>
+                        </div>
+                        <span class="name">Total pounds <a class="show_details">?</a></span>
+                        <span class="value">0</span>
+                    </li>
+                    <li id="money">
+                        <div class="details">
+                            <span>The dollar value is calculated using the total plants or total weight by variety. Prices are from Whole Foods, current as of September 29, 2010 as these prices best reflect value of community garden produce, which is local and often organic.</span>
+                        </div>
+                        <span class="name">Dollar value <a class="show_details">?</a></span>
+                        <span class="value">$0</span>
+                    </li>
+                </ul>
+            </div>
+            <div id="statement">
+                <span class="value gardens">____</span> community gardens in <span class="value location">New York City</span> grew an estimated <span class="value pounds">____</span> pounds of <span class="value variety">food</span> in our tally of <span class="value year">____</span>, which is worth $<span class="value money">____</span> and made many a tasty meal.
+            </div>
+        </div>
+
+        <div id="right">
+        <div id="map"></div>
+
+        <div id="map_buttons" style="z-index: 4999; width: 300px;">
+            <div id="political_borders" class="button">
+                <span class="label">Political Borders</span>
+                <div id="political_borders_selector" class="dropdown">
+                    <ul>
+                        <li id="labels" style="border-bottom: 1px solid gray; margin-bottom: 5px;"><input type="checkbox" id="labels_checkbox" /><label for="labels_checkbox">labels</label></li>
+                        <li id="none"><input type="radio" id="none_radio" name="political_borders" checked="checked" /><label for="none_radio">none</label></li>
+                        <li id="boroughs"><input type="radio" id="boroughs_radio" name="political_borders" /><label for="boroughs_radio">Boroughs</label></li>
+                        <li id="city_councils"><input type="radio" id="city_councils_radio" name="political_borders" /><label for="city_councils_radio">City Council Districts</label></li>
+                        <li id="community_districts"><input type="radio" id="community_districts_radio" name="political_borders" /><label for="community_districts_radio">Community Districts</label></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="explanation" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="#tab-how">How to use this map</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="#tab-about">About</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="#tab-methods">Methods</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="#tab-partners">Partners and Precedents</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="#tab-faq">FAQ</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="#tab-more">Show me more!</a></li>
+            </ul>
+            <div id="tab-how" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+                This map shows an estimate of how much food is grown in the NYC community gardens included in our study so far. This is <span style="font-weight: bold;">not</span> a <span style="font-weight: bold;">comprehensive</span> map of all food in all gardens - just some of the food in a sample number of gardens, as recorded in the year listed.
+                <br /><br />
+                <ul style="margin: 0;">
+                    <li>Select a <span class="attribute">borough</span>, <span class="attribute">neighborhood</span>, and/or <span class="attribute">vegetable</span> below.</li>
+                    <li>Click 'Update'</li>
+                    <li>The left sidebar will show you the results we've calculated so far this season, and the map will show you the gardens the results came from <img src="{{ MEDIA_URL }}img/harvestmap/selected.png" />, while other gardens we've done inventories of will look like <img src="{{ MEDIA_URL }}img/harvestmap/unselected.png" />.</li>
+                </ul>
+            </div>
+            <div id="tab-about" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                <a href="http://www.farmingconcrete.org/">Farming Concrete</a> is a volunteer, citizen science project to measure how much food is grown in New
+                York City's community gardens. Calculating the area, weight, and monetary value of food grown in these
+                spaces highlights the value of community gardens as important green spaces run by and for neighborhood
+                residents and gives them a defined place in the context of the urban food system.
+                <br /><br />
+                A team of more than twenty volunteer researchers, students, interns, and gardeners are working with
+                hundreds of gardens to map areas under production, measure total acreage, and track harvest volume by
+                crop. This map will continue to change and develop as we continue our work for the duration of 2010. In
+                the end, the data will be able to answer for each garden and for all gardens as a whole:
+                <br /><br />
+                "We at ___ Community Garden grew ___ pounds of food in ____ square feet, which is worth $$___, served approximately ___ people, and prevented approximately __ pounds of greenhouse gases from entering the atmosphere."
+                <br /><br />
+                Farming Concrete is fiscally sponsored by the Open Space Institute, Inc. as part of their Citizen Action Program. OSI is a nonprofit public charity exempt from federal income tax under Sections 501(c)(3) and 509(a)(1) of the Internal Revenue Code. Contributions should be made payable to "Open Space Institute, Inc. / Farming Concrete" and are tax deductable to the extent permitted by law.
+            </div>
+            <div id="tab-methods" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                More than 100 gardeners have been weighing their yield by crop, recording
+                the number of plants they have as well. Meanwhile, gardeners and Farming
+                Concrete volunteers and interns have been conducting crop inventory to be
+                able to include the vegetable beds of those gardeners who are not weighing
+                their produce. Here's how this worked:
+
+                <h1>Data collection</h1>
+                <ul>
+                    <li>Contact gardeners on foot or over the phone</li>
+                    <p>
+                        If garden was interested in participating:
+                        <ul>
+                            <li>Bring a scale and a harvest log</li>
+                            <li>Map the garden (areas under production, crop inventory)</li>
+                        </ul>
+                    </p>
+                    <p>
+                        For the rest of the growing season:
+                        <ul>
+                            <li>Gardeners weigh their produce</li>
+                            <li>Outreach and mapping continues</li>
+                        </ul>
+                    </p>
+                </ul>
+
+                <h1>Data analysis</h1>
+                <ul>
+                    <li>Calculate total yield recorded so far for each plant of each crop recorded by each gardener</li>
+                    <li>Calculate average yield of 1 plant of each crop recorded so far (July &amp; August)</li>
+                    <li>Tally number of plants of each crop for each garden</li>
+                    <li>Apply average yield for each crop to number of plants tallied for each garden</li>
+                </ul>
+
+                <h1>In other words</h1>
+                Weighing = pounds per plant of each crop<br />
+                Mapping = number of plants of each crop per garden<br />
+                Yield = pounds of each crop per garden
+
+            </div>
+            <div id="tab-partners" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                Many thanks to our partners, GreenThumb (NYC Parks &amp; Recreation), Just Food, and New York Restoration Project, for their time, support, and resources - they have been critical to making this project a success. The New School has also acted generously in providing us with a humbling amount of student help as well as space at their exhibit this fall, Living Concrete/Carrot City.
+                <br /><br />
+                We are very grateful for two studies that took place in the past few years, measuring
+                food production in community gardens in Boston (Boston Natural Areas Network
+                2009) and in Philadelphia (UPenn 2009). We owe many aspects of our methodology
+                to them.
+                <br /><br />
+                We also want to thank Megan Gregory, PhD candidate at Cornell University, for
+                sharing her work with us. She has and continues to offer critical guidance in
+                methodology and implementation.
+            </div>
+            <div id="tab-faq" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                <ol>
+                    <li>
+                        <span class="question">Why can't I click on the gardens?</span>
+
+                        <span class="answer">In keeping gardeners' privacy in mind, we've kept this map anonymous.  We are enormously grateful for their help and participation and would not want to show more than what is necessary to make this tool useful. If you are a gardener at one of the participating gardens and would like your garden's name, address, etc. to be visible on the map, please contact eric (at) farmingconcrete (dot) org.</span>
+                    </li>
+
+                    <li>
+                        <span class="question">Why are only these gardens on the map?</span>
+
+                        <span class="answer">These are the gardens we were able to get to and map so far this season. We're still working hard to include all of the gardens that would like to be included so that we can get a fuller picture of food production in NYC community gardens.</span>
+                    </li>
+
+                    <li>
+                        <span class="question">How can I get my garden on the map?</span>
+
+                        <span class="answer">If you're a community gardener who would like to be on the map and receive a personalized estimate of food yield for your garden, please contact gardens (at) farmingconcrete (dot) org.</span>
+                    </li>
+
+                    <li>
+                        <span class="question">How can I volunteer for this project?</span>
+
+                        <span class="answer">To help us conduct crop inventory and make this map more complete, please contact volunteer (at) farmingconcrete (dot) org.</span>
+                    </li>
+
+                    <li>
+                        <span class="question">When will this be done/complete?</span>
+
+                        <span class="answer">2012 will be our last official season.</span>
+                    </li>
+                </ol>
+            </div>
+            <div id="tab-more" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                The data above is a very limited view of what community gardens in NYC are doing. To get a better idea of the impact community gardens have on their neighborhood and to see a more complete list of the types of plants grown in them, please go to <a href="http://gardenmaps.org">gardenmaps.org</a>.
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <div id="footer">
+            We are immensely grateful for the time and dedication of all of the gardeners who participated. Thank you for all your hard work!
+        </div>
+    </body>
+</html>

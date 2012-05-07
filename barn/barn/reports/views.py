@@ -13,10 +13,10 @@ from django.template import RequestContext
 from django_xhtml2pdf.utils import render_to_pdf_response
 
 from charts import plants_per_crop, weight_per_crop, weight_per_gardener, estimated_weight_per_crop
-from cropcount.models import Box, Patch
+from cropcount.models import Box
 from estimates.common import estimate_for_harvests_by_gardener_and_variety, estimate_for_patches
 from farmingconcrete.models import Garden, GardenType
-from harvestcount.models import Harvest
+from common import filter_harvests, filter_patches, filter_boroughs, consolidate_totals
 from models import SharedReport, Chart
 from settings import FARMINGCONCRETE_YEAR
 
@@ -31,7 +31,7 @@ def index(request, year=FARMINGCONCRETE_YEAR):
 
     context = _context(borough=borough, type=type, year=year, use_all_cropcount=use_all_cropcount)
 
-    cropcount_gardens = Garden.objects.filter(box__in=context['beds']) # TODO likely slow, should move to wherever filtering happens (eg, _patches())
+    cropcount_gardens = Garden.objects.filter(box__in=context['beds']) # TODO likely slow, should move to wherever filtering happens (eg, filter_patches())
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     if borough:
         cropcount_gardens = cropcount_gardens.filter(borough=borough)
@@ -43,7 +43,7 @@ def index(request, year=FARMINGCONCRETE_YEAR):
     context.update({
         'cropcount_gardens_count': cropcount_gardens.distinct().count(),
         'harvestcount_gardens_count': harvestcount_gardens.distinct().count(),
-        'boroughs': _boroughs(year),
+        'boroughs': filter_boroughs(year),
         'year': year,
         'borough': borough,
         'type': type,
@@ -87,137 +87,14 @@ def pdf(request, id=None, year=None):
     context['garden_name_length'] = len(garden.name)
     return render_to_pdf_response('reports/pdf.html', context=RequestContext(request, context), pdfname='report.pdf')
 
-def harvest_map_data(request):
-    """
-    Get data for the harvest map.
-    """
-    borough = request.GET.get('borough', None)
-    neighborhood = request.GET.get('neighborhood', None)
-    variety = request.GET.get('variety', None)
-    year = request.GET.get('year', None)
-    if year:
-        totals = _get_harvest_map_data(borough=borough,
-                                        neighborhood=neighborhood, 
-                                        variety=variety, year=int(year))
-    else:
-        totals = {}
-    
-    return HttpResponse(json.dumps(totals), mimetype='application/json')
-
 #
 # common data-loading/filtering methods
 #
 
-def _harvests(garden=None, borough=None, neighborhood=None, type=None, 
-              year=None):
-    """Get valid harvests for the given garden"""
-    harvests = Harvest.objects.filter(harvested__year=year)
-    if garden:
-        return harvests.filter(gardener__garden=garden)
-    if borough:
-        harvests = harvests.filter(gardener__garden__borough=borough)
-    if neighborhood:
-        harvests = harvests.filter(gardener__garden__neighborhood=neighborhood)
-    if type:
-        harvests = harvests.filter(gardener__garden__type__name=type)
-
-    return harvests.distinct()
-
-def _patches(garden=None, borough=None, neighborhood=None, type=None,
-             year=None, use_all_cropcount=False):
-    """Get valid patches for the given garden"""
-    patches = Patch.objects.filter(added__year=year)
-    gardens_last_year = Garden.objects.exclude(box__patch__added__year=year).filter(box__patch__added__year=(int(year)-1))
-
-    if garden:
-        patches = patches.filter(box__garden=garden)
-    else:
-        if borough:
-            patches = patches.filter(box__garden__borough=borough)
-            gardens_last_year = gardens_last_year.filter(borough=borough)
-        if neighborhood:
-            patches = patches.filter(box__garden__neighborhood=neighborhood)
-        if type:
-            patches = patches.filter(box__garden__type__name=type)
-            gardens_last_year = gardens_last_year.filter(type__name=type)
-        if use_all_cropcount:
-            patches = patches | Patch.objects.filter(box__garden__in=gardens_last_year)
-    
-    return patches.distinct()
-
-def _boroughs(year):
-    """get the boroughs with participating gardens for the given year"""
-    cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
-    harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
-    return (cropcount_gardens | harvestcount_gardens).values_list('borough', flat=True).order_by('borough').distinct()
-
-def _consolidate_totals(harvest_totals, crop_totals):
-    """
-    Smoosh cropcounts and harvestcounts together, preferring cropcounts when
-    gardens have them. This gives us a more inclusive picture of numbers,
-    since not all gardens have cropcounts.
-    """
-    gardens = set(harvest_totals.keys() + crop_totals.keys())
-    overall_weight = 0
-    overall_value = 0
-    overall_gardens = []
-
-    for garden in gardens:
-        # prefer cropcount, assuming it will be more complete
-        if garden in crop_totals:
-            overall_weight += crop_totals[garden]['weight']
-            overall_value += crop_totals[garden]['value']
-            overall_gardens.append({
-                'name': garden,
-                'participation': 'cropcount',
-                'weight': crop_totals[garden]['weight'],
-                'value': crop_totals[garden]['value'],
-            })
-        else:
-            overall_weight += harvest_totals[garden]['weight']
-            overall_value += harvest_totals[garden]['value']
-            overall_gardens.append({
-                'name': garden,
-                'participation': 'harvestcount',
-                'weight': harvest_totals[garden]['weight'],
-                'value': harvest_totals[garden]['value'],
-            })
-
-    return {
-        'overall_weight': overall_weight,
-        'overall_value': overall_value,
-        'overall_gardens': overall_gardens,
-    }
-
-def _get_harvest_map_data(borough=None, neighborhood=None, variety=None, 
-                          type=None, year=None):
-    patches = _patches(borough=borough, neighborhood=neighborhood, 
-                       year=year).distinct()
-    beds = Box.objects.filter(patch__in=patches).distinct()
-    harvests = _harvests(borough=borough, neighborhood=neighborhood, type=type,
-                         year=year)
-    
-    estimated_yield = estimate_for_patches(patches, estimate_yield=True,
-                                           estimate_value=True,
-                                           garden_type=type)
-    harvestcount_estimates = estimate_for_harvests_by_gardener_and_variety(harvests)
-
-    garden_harvest_totals = harvestcount_estimates['garden_totals']
-    garden_crop_totals = estimated_yield['garden_totals']
-    overall = _consolidate_totals(garden_harvest_totals, garden_crop_totals)
-
-    return {
-        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'pounds': int(round(overall['overall_weight'], -1)), # nearest ten
-        'area': float(sum([b.length * b.width for b in beds])),
-        'cost': int(round(overall['overall_value'], -1)), # nearest ten
-        'gardens': [], # TODO (by id)
-    }
-
 def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=False):
     """get the common context for all reports"""
-    patches = _patches(borough=borough, garden=garden, type=type, year=year, use_all_cropcount=use_all_cropcount).distinct()
-    harvests = _harvests(borough=borough, garden=garden, type=type, year=year)
+    patches = filter_patches(borough=borough, garden=garden, type=type, year=year, use_all_cropcount=use_all_cropcount).distinct()
+    harvests = filter_harvests(borough=borough, garden=garden, type=type, year=year)
     beds = Box.objects.filter(patch__in=patches).distinct()
     estimated_yield = estimate_for_patches(patches, estimate_yield=True, estimate_value=True, garden_type=type)
     harvestcount_estimates = estimate_for_harvests_by_gardener_and_variety(harvests)
@@ -257,7 +134,7 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
         garden_harvest_totals = harvestcount_estimates['garden_totals']
         garden_crop_totals = estimated_yield['garden_totals']
         context.update(
-            _consolidate_totals(garden_harvest_totals, garden_crop_totals)
+            consolidate_totals(garden_harvest_totals, garden_crop_totals)
         )
     return context
 

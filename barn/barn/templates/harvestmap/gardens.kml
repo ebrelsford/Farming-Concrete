@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+    <Folder>
+        {% for garden in gardens %}
+        <Placemark id="{{ garden.id }}">
+            <name>{{ garden.name }}</name>
+            <Point>
+                <coordinates>
+                {{ garden.longitude }}, {{ garden.latitude }}
+                </coordinates>
+            </Point>
+        </Placemark>
+        {% endfor %}
+    </Folder>
+</kml>

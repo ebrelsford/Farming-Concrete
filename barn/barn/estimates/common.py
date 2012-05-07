@@ -24,17 +24,22 @@ def _find_estimated_dollar_value(variety_id, year):
         return None
 
 def estimate_for_harvests_by_gardener_and_variety(harvests):
-    """Estimate value of harvests for the given harvests, grouped by gardener and variety"""
-    gardener_variety_weights = harvests.values('variety__id', 'variety__name', 'gardener__garden__name', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
+    """
+    Estimate value of harvests for the given harvests, grouped by gardener and
+    variety
+    """
+    gardener_variety_weights = harvests.values('variety__id', 'variety__name', 'gardener__garden__name', 'gardener__garden__id', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
     total_value = 0
     gardener_totals = {}
     crop_totals = {}
     garden_totals = {}
+    garden_ids = set()
 
     for row in gardener_variety_weights:
         crop = row['variety__name']
         gardener = row['gardener__name']
         garden = row['gardener__garden__name']
+        garden_ids.add(row['gardener__garden__id'])
         weight = row['pounds']
         if gardener not in gardener_totals:
             gardener_totals[gardener] = dict(value=0, weight=0)
@@ -58,6 +63,7 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
         'gardener_totals': gardener_totals,
         'crop_totals': crop_totals,
         'garden_totals': garden_totals,
+        'garden_ids': garden_ids,
         'total_value': total_value,
     }
 
@@ -74,7 +80,8 @@ def estimate_for_harvests(harvests, estimate_value=False):
         'total_value': total_value,
     }
 
-def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, garden_type=None):
+def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
+                         garden_type=None):
     """
     Estimate the pounds yielded by the given patches, including a total of all patches.
     """
@@ -83,7 +90,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
     #
     # This is slightly complicated by our desire to make estimates valid only for certain dates.
     #
-    crops = patches.values('variety__id', 'variety__name', 'box__garden__name').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
+    crops = patches.values('variety__id', 'variety__name', 'box__garden__name', 'box__garden__id').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
     total_plants_with_yields = 0
     total_value = 0
     total_value_by_garden_type = 0
@@ -91,14 +98,24 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
     total_yield_by_garden_type = 0
     variety_totals = {}
     garden_totals = {}
+    garden_ids = set()
 
     for crop in crops:
         year = crop['min_added'].year # for now, only use year. could make this an option or use multiple functions.
         variety_id = crop['variety__id']
         variety_name = crop['variety__name']
         if variety_name not in variety_totals:
-            variety_totals[variety_name] = dict(area=0, plants=0, value=0, estimated_yield=0, type_estimated_value=None, type_average_yield=None, type_estimated_yield=None)
+            variety_totals[variety_name] = dict(
+                area=0,
+                plants=0,
+                value=0,
+                estimated_yield=0,
+                type_estimated_value=None,
+                type_average_yield=None,
+                type_estimated_yield=None
+            )
         garden_name = crop['box__garden__name']
+        garden_ids.add(crop['box__garden__id'])
         if garden_name not in garden_totals:
             garden_totals[garden_name] = dict(value=0, weight=0)
 
@@ -162,6 +179,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False, ga
         'total_value_by_garden_type': total_value_by_garden_type,
         'total_plants_with_yields': total_plants_with_yields,
         'garden_totals': garden_totals,
+        'garden_ids': garden_ids,
         'variety_totals': variety_totals_t,
     }
 
