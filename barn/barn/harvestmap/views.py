@@ -1,9 +1,11 @@
 import json
 
+from django.core.cache import cache
 from django.db.models import Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.views.decorators.cache import cache_page
 
 from cropcount.models import Box
 from estimates.common import estimate_for_harvests_by_gardener_and_variety, estimate_for_patches
@@ -11,6 +13,7 @@ from farmingconcrete.models import Garden
 from reports.common import filter_harvests, filter_patches, filter_boroughs, filter_neighborhoods, consolidate_totals, filter_varieties
 from settings import FARMINGCONCRETE_YEAR
 
+@cache_page(12 * 60 * 60)
 def map(request):
     context = {
         'year': str(FARMINGCONCRETE_YEAR),
@@ -34,8 +37,16 @@ def kml(request):
     """Get kml for requested gardens for harvest map"""
 
     year = request.GET.get('year', FARMINGCONCRETE_YEAR)
+
+    # get from cache if possible
+    cache_key = 'harvestmap_views_kml_' + year
+    gardens = cache.get(cache_key)
+    if not gardens:
+        gardens = _gardens(year=year)
+        cache.set(cache_key, gardens, 12 * 60 * 60)
+
     context = {
-        'gardens': _gardens(year=year)
+        'gardens': gardens
     }
     return render_to_response('harvestmap/gardens.kml', context,
                               context_instance=RequestContext(request),
@@ -54,7 +65,15 @@ def data(request):
     if neighborhood == 'all': neighborhood = None
     if variety == 'all': variety = None
 
-    if year:
+    # get from cache if possible, for most likely queries (borough + year)
+    if not neighborhood and not variety:
+        cache_key = 'harvestmap_views_data_%s_%s' % (borough, year)
+        totals = cache.get(cache_key)
+        if not totals:
+            totals = _get_data(year, borough=borough)
+            cache.set(cache_key, totals, 12 * 60 * 60)
+
+    if year and not totals:
         totals = _get_data(year, borough=borough, neighborhood=neighborhood, 
                            variety=variety)
     else:
