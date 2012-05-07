@@ -3,7 +3,13 @@
     <Folder>
         {% for garden in gardens %}
         <Placemark id="{{ garden.id }}">
-            <name>{{ garden.name }}</name>
+            <name>
+                {% if garden.type.short_name == "backyard" %}
+                backyard garden
+                {% else %}
+                {{ garden.name }}
+                {% endif %}
+            </name>
             <Point>
                 <coordinates>
                 {{ garden.longitude }}, {{ garden.latitude }}
