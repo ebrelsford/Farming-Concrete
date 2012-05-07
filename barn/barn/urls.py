@@ -46,9 +46,9 @@ urlpatterns = patterns('',
     (r'^fc/', include('farmingconcrete.urls')),
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
 
-    (r'^harvestmap/map/$', 'harvestmap.views.map'),
-    (r'^harvestmap/gardens/kml', 'harvestmap.views.kml'),
-    (r'^harvestmap/data', 'harvestmap.views.data'),
+    (r'^harvest/$', 'harvestmap.views.map'),
+    (r'^harvest/gardens/kml', 'harvestmap.views.kml'),
+    (r'^harvest/data', 'harvestmap.views.data'),
 
 )
 
