@@ -73,11 +73,12 @@ def data(request):
             totals = _get_data(year, borough=borough)
             cache.set(cache_key, totals, 12 * 60 * 60)
 
-    if year and not totals:
-        totals = _get_data(year, borough=borough, neighborhood=neighborhood, 
-                           variety=variety)
-    else:
-        totals = {}
+    if not totals:
+        if year:
+            totals = _get_data(year, borough=borough, neighborhood=neighborhood, 
+                               variety=variety)
+        else:
+            totals = {}
     
     return HttpResponse(json.dumps(totals), mimetype='application/json')
 
