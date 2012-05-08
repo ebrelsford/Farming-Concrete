@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import include, patterns, url
+from django.conf.urls.defaults import include, patterns, url, handler404
 from django.contrib import admin
 admin.autodiscover()
 
