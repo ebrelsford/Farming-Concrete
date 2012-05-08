@@ -13,7 +13,9 @@ from farmingconcrete.models import Garden
 from reports.common import filter_harvests, filter_patches, filter_boroughs, filter_neighborhoods, consolidate_totals, filter_varieties
 from settings import FARMINGCONCRETE_YEAR
 
-@cache_page(12 * 60 * 60)
+ONE_WEEK = 7 * 24 * 60 * 60
+
+@cache_page(ONE_WEEK)
 def map(request):
     context = {
         'year': str(FARMINGCONCRETE_YEAR),
@@ -43,7 +45,7 @@ def kml(request):
     gardens = cache.get(cache_key)
     if not gardens:
         gardens = _gardens(year=year)
-        cache.set(cache_key, gardens, 12 * 60 * 60)
+        cache.set(cache_key, gardens, ONE_WEEK)
 
     context = {
         'gardens': gardens
@@ -72,7 +74,7 @@ def data(request):
         totals = cache.get(cache_key)
         if not totals:
             totals = _get_data(year, borough=borough)
-            cache.set(cache_key, totals, 12 * 60 * 60)
+            cache.set(cache_key, totals, ONE_WEEK)
 
     if not totals:
         if year:
