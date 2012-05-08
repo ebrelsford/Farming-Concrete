@@ -38,5 +38,9 @@ $('.share > a').click(function() {
         <p>This report is now publicly accessible using the above url. Please only share it with those who should see the report.</p>
     </div>
 </h2>
+<h2>
+    <a class="image" href="{% url reports.views.pdf id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
+    <a class="text" href="{% url reports.views.pdf id=garden.id year=request.session.year %}">Download this as a PDF</a>
+</h2>
 {% endif %}
 {% endblock %}

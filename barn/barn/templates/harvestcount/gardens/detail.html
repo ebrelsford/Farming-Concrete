@@ -134,6 +134,10 @@ $(document).ready(function() {
     <a class="text" href="{% url harvestcount.views.download_garden_harvestcount_as_csv id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
 </h2>
 <h2>
+    <a class="image" href="{% url reports.views.garden_report id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="text" href="{% url reports.views.garden_report id=garden.id year=request.session.year %}">View this garden's report</a>
+</h2>
+<h2>
     <a class="image" href="{% url cropcount.views.garden_details id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
     <a class="text" href="{% url cropcount.views.garden_details id=garden.id year=request.session.year %}">Switch to Crop Count</a>
 </h2>
