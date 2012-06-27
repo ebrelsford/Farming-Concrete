@@ -8,8 +8,8 @@ from make_estimates import make_all_yield_estimates, make_all_yield_estimates_by
 
 @staff_member_required
 def make_yield_estimates(request):
-    start = datetime(2011, 1, 1, 0, 0, 0)
-    end = datetime(2012, 1, 1, 0, 0, 0)
+    start = datetime(2012, 1, 1, 0, 0, 0)
+    end = datetime(2013, 1, 1, 0, 0, 0)
 
     if request.method == 'POST':
         by_garden_type = request.POST.get('by_garden_type', False)

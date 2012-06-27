@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.conf import settings
 from django.db.models import Min, Sum
 
 from models import EstimatedCost, EstimatedYield
@@ -48,7 +49,7 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
         if garden not in garden_totals:
             garden_totals[garden] = dict(value=0, weight=0)
 
-        row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(2011, 6, 1), weight) # TODO un-hard-code
+        row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(settings.FARMINGCONCRETE_YEAR, 6, 1), weight)
 
         gardener_totals[gardener]['value'] += estimated_value or 0
         gardener_totals[gardener]['weight'] += weight or 0
@@ -72,7 +73,7 @@ def estimate_for_harvests(harvests, estimate_value=False):
     total_value = 0
     for row in rows:
         if estimate_value:
-            row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(2011, 6, 1), row['pounds']) # TODO un-hard-code
+            row['estimated_value'] = estimated_value = _estimate_value(row['variety__id'], date(settings.FARMINGCONCRETE_YEAR, 6, 1), row['pounds'])
             total_value += estimated_value
 
     return {
