@@ -5,7 +5,7 @@ barn/settings.py
 bin
 build
 include
-lib
+/lib
 media/charts/
 dump/
 scripts/
