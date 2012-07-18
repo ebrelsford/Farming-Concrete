@@ -370,3 +370,7 @@ td.number {
 .share .sharebox .url {
     font-weight: bold;
 }
+
+#add-new-plant-type .message {
+    font-weight: bold;
+}

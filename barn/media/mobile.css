@@ -1,0 +1,59 @@
+body {
+    width: 100%;
+    margin: 0;
+}
+
+.ui-content .ui-listview {
+    /*margin-top: 0;*/
+}
+
+#main {
+    border: 0;
+    padding: 15px;
+}
+
+#logo {
+    background: url(/site_media/img/mobile/logo.jpg);
+    width: 60px;
+    height: 60px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#left {
+    float: none;
+    padding: 0;
+    width: 100%;
+}
+
+.garden-details #id_width,
+.garden-details #id_length {
+    width: 35%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#beds .month {
+    padding-top: 0;
+}
+
+form label,
+form label.ui-slider,
+form label.ui-input-text {
+    font-weight: bold;
+}
+
+.ui-btn-icon-notext .ui-btn-inner .ui-icon {
+    margin-right: 3px;
+}
+
+.pre-listview {
+    margin-bottom: 25px;
+}
+
+#new-bed input[name="name"],
+#new-bed input[name="width"],
+#new-bed input[name="length"] {
+    display: inline;
+    width: 20%;
+}

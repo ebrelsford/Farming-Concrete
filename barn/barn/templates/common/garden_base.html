@@ -1,4 +1,4 @@
-{% extends "common/map_base.html" %}
+{% extends is_mobile|yesno:"mobile/base.html,common/map_base.html" %}
 
 {% block title %}{{ garden.name }}{% endblock %}
 

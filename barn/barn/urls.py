@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import include, patterns, url, handler404
+from django.conf.urls.defaults import include, patterns, url
 from django.contrib import admin
 admin.autodiscover()
 
@@ -17,7 +17,9 @@ urlpatterns = patterns('',
     (r'^cropcount/yours/(?:(?P<year>\d{4})/)?$', 'cropcount.views.user_gardens'),
     (r'^cropcount/counted/(?:(?P<year>\d{4})/)?$', 'cropcount.views.all_gardens'),
     (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?$', 'cropcount.views.garden_details'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?summary/$', 'cropcount.views.summary'),
     (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?csv/$', 'cropcount.views.download_garden_cropcount_as_csv'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?beds/add/$', 'cropcount.views.add_bed'),
 
     # harvest count
     (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('harvestcount.urls')),

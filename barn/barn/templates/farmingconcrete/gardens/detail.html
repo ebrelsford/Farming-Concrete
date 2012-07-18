@@ -1,5 +1,7 @@
 {% extends "common/garden_base.html" %}
 
+{% block header_title %}{{ garden.name }}{% endblock %}
+
 {% block left %}
 <ul class="overview">
     <li class="even"><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
@@ -23,3 +25,11 @@
 {{ block.super }}
 {% endblock %}
 
+{% block content %}
+{% if is_mobile %}
+<a href="{% url cropcount.views.garden_details id=garden.id %}" data-role="button">Crop Count</a>
+<a href="{% url harvestcount.views.garden_details id=garden.id %}" data-role="button">Harvest Count</a>
+{% else %}
+{{ block.super }}
+{% endif %}
+{% endblock %}

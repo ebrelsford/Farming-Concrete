@@ -1,0 +1,39 @@
+<li style="font-weight: bold; border-bottom: 1px solid black; padding-left: 10px;" data-role="list-divider">
+    <span class="type">plant</span>
+    <span class="quantity">quantity</span>
+</li>
+
+{% for patch in patches %}
+    <li class="{% cycle 'odd' 'even' %}">
+        <span class="type">{{ patch.variety }}</span>
+    
+        <span class="quantity">
+            {% if patch.plants %}
+            {{ patch.plants }} plants
+            {% endif %}
+           
+            {% if patch.area %}
+            {{ patch.area }} square feet
+            {% endif %}
+        </span>
+
+        <span class="actions">
+            <a 
+                {% if not is_mobile %}
+                href="{% url cropcount.views.delete_patch id=patch.id year=request.session.year %}"
+                {% else %}
+                href="{% url cropcount_patches_confirm_delete id=patch.id %}"
+                {% endif %}
+                data-role="button" data-icon="delete" data-iconpos="notext" data-rel="dialog">
+                {% if not is_mobile %}
+                <img src="/site_media/img/round_delete_small.png" title="remove this plant" />
+                {% endif %}
+            </a>
+        </span>
+
+    </li>
+{% empty %}
+    <li>
+        None, yet!
+    </li>
+{% endfor %}

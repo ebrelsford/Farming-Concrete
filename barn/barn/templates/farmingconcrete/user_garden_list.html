@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block header_title %}Your Gardens{% endblock %}
+
+{% block content %}
+{% for garden in object_list %}
+<ul data-role="listview">
+    <li>
+        <a href="{% url farmingconcrete.views.garden_details id=garden.id %}">
+            {{ garden.name }}
+        </a>
+    </li>
+</ul>
+{% empty %}
+None.
+{% endfor %}
+{% endblock %}

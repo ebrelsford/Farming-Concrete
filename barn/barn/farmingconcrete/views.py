@@ -1,17 +1,22 @@
 import geojson
+import json
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
+from django.views.generic.base import View
+from django.views.generic.list import ListView
 
-from middleware.http import Http403
-from models import Garden, GardenType
+from cropcount.models import Box, Patch
 from farmingconcrete.decorators import year_in_session
 from farmingconcrete.geo import garden_collection
-from cropcount.models import Box, Patch
+from farmingconcrete.models import Garden, GardenType, Variety
+from farmingconcrete.utils import get_variety
+from generic.views import LoginRequiredMixin, PermissionRequiredMixin
 from harvestcount.models import Harvest
+from middleware.http import Http403
 
 from settings import FARMINGCONCRETE_YEAR
 
@@ -24,7 +29,7 @@ def _patches(year=FARMINGCONCRETE_YEAR):
     return Patch.objects.filter(added__year=year)
 
 @year_in_session
-def index(request, year=None):
+def index(request, year=FARMINGCONCRETE_YEAR):
     user_gardens = []
     if request.user.is_authenticated():
         profile = request.user.get_profile()
@@ -105,3 +110,41 @@ def _get_garden_type(short_name):
         return types[0]
 
     return 'all'
+
+class GardenListView(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        return Garden.objects.all().order_by('name')
+
+class UserGardensListView(LoginRequiredMixin, ListView):
+    template_name='farmingconcrete/user_garden_list.html'
+
+    def get_queryset(self):
+        return self.request.user.get_profile().gardens.all()
+
+class VarietyPickerListView(LoginRequiredMixin, ListView):
+    def get_context_data(self, **kwargs):
+        context = super(VarietyPickerListView, self).get_context_data(**kwargs)
+        context['previous_page'] = self.request.GET.get('previous', None)
+        return context
+
+    def get_queryset(self):
+        return (Variety.objects.filter(needs_moderation=False) | 
+                self.request.user.farmingconcrete_variety_added.all())
+
+class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    http_method_names = ['post',]
+    permission = 'farmingconcrete.add_variety'
+
+    def post(self, request, *args, **kwargs):
+        variety, created = get_variety(request.POST.get('name', None), request.user)
+
+        message = 'plant type %s added' % variety.name
+        if not created:
+            message = 'similar plant type used'
+
+        return HttpResponse(json.dumps({ 
+            'success': True,
+            'id': variety.id,
+            'name': variety.name,
+            'message': message,
+        }))

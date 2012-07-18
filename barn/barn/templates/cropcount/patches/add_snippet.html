@@ -1,0 +1,116 @@
+<script>
+    $(document).ready(function() {
+        {% if is_mobile %}
+        $('#area-flip').change(function() {
+            $('#area-input').toggle();
+        });
+        {% else %}
+        $('#add-new-plant-type a').click(function() {
+            $('#add-new-plant-type .adder').toggle();   
+            return false;
+        });
+
+        $('form').submit(function(e) {
+            var new_plant_type_name = $('input[name="new-plant-type"]').val();
+
+            if (new_plant_type_name !== '') {
+                // send new plant type to JSON view
+                $.post('{% url farmingconcrete_varieties_add %}',
+                    { 
+                        'name': new_plant_type_name,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                    },
+                    function(data) {
+                        if (data['success']) {
+                            // update variety input
+                            $('input[name="variety_text"]').val(data['name']);
+                            $('input[name="variety"]').val(data['id']);
+
+                            // post a message?
+                            $('#add-new-plant-type .message').text(data['message']);
+
+                            // hide add-new-plant-type form
+                            $('input[name="new-plant-type"]').val('');
+                            $('#add-new-plant-type .adder').hide();
+                        }
+                    },
+                    'json'
+                );
+
+                return false;
+            }
+        });   
+        {% endif %}
+    });
+</script>
+<h2 style="font-weight: bold; margin-top: 5px;">Add a new plant</h2>
+<form method="post" action="." data-ajax="false">
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+    <div id="errors">
+        {{ form.non_field_errors }}
+    </div>
+    <div id="inputs">
+        {% if not is_mobile %}
+            <span class="type">
+                {{ form.variety.errors }}
+                {{ form.variety.label_tag }}
+                <span id="variety_help" class="help_link"></span><br />
+                {{ form.variety }}
+
+                <div id="add-new-plant-type">
+                    <div class="message"></div>
+                    <a href="#">add a new plant type</a>
+                    <div class="adder" style="display: none;">
+                        <input type="text" name="new-plant-type" />
+                        <input type="submit" name="add-new-plant-type" value="add" />
+                    </div>
+                </div>
+            </span>
+
+            <span class="quantity">
+                {{ form.plants.errors }}
+                {{ form.area.errors }}
+                {{ form.plants }} plants<span id="quantity_help" class="help_link"></span><br />
+                <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
+                {{ form.area }} sq ft
+            </span>
+        {% else %}
+            <span class="type">
+                {{ form.variety.errors }}
+                {{ form.variety.label_tag }}
+                {{ variety|default:"none selected" }}
+                <input type="hidden" id="variety_text" name="variety_text" value="{{ variety }}" />
+                <input type="hidden" id="id_variety" name="variety" value="{{ variety.pk }}" />
+                <a href="{% url farmingconcrete_varieties %}?previous={{ request.path }}" data-role="button" data-inline="true">change</a>
+            </span>
+
+            <span class="quantity">
+                {{ form.plants.errors }}
+                {{ form.area.errors }}
+                <div data-role="fieldcontain">
+                    {{ form.plants.label_tag }}
+                    {{ form.plants }}
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="slider">Use area instead of plants</label>
+                    <select name="slider" id="area-flip" data-role="slider" data-theme="a">
+                        <option value="off">no</option>
+                        <option value="on">yes</option>
+                    </select>
+                    <div id="area-input" style="display: none;">
+                        <label for="id_area">Area (sq ft)</label>
+                        <span style="white-space: nowrap;">{{ form.area }}</span>
+                    </div>
+                </div>
+            </span>
+        {% endif %}
+
+        <span class="actions">
+            <input type="submit" value="add" data-role="button" />
+        </span>
+    </div>
+</form>

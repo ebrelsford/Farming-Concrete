@@ -1,6 +1,7 @@
 {% extends "cropcount/map_base.html" %}
 
 {% block title %}{{ garden.name }}{% endblock %}
+{% block header_title %}{{ garden.name }}{% endblock %}
 
 {% block map_params %}
 type: 'single',
@@ -28,7 +29,9 @@ $(document).ready(function() {
 
 {% block content %}
 {% if garden %}
+    {% if not is_mobile %}
     <h1>{{ garden.name }}</h1>
+    {% endif %}
 
     <div class="garden-details">
     {{ block.super }}
@@ -43,64 +46,36 @@ $(document).ready(function() {
 {% endif %}
 {% endblock %}
 
+
 {% block left %}
-<div id="new-bed" style="border-bottom: 2px solid black; margin-bottom: 10px;">
-    <span style="font-weight: bold;">Add a new bed to this garden</span>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {% for hidden in form.hidden_fields %}
-        {{ hidden }}
-        {% endfor %}
-        <div id="errors">
-            {{ form.non_field_errors }}
-            {{ form.garden.errors }}{{ form.name.errors }}{{ form.width.errors }}{{ form.length.errors }}
-        </div>
-        <div id="inputs">
-            <div>
-                <label for="id_name">{{ form.name.label }}:</label> {{ form.name }} <span id="number_help" class="help_link"></span><br />
-            </div>
-            <div>
-                <label for="id_width">{{ form.width.label }}:</label> {{ form.width }}ft x {{ form.length }}ft <span id="dimensions_help" class="help_link"></span>
-            </div>
-            <input type="submit" value="add" />
-        </div>
-    </form>
-</div>
-<div id="beds">
-    <span style="font-weight: bold;">Current beds in this garden for {{ request.session.year }}</span>
-    {% if bed_list %}
-    <ul class="values">
-        {% for month in bed_months %}
-        <li class="month">
-            <span class="month-name">Added in {{ month }}</span>
-            <ul class="values">
-            {% for box in bed_list %}
-                {% with box.added|date:"F" as m %}
-                {% if m == month %}
-                <li class="bed">
-                {% include "cropcount/gardens/detail_bed_snippet.html" %}
-                </li>
-                {% endif %}
-                {% endwith %}
-            {% endfor %}
-            </ul>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No beds yet.</p>
-    {% endif %}
-</div>
+
+{% if is_mobile %}
+<ul class="overview pre-listview">
+    <li><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
+    <li><b>{{ area|default:"0" }}</b> square feet</li>
+    <li><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
+</ul>
+{% endif %}
+
+{% if not is_mobile %}
+{% include "cropcount/beds/add_snippet.html" %}
+{% endif %}
+
+{% include "cropcount/beds/list_snippet.html" %}
+
 {% endblock %}
 
+
 {% block right %}
+{% if not is_mobile %}
 <ul class="overview">
     <li><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
     <li><b>{{ area|default:"0" }}</b> square feet</li>
     <li><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
 </ul>
-
+{% endif %}
 {% endblock %}
+
 
 {% block actions %}
 <h2>

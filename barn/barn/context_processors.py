@@ -17,3 +17,14 @@ def garden_types(request):
         except UserProfile.DoesNotExist:
             pass
     return {}
+
+def mobile(request):
+    """
+    Add is_mobile: True if user agent contains an obvious smartphone, False 
+    otherwise
+    """
+    try:
+        ua = request.META['HTTP_USER_AGENT'].lower()
+    except KeyError:
+        ua = ''
+    return { 'is_mobile': 'iphone' in ua or 'android' in ua, }

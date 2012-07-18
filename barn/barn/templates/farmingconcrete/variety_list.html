@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block header_title %}Pick a variety{% endblock %}
+
+{% block content %}
+<ul data-role="listview" data-filter="true" data-filter-placeholder="Start typing">
+{% for variety in object_list %}
+    <li>
+        <a href="{{ previous_page }}?variety={{ variety.pk }}">
+            {{ variety.name }}
+        </a>
+    </li>
+{% empty %}
+None.
+{% endfor %}
+</ul>
+{% endblock %}

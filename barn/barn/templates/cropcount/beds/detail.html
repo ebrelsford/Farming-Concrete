@@ -1,6 +1,7 @@
 {% extends "cropcount/beds/base.html" %}
 
 {% block title %}{{ bed.garden.name }}, bed {{ bed.name }}{% endblock %}
+{% block header_title %}{{ bed.garden.name }}, bed {{ bed.name }}{% endblock %}
 
 {% block breadcrumbs %}{{ block.super }} <a href="{% url cropcount.views.garden_details id=bed.garden.id year=request.session.year %}">{{ bed.garden.name }}</a> &gt;&gt; bed {{ bed.name }} {% endblock %}
 
@@ -17,72 +18,29 @@
 
 {% block content %}
 {% if bed %}
-    <h1><a href="{% url cropcount.views.garden_details id=bed.garden.id year=request.session.year %}">{{ bed.garden.name }}</a>, bed {{ bed.name }}</h1>
+    <h1 class="pre-listview">
+    {% if not is_mobile %}
+    <a href="{% url cropcount.views.garden_details id=bed.garden.id year=request.session.year %}">{{ bed.garden.name }}</a>, bed {{ bed.name }}
+    {% else %}
+    bed {{ bed.name }}
+    {% endif %}
+    </h1>
 
     <div id="plants">
-        <ul class="values">
+        <ul class="values" data-role="listview">
+            {% if not is_mobile %}
             <li id="new-plant" style="border-bottom: 2px solid black; margin-bottom: 10px;">
-                <span style="font-weight: bold; margin-top: 5px;">Add a new plant</span>
-                <form method="post" action=".">
-                    {% csrf_token %}
-                    {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                    {% endfor %}
-                    <div id="errors">
-                        {{ form.non_field_errors }}
-                    </div>
-                    <div id="inputs">
-                        <span class="type">
-                            {{ form.variety.errors }}
-                            {{ form.variety.label_tag }}
-                            <span id="variety_help" class="help_link"></span><br />
-                            {{ form.variety }}
-                        </span>
-                           
-                        <span class="quantity">
-                            {{ form.plants.errors }}
-                            {{ form.area.errors }}
-                            {{ form.plants }} plants<span id="quantity_help" class="help_link"></span><br />
-                            <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
-                            {{ form.area }} sq ft
-                        </span>
+            {% include "cropcount/patches/add_snippet.html" %}
+            </li>
+            {% else %}
+            <li data-icon="plus">
+                <a href="{% url cropcount.views.add_patch bed_id=bed.pk year=request.session.year %}">Add plants</a>
+            </li>
+            {% endif %}
 
-                        <span class="actions">
-                            <input type="submit" value="add" />
-                        </span>
-                    </div>
-                </form>
-            </li>
-            <li style="font-weight: bold; border-bottom: 1px solid black;">
-                <span class="type">plant</span>
-                <span class="quantity">quantity</span>
-            </li>
-        {% for patch in bed.patch_set.all %}
-            <li class="{% cycle 'odd' 'even' %}">
-                <span class="type">{{ patch.variety }}</span>
-            
-                <span class="quantity">
-                    {% if patch.plants %}
-                    {{ patch.plants }} plants
-                    {% endif %}
-                   
-                    {% if patch.area %}
-                    {{ patch.area }} square feet
-                    {% endif %}
-                </span>
-
-                <span class="actions">
-                    <a href="{% url cropcount.views.delete_patch id=patch.id year=request.session.year %}">
-                        <img src="/site_media/img/round_delete_small.png" title="remove this plant" />
-                    </a>
-                </span>
-
-            </li>
-        {% empty %}
-            <li>
-                None, yet!
-            </li>
-        {% endfor %}
+            {% with patches=bed.patch_set.all %}
+            {% include "cropcount/patches/list_snippet.html" %}
+            {% endwith %}
         </ul>
     </div>
 {% else %}
@@ -96,4 +54,9 @@
     <a class="image" href="{% url cropcount.views.garden_details id=bed.garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
     <a class="text" href="{% url cropcount.views.garden_details id=bed.garden.id year=request.session.year %}">Done adding plants to this bed!</a>
 </h2>
+{% endblock %}
+
+{% block footer_nav %}
+{{ block.super }}
+<li><a href="{% url cropcount.views.garden_details id=bed.garden.pk year=request.session.year %}" data-icon="arrow-u">Garden Home</a></li>
 {% endblock %}

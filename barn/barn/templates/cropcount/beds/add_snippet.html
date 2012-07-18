@@ -1,0 +1,26 @@
+<div id="new-bed" style="border-bottom: 2px solid black; margin-bottom: 10px;">
+    <h2 style="font-weight: bold;">Add a new bed to this garden</h2>
+    <form method="post" action="." data-ajax="false">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        <div id="errors">
+            {{ form.non_field_errors }}
+            {{ form.garden.errors }}{{ form.name.errors }}{{ form.width.errors }}{{ form.length.errors }}
+        </div>
+        <div id="inputs">
+            <div data-role="fieldcontain">
+                <label for="id_name">{{ form.name.label }}:</label>
+                {{ form.name }} 
+                <span id="number_help" class="help_link"></span>
+            </div>
+            <div data-role="fieldcontain">
+                <label for="id_width">{{ form.width.label }}:</label> 
+                <span style="white-space: nowrap;">{{ form.width }} ft x {{ form.length }} ft</span>
+                <span id="dimensions_help" class="help_link"></span>
+            </div>
+            <input type="submit" value="add" data-role="button" />
+        </div>
+    </form>
+</div>

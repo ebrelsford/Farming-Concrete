@@ -57,7 +57,7 @@ class HarvestForm(ModelForm):
         if not variety:
             variety_name = self.data['variety_text']
             if variety_name:
-                variety = get_variety(variety_name, self.user)
+                variety, created = get_variety(variety_name, self.user)
             else:
                 raise ValidationError('Please enter a plant type.')
 

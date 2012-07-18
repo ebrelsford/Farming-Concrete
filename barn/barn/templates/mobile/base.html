@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %} | Barn | Farming Concrete </title>
+
+        <link rel="icon" href="http://farmingconcrete.org/wp-content/themes/arthemia/images/rwfavicon.ico" />
+        <link rel="shortcut icon" href="http://farmingconcrete.org/wp-content/themes/arthemia/images/rwfavicon.ico" />
+
+        <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta name="HandheldFriendly" content="True" />
+        <link rel="apple-touch-icon" href="{{ MEDIA_URL }}img/apple_touch_icon.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile.structure-1.1.0.min.css" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}lib/jquery-mobile/themes/barn.min.css" />
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}mobile.css" />
+
+        <script src="{{ MEDIA_URL }}js/common.js" type="text/javascript"></script>
+
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div data-role="page" data-add-back-btn="true" data-theme="a">
+
+            {% block header %}
+            <div id="header" data-role="header">
+                <h1>{% block header_title %}{% endblock %}</h1>
+            </div>
+            {% endblock %}
+
+            <div id="main" data-role="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+            {% block footer %}
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        {% block footer_nav %}
+                        <li><a href="/" data-icon="home">Home</a></li>
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+            {% endblock %}
+
+        </div>
+    </body>
+</html>

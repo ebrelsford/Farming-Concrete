@@ -6,6 +6,7 @@ class VarietyLookup(object):
 
     def get_query(self, q, request):
         """ return a query set.  you also have access to request.user if needed """
+        print q
         varieties = Variety.objects.filter(needs_moderation=False) | request.user.farmingconcrete_variety_added.all()
         return varieties.filter(Q(name__icontains=q))
 

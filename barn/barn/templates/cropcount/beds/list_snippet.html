@@ -1,0 +1,39 @@
+<div id="beds">
+    <h2 style="font-weight: bold;" class="pre-listview">Beds in this garden for {{ request.session.year }}</h2>
+    <ul class="{% if not is_mobile %}values{% endif %}" data-role="listview" data-theme="a">
+        {% if is_mobile %}
+        <li data-icon="plus">
+            <a href="{% url cropcount.views.add_bed id=garden.id year=request.session.year %}">Add a bed</a>
+        </li>
+        {% endif %}
+
+        {% if bed_list %}
+            {% if not is_mobile %}
+                {% for month in bed_months %}
+                <li class="month">
+                    <span class="month-name">Added in {{ month }}</span>
+                    <ul class="values">
+                    {% for box in bed_list %}
+                        {% with box.added|date:"F" as m %}
+                        {% if m == month %}
+                        <li class="bed">
+                        {% include "cropcount/beds/detail_snippet.html" %}
+                        </li>
+                        {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            {% else %}
+                {% for box in bed_list %}
+                <li>
+                    <a href="{% url cropcount.views.bed_details id=box.id year=request.session.year %}">bed {{ box.name }}</a>
+                </li>
+                {% endfor %}
+            {% endif %}
+        {% else %}
+        <li>No beds yet.</li>
+        {% endif %}
+    </ul>
+</div>
