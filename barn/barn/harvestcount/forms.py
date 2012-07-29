@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, DateInput, ValidationError
 
 from ajax_select.fields import AutoCompleteSelectField
@@ -6,19 +7,16 @@ from farmingconcrete.models import Garden
 from farmingconcrete.utils import get_variety
 from models import Gardener, Harvest
 
+class GardenerForm(ModelForm):
+    garden = ModelChoiceField(queryset=Garden.objects.all(), widget=HiddenInput())
+
+    class Meta:
+        model = Gardener
+        exclude = ('added_by', 'updated_by')
+
 class HarvestForm(ModelForm):
-    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(), widget=HiddenInput())
-    gardener = AutoCompleteSelectField('gardener', 
-        label="Gardener", 
-        required=False,
-        error_messages={
-            'required': "Please enter a gardener.",
-        }
-    )
-    variety = AutoCompleteSelectField('variety',
-        label='Plant type',
-        required=False
-    )
+    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
+                              widget=HiddenInput())
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -32,6 +30,61 @@ class HarvestForm(ModelForm):
             'plants': TextInput(attrs={'size': 5, 'maxlength': 5}),
             'harvested': DateInput(format='%m/%d/%Y'),
         }
+
+class MobileHarvestForm(HarvestForm):
+    gardener = ModelChoiceField(
+        queryset=Gardener.objects.all(),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(MobileHarvestForm, self).__init__(*args, **kwargs)
+
+        try:
+            self._init_gardener(**kwargs)
+        except Exception:
+            pass
+
+    def _init_gardener(self, **form_kwargs):
+        """
+        Set the Gardeners that can be chosen, the initially chosen one.
+        """
+        # get gardeners at this garden
+        gardeners = Gardener.objects.filter(
+            garden=form_kwargs['initial']['garden']
+        ).order_by('name')
+        self.fields['gardener'].queryset = gardeners
+
+        # set the initial gardener, using initial kwarg 
+        initial_gardener = form_kwargs['initial']['gardener']
+        if not initial_gardener or initial_gardener not in gardeners:
+            initial_gardener = None
+            try:
+                # if no gardener in initial kwarg, try to make this user the 
+                # initially selected gardener
+                gardener = form_kwargs['user'].get_profile().gardener
+                if gardener in gardeners:
+                    initial_gardener = gardener
+            except ObjectDoesNotExist:
+                pass
+
+        # finally, if there's only one gardener, select that
+        if not initial_gardener and gardeners.count() == 1:
+            initial_gardener = gardeners[0]
+   
+        self.fields['gardener'].initial = initial_gardener
+
+class AutocompleteHarvestForm(HarvestForm):
+    gardener = AutoCompleteSelectField('gardener', 
+        label="Gardener", 
+        required=False,
+        error_messages={
+            'required': "Please enter a gardener.",
+        }
+    )
+    variety = AutoCompleteSelectField('variety',
+        label='Plant type',
+        required=False
+    )
 
     def clean_gardener(self):
         gardener = self.cleaned_data['gardener']

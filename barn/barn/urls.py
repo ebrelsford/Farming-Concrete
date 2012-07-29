@@ -5,6 +5,7 @@ admin.autodiscover()
 from django.conf import settings
 
 import accounts.urls
+from harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
 urlpatterns = patterns('',
@@ -25,7 +26,20 @@ urlpatterns = patterns('',
     (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('harvestcount.urls')),
     (r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.user_gardens'),
     (r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.all_gardens'),
-    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.garden_details'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$',
+        'harvestcount.views.garden_details'
+    ),
+
+    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?harvests/add/',
+        HarvestAddView.as_view(),
+        name='harvestcount_add_harvest',
+    ),
+
+    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?gardeners/add/$',
+        GardenerAddView.as_view(),
+        name='harvestcount_add_gardener',
+    ),
+
     (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$', 'harvestcount.views.download_garden_harvestcount_as_csv'),
     (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
 

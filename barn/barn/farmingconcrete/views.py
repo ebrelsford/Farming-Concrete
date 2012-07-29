@@ -14,7 +14,7 @@ from farmingconcrete.decorators import year_in_session
 from farmingconcrete.geo import garden_collection
 from farmingconcrete.models import Garden, GardenType, Variety
 from farmingconcrete.utils import get_variety
-from generic.views import LoginRequiredMixin, PermissionRequiredMixin
+from generic.views import LoginRequiredMixin, PermissionRequiredMixin, RememberPreviousPageMixin
 from harvestcount.models import Harvest
 from middleware.http import Http403
 
@@ -121,11 +121,8 @@ class UserGardensListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.request.user.get_profile().gardens.all()
 
-class VarietyPickerListView(LoginRequiredMixin, ListView):
-    def get_context_data(self, **kwargs):
-        context = super(VarietyPickerListView, self).get_context_data(**kwargs)
-        context['previous_page'] = self.request.GET.get('previous', None)
-        return context
+class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin, ListView):
+    query_string_exclude = ('variety', 'variety_text')
 
     def get_queryset(self):
         return (Variety.objects.filter(needs_moderation=False) | 

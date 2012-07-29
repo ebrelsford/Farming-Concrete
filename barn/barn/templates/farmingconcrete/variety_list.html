@@ -6,7 +6,7 @@
 <ul data-role="listview" data-filter="true" data-filter-placeholder="Start typing">
 {% for variety in object_list %}
     <li>
-        <a href="{{ previous_page }}?variety={{ variety.pk }}">
+        <a href="{{ previous_page }}?{{ previous_query_string }}&variety={{ variety.pk }}">
             {{ variety.name }}
         </a>
     </li>

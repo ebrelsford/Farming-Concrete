@@ -4,16 +4,20 @@ import json
 import unicodecsv
 
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponseForbidden, HttpResponse, Http404
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.views.generic.edit import CreateView
 
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
-from farmingconcrete.models import Garden
+from farmingconcrete.models import Garden, Variety
 from farmingconcrete.forms import GardenForm, FindGardenForm
+from generic.views import InitializeUsingGetMixin, LoginRequiredMixin, PermissionRequiredMixin, RedirectToPreviousPageMixin
 from models import Gardener, Harvest
-from forms import HarvestForm
+from harvestcount.forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
+from mobile import is_mobile
 
 from middleware.http import Http403
 from settings import FARMINGCONCRETE_YEAR
@@ -71,7 +75,7 @@ def add_garden(request, year=None):
 @login_required
 @in_section('harvestcount')
 @year_in_session
-def garden_details(request, id, year=None):
+def garden_details(request, id=None, year=None):
     """Show details for a garden, let user add harvests"""
 
     garden = get_object_or_404(Garden, pk=id)
@@ -82,7 +86,7 @@ def garden_details(request, id, year=None):
             raise Http403
 
     if request.method == 'POST':
-        form = HarvestForm(request.POST, user=request.user)
+        form = AutocompleteHarvestForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect(garden_details, id=id, year=year)
@@ -95,7 +99,7 @@ def garden_details(request, id, year=None):
             harvested = date.today()
             gardener_id = None
 
-        form = HarvestForm(initial={
+        form = AutocompleteHarvestForm(initial={
             'garden': garden,
             'harvested': harvested,
             'gardener': gardener_id,
@@ -210,3 +214,126 @@ def download_garden_harvestcount_as_csv(request, id, year=None):
         ])
 
     return response
+
+class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
+    template_name = 'harvestcount/harvests/add.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Prepare initial and object variables before dispatching.
+        """
+        self.garden = get_object_or_404(Garden, pk=kwargs['id'])
+        self.year = kwargs['year']
+        self.is_mobile = is_mobile(request)
+
+        # initialize initial, as the same values will be stored in the object
+        self.initial = self._initial_init(request, self.garden)
+        self.variety = self.initial['variety']
+        self.gardener = self.initial['gardener']
+
+        self.initial['garden'] = self.garden.pk
+
+        return super(HarvestAddView, self).dispatch(request, *args, **kwargs)
+
+    def _initial_init(self, request, garden):
+        """
+        Initialize the initial dict sent to the form.
+        """
+        area = None
+        gardener = None
+        harvested = date.today()
+        plants = None
+        variety = None
+
+        try:
+            variety_id = request.GET['variety']
+            variety = Variety.objects.get(id=variety_id)
+        except Exception:
+            pass
+
+        try:
+            gardener_id = request.GET['gardener']
+            gardener = Gardener.objects.get(id=gardener_id)
+        except Exception:
+            pass
+
+        if not gardener:
+            # if user is a gardener at this garden, use that
+            try:
+                current_gardener = request.user.get_profile().gardener
+                if current_gardener.garden == garden:
+                    gardener = current_gardener
+            except Exception:
+                pass
+
+        if not gardener:
+            # finally, if someone added a harvest here recently, use that
+            try:
+                most_recent_harvest = Harvest.objects.filter(
+                    gardener__garden=garden,
+                ).order_by('-added')[0]
+                harvested = most_recent_harvest.harvested
+                gardener = most_recent_harvest.gardener.pk
+            except Exception:
+                pass
+
+        if variety and gardener and not request.GET.get('plants', None):
+            try:
+                most_recent_variety_harvest = Harvest.objects.filter(
+                    gardener=gardener,
+                    variety=variety,
+                ).order_by('-added')[0]
+                area = most_recent_variety_harvest.area
+                plants = most_recent_variety_harvest.plants
+            except Exception:
+                pass
+
+        return {
+            'area': area,
+            'gardener': gardener,
+            'harvested': harvested,
+            'plants': plants,
+            'variety': variety,
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super(HarvestAddView, self).get_context_data(**kwargs)
+        context.update({
+            'garden': self.garden,
+            'gardener': self.gardener,
+            'variety': self.variety,
+        })
+        return context
+
+    def get_form_class(self):
+        if self.is_mobile:
+            return MobileHarvestForm
+        return AutocompleteHarvestForm
+
+    def get_success_url(self):
+        return reverse('harvestcount.views.garden_details', kwargs={ 
+            'id': self.garden.id,
+            'year': self.year,
+        })
+
+    def form_invalid(self, form):
+        try:
+            self.variety = Variety.objects.get(id=form.data['variety'])
+        except Exception:
+            pass
+        return super(HarvestAddView, self).form_invalid(form)
+
+class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,
+                      RedirectToPreviousPageMixin, CreateView):
+    form_class = GardenerForm
+    permission = 'harvestcount.add_gardener'
+    query_string_exclude = ('gardener',)
+    template_name = 'harvestcount/gardeners/add.html'
+
+    def get_initial(self):
+        return { 
+            'garden': Garden.objects.get(id=self.kwargs['id']),
+        }
+
+    def get_success_querystring(self):
+        return 'gardener=%d' % self.object.pk

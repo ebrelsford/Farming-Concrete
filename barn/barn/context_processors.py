@@ -1,5 +1,6 @@
 from accounts.models import UserProfile
 from farmingconcrete.models import GardenType
+from mobile import is_mobile
 
 def garden_types(request):
     """
@@ -23,8 +24,4 @@ def mobile(request):
     Add is_mobile: True if user agent contains an obvious smartphone, False 
     otherwise
     """
-    try:
-        ua = request.META['HTTP_USER_AGENT'].lower()
-    except KeyError:
-        ua = ''
-    return { 'is_mobile': 'iphone' in ua or 'android' in ua, }
+    return { 'is_mobile': is_mobile(request), }

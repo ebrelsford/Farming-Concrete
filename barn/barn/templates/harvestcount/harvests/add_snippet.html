@@ -1,0 +1,150 @@
+<script>
+    $(document).ready(function() {
+        {% if is_mobile %}
+        $('#area-flip').change(function() {
+            $('#area-input').toggle();
+        });
+        $('a.remember-context').click(function(e) {
+            var current_form = $('form :input[name!="csrfmiddlewaretoken"]').serialize();
+
+            var new_url = $(this).attr('href') + '?' + $.param({
+                previous: window.location.pathname,
+                previous_query_string: current_form,
+            });
+            console.log($(this).attr('data-role'));
+            $.mobile.changePage(new_url, {
+                role: $(this).attr('data-rel'),
+            });
+            return false;
+        });
+        {% else %}
+        $('#add-new-plant-type a').click(function() {
+            $('#add-new-plant-type .adder').toggle();   
+            return false;
+        });
+
+        $('form').submit(function(e) {
+            var new_plant_type_name = $('input[name="new-plant-type"]').val();
+
+            if (new_plant_type_name !== '') {
+                // send new plant type to JSON view
+                $.post('{% url farmingconcrete_varieties_add %}',
+                    { 
+                        'name': new_plant_type_name,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                    },
+                    function(data) {
+                        if (data['success']) {
+                            // update variety input
+                            $('input[name="variety_text"]').val(data['name']);
+                            $('input[name="variety"]').val(data['id']);
+
+                            // post a message?
+                            $('#add-new-plant-type .message').text(data['message']);
+
+                            // hide add-new-plant-type form
+                            $('input[name="new-plant-type"]').val('');
+                            $('#add-new-plant-type .adder').hide();
+                        }
+                    },
+                    'json'
+                );
+
+                return false;
+            }
+        });   
+        {% endif %}
+    });
+</script>
+<div id="new-harvest">
+    <h2 style="font-weight: bold; margin-top: 5px;">Add a new harvest</h2>
+    <form method="post" action="." data-ajax="false">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        <div id="errors">
+            {{ form.non_field_errors }}
+        </div>
+        <div id="inputs">
+            <div>
+            {% if not is_mobile %}
+                {{ form.gardener.errors }}
+                <label for="id_gardener_text">{{ form.gardener.label }}:</label>
+                {{ form.gardener }} 
+                <span id="gardener_help" class="help_link">?</span><br />
+
+                {{ form.variety.errors }}
+                <label for="id_variety_text">{{ form.variety.label }}:</label>
+                {{ form.variety }} 
+                <span id="variety_help" class="help_link">?</span><br />
+
+                {{ form.weight.errors }}
+                <label for="id_weight">{{ form.weight.label }}:</label> 
+                {{ form.weight }} pounds 
+                <span id="weight_help" class="help_link">?</span><br />
+
+                {{ form.plants.errors }}{{ form.area.errors }}
+                <label for="id_plants">Plants <strong>or</strong> area:</label>
+                {{ form.plants }} plants {{ form.area }} sq ft 
+                <span id="plants_help" class="help_link">?</span><br />
+
+                {{ form.harvested.errors }}
+                <label for="id_harvested">Date harvested:</label> 
+                {{ form.harvested }} 
+                <span id="harvested_help" class="help_link">?</span>
+            {% else %}
+                <div data-role="fieldcontain">
+                    {{ form.gardener.errors }}
+                    {{ form.gardener.label_tag }}
+                    {{ form.gardener }} 
+                    <a class="remember-context" href="{% url harvestcount_add_gardener id=garden.id year=request.session.year %}" data-role="button" data-rel="dialog">add a new gardener</a>
+                </div>
+
+                <div data-role="fieldcontain">
+                    {{ form.variety.errors }}
+                    {{ form.variety.label_tag }}
+                    {{ variety|default:"none selected" }}
+                    <input type="hidden" id="variety_text" name="variety_text" value="{{ variety }}" />
+                    <input type="hidden" id="id_variety" name="variety" value="{{ variety.pk }}" />
+                    <a class="remember-context" href="{% url farmingconcrete_varieties %}" data-role="button" data-inline="true">change</a>
+                </div>
+
+                <div data-role="fieldcontain">
+                    {{ form.weight.errors }}
+                    {{ form.weight.label_tag }}
+                    {{ form.weight }}
+                </div>
+
+                <div class="quantity">
+                    <div data-role="fieldcontain">
+                        {{ form.plants.errors }}
+                        {{ form.plants.label_tag }}
+                        {{ form.plants }}
+                    </div>
+
+                    <div data-role="fieldcontain">
+                        <label for="slider">Use area instead of plants</label>
+                        <select name="slider" id="area-flip" data-role="slider" data-theme="a">
+                            <option value="off">no</option>
+                            <option value="on">yes</option>
+                        </select>
+                        <div id="area-input" style="display: none;">
+                            <label for="id_area">Area (sq ft)</label>
+                            <span style="white-space: nowrap;">{{ form.area }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-role="fieldcontain">
+                    {{ form.harvested.errors }}
+                    <label for="id_harvested">Date harvested:</label> 
+                    <input id="id_harvested" name="harvested" value="{{ form.harvested.value|date:"m/d/Y" }}" type="date" />
+                </div>
+
+            {% endif %}
+            </div>
+            <input type="submit" value="add" />
+        </div>
+    </form>
+</div>

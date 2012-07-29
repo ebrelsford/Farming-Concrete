@@ -1,0 +1,50 @@
+<div id="harvests">
+    <h2 style="font-weight: bold;" class="pre-listview">Harvests for {{ request.session.year }}</h2>
+    {% if harvests %}
+        {% if is_mobile %}
+        <ul data-role="listview" data-theme="a">
+            <li data-icon="plus">
+                <a href="{% url harvestcount_add_harvest id=garden.id year=request.session.year %}">Add a harvest</a>
+            </li>
+
+            {% for harvest in harvests %}
+            <li>
+                <span>
+                    {{ harvest.gardener.name }} harvested
+                    {{ harvest.weight|floatformat }} pounds of
+                    {{ harvest.variety.name }} from
+                    {{ harvest.plants }} plants on
+                    {{ harvest.harvested|date:"n/j/y" }}
+                </span>
+
+                <span class="actions" style="display: inline-block;">
+                    {% comment %} TODO {% endcomment %}
+                    <a href="{% url cropcount_patches_confirm_delete id=harvest.id %}" data-role="button" data-icon="delete" data-iconpos="notext" data-rel="dialog"></a>
+                </span>
+            </li>
+            {% endfor %}
+
+        </ul>
+        {% else %}
+        <table class="sorted">
+            <thead>
+            <tr>
+                <th class="gardener">gardener</th>
+                <th class="variety">plant type</th>
+                <th class="weight">lbs</th>
+                <th class="dimensions">quantity</th>
+                <th class="harvested">date</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for harvest in harvests %}
+            {% include "harvestcount/gardens/detail_harvest_snippet.html" %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% else %}
+    <p>No harvests yet.</p>
+    {% endif %}
+</div>

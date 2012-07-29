@@ -1,6 +1,7 @@
 {% extends "harvestcount/map_base.html" %}
 
 {% block title %}{{ garden.name }}{% endblock %}
+{% block header_title %}{{ garden.name }}{% endblock %}
 
 {% block map_params %}
 type: 'single',
@@ -9,6 +10,7 @@ id: {{ garden.id }},
 
 {% block head %}
 {{ block.super }}
+{% if not is_mobile %}
 <script src="{{ MEDIA_URL }}js/help.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}jquery.tablesorter.min.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -48,6 +50,7 @@ $(document).ready(function() {
         widgets: ['zebra',],       
     });
 });   
+{% endif %}
 </script>
 {% endblock %}
 
@@ -55,9 +58,11 @@ $(document).ready(function() {
 
 {% block content %}
 {% if garden %}
+    {% if not is_mobile %}
     <h1>{{ garden.name }}</h1>
+    {% endif %}
 
-    <div class="details garden-details">
+    <div class="garden-details">
     {{ block.super }}
     </div>
 {% else %}
@@ -66,66 +71,31 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block left %}
-<div id="harvests">
-    <div id="new-harvest">
-        <span style="font-weight: bold; margin-top: 5px;">Add a new harvest to this garden</span>
-        <form method="post" action=".">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-            {% endfor %}
-            <div id="errors">
-                {{ form.non_field_errors }}
-            </div>
-            <div id="inputs">
-                <div>
-                    {{ form.gardener.errors }}
-                    <label for="id_gardener_text">{{ form.gardener.label }}:</label> {{ form.gardener }} <span id="gardener_help" class="help_link">?</span><br />
-                    {{ form.variety.errors }}
-                    <label for="id_variety_text">{{ form.variety.label }}:</label> {{ form.variety }} <span id="variety_help" class="help_link">?</span><br />
-                    {{ form.weight.errors }}
-                    <label for="id_weight">{{ form.weight.label }}:</label> {{ form.weight }} pounds <span id="weight_help" class="help_link">?</span><br />
-                    {{ form.plants.errors }}{{ form.area.errors }}
-                    <label for="id_plants">Plants <strong>or</strong> area:</label> {{ form.plants }} plants {{ form.area }} sq ft <span id="plants_help" class="help_link">?</span><br />
-                    {{ form.harvested.errors }}
-                    <label for="id_harvested">Date harvested:</label> {{ form.harvested }} <span id="harvested_help" class="help_link">?</span>
-                </div>
-                <input type="submit" value="add" />
-            </div>
-        </form>
-    </div>
 
-    <span style="font-weight: bold;">Harvests for {{ request.session.year }}</span>
-    {% if harvests %}
-    <table class="sorted">
-        <thead>
-        <tr>
-            <th class="gardener">gardener</th>
-            <th class="variety">plant type</th>
-            <th class="weight">lbs</th>
-            <th class="dimensions">quantity</th>
-            <th class="harvested">date</th>
-        </tr>
-        </thead>
+{% if is_mobile %}
+<ul class="overview pre-listview">
+    <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
+    <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
+    <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
+</ul>
+{% endif %}
 
-        <tbody>
-        {% for harvest in harvests %}
-        {% include "harvestcount/gardens/detail_harvest_snippet.html" %}
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No harvests yet.</p>
-    {% endif %}
-</div>
+{% if not is_mobile %}
+{% include "harvestcount/harvests/add_snippet.html" %}
+{% endif %}
+
+{% include "harvestcount/harvests/list_snippet.html" %}
+
 {% endblock %}
 
 {% block right %}
+{% if not is_mobile %}
 <ul class="overview">
     <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
     <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
     <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
 </ul>
+{% endif %}
 {% endblock %}
 
 {% block actions %}

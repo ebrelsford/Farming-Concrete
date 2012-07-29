@@ -1,0 +1,28 @@
+{% extends "harvestcount/map_base.html" %}
+
+{% block title %}{{ garden.name }}{% endblock %}
+{% block header_title %}{{ garden.name }}{% endblock %}
+
+{% block left %}
+<div id="new-harvest">
+    <h2>Add a new gardener</h2>
+    <form method="post" action="." data-ajax="false">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        <input type="hidden" name="previous" value="{{ previous_page }}" />
+        <input type="hidden" name="previous_query_string" value="{{ previous_query_string }}" />
+        <div id="errors">
+            {{ form.non_field_errors }}
+        </div>
+        <div>
+            {{ form.as_p }}
+        </div>
+        <input type="submit" value="add" />
+    </form>
+</div>
+{% endblock %}
+
+{% block right %}{% endblock %}
+{% block footer %}{% endblock %}

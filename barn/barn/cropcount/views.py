@@ -223,8 +223,6 @@ def summary(request, id=None, year=None):
 @in_section('cropcount')
 @year_in_session
 def add_bed(request, id=None, year=None):
-    """Show cropcount for a garden, don't let user add boxes"""
-
     garden = get_object_or_404(Garden, pk=id)
 
     if not request.user.has_perm('can_edit_any_garden'):

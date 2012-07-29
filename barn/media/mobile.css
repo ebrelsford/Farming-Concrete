@@ -26,6 +26,10 @@ body {
     width: 100%;
 }
 
+#right {
+    display: none;
+}
+
 .garden-details #id_width,
 .garden-details #id_length {
     width: 35%;
@@ -38,6 +42,7 @@ body {
 }
 
 form label,
+form label.ui-select,
 form label.ui-slider,
 form label.ui-input-text {
     font-weight: bold;
@@ -56,4 +61,8 @@ form label.ui-input-text {
 #new-bed input[name="length"] {
     display: inline;
     width: 20%;
+}
+
+#new-harvest {
+    border: 0;
 }
