@@ -3,7 +3,7 @@ from models import Variety
 def get_variety(name, user):
     """Get a variety with the given name, creating it if necessary"""
     if not name or not user:
-        return None
+        return None, False
 
     # try to find an already-existing variety with that name
     varieties = Variety.objects.filter(

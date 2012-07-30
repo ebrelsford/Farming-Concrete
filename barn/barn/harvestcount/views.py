@@ -77,7 +77,6 @@ def add_garden(request, year=None):
 @year_in_session
 def garden_details(request, id=None, year=None):
     """Show details for a garden, let user add harvests"""
-
     garden = get_object_or_404(Garden, pk=id)
 
     if not request.user.has_perm('farmingconcrete.can_edit_any_garden'):
@@ -88,6 +87,7 @@ def garden_details(request, id=None, year=None):
     if request.method == 'POST':
         form = AutocompleteHarvestForm(request.POST, user=request.user)
         if form.is_valid():
+            print 'form valid, saving'
             form.save()
             return redirect(garden_details, id=id, year=year)
     else:

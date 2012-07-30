@@ -135,6 +135,14 @@ class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         variety, created = get_variety(request.POST.get('name', None), request.user)
 
+        if not variety:
+            return HttpResponse(json.dumps({
+                'success': False,
+                'id': None,
+                'name': None,
+                'message': 'failed to create new plant type',
+            }))
+
         message = 'plant type %s added' % variety.name
         if not created:
             message = 'similar plant type used'

@@ -79,6 +79,15 @@
                 {{ form.variety }} 
                 <span id="variety_help" class="help_link">?</span><br />
 
+                <div id="add-new-plant-type">
+                    <div class="message"></div>
+                    <a href="#">add a new plant type</a>
+                    <div class="adder" style="display: none;">
+                        <input type="text" name="new-plant-type" />
+                        <input type="submit" name="add-new-plant-type" value="add" />
+                    </div>
+                </div>
+
                 {{ form.weight.errors }}
                 <label for="id_weight">{{ form.weight.label }}:</label> 
                 {{ form.weight }} pounds 
