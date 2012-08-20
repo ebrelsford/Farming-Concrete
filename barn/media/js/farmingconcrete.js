@@ -43,3 +43,15 @@ function get_or_create_plant_type(url, name, force, callback) {
         return false;
     }
 }
+
+$(document).ready(function() {
+    /*
+     * Don't let <enter> in the variety autocomplete submit the form.
+     */
+    $(':input#id_variety_text,:input#id_gardener_text').keypress(function(e) {
+        if (e.which == 13) {
+            e.preventDefault();
+        }
+    });
+    
+});
