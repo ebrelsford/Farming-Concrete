@@ -92,7 +92,10 @@ def garden_details(request, id=None, year=None):
             return redirect(garden_details, id=id, year=year)
     else:
         try:
-            most_recent_harvest = Harvest.objects.filter(gardener__garden=garden).order_by('-added')[0]
+            most_recent_harvest = Harvest.objects.filter(
+                gardener__garden=garden,
+                added__year=year,
+            ).order_by('-added')[0]
             harvested = most_recent_harvest.harvested
             gardener_id = most_recent_harvest.gardener.id
         except:
