@@ -23,36 +23,25 @@
             return false;
         });
 
+        var add_plant_type_url = '{% url farmingconcrete_varieties_add %}';
+
+        /*
+         * Add plant type when form is submitted.
+         */
         $('form').submit(function(e) {
-            var new_plant_type_name = $('input[name="new-plant-type"]').val();
-
-            if (new_plant_type_name !== '') {
-                // send new plant type to JSON view
-                $.post('{% url farmingconcrete_varieties_add %}',
-                    { 
-                        'name': new_plant_type_name,
-                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                    },
-                    function(data) {
-                        if (data['success']) {
-                            // update variety input
-                            $('input[name="variety_text"]').val(data['name']);
-                            $('input[name="variety"]').val(data['id']);
-
-                            // post a message?
-                            $('#add-new-plant-type .message').text(data['message']);
-
-                            // hide add-new-plant-type form
-                            $('input[name="new-plant-type"]').val('');
-                            $('#add-new-plant-type .adder').hide();
-                        }
-                    },
-                    'json'
-                );
-
-                return false;
-            }
+            var name = $('input[name="new-plant-type"]').val();
+            get_or_create_plant_type(add_plant_type_url, name, true, function() {});
         });   
+
+        /*
+         * Add plant type when person tabs out of plant type field.
+         */
+        $(':input#id_variety_text').blur(function() {
+            // only try to add plant type if autocomplete didn't get something
+            if ($(':input#id_variety').val() !== '') return;
+            get_or_create_plant_type(add_plant_type_url, $(this).val(), false, function() {});
+        });
+
         {% endif %}
     });
 </script>

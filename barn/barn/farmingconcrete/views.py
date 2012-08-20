@@ -132,20 +132,35 @@ class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
     http_method_names = ['post',]
     permission = 'farmingconcrete.add_variety'
 
+    def variety_exists(self, name):
+        return Variety.objects.filter(name=name).count() > 0
+
     def post(self, request, *args, **kwargs):
-        variety, created = get_variety(request.POST.get('name', None), request.user)
+        name = request.POST.get('name', None)
+        force = request.POST.get('force', False) == 'true'
+        variety = None
+
+        if self.variety_exists(name) or force:
+            # create the variety no matter what
+            variety, created = get_variety(name, request.user)
 
         if not variety:
+            # either variety-creating failed...
+            message = 'failed to create new plant type'
+            if not force:
+                # ...or we were not allowed to force it
+                message = 'not found'
+
             return HttpResponse(json.dumps({
                 'success': False,
                 'id': None,
                 'name': None,
-                'message': 'failed to create new plant type',
+                'message': message,
             }))
 
         message = 'plant type %s added' % variety.name
         if not created:
-            message = 'similar plant type used'
+            message = 'looks good! found %s.' % variety.name
 
         return HttpResponse(json.dumps({ 
             'success': True,

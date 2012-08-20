@@ -155,7 +155,10 @@ def garden_details(request, id, year=None):
             return redirect(bed_details, id=box.id, year=year)
     else:
         try:
-            most_recent_box = Box.objects.filter(garden=garden).order_by('-added')[0]
+            most_recent_box = Box.objects.filter(
+                garden=garden,
+                added__year=year,
+            ).order_by('-added')[0]
             length = "%d" % most_recent_box.length
             width = "%d" % most_recent_box.width
         except IndexError:
@@ -165,7 +168,7 @@ def garden_details(request, id, year=None):
         form = BoxForm(initial={
             'garden': garden, 
             'added_by': request.user,
-            'name': _get_next_box_name(garden),
+            'name': _get_next_box_name(garden, year=year),
             'length': length,
             'width': width,
         })
@@ -247,7 +250,7 @@ def add_bed(request, id=None, year=None):
         form = BoxForm(initial={
             'garden': garden, 
             'added_by': request.user,
-            'name': _get_next_box_name(garden),
+            'name': _get_next_box_name(garden, year=year),
             'length': length,
             'width': width,
         })
@@ -386,11 +389,16 @@ def download_garden_cropcount_as_csv(request, id, year=None):
 #
 # Utility functions
 #
-def _get_next_box_name(garden):
-    """If each box name for this garden so far has been an integer, guess it's the next integer"""
-
+def _get_next_box_name(garden, year=FARMINGCONCRETE_YEAR):
+    """
+    If each box name for this garden so far has been an integer, guess we want
+    the next integer.
+    """
     next_box_name = '1'
-    box_names = Box.objects.filter(garden=garden).values_list('name', flat=True)
+    box_names = Box.objects.filter(
+        garden=garden,
+        added__year=year,
+    ).values_list('name', flat=True)
     if box_names:
         try:
             next_box_name = max([int(name) for name in box_names]) + 1
