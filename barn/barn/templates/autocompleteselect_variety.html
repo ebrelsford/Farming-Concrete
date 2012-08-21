@@ -1,1 +1,8 @@
 {% extends "autocompleteselect_base.html" %}
+
+{% block extra_script %}
+$(':input#id_variety_text').result(function() {
+    // avoid weird messages when user clicks on choice
+    $('#add-new-plant-type .message').hide();
+});
+{% endblock %}
