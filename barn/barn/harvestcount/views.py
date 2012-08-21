@@ -87,7 +87,6 @@ def garden_details(request, id=None, year=None):
     if request.method == 'POST':
         form = AutocompleteHarvestForm(request.POST, user=request.user)
         if form.is_valid():
-            print 'form valid, saving'
             form.save()
             return redirect(garden_details, id=id, year=year)
     else:

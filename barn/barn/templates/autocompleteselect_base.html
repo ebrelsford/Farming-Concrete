@@ -9,8 +9,13 @@
 jQuery(document).ready(function($){{% block script %}
     $("#{{html_id}}_text").val('{{current_result}}');
 
+    /*
+     * Reset id input when text is cleared.
+     */
     $('#{{ html_id }}_text').change(function() {
-        $('#{{ html_id }}').val('');
+        if ($(this).val() === '') {
+            $('#{{ html_id }}').val('');
+        }
     });
 
 	$("#{{html_id}}_text").autocomplete('{{lookup_url}}', {

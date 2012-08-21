@@ -11,7 +11,6 @@
                 previous: window.location.pathname,
                 previous_query_string: current_form,
             });
-            console.log($(this).attr('data-role'));
             $.mobile.changePage(new_url, {
                 role: $(this).attr('data-rel'),
             });

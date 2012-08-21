@@ -77,9 +77,6 @@ class AutocompleteHarvestForm(HarvestForm):
     gardener = AutoCompleteSelectField('gardener', 
         label="Gardener", 
         required=False,
-        error_messages={
-            'required': "Please enter a gardener.",
-        }
     )
     variety = AutoCompleteSelectField('variety',
         label='Plant type',
