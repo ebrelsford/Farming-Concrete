@@ -85,9 +85,9 @@ class AutocompleteHarvestForm(HarvestForm):
 
     def clean_gardener(self):
         gardener = self.cleaned_data['gardener']
+        gardener_name = self.data['gardener_text']
 
-        if not gardener:
-            gardener_name = self.data['gardener_text']
+        if not gardener or gardener.name != gardener_name:
             if gardener_name:
                 garden = Garden.objects.get(pk=self.data['garden'])
                 gardener = get_gardener(gardener_name, garden, self.user)
