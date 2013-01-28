@@ -18,6 +18,7 @@ class VarietyAdmin(admin.ModelAdmin):
     fields = ('name', 'added_by', 'added', 'updated_by', 'updated', 'needs_moderation')
     list_display = ('name', 'added_by', 'added', 'needs_moderation')
     list_filter = ('needs_moderation', 'added_by', 'added',)
+    search_fields = ('name',)
 
     def mark_as_moderated(self, request, queryset):
         """mark a set of varieties as moderated"""
@@ -26,7 +27,7 @@ class VarietyAdmin(admin.ModelAdmin):
             bit = "1 variety"
         else:
             bit = "%s varieties" % rows
-        self.message_user(request, "%s marked as moderated" % bit) 
+        self.message_user(request, "%s marked as moderated" % bit)
 
     def consolidate(self, request, queryset):
         moderated = queryset.filter(needs_moderation=False)
