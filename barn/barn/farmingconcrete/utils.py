@@ -23,7 +23,7 @@ def is_garden_used(gardenpk):
     return False
 
 
-def consolidate_garden(to_delete, to_keep):
+def consolidate_garden(to_delete, to_keep, copy_fields=False):
     updated = to_delete.gardener_set.all().update(garden=to_keep)
     print 'consolidating gardeners ... %d updated' % updated
 
@@ -41,17 +41,18 @@ def consolidate_garden(to_delete, to_keep):
         profile.gardens.remove(to_delete)
         print 'consolidating userprofiles'
 
-    print 'copying data fields'
-    to_keep.name = to_delete.name
-    to_keep.type = to_delete.type
-    to_keep.gardenid = to_delete.gardenid
-    to_keep.address = to_delete.address
-    to_keep.borough = to_delete.borough
-    to_keep.neighborhood = to_delete.neighborhood
-    to_keep.zip = to_delete.zip
-    to_keep.longitude = to_delete.longitude
-    to_keep.latitude = to_delete.latitude
-    to_keep.save()
+    if copy_fields:
+        print 'copying data fields'
+        to_keep.name = to_delete.name
+        to_keep.type = to_delete.type
+        to_keep.gardenid = to_delete.gardenid
+        to_keep.address = to_delete.address
+        to_keep.borough = to_delete.borough
+        to_keep.neighborhood = to_delete.neighborhood
+        to_keep.zip = to_delete.zip
+        to_keep.longitude = to_delete.longitude
+        to_keep.latitude = to_delete.latitude
+        to_keep.save()
 
     to_delete.delete()
     print 'deleted!'
