@@ -14,7 +14,7 @@
             </tr>
             {% endfor %}
             <tr class="odd">
-                <th>participating gardeners</th>
+                <th>participating gardeners (harvestcount)</th>
                 <td class="number">{{ overall_gardeners_count }}</td>
             </tr>
             <tr class="even">
@@ -33,6 +33,7 @@
                     <tr>
                         <th>garden</th>
                         <th>participation</th>
+                        <th>participating gardeners (harvestcount)</th>
                         <th>yield (lbs)</th>
                         <th>dollar value</th>
                     </tr>
@@ -42,6 +43,7 @@
                     <tr>
                         <td>{{ garden.name }}</td>
                         <td>{{ garden.participation }}</td>
+                        <td>{{ garden.gardeners|default:"" }}</td>
                         <td class="number">{{ garden.weight|floatformat }}</td>
                         <td class="number">${{ garden.value|floatformat:"2" }}</td>
                     </tr>

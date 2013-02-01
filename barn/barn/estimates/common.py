@@ -29,7 +29,13 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
     Estimate value of harvests for the given harvests, grouped by gardener and
     variety
     """
-    gardener_variety_weights = harvests.values('variety__id', 'variety__name', 'gardener__garden__name', 'gardener__garden__id', 'gardener__name').annotate(pounds=Sum('weight')).distinct()
+    gardener_variety_weights = harvests.values(
+        'variety__id',
+        'variety__name',
+        'gardener__garden__name',
+        'gardener__garden__id',
+        'gardener__name'
+    ).annotate(pounds=Sum('weight')).distinct()
     total_value = 0
     gardener_totals = {}
     crop_totals = {}
@@ -55,6 +61,11 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
         gardener_totals[gardener]['weight'] += weight or 0
         crop_totals[crop]['value'] += estimated_value or 0
         crop_totals[crop]['weight'] += weight or 0
+        try:
+            garden_totals[garden]['gardeners'].add(gardener)
+        except KeyError:
+            garden_totals[garden]['gardeners'] = set()
+            garden_totals[garden]['gardeners'].add(gardener)
         garden_totals[garden]['value'] += estimated_value or 0
         garden_totals[garden]['weight'] += weight or 0
         total_value += estimated_value or 0

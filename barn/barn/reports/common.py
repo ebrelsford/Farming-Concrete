@@ -91,12 +91,20 @@ def consolidate_totals(harvest_totals, crop_totals):
     overall_gardens = []
 
     for garden in gardens:
+        garden_details = {
+            'name': garden,
+        }
+
+        try:
+            garden_details['gardeners'] = len(harvest_totals[garden]['gardeners'])
+        except KeyError:
+            pass
+
         # prefer cropcount, assuming it will be more complete
         if garden in crop_totals:
             overall_weight += crop_totals[garden]['weight']
             overall_value += crop_totals[garden]['value']
-            overall_gardens.append({
-                'name': garden,
+            garden_details.update({
                 'participation': 'cropcount',
                 'weight': crop_totals[garden]['weight'],
                 'value': crop_totals[garden]['value'],
@@ -104,12 +112,12 @@ def consolidate_totals(harvest_totals, crop_totals):
         else:
             overall_weight += harvest_totals[garden]['weight']
             overall_value += harvest_totals[garden]['value']
-            overall_gardens.append({
-                'name': garden,
+            garden_details.update({
                 'participation': 'harvestcount',
                 'weight': harvest_totals[garden]['weight'],
                 'value': harvest_totals[garden]['value'],
             })
+        overall_gardens.append(garden_details)
 
     return {
         'overall_weight': overall_weight,
