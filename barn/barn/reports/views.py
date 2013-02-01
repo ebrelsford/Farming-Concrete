@@ -114,6 +114,8 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
     context = {
         'year': year,
 
+        'overall_gardeners_count': harvests.values('gardener').distinct().count(),
+
         'beds': sorted(beds),
         'total_beds': beds.count(),
         'total_area': sum([b.length * b.width for b in beds]),
@@ -128,12 +130,18 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
         'total_plants_with_yields': estimated_yield['total_plants_with_yields'],
 
         'harvests': harvests,
-        'harvest_totals': harvests.values('variety__name').annotate(weight=Sum('weight')),
-        'harvestcount_totals': harvests.values('gardener__name').annotate(weight=Sum('weight')),
-        'harvestcount_total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
-        'harvestcount_estimated_total_value': harvestcount_estimates['total_value'],
-        'harvestcount_gardener_totals': [(k, harvestcount_estimates['gardener_totals'][k]) for k in sorted(harvestcount_estimates['gardener_totals'])],
-        'harvestcount_crop_totals': [(k, harvestcount_estimates['crop_totals'][k]) for k in sorted(harvestcount_estimates['crop_totals'])],
+        'harvest_totals':
+            harvests.values('variety__name').annotate(weight=Sum('weight')),
+        'harvestcount_totals':
+            harvests.values('gardener__name').annotate(weight=Sum('weight')),
+        'harvestcount_total_weight':
+            harvests.aggregate(Sum('weight'))['weight__sum'],
+        'harvestcount_estimated_total_value':
+            harvestcount_estimates['total_value'],
+        'harvestcount_gardener_totals':
+            [(k, harvestcount_estimates['gardener_totals'][k]) for k in sorted(harvestcount_estimates['gardener_totals'])],
+        'harvestcount_crop_totals':
+            [(k, harvestcount_estimates['crop_totals'][k]) for k in sorted(harvestcount_estimates['crop_totals'])],
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }
     if garden:
