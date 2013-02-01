@@ -111,10 +111,15 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
     estimated_yield = estimate_for_patches(patches, estimate_yield=True, estimate_value=True, garden_type=type)
     harvestcount_estimates = estimate_for_harvests_by_gardener_and_variety(harvests)
 
+    cropcount_varieties = list(set(patches.values_list('variety__name', flat=True)))
+    harvestcount_varieties = list(set(harvests.values_list('variety__name', flat=True)))
+    varieties = set(cropcount_varieties + harvestcount_varieties)
+
     context = {
         'year': year,
 
         'overall_gardeners_count': harvests.values('gardener').distinct().count(),
+        'overall_varieties_count': len(varieties),
 
         'beds': sorted(beds),
         'total_beds': beds.count(),
@@ -128,6 +133,7 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
         'total_estimated_value_type': estimated_yield['total_value_by_garden_type'],
         'variety_totals': estimated_yield['variety_totals'],
         'total_plants_with_yields': estimated_yield['total_plants_with_yields'],
+        'cropcount_varieties_count': len(cropcount_varieties),
 
         'harvests': harvests,
         'harvest_totals':
@@ -142,6 +148,7 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
             [(k, harvestcount_estimates['gardener_totals'][k]) for k in sorted(harvestcount_estimates['gardener_totals'])],
         'harvestcount_crop_totals':
             [(k, harvestcount_estimates['crop_totals'][k]) for k in sorted(harvestcount_estimates['crop_totals'])],
+        'harvestcount_varieties_count': len(harvestcount_varieties),
         'total_weight': harvests.aggregate(Sum('weight'))['weight__sum'],
     }
     if garden:

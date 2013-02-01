@@ -18,10 +18,14 @@
                 <td class="number">{{ overall_gardeners_count }}</td>
             </tr>
             <tr class="even">
+                <th>distinct varieties</th>
+                <td class="number">{{ overall_varieties_count }}</td>
+            </tr>
+            <tr class="odd">
                 <th>total weight</th>
                 <td class="number">{{ overall_weight|floatformat:"0" }} pounds</td>
             </tr>
-            <tr class="odd">
+            <tr class="even">
                 <th>total value</th>
                 <td class="number">${{ overall_value|floatformat:"2" }}</td>
             </tr>
