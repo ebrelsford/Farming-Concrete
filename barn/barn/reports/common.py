@@ -3,7 +3,8 @@ from cropcount.models import Patch
 from farmingconcrete.models import Garden
 from harvestcount.models import Harvest
 
-def filter_harvests(garden=None, borough=None, neighborhood=None, type=None, 
+
+def filter_harvests(garden=None, borough=None, neighborhood=None, type=None,
                     year=None, variety=None):
     """Get valid harvests for the given garden"""
     harvests = Harvest.objects.filter(harvested__year=year)
@@ -20,7 +21,8 @@ def filter_harvests(garden=None, borough=None, neighborhood=None, type=None,
 
     return harvests.distinct()
 
-def filter_patches(garden=None, borough=None, neighborhood=None, type=None, 
+
+def filter_patches(garden=None, borough=None, neighborhood=None, type=None,
                    year=None, use_all_cropcount=False, variety=None):
     """Get valid patches for the given garden"""
     patches = Patch.objects.filter(added__year=year)
@@ -42,26 +44,40 @@ def filter_patches(garden=None, borough=None, neighborhood=None, type=None,
             gardens_last_year = gardens_last_year.filter(type__name=type)
         if use_all_cropcount:
             patches = patches | Patch.objects.filter(box__garden__in=gardens_last_year)
-    
+
     return patches.distinct()
+
 
 def participating_gardens(year):
     cropcount_gardens = Garden.objects.filter(box__patch__added__year=year)
     harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
     return (cropcount_gardens | harvestcount_gardens).distinct()
 
+
 def filter_boroughs(year):
     """get the boroughs with participating gardens for the given year"""
     return (participating_gardens(year)).values_list('borough', flat=True).order_by('borough').distinct()
+
 
 def filter_neighborhoods(year, include_borough=True):
     """Get the neighborhoods for the given year"""
     return (participating_gardens(year)).values('neighborhood', 'borough').order_by('neighborhood').distinct()
 
+
 def filter_varieties(year):
     """Get the varieties for the given year"""
     patches = filter_patches(year=year)
     return patches.values_list('variety__name', flat=True).order_by('variety__name').distinct()
+
+
+def get_garden_counts_by_type(harvest_totals, crop_totals):
+    garden_names = set(harvest_totals.keys() + crop_totals.keys())
+    gardens = [Garden.objects.get(name=n) for n in garden_names]
+    counts_by_type = {}
+    for garden in gardens:
+        counts_by_type[garden.type] = counts_by_type.get(garden.type, 0) + 1
+    return counts_by_type
+
 
 def consolidate_totals(harvest_totals, crop_totals):
     """

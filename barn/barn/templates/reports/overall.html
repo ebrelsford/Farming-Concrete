@@ -7,6 +7,12 @@
                 <th>participating gardens</th>
                 <td class="number">{{ overall_gardens|length }}</td>
             </tr>
+            {% for type, count in garden_counts.items %}
+            <tr class="even child">
+                <th>{{ type.name }}{{ count|pluralize }}</th>
+                <td class="number">{{ count|default:"0" }}</td>
+            </tr>
+            {% endfor %}
             <tr class="odd">
                 <th>total weight</th>
                 <td class="number">{{ overall_weight|floatformat:"0" }} pounds</td>
