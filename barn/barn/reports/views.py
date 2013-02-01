@@ -115,6 +115,8 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
     harvestcount_varieties = list(set(harvests.values_list('variety__name', flat=True)))
     varieties = set(cropcount_varieties + harvestcount_varieties)
 
+    total_area = sum([b.length * b.width for b in beds])
+
     context = {
         'year': year,
 
@@ -123,11 +125,12 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
 
         'beds': sorted(beds),
         'total_beds': beds.count(),
-        'total_area': sum([b.length * b.width for b in beds]),
+        'total_area': total_area,
         'total_plants': patches.aggregate(Sum('plants'))['plants__sum'],
 
         'crops': estimated_yield['crops'],
         'total_estimated_yield': estimated_yield['total_yield'],
+        'total_estimated_yield_by_area': estimated_yield['total_yield'] / total_area,
         'total_estimated_yield_type': estimated_yield['total_yield_by_garden_type'],
         'total_estimated_value': estimated_yield['total_value'],
         'total_estimated_value_type': estimated_yield['total_value_by_garden_type'],

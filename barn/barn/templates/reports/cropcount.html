@@ -45,21 +45,25 @@
                 <th>estimated yield</th>
                 <td class="number">{{ total_estimated_yield|floatformat }} lbs</td>
             </tr>
+            <tr class="even">
+                <th>estimated yield per square foot</th>
+                <td class="number">{{ total_estimated_yield_by_area|floatformat }} lbs</td>
+            </tr>
             {% endif %}
             {% if total_estimated_yield_type %}
-            <tr class="even">
+            <tr class="odd">
                 <th>estimated yield using {{ type }} yields</th>
                 <td class="number">{{ total_estimated_yield_type|floatformat }} lbs</td>
             </tr>
             {% endif %}
             {% if total_estimated_value %}
-            <tr class="odd">
+            <tr class="even">
                 <th>estimated value</th>
                 <td class="number">${{ total_estimated_value|floatformat:"0" }}</td>
             </tr>
             {% endif %}
             {% if total_estimated_value_type %}
-            <tr class="even">
+            <tr class="odd">
                 <th>estimated value using {{ type }} yields</th>
                 <td class="number">${{ total_estimated_value_type|floatformat:"0" }}</td>
             </tr>
