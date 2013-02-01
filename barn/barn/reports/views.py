@@ -20,6 +20,7 @@ from common import filter_harvests, filter_patches, filter_boroughs, consolidate
 from models import SharedReport, Chart
 from settings import FARMINGCONCRETE_YEAR
 
+
 @login_required
 def index(request, year=FARMINGCONCRETE_YEAR):
     borough = request.GET.get('borough', None)
@@ -52,10 +53,12 @@ def index(request, year=FARMINGCONCRETE_YEAR):
 
     return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
 
+
 @login_required
 def garden_report(request, id=None, year=FARMINGCONCRETE_YEAR):
     """get the report for the garden"""
     return _render_garden_report(request, id=id, year=year)
+
 
 def _render_garden_report(request, id=None, year=None):
     """render the report for a given garden"""
@@ -63,10 +66,12 @@ def _render_garden_report(request, id=None, year=None):
     context = _context(garden=garden, year=year)
     return render_to_response('reports/garden.html', context, context_instance=RequestContext(request))
 
+
 def shared_garden_report(request, access_key=None):
     """allow access to a garden's report for someone with whom it was shared"""
     shared = get_object_or_404(SharedReport, access_key=access_key)
     return _render_garden_report(request, id=shared.garden.id, year=shared.valid_year)
+
 
 @login_required
 def share(request, id=None, year=None):
@@ -78,6 +83,7 @@ def share(request, id=None, year=None):
     }
     return HttpResponse(json.dumps(results), mimetype='application/json')
 
+
 @login_required
 def pdf(request, id=None, year=None):
     garden = get_object_or_404(Garden, id=id)
@@ -87,9 +93,12 @@ def pdf(request, id=None, year=None):
     context['garden_name_length'] = len(garden.name)
     return render_to_pdf_response('reports/pdf.html', context=RequestContext(request, context), pdfname='report.pdf')
 
+
+
 #
 # common data-loading/filtering methods
 #
+
 
 def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=False):
     """get the common context for all reports"""
@@ -127,8 +136,8 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
     if garden:
         context.update({
             'garden': garden,
-            'has_harvestcount': harvests.count() > 0,       
-            'has_cropcount': patches.count() > 0,       
+            'has_harvestcount': harvests.count() > 0,
+            'has_cropcount': patches.count() > 0,
         })
     else:
         garden_harvest_totals = harvestcount_estimates['garden_totals']
@@ -138,9 +147,12 @@ def _context(borough=None, garden=None, type=None, year=None, use_all_cropcount=
         )
     return context
 
+
+
 #
 # charts
 #
+
 
 @login_required
 def bar_chart_plants_per_crop(request, id=None, year=None):
@@ -148,17 +160,20 @@ def bar_chart_plants_per_crop(request, id=None, year=None):
     response = HttpResponse(plants_per_crop(garden, year=year), 'image/png')
     return response
 
+
 @login_required
 def bar_chart_weight_per_crop(request, id=None, year=None):
     garden = get_object_or_404(Garden, id=id)
     response = HttpResponse(weight_per_crop(garden, year=year), 'image/png')
     return response
 
+
 @login_required
 def bar_chart_weight_per_gardener(request, id=None, year=None):
     garden = get_object_or_404(Garden, id=id)
     response = HttpResponse(weight_per_gardener(garden, year=year), 'image/png')
     return response
+
 
 def _make_charts(garden, year=None, medium="screen"):
     charts = {}
