@@ -58,6 +58,23 @@ def consolidate_garden(to_delete, to_keep, copy_fields=False):
     print 'deleted!'
 
 
+def consolidate_variety(to_delete, to_keep):
+    updated = to_delete.harvest_set.all().update(variety=to_keep)
+    print 'consolidating harvests ... %d updated' % updated
+
+    updated = to_delete.patch_set.all().update(variety=to_keep)
+    print 'consolidating patches ... %d updated' % updated
+
+    updated = to_delete.estimatedyield_set.all().update(variety=to_keep)
+    print 'consolidating estimatedyields ... %d updated' % updated
+
+    updated = to_delete.estimatedcost_set.all().update(variety=to_keep)
+    print 'consolidating estimatedcosts ... %d updated' % updated
+
+    to_delete.delete()
+    print 'deleted!'
+
+
 def get_variety(name, user):
     """Get a variety with the given name, creating it if necessary"""
     if not name or not user:
