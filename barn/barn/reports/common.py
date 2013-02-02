@@ -72,6 +72,8 @@ def filter_varieties(year):
 
 def get_garden_counts_by_type(harvest_totals, crop_totals):
     garden_names = set(harvest_totals.keys() + crop_totals.keys())
+
+    # TODO don't assume name is unique
     gardens = [Garden.objects.get(name=n) for n in garden_names]
     counts_by_type = {}
     for garden in gardens:
