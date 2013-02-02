@@ -4,7 +4,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
-from make_estimates import make_all_yield_estimates, make_all_yield_estimates_by_garden_type
+from make_estimates import (make_all_yield_estimates,
+    make_all_yield_estimates_by_garden_type)
+
 
 @staff_member_required
 def make_yield_estimates(request):

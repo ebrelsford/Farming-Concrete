@@ -39,18 +39,20 @@ def _find_yield_estimate(variety, start, end, _by_gardener=True, garden_type=Non
 
     return average
 
+
 def _add_estimate(variety, pounds_per_plant, start, end, garden_type=None):
     estimated_yield = EstimatedYield(
-        variety=variety, 
-        estimated=datetime.now(), 
-        notes="added via admin", 
-        should_be_used=True, 
+        variety=variety,
+        estimated=datetime.now(),
+        notes="added via admin",
+        should_be_used=True,
         pounds_per_plant=str(pounds_per_plant),
         valid_start=start,
         valid_end=end,
         garden_type=garden_type
     )
     estimated_yield.save()
+
 
 def make_all_yield_estimates_by_garden_type(start, end, by_gardener=True):
     garden_types = GardenType.objects.all()
@@ -61,6 +63,7 @@ def make_all_yield_estimates_by_garden_type(start, end, by_gardener=True):
             pounds_per_plant = _find_yield_estimate(variety, start, end, _by_gardener=by_gardener, garden_type=garden_type)
             if pounds_per_plant is not None:
                 _add_estimate(variety, pounds_per_plant, start, end, garden_type=garden_type)
+
 
 def make_all_yield_estimates(start, end, by_gardener=True):
     varieties = Variety.objects.filter(harvest__harvested__gte=start, harvest__harvested__lt=end).distinct()

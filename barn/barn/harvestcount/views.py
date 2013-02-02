@@ -22,9 +22,11 @@ from mobile import is_mobile
 from middleware.http import Http403
 from settings import FARMINGCONCRETE_YEAR
 
+
 def _harvests(year=FARMINGCONCRETE_YEAR):
     """Get current harvests"""
     return Harvest.objects.filter(harvested__year=year)
+
 
 @login_required
 @garden_type_aware
@@ -47,6 +49,7 @@ def index(request, year=None):
         'plant_types': harvests.values('variety__id').distinct().count(),
         'recent_harvests': harvests.order_by('-added')[:3],
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @garden_type_aware
@@ -71,6 +74,7 @@ def add_garden(request, year=None):
         'form': form,
         'find_garden_form': find_garden_form,
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @in_section('harvestcount')
@@ -117,6 +121,7 @@ def garden_details(request, id=None, year=None):
         'plants': None,
     }, context_instance=RequestContext(request))
 
+
 @login_required
 @garden_type_aware
 @in_section('harvestcount')
@@ -134,6 +139,7 @@ def user_gardens(request, year=None):
         'user_gardens': user_gardens.order_by('name'),
         'user_garden_ids': user_gardens.values_list('id', flat=True),
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @garden_type_aware
@@ -155,6 +161,7 @@ def all_gardens(request, year=None):
         'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
 
+
 @login_required
 @in_section('harvestcount')
 @year_in_session
@@ -162,7 +169,8 @@ def delete_harvest(request, id, year=None):
     harvest = get_object_or_404(Harvest, pk=id)
     garden_id = harvest.gardener.garden.id
     harvest.delete()
-    return redirect(garden_details, id=garden_id, year=year) 
+    return redirect(garden_details, id=garden_id, year=year)
+
 
 @login_required
 @year_in_session
@@ -193,6 +201,7 @@ def quantity_for_last_harvest(request, id=None, year=None):
             result['area'] = None
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
+
 @login_required
 @year_in_session
 def download_garden_harvestcount_as_csv(request, id, year=None):
@@ -216,6 +225,7 @@ def download_garden_harvestcount_as_csv(request, id, year=None):
         ])
 
     return response
+
 
 class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
     template_name = 'harvestcount/harvests/add.html'
@@ -313,7 +323,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         return AutocompleteHarvestForm
 
     def get_success_url(self):
-        return reverse('harvestcount.views.garden_details', kwargs={ 
+        return reverse('harvestcount.views.garden_details', kwargs={
             'id': self.garden.id,
             'year': self.year,
         })
@@ -333,7 +343,7 @@ class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,
     template_name = 'harvestcount/gardeners/add.html'
 
     def get_initial(self):
-        return { 
+        return {
             'garden': Garden.objects.get(id=self.kwargs['id']),
         }
 

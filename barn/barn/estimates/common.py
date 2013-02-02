@@ -17,12 +17,14 @@ def _find_estimated_crop_yield(variety_id, year, garden_type=None):
     except:
         return None
 
+
 def _find_estimated_dollar_value(variety_id, year):
     try:
         estimates = EstimatedCost.objects.filter(variety__id=variety_id, valid_start__year=year, should_be_used=True).order_by('-estimated')
         return estimates[0].cost_per_pound
     except:
         return None
+
 
 def estimate_for_harvests_by_gardener_and_variety(harvests):
     """
@@ -79,6 +81,7 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
         'total_value': total_value,
     }
 
+
 def estimate_for_harvests(harvests, estimate_value=False):
     rows = harvests.values('variety__id', 'variety__name').annotate(pounds=Sum('weight')).distinct()
     total_value = 0
@@ -92,15 +95,18 @@ def estimate_for_harvests(harvests, estimate_value=False):
         'total_value': total_value,
     }
 
+
 def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
                          garden_type=None):
     """
-    Estimate the pounds yielded by the given patches, including a total of all patches.
+    Estimate the pounds yielded by the given patches, including a total of all
+    patches.
     """
     #
     # Try to get sum of plants/area by variety for the patches given.
     #
-    # This is slightly complicated by our desire to make estimates valid only for certain dates.
+    # This is slightly complicated by our desire to make estimates valid only
+    # for certain dates.
     #
     crops = patches.values('variety__id', 'variety__name', 'box__garden__name', 'box__garden__id').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
     total_plants_with_yields = 0
@@ -194,6 +200,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
         'garden_ids': garden_ids,
         'variety_totals': variety_totals_t,
     }
+
 
 def _estimate_value(variety_id, recorded_date, pounds):
     estimates = EstimatedCost.objects.filter(variety__id=variety_id, valid_start__lte=recorded_date, valid_end__gt=recorded_date, should_be_used=True).order_by('-estimated')
