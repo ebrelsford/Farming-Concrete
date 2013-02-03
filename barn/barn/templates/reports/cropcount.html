@@ -96,7 +96,7 @@
                     <td class="number">{{ crop.plants|default:"" }}</td>
                     <td class="number">{{ crop.area|default:"" }}</td>
                     {% if not garden %}
-                    <td class="number">{{ crop.average_yield|default:"" }}</td>
+                    <td class="number average-yield" data-crop-name="{{ crop.name }}" data-year="{{ year }}">{{ crop.average_yield|default:"" }}</td>
                     {% endif %}
                     <td class="number">{{ crop.estimated_yield|default:"" }}</td>
                     <td class="number">{% if crop.value %}${{ crop.value|floatformat:"0" }}{% endif %}</td>

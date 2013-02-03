@@ -26,9 +26,12 @@ urlpatterns = patterns('',
     (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('harvestcount.urls')),
     (r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.user_gardens'),
     (r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.all_gardens'),
-    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$',
-        'harvestcount.views.garden_details'
+    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$',
+        'harvestcount.views.garden_details',
+        name='harvestcount_garden_details',
     ),
+
+    url(r'^estimates/', include('estimates.urls')),
 
     url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?harvests/add/',
         HarvestAddView.as_view(),

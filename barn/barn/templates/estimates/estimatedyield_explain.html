@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <body>
+        <div>
+            <h3>Where did this average come from?</h3>
+            <p>{{ gardener_harvests.items|length }} gardeners grew {{ variety_name }} in {{ gardens|length }} gardens in {{ year }}:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>gardener</th>
+                        <th>garden</th>
+                        <th>total<br />weight</th>
+                        <th>min<br />plants</th>
+                        <th>max<br />plants</th>
+                        <th>average<br />yield</th>
+                        <th>total<br />harvests</th>
+                        <th>harvests<br />started</th>
+                        <th>harvests<br />ended</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gardener, stats in gardener_harvests.items %}
+                    <tr>
+                        <td>{{ gardener.name }}</td>
+                        <td>
+                            <a href="{% url harvestcount_garden_details id=gardener.garden.pk year=year %}" target="_blank">
+                                {{ gardener.garden.name }}
+                            </a>
+                        </td>
+                        <td class="number">{{ stats.total_weight|floatformat }}</td>
+                        <td class="number">{{ stats.plants__min }}</td>
+                        <td class="number">{{ stats.plants__max }}</td>
+                        <td class="number">{{ stats.average|floatformat:"2" }}</td>
+                        <td class="number">{{ stats.total_harvests }}</td>
+                        <td>{{ stats.harvested__min|date:"M d" }}</td>
+                        <td>{{ stats.harvested__max|date:"M d" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

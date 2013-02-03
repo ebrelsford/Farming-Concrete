@@ -5,23 +5,23 @@ from farmingconcrete.views import GardenListView, UserGardensListView, VarietyPi
 urlpatterns = patterns('',
     (r'^type/(?P<type>\w+)$', 'farmingconcrete.views.switch_garden_type'),
 
-    url(r'^gardens/$', 
-        GardenListView.as_view(), 
+    url(r'^gardens/$',
+        GardenListView.as_view(),
         name='farmingconcrete_gardens',
     ),
 
-    url(r'^gardens/yours/$', 
-        UserGardensListView.as_view(), 
+    url(r'^gardens/yours/$',
+        UserGardensListView.as_view(),
         name='farmingconcrete_gardens_yours',
     ),
 
-    url(r'^varieties/add/', 
-        VarietyAddView.as_view(), 
+    url(r'^varieties/add/',
+        VarietyAddView.as_view(),
         name='farmingconcrete_varieties_add',
     ),
 
-    url(r'^varieties/', 
-        VarietyPickerListView.as_view(), 
+    url(r'^varieties/',
+        VarietyPickerListView.as_view(),
         name='farmingconcrete_varieties',
     ),
 )

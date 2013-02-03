@@ -40,6 +40,38 @@ $(document).ready(function() {
         window.location = '/reports/{{ year }}?' + $.param(params);
     });
 
+
+    // show info-box
+
+    $('.average-yield').click(function(event) {
+        if (!$(this).text()) return;
+        var variety = $(this).data('crop-name');
+        var year = $(this).data('year');
+        $(this).addClass('picked');
+        $.get('{% url estimates_estimatedyield_explain %}?variety=' + variety + '&year=' + year, function(data) {
+            $('body').append($('<div/>')
+                .html(data)
+                .addClass('info-box')
+                .position({
+                    my: 'left top',
+                    at: 'left top',
+                    of: event,
+                })
+            );
+        });
+    });
+
+
+    // hide info-box if anything outside of it is clicked
+
+    $(document).click(function(event) {
+        if ($(event.target).parents('.info-box').size()) return;
+        if ($('.info-box').size()) {
+            $('.average-yield').removeClass('picked');
+            $('.info-box').remove();
+        }
+    });
+
     {% block extra_scripts %}{% endblock %}
 });
 </script>
