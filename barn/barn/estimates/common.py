@@ -108,7 +108,16 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
     # This is slightly complicated by our desire to make estimates valid only
     # for certain dates.
     #
-    crops = patches.values('variety__id', 'variety__name', 'box__garden__name', 'box__garden__id').annotate(plants=Sum('plants'), area=Sum('area'), min_added=Min('added')).distinct()
+    crops = patches.values(
+        'variety__id',
+        'variety__name',
+        'box__garden__name',
+        'box__garden__id').annotate(
+            plants=Sum('plants'),
+            area=Sum('area'),
+            min_added=Min('added')
+        ).distinct()
+
     total_plants_with_yields = 0
     total_value = 0
     total_value_by_garden_type = 0
@@ -119,7 +128,9 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
     garden_ids = set()
 
     for crop in crops:
-        year = crop['min_added'].year # for now, only use year. could make this an option or use multiple functions.
+        # For now only use year. Could make this an option or use multiple
+        # functions.
+        year = crop['min_added'].year
         variety_id = crop['variety__id']
         variety_name = crop['variety__name']
         if variety_name not in variety_totals:
@@ -137,7 +148,8 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
         if garden_name not in garden_totals:
             garden_totals[garden_name] = dict(value=0, weight=0)
 
-        # find average/estimate overall yield for the patches given containing this crop
+        # Find average/estimate overall yield for the patches given containing
+        # this crop.
         if estimate_yield:
             crop['average_yield'] = _find_estimated_crop_yield(variety_id, year)
             crop['estimated_yield'] = estimated_yield = (crop['average_yield'] or 0) * (crop['plants'] or 0)
@@ -151,7 +163,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
             if crop['average_yield']:
                 total_plants_with_yields += crop['plants'] or 0
 
-            # if we have a garden type, get average/estimate for that type
+            # If we have a garden type, get average/estimate for that type
             if garden_type:
                 crop['type_average_yield'] = _find_estimated_crop_yield(variety_id, year, garden_type=garden_type)
                 crop['type_estimated_yield'] = (crop['type_average_yield'] or 0) * (crop['plants'] or 0)
@@ -159,7 +171,7 @@ def estimate_for_patches(patches, estimate_yield=False, estimate_value=False,
                 variety_totals[variety_name]['type_estimated_yield'] = crop['type_estimated_yield']
                 total_yield_by_garden_type += crop['type_estimated_yield']
 
-        # find estimated dollar value of the crop yield for the given patches
+        # Find estimated dollar value of the crop yield for the given patches
         if estimate_value:
             cost_per_pound = _find_estimated_dollar_value(variety_id, year)
             if not cost_per_pound:
