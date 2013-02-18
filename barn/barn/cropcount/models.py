@@ -2,7 +2,7 @@ from django.db import models
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
-    
+
 class Box(AuditedModel):
     class Meta:
         verbose_name_plural = 'Boxes'
@@ -40,6 +40,12 @@ class Patch(AuditedModel):
     variety = models.ForeignKey(Variety)
     plants = models.IntegerField(null=True, blank=True)
     area = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    estimated_plants = models.BooleanField(
+        default=False,
+        help_text=('True if the number of plants in this patch was estimated '
+                   'using average plants per square foot.')
+    )
 
     def __unicode__(self):
         return "%s (%s), %s: %d (plants), %d (area)" % (self.box.garden.name, self.box.name, self.variety, self.plants or 0, self.area or 0)
