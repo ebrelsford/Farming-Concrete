@@ -19,7 +19,7 @@
             </td>
             <td class="last_column number">
                 {% if crop.estimated_value %}
-                {{ crop.estimated_value|floatformat:"0" }}
+                ${{ crop.estimated_value|floatformat:"0" }}
                 {% else %}
                 (unknown)
                 {% endif %}
