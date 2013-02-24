@@ -12,7 +12,7 @@
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ crop.variety__name }}</td>
             <td class="number">
-                {{ crop.plants:default:"(unknown)" }}
+                {{ crop.plants|default:"(unknown)" }}
             </td>
             <td class="number">
                 {% if crop.estimated_yield %}
