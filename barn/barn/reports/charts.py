@@ -61,9 +61,13 @@ def weight_per_gardener(garden, year=None, medium="screen"):
 def estimated_weight_per_crop(garden, year=None, medium="screen"):
     patches = _patches(garden, year=year).exclude(plants=None)
     estimated_yields = estimate_for_patches(patches, estimate_yield=True)['crops']
+    estimated_yields = filter(lambda y: y['estimated_yield'], estimated_yields)
+
+    varieties = [y['variety__name'] for y in estimated_yields]
+    yields = [y['estimated_yield'] for y in estimated_yields]
 
     data = {
-        'data': [[y['estimated_yield'] or 0 for y in estimated_yields]],
+        'data': [yields],
     }
     labels = {
         'x': '',
@@ -71,4 +75,5 @@ def estimated_weight_per_crop(garden, year=None, medium="screen"):
         'title': '',
     }
 
-    return create_chart_as_png_str('barchart', data, labels, '', xlabels=[y['variety__name'] for y in estimated_yields], medium=medium)
+    return create_chart_as_png_str('barchart', data, labels, '',
+                                   xlabels=varieties, medium=medium)
