@@ -32,6 +32,7 @@
         {% endfor %}
         <tr class="totals">
             <td>Total</td>
+            <td class="number">{{ total_plants|default:"0" }}</td>
             <td class="number">{{ total_estimated_yield|floatformat }}</td>
             <td class="last_column number">${{ total_estimated_value|floatformat:"0" }}</td>
         </tr>
