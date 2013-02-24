@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th align="center">Crop</th>
+            <th align="center">Plants</th>
             <th align="center">Pounds</th>
             <th class="last_column" align="center">Dollar Value *</th>
         </tr>
@@ -10,6 +11,9 @@
         {% for crop in crops|dictsort:"variety__name" %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ crop.variety__name }}</td>
+            <td class="number">
+                {{ crop.plants:default:"(unknown)" }}
+            </td>
             <td class="number">
                 {% if crop.estimated_yield %}
                 {{ crop.estimated_yield|floatformat }}
