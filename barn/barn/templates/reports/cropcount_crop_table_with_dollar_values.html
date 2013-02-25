@@ -15,7 +15,7 @@
                 {% if crop.plants %}
                 {{ crop.plants }}
                 {% else %}
-                {{ crop.area }} square feet
+                {{ crop.area|floatformat:"1" }} square feet
                 {% endif %}
             </td>
             <td class="number">
