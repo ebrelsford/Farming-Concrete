@@ -22,14 +22,17 @@ def map(request):
         'varieties': {
             '2010': filter_varieties('2010'),
             '2011': filter_varieties('2011'),
+            '2012': filter_varieties('2012'),
         },
         'neighborhoods': {
             '2010': filter_neighborhoods('2010'),
             '2011': filter_neighborhoods('2011'),
+            '2012': filter_neighborhoods('2012'),
         },
         'boroughs': {
             '2010': filter_boroughs('2010'),
             '2011': filter_boroughs('2011'),
+            '2012': filter_boroughs('2012'),
         },
     }
     return render_to_response('harvestmap/map.html', context,
@@ -79,18 +82,18 @@ def data(request):
 
     if not totals:
         if year:
-            totals = _get_data(year, borough=borough, neighborhood=neighborhood, 
+            totals = _get_data(year, borough=borough, neighborhood=neighborhood,
                                variety=variety)
         else:
             totals = {}
-    
+
     return HttpResponse(json.dumps(totals), mimetype='application/json')
 
 def _get_data(year, borough=None, neighborhood=None, variety=None, type=None):
     """
     Get sidebar data for the given parameters.
     """
-    patches = filter_patches(borough=borough, neighborhood=neighborhood, 
+    patches = filter_patches(borough=borough, neighborhood=neighborhood,
                              year=year, variety=variety).distinct()
     beds = Box.objects.filter(patch__in=patches).distinct()
     harvests = filter_harvests(borough=borough, neighborhood=neighborhood,
