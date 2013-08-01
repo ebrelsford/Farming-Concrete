@@ -1,0 +1,114 @@
+import os
+from os.path import abspath, dirname
+
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_variable(var_name):
+    """Get the environment variable or return exception"""
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s env variable" % var_name
+        raise ImproperlyConfigured(error_msg)
+
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+STATIC_DOC_ROOT = '/path/to/app/barn/media'
+
+ADMINS = (
+    # ('Your Name', 'your_email@domain.com'),
+)
+
+MANAGERS = ADMINS
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': get_env_variable('FARMING_CONCRETE_DB_NAME'),
+        'USER': get_env_variable('FARMING_CONCRETE_DB_USER'),
+        'PASSWORD': get_env_variable('FARMING_CONCRETE_DB_PASSWORD'),
+        'HOST': get_env_variable('FARMING_CONCRETE_DB_HOST'),
+        'PORT': get_env_variable('FARMING_CONCRETE_DB_PORT'),
+    }
+}
+
+EMAIL_SUBJECT_PREFIX = 'Farming Concrete: '
+DEFAULT_FROM_EMAIL = 'info@farmingconcrete.org'
+SERVER_EMAIL = 'admin@farmingconcrete.org'
+
+TIME_ZONE = 'America/New_York'
+LANGUAGE_CODE = 'en-us'
+
+SITE_ID = 1
+
+USE_I18N = True
+USE_L10N = True
+
+PROJECT_ROOT = os.path.join(abspath(dirname(__file__)), '..', '..')
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+MEDIA_URL = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin/media/'
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = get_env_variable('FARMING_CONCRETE_SECRET_KEY')
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.media',
+    'django.core.context_processors.request',
+
+    'context_processors.garden_types',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+
+    'middleware.http.Http403Middleware',
+)
+
+ROOT_URLCONF = 'barn.urls'
+
+TEMPLATE_DIRS = (
+    'templates',
+)
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+
+    'ajax_select',
+    'south',
+
+    'accounts',
+    'audit',
+    'cropcount',
+    'farmingconcrete',
+    'harvestcount',
+)
+
+AJAX_LOOKUP_CHANNELS = {
+    'variety': ('farmingconcrete.lookups', 'VarietyLookup'),
+    'garden': ('farmingconcrete.lookups', 'GardenLookup'),
+    'uncounted_garden': ('cropcount.lookups', 'UncountedGardenLookup'),
+    'gardener': ('harvestcount.lookups', 'GardenerLookup'),
+}
+
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
