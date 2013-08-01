@@ -20,9 +20,9 @@
         <span class="actions">
             <a 
                 {% if not is_mobile %}
-                href="{% url cropcount.views.delete_patch id=patch.id year=request.session.year %}"
+                href="{% url "cropcount.views.delete_patch" id=patch.id year=request.session.year %}"
                 {% else %}
-                href="{% url cropcount_patches_confirm_delete id=patch.id %}"
+                href="{% url "cropcount_patches_confirm_delete" id=patch.id %}"
                 {% endif %}
                 data-role="button" data-icon="delete" data-iconpos="notext" data-rel="dialog">
                 {% if not is_mobile %}

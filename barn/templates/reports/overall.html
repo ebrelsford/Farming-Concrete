@@ -56,7 +56,7 @@
             </table>
             {% comment %}
             perhaps a chart?
-            <img src="{% url reports.views.bar_chart_weight_per_crop id=garden.id year=year %}" />
+            <img src="{% url "reports.views.bar_chart_weight_per_crop" id=garden.id year=year %}" />
             {% endcomment %}
         </div>
     </div>

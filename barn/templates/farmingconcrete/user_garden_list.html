@@ -6,7 +6,7 @@
 {% for garden in object_list %}
 <ul data-role="listview">
     <li>
-        <a href="{% url farmingconcrete.views.garden_details id=garden.id %}">
+        <a href="{% url "farmingconcrete.views.garden_details" id=garden.id %}">
             {{ garden.name }}
         </a>
     </li>

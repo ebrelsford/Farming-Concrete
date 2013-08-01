@@ -7,7 +7,7 @@
 <p>Sorry, looks like you can't access the page you requested.<p>
 
 {% if not user.is_authenticated %}
-<p>Please <a href="{% url django.contrib.auth.views.login %}">log in</a> and try again.</p>
+<p>Please <a href="{% url "django.contrib.auth.views.login" %}">log in</a> and try again.</p>
 {% endif %}
 
 <p>If you think this is an error, please <a href="mailto:admin@farmingconcrete.org">let us know</a>.</p>

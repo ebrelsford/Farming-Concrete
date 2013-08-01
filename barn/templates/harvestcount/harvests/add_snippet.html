@@ -22,7 +22,7 @@
             return false;
         });
 
-        var add_plant_type_url = '{% url farmingconcrete_varieties_add %}';
+        var add_plant_type_url = '{% url "farmingconcrete_varieties_add" %}';
 
         /*
          * Add plant type when form is submitted.
@@ -95,7 +95,7 @@
                     {{ form.gardener.errors }}
                     {{ form.gardener.label_tag }}
                     {{ form.gardener }} 
-                    <a class="remember-context" href="{% url harvestcount_add_gardener id=garden.id year=request.session.year %}" data-role="button" data-rel="dialog">add a new gardener</a>
+                    <a class="remember-context" href="{% url "harvestcount_add_gardener" id=garden.id year=request.session.year %}" data-role="button" data-rel="dialog">add a new gardener</a>
                 </div>
 
                 <div data-role="fieldcontain">
@@ -104,7 +104,7 @@
                     {{ variety|default:"none selected" }}
                     <input type="hidden" id="variety_text" name="variety_text" value="{{ variety }}" />
                     <input type="hidden" id="id_variety" name="variety" value="{{ variety.pk }}" />
-                    <a class="remember-context" href="{% url farmingconcrete_varieties %}" data-role="button" data-inline="true">change</a>
+                    <a class="remember-context" href="{% url "farmingconcrete_varieties" %}" data-role="button" data-inline="true">change</a>
                 </div>
 
                 <div data-role="fieldcontain">

@@ -36,7 +36,7 @@ Your gardens
 <ul class="gardens">
     {% for garden in user_gardens %}
     <li id="{{ garden.id }}">
-        <a href="{% url cropcount.views.garden_details garden.id year=request.session.year %}">{{ garden.name }}</a>
+        <a href="{% url "cropcount.views.garden_details" garden.id year=request.session.year %}">{{ garden.name }}</a>
         {% if garden.box_set.count == 0 %}
         no crop count yet
         {% endif %}
@@ -50,7 +50,7 @@ Other gardens
 <ul class="gardens">
     {% for garden in counted_gardens %}
     {% if garden not in user_gardens %}
-    <li id="{{ garden.id }}"><label href="{% url cropcount.views.garden_details garden.id year=request.session.year %}">{{ garden.name }}</label></li>
+    <li id="{{ garden.id }}"><label href="{% url "cropcount.views.garden_details" garden.id year=request.session.year %}">{{ garden.name }}</label></li>
     {% endif %}
     {% empty %}
     <li>None, yet!</li>
@@ -62,8 +62,8 @@ Other gardens
 {% if user.is_superuser %}
 <div id="bottom" style="clear: both;">
     <h2>
-        <a class="image" href="{% url cropcount.views.add_garden year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
-        <a class="text" href="{% url cropcount.views.add_garden year=request.session.year %}">Add a garden</a>
+        <a class="image" href="{% url "cropcount.views.add_garden" year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
+        <a class="text" href="{% url "cropcount.views.add_garden" year=request.session.year %}">Add a garden</a>
     </h2>
 </div>
 {% endif %}

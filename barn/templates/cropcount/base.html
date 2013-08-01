@@ -2,7 +2,7 @@
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url cropcount.views.index year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_left.png" /></a>
-    <a class="text" href="{% url cropcount.views.index year=request.session.year %}">Back to Crop Count</a>
+    <a class="image" href="{% url "cropcount.views.index" year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_left.png" /></a>
+    <a class="text" href="{% url "cropcount.views.index" year=request.session.year %}">Back to Crop Count</a>
 </h2>
 {% endblock %}

@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ gardener.name }}</td>
                         <td>
-                            <a href="{% url harvestcount_garden_details id=gardener.garden.pk year=year %}" target="_blank">
+                            <a href="{% url "harvestcount_garden_details" id=gardener.garden.pk year=year %}" target="_blank">
                                 {{ gardener.garden.name }}
                             </a>
                         </td>

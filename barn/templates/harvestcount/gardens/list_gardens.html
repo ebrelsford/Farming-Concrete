@@ -23,7 +23,7 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <a href="{% url harvestcount.views.index year=request.session.year %}">harvest count</a> &gt;&gt; {% endblock %}
+{% block breadcrumbs %}{{ block.super }} <a href="{% url "harvestcount.views.index" year=request.session.year %}">harvest count</a> &gt;&gt; {% endblock %}
 
 {% block content %}
 <h1>
@@ -45,8 +45,8 @@ $(document).ready(function() {
 {{ block.super }}
 {% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
-    <a class="image" href="{% url harvestcount.views.add_garden year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
-    <a class="text" href="{% url harvestcount.views.add_garden year=request.session.year %}">Add a garden</a>
+    <a class="image" href="{% url "harvestcount.views.add_garden" year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
+    <a class="text" href="{% url "harvestcount.views.add_garden" year=request.session.year %}">Add a garden</a>
 </h2>
 {% endif %}
 {% endblock %}

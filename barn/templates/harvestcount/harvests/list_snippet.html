@@ -4,7 +4,7 @@
     {% if is_mobile %}
     <ul data-role="listview" data-theme="a">
         <li data-icon="plus">
-            <a href="{% url harvestcount_add_harvest id=garden.id year=request.session.year %}">Add a harvest</a>
+            <a href="{% url "harvestcount_add_harvest" id=garden.id year=request.session.year %}">Add a harvest</a>
         </li>
 
         {% for harvest in harvests %}
@@ -19,7 +19,7 @@
 
             <span class="actions" style="display: inline-block;">
                 {% comment %} TODO {% endcomment %}
-                <a href="{% url cropcount_patches_confirm_delete id=harvest.id %}" data-role="button" data-icon="delete" data-iconpos="notext" data-rel="dialog"></a>
+                <a href="{% url "cropcount_patches_confirm_delete" id=harvest.id %}" data-role="button" data-icon="delete" data-iconpos="notext" data-rel="dialog"></a>
             </span>
         </li>
         {% endfor %}

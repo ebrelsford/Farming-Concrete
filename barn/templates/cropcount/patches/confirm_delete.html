@@ -5,7 +5,7 @@
 
 {% block left %}
 Are you sure you want to delete these plants?
-<a href="{% url cropcount.views.delete_patch id=patch_id %}" data-role="button">Yes</a>
+<a href="{% url "cropcount.views.delete_patch" id=patch_id %}" data-role="button">Yes</a>
 <a href="#" data-role="button" data-rel="back">No, cancel that!</a>
 {% endblock %}
 

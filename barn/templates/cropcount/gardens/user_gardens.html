@@ -25,7 +25,7 @@ Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
 {% block list %}
 {% for garden in user_gardens %}
 <li id="{{ garden.id }}">
-    <a href="{% url cropcount.views.garden_details id=garden.id year=request.session.year %}">{{ garden.name }}</a>
+    <a href="{% url "cropcount.views.garden_details" id=garden.id year=request.session.year %}">{{ garden.name }}</a>
     {% if garden.box_set.count == 0 %}
     no crop count yet
     {% endif %}

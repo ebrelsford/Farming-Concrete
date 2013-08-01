@@ -15,7 +15,7 @@ $('.collapsible .expander').click(function() {
 
 $('.share > a').click(function() {
     if ($(this).parent().hasClass('shared')) return false;
-    $.getJSON('{% url reports.views.share id=garden.id year=year %}', function(data) {
+    $.getJSON('{% url "reports.views.share" id=garden.id year=year %}', function(data) {
         $('.share .sharebox').find('.url').text(data.url).attr('href', data.url);
         $('.share').addClass('shared')
     });
@@ -31,16 +31,16 @@ $('.share > a').click(function() {
 {% block actions %}
 {% if user.is_authenticated %}
 <h2 class="share">
-    <a class="image" href="{% url harvestcount.views.index %}"><img src="{{ MEDIA_URL }}img/mail.png" /></a>
-    <a class="text" href="{% url harvestcount.views.index %}">Share this report</a>
+    <a class="image" href="{% url "harvestcount.views.index" %}"><img src="{{ MEDIA_URL }}img/mail.png" /></a>
+    <a class="text" href="{% url "harvestcount.views.index" %}">Share this report</a>
     <div class="sharebox">
         <p><a class="url" target="_blank"></a></p>
         <p>This report is now publicly accessible using the above url. Please only share it with those who should see the report.</p>
     </div>
 </h2>
 <h2>
-    <a class="image" href="{% url reports.views.pdf id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
-    <a class="text" href="{% url reports.views.pdf id=garden.id year=request.session.year %}">Download this as a PDF</a>
+    <a class="image" href="{% url "reports.views.pdf" id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
+    <a class="text" href="{% url "reports.views.pdf" id=garden.id year=request.session.year %}">Download this as a PDF</a>
 </h2>
 {% endif %}
 {% endblock %}

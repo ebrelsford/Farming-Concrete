@@ -25,7 +25,7 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }}<a href="{% url farmingconcrete.views.garden_details id=garden.id %}">{{ garden.name }}</a> &gt;&gt; crop count{% endblock %}
+{% block breadcrumbs %}{{ block.super }}<a href="{% url "farmingconcrete.views.garden_details" id=garden.id %}">{{ garden.name }}</a> &gt;&gt; crop count{% endblock %}
 
 {% block content %}
 {% if garden %}
@@ -79,20 +79,20 @@ $(document).ready(function() {
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
-    <a class="text" href="{% url cropcount.views.download_garden_cropcount_as_csv id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
+    <a class="image" href="{% url "cropcount.views.download_garden_cropcount_as_csv" id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
+    <a class="text" href="{% url "cropcount.views.download_garden_cropcount_as_csv" id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
 </h2>
 <h2>
-    <a class="image" href="{% url reports.views.garden_report id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
-    <a class="text" href="{% url reports.views.garden_report id=garden.id year=request.session.year %}">View this garden's report</a>
+    <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="text" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}">View this garden's report</a>
 </h2>
 <h2>
-    <a class="image" href="{% url harvestcount.views.garden_details id=garden.id %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
-    <a class="text" href="{% url harvestcount.views.garden_details id=garden.id %}">Switch to Harvest Count</a>
+    <a class="image" href="{% url "harvestcount.views.garden_details" id=garden.id %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="text" href="{% url "harvestcount.views.garden_details" id=garden.id %}">Switch to Harvest Count</a>
 </h2>
 {{ block.super }}
 <h2>
-    <a class="image" href="{% url cropcount.views.user_gardens year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
-    <a class="text" href="{% url cropcount.views.user_gardens year=request.session.year %}">Done adding beds to this garden!</a>
+    <a class="image" href="{% url "cropcount.views.user_gardens" year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
+    <a class="text" href="{% url "cropcount.views.user_gardens" year=request.session.year %}">Done adding beds to this garden!</a>
 </h2>
 {% endblock %}

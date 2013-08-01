@@ -10,7 +10,7 @@
             return false;
         });
 
-        var add_plant_type_url = '{% url farmingconcrete_varieties_add %}';
+        var add_plant_type_url = '{% url "farmingconcrete_varieties_add" %}';
 
         /*
          * Add plant type when form is submitted.
@@ -73,7 +73,7 @@
                 {{ variety|default:"none selected" }}
                 <input type="hidden" id="variety_text" name="variety_text" value="{{ variety }}" />
                 <input type="hidden" id="id_variety" name="variety" value="{{ variety.pk }}" />
-                <a href="{% url farmingconcrete_varieties %}?previous={{ request.path }}" data-role="button" data-inline="true">change</a>
+                <a href="{% url "farmingconcrete_varieties" %}?previous={{ request.path }}" data-role="button" data-inline="true">change</a>
             </span>
 
             <span class="quantity">

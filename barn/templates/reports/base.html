@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block breadcrumbs %}<a href="{% url farmingconcrete.views.index %}">home</a> &gt;&gt; {% endblock %}
+{% block breadcrumbs %}<a href="{% url "farmingconcrete.views.index" %}">home</a> &gt;&gt; {% endblock %}
 
 {% block head %}
 {{ block.super }}    
@@ -48,7 +48,7 @@ $(document).ready(function() {
         var variety = $(this).data('crop-name');
         var year = $(this).data('year');
         $(this).addClass('picked');
-        $.get('{% url estimates_estimatedyield_explain %}?variety=' + variety + '&year=' + year, function(data) {
+        $.get('{% url "estimates_estimatedyield_explain" %}?variety=' + variety + '&year=' + year, function(data) {
             $('body').append($('<div/>')
                 .html(data)
                 .addClass('info-box')

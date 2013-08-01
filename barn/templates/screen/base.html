@@ -29,31 +29,31 @@
         <div data-role="page">
 
             <div id="header" data-role="header">
-                <a href="{% url farmingconcrete.views.index %}"><img src="{{ MEDIA_URL }}header.jpg" /></a>
+                <a href="{% url "farmingconcrete.views.index" %}"><img src="{{ MEDIA_URL }}header.jpg" /></a>
             </div>
 
             <div id="nav" class="nav">
                 <ul>
                     <li>
-                        <a href="{% url farmingconcrete.views.index %}">Home</a>
+                        <a href="{% url "farmingconcrete.views.index" %}">Home</a>
                     </li>
                     <li class="{% if request.session.section == 'cropcount' %}active{% endif %}">
-                        <a href="{% url cropcount.views.index %}">Crop Count</a>
+                        <a href="{% url "cropcount.views.index" %}">Crop Count</a>
                     </li>
                     <li class="{% if request.session.section == 'harvestcount' %}active{% endif %}">
-                        <a href="{% url harvestcount.views.index %}">Harvest Count</a>
+                        <a href="{% url "harvestcount.views.index" %}">Harvest Count</a>
                     </li>
                     {% if user.is_staff %}
-                    <li><a href="{% url reports.views.index %}">Reports</a></li>
+                    <li><a href="{% url "reports.views.index" %}">Reports</a></li>
 
                     <li><a href="/admin">Admin</a></li>
                     {% endif %}
 
                     {% if user.is_authenticated %}
-                    <li><a href="{% url farmingconcrete.views.account %}">Your account</a></li>
-                    <li><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li>
+                    <li><a href="{% url "farmingconcrete.views.account" %}">Your account</a></li>
+                    <li><a href="{% url "django.contrib.auth.views.logout" %}">Logout</a></li>
                     {% else %}
-                    <li><a href="{% url django.contrib.auth.views.login %}">Login</a></li>
+                    <li><a href="{% url "django.contrib.auth.views.login" %}">Login</a></li>
                     {% endif %}
 
                     <li><a href="http://farmingconcrete.org">Blog</a></li>
