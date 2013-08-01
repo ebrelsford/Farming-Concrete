@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Sum, Q
 from django.http import HttpResponse
@@ -11,14 +12,13 @@ from cropcount.models import Box
 from estimates.common import estimate_for_harvests_by_gardener_and_variety, estimate_for_patches
 from farmingconcrete.models import Garden
 from reports.common import filter_harvests, filter_patches, filter_boroughs, filter_neighborhoods, consolidate_totals, filter_varieties
-from settings import FARMINGCONCRETE_YEAR
 
 ONE_WEEK = 7 * 24 * 60 * 60
 
 @cache_page(ONE_WEEK)
 def map(request):
     context = {
-        'year': str(FARMINGCONCRETE_YEAR),
+        'year': str(settings.FARMINGCONCRETE_YEAR),
         'varieties': {
             '2010': filter_varieties('2010'),
             '2011': filter_varieties('2011'),
@@ -41,7 +41,7 @@ def map(request):
 def kml(request):
     """Get kml for requested gardens for harvest map"""
 
-    year = request.GET.get('year', FARMINGCONCRETE_YEAR)
+    year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
 
     # get from cache if possible
     cache_key = 'harvestmap_views_kml_' + year

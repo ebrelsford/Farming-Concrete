@@ -1,6 +1,6 @@
 from functools import wraps
 
-from settings import FARMINGCONCRETE_YEAR
+from django.conf import settings
 
 def year_in_session(f):
     """
@@ -8,7 +8,7 @@ def year_in_session(f):
     """
     @wraps(f)
     def wrapper(request, *args, **kwargs):
-        year = kwargs.get('year', None) or FARMINGCONCRETE_YEAR
+        year = kwargs.get('year', None) or settings.FARMINGCONCRETE_YEAR
         request.session['year'] = kwargs['year'] = year
         return f(request, *args, **kwargs)
     return wrapper

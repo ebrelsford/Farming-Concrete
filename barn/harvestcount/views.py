@@ -3,6 +3,7 @@ import json
 
 import unicodecsv
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
@@ -20,10 +21,9 @@ from harvestcount.forms import AutocompleteHarvestForm, GardenerForm, MobileHarv
 from mobile import is_mobile
 
 from middleware.http import Http403
-from settings import FARMINGCONCRETE_YEAR
 
 
-def _harvests(year=FARMINGCONCRETE_YEAR):
+def _harvests(year=settings.FARMINGCONCRETE_YEAR):
     """Get current harvests"""
     return Harvest.objects.filter(harvested__year=year)
 

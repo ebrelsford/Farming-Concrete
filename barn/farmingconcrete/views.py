@@ -1,6 +1,7 @@
 import geojson
 import json
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Q
 from django.http import HttpResponse
@@ -18,18 +19,16 @@ from generic.views import LoginRequiredMixin, PermissionRequiredMixin, RememberP
 from harvestcount.models import Harvest
 from middleware.http import Http403
 
-from settings import FARMINGCONCRETE_YEAR
-
-def _harvests(year=FARMINGCONCRETE_YEAR):
+def _harvests(year=settings.FARMINGCONCRETE_YEAR):
     """Get current harvests"""
     return Harvest.objects.filter(harvested__year=year)
 
-def _patches(year=FARMINGCONCRETE_YEAR):
+def _patches(year=settings.FARMINGCONCRETE_YEAR):
     """Get current patches"""
     return Patch.objects.filter(added__year=year)
 
 @year_in_session
-def index(request, year=FARMINGCONCRETE_YEAR):
+def index(request, year=settings.FARMINGCONCRETE_YEAR):
     user_gardens = []
     if request.user.is_authenticated():
         profile = request.user.get_profile()
@@ -83,7 +82,7 @@ def gardens_geojson(request):
     participating = request.GET.get('participating', None)
     type = request.GET.get('type', None)
     borough = request.GET.get('borough', None)
-    year = request.GET.get('year', FARMINGCONCRETE_YEAR)
+    year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
 
     if ids:
         ids = ids.split(',')
@@ -98,7 +97,7 @@ def gardens_geojson(request):
     elif harvestcount and harvestcount != 'no':
         gardens = gardens.filter(gardener__harvest__harvested__year=year)
     elif participating and participating != 'no':
-        gardens = gardens.filter(Q(box__patch__added__year=year) | 
+        gardens = gardens.filter(Q(box__patch__added__year=year) |
                                  Q(gardener__harvest__harvested__year=year))
 
     gardens = gardens.distinct()
@@ -125,7 +124,7 @@ class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin, ListV
     query_string_exclude = ('variety', 'variety_text')
 
     def get_queryset(self):
-        return (Variety.objects.filter(needs_moderation=False) | 
+        return (Variety.objects.filter(needs_moderation=False) |
                 self.request.user.farmingconcrete_variety_added.all())
 
 class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -162,7 +161,7 @@ class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
         if not created:
             message = 'looks good! found %s.' % variety.name
 
-        return HttpResponse(json.dumps({ 
+        return HttpResponse(json.dumps({
             'success': True,
             'id': variety.id,
             'name': variety.name,

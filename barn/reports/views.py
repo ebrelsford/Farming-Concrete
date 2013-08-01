@@ -1,6 +1,7 @@
 import json
 from StringIO import StringIO
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.files.base import ContentFile
@@ -21,11 +22,10 @@ from farmingconcrete.models import Garden, GardenType
 from common import (filter_harvests, filter_patches, filter_boroughs,
         consolidate_totals, get_garden_counts_by_type)
 from models import SharedReport, Chart
-from settings import FARMINGCONCRETE_YEAR
 
 
 @login_required
-def index(request, year=FARMINGCONCRETE_YEAR):
+def index(request, year=settings.FARMINGCONCRETE_YEAR):
     borough = request.GET.get('borough', None)
     type = request.GET.get('type', None)
     use_all_cropcount = request.GET.get('use_all_cropcount', False)
@@ -58,7 +58,7 @@ def index(request, year=FARMINGCONCRETE_YEAR):
 
 
 @login_required
-def garden_report(request, id=None, year=FARMINGCONCRETE_YEAR):
+def garden_report(request, id=None, year=settings.FARMINGCONCRETE_YEAR):
     """get the report for the garden"""
     return _render_garden_report(request, id=id, year=year)
 

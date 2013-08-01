@@ -2,6 +2,7 @@ from datetime import date
 
 import unicodecsv
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -16,9 +17,8 @@ from models import Box, Patch
 from forms import UncountedGardenForm, BoxForm, PatchForm
 
 from middleware.http import Http403
-from settings import FARMINGCONCRETE_YEAR
 
-def _patches(year=FARMINGCONCRETE_YEAR):
+def _patches(year=settings.FARMINGCONCRETE_YEAR):
     """Get current patches"""
     return Patch.objects.filter(added__year=year)
 
@@ -36,7 +36,7 @@ def index(request, year=None):
 
     beds = Box.objects.filter(patch__in=patches).distinct()
     gardens = Garden.objects.filter(box__in=beds).distinct()
-    
+
     return render_to_response('cropcount/index.html', {
         'gardens': gardens.count(),
         'area': sum([b.length * b.width for b in beds]),
@@ -166,7 +166,7 @@ def garden_details(request, id, year=None):
             width = ""
 
         form = BoxForm(initial={
-            'garden': garden, 
+            'garden': garden,
             'added_by': request.user,
             'name': _get_next_box_name(garden, year=year),
             'length': length,
@@ -248,7 +248,7 @@ def add_bed(request, id=None, year=None):
             width = ""
 
         form = BoxForm(initial={
-            'garden': garden, 
+            'garden': garden,
             'added_by': request.user,
             'name': _get_next_box_name(garden, year=year),
             'length': length,
@@ -298,11 +298,11 @@ def add_patch(request, bed_id=None, year=None):
                 pass
     else:
         form = PatchForm(
-            initial={ 
+            initial={
                 'added_by': request.user,
                 'box': bed,
                 'variety': variety,
-            }, 
+            },
             user=request.user
         )
 
@@ -341,7 +341,7 @@ def delete_patch(request, id, year=None):
     patch = get_object_or_404(Patch, pk=id)
     bed_id = patch.box.id
     patch.delete()
-    return redirect(bed_details, id=bed_id, year=year) 
+    return redirect(bed_details, id=bed_id, year=year)
 
 class ConfirmDeletePatchView(TemplateView):
     template_name = 'cropcount/patches/confirm_delete.html'
@@ -359,7 +359,7 @@ def delete_bed(request, id, year=None):
     bed = get_object_or_404(Box, pk=id)
     garden_id = bed.garden.id
     bed.delete()
-    return redirect(garden_details, id=garden_id, year=year) 
+    return redirect(garden_details, id=garden_id, year=year)
 
 @login_required
 @year_in_session
@@ -389,7 +389,7 @@ def download_garden_cropcount_as_csv(request, id, year=None):
 #
 # Utility functions
 #
-def _get_next_box_name(garden, year=FARMINGCONCRETE_YEAR):
+def _get_next_box_name(garden, year=settings.FARMINGCONCRETE_YEAR):
     """
     If each box name for this garden so far has been an integer, guess we want
     the next integer.
