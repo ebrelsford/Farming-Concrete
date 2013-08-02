@@ -16,8 +16,6 @@ def get_env_variable(var_name):
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-STATIC_DOC_ROOT = '/path/to/app/barn/media'
-
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -51,6 +49,8 @@ PROJECT_ROOT = os.path.join(abspath(dirname(__file__)), '..', '..')
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'collected_static')
+STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/admin/media/'
 
 # Make this unique, and don't share it with anybody.
@@ -85,6 +85,16 @@ TEMPLATE_DIRS = (
     'templates',
 )
 
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #'compressor.finders.CompressorFinder',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -93,6 +103,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.staticfiles',
 
     'ajax_select',
     'south',

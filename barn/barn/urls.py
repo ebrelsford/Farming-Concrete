@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import include, patterns, url
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 from django.conf import settings
@@ -63,12 +65,13 @@ urlpatterns = patterns('',
     # miscellany
     (r'^ajax_select/', include('ajax_select.urls')),
     (r'^fc/', include('farmingconcrete.urls')),
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DOC_ROOT, 'show_indexes': True}),
 
     (r'^harvestmap/$', 'harvestmap.views.map'),
     (r'^harvestmap/gardens/kml', 'harvestmap.views.kml'),
     (r'^harvestmap/data', 'harvestmap.views.data'),
 
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += staticfiles_urlpatterns()
 
 handler500 = 'barn.views.server_error'
