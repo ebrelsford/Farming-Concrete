@@ -1,4 +1,5 @@
 {% extends "cropcount/map_base.html" %}
+{% load static %}
 
 {% block title %}Counted {{ request.session.garden_type }} gardens{% endblock %}
 
@@ -45,7 +46,7 @@ queryString: 'type={{ request.session.garden_type.short_name }}&cropcount=yes&ye
 {{ block.super }}
 {% if perms.farmingconcrete.can_edit_any_garden %}
 <h2>
-    <a class="image" href="{% url "cropcount.views.add_garden" year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_plus.png" /></a>
+    <a class="image" href="{% url "cropcount.views.add_garden" year=request.session.year %}"><img src="{% static "img/round_plus.png" %}" /></a>
     <a class="text" href="{% url "cropcount.views.add_garden" year=request.session.year %}">Add a garden</a>
 </h2>
 {% endif %}

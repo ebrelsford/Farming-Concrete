@@ -1,3 +1,5 @@
+{% load static %}
+
 <div id="beds">
     <span style="font-weight: bold;">Current beds in this garden</span>
     <ul class="values">
@@ -16,7 +18,7 @@
             {% if editable %}
             <span class="actions">
                 <a class="delete" href="{% url "cropcount.views.delete_bed" id=box.id year=request.session.year %}">
-                    <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
+                    <img src="{% static "img/round_delete_small.png" %}" title="remove this bed" />
                 </a>
             </span>
             {% endif %}

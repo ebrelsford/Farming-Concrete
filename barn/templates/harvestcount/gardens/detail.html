@@ -1,4 +1,5 @@
 {% extends "harvestcount/map_base.html" %}
+{% load static %}
 
 {% block title %}{{ garden.name }}{% endblock %}
 {% block header_title %}{{ garden.name }}{% endblock %}
@@ -11,8 +12,8 @@ id: {{ garden.id }},
 {% block head %}
 {{ block.super }}
 {% if not is_mobile %}
-<script src="{{ MEDIA_URL }}js/help.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}jquery.tablesorter.min.js" type="text/javascript"></script>
+<script src="{% static "js/help.js" %}" type="text/javascript"></script>
+<script src="{% static "lib/jquery.tablesorter.min.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('a.delete').click(function(event) {
@@ -24,7 +25,7 @@ $(document).ready(function() {
     $('#id_harvested').datepicker({
         dateFormat: 'mm/dd/yy',
         maxDate: '+0D',
-        buttonImage: '{{ MEDIA_URL }}img/calendar_1.png',
+        buttonImage: '{% static "img/calendar_1.png" %}',
         buttonImageOnly: true,
         showOn: 'both',
     });
@@ -100,20 +101,20 @@ $(document).ready(function() {
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url "harvestcount.views.download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/download.png" /></a>
+    <a class="image" href="{% url "harvestcount.views.download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}"><img src="{% static "img/download.png" %}" /></a>
     <a class="text" href="{% url "harvestcount.views.download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
 </h2>
 <h2>
-    <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
     <a class="text" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}">View this garden's report</a>
 </h2>
 <h2>
-    <a class="image" href="{% url "cropcount.views.garden_details" id=garden.id year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="image" href="{% url "cropcount.views.garden_details" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
     <a class="text" href="{% url "cropcount.views.garden_details" id=garden.id year=request.session.year %}">Switch to Crop Count</a>
 </h2>
 {{ block.super }}
 <h2>
-    <a class="image" href="{% url "harvestcount.views.index" year=request.session.year %}"><img src="{{ MEDIA_URL }}img/round_checkmark.png" /></a>
+    <a class="image" href="{% url "harvestcount.views.index" year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>
     <a class="text" href="{% url "harvestcount.views.index" year=request.session.year %}">Done adding harvests to this garden!</a>
 </h2>
 {% endblock %}

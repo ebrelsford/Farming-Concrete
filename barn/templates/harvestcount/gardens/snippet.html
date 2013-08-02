@@ -1,3 +1,5 @@
+{% load static %}
+
 <table class="sorted">
     <thead>
     <tr>
@@ -36,7 +38,7 @@
         {% if editable %}
         <td class="actions">
             <a class="delete" href="{% url "harvestcount.views.delete_harvest" id=harvest.id year=request.session.year %}">
-                <img src="{{ MEDIA_URL }}img/round_delete_small.png" title="remove this bed" />
+                <img src="{% static "img/round_delete_small.png" %}" title="remove this bed" />
             </a>
         </td>
         {% endif %}

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <head>
     <style>
@@ -76,12 +78,12 @@
 
         @font-face {
             font-family: "LinoLetterStd";
-            src: url({{ MEDIA_URL }}img/report/LinoLetterStd-Black.ttf);
+            src: url({% static "img/report/LinoLetterStd-Black.ttf" %});
         }
 
         @font-face {
             font-family: "LinoLetterStd";
-            src: url('{{ MEDIA_URL }}img/report/LinoLetterStd-Bold.ttf');
+            src: url('{% static "img/report/LinoLetterStd-Bold.ttf" %}');
             font-weight: bold;
         }
 
@@ -260,7 +262,7 @@
                         <td style="width: 80px;">
                         </td>
                         <td style="width: 91px;">
-                            <img src="{{ MEDIA_URL }}img/report/left_bracket_large.tiff" width="91" height="300" />
+                            <img src="{% static "img/report/left_bracket_large.tiff" %}" width="91" height="300" />
                         </td>
                         <td class="data">
                             <table>
@@ -305,13 +307,13 @@
                             </table>
                         </td>
                         <td style="width: 91px;">
-                            <img src="{{ MEDIA_URL }}img/report/right_bracket_large.tiff" width="91" height="300" />
+                            <img src="{% static "img/report/right_bracket_large.tiff" %}" width="91" height="300" />
                         </td>
                     </tr>
                 </table>
             </div>
             <div class="logo">
-                <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                <img src="{% static "img/report/logo.png" %}" width="400px" height="83px" />
             </div>
         </div>
         {% if has_harvestcount %}
@@ -363,7 +365,7 @@
             <table>
                 <tr>
                     <td width="49%" style="padding-top: -25px;">
-                        <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                        <img src="{% static "img/report/logo.png" %}" width="400px" height="83px" />
                     </td>
                     <td width="49%" valign="bottom">
                         <h1 class="title">{{ year }} Harvest Report</h1>
@@ -375,7 +377,7 @@
             {{ garden.name }}
         </div>
         <div class="banner">
-            <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
+            <img src="{% static "img/report/radishes_shorter.JPG" %}" width="3260" height="440" style="width: 100%;" />
         </div>
     </div>
 
@@ -384,7 +386,7 @@
             <table>
                 <tr>
                     <td width="49%" style="padding-top: -25px;">
-                        <img src="{{ MEDIA_URL }}img/report/logo.png" width="400px" height="83px" />
+                        <img src="{% static "img/report/logo.png" %}" width="400px" height="83px" />
                     </td>
                     <td width="49%" valign="bottom">
                         <h1 class="title">{{ year }} Crop Report</h1>
@@ -396,7 +398,7 @@
             {{ garden.name }}
         </div>
         <div class="banner">
-            <img src="{{ MEDIA_URL }}img/report/radishes_shorter.JPG" width="3260" height="440" style="width: 100%;" />
+            <img src="{% static "img/report/radishes_shorter.JPG" %}" width="3260" height="440" style="width: 100%;" />
         </div>
     </div>
 

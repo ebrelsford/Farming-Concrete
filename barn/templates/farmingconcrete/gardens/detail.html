@@ -1,4 +1,5 @@
 {% extends "common/garden_base.html" %}
+{% load static %}
 
 {% block header_title %}{{ garden.name }}{% endblock %}
 
@@ -15,11 +16,11 @@
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url "cropcount.views.garden_details" id=garden.id %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="image" href="{% url "cropcount.views.garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
     <a class="text" href="{% url "cropcount.views.garden_details" id=garden.id %}">View Crop Count</a>
 </h2>
 <h2>
-    <a class="image" href="{% url "harvestcount.views.garden_details" id=garden.id %}"><img src="{{ MEDIA_URL }}img/round_arrow_right.png" /></a>
+    <a class="image" href="{% url "harvestcount.views.garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
     <a class="text" href="{% url "harvestcount.views.garden_details" id=garden.id %}">View Harvest Count</a>
 </h2>
 {{ block.super }}

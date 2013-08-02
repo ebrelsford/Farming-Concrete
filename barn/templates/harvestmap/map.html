@@ -1,4 +1,4 @@
-{% load dict %}
+{% load dict static %}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -17,16 +17,16 @@
         TODO compress?
         {% endcomment %}
 
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-util.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.smartresize.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/map-buttons.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/number_format.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/harvestmap_map.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/cloudmade.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/harvestmap_map_init.js"></script>
+        <script type="text/javascript" src="{% static "js/jquery-util.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.smartresize.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/map-buttons.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/number_format.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/harvestmap_map.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/cloudmade.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/harvestmap_map_init.js" %}"></script>
 
-        <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/harvestmap/style.css" />
-        <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/harvestmap/jquery-ui-1.8.4.custom.css" />
+        <link type="text/css" rel="stylesheet" href="{% static "css/harvestmap/style.css" %}" />
+        <link type="text/css" rel="stylesheet" href="{% static "css/harvestmap/jquery-ui-1.8.4.custom.css" %}" />
 
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -44,7 +44,7 @@
     <body>
         <div id="header">
             <div id="logo">
-                <a href="http://www.farmingconcrete.org/"><img src="{{ MEDIA_URL }}header.jpg" /></a>
+                <a href="http://www.farmingconcrete.org/"><img src="{% static "img/header.jpg" %}" /></a>
             </div>
         </div>
 
@@ -173,7 +173,7 @@
                 <ul style="margin: 0;">
                     <li>Select a <span class="attribute">borough</span>, <span class="attribute">neighborhood</span>, and/or <span class="attribute">vegetable</span> below.</li>
                     <li>Click 'Update'</li>
-                    <li>The left sidebar will show you the results we've calculated so far this season, and the map will show you the gardens the results came from <img src="{{ MEDIA_URL }}img/harvestmap/selected.png" />, while other gardens we've done inventories of will look like <img src="{{ MEDIA_URL }}img/harvestmap/unselected.png" />.</li>
+                    <li>The left sidebar will show you the results we've calculated so far this season, and the map will show you the gardens the results came from <img src="{% static "img/harvestmap/selected.png" %}" />, while other gardens we've done inventories of will look like <img src="{% static "img/harvestmap/unselected.png" %}" />.</li>
                 </ul>
             </div>
             <div id="tab-about" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">

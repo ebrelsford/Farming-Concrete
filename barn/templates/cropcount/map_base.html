@@ -1,10 +1,11 @@
 {% extends "cropcount/base.html" %}
+{% load static %}
 
 {% block head %}
 {% if not is_mobile %}
-<script src="{{ MEDIA_URL }}js/OpenLayers/OpenLayers.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/cloudmade.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/map.js" type="text/javascript"></script>
+<script src="{% static "lib/OpenLayers/OpenLayers.js" %}" type="text/javascript"></script>
+<script src="{% static "js/cloudmade.js" %}" type="text/javascript"></script>
+<script src="{% static "js/map.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#map').gardenmap({
