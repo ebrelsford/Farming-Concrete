@@ -135,6 +135,13 @@ LOGGING = {
         }
     },
     'handlers': {
+        'log_file': {
+            'level': 'WARN',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(PROJECT_ROOT, 'logs', 'django.log'),
+            'maxBytes': '16777216', # 16megabytes
+            'formatter': 'verbose'
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
@@ -143,8 +150,8 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'handlers': ['log_file', 'mail_admins',],
+            'level': 'WARN',
             'propagate': True,
         },
     },
