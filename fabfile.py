@@ -28,9 +28,8 @@ def build_static():
 @task
 def install_requirements():
     with prefix('workon ' + server_virtualenv):
-        with cd(server_src_dir):
-            run('pip install -r requirements/base.txt')
-            run('pip install -r requirements/production.txt')
+        run('pip install -r Farming-Concrete/requirements/base.txt')
+        run('pip install -r Farming-Concrete/requirements/production.txt')
 
 
 @task
@@ -60,6 +59,16 @@ def restart_memcached():
 def status():
     with prefix('workon ' + server_virtualenv):
         run('supervisorctl -c ~/supervisor/supervisord.conf status')
+
+
+@task
+def dev_test():
+    pull()
+    install_requirements()
+    syncdb()
+    migrate()
+    build_static()
+    dev_supervisor()
 
 
 @task
