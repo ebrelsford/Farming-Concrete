@@ -66,7 +66,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.request',
 
-    'context_processors.garden_types',
+    'barn.context_processors.garden_types',
 )
 
 MIDDLEWARE_CLASSES = (
