@@ -82,7 +82,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'barn.urls'
 
 TEMPLATE_DIRS = (
-    'templates',
+    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 STATICFILES_DIRS = (
