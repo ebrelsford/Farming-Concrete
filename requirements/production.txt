@@ -1,0 +1,2 @@
+gunicorn==17.5
+supervisor==3.0
