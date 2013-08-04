@@ -12,13 +12,13 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.edit import CreateView
 
+from barn.mobile import is_mobile
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.forms import GardenForm, FindGardenForm
 from generic.views import InitializeUsingGetMixin, LoginRequiredMixin, PermissionRequiredMixin, RedirectToPreviousPageMixin
 from models import Gardener, Harvest
 from harvestcount.forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
-from mobile import is_mobile
 
 from middleware.http import Http403
 

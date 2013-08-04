@@ -1,13 +1,13 @@
 from accounts.models import UserProfile
 from farmingconcrete.models import GardenType
-from mobile import is_mobile
+from .mobile import is_mobile
 
 def garden_types(request):
     """
     Context processor that provides the GardenTypes available for the given user.
     """
     user = request.user
-    
+
     if user and user.is_authenticated():
         try:
             profile = user.get_profile()
@@ -21,7 +21,7 @@ def garden_types(request):
 
 def mobile(request):
     """
-    Add is_mobile: True if user agent contains an obvious smartphone, False 
+    Add is_mobile: True if user agent contains an obvious smartphone, False
     otherwise
     """
     return { 'is_mobile': is_mobile(request), }
