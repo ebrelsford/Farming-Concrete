@@ -1,8 +1,8 @@
 from .base import *
 
 
-DEBUG = FALSE
-TEMPLATE_DEBUG = FALSE
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 EMAIL_HOST = get_env_variable('FARMING_CONCRETE_EMAIL_HOST')
 EMAIL_HOST_USER = get_env_variable('FARMING_CONCRETE_EMAIL_HOST_USER')
