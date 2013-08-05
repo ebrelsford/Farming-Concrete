@@ -1,8 +1,10 @@
-{% load static %}
+{% load compress static %}
 
 {# Load requirejs main, built if in production #}
 {% if not debug %}
-    <script src="{% static "main-built.js" %}"></script>
+    {% compress js %}
+        <script src="{% static "main-built.js" %}"></script>
+    {% endcompress %}
 {% else %}
     <script src="{% static "lib/require.js" %}" data-main="{% static "app.js" %}"></script>
 {% endif %}

@@ -94,7 +94,8 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #'compressor.finders.CompressorFinder',
+
+    'compressor.finders.CompressorFinder',
 )
 
 INSTALLED_APPS = (
@@ -108,6 +109,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'ajax_select',
+    'compressor',
     'south',
 
     'accounts',
