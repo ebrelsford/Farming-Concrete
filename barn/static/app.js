@@ -2,11 +2,13 @@ requirejs.config({
     baseUrl: '/static/js',
     paths: {
         'jquery': '../lib/jquery-1.10.2.min',
+        'bootstrap': '../lib/bootstrap/js/bootstrap',
         'jqueryui': 'lib/jquery-ui-1.10.3.custom',
         'underscore': 'lib/underscore-min',
         'spin': 'lib/spin.min',
     },
     shim: {
+        'bootstrap': ['jquery'],
         'underscore': {
             exports: '_',
         },

@@ -12,6 +12,8 @@
         // Per-page modules
 
         // require()d dependencies
+        '../lib/bootstrap/bootstrap',
+
     ],
     insertRequire: ['main'],
 

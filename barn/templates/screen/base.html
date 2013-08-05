@@ -43,11 +43,19 @@
                     <li>
                         <a href="{% url "farmingconcrete.views.index" %}">Home</a>
                     </li>
-                    <li class="{% if request.session.section == 'cropcount' %}active{% endif %}">
-                        <a href="{% url "cropcount.views.index" %}">Crop Count</a>
-                    </li>
-                    <li class="{% if request.session.section == 'harvestcount' %}active{% endif %}">
-                        <a href="{% url "harvestcount.views.index" %}">Harvest Count</a>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Metrics
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url "cropcount.views.index" %}">Crop Count</a>
+                            </li>
+                            <li>
+                                <a href="{% url "harvestcount.views.index" %}">Harvest Count</a>
+                            </li>
+                        </ul>
                     </li>
                     {% if user.is_staff %}
                     <li><a href="{% url "reports.views.index" %}">Reports</a></li>
