@@ -10,6 +10,7 @@
         <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" />
 
         {% compress css %}
+            <link rel="stylesheet" type="text/css" href="{% static "lib/bootstrap/css/bootstrap.css" %}" />
             <link rel="stylesheet" type="text/css" href="{% static "lib/jquery-ui/jquery-ui.css" %}" />
             <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" />
             <link rel="stylesheet" type="text/css" href="{% static "lib/jquery.autocomplete.css" %}" />
@@ -37,8 +38,8 @@
                 <a href="{% url "farmingconcrete.views.index" %}"><img src="{% static "img/header.jpg" %}" /></a>
             </div>
 
-            <div id="nav" class="nav">
-                <ul>
+            <div id="nav" class="navbar">
+                <ul class="nav navbar-nav">
                     <li>
                         <a href="{% url "farmingconcrete.views.index" %}">Home</a>
                     </li>

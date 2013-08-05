@@ -24,16 +24,31 @@ a:hover {
     text-decoration: underline;
 }
 
+.navbar {
+    background: #0CA8A8;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    min-height: inherit;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+  color: white;
+}
+
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+  color: white;
+  background-color: inherit;
+}
+
 .nav {
     background: #0CA8A8;
     display: block;
     clear: both;
     text-transform: uppercase;
-}
-
-.nav::after {
-    content: ".";
-    visibility: hidden;
 }
 
 .nav ul {
