@@ -1,13 +1,9 @@
 ({
 
     baseUrl: 'js',
-    //appDir: '.',
-    //dir: '../built',
-
     mainConfigFile: 'app.js',
-
     name: '../lib/almond',
-    out: '../main-built.js',
+    out: 'main-built.js',
     include: [
 
         // Main module

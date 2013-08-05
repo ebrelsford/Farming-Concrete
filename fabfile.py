@@ -20,9 +20,8 @@ def build_static():
     with prefix('workon ' + server_virtualenv):
         run('django-admin.py collectstatic --noinput')
 
-    # TODO reenable if we are using r.js
-    #with cd('/'.join([server_src_dir, 'barn/collected_static/js/']):
-        #run('r.js -o app.build.js')
+    with cd('/'.join([server_src_dir, 'barn/collected_static'])):
+        run('r.js -o app.build.js')
 
 
 @task
