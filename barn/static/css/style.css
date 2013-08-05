@@ -44,6 +44,13 @@ a:hover {
   background-color: inherit;
 }
 
+.navbar-nav > .open > a,
+.navbar-nav > .open > a:hover,
+.navbar-nav > .open > a:focus {
+  color: white;
+  background-color: inherit;
+}
+
 .nav {
     background: #0CA8A8;
     display: block;
