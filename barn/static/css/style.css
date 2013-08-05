@@ -104,16 +104,6 @@ a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff098282', endColorstr='#ff357ebd', GradientType=0);
 }
 
-#subnav {
-    background-color: #8CD1D1;
-    text-transform: none;
-}
-
-#subnav li:hover,
-#subnav li.active {
-    background: #65CFCF;
-}
-
 #main {
     clear: both;
     padding-left: 30px;
