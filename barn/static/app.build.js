@@ -6,7 +6,7 @@
 
     mainConfigFile: 'app.js',
 
-    name: 'lib/almond',
+    name: '../lib/almond',
     out: '../main-built.js',
     include: [
 
