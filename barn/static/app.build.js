@@ -16,7 +16,6 @@
         // Per-page modules
 
         // require()d dependencies
-        'chosen.jquery_ready',
     ],
     insertRequire: ['main'],
 

@@ -3,7 +3,6 @@ requirejs.config({
     paths: {
         'jquery': '../lib/jquery-1.10.2.min',
         'jqueryui': 'lib/jquery-ui-1.10.3.custom',
-        'leaflet': 'lib/leaflet',
         'underscore': 'lib/underscore-min',
         'spin': 'lib/spin.min',
     },
@@ -14,10 +13,6 @@ requirejs.config({
         'bootstrap': {
             deps: ['jquery'],
         },
-        'Control.Loading': ['leaflet'],
-        'Leaflet.Bing': ['leaflet'],
-        'chosen.jquery.min': ['jquery'],
-        'chosen.jquery_ready': ['jquery', 'chosen.jquery.min'],
     },
 });
 
