@@ -23,7 +23,7 @@
         <link rel="stylesheet" type="text/css" href="{% static "lib/jquery.autocomplete.css" %}" />
         <script src="{% static "lib/ajax_select.js" %}" type="text/javascript"></script>
 
-        <script src="{% static "js/common.js" %}" type="text/javascript"></script>
+        {% include "_common_includes.html" %}
 
         {% block head %}{% endblock %}
     </head>
