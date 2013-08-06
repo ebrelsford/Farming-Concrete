@@ -1,18 +1,20 @@
 <ul class="garden-suggestions">
-    Similar gardens found:
-    {% for garden in garden_list %}
-        <li class="garden-suggestion" data-pk="{{ garden.pk }}">
-            <div class="garden-suggestion-name">
-                {{ garden.name }}
-            </div>
-            <div class="garden-suggestion-address">
-                <small>
-                    {% if garden.address %}
-                        {{ garden.address }}, 
-                    {% endif %}
-                    {{ garden.borough }}
-                </small>
-            </div>
-        </li>
-    {% endfor %}
+    {% if garden_list %}
+        Similar gardens found:
+        {% for garden in garden_list %}
+            <li class="garden-suggestion" data-pk="{{ garden.pk }}">
+                <div class="garden-suggestion-name">
+                    {{ garden.name }}
+                </div>
+                <div class="garden-suggestion-address">
+                    <small>
+                        {% if garden.address %}
+                            {{ garden.address }}, 
+                        {% endif %}
+                        {{ garden.borough }}
+                    </small>
+                </div>
+            </li>
+        {% endfor %}
+    {% endif %}
 </ul>
