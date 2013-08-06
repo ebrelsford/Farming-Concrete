@@ -2,6 +2,7 @@ from django.db import models
 
 from audit.models import AuditedModel
 
+
 class GardenType(models.Model):
     class Meta:
         ordering = ['name']
@@ -11,6 +12,7 @@ class GardenType(models.Model):
 
     name = models.CharField(max_length=64)
     short_name = models.CharField(max_length=32)
+
 
 class Garden(models.Model):
     name = models.CharField('garden name', max_length=512)
@@ -28,8 +30,10 @@ class Garden(models.Model):
     borough = models.CharField(max_length=32, choices=BOROUGH_CHOICES)
     neighborhood = models.CharField(max_length=64, null=True, blank=True)
     zip = models.CharField(max_length=16, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6,
+                                    null=True, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6,
+                                   null=True, blank=True)
 
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -49,6 +53,7 @@ class Garden(models.Model):
     @staticmethod
     def uncounted():
         return Garden.objects.filter(box=None)
+
 
 class Variety(AuditedModel):
     name = models.CharField(max_length=64)
