@@ -112,7 +112,8 @@ class AddUserGardenMixin(object):
             profile.gardens.add(garden)
 
 
-class CreateGardenView(AddUserGardenMixin, SuccessMessageFormMixin, CreateView):
+class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin,
+                       SuccessMessageFormMixin, CreateView):
     form_class = GardenForm
     template_name = 'farmingconcrete/gardens/add.html'
 
@@ -129,7 +130,7 @@ class CreateGardenView(AddUserGardenMixin, SuccessMessageFormMixin, CreateView):
         return super(CreateGardenView, self).form_valid(form)
 
 
-class GardenSuggestionView(ListView):
+class GardenSuggestionView(LoginRequiredMixin, ListView):
     model = Garden
     template_name = 'farmingconcrete/gardens/suggestions.html'
 
@@ -143,7 +144,7 @@ class GardenSuggestionView(ListView):
         return qs.order_by('name')[:10]
 
 
-class AddSuggestedGardenView(AddUserGardenMixin, DetailView):
+class AddSuggestedGardenView(LoginRequiredMixin, AddUserGardenMixin, DetailView):
     model = Garden
 
     def add_suggested(self):
