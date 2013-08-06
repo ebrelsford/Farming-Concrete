@@ -3,9 +3,10 @@ import json
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Sum, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.views.generic import CreateView, DetailView, View, TemplateView
@@ -98,7 +99,20 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
         return context
 
 
-class CreateGardenView(SuccessMessageFormMixin, CreateView):
+class AddUserGardenMixin(object):
+
+    def add_garden_to_user(self, garden):
+        user = self.request.user
+        if user and user.is_authenticated():
+            try:
+                profile = user.get_profile()
+            except Exception:
+                profile = UserProfile(user=user)
+                profile.save()
+            profile.gardens.add(garden)
+
+
+class CreateGardenView(AddUserGardenMixin, SuccessMessageFormMixin, CreateView):
     form_class = GardenForm
     template_name = 'farmingconcrete/gardens/add.html'
 
@@ -110,15 +124,8 @@ class CreateGardenView(SuccessMessageFormMixin, CreateView):
 
     def form_valid(self, form):
         """Add the garden to the user's gardens."""
-        self.object = form.save()
-        user = self.request.user
-        if user and user.is_authenticated():
-            try:
-                profile = user.get_profile()
-            except Exception:
-                profile = UserProfile(user=user)
-                profile.save()
-            profile.gardens.add(self.object)
+        garden = self.object = form.save()
+        self.add_garden_to_user(garden)
         return super(CreateGardenView, self).form_valid(form)
 
 
@@ -133,7 +140,21 @@ class GardenSuggestionView(ListView):
             qs = self.model.objects.filter(name__icontains=name)
         except Exception:
             pass
-        return qs.order_by('name')
+        return qs.order_by('name')[:10]
+
+
+class AddSuggestedGardenView(AddUserGardenMixin, DetailView):
+    model = Garden
+
+    def add_suggested(self):
+        garden = self.get_object()
+        self.add_garden_to_user(garden)
+        messages.success(self.request, 'Added %s to your gardens' % garden.name)
+
+
+    def get(self, request, *args, **kwargs):
+        self.add_suggested()
+        return HttpResponseRedirect(reverse('farmingconcrete_gardens_yours'))
 
 
 @login_required

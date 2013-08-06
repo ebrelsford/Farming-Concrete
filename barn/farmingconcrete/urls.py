@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import (CreateGardenView, GardenListView, GardenSuggestionView,
-                    UserGardensListView, VarietyPickerListView, VarietyAddView)
+from .views import (AddSuggestedGardenView, CreateGardenView, GardenListView,
+                    GardenSuggestionView, UserGardensListView,
+                    VarietyPickerListView, VarietyAddView)
 
 
 urlpatterns = patterns('',
@@ -15,6 +16,11 @@ urlpatterns = patterns('',
     url(r'^gardens/add/$',
         CreateGardenView.as_view(),
         name='farmingconcrete_gardens_add',
+    ),
+
+    url(r'^gardens/suggest/add/(?P<pk>\d+)/$',
+        AddSuggestedGardenView.as_view(),
+        name='farmingconcrete_gardens_suggest_add',
     ),
 
     url(r'^gardens/suggest/',

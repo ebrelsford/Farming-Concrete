@@ -1,13 +1,16 @@
 <ul class="garden-suggestions">
     Similar gardens found:
     {% for garden in garden_list %}
-        <li class="garden-suggestion">
+        <li class="garden-suggestion" data-pk="{{ garden.pk }}">
             <div class="garden-suggestion-name">
                 {{ garden.name }}
             </div>
             <div class="garden-suggestion-address">
                 <small>
-                    {{ garden.address }}
+                    {% if garden.address %}
+                        {{ garden.address }}, 
+                    {% endif %}
+                    {{ garden.borough }}
                 </small>
             </div>
         </li>

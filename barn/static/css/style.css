@@ -458,7 +458,8 @@ ul.garden-suggestions {
 }
 
 .garden-suggestion {
-    padding-top: 15px;
+    cursor: pointer;
+    margin-top: 15px;
 }
 
 .garden-suggestion-name {
