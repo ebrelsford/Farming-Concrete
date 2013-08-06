@@ -11,6 +11,7 @@ from farmingconcrete.views import IndexView, FarmingConcreteGardenDetails
 from harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
+
 urlpatterns = patterns('',
     url(r'^(?:(?P<year>\d{4})/)?$',
         IndexView.as_view(),
@@ -24,17 +25,25 @@ urlpatterns = patterns('',
 
     # crop count
     (r'^cropcount/(?:(?P<year>\d{4})/)?', include('cropcount.urls')),
-    (r'^cropcount/yours/(?:(?P<year>\d{4})/)?$', 'cropcount.views.user_gardens'),
-    (r'^cropcount/counted/(?:(?P<year>\d{4})/)?$', 'cropcount.views.all_gardens'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?$', 'cropcount.views.garden_details'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?summary/$', 'cropcount.views.summary'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?csv/$', 'cropcount.views.download_garden_cropcount_as_csv'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?beds/add/$', 'cropcount.views.add_bed'),
+    (r'^cropcount/yours/(?:(?P<year>\d{4})/)?$',
+     'cropcount.views.user_gardens'),
+    (r'^cropcount/counted/(?:(?P<year>\d{4})/)?$',
+     'cropcount.views.all_gardens'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?$',
+     'cropcount.views.garden_details'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?summary/$',
+     'cropcount.views.summary'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?csv/$',
+     'cropcount.views.download_garden_cropcount_as_csv'),
+    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?beds/add/$',
+     'cropcount.views.add_bed'),
 
     # harvest count
     (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('harvestcount.urls')),
-    (r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.user_gardens'),
-    (r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$', 'harvestcount.views.all_gardens'),
+    (r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$',
+     'harvestcount.views.user_gardens'),
+    (r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$',
+     'harvestcount.views.all_gardens'),
     url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$',
         'harvestcount.views.garden_details',
         name='harvestcount_garden_details',
@@ -52,8 +61,10 @@ urlpatterns = patterns('',
         name='harvestcount_add_gardener',
     ),
 
-    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$', 'harvestcount.views.download_garden_harvestcount_as_csv'),
-    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest', 'harvestcount.views.quantity_for_last_harvest'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$',
+     'harvestcount.views.download_garden_harvestcount_as_csv'),
+    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest',
+     'harvestcount.views.quantity_for_last_harvest'),
 
     # reports
     url(r'^reports/', include(reports.urls.main_patterns)),
