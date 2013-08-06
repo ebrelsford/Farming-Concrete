@@ -3,9 +3,16 @@
 {% block title %}Add a garden{% endblock %}
 {% block header_title %}Add a garden{% endblock %}
 
+{% block body_class %}add-gardens-page{% endblock %}
+
 {% block content %}
-    <p>
-        Add a garden to Farming Concrete.
-    </p>
-    {% include "_form.html" with form=form %}
+    <div class="col-lg-8">
+        <p>
+            Add a garden to Farming Concrete.
+        </p>
+        {% include "_form.html" with form=form %}
+    </div>
+    <div class="col-lg-4">
+        <div class="suggestions-wrapper"></div>
+    </div>
 {% endblock %}

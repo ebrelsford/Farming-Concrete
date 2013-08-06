@@ -122,6 +122,20 @@ class CreateGardenView(SuccessMessageFormMixin, CreateView):
         return super(CreateGardenView, self).form_valid(form)
 
 
+class GardenSuggestionView(ListView):
+    model = Garden
+    template_name = 'farmingconcrete/gardens/suggestions.html'
+
+    def get_queryset(self):
+        qs = self.model.objects.all()
+        try:
+            name = self.request.GET['name']
+            qs = self.model.objects.filter(name__icontains=name)
+        except Exception:
+            pass
+        return qs.order_by('name')
+
+
 @login_required
 def account(request):
     return render_to_response('farmingconcrete/account.html', {},

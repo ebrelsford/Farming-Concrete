@@ -75,6 +75,7 @@ urlpatterns = patterns('',
     # miscellany
     (r'^ajax_select/', include('ajax_select.urls')),
     (r'^fc/', include('farmingconcrete.urls')),
+    url(r'^djangojs/', include('djangojs.urls')),
 
     (r'^harvestmap/$', 'harvestmap.views.map'),
     (r'^harvestmap/gardens/kml', 'harvestmap.views.kml'),

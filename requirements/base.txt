@@ -25,6 +25,7 @@ wsgiref==0.1.2
 # Django requirements
 Django==1.5.1
 South==0.8.1
+django.js==0.8.0
 django-ajax-selects==1.1.4
 django-compressor==1.3
 django-registration==1.0

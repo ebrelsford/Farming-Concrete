@@ -111,6 +111,7 @@ INSTALLED_APPS = (
 
     'ajax_select',
     'compressor',
+    'djangojs',
     'registration',
     'south',
     'widget_tweaks',

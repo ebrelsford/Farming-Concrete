@@ -1,4 +1,6 @@
-{% load compress static %}
+{% load compress js static %}
+
+{% django_js_init jquery=false i18n=false csrf=false %}
 
 {# Load requirejs main, built if in production #}
 {% if not debug %}

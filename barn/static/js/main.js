@@ -33,13 +33,10 @@ define(
 
 
         /*
-        * Page-specific modules
-        */
-        // Load page-specific modules, eg:
-        /*
-        if ($('.lot-base-page').length > 0) {
-            require(['lotbasepage']);
+         * Page-specific modules
+         */
+        if ($('.add-gardens-page').length > 0) {
+            require(['addgardenspage']);
         }
-        */
 
 });
