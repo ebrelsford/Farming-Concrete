@@ -56,23 +56,12 @@
             <div id="left">
                 <p>This is the <a href="http://farmingconcrete.org">Farming Concrete</a> Barn, where we store our data.</p>
 
-                <p>There are a few things you can do here:
-                    <ul>
-                        <li><a href="{% url "cropcount.views.index" %}">Crop Count</a>: how many beds does your garden have? and how many plants are in them?</li>
-                        <li><a href="{% url "harvestcount.views.index" %}">Harvest Count</a>: how much food are your plants producing?</li>
-                    </ul>
-                </p>
-
                 {% if user_gardens %}
                     <p>You have access to the following garden{{ user_gardens|pluralize }}:
                         <ul>
                             {% for garden in user_gardens %}
                             <li>
                                 <a href="{% url "farmingconcrete_garden_details" pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
-                                <ul>
-                                    <li><a href="{% url "cropcount.views.garden_details" id=garden.id %}">view crop count</a></li>
-                                    <li><a href="{% url "harvestcount.views.garden_details" id=garden.id %}">view harvest count</a></li>
-                                </ul>
                             </li>
                             {% endfor %}
                         </ul>
