@@ -7,7 +7,7 @@ from django.db.models import Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
-from django.views.generic.base import View, TemplateView
+from django.views.generic import DetailView, View, TemplateView
 from django.views.generic.list import ListView
 
 from cropcount.models import Box, Patch
@@ -31,47 +31,69 @@ def _patches(year=settings.FARMINGCONCRETE_YEAR):
     return Patch.objects.filter(added__year=year)
 
 
+class AddYearToSessionMixin(View):
+
+    def add_year_to_session(self, request):
+        year = (self.kwargs.get('year', None)
+                or request.session.get('year', None)
+                or settings.FARMINGCONCRETE_YEAR)
+        request.session['year'] = self.kwargs['year'] = year
+
+    def dispatch(self, request, *args, **kwargs):
+        self.add_year_to_session(request)
+        return super(AddYearToSessionMixin, self).dispatch(request, *args,
+                                                           **kwargs)
+
+
 class UserGardensMixin(object):
+
+    def get_user_gardens(self):
+        user = self.request.user
+        try:
+            if user.is_authenticated():
+                profile = user.get_profile()
+                return profile.gardens.all().order_by('name')
+        except Exception:
+            return None
 
     def get_context_data(self, **kwargs):
         context = super(UserGardensMixin, self).get_context_data(**kwargs)
-        user = self.request.user
-        try:
-            if user and user.is_authenticated():
-                profile = user.get_profile()
-                context['user_gardens'] = profile.gardens.all().order_by('name')
-        except Exception:
-            pass
+        context['user_gardens'] = self.get_user_gardens()
         return context
 
 
-class IndexView(UserGardensMixin, TemplateView):
+class IndexView(AddYearToSessionMixin, UserGardensMixin, TemplateView):
     template_name = 'farmingconcrete/index.html'
 
 
-@login_required
-@year_in_session
-def garden_details(request, id, year=None):
-    garden = get_object_or_404(Garden, pk=id)
+class FarmingConcreteGardenDetails(AddYearToSessionMixin, UserGardensMixin,
+                                   DetailView):
+    model = Garden
+    template_name = 'farmingconcrete/gardens/detail.html'
 
-    if not request.user.has_perm('can_edit_any_garden'):
-        profile = request.user.get_profile()
-        if garden not in profile.gardens.all():
-            raise Http403
+    def get_context_data(self, **kwargs):
+        context = super(FarmingConcreteGardenDetails, self).get_context_data(**kwargs)
 
-    patches = _patches(year=year).filter(box__garden=garden)
-    beds = Box.objects.filter(patch__in=patches).distinct()
-    harvests = _harvests(year=year).filter(gardener__garden=garden)
+        garden = self.object
+        year = self.kwargs['year']
+        user = self.request.user
+        if not user.has_perm('can_edit_any_garden'):
+            if garden not in self.get_user_gardens():
+                raise Http403
 
-    return render_to_response('farmingconcrete/gardens/detail.html', {
-        'garden': garden,
-        'beds': beds.count(),
-        'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
-        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'harvests': harvests.order_by('harvested', 'gardener__name'),
-        'weight': harvests.aggregate(t=Sum('weight'))['t'],
-        'plant_types': harvests.values('variety__id').distinct().count(),
-    }, context_instance=RequestContext(request))
+        patches = _patches(year=year).filter(box__garden=garden)
+        beds = Box.objects.filter(patch__in=patches).distinct()
+        harvests = _harvests(year=year).filter(gardener__garden=garden)
+        context.update({
+            'garden': garden,
+            'beds': beds.count(),
+            'area': beds.extra(select = {'total': 'sum(length * width)'})[0].total,
+            'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+            'harvests': harvests.order_by('harvested', 'gardener__name'),
+            'weight': harvests.aggregate(t=Sum('weight'))['t'],
+            'plant_types': harvests.values('variety__id').distinct().count(),
+        })
+        return context
 
 
 @login_required
