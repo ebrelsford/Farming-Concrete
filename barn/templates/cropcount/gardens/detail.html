@@ -26,7 +26,7 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }}<a href="{% url "farmingconcrete.views.garden_details" id=garden.id %}">{{ garden.name }}</a> &gt;&gt; crop count{% endblock %}
+{% block breadcrumbs %}{{ block.super }}<a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">{{ garden.name }}</a> &gt;&gt; crop count{% endblock %}
 
 {% block content %}
 {% if garden %}
