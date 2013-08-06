@@ -155,11 +155,11 @@ class GardenListView(LoginRequiredMixin, ListView):
         return Garden.objects.all().order_by('name')
 
 
-class UserGardensListView(LoginRequiredMixin, ListView):
+class UserGardensListView(UserGardensMixin, LoginRequiredMixin, ListView):
     template_name='farmingconcrete/user_garden_list.html'
 
     def get_queryset(self):
-        return self.request.user.get_profile().gardens.all()
+        return self.get_user_gardens()
 
 
 class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin,
