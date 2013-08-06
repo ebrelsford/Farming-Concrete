@@ -7,6 +7,7 @@ requirejs.config({
         'jquery.spin': '../lib/jquery.spin',
         'jqueryui': 'lib/jquery-ui-1.10.3.custom',
         'leaflet': '../lib/leaflet/leaflet-src',
+        'leaflet.usermarker': '../lib/leaflet-usermarker/leaflet.usermarker',
         'spin': '../lib/spin',
         'underscore': 'lib/underscore-min',
     },
@@ -16,6 +17,7 @@ requirejs.config({
             'deps': ['jquery'],
             'exports': 'Django',
         },
+        'leaflet.usermarker': ['leaflet'],
         'underscore': {
             exports: '_',
         },

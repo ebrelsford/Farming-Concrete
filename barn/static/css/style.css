@@ -479,6 +479,11 @@ ul.garden-list {
  * Garden suggestions
  */
 
+.add-garden-map {
+    height: 200px;
+    width: 100%;
+}
+
 .garden-suggestions-wrapper {
     min-height: 100px;
 }
