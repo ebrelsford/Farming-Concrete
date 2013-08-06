@@ -3,15 +3,15 @@
 {% block header_title %}Your Gardens{% endblock %}
 
 {% block content %}
-{% for garden in object_list %}
-<ul data-role="listview">
-    <li>
-        <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">
-            {{ garden.name }}
-        </a>
-    </li>
-</ul>
-{% empty %}
-None.
-{% endfor %}
+    {% for garden in object_list %}
+        <ul data-role="listview">
+            <li>
+                <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">
+                    {{ garden.name }}
+                </a>
+            </li>
+        </ul>
+    {% empty %}
+        None.
+    {% endfor %}
 {% endblock %}
