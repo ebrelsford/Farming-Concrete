@@ -7,7 +7,7 @@ admin.autodiscover()
 from django.conf import settings
 
 import accounts.urls
-from farmingconcrete.views import IndexView, FarmingConcreteGardenDetails
+from farmingconcrete.views import IndexView
 from harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
@@ -17,11 +17,8 @@ urlpatterns = patterns('',
         IndexView.as_view(),
         name='farmingconcrete_index'
     ),
-    url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
-        FarmingConcreteGardenDetails.as_view(),
-        name='farmingconcrete_garden_details'
-    ),
-    (r'^gardens/geojson', 'farmingconcrete.views.gardens_geojson'),
+
+    (r'^gardens/', include('farmingconcrete.garden_urls')),
 
     # crop count
     (r'^cropcount/(?:(?P<year>\d{4})/)?', include('cropcount.urls')),
