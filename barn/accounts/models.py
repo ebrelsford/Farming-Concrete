@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from farmingconcrete.models import Garden, GardenType
 from harvestcount.models import Gardener
 
+
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
