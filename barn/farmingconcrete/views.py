@@ -53,7 +53,7 @@ class UserGardensMixin(object):
                 profile = user.get_profile()
                 return profile.gardens.all().order_by('name')
         except Exception:
-            return None
+            return []
 
     def get_context_data(self, **kwargs):
         context = super(UserGardensMixin, self).get_context_data(**kwargs)
