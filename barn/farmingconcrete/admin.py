@@ -6,6 +6,7 @@ from cropcount.models import Patch
 from estimates.models import EstimatedCost, EstimatedYield
 from harvestcount.models import Harvest
 
+
 class GardenAdmin(admin.ModelAdmin):
     #fields = ('name', 'address', 'neighborhood', 'borough', 'zip', 'gardenid',)
     list_display = ('name', 'type', 'neighborhood', 'borough',)
@@ -13,9 +14,11 @@ class GardenAdmin(admin.ModelAdmin):
     search_fields = ('name', 'neighborhood', 'borough',)
     inlines = (BoxInline,)
 
+
 class VarietyAdmin(admin.ModelAdmin):
     readonly_fields = ('added', 'updated')
-    fields = ('name', 'added_by', 'added', 'updated_by', 'updated', 'needs_moderation')
+    fields = ('name', 'added_by', 'added', 'updated_by', 'updated',
+              'needs_moderation')
     list_display = ('name', 'added_by', 'added', 'needs_moderation')
     list_filter = ('needs_moderation', 'added_by', 'added',)
     search_fields = ('name',)
@@ -32,7 +35,8 @@ class VarietyAdmin(admin.ModelAdmin):
     def consolidate(self, request, queryset):
         moderated = queryset.filter(needs_moderation=False)
         if len(moderated) != 1:
-            self.message_user(request, 'Not sure which variety to consolidate on. No changes made.')
+            self.message_user(request, ('Not sure which variety to consolidate'
+                                        'on. No changes made.'))
             return
 
         moderated = moderated[0]
@@ -41,12 +45,18 @@ class VarietyAdmin(admin.ModelAdmin):
 
         Patch.objects.filter(variety__in=unmoderated).update(variety=moderated)
         Harvest.objects.filter(variety__in=unmoderated).update(variety=moderated)
-        EstimatedCost.objects.filter(variety__in=unmoderated).update(variety=moderated)
-        EstimatedYield.objects.filter(variety__in=unmoderated).update(variety=moderated)
+        EstimatedCost.objects.filter(
+            variety__in=unmoderated
+        ).update(variety=moderated)
+        EstimatedYield.objects.filter(
+            variety__in=unmoderated
+        ).update(variety=moderated)
         unmoderated.delete()
-        self.message_user(request, 'Consolidated %d varieties on %s' % (num_consolidated, moderated.name))
+        self.message_user(request, 'Consolidated %d varieties on %s' %
+                          (num_consolidated, moderated.name))
 
     actions = (mark_as_moderated, consolidate)
+
 
 admin.site.register(Garden, GardenAdmin)
 admin.site.register(GardenType)
