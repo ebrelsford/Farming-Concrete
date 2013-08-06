@@ -6,15 +6,28 @@
 
 define(
     [
+        // Requirements with exports
         'jquery',
-        'django'
+        'django',
+
+        // Other requirements
+        'jquery.spin'
     ], function ($, Django) {
 
         function updateSuggestions() {
             var baseUrl = Django.url('farmingconcrete_gardens_suggest'),
                 name = $('#id_name').val(),
-                url = baseUrl + '?name=' + name;
-            $('.garden-suggestions-wrapper').load(url, activateSuggestedGardens);
+                url = baseUrl + '?name=' + name,
+                $wrapper = $('.garden-suggestions-wrapper');
+            $wrapper
+                .spin('large')
+                .addClass('is-loading')
+                .load(url, function () {
+                    $wrapper
+                        .spin(false)
+                        .removeClass('is-loading');
+                    activateSuggestedGardens();
+                });
         }
 
         function activateSuggestedGardens() {
