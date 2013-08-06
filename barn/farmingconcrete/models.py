@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
 
@@ -19,6 +20,10 @@ class Garden(models.Model):
     type = models.ForeignKey(GardenType)
     gardenid = models.CharField(max_length=64, null=True, blank=True)
     address = models.CharField('garden address', max_length=64)
+    city = models.CharField(_('garden city'), max_length=128, null=True,
+                            blank=True)
+    state = models.CharField(_('garden state'), max_length=128, null=True,
+                             blank=True)
 
     BOROUGH_CHOICES = (
         ('Brooklyn', 'Brooklyn'),

@@ -8,9 +8,8 @@ from .models import Garden, GardenType, Variety
 
 
 class GardenAdmin(admin.ModelAdmin):
-    #fields = ('name', 'address', 'neighborhood', 'borough', 'zip', 'gardenid',)
-    list_display = ('name', 'type', 'neighborhood', 'borough',)
-    list_filter = ('type', 'borough', 'neighborhood',)
+    list_display = ('name', 'type', 'neighborhood', 'borough', 'city', 'state',)
+    list_filter = ('type', 'borough', 'neighborhood', 'state',)
     search_fields = ('name', 'neighborhood', 'borough',)
     inlines = (BoxInline,)
 
