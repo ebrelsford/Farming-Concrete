@@ -71,12 +71,13 @@
                         It looks like you don't have access to any gardens yet.
                         Add one?
                     </p>
-                    <p>
-                        <a href="#" class="btn btn-primary">
-                            Add a garden
-                        </a>
-                    </p>
                 {% endif %}
+
+                <p>
+                    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
+                        Add a garden
+                    </a>
+                </p>
 
                 <p>If you have any problems or questions, please email us at <strong>gardens (at) farmingconcrete (dot) org</strong>.<p>
             </div>
