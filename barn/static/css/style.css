@@ -450,3 +450,27 @@ td.number {
 .info-box tr {
     border-bottom: 1px solid black;
 }
+
+
+/*
+ * General form styles
+ */
+
+.required label {
+    font-weight: bold;
+}
+
+
+/*
+ * Bootstrap overrides
+ */
+
+.form-horizontal .control-label,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 5px;
+}
+
+label {
+    font-weight: normal;
+}

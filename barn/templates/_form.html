@@ -1,6 +1,6 @@
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
-<form class="form-vertical" method="post" {% if multipart %}enctype="multipart/form-data"{% endif %}>
+<form class="form-horizontal" method="post" {% if multipart %}enctype="multipart/form-data"{% endif %}>
 
     {% csrf_token %}
 
@@ -18,17 +18,17 @@
 
     <div>
         {% for field in form.visible_fields %}
-            <div class="control-group {% if field.errors %}error{% endif %} {% if field.field.required %}required{% endif %}">
-                <div class="control-label">
+            <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                <div class="col-lg-2 control-label">
                     {{ field.label_tag }}
                 </div>
-                <div>
+                <div class="col-lg-6">
 
                     <div class="controls">
-                        {{ field }}
+                        {% render_field field class+="form-control" %}
 
                         {% if field.errors %}
-                        <div class="help-inline">
+                        <div class="help-block">
                             {% for error in field.errors %}
                                 {{ error }}
                             {% endfor %}
@@ -46,8 +46,10 @@
     </div>
 
     <div class="form-actions">
-        <button class="btn btn-primary" type="submit">
-            {% trans "submit" %}
-        </button>
+        <div class="col-lg-offset-2 col-lg-6">
+            <button class="btn btn-primary" type="submit">
+                {% trans "submit" %}
+            </button>
+        </div>
     </div>
 </form>
