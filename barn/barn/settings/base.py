@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'compressor',
     'registration',
     'south',
+    'widget_tweaks',
 
     'accounts',
     'audit',
