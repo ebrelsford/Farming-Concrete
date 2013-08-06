@@ -451,6 +451,19 @@ td.number {
     border-bottom: 1px solid black;
 }
 
+ul.garden-suggestions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.garden-suggestion {
+    padding-top: 15px;
+}
+
+.garden-suggestion-name {
+    font-weight: bold;
+}
 
 /*
  * General form styles

@@ -13,7 +13,7 @@ define(
         function updateSuggestions() {
             var baseUrl = Django.url('farmingconcrete_gardens_suggest'),
                 name = $('#id_name').val();
-            $('.suggestions-wrapper').load(baseUrl + '?name=' + name);
+            $('.garden-suggestions-wrapper').load(baseUrl + '?name=' + name);
         }
 
         $(document).ready(function () {
