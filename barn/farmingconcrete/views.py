@@ -5,13 +5,12 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Q
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.views.generic import DetailView, View, TemplateView
 from django.views.generic.list import ListView
 
 from cropcount.models import Box, Patch
-from farmingconcrete.decorators import year_in_session
 from farmingconcrete.geo import garden_collection
 from farmingconcrete.models import Garden, GardenType, Variety
 from farmingconcrete.utils import get_variety
@@ -66,8 +65,8 @@ class IndexView(AddYearToSessionMixin, UserGardensMixin, TemplateView):
     template_name = 'farmingconcrete/index.html'
 
 
-class FarmingConcreteGardenDetails(AddYearToSessionMixin, UserGardensMixin,
-                                   DetailView):
+class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
+                                   UserGardensMixin, DetailView):
     model = Garden
     template_name = 'farmingconcrete/gardens/detail.html'
 
