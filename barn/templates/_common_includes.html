@@ -1,5 +1,12 @@
 {% load compress js static %}
 
+{% compress css %}
+    <link rel="stylesheet" href="{% static "lib/leaflet/leaflet.css" %}" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{% static "lib/leaflet/leaflet.ie.css" %}" />
+    <![endif]-->
+{% endcompress %}
+
 {% django_js_init jquery=false i18n=false csrf=false %}
 
 {# Load requirejs main, built if in production #}

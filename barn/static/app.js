@@ -6,6 +6,7 @@ requirejs.config({
         'jquery': '../lib/jquery-1.10.2.min',
         'jquery.spin': '../lib/jquery.spin',
         'jqueryui': 'lib/jquery-ui-1.10.3.custom',
+        'leaflet': '../lib/leaflet/leaflet-src',
         'spin': '../lib/spin',
         'underscore': 'lib/underscore-min',
     },
