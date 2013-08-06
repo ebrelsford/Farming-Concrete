@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import QueryDict
 from django.views.generic.edit import FormMixin
 
+
 class LoginRequiredMixin(object):
     """A mixin the requires a user to be logged in before access a view"""
     def dispatch(self, request, *args, **kwargs):
@@ -11,15 +12,17 @@ class LoginRequiredMixin(object):
                                                             **kwargs)
         return wrapper(request, *args, **kwargs)
 
+
 class PermissionRequiredMixin(object):
     """A mixin the requires a user to have permission to access a view"""
     def dispatch(self, request, *args, **kwargs):
         @permission_required(self.permission)
         def wrapper(request, *args, **kwargs):
             return super(PermissionRequiredMixin, self).dispatch(request,
-                                                                 *args, 
+                                                                 *args,
                                                                  **kwargs)
         return wrapper(request, *args, **kwargs)
+
 
 class RememberPreviousPageMixin(object):
     query_string_exclude = ()
@@ -55,6 +58,7 @@ class RememberPreviousPageMixin(object):
                 pass
         return query_dict.urlencode()
 
+
 class RedirectToPreviousPageMixin(RememberPreviousPageMixin, FormMixin):
     def get_success_url(self):
         return '%s?%s&%s' % (
@@ -65,6 +69,7 @@ class RedirectToPreviousPageMixin(RememberPreviousPageMixin, FormMixin):
 
     def get_success_querystring(self):
         return ''
+
 
 class InitializeUsingGetMixin(FormMixin):
     def get_initial(self):
