@@ -451,6 +451,34 @@ td.number {
     border-bottom: 1px solid black;
 }
 
+
+/*
+ * Garden list
+ */
+
+ul.garden-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.garden-list-garden {
+    margin-top: 25px;
+}
+
+.garden-list-garden-name {
+    font-size: 20px;
+}
+
+.garden-list-buttons {
+    margin-top: 10px;
+}
+
+
+/*
+ * Garden suggestions
+ */
+
 .garden-suggestions-wrapper {
     min-height: 100px;
 }

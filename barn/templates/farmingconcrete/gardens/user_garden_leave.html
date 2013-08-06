@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block header_title %}Leave a Garden{% endblock %}
+
+{% block content %}
+    <p>
+        Are you sure you want to leave {{ garden }}? This will remove it from
+        your list. No data will be deleted.
+    </p>
+    <p>
+        <a href="{% url "farmingconcrete_gardens_yours" %}" class="btn btn-default">
+            No, nevermind
+        </a>
+        <a href="{% url "farmingconcrete_gardens_yours_leave_confirmed" pk=garden.pk %}" class="btn btn-primary">
+            Yes
+        </a>
+    </p>
+{% endblock %}

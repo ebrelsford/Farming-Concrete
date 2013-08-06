@@ -225,6 +225,32 @@ class UserGardensListView(UserGardensMixin, LoginRequiredMixin, ListView):
         return self.get_user_gardens()
 
 
+class UserGardenLeaveView(LoginRequiredMixin, DetailView):
+    model = Garden
+    template_name = 'farmingconcrete/gardens/user_garden_leave.html'
+
+
+class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
+    model = Garden
+    template_name = 'farmingconcrete/gardens/user_garden_leave.html'
+
+    def remove_garden_from_user(self, garden):
+        user = self.request.user
+        if user and user.is_authenticated():
+            try:
+                profile = user.get_profile()
+            except Exception:
+                profile = UserProfile(user=user)
+                profile.save()
+            profile.gardens.remove(garden)
+
+    def get(self, request, *args, **kwargs):
+        garden = self.get_object()
+        self.remove_garden_from_user(garden)
+        messages.success(self.request, 'Removed %s from your gardens' % garden.name)
+        return HttpResponseRedirect(reverse('farmingconcrete_gardens_yours'))
+
+
 class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin,
                             ListView):
     query_string_exclude = ('variety', 'variety_text')
