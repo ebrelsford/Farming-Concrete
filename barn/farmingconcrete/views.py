@@ -15,17 +15,21 @@ from farmingconcrete.decorators import year_in_session
 from farmingconcrete.geo import garden_collection
 from farmingconcrete.models import Garden, GardenType, Variety
 from farmingconcrete.utils import get_variety
-from generic.views import LoginRequiredMixin, PermissionRequiredMixin, RememberPreviousPageMixin
+from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
+                           RememberPreviousPageMixin)
 from harvestcount.models import Harvest
 from middleware.http import Http403
+
 
 def _harvests(year=settings.FARMINGCONCRETE_YEAR):
     """Get current harvests"""
     return Harvest.objects.filter(harvested__year=year)
 
+
 def _patches(year=settings.FARMINGCONCRETE_YEAR):
     """Get current patches"""
     return Patch.objects.filter(added__year=year)
+
 
 @year_in_session
 def index(request, year=settings.FARMINGCONCRETE_YEAR):
@@ -36,6 +40,7 @@ def index(request, year=settings.FARMINGCONCRETE_YEAR):
     return render_to_response('farmingconcrete/index.html', {
         'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @year_in_session
@@ -61,15 +66,19 @@ def garden_details(request, id, year=None):
         'plant_types': harvests.values('variety__id').distinct().count(),
     }, context_instance=RequestContext(request))
 
+
 @login_required
 def account(request):
-    return render_to_response('farmingconcrete/account.html', { }, context_instance=RequestContext(request))
+    return render_to_response('farmingconcrete/account.html', {},
+                              context_instance=RequestContext(request))
+
 
 @login_required
 def switch_garden_type(request, type='all'):
     next = request.GET['next']
     request.session['garden_type'] = type = _get_garden_type(type)
     return redirect(next)
+
 
 def gardens_geojson(request):
     """Get GeoJSON for requested gardens"""
@@ -101,7 +110,9 @@ def gardens_geojson(request):
                                  Q(gardener__harvest__harvested__year=year))
 
     gardens = gardens.distinct()
-    return HttpResponse(geojson.dumps(garden_collection(gardens)), mimetype='application/json')
+    return HttpResponse(geojson.dumps(garden_collection(gardens)),
+                        mimetype='application/json')
+
 
 def _get_garden_type(short_name):
     types = GardenType.objects.filter(short_name=short_name)
@@ -110,9 +121,11 @@ def _get_garden_type(short_name):
 
     return 'all'
 
+
 class GardenListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Garden.objects.all().order_by('name')
+
 
 class UserGardensListView(LoginRequiredMixin, ListView):
     template_name='farmingconcrete/user_garden_list.html'
@@ -120,12 +133,15 @@ class UserGardensListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.request.user.get_profile().gardens.all()
 
-class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin, ListView):
+
+class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin,
+                            ListView):
     query_string_exclude = ('variety', 'variety_text')
 
     def get_queryset(self):
         return (Variety.objects.filter(needs_moderation=False) |
                 self.request.user.farmingconcrete_variety_added.all())
+
 
 class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
     http_method_names = ['post',]
