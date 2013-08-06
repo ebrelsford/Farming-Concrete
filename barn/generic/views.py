@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
 from django.http import QueryDict
 from django.views.generic.edit import FormMixin
 
@@ -83,3 +84,13 @@ class InitializeUsingGetMixin(FormMixin):
                 continue
         print initial
         return initial
+
+
+class SuccessMessageFormMixin(FormMixin):
+
+    def form_valid(self, form):
+        messages.success(self.request, self.get_success_message())
+        return super(SuccessMessageFormMixin, self).form_valid(form)
+
+    def get_success_message(self):
+        return self.success_message

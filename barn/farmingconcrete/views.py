@@ -18,7 +18,7 @@ from .forms import GardenForm
 from farmingconcrete.models import Garden, GardenType, Variety
 from farmingconcrete.utils import get_variety
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
-                           RememberPreviousPageMixin)
+                           RememberPreviousPageMixin, SuccessMessageFormMixin)
 from harvestcount.models import Harvest
 from middleware.http import Http403
 
@@ -98,9 +98,12 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
         return context
 
 
-class CreateGardenView(CreateView):
+class CreateGardenView(SuccessMessageFormMixin, CreateView):
     form_class = GardenForm
     template_name = 'farmingconcrete/gardens/add.html'
+
+    def get_success_message(self):
+        return 'Successfully added %s' % self.object
 
     def get_success_url(self):
         return reverse('farmingconcrete_gardens_yours')
@@ -116,7 +119,7 @@ class CreateGardenView(CreateView):
                 profile = UserProfile(user=user)
                 profile.save()
             profile.gardens.add(self.object)
-        return HttpResponseRedirect(self.get_success_url())
+        return super(CreateGardenView, self).form_valid(form)
 
 
 @login_required

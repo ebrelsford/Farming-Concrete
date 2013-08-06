@@ -80,6 +80,12 @@
                 </div>
                 <div id="content">
 
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
                     {% block content %}{% endblock %}
                     <div id="bottom" style="clear: both;">
                         {% block actions %}{% endblock %}
