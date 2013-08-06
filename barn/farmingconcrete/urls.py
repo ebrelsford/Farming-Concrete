@@ -1,6 +1,9 @@
 from django.conf.urls.defaults import patterns, url
 
-from farmingconcrete.views import GardenListView, UserGardensListView, VarietyPickerListView, VarietyAddView
+from farmingconcrete.views import (CreateGardenView, GardenListView,
+                                   UserGardensListView, VarietyPickerListView,
+                                   VarietyAddView)
+
 
 urlpatterns = patterns('',
     (r'^type/(?P<type>\w+)$', 'farmingconcrete.views.switch_garden_type'),
@@ -8,6 +11,11 @@ urlpatterns = patterns('',
     url(r'^gardens/$',
         GardenListView.as_view(),
         name='farmingconcrete_gardens',
+    ),
+
+    url(r'^gardens/add/$',
+        CreateGardenView.as_view(),
+        name='farmingconcrete_gardens_add',
     ),
 
     url(r'^gardens/yours/$',

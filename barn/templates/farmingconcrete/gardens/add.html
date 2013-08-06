@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Add a garden{% endblock %}
+{% block header_title %}Add a garden{% endblock %}
+
+{% block content %}
+    <p>
+        Add a garden to Farming Concrete.
+    </p>
+    {% include "_form.html" with form=form %}
+{% endblock %}

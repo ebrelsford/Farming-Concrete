@@ -3,15 +3,18 @@ import json
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.db.models import Sum, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from django.views.generic import DetailView, View, TemplateView
+from django.views.generic import CreateView, DetailView, View, TemplateView
 from django.views.generic.list import ListView
 
+from accounts.models import UserProfile
 from cropcount.models import Box, Patch
 from farmingconcrete.geo import garden_collection
+from .forms import GardenForm
 from farmingconcrete.models import Garden, GardenType, Variety
 from farmingconcrete.utils import get_variety
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
@@ -93,6 +96,27 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
             'plant_types': harvests.values('variety__id').distinct().count(),
         })
         return context
+
+
+class CreateGardenView(CreateView):
+    form_class = GardenForm
+    template_name = 'farmingconcrete/gardens/add.html'
+
+    def get_success_url(self):
+        return reverse('farmingconcrete_gardens_yours')
+
+    def form_valid(self, form):
+        """Add the garden to the user's gardens."""
+        self.object = form.save()
+        user = self.request.user
+        if user and user.is_authenticated():
+            try:
+                profile = user.get_profile()
+            except Exception:
+                profile = UserProfile(user=user)
+                profile.save()
+            profile.gardens.add(self.object)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @login_required
