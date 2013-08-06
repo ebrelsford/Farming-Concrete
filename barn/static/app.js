@@ -4,10 +4,10 @@ requirejs.config({
         'bootstrap': '../lib/bootstrap/js/bootstrap',
         'django': 'djangojs/django',
         'jquery': '../lib/jquery-1.10.2.min',
-        'jqueryui': 'lib/jquery-ui-1.10.3.custom',
-        'underscore': 'lib/underscore-min',
-        'spin': '../lib/spin',
         'jquery.spin': '../lib/jquery.spin',
+        'jqueryui': 'lib/jquery-ui-1.10.3.custom',
+        'spin': '../lib/spin',
+        'underscore': 'lib/underscore-min',
     },
     shim: {
         'bootstrap': ['jquery'],
