@@ -5,8 +5,12 @@ from ajax_select.fields import AutoCompleteSelectField
 from accounts.models import UserProfile
 from farmingconcrete.models import Garden, GardenType
 
+
 class GardenTypeField(ModelChoiceField):
-    """A ModelChoiceField for GardenTypes that restricts a user's options based on its profile."""
+    """
+    A ModelChoiceField for GardenTypes that restricts a user's options based
+    on its profile.
+    """
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -22,6 +26,7 @@ class GardenTypeField(ModelChoiceField):
             except UserProfile.DoesNotExist:
                 pass
 
+
 class FindGardenForm(Form):
     type = GardenTypeField()
     garden = AutoCompleteSelectField('garden', required=True)
@@ -31,7 +36,11 @@ class FindGardenForm(Form):
         super(FindGardenForm, self).__init__(*args, **kwargs)
 
         if user:
-            self.fields['type'] = GardenTypeField(queryset=self.fields['type'].queryset, user=user)
+            self.fields['type'] = GardenTypeField(
+                queryset=self.fields['type'].queryset,
+                user=user
+            )
+
 
 class GardenForm(ModelForm):
     type = GardenTypeField()
@@ -45,4 +54,7 @@ class GardenForm(ModelForm):
         super(GardenForm, self).__init__(*args, **kwargs)
 
         if user:
-            self.fields['type'] = GardenTypeField(queryset=self.fields['type'].queryset, user=user)
+            self.fields['type'] = GardenTypeField(
+                queryset=self.fields['type'].queryset,
+                user=user
+            )
