@@ -8,7 +8,8 @@ from harvestcount.models import Gardener
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
-    # Gardens this user has access to. If none, and has 'any' permissions, user can access all.
+    # Gardens this user has access to. If none, and has 'any' permissions,
+    # user can access all.
     gardens = models.ManyToManyField(Garden, blank=True, null=True)
 
     # GardenTypes this user is restricted to. If none, user can access all.
