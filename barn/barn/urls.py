@@ -7,11 +7,15 @@ admin.autodiscover()
 from django.conf import settings
 
 import accounts.urls
+from farmingconcrete.views import IndexView
 from harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
 urlpatterns = patterns('',
-    (r'^(?:(?P<year>\d{4})/)?$', 'farmingconcrete.views.index'),
+    url(r'^(?:(?P<year>\d{4})/)?$',
+        IndexView.as_view(),
+        name='farmingconcrete_index'
+    ),
     (r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?$', 'farmingconcrete.views.garden_details'),
     (r'^gardens/geojson', 'farmingconcrete.views.gardens_geojson'),
 
@@ -55,7 +59,10 @@ urlpatterns = patterns('',
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),
     (r'^accounts/password/reset/$', 'accounts.views.password_reset'),
-    (r'^accounts/password/reset/email=(?P<email>.*)$', 'accounts.views.password_reset'),
+    (r'^accounts/password/reset/email=(?P<email>.*)$',
+     'accounts.views.password_reset'),
+    (r'^accounts/registration/',
+     include('registration.backends.default.urls')),
     (r'^accounts/', include(accounts.urls.built_in_auth_urls)),
 
     # admin

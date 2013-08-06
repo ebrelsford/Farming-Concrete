@@ -7,7 +7,7 @@ from django.db.models import Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 from django.views.generic.list import ListView
 
 from cropcount.models import Box, Patch
@@ -31,15 +31,22 @@ def _patches(year=settings.FARMINGCONCRETE_YEAR):
     return Patch.objects.filter(added__year=year)
 
 
-@year_in_session
-def index(request, year=settings.FARMINGCONCRETE_YEAR):
-    user_gardens = []
-    if request.user.is_authenticated():
-        profile = request.user.get_profile()
-        user_gardens = profile.gardens.all().order_by('name')
-    return render_to_response('farmingconcrete/index.html', {
-        'user_gardens': user_gardens,
-    }, context_instance=RequestContext(request))
+class UserGardensMixin(object):
+
+    def get_context_data(self, **kwargs):
+        context = super(UserGardensMixin, self).get_context_data(**kwargs)
+        user = self.request.user
+        try:
+            if user and user.is_authenticated():
+                profile = user.get_profile()
+                context['user_gardens'] = profile.gardens.all().order_by('name')
+        except Exception:
+            pass
+        return context
+
+
+class IndexView(UserGardensMixin, TemplateView):
+    template_name = 'farmingconcrete/index.html'
 
 
 @login_required

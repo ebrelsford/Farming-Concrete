@@ -110,6 +110,7 @@ INSTALLED_APPS = (
 
     'ajax_select',
     'compressor',
+    'registration',
     'south',
 
     'accounts',
@@ -168,3 +169,5 @@ LOGGING = {
         },
     },
 }
+
+ACCOUNT_ACTIVATION_DAYS = 7

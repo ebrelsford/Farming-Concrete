@@ -1,0 +1,6 @@
+{% autoescape off %}Welcome to Farming Concrete!
+
+Activate your account by clicking here:
+    http://{{ site.domain }}{% url "registration_activate" activation_key=activation_key %}
+    
+This link will expire in {{ expiration_days }} days.{% endautoescape %}

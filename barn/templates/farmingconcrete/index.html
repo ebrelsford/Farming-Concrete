@@ -32,16 +32,26 @@
                 If you are a gardener and would like to start entering data, 
                 please 
                 <a href="{% url "django.contrib.auth.views.login" %}" data-role="button">log in</a> 
-                first. If you don't yet have a login, please email us at 
-                gardens (at) farmingconcrete (dot) org. If you are just 
-                visiting, we will eventually have some public reports here for 
-                you to view.
+                first. If you don't yet have a login, you can 
+                <a href="{% url "registration_register" %}">create one now</a>
+                If you are just visiting, we will eventually have some public 
+                reports here for you to view.
             </p>
 
             <p>
                 If you have any problems or questions, please email us at 
                 <strong>gardens (at) farmingconcrete (dot) org</strong>.
+            </p>
+
             <p>
+                <a class="btn btn-default" href="{% url "registration_register" %}">
+                    Register
+                </a>
+                <a class="btn btn-primary" href="{% url "django.contrib.auth.views.login" %}">
+                    Log in
+                </a>
+            </p>
+
         {% else %}
             <div id="left">
                 <p>This is the <a href="http://farmingconcrete.org">Farming Concrete</a> Barn, where we store our data.</p>

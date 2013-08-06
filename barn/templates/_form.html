@@ -1,0 +1,53 @@
+{% load i18n %}
+
+<form class="form-vertical" method="post" {% if multipart %}enctype="multipart/form-data"{% endif %}>
+
+    {% csrf_token %}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-error">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div>
+        {% for field in form.visible_fields %}
+            <div class="control-group {% if field.errors %}error{% endif %} {% if field.field.required %}required{% endif %}">
+                <div class="control-label">
+                    {{ field.label_tag }}
+                </div>
+                <div>
+
+                    <div class="controls">
+                        {{ field }}
+
+                        {% if field.errors %}
+                        <div class="help-inline">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% if field.help_text %}
+                        <div class="help-text">{{ field.help_text|safe }}</div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit">
+            {% trans "submit" %}
+        </button>
+    </div>
+</form>
