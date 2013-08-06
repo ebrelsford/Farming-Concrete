@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from models import Garden, GardenType, Variety
 from cropcount.admin import BoxInline
 from cropcount.models import Patch
 from estimates.models import EstimatedCost, EstimatedYield
 from harvestcount.models import Harvest
+from .models import Garden, GardenType, Variety
 
 
 class GardenAdmin(admin.ModelAdmin):
