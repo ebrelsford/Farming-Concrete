@@ -459,7 +459,11 @@ ul.garden-suggestions {
 
 .garden-suggestion {
     cursor: pointer;
-    margin-top: 15px;
+    padding: 8px;
+}
+
+.garden-suggestion:hover {
+    background-color: #F2E3C4;
 }
 
 .garden-suggestion-name {
