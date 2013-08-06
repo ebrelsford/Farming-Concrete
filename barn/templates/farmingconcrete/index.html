@@ -64,19 +64,19 @@
                 </p>
 
                 {% if user_gardens %}
-                <p>You have access to the following garden{{ user_gardens|pluralize }}:
-                    <ul>
-                        {% for garden in user_gardens %}
-                        <li>
-                        <a href="{% url "farmingconcrete_garden_details" pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
-                            <ul>
-                                <li><a href="{% url "cropcount.views.garden_details" id=garden.id %}">view crop count</a></li>
-                                <li><a href="{% url "harvestcount.views.garden_details" id=garden.id %}">view harvest count</a></li>
-                            </ul>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </p>
+                    <p>You have access to the following garden{{ user_gardens|pluralize }}:
+                        <ul>
+                            {% for garden in user_gardens %}
+                            <li>
+                                <a href="{% url "farmingconcrete_garden_details" pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
+                                <ul>
+                                    <li><a href="{% url "cropcount.views.garden_details" id=garden.id %}">view crop count</a></li>
+                                    <li><a href="{% url "harvestcount.views.garden_details" id=garden.id %}">view harvest count</a></li>
+                                </ul>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </p>
                 {% endif %}
 
                 <p>If you have any problems or questions, please email us at <strong>gardens (at) farmingconcrete (dot) org</strong>.<p>
