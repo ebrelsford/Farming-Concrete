@@ -47,7 +47,7 @@
                         <ul>
                             {% for garden in user_gardens %}
                             <li>
-                                <a href="{% url "farmingconcrete_garden_details" pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
+                                <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">{{ garden.name }}</a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -89,6 +89,19 @@
             <div class="clear"></div>
         </div>
     {% endif %}
+
+    {% verbatim %}
+        <script id="popup-template" type="text/x-handlebars-template">
+            <div class="garden-popup">
+                <div class="garden-popup-name">
+                    <a href="{{url}}" target="_blank">
+                        {{garden.properties.name}}
+                    </a>
+                </div>
+            </div>
+        </script>
+    {% endverbatim %}
+
 {% endblock %}
 
 {% if is_mobile %}

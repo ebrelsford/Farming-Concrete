@@ -12,5 +12,8 @@ def garden_feature(garden):
         garden.id,
         geometry=geojson.Point(
             coordinates=(float(garden.longitude), float(garden.latitude))
-        )
+        ),
+        properties={
+            'name': garden.name,
+        }
     )

@@ -3,6 +3,7 @@ requirejs.config({
     paths: {
         'bootstrap': '../lib/bootstrap/js/bootstrap',
         'django': 'djangojs/django',
+        'handlebars': '../lib/handlebars',
         'jquery': '../lib/jquery-1.10.2.min',
         'jquery.spin': '../lib/jquery.spin',
         'jqueryui': 'lib/jquery-ui-1.10.3.custom',
@@ -14,8 +15,11 @@ requirejs.config({
     shim: {
         'bootstrap': ['jquery'],
         'django': {
-            'deps': ['jquery'],
-            'exports': 'Django',
+            deps: ['jquery'],
+            exports: 'Django',
+        },
+        'handlebars': {
+            exports: 'Handlebars',
         },
         'leaflet.usermarker': ['leaflet'],
         'underscore': {

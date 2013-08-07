@@ -512,6 +512,29 @@ ul.garden-suggestions {
     font-weight: bold;
 }
 
+
+/*
+ * Popup
+ */
+
+.garden-popup {
+    font-family: Arial, Helvetica;
+    font-size: 14px;
+    line-height: 1.428571429;
+}
+
+.garden-popup a,
+.garden-popup a:link,
+.garden-popup a:hover {
+    color: #6EBE44 !important;
+    text-decoration: none;
+}
+
+.garden-popup a:hover {
+    text-decoration: underline;
+}
+
+
 /*
  * General form styles
  */

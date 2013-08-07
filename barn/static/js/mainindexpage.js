@@ -9,10 +9,11 @@ define(
         'jquery',
         'django',
         'leaflet',
+        'handlebars',
 
         // Other requirements
         'jquery.spin',
-    ], function ($, Django, L, geocode) {
+    ], function ($, Django, L, Handlebars) {
 
         var map;
 
@@ -35,16 +36,23 @@ define(
                 };
             url += '?' + $.param(params);
 
+            var popupTemplate = Handlebars.compile($('#popup-template').html());
+
             $.getJSON(url, function (data) {
                 var gardens = L.geoJson(data, {
                     pointToLayer: function (feature, latlng) {
-                        return L.circleMarker(latlng, {
+                        var marker = L.circleMarker(latlng, {
                             fill: true,
                             fillColor: '#3f9438',
                             fillOpacity: 0.4,
                             radius: 5,
                             stroke: false,
                         });
+                        marker.bindPopup(popupTemplate({
+                            garden: feature,
+                            url: Django.url('farmingconcrete_garden_details', { pk: feature.id })
+                        }));
+                        return marker;
                     },
                 }).addTo(map);
                 map.fitBounds(gardens.getBounds());
