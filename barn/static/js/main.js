@@ -35,8 +35,13 @@ define(
         /*
          * Page-specific modules
          */
+
         if ($('.add-gardens-page').length > 0) {
             require(['addgardenspage']);
+        }
+
+        if ($('.main-index-page').length > 0) {
+            require(['mainindexpage']);
         }
 
 });

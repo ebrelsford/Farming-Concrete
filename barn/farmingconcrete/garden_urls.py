@@ -13,7 +13,9 @@ urlpatterns = patterns('',
         name='farmingconcrete_gardens',
     ),
 
-    (r'^geojson', 'farmingconcrete.views.gardens_geojson'),
+    url(r'^geojson', 'farmingconcrete.views.gardens_geojson',
+        name='farmingconcrete_gardens_geojson'
+    ),
 
     url(r'^(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         FarmingConcreteGardenDetails.as_view(),
