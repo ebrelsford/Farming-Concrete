@@ -69,6 +69,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.static',
 
+    'feedback.context_processors.feedback_form',
+
     'barn.context_processors.garden_types',
 )
 
@@ -112,6 +114,7 @@ INSTALLED_APPS = (
     'ajax_select',
     'compressor',
     'djangojs',
+    'feedback',
     'registration',
     'south',
     'widget_tweaks',
@@ -174,3 +177,10 @@ LOGGING = {
 }
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+FEEDBACK_CHOICES = (
+    ('site bug', 'site bug'),
+    ('site enhancement', 'site enhancement'),
+    ('general feedback', 'general feedback'),
+    ('project feedback', 'project feedback'),
+)

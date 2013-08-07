@@ -5,6 +5,7 @@ requirejs.config({
         'django': 'djangojs/django',
         'handlebars': '../lib/handlebars',
         'jquery': '../lib/jquery-1.10.2.min',
+        'jquery.form': '../lib/jquery.form',
         'jquery.spin': '../lib/jquery.spin',
         'jqueryui': 'lib/jquery-ui-1.10.3.custom',
         'leaflet': '../lib/leaflet/leaflet-src',
@@ -18,6 +19,7 @@ requirejs.config({
             deps: ['jquery'],
             exports: 'Django',
         },
+        'jquery.form': ['jquery'],
         'handlebars': {
             exports: 'Handlebars',
         },

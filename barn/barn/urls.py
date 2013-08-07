@@ -2,15 +2,15 @@ from django.conf.urls.defaults import include, patterns, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-admin.autodiscover()
-
 from django.conf import settings
+from django.views.generic import TemplateView
 
 import accounts.urls
 from farmingconcrete.views import IndexView
 from harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
+admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^(?:(?P<year>\d{4})/)?$',
@@ -84,6 +84,10 @@ urlpatterns = patterns('',
     (r'^ajax_select/', include('ajax_select.urls')),
     (r'^fc/', include('farmingconcrete.urls')),
     url(r'^djangojs/', include('djangojs.urls')),
+    url(r'feedback/success/', TemplateView.as_view(
+        template_name='feedback/feedback_success.html'
+    ), name='feedback_success'),
+    url(r'feedback/', include('feedback.urls')),
 
     (r'^harvestmap/$', 'harvestmap.views.map'),
     (r'^harvestmap/gardens/kml', 'harvestmap.views.kml'),

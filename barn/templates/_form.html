@@ -1,6 +1,9 @@
 {% load i18n widget_tweaks %}
 
-<form class="form-horizontal" method="post" {% if multipart %}enctype="multipart/form-data"{% endif %}>
+<form class="form-horizontal" method="post" 
+    {% if multipart %}enctype="multipart/form-data"{% endif %}
+    {% if action %}action="{{ action }}"{% endif %}
+    >
 
     {% csrf_token %}
 
@@ -54,6 +57,11 @@
 
     <div class="form-actions">
         <div class="col-lg-offset-4 col-lg-6">
+            {% if cancel_button %}
+                <button class="btn btn-default btn-cancel" type="button">
+                    {% trans "cancel" %}
+                </button>
+            {% endif %}
             <button class="btn btn-primary" type="submit">
                 {% trans "submit" %}
             </button>

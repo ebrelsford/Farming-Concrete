@@ -7,7 +7,9 @@
 define(
     [
         'jquery',
-        'bootstrap'
+        'bootstrap',
+        
+        'feedback'
     ], function ($) {
 
         /*

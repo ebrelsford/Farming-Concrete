@@ -488,7 +488,8 @@ ul.garden-list {
     min-height: 100px;
 }
 
-.garden-suggestions-wrapper.is-loading {
+.garden-suggestions-wrapper.is-loading,
+#feedback-form.is-loading {
     filter: alpha(opacity=0.5);
     opacity: 0.5;
 }
@@ -510,6 +511,33 @@ ul.garden-suggestions {
 
 .garden-suggestion-name {
     font-weight: bold;
+}
+
+
+/*
+ * Feedback
+ */
+
+#feedback {
+    background-color: white;
+    border-left: 2px solid #6EBE44;
+    border-right: 2px solid #6EBE44;
+    border-bottom: 2px solid #6EBE44;
+    padding: 5px;
+    position: fixed;
+    right: 50px;
+    top: 0;
+    z-index: 2000;
+}
+
+#feedback-button {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#feedback-form {
+    display: none;
+    padding: 20px;
 }
 
 

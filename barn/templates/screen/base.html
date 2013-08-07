@@ -34,6 +34,15 @@
     <body class="{% block body_class %}{% endblock %}">
         <div data-role="page">
 
+            <div id="feedback">
+                <div id="feedback-form">
+                    {% include "feedback/feedback_form.html" %}
+                </div>
+                <div id="feedback-button">
+                    Feedback
+                </div>
+            </div>
+
             <div id="header" data-role="header">
                 <a href="{% url "farmingconcrete_index" %}"><img src="{% static "img/header.jpg" %}" /></a>
             </div>
