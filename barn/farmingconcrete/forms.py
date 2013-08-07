@@ -1,4 +1,4 @@
-from django.forms import Form, ModelForm, ModelChoiceField
+from django.forms import Form, HiddenInput, ModelForm, ModelChoiceField
 
 from ajax_select.fields import AutoCompleteSelectField
 
@@ -47,7 +47,11 @@ class GardenForm(ModelForm):
 
     class Meta:
         model = Garden
-        exclude = ('gardenid', 'longitude', 'latitude', 'added', 'updated')
+        exclude = ('gardenid', 'added', 'updated')
+        widgets = {
+            'latitude': HiddenInput(),
+            'longitude': HiddenInput(),
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

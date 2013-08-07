@@ -35,6 +35,10 @@ define(
                 });
         }
 
+        function clearSuggestions() {
+            $('.garden-suggestions-wrapper').empty();
+        }
+
         function activateSuggestedGardens() {
             $('.garden-suggestion').click(function () {
                 selectSuggestedGarden($(this).data('pk'));
@@ -63,25 +67,57 @@ define(
                 state = $('#id_state').val(),
                 formattedAddress = address + ', ' + city + ', ' + state;
 
-            geocode(formattedAddress, state, function (result, status) {
+            geocode.geocode(formattedAddress, state, function (result, status) {
                 if (status === 'OK' && result) {
-                    showGardenOnMap(result);
+                    console.log(result);
+                    showGeocodedResultOnMap(result);
+                    setGardenLocation(result);
                 }
             });
         }
 
-        function showGardenOnMap(result) {
-            var latlng = [result.geometry.location.lb, result.geometry.location.mb],
+        function roundCoordinate(c) {
+            return Math.round(c * 10000) / 10000;
+        }
+
+        function setGardenLocation(result) {
+            var lat = geocode.get_latitude(result),
+                lng = geocode.get_longitude(result);
+            $('#id_latitude').val(roundCoordinate(lat));
+            $('#id_longitude').val(roundCoordinate(lng));
+            $('#id_address').val(geocode.get_street(result));
+            $('#id_neighborhood').val(geocode.get_neighborhood(result));
+            $('#id_city').val(geocode.get_city(result));
+            $('#id_state').val(geocode.get_state(result));
+            $('#id_zip').val(geocode.get_zip(result));
+        }
+
+        function showPointOnMap(lat, lng) {
+            var latlng = [lat, lng],
                 marker = L.userMarker(latlng, { smallIcon: true }).addTo(map);
             map.setView(latlng, 15);
+        }
+
+        function showGeocodedResultOnMap(result) {
+            showPointOnMap(geocode.get_latitude(result),
+                           geocode.get_longitude(result));
         }
 
         $(document).ready(function () {
             map = initializeMap();
 
+            var lat = $('#id_latitude').val(),
+                lng = $('#id_longitude').val();
+            if (lat && lng) {
+                showPointOnMap(lat, lng);
+            }
+
             $('#id_name').keyup(function () {
                 if ($(this).val().length >= 5) {
                     updateSuggestions();
+                }
+                else {
+                    clearSuggestions();
                 }
             });
 
