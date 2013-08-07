@@ -183,9 +183,22 @@ def gardens_geojson(request):
     type = request.GET.get('type', None)
     borough = request.GET.get('borough', None)
     year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
+    user_gardens = request.GET.get('user_gardens', False)
+
+    if user_gardens:
+        user = request.user
+        try:
+            if user.is_authenticated():
+                profile = user.get_profile()
+                ids = profile.gardens.all().values_list('pk', flat=True)
+        except Exception:
+            pass
 
     if ids:
-        ids = ids.split(',')
+        try:
+            ids = ids.split(',')
+        except Exception:
+            pass
         gardens = gardens.filter(id__in=ids)
     if type and type != 'all':
         gardens = gardens.filter(type__short_name=type)
