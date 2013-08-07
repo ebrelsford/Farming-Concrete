@@ -16,7 +16,6 @@ from barn.mobile import is_mobile
 from farmingconcrete.decorators import (garden_type_aware, in_section,
                                         year_in_session)
 from farmingconcrete.models import Garden, Variety
-from farmingconcrete.forms import GardenForm, FindGardenForm
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin)
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
@@ -50,31 +49,6 @@ def index(request, year=None):
         'weight': harvests.aggregate(t=Sum('weight'))['t'],
         'plant_types': harvests.values('variety__id').distinct().count(),
         'recent_harvests': harvests.order_by('-added')[:3],
-    }, context_instance=RequestContext(request))
-
-
-@login_required
-@garden_type_aware
-@in_section('harvestcount')
-@year_in_session
-def add_garden(request, year=None):
-    if request.method == 'POST':
-        form = GardenForm(request.POST, user=request.user)
-        if form.is_valid():
-            garden = form.save()
-            return redirect(garden_details, id=garden.id, year=year)
-
-        find_garden_form = FindGardenForm(request.POST)
-        if find_garden_form.is_valid():
-            garden = find_garden_form.cleaned_data['garden']
-            return redirect(garden_details, id=garden.id, year=year)
-    else:
-        form = GardenForm(user=request.user)
-        find_garden_form = FindGardenForm(user=request.user)
-
-    return render_to_response('harvestcount/gardens/add.html', {
-        'form': form,
-        'find_garden_form': find_garden_form,
     }, context_instance=RequestContext(request))
 
 
