@@ -60,12 +60,10 @@ Other gardens
 {% endblock %}
 
 {% block actions %}
-{% if user.is_superuser %}
-<div id="bottom" style="clear: both;">
-    <h2>
-        <a class="image" href="{% url "cropcount.views.add_garden" year=request.session.year %}"><img src="{% static "img/round_plus.png" %}" /></a>
-        <a class="text" href="{% url "cropcount.views.add_garden" year=request.session.year %}">Add a garden</a>
-    </h2>
-</div>
+{% if perms.farmingconcrete.can_edit_any_garden %}
+<h2>
+    <a class="image" href="{% url "farmingconcrete_gardens_add" %}"><img src="{% static "img/round_plus.png" %}" /></a>
+    <a class="text" href="{% url "farmingconcrete_gardens_add" %}">Add a garden</a>
+</h2>
 {% endif %}
 {% endblock %}

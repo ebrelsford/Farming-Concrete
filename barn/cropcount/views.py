@@ -11,10 +11,9 @@ from django.db.models import Sum
 from django.views.generic.base import TemplateView
 
 from farmingconcrete.models import Garden, Variety
-from farmingconcrete.forms import GardenForm
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
 from models import Box, Patch
-from forms import UncountedGardenForm, BoxForm, PatchForm
+from forms import BoxForm, PatchForm
 
 from middleware.http import Http403
 
@@ -105,31 +104,6 @@ def gardens(request, year=None):
     return render_to_response('cropcount/gardens/index.html', {
         'user_gardens': user_gardens.order_by('name'),
         'counted_gardens': counted_gardens.all().order_by('name'),
-    }, context_instance=RequestContext(request))
-
-@login_required
-@in_section('cropcount')
-@year_in_session
-def add_garden(request, year=None):
-    """Add a garden--either a new one, or one we've uploaded"""
-
-    if request.method == 'POST':
-        form = GardenForm(request.POST, user=request.user)
-        if form.is_valid():
-            garden = form.save()
-            return redirect(garden_details, id=garden.id, year=year)
-
-        uncounted_garden_form = UncountedGardenForm(request.POST)
-        if uncounted_garden_form.is_valid():
-            garden = uncounted_garden_form.cleaned_data['garden']
-            return redirect(garden_details, id=garden.id, year=year)
-    else:
-        form = GardenForm(user=request.user)
-        uncounted_garden_form = UncountedGardenForm(user=request.user)
-
-    return render_to_response('cropcount/gardens/add.html', {
-        'form': form,
-        'uncounted_garden_form': uncounted_garden_form,
     }, context_instance=RequestContext(request))
 
 @login_required

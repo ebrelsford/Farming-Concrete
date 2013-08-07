@@ -2,24 +2,12 @@ from decimal import Decimal
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms import Form, ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, IntegerField, DecimalField
+from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, IntegerField, DecimalField
 
 from ajax_select.fields import AutoCompleteSelectField
 
-from farmingconcrete.forms import GardenTypeField
 from farmingconcrete.models import Garden
 from models import Box, Patch
-
-class UncountedGardenForm(Form):
-    type = GardenTypeField()
-    garden = AutoCompleteSelectField('uncounted_garden', required=True)
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super(UncountedGardenForm, self).__init__(*args, **kwargs)
-
-        if user:
-            self.fields['type'] = GardenTypeField(queryset=self.fields['type'].queryset, user=user)
 
 class BedSizeField(DecimalField):
     def __init__(self, *args, **kwargs):
@@ -64,7 +52,7 @@ class BoxForm(ModelForm):
         data = self.cleaned_data
         length = data.get('length')
         width = data.get('width')
-        
+
         # only give one message for missing bed sizes
         if not length or not width:
             raise ValidationError("Please enter the bed's size.")
@@ -77,12 +65,12 @@ class PatchForm(ModelForm):
         super(PatchForm, self).__init__(*args, **kwargs)
 
     box = ModelChoiceField(
-        label='box', 
-        queryset=Box.objects.all(), 
+        label='box',
+        queryset=Box.objects.all(),
         widget=HiddenInput()
     )
-    variety = AutoCompleteSelectField('variety', 
-        label="Plant type", 
+    variety = AutoCompleteSelectField('variety',
+        label="Plant type",
         error_messages={
             'required': "Please enter a plant type.",
         }
@@ -129,7 +117,7 @@ class PatchForm(ModelForm):
         data = self.cleaned_data
         plants = data.get('plants')
         area = data.get('area')
-        
+
         # only give one message for missing bed sizes
         if not plants and not area:
             if not 'plants' in self._errors:
