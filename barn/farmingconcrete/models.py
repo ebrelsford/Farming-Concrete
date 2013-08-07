@@ -19,10 +19,10 @@ class Garden(models.Model):
     name = models.CharField('garden name', max_length=512)
     type = models.ForeignKey(GardenType)
     gardenid = models.CharField(max_length=64, null=True, blank=True)
-    address = models.CharField('garden address', max_length=64)
-    city = models.CharField(_('garden city'), max_length=128, null=True,
+    address = models.CharField('address', max_length=64)
+    city = models.CharField(_('city'), max_length=128, null=True,
                             blank=True)
-    state = models.CharField(_('garden state'), max_length=128, null=True,
+    state = models.CharField(_('state'), max_length=128, null=True,
                              blank=True)
 
     BOROUGH_CHOICES = (
