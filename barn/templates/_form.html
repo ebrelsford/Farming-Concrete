@@ -5,7 +5,14 @@
     {% csrf_token %}
 
     {% for hidden in form.hidden_fields %}
-    {{ hidden }}
+        {% if hidden.errors %}
+            <div class="alert alert-error">
+                {% for error in hidden.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {{ hidden }}
     {% endfor %}
 
     {% if form.non_field_errors %}
