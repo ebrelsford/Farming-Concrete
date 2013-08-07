@@ -17,16 +17,20 @@ from forms import BoxForm, PatchForm
 
 from middleware.http import Http403
 
+
 def _patches(year=settings.FARMINGCONCRETE_YEAR):
     """Get current patches"""
     return Patch.objects.filter(added__year=year)
+
 
 @login_required
 @garden_type_aware
 @in_section('cropcount')
 @year_in_session
 def index(request, year=None):
-    """Home page for Crop Count. Show current stats, give access to next actions."""
+    """
+    Home page for Crop Count. Show current stats, give access to next actions.
+    """
     garden_type = request.session['garden_type']
 
     patches = _patches(year=year)
@@ -41,9 +45,11 @@ def index(request, year=None):
         'area': sum([b.length * b.width for b in beds]),
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'recent_types': patches.order_by('-added').values_list('variety__name', flat=True)[:3],
+        'recent_types': patches.order_by('-added').values_list('variety__name',
+                                                               flat=True)[:3],
         'garden_type': garden_type,
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @garden_type_aware
@@ -63,6 +69,7 @@ def user_gardens(request, year=None):
         'user_garden_ids': user_gardens.values_list('id', flat=True),
     }, context_instance=RequestContext(request))
 
+
 @login_required
 @garden_type_aware
 @in_section('cropcount')
@@ -71,7 +78,9 @@ def all_gardens(request, year=None):
     """Show all counted gardens"""
     type = request.session['garden_type']
 
-    counted_gardens = Garden.counted().filter(box__patch__added__year=year).distinct()
+    counted_gardens = Garden.counted().filter(
+        box__patch__added__year=year
+    ).distinct()
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
     if type != 'all':
@@ -83,6 +92,7 @@ def all_gardens(request, year=None):
         'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
 
+
 @login_required
 @garden_type_aware
 @in_section('cropcount')
@@ -92,7 +102,9 @@ def gardens(request, year=None):
 
     type = request.session['garden_type']
 
-    counted_gardens = Garden.counted().filter(box__patch__added__year=year).distinct()
+    counted_gardens = Garden.counted().filter(
+        box__patch__added__year=year
+    ).distinct()
     if type != 'all':
         counted_gardens = counted_gardens.filter(type=type)
 
@@ -105,6 +117,7 @@ def gardens(request, year=None):
         'user_gardens': user_gardens.order_by('name'),
         'counted_gardens': counted_gardens.all().order_by('name'),
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @in_section('cropcount')
@@ -164,6 +177,7 @@ def garden_details(request, id, year=None):
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
     }, context_instance=RequestContext(request))
 
+
 @login_required
 @in_section('cropcount')
 @year_in_session
@@ -196,6 +210,7 @@ def summary(request, id=None, year=None):
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
     }, context_instance=RequestContext(request))
 
+
 @login_required
 @in_section('cropcount')
 @year_in_session
@@ -214,7 +229,9 @@ def add_bed(request, id=None, year=None):
             return redirect(bed_details, id=box.id, year=year)
     else:
         try:
-            most_recent_box = Box.objects.filter(garden=garden).order_by('-added')[0]
+            most_recent_box = Box.objects.filter(
+                garden=garden
+            ).order_by('-added')[0]
             length = "%d" % most_recent_box.length
             width = "%d" % most_recent_box.width
         except IndexError:
@@ -247,6 +264,7 @@ def add_bed(request, id=None, year=None):
         'bed_months': bed_months,
         'beds': beds.count(),
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @in_section('cropcount')
@@ -301,12 +319,17 @@ def bed_details(request, id, year=None):
             form.save()
             return redirect(bed_details, id=id, year=year)
     else:
-        form = PatchForm(initial={ 'box': bed, 'added_by': request.user }, user=request.user)
+        initial = {
+            'added_by': request.user,
+            'box': bed,
+        }
+        form = PatchForm(initial=initial, user=request.user)
 
     return render_to_response('cropcount/beds/detail.html', {
         'bed': bed,
         'form': form,
     }, context_instance=RequestContext(request))
+
 
 @login_required
 @in_section('cropcount')
@@ -317,6 +340,7 @@ def delete_patch(request, id, year=None):
     patch.delete()
     return redirect(bed_details, id=bed_id, year=year)
 
+
 class ConfirmDeletePatchView(TemplateView):
     template_name = 'cropcount/patches/confirm_delete.html'
 
@@ -325,6 +349,7 @@ class ConfirmDeletePatchView(TemplateView):
         print kwargs
         context['patch_id'] = kwargs['id']
         return context
+
 
 @login_required
 @in_section('cropcount')
@@ -335,13 +360,18 @@ def delete_bed(request, id, year=None):
     bed.delete()
     return redirect(garden_details, id=garden_id, year=year)
 
+
 @login_required
 @year_in_session
 def download_garden_cropcount_as_csv(request, id, year=None):
     garden = get_object_or_404(Garden, pk=id)
+    filename = '%s Crop Count (%s).csv' % (
+        garden.name,
+        date.today().strftime('%m-%d-%Y'),
+    )
 
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="%s Crop Count (%s).csv"' % (garden.name, date.today().strftime('%m-%d-%Y'))
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = unicodecsv.writer(response, encoding='utf-8')
     writer.writerow(['bed', 'crop', 'plants', 'area (square feet)'])
@@ -359,6 +389,7 @@ def download_garden_cropcount_as_csv(request, id, year=None):
             ])
 
     return response
+
 
 #
 # Utility functions

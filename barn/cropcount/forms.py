@@ -2,12 +2,14 @@ from decimal import Decimal
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput, CharField, IntegerField, DecimalField
+from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
+                          CharField, IntegerField, DecimalField)
 
 from ajax_select.fields import AutoCompleteSelectField
 
 from farmingconcrete.models import Garden
 from models import Box, Patch
+
 
 class BedSizeField(DecimalField):
     def __init__(self, *args, **kwargs):
@@ -23,16 +25,20 @@ class BedSizeField(DecimalField):
                 'max_value': "Please enter a smaller number.",
                 'max_digits': "Please enter a smaller number.",
                 'max_whole_digits': "Please enter a smaller number (%d digits).",
-                'max_decimal_places': "Please enter a number with at most %d decimal places.",
+                'max_decimal_places': ("Please enter a number with at most %d "
+                                       "decimal places."),
             },
             widget=TextInput(attrs={'size': 6, 'maxlength': 6}),
             required=False,
             *args, **kwargs
         )
 
+
 class BoxForm(ModelForm):
-    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(), widget=HiddenInput())
-    added_by = ModelChoiceField(label='added_by', queryset=User.objects.all(), widget=HiddenInput())
+    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
+                              widget=HiddenInput())
+    added_by = ModelChoiceField(label='added_by', queryset=User.objects.all(),
+                                widget=HiddenInput())
 
     name = CharField(
         max_length=32,
@@ -86,7 +92,8 @@ class PatchForm(ModelForm):
             'max_value': "Please enter a smaller number.",
             'max_digits': "Please enter a smaller number.",
             'max_whole_digits': "Please enter a smaller number (%d digits).",
-            'max_decimal_places': "Please enter a number with at most %d decimal places.",
+            'max_decimal_places': ("Please enter a number with at most %d "
+                                   "decimal places."),
         },
         widget=TextInput(attrs={'size': 6, 'maxlength': 6}),
         required=False
@@ -121,6 +128,7 @@ class PatchForm(ModelForm):
         # only give one message for missing bed sizes
         if not plants and not area:
             if not 'plants' in self._errors:
-                self._errors['plants'] = self.error_class(["Please either enter the number of plants or the area."])
+                msg = 'Please either enter the number of plants or the area.'
+                self._errors['plants'] = self.error_class([msg])
 
         return data

@@ -2,6 +2,7 @@ from django.conf.urls.defaults import *
 
 from cropcount.views import ConfirmDeletePatchView
 
+
 urlpatterns = patterns('',
     (r'^$', 'cropcount.views.index'),
     (r'^beds/(?P<id>\d+)/$', 'cropcount.views.bed_details'),
