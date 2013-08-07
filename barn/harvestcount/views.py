@@ -13,12 +13,14 @@ from django.template import RequestContext
 from django.views.generic.edit import CreateView
 
 from barn.mobile import is_mobile
-from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
+from farmingconcrete.decorators import (garden_type_aware, in_section,
+                                        year_in_session)
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.forms import GardenForm, FindGardenForm
-from generic.views import InitializeUsingGetMixin, LoginRequiredMixin, PermissionRequiredMixin, RedirectToPreviousPageMixin
-from models import Gardener, Harvest
-from harvestcount.forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
+from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
+                           PermissionRequiredMixin, RedirectToPreviousPageMixin)
+from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
+from .models import Gardener, Harvest
 
 from middleware.http import Http403
 
@@ -149,7 +151,9 @@ def all_gardens(request, year=None):
     """Show all harvested gardens"""
     type = request.session['garden_type']
 
-    gardens = Garden.objects.filter(gardener__harvest__harvested__year=year).distinct()
+    gardens = Garden.objects.filter(
+        gardener__harvest__harvested__year=year
+    ).distinct()
     profile = request.user.get_profile()
     user_gardens = profile.gardens.all()
     if type != 'all':
@@ -190,7 +194,11 @@ def quantity_for_last_harvest(request, id=None, year=None):
             if garden not in profile.gardens.all():
                 return HttpResponseForbidden()
         try:
-            harvest = Harvest.objects.filter(gardener__garden=garden, gardener__name=gardener, variety__name=variety).order_by('-harvested')[0]
+            harvest = Harvest.objects.filter(
+                gardener__garden=garden,
+                gardener__name=gardener,
+                variety__name=variety
+            ).order_by('-harvested')[0]
         except IndexError:
             raise Http404
 
@@ -206,12 +214,15 @@ def quantity_for_last_harvest(request, id=None, year=None):
 @year_in_session
 def download_garden_harvestcount_as_csv(request, id, year=None):
     garden = get_object_or_404(Garden, pk=id)
+    filename = '%s Harvest Count (%s).csv' % (garden.name,
+                                              date.today().strftime('%m-%d-%Y'))
 
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="%s Harvest Count (%s).csv"' % (garden.name, date.today().strftime('%m-%d-%Y'))
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = unicodecsv.writer(response, encoding='utf-8')
-    writer.writerow(['gardener', 'plant type', 'pounds', 'number of plants', 'area (square feet)', 'date'])
+    writer.writerow(['gardener', 'plant type', 'pounds', 'number of plants',
+                     'area (square feet)', 'date'])
 
     harvests = _harvests(year=year).filter(gardener__garden=garden).distinct()
     for harvest in harvests.order_by('gardener__name', 'variety__name'):
@@ -334,6 +345,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         except Exception:
             pass
         return super(HarvestAddView, self).form_invalid(form)
+
 
 class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,
                       RedirectToPreviousPageMixin, CreateView):

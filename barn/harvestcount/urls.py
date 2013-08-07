@@ -1,4 +1,5 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
+
 
 urlpatterns = patterns('',
     (r'^$', 'harvestcount.views.index'),
