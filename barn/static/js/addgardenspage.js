@@ -90,6 +90,14 @@ define(
             $('#id_city').val(geocode.get_city(result));
             $('#id_state').val(geocode.get_state(result));
             $('#id_zip').val(geocode.get_zip(result));
+
+            var borough = geocode.get_borough(result),
+                $boroughOption = $('#id_borough option[value="' + borough + '"]');
+            if ($boroughOption.length > 0) {
+                $boroughOption
+                    .prop('selected', true)
+                    .parents('.form-group').show();
+            }
         }
 
         function showPointOnMap(lat, lng) {
@@ -105,6 +113,8 @@ define(
 
         $(document).ready(function () {
             map = initializeMap();
+
+            $('#id_borough').parents('.form-group').hide();
 
             var lat = $('#id_latitude').val(),
                 lng = $('#id_longitude').val();

@@ -21,8 +21,14 @@ define(
             });
         }
 
-        function get(result, component) {
-            return get_component(result, component).short_name;
+        function get(result, desired_type) {
+            var component = get_component(result, desired_type);
+            if (component) {
+                return component.short_name;
+            }
+            else {
+                return null;
+            }
         }
 
         function get_component(result, desired_type) {
@@ -46,6 +52,10 @@ define(
 
         function get_neighborhood(result) {
             return get(result, 'neighborhood');
+        }
+
+        function get_borough(result) {
+            return get(result, 'sublocality');
         }
 
         function get_city(result) {
@@ -77,6 +87,7 @@ define(
             'get': get,
             'get_street': get_street,
             'get_neighborhood': get_neighborhood,
+            'get_borough': get_borough,
             'get_city': get_city,
             'get_state': get_state,
             'get_zip': get_zip,

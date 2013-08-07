@@ -32,7 +32,8 @@ class Garden(models.Model):
         ('Queens', 'Queens'),
         ('Staten Island', 'Staten Island'),
     )
-    borough = models.CharField(max_length=32, choices=BOROUGH_CHOICES)
+    borough = models.CharField(max_length=32, choices=BOROUGH_CHOICES,
+                               null=True, blank=True)
     neighborhood = models.CharField(max_length=64, null=True, blank=True)
     zip = models.CharField(max_length=16, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,

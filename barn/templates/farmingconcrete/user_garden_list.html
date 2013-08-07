@@ -14,7 +14,11 @@
                         {% if garden.address %}
                             {{ garden.address }},
                         {% endif %}
-                        {{ garden.borough }}
+                        {% if garden.borough %}
+                            {{ garden.borough }}
+                        {% else %}
+                            {{ garden.city }}, {{ garden.state }}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="garden-list-buttons">
