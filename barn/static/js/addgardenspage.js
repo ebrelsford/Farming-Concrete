@@ -69,7 +69,6 @@ define(
 
             geocode.geocode(formattedAddress, state, function (result, status) {
                 if (status === 'OK' && result) {
-                    console.log(result);
                     showGeocodedResultOnMap(result);
                     setGardenLocation(result);
                 }
