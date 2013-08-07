@@ -4,7 +4,7 @@ from cropcount.admin import BoxInline
 from cropcount.models import Patch
 from estimates.models import EstimatedCost, EstimatedYield
 from harvestcount.models import Harvest
-from .models import Garden, GardenType, Variety
+from .models import Garden, GardenGroup, GardenType, Variety
 
 
 class GardenAdmin(admin.ModelAdmin):
@@ -58,5 +58,6 @@ class VarietyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Garden, GardenAdmin)
+admin.site.register(GardenGroup)
 admin.site.register(GardenType)
 admin.site.register(Variety, VarietyAdmin)

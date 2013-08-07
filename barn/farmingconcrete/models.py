@@ -61,6 +61,27 @@ class Garden(models.Model):
         return Garden.objects.filter(box=None)
 
 
+class GardenGroup(models.Model):
+    name = models.CharField(_('name'), max_length=512)
+    description = models.TextField(_('description'), blank=True, null=True)
+    gardens = models.ManyToManyField('Garden', through='GardenGroupMembership')
+
+    added_by = models.ForeignKey('auth.User')
+    added = models.DateTimeField(auto_now_add=True, editable=False)
+    updated = models.DateTimeField(auto_now=True, editable=False)
+
+    def __unicode__(self):
+        return self.name
+
+
+class GardenGroupMembership(models.Model):
+    garden = models.ForeignKey('Garden')
+    group = models.ForeignKey('GardenGroup')
+
+    added_by = models.ForeignKey('auth.User', editable=False)
+    added = models.DateTimeField(auto_now_add=True, editable=False)
+
+
 class Variety(AuditedModel):
     name = models.CharField(max_length=64)
     needs_moderation = models.BooleanField(default=False)
