@@ -3,6 +3,11 @@
 {% block header_title %}Your Gardens{% endblock %}
 
 {% block content %}
+    <p>
+        <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
+            Add a garden
+        </a>
+    </p>
     <ul class="garden-list" data-role="listview">
         {% for garden in object_list %}
                 <li class="garden-list-garden">

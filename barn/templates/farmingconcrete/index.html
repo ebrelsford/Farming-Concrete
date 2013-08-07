@@ -42,6 +42,15 @@
             <div id="left">
                 <p>This is the <a href="http://farmingconcrete.org">Farming Concrete</a> Barn, where we store our data.</p>
 
+                <p>
+                    <a href="{% url "farmingconcrete_gardens_yours" %}" class="btn btn-default">
+                        Edit garden list
+                    </a>
+                    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
+                        Add a garden
+                    </a>
+                </p>
+
                 {% if user_gardens %}
                     <p>You have access to the following garden{{ user_gardens|pluralize }}:
                         <ul class="garden-list">
@@ -58,12 +67,6 @@
                         Add one?
                     </p>
                 {% endif %}
-
-                <p>
-                    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
-                        Add a garden
-                    </a>
-                </p>
 
                 <p>If you have any problems or questions, please email us at <strong>gardens (at) farmingconcrete (dot) org</strong>.<p>
             </div>
