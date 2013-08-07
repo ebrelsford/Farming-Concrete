@@ -3,32 +3,18 @@
 {% block header_title %}Your Gardens{% endblock %}
 
 {% block content %}
-    {% for garden in object_list %}
-        <ul class="garden-list" data-role="listview">
-            <li class="garden-list-garden">
-                <div>
-                    <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">
-                        <span class="garden-list-garden-name">{{ garden.name }}</span>
-                    </a>
-                    <div class="garden-list-garden-details">
-                        {% if garden.address %}
-                            {{ garden.address }},
-                        {% endif %}
-                        {% if garden.borough %}
-                            {{ garden.borough }}
-                        {% else %}
-                            {{ garden.city }}, {{ garden.state }}
-                        {% endif %}
+    <ul class="garden-list" data-role="listview">
+        {% for garden in object_list %}
+                <li class="garden-list-garden">
+                    {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                    <div class="garden-list-buttons">
+                        <a href="{% url "farmingconcrete_gardens_yours_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
+                            Leave
+                        </a>
                     </div>
-                </div>
-                <div class="garden-list-buttons">
-                    <a href="{% url "farmingconcrete_gardens_yours_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
-                        Leave
-                    </a>
-                </div>
-            </li>
-        </ul>
-    {% empty %}
-        None.
-    {% endfor %}
+                </li>
+        {% empty %}
+            None.
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -44,11 +44,11 @@
 
                 {% if user_gardens %}
                     <p>You have access to the following garden{{ user_gardens|pluralize }}:
-                        <ul>
+                        <ul class="garden-list">
                             {% for garden in user_gardens %}
-                            <li>
-                                <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">{{ garden.name }}</a>
-                            </li>
+                                <li class="garden-list-garden">
+                                {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                                </li>
                             {% endfor %}
                         </ul>
                     </p>
