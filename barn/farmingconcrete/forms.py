@@ -1,9 +1,11 @@
-from django.forms import Form, HiddenInput, ModelForm, ModelChoiceField
+from django.contrib.auth.models import User
+from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField)
 
 from ajax_select.fields import AutoCompleteSelectField
+import chosen.forms
 
 from accounts.models import UserProfile
-from farmingconcrete.models import Garden, GardenType
+from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
 
 
 class GardenTypeField(ModelChoiceField):
@@ -44,6 +46,14 @@ class FindGardenForm(Form):
 
 class GardenForm(ModelForm):
     type = GardenTypeField()
+    groups = chosen.forms.ChosenModelMultipleChoiceField(
+        queryset=GardenGroup.objects.all().order_by('name'),
+        required=False,
+    )
+    added_by = ModelChoiceField(
+        queryset=User.objects.all(),
+        widget=HiddenInput(),
+    )
 
     class Meta:
         model = Garden
@@ -62,3 +72,16 @@ class GardenForm(ModelForm):
                 queryset=self.fields['type'].queryset,
                 user=user
             )
+
+    def save(self, *args, **kwargs):
+        user = self.cleaned_data['added_by']
+        groups = self.cleaned_data['groups']
+        garden = super(GardenForm, self).save(*args, **kwargs)
+        for group in groups:
+            membership = GardenGroupMembership(
+                added_by=user,
+                garden=garden,
+                group=group,
+            )
+            membership.save()
+        return garden

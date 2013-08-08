@@ -89,8 +89,11 @@ class InitializeUsingGetMixin(FormMixin):
 class SuccessMessageFormMixin(FormMixin):
 
     def form_valid(self, form):
-        messages.success(self.request, self.get_success_message())
+        self.add_success_message()
         return super(SuccessMessageFormMixin, self).form_valid(form)
+
+    def add_success_message(self):
+        messages.success(self.request, self.get_success_message())
 
     def get_success_message(self):
         return self.success_message

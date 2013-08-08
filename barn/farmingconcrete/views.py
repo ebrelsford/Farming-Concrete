@@ -117,6 +117,13 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin,
     form_class = GardenForm
     template_name = 'farmingconcrete/gardens/add.html'
 
+    def get_initial(self):
+        initial = super(CreateGardenView, self).get_initial()
+        initial.update({
+            'added_by': self.request.user,
+        })
+        return initial
+
     def get_success_message(self):
         return 'Successfully added %s' % self.object
 
@@ -127,7 +134,8 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin,
         """Add the garden to the user's gardens."""
         garden = self.object = form.save()
         self.add_garden_to_user(garden)
-        return super(CreateGardenView, self).form_valid(form)
+        self.add_success_message()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class GardenSuggestionView(LoginRequiredMixin, ListView):
