@@ -33,14 +33,16 @@
     <body class="{% block body_class %}{% endblock %}">
         <div data-role="page">
 
-            <div id="feedback">
-                <div id="feedback-form">
-                    {% include "feedback/feedback_form.html" %}
+            {% if user.is_authenticated %}
+                <div id="feedback">
+                    <div id="feedback-form">
+                        {% include "feedback/feedback_form.html" %}
+                    </div>
+                    <div id="feedback-button">
+                        Feedback
+                    </div>
                 </div>
-                <div id="feedback-button">
-                    Feedback
-                </div>
-            </div>
+            {% endif %}
 
             <div id="header" data-role="header">
                 <a href="{% url "home" %}"><img src="{% static "img/header.jpg" %}" /></a>
