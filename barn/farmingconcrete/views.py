@@ -234,11 +234,6 @@ def _get_garden_type(short_name):
     return 'all'
 
 
-class GardenListView(LoginRequiredMixin, ListView):
-    def get_queryset(self):
-        return Garden.objects.all().order_by('name')
-
-
 class UserGardenLeaveView(LoginRequiredMixin, DetailView):
     model = Garden
     template_name = 'farmingconcrete/gardens/user_garden_leave.html'

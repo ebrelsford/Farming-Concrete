@@ -1,17 +1,11 @@
 from django.conf.urls.defaults import patterns, url
 
 from .views import (AddSuggestedGardenView, CreateGardenView,
-                    FarmingConcreteGardenDetails, GardenListView,
-                    GardenSuggestionView, UserGardenLeaveView,
-                    UserGardenLeaveConfirmedView)
+                    FarmingConcreteGardenDetails, GardenSuggestionView,
+                    UserGardenLeaveView, UserGardenLeaveConfirmedView)
 
 
 urlpatterns = patterns('',
-
-    url(r'^$',
-        GardenListView.as_view(),
-        name='farmingconcrete_gardens',
-    ),
 
     url(r'^geojson', 'farmingconcrete.views.gardens_geojson',
         name='farmingconcrete_gardens_geojson'

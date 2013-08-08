@@ -81,7 +81,6 @@
         <div>
             <ul data-role="listview" data-inset="true">
                 {% if user.is_authenticated %}
-                <li><a href="{% url "farmingconcrete_gardens" %}">Find a Garden</a></li>
                 <li><a href="{% url "django.contrib.auth.views.logout" %}">Logout</a></li>
                 {% else %}
                 <li><a href="{% url "django.contrib.auth.views.login" %}">Login</a></li>
