@@ -15,7 +15,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^(?:(?P<year>\d{4})/)?$',
         IndexView.as_view(),
-        name='farmingconcrete_index'
+        name='home'
     ),
 
     (r'^gardens/', include('farmingconcrete.garden_urls')),

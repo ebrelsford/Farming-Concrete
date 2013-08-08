@@ -2,7 +2,7 @@
 
 {% block title %}{{ garden.name }}{% endblock %}
 
-{% block breadcrumbs %}<a href="{% url "farmingconcrete_index" %}">home</a> &gt;&gt; {{ block.super }}{{ garden.name }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url "home" %}">home</a> &gt;&gt; {{ block.super }}{{ garden.name }}{% endblock %}
 
 {% block map_params %}
 type: 'single',

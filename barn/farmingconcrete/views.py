@@ -128,7 +128,7 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin,
         return 'Successfully added %s' % self.object
 
     def get_success_url(self):
-        return reverse('farmingconcrete_index')
+        return reverse('home')
 
     def form_valid(self, form):
         """Add the garden to the user's gardens."""
@@ -163,7 +163,7 @@ class AddSuggestedGardenView(LoginRequiredMixin, AddUserGardenMixin, DetailView)
 
     def get(self, request, *args, **kwargs):
         self.add_suggested()
-        return HttpResponseRedirect(reverse('farmingconcrete_index'))
+        return HttpResponseRedirect(reverse('home'))
 
 
 @login_required
@@ -257,7 +257,7 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
         garden = self.get_object()
         self.remove_garden_from_user(garden)
         messages.success(self.request, 'Removed %s from your gardens' % garden.name)
-        return HttpResponseRedirect(reverse('farmingconcrete_index'))
+        return HttpResponseRedirect(reverse('home'))
 
 
 class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin,
