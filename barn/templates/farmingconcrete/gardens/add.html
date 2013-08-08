@@ -6,14 +6,15 @@
 {% block body_class %}add-gardens-page{% endblock %}
 
 {% block content %}
-    <div class="col-lg-8">
+    <section class="col-lg-8">
+        <h1>Add a garden</h1>
         <p>
             Add a garden to Farming Concrete. The garden will be added to your
             account. If you enter a garden name that matches an existing one
             it will show up to the left.
         </p>
         {% include "_form.html" with form=form %}
-    </div>
+    </section>
     <div class="col-lg-4">
         <div class="garden-suggestions-wrapper"></div>
         <div id="add-garden-map" class="add-garden-map"></div>
