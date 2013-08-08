@@ -7,12 +7,17 @@
 
 {% block content %}
     {% if not is_mobile %}
-        {% if not user.is_authenticated %}
+
+        <header>
+            <h1>Farming Concrete Barn</h1>
             <p>
-                This is the 
+                Welcome to the 
                 <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
                 where we store our data.
             </p>
+        </header>
+
+        {% if not user.is_authenticated %}
 
             <p>
                 If you are a gardener and would like to start entering data, 
@@ -40,35 +45,37 @@
 
         {% else %}
             <div id="left">
-                <p>This is the <a href="http://farmingconcrete.org">Farming Concrete</a> Barn, where we store our data.</p>
+                <section>
 
-                <p>
-                    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
-                        Add a garden
-                    </a>
-                </p>
-
-                {% if user_gardens %}
-                    <p>You have access to the following garden{{ user_gardens|pluralize }}:
-                        <ul class="garden-list">
-                            {% for garden in user_gardens %}
-                                <li class="garden-list-garden">
-                                    {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
-                                    <div class="garden-list-buttons">
-                                        <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
-                                            Leave
-                                        </a>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </p>
-                {% else %}
                     <p>
-                        It looks like you don't have access to any gardens yet.
-                        Add one?
+                        <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
+                            Add a garden
+                        </a>
                     </p>
-                {% endif %}
+
+                    {% if user_gardens %}
+                        <p>You have access to the following garden{{ user_gardens|pluralize }}:
+                            <ul class="garden-list">
+                                {% for garden in user_gardens %}
+                                    <li class="garden-list-garden">
+                                        {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                                        <div class="garden-list-buttons">
+                                            <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
+                                                Leave
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                    {% else %}
+                        <p>
+                            It looks like you don't have access to any gardens yet.
+                            Add one?
+                        </p>
+                    {% endif %}
+
+                </section>
 
             </div>
             <div id="right">
