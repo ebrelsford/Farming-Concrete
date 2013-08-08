@@ -14,14 +14,14 @@ from django.views.generic.list import ListView
 
 from accounts.models import UserProfile
 from cropcount.models import Box, Patch
-from farmingconcrete.geo import garden_collection
-from .forms import GardenForm
-from farmingconcrete.models import Garden, GardenType, Variety
-from farmingconcrete.utils import get_variety
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RememberPreviousPageMixin, SuccessMessageFormMixin)
 from harvestcount.models import Harvest
 from middleware.http import Http403
+from .geo import garden_collection
+from .forms import GardenForm
+from .models import Garden, GardenType, Variety
+from .utils import get_variety
 
 
 def _harvests(year=settings.FARMINGCONCRETE_YEAR):
