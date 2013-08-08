@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
+{% load i18n static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
 
 {% block body_class %}main-index-page{% endblock %}
 
@@ -9,37 +9,45 @@
     {% if not is_mobile %}
 
         <header>
-            <h1>Farming Concrete Barn</h1>
+            <h1>{% trans "Farming Concrete Barn" %}</h1>
             <p>
-                Welcome to the 
-                <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
-                where we store our data.
+                {% blocktrans %}
+                    Welcome to the 
+                    <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
+                    where we store our data.
+                {% endblocktrans %}
             </p>
         </header>
 
         {% if not user.is_authenticated %}
 
+            {% url "django.contrib.auth.views.login" as login_url %}
+            {% url "registration_register" as register_url %}
             <p>
-                If you are a gardener and would like to start entering data, 
-                please 
-                <a href="{% url "django.contrib.auth.views.login" %}" data-role="button">log in</a> 
-                first. If you don't yet have a login, you can 
-                <a href="{% url "registration_register" %}">create one now</a>
-                If you are just visiting, we will eventually have some public 
-                reports here for you to view.
+                {% blocktrans %}
+                    If you are a gardener and would like to start entering data, 
+                    please 
+                    <a href="{{ login_url }}" data-role="button">log in</a> 
+                    first. If you don't yet have a login, you can 
+                    <a href="{{ register_url }}">create one now</a>
+                    If you are just visiting, we will eventually have some public 
+                    reports here for you to view.
+                {% endblocktrans %}
             </p>
 
             <p>
-                If you have any problems or questions, please email us at 
-                <strong>gardens (at) farmingconcrete (dot) org</strong>.
+                {% blocktrans %}
+                    If you have any problems or questions, please email us at 
+                    <strong>gardens (at) farmingconcrete (dot) org</strong>.
+                {% endblocktrans %}
             </p>
 
             <p>
-                <a class="btn btn-default" href="{% url "registration_register" %}">
-                    Register
+                <a class="btn btn-default" href="{{ register_url }}">
+                    {% trans "Register" %}
                 </a>
-                <a class="btn btn-primary" href="{% url "django.contrib.auth.views.login" %}">
-                    Log in
+                <a class="btn btn-primary" href="{{ login_url }}">
+                    {% trans "Log in" %}
                 </a>
             </p>
 
