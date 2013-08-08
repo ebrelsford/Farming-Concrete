@@ -55,7 +55,7 @@
                                 <li class="garden-list-garden">
                                     {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
                                     <div class="garden-list-buttons">
-                                        <a href="{% url "farmingconcrete_gardens_yours_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
+                                        <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
                                             Leave
                                         </a>
                                     </div>

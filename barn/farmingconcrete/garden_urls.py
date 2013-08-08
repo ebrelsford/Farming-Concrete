@@ -37,14 +37,14 @@ urlpatterns = patterns('',
         name='farmingconcrete_gardens_suggest',
     ),
 
-    url(r'^yours/(?P<pk>\d+)/leave/$',
+    url(r'^(?P<pk>\d+)/leave/$',
         UserGardenLeaveView.as_view(),
-        name='farmingconcrete_gardens_yours_leave',
+        name='farmingconcrete_gardens_leave',
     ),
 
-    url(r'^yours/(?P<pk>\d+)/leave/confirmed/$',
+    url(r'^(?P<pk>\d+)/leave/confirmed/$',
         UserGardenLeaveConfirmedView.as_view(),
-        name='farmingconcrete_gardens_yours_leave_confirmed',
+        name='farmingconcrete_gardens_leave_confirmed',
     ),
 
 )
