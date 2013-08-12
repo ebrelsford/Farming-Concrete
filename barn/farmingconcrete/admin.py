@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from cropcount.admin import BoxInline
-from cropcount.models import Patch
 from estimates.models import EstimatedCost, EstimatedYield
+from metrics.cropcount.admin import BoxInline
+from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 from .models import Garden, GardenGroup, GardenType, Variety
 

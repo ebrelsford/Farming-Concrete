@@ -15,12 +15,12 @@ from django_xhtml2pdf.utils import render_to_pdf_response
 
 from charts import (plants_per_crop, weight_per_crop, weight_per_gardener,
         estimated_weight_per_crop)
-from cropcount.models import Box
 from estimates.common import (estimate_for_harvests_by_gardener_and_variety,
         estimate_for_patches)
 from farmingconcrete.models import Garden, GardenType
 from common import (filter_harvests, filter_patches, filter_boroughs,
         consolidate_totals, get_garden_counts_by_type)
+from metrics.cropcount.models import Box
 from models import SharedReport, Chart
 
 

@@ -8,9 +8,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
 
-from cropcount.models import Box
 from estimates.common import estimate_for_harvests_by_gardener_and_variety, estimate_for_patches
 from farmingconcrete.models import Garden
+from metrics.cropcount.models import Box
 from reports.common import filter_harvests, filter_patches, filter_boroughs, filter_neighborhoods, consolidate_totals, filter_varieties
 
 ONE_WEEK = 7 * 24 * 60 * 60

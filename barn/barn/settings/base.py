@@ -122,9 +122,9 @@ INSTALLED_APPS = (
 
     'accounts',
     'audit',
-    'cropcount',
     'farmingconcrete',
     'metrics',
+    'metrics.cropcount',
     'metrics.harvestcount',
 )
 

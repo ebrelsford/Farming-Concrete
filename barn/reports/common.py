@@ -1,5 +1,5 @@
-from cropcount.models import Patch
 from farmingconcrete.models import Garden
+from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 
 

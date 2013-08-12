@@ -3,7 +3,7 @@
     <ul class="{% if not is_mobile %}values{% endif %}" data-role="listview" data-theme="a">
         {% if is_mobile %}
         <li data-icon="plus">
-            <a href="{% url "cropcount.views.add_bed" id=garden.id year=request.session.year %}">Add a bed</a>
+            <a href="{% url "cropcount_add_bed" id=garden.id year=request.session.year %}">Add a bed</a>
         </li>
         {% endif %}
 
@@ -28,7 +28,7 @@
             {% else %}
                 {% for box in bed_list %}
                 <li>
-                    <a href="{% url "cropcount.views.bed_details" id=box.id year=request.session.year %}">bed {{ box.name }}</a>
+                    <a href="{% url "cropcount_bed_details" id=box.id year=request.session.year %}">bed {{ box.name }}</a>
                 </li>
                 {% endfor %}
             {% endif %}

@@ -24,7 +24,7 @@ queryString: 'type={{ request.session.garden_type.short_name }}&cropcount=yes&ye
 </script>
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <a href="{% url "cropcount.views.index" year=request.session.year %}">crop count</a> &gt;&gt; {% endblock %}
+{% block breadcrumbs %}{{ block.super }} <a href="{% url "cropcount_index" year=request.session.year %}">crop count</a> &gt;&gt; {% endblock %}
 
 {% block content %}
 <h1>

@@ -15,9 +15,9 @@ from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
 from accounts.models import UserProfile
-from cropcount.models import Box, Patch
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RememberPreviousPageMixin, SuccessMessageFormMixin)
+from metrics.cropcount.models import Box, Patch
 from metrics.harvestcount.models import Harvest
 from middleware.http import Http403
 from .geo import garden_collection

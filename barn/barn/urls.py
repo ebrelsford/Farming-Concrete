@@ -21,19 +21,31 @@ urlpatterns = patterns('',
     (r'^gardens/', include('farmingconcrete.garden_urls')),
 
     # crop count
-    (r'^cropcount/(?:(?P<year>\d{4})/)?', include('cropcount.urls')),
-    (r'^cropcount/yours/(?:(?P<year>\d{4})/)?$',
-     'cropcount.views.user_gardens'),
-    (r'^cropcount/counted/(?:(?P<year>\d{4})/)?$',
-     'cropcount.views.all_gardens'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?$',
-     'cropcount.views.garden_details'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?summary/$',
-     'cropcount.views.summary'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?csv/$',
-     'cropcount.views.download_garden_cropcount_as_csv'),
-    (r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?beds/add/$',
-     'cropcount.views.add_bed'),
+    (r'^cropcount/(?:(?P<year>\d{4})/)?', include('metrics.cropcount.urls')),
+    url(r'^cropcount/yours/(?:(?P<year>\d{4})/)?$',
+        'metrics.cropcount.views.user_gardens',
+        name='cropcount_user_gardens'
+    ),
+    url(r'^cropcount/counted/(?:(?P<year>\d{4})/)?$',
+        'metrics.cropcount.views.all_gardens',
+        name='cropcount_all_gardens'
+    ),
+    url(r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?$',
+        'metrics.cropcount.views.garden_details',
+        name='cropcount_garden_details'
+    ),
+    url(r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?summary/$',
+        'metrics.cropcount.views.summary',
+        name='cropcount_summary'
+    ),
+    url(r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?csv/$',
+        'metrics.cropcount.views.download_garden_cropcount_as_csv',
+        name='cropcount_download_garden_cropcount_as_csv'
+    ),
+    url(r'^gardens/(?P<id>\d+)/cropcount/(?:(?P<year>\d{4})/)?beds/add/$',
+        'metrics.cropcount.views.add_bed',
+        name='cropcount_add_bed'
+    ),
 
     # harvest count
     (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('metrics.harvestcount.urls')),
