@@ -13,7 +13,7 @@ body {
 }
 
 #logo {
-    background: url(/site_media/img/mobile/logo.jpg);
+    background: url(/static/img/mobile/logo.jpg);
     width: 60px;
     height: 60px;
     margin-left: auto;

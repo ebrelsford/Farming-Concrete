@@ -194,12 +194,12 @@ var GardenMap = {
     },
 
     layerUrls: {
-        'City Councils': "/site_media/geojson/nycc.geojson",
-        'City Council Labels': "/site_media/geojson/nycc_centroids.geojson",
-        'Community Districts': "/site_media/geojson/nycd.geojson",
-        'Community District Labels': "/site_media/geojson/nycd_centroids.geojson",
-        'Boroughs': "/site_media/geojson/boroughs.geojson",
-        'Borough Labels': "/site_media/geojson/borough_centroids.geojson",
+        'City Councils': "/static/geojson/nycc.geojson",
+        'City Council Labels': "/static/geojson/nycc_centroids.geojson",
+        'Community Districts': "/static/geojson/nycd.geojson",
+        'Community District Labels': "/static/geojson/nycd_centroids.geojson",
+        'Boroughs': "/static/geojson/boroughs.geojson",
+        'Borough Labels': "/static/geojson/borough_centroids.geojson",
     },
 
     loadLayer: function(name) {

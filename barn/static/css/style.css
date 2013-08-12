@@ -286,7 +286,7 @@ ul.gardens {
 }
 
 input.ac_loading {
-	background: #FFF url('/site_media/img/loading-indicator.gif') no-repeat;
+	background: #FFF url('/static/img/loading-indicator.gif') no-repeat;
 	background-position: right;
 }
 
@@ -295,7 +295,7 @@ input.ac_loading {
 .results_on_deck .iconic, .results_on_deck .iconic:hover {
     cursor: pointer;
     float: left;
-    background: url(/site_media/img/round_delete_small.png) no-repeat;
+    background: url(/static/img/round_delete_small.png) no-repeat;
     color: transparent;
     border: 0;
     width: 16px;
@@ -318,7 +318,7 @@ table.sorted {
     width: 100%;
 }
 table.sorted thead tr .header {
-    background-image: url(/site_media/img/bg.gif);
+    background-image: url(/static/img/bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
     border-bottom: 1px solid black;
@@ -326,10 +326,10 @@ table.sorted thead tr .header {
     padding-right: 15px;
 }
 table.sorted thead tr .headerSortUp {
-    background-image: url(/site_media/img/asc.gif);
+    background-image: url(/static/img/asc.gif);
 }
 table.sorted thead tr .headerSortDown {
-    background-image: url(/site_media/img/desc.gif);
+    background-image: url(/static/img/desc.gif);
 }
 table.sorted tbody tr.odd {
 }
