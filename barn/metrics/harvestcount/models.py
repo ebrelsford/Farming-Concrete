@@ -2,6 +2,7 @@ from django.db import models
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
+from ..models import BaseMetricRecord
 
 
 class Gardener(AuditedModel):
@@ -12,7 +13,7 @@ class Gardener(AuditedModel):
         return self.name
 
 
-class Harvest(AuditedModel):
+class Harvest(BaseMetricRecord):
     gardener = models.ForeignKey(Gardener)
     variety = models.ForeignKey(Variety)
 

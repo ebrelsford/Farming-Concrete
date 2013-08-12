@@ -2,6 +2,7 @@ from django.db import models
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
+from ..models import BaseMetricRecord
 
 
 class Box(AuditedModel):
@@ -34,7 +35,7 @@ class Box(AuditedModel):
                 return cmp(self.name, other.name)
 
 
-class Patch(AuditedModel):
+class Patch(BaseMetricRecord):
     class Meta:
         verbose_name_plural = 'Patches'
         ordering = ['variety']
