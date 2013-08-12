@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 
 import accounts.urls
 from farmingconcrete.views import IndexView
-from harvestcount.views import GardenerAddView, HarvestAddView
+from metrics.harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
 admin.autodiscover()
@@ -36,13 +36,17 @@ urlpatterns = patterns('',
      'cropcount.views.add_bed'),
 
     # harvest count
-    (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('harvestcount.urls')),
-    (r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$',
-     'harvestcount.views.user_gardens'),
-    (r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$',
-     'harvestcount.views.all_gardens'),
+    (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('metrics.harvestcount.urls')),
+    url(r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$',
+        'metrics.harvestcount.views.user_gardens',
+        name='harvestcount_user_gardens'
+    ),
+    url(r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$',
+        'metrics.harvestcount.views.all_gardens',
+        name='harvestcount_all_gardens'
+    ),
     url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$',
-        'harvestcount.views.garden_details',
+        'metrics.harvestcount.views.garden_details',
         name='harvestcount_garden_details',
     ),
 
@@ -58,10 +62,14 @@ urlpatterns = patterns('',
         name='harvestcount_add_gardener',
     ),
 
-    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$',
-     'harvestcount.views.download_garden_harvestcount_as_csv'),
-    (r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest',
-     'harvestcount.views.quantity_for_last_harvest'),
+    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$',
+        'metrics.harvestcount.views.download_garden_harvestcount_as_csv',
+        name='harvestcount_download_garden_harvestcount_as_csv'
+    ),
+    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest',
+        'metrics.harvestcount.views.quantity_for_last_harvest',
+        name='harvestcount_quantity_for_last_harvest'
+    ),
 
     # reports
     url(r'^reports/', include(reports.urls.main_patterns)),

@@ -32,8 +32,8 @@ $('.share > a').click(function() {
 {% block actions %}
 {% if user.is_authenticated %}
 <h2 class="share">
-    <a class="image" href="{% url "harvestcount.views.index" %}"><img src="{% static "img/mail.png" %}" /></a>
-    <a class="text" href="{% url "harvestcount.views.index" %}">Share this report</a>
+    <a class="image" href="{% url "harvestcount_index" %}"><img src="{% static "img/mail.png" %}" /></a>
+    <a class="text" href="{% url "harvestcount_index" %}">Share this report</a>
     <div class="sharebox">
         <p><a class="url" target="_blank"></a></p>
         <p>This report is now publicly accessible using the above url. Please only share it with those who should see the report.</p>

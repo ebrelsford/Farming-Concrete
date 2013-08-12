@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db.models import Max, Sum
 
 from farmingconcrete.models import GardenType, Variety
-from harvestcount.models import Harvest
+from metrics.harvestcount.models import Harvest
 from models import EstimatedYield
 
 def _find_yield_estimate(variety, start, end, _by_gardener=True, garden_type=None):

@@ -101,8 +101,8 @@ $(document).ready(function() {
 
 {% block actions %}
 <h2>
-    <a class="image" href="{% url "harvestcount.views.download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}"><img src="{% static "img/download.png" %}" /></a>
-    <a class="text" href="{% url "harvestcount.views.download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
+    <a class="image" href="{% url "harvestcount_download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}"><img src="{% static "img/download.png" %}" /></a>
+    <a class="text" href="{% url "harvestcount_download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
 </h2>
 <h2>
     <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
@@ -114,7 +114,7 @@ $(document).ready(function() {
 </h2>
 {{ block.super }}
 <h2>
-    <a class="image" href="{% url "harvestcount.views.index" year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>
-    <a class="text" href="{% url "harvestcount.views.index" year=request.session.year %}">Done adding harvests to this garden!</a>
+    <a class="image" href="{% url "harvestcount_index" year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>
+    <a class="text" href="{% url "harvestcount_index" year=request.session.year %}">Done adding harvests to this garden!</a>
 </h2>
 {% endblock %}

@@ -20,8 +20,8 @@
     <a class="text" href="{% url "cropcount.views.garden_details" id=garden.id %}">View Crop Count</a>
 </h2>
 <h2>
-    <a class="image" href="{% url "harvestcount.views.garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "harvestcount.views.garden_details" id=garden.id %}">View Harvest Count</a>
+    <a class="image" href="{% url "harvestcount_garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
+    <a class="text" href="{% url "harvestcount_garden_details" id=garden.id %}">View Harvest Count</a>
 </h2>
 {{ block.super }}
 {% endblock %}
@@ -29,7 +29,7 @@
 {% block content %}
 {% if is_mobile %}
 <a href="{% url "cropcount.views.garden_details" id=garden.id %}" data-role="button">Crop Count</a>
-<a href="{% url "harvestcount.views.garden_details" id=garden.id %}" data-role="button">Harvest Count</a>
+<a href="{% url "harvestcount_garden_details" id=garden.id %}" data-role="button">Harvest Count</a>
 {% else %}
 {{ block.super }}
 {% endif %}

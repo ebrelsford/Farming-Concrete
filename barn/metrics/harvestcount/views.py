@@ -308,7 +308,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         return AutocompleteHarvestForm
 
     def get_success_url(self):
-        return reverse('harvestcount.views.garden_details', kwargs={
+        return reverse('harvestcount_garden_details', kwargs={
             'id': self.garden.id,
             'year': self.year,
         })

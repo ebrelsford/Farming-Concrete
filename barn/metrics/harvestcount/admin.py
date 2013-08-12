@@ -1,9 +1,12 @@
-from harvestcount.models import Gardener, Harvest
 from django.contrib import admin
+
+from .models import Gardener, Harvest
+
 
 class GardenerAdmin(admin.ModelAdmin):
     list_display = ('name', 'garden',)
     search_fields = ('name', 'garden__name',)
+
 
 class HarvestAdmin(admin.ModelAdmin):
     fields = ('variety', 'weight', 'plants', 'reportable',)
@@ -18,7 +21,7 @@ class HarvestAdmin(admin.ModelAdmin):
             bit = "1 harvest"
         else:
             bit = "%s harvests" % rows
-        self.message_user(request, "%s marked as unreportable" % bit) 
+        self.message_user(request, "%s marked as unreportable" % bit)
 
     def mark_as_reportable(self, request, queryset):
         """mark a set of varieties as reportable"""
@@ -27,7 +30,7 @@ class HarvestAdmin(admin.ModelAdmin):
             bit = "1 harvest"
         else:
             bit = "%s harvests" % rows
-        self.message_user(request, "%s marked as reportable" % bit) 
+        self.message_user(request, "%s marked as reportable" % bit)
 
     actions = (mark_as_unreportable, mark_as_reportable,)
 

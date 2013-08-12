@@ -88,8 +88,8 @@ $(document).ready(function() {
     <a class="text" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}">View this garden's report</a>
 </h2>
 <h2>
-    <a class="image" href="{% url "harvestcount.views.garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "harvestcount.views.garden_details" id=garden.id %}">Switch to Harvest Count</a>
+    <a class="image" href="{% url "harvestcount_garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
+    <a class="text" href="{% url "harvestcount_garden_details" id=garden.id %}">Switch to Harvest Count</a>
 </h2>
 {{ block.super }}
 <h2>

@@ -24,7 +24,7 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <a href="{% url "harvestcount.views.index" year=request.session.year %}">harvest count</a> &gt;&gt; {% endblock %}
+{% block breadcrumbs %}{{ block.super }} <a href="{% url "harvestcount_index" year=request.session.year %}">harvest count</a> &gt;&gt; {% endblock %}
 
 {% block content %}
 <h1>

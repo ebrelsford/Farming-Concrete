@@ -1,7 +1,6 @@
-
 from cropcount.models import Patch
 from farmingconcrete.models import Garden
-from harvestcount.models import Harvest
+from metrics.harvestcount.models import Harvest
 
 
 def filter_harvests(garden=None, borough=None, neighborhood=None, type=None,

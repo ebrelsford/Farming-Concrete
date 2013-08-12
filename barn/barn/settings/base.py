@@ -124,14 +124,15 @@ INSTALLED_APPS = (
     'audit',
     'cropcount',
     'farmingconcrete',
-    'harvestcount',
+    'metrics',
+    'metrics.harvestcount',
 )
 
 AJAX_LOOKUP_CHANNELS = {
     'variety': ('farmingconcrete.lookups', 'VarietyLookup'),
     'garden': ('farmingconcrete.lookups', 'GardenLookup'),
     'uncounted_garden': ('cropcount.lookups', 'UncountedGardenLookup'),
-    'gardener': ('harvestcount.lookups', 'GardenerLookup'),
+    'gardener': ('metrics.harvestcount.lookups', 'GardenerLookup'),
 }
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'

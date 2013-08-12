@@ -2,7 +2,7 @@ from django.db.models import Sum
 
 from chart_builders import create_chart_as_png_str
 from cropcount.models import Patch
-from harvestcount.models import Harvest
+from metrics.harvestcount.models import Harvest
 from estimates.common import estimate_for_patches
 
 def _harvests(garden, year=None):

@@ -2,7 +2,7 @@ from django.db.models import Count, Max, Min, Sum
 from django.views.generic import TemplateView
 
 from farmingconcrete.models import Garden
-from harvestcount.models import Harvest
+from metrics.harvestcount.models import Harvest
 
 
 class ExplainEstimatedYieldView(TemplateView):
