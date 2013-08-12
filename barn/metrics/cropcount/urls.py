@@ -4,6 +4,7 @@ from .views import ConfirmDeletePatchView
 
 
 urlpatterns = patterns('',
+
     url(r'^$',
         'metrics.cropcount.views.index',
         name='cropcount_index'
@@ -51,23 +52,23 @@ urlpatterns = patterns('',
 
     # Beds
 
-    url(r'^beds/(?P<id>\d+)/(?:(?P<year>\d{4})/)?$',
+    url(r'^beds/(?P<id>\d+)/$',
         'metrics.cropcount.views.bed_details',
         name='cropcount_bed_details'
     ),
 
-    url(r'^beds/(?P<id>\d+)/(?:(?P<year>\d{4})/)?delete/$',
+    url(r'^beds/(?P<id>\d+)/delete/$',
         'metrics.cropcount.views.delete_bed',
         name='cropcount_delete_bed'
     ),
+
+
+    # Patches
 
     url(r'^beds/(?P<bed_id>\d+)/(?:(?P<year>\d{4})/)?patches/add/',
         'metrics.cropcount.views.add_patch',
         name='cropcount_add_patch'
     ),
-
-
-    # Patches
 
     url(r'^patches/(?P<id>\d+)/(?:(?P<year>\d{4})/)?confirm-delete/$',
         ConfirmDeletePatchView.as_view(),

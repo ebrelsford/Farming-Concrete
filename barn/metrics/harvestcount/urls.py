@@ -10,11 +10,6 @@ urlpatterns = patterns('',
         name='harvestcount_index'
     ),
 
-    url(r'^harvests/(?P<id>\d+)/delete/$',
-        'metrics.harvestcount.views.delete_harvest',
-        name='harvestcount_delete_harvest'
-    ),
-
 
     # Garden lists
 
@@ -42,11 +37,16 @@ urlpatterns = patterns('',
     ),
 
 
-    # Add
+    # Add / delete harvests
 
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?harvests/add/',
         HarvestAddView.as_view(),
         name='harvestcount_add_harvest',
+    ),
+
+    url(r'^harvests/(?P<id>\d+)/delete/$',
+        'metrics.harvestcount.views.delete_harvest',
+        name='harvestcount_delete_harvest'
     ),
 
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?gardeners/add/$',

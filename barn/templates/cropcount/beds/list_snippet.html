@@ -28,7 +28,7 @@
             {% else %}
                 {% for box in bed_list %}
                 <li>
-                    <a href="{% url "cropcount_bed_details" id=box.id year=request.session.year %}">bed {{ box.name }}</a>
+                    <a href="{% url "cropcount_bed_details" id=box.id %}">bed {{ box.name }}</a>
                 </li>
                 {% endfor %}
             {% endif %}

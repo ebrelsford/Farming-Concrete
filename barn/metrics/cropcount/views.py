@@ -139,7 +139,7 @@ def garden_details(request, id, year=None):
         form = BoxForm(request.POST)
         if form.is_valid():
             box = form.save()
-            return redirect(bed_details, id=box.id, year=year)
+            return redirect(bed_details, id=box.id)
     else:
         try:
             most_recent_box = Box.objects.filter(
@@ -226,7 +226,7 @@ def add_bed(request, id=None, year=None):
         form = BoxForm(request.POST)
         if form.is_valid():
             box = form.save()
-            return redirect(bed_details, id=box.id, year=year)
+            return redirect(bed_details, id=box.id)
     else:
         try:
             most_recent_box = Box.objects.filter(
@@ -282,7 +282,7 @@ def add_patch(request, bed_id=None, year=None):
         form = PatchForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect(bed_details, id=bed_id, year=year)
+            return redirect(bed_details, id=bed_id)
         else:
             try:
                 variety = Variety.objects.get(id=form.data['variety'])
@@ -317,7 +317,7 @@ def bed_details(request, id, year=None):
         form = PatchForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect(bed_details, id=id, year=year)
+            return redirect(bed_details, id=id)
     else:
         initial = {
             'added_by': request.user,
@@ -338,7 +338,7 @@ def delete_patch(request, id, year=None):
     patch = get_object_or_404(Patch, pk=id)
     bed_id = patch.box.id
     patch.delete()
-    return redirect(bed_details, id=bed_id, year=year)
+    return redirect(bed_details, id=bed_id)
 
 
 class ConfirmDeletePatchView(TemplateView):
@@ -357,8 +357,12 @@ class ConfirmDeletePatchView(TemplateView):
 def delete_bed(request, id, year=None):
     bed = get_object_or_404(Box, pk=id)
     garden_id = bed.garden.id
+    try:
+        bed_year = bed.patch_set.all().order_by('added')[0].added.year
+    except Exception:
+        bed_year = year
     bed.delete()
-    return redirect(garden_details, id=garden_id, year=year)
+    return redirect(garden_details, id=garden_id, year=bed_year)
 
 
 @login_required
