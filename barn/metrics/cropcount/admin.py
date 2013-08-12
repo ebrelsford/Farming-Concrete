@@ -1,16 +1,11 @@
 from django.contrib import admin
 
-from metrics.cropcount.models import Box, Patch
-
-
-class BoxInline(admin.TabularInline):
-    model = Box
-    extra = 1
-    fields = ('name', 'length', 'width')
+from .models import Patch
 
 
 class PatchAdmin(admin.ModelAdmin):
-    readonly_fields = ('added', 'updated')
+    readonly_fields = ('added', 'added_by', 'box', 'garden', 'updated',
+                       'variety',)
     fields = ('box', 'variety', 'plants', 'area', 'added_by', 'added',
               'updated_by', 'updated')
 

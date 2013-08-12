@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from estimates.models import EstimatedCost, EstimatedYield
-from metrics.cropcount.admin import BoxInline
 from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 from .models import Garden, GardenGroup, GardenType, Variety
@@ -11,7 +10,6 @@ class GardenAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'neighborhood', 'borough', 'city', 'state',)
     list_filter = ('type', 'borough', 'neighborhood', 'state',)
     search_fields = ('name', 'neighborhood', 'borough',)
-    inlines = (BoxInline,)
 
 
 class VarietyAdmin(admin.ModelAdmin):
