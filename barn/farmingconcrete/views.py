@@ -20,7 +20,7 @@ from harvestcount.models import Harvest
 from middleware.http import Http403
 from .geo import garden_collection
 from .forms import GardenForm
-from .models import Garden, GardenType, Variety
+from .models import Garden, GardenGroup, GardenType, Variety
 from .utils import get_variety
 
 
@@ -309,3 +309,7 @@ class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
             'name': variety.name,
             'message': message,
         }))
+
+
+class GardenGroupDetailView(DetailView):
+    model = GardenGroup

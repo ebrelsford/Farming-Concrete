@@ -1,8 +1,9 @@
 from django.conf.urls.defaults import patterns, url
 
 from .views import (AddSuggestedGardenView, CreateGardenView,
-                    FarmingConcreteGardenDetails, GardenSuggestionView,
-                    UserGardenLeaveView, UserGardenLeaveConfirmedView)
+                    FarmingConcreteGardenDetails, GardenGroupDetailView,
+                    GardenSuggestionView, UserGardenLeaveView,
+                    UserGardenLeaveConfirmedView)
 
 
 urlpatterns = patterns('',
@@ -39,6 +40,11 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/leave/confirmed/$',
         UserGardenLeaveConfirmedView.as_view(),
         name='farmingconcrete_gardens_leave_confirmed',
+    ),
+
+    url(r'^group/(?P<pk>\d+)/$',
+        GardenGroupDetailView.as_view(),
+        name='farmingconcrete_gardengroup_detail',
     ),
 
 )

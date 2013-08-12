@@ -2,6 +2,17 @@
     <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">
         <span class="garden-list-garden-name">{{ garden.name }}</span>
     </a>
+
+    {% if garden.gardengroup_set.count > 0 %}
+        <span class="garden-list-garden-groups">
+            {% for group in garden.gardengroup_set.all %}
+                <a href="{% url "farmingconcrete_gardengroup_detail" pk=group.pk %}" class="label">
+                    {{ group }}
+                </a>
+            {% endfor %}
+        </span>
+    {% endif %}
+
     <div class="garden-list-garden-details">
         {% if garden.address %}
             {{ garden.address }},
@@ -13,4 +24,3 @@
         {% endif %}
     </div>
 </div>
-

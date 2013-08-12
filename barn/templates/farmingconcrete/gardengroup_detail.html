@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block header_title %}{{ gardengroup.name }}{% endblock %}
+
+{% block content %}
+    <section>
+        <h1>{{ gardengroup.name }}</h1>
+
+        <ul class="garden-list">
+            {% for garden in gardengroup.gardens.all %}
+                <li class="garden-list-garden">
+                    {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                </li>
+            {% endfor %}
+        </ul>
+
+    </section>
+{% endblock %}
