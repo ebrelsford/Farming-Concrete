@@ -3,10 +3,10 @@ from django.conf.urls.defaults import patterns, url
 from .views import ConfirmDeletePatchView
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns('metrics.cropcount.views',
 
     url(r'^$',
-        'metrics.cropcount.views.index',
+        'index',
         name='cropcount_index'
     ),
 
@@ -14,12 +14,12 @@ urlpatterns = patterns('',
     # Garden lists
 
     url(r'^yours/(?:(?P<year>\d{4})/)?$',
-        'metrics.cropcount.views.user_gardens',
+        'user_gardens',
         name='cropcount_user_gardens'
     ),
 
     url(r'^counted/(?:(?P<year>\d{4})/)?$',
-        'metrics.cropcount.views.all_gardens',
+        'all_gardens',
         name='cropcount_all_gardens'
     ),
 
@@ -27,17 +27,17 @@ urlpatterns = patterns('',
     # Garden details
 
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?$',
-        'metrics.cropcount.views.garden_details',
+        'garden_details',
         name='cropcount_garden_details'
     ),
 
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?summary/$',
-        'metrics.cropcount.views.summary',
+        'summary',
         name='cropcount_summary'
     ),
 
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        'metrics.cropcount.views.download_garden_cropcount_as_csv',
+        'download_garden_cropcount_as_csv',
         name='cropcount_download_garden_cropcount_as_csv'
     ),
 
@@ -45,7 +45,7 @@ urlpatterns = patterns('',
     # Add
 
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?beds/add/$',
-        'metrics.cropcount.views.add_bed',
+        'add_bed',
         name='cropcount_add_bed'
     ),
 
@@ -53,12 +53,12 @@ urlpatterns = patterns('',
     # Beds
 
     url(r'^beds/(?P<id>\d+)/$',
-        'metrics.cropcount.views.bed_details',
+        'bed_details',
         name='cropcount_bed_details'
     ),
 
     url(r'^beds/(?P<id>\d+)/delete/$',
-        'metrics.cropcount.views.delete_bed',
+        'delete_bed',
         name='cropcount_delete_bed'
     ),
 
@@ -66,7 +66,7 @@ urlpatterns = patterns('',
     # Patches
 
     url(r'^beds/(?P<bed_id>\d+)/(?:(?P<year>\d{4})/)?patches/add/',
-        'metrics.cropcount.views.add_patch',
+        'add_patch',
         name='cropcount_add_patch'
     ),
 
@@ -76,7 +76,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^patches/(?P<id>\d+)/(?:(?P<year>\d{4})/)?delete/$',
-        'metrics.cropcount.views.delete_patch',
+        'delete_patch',
         name='cropcount_delete_patch'
     ),
 )
