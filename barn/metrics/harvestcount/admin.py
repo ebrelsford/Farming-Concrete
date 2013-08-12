@@ -11,10 +11,12 @@ class GardenerAdmin(admin.ModelAdmin):
 class HarvestAdmin(admin.ModelAdmin):
     fields = ('variety', 'weight', 'plants', 'reportable', 'garden',
               'added_by', 'added', 'updated_by', 'updated',)
-    list_display = ('variety', 'weight', 'plants', 'gardener', 'harvested', 'reportable',)
+    list_display = ('variety', 'weight', 'plants', 'gardener', 'harvested',
+                    'reportable',)
     list_filter = ('harvested', 'reportable',)
     readonly_fields = ('added', 'added_by', 'garden', 'updated',)
-    search_fields = ('variety__name', 'gardener__name', 'gardener__garden__name',)
+    search_fields = ('variety__name', 'gardener__name',
+                     'gardener__garden__name',)
 
     def mark_as_unreportable(self, request, queryset):
         """mark a set of varieties as unreportable"""
