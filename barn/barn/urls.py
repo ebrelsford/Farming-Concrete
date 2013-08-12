@@ -7,7 +7,6 @@ from django.views.generic import TemplateView
 
 import accounts.urls
 from farmingconcrete.views import IndexView
-from metrics.harvestcount.views import GardenerAddView, HarvestAddView
 import reports.urls
 
 admin.autodiscover()
@@ -24,40 +23,10 @@ urlpatterns = patterns('',
     (r'^metrics/cropcount/', include('metrics.cropcount.urls')),
 
     # harvest count
-    (r'^harvestcount/(?:(?P<year>\d{4})/)?', include('metrics.harvestcount.urls')),
-    url(r'^harvestcount/yours/(?:(?P<year>\d{4})/)?$',
-        'metrics.harvestcount.views.user_gardens',
-        name='harvestcount_user_gardens'
-    ),
-    url(r'^harvestcount/harvested/(?:(?P<year>\d{4})/)?$',
-        'metrics.harvestcount.views.all_gardens',
-        name='harvestcount_all_gardens'
-    ),
-    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?$',
-        'metrics.harvestcount.views.garden_details',
-        name='harvestcount_garden_details',
-    ),
+    (r'^metrics/harvestcount/', include('metrics.harvestcount.urls')),
 
+    # Estimates
     url(r'^estimates/', include('estimates.urls')),
-
-    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?harvests/add/',
-        HarvestAddView.as_view(),
-        name='harvestcount_add_harvest',
-    ),
-
-    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?gardeners/add/$',
-        GardenerAddView.as_view(),
-        name='harvestcount_add_gardener',
-    ),
-
-    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?csv/$',
-        'metrics.harvestcount.views.download_garden_harvestcount_as_csv',
-        name='harvestcount_download_garden_harvestcount_as_csv'
-    ),
-    url(r'^gardens/(?P<id>\d+)/harvestcount/(?:(?P<year>\d{4})/)?last_harvest',
-        'metrics.harvestcount.views.quantity_for_last_harvest',
-        name='harvestcount_quantity_for_last_harvest'
-    ),
 
     # reports
     url(r'^reports/', include(reports.urls.main_patterns)),
