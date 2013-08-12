@@ -52,42 +52,44 @@
             </p>
 
         {% else %}
-            <div id="left">
-                <section>
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <section>
 
-                    <p>
-                        <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
-                            Add a garden
-                        </a>
-                    </p>
-
-                    {% if user_gardens %}
-                        <p>You have access to the following garden{{ user_gardens|pluralize }}:
-                            <ul class="garden-list">
-                                {% for garden in user_gardens %}
-                                    <li class="garden-list-garden">
-                                        {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
-                                        <div class="garden-list-buttons">
-                                            <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
-                                                Leave
-                                            </a>
-                                        </div>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </p>
-                    {% else %}
                         <p>
-                            It looks like you don't have access to any gardens yet.
-                            Add one?
+                            <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
+                                Add a garden
+                            </a>
                         </p>
-                    {% endif %}
 
-                </section>
+                        {% if user_gardens %}
+                            <p>You have access to the following garden{{ user_gardens|pluralize }}:
+                                <ul class="garden-list">
+                                    {% for garden in user_gardens %}
+                                        <li class="garden-list-garden">
+                                            {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                                            <div class="garden-list-buttons">
+                                                <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
+                                                    Leave
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </p>
+                        {% else %}
+                            <p>
+                                It looks like you don't have access to any gardens yet.
+                                Add one?
+                            </p>
+                        {% endif %}
 
-            </div>
-            <div id="right">
-                <div id="map" style="width: 400px; height: 300px;"></div>
+                    </section>
+
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <div id="map" style="width: 100%; height: 300px;"></div>
+                </div>
             </div>
         {% endif %}
     {% else %}

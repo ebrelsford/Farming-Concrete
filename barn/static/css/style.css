@@ -1,8 +1,5 @@
 body {
-    width: 940px;
     margin-bottom: 50px;
-    margin-left: auto;
-    margin-right: auto;
     font-family: Arial, Helvetica;
 }
 
@@ -127,24 +124,6 @@ a:hover {
     font-size: 12px;
     font-weight: bold;
     padding-bottom: 5px;
-}
-
-#left {
-    float: left;
-    padding: 5px;
-    width: 50%;
-}
-.details #left {
-    width: 60%;
-}
-.map-page #left {
-    width: 60%;
-}
-
-#right {
-    float: right;
-    display: block;
-    padding: 5px;
 }
 
 #bottom h2 {
@@ -356,16 +335,6 @@ table.cycled tbody tr.odd {
 }
 table.cycled tbody tr.even {
     background-color: #F2E3C4;
-}
-
-
-#right #map {
-    width: 400px; 
-    height: 300px;
-}
-.garden-details #right #map {
-    width: 300px; 
-    height: 200px;
 }
 
 .map-page table.totals {
