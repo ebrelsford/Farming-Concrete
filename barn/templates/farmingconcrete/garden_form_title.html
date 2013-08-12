@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if garden %}
+    {% trans "Edit" %} {{ garden }}
+{% else %}
+    {% trans "Add a garden" %}
+{% endif %}

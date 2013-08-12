@@ -9,7 +9,9 @@ from django.db.models import Sum, Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from django.views.generic import CreateView, DetailView, View, TemplateView
+from django.views.generic import (CreateView, DetailView, View, UpdateView,
+                                  TemplateView)
+from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
 from accounts.models import UserProfile
@@ -112,17 +114,20 @@ class AddUserGardenMixin(object):
             profile.gardens.add(garden)
 
 
-class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin,
-                       SuccessMessageFormMixin, CreateView):
+class GardenFormMixin(FormMixin):
     form_class = GardenForm
-    template_name = 'farmingconcrete/gardens/add.html'
+    model = Garden
 
     def get_initial(self):
-        initial = super(CreateGardenView, self).get_initial()
+        initial = super(GardenFormMixin, self).get_initial()
         initial.update({
             'added_by': self.request.user,
         })
         return initial
+
+
+class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin, GardenFormMixin,
+                       SuccessMessageFormMixin, CreateView):
 
     def get_success_message(self):
         return 'Successfully added %s' % self.object
@@ -136,6 +141,16 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin,
         self.add_garden_to_user(garden)
         self.add_success_message()
         return HttpResponseRedirect(self.get_success_url())
+
+
+class UpdateGardenView(LoginRequiredMixin, SuccessMessageFormMixin,
+                       GardenFormMixin, UpdateView):
+
+    def get_success_message(self):
+        return 'Successfully edited %s' % self.object
+
+    def get_success_url(self):
+        return reverse('home')
 
 
 class GardenSuggestionView(LoginRequiredMixin, ListView):
