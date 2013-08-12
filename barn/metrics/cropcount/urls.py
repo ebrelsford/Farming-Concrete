@@ -65,17 +65,17 @@ urlpatterns = patterns('metrics.cropcount.views',
 
     # Patches
 
-    url(r'^beds/(?P<bed_id>\d+)/(?:(?P<year>\d{4})/)?patches/add/',
+    url(r'^beds/(?P<bed_id>\d+)/patches/add/',
         'add_patch',
         name='cropcount_add_patch'
     ),
 
-    url(r'^patches/(?P<id>\d+)/(?:(?P<year>\d{4})/)?confirm-delete/$',
+    url(r'^patches/(?P<id>\d+)/confirm-delete/$',
         ConfirmDeletePatchView.as_view(),
         name='cropcount_patches_confirm_delete',
     ),
 
-    url(r'^patches/(?P<id>\d+)/(?:(?P<year>\d{4})/)?delete/$',
+    url(r'^patches/(?P<id>\d+)/delete/$',
         'delete_patch',
         name='cropcount_delete_patch'
     ),

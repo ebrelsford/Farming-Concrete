@@ -35,7 +35,7 @@
             </li>
             {% else %}
             <li data-icon="plus">
-                <a href="{% url "cropcount_add_patch" bed_id=bed.pk year=request.session.year %}">Add plants</a>
+                <a href="{% url "cropcount_add_patch" bed_id=bed.pk %}">Add plants</a>
             </li>
             {% endif %}
 

@@ -269,7 +269,7 @@ def add_bed(request, id=None, year=None):
 @login_required
 @in_section('cropcount')
 @year_in_session
-def add_patch(request, bed_id=None, year=None):
+def add_patch(request, bed_id=None):
     bed = get_object_or_404(Box, pk=bed_id)
 
     try:
@@ -333,8 +333,7 @@ def bed_details(request, id, year=None):
 
 @login_required
 @in_section('cropcount')
-@year_in_session
-def delete_patch(request, id, year=None):
+def delete_patch(request, id):
     patch = get_object_or_404(Patch, pk=id)
     bed_id = patch.box.id
     patch.delete()
@@ -346,7 +345,6 @@ class ConfirmDeletePatchView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ConfirmDeletePatchView, self).get_context_data(**kwargs)
-        print kwargs
         context['patch_id'] = kwargs['id']
         return context
 
