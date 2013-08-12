@@ -7,8 +7,9 @@
 {% block body_class %}add-gardens-page{% endblock %}
 
 {% block content %}
+    <h1>{% trans "Add a garden" %}</h1>
+
     <section class="col-lg-8">
-        <h1>{% trans "Add a garden" %}</h1>
         <p>
             {% blocktrans %}
                 Add a garden to Farming Concrete. The garden will be added to
@@ -18,6 +19,7 @@
         </p>
         {% include "_form.html" with form=form %}
     </section>
+
     <div class="col-lg-4">
         <div class="garden-suggestions-wrapper"></div>
         <div id="add-garden-map" class="add-garden-map"></div>
