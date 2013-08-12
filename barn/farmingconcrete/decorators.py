@@ -2,6 +2,7 @@ from functools import wraps
 
 from django.conf import settings
 
+
 def year_in_session(f):
     """
     Stores year in session for use in places like templates
@@ -13,6 +14,7 @@ def year_in_session(f):
         return f(request, *args, **kwargs)
     return wrapper
 
+
 def garden_type_aware(f):
     """
     Ensures that the garden_type session variable is set to 'all' if it's not already set
@@ -23,6 +25,7 @@ def garden_type_aware(f):
             request.session['garden_type'] = 'all'
         return f(request, *args, **kwargs)
     return wrapper
+
 
 def in_section(section):
     """
