@@ -311,5 +311,5 @@ class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
         }))
 
 
-class GardenGroupDetailView(DetailView):
+class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
