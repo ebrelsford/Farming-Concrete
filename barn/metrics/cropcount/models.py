@@ -3,6 +3,7 @@ from django.db import models
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
 
+
 class Box(AuditedModel):
     class Meta:
         verbose_name_plural = 'Boxes'
@@ -16,7 +17,8 @@ class Box(AuditedModel):
     width = models.DecimalField(max_digits=4, decimal_places=1)
 
     def __unicode__(self):
-        return "%s (%s), %d x %d" % (self.garden.name, self.name, self.length, self.width)
+        return "%s (%s), %d x %d" % (self.garden.name, self.name, self.length,
+                                     self.width)
 
     def __cmp__(self, other):
         """sort naturally, with numbers in numeric order"""
@@ -31,6 +33,7 @@ class Box(AuditedModel):
             else:
                 return cmp(self.name, other.name)
 
+
 class Patch(AuditedModel):
     class Meta:
         verbose_name_plural = 'Patches'
@@ -39,7 +42,8 @@ class Patch(AuditedModel):
     box = models.ForeignKey(Box)
     variety = models.ForeignKey(Variety)
     plants = models.IntegerField(null=True, blank=True)
-    area = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    area = models.DecimalField(max_digits=5, decimal_places=2, null=True,
+                               blank=True)
 
     estimated_plants = models.BooleanField(
         default=False,
@@ -48,4 +52,10 @@ class Patch(AuditedModel):
     )
 
     def __unicode__(self):
-        return "%s (%s), %s: %d (plants), %d (area)" % (self.box.garden.name, self.box.name, self.variety, self.plants or 0, self.area or 0)
+        return "%s (%s), %s: %d (plants), %d (area)" % (
+            self.box.garden.name,
+            self.box.name,
+            self.variety,
+            self.plants or 0,
+            self.area or 0,
+        )

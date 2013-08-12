@@ -8,7 +8,7 @@ from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
 from ajax_select.fields import AutoCompleteSelectField
 
 from farmingconcrete.models import Garden
-from models import Box, Patch
+from .models import Box, Patch
 
 
 class BedSizeField(DecimalField):
@@ -64,6 +64,7 @@ class BoxForm(ModelForm):
             raise ValidationError("Please enter the bed's size.")
 
         return data
+
 
 class PatchForm(ModelForm):
     def __init__(self, *args, **kwargs):

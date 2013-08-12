@@ -1,4 +1,5 @@
-from models import Gardener
+from .models import Gardener
+
 
 class GardenerLookup(object):
     """Lookup for Gardeners"""
@@ -20,7 +21,4 @@ class GardenerLookup(object):
         return unicode(gardener)
 
     def get_objects(self,ids):
-        """given a list of ids, return the objects ordered as you would like them on the admin page.
-        this is for displaying the currently selected items (in the case of a ManyToMany field)
-        """
         return Gardener.objects.filter(pk__in=ids).order_by('name')

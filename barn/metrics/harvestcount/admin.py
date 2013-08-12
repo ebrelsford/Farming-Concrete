@@ -34,5 +34,6 @@ class HarvestAdmin(admin.ModelAdmin):
 
     actions = (mark_as_unreportable, mark_as_reportable,)
 
+
 admin.site.register(Gardener, GardenerAdmin)
 admin.site.register(Harvest, HarvestAdmin)

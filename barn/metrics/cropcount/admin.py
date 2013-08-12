@@ -11,7 +11,8 @@ class BoxInline(admin.TabularInline):
 
 class PatchAdmin(admin.ModelAdmin):
     readonly_fields = ('added', 'updated')
-    fields = ('box', 'variety', 'plants', 'area', 'added_by', 'added', 'updated_by', 'updated')
+    fields = ('box', 'variety', 'plants', 'area', 'added_by', 'added',
+              'updated_by', 'updated')
 
 
 admin.site.register(Patch, PatchAdmin)

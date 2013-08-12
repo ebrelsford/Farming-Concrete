@@ -27,6 +27,7 @@ def add_estimated_plants(year=2012):
     for variety in PLANTS_BY_AREA_AVERAGES.keys():
         add_estimated_plants_for_variety(variety, year)
 
+
 def add_estimated_plants_for_variety(variety, year=2012):
     average_plants = PLANTS_BY_AREA_AVERAGES[variety]
     patches = Patch.objects.filter(added__year=2012, variety__name=variety,

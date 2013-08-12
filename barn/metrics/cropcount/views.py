@@ -12,8 +12,8 @@ from django.views.generic.base import TemplateView
 
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
-from models import Box, Patch
-from forms import BoxForm, PatchForm
+from .forms import BoxForm, PatchForm
+from .models import Box, Patch
 
 from middleware.http import Http403
 
