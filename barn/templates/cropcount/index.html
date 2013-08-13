@@ -4,7 +4,7 @@
 {% block title %}Crop Count{% endblock %}
 
 {% block map_params %}
-queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
+    queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
 {% endblock %}
 
 {% block head %}
@@ -14,43 +14,47 @@ queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&ye
 {% block breadcrumbs %}{{ block.super }} crop count{% endblock %}
 
 {% block content %}
-<h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
+    <h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
 
-{{ block.super }}
+    {{ block.super }}
 {% endblock %}
 
 {% block left %}
-<ul class="overview">
-    <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
-    <li class="even"><b>{{ beds|default:'0' }}</b> bed{{ beds|pluralize }}</li>
-    <li><b>{{ area|default:'0'|floatformat }}</b> square feet</li>
-    <li class="even"><b>{{ plants|default:'0' }}</b> plant{{ plants|pluralize }}</li>
-    <li class="last">
-        <span>most recent plant types:</span>
-        <ul>
-            {% for plant_type in recent_types %}
-            <li>{{ plant_type }}</li>
-            {% empty %}
-            <li>None yet!</li>
-            {% endfor %}
-        </ul>
-    </li>
-</ul>
+    <ul class="overview">
+        <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
+        <li class="even"><b>{{ beds|default:'0' }}</b> bed{{ beds|pluralize }}</li>
+        <li><b>{{ area|default:'0'|floatformat }}</b> square feet</li>
+        <li class="even"><b>{{ plants|default:'0' }}</b> plant{{ plants|pluralize }}</li>
+        <li class="last">
+            <span>most recent plant types:</span>
+            <ul>
+                {% for plant_type in recent_types %}
+                <li>{{ plant_type }}</li>
+                {% empty %}
+                <li>None yet!</li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block actions %}
-<h2>
-    <a class="image" href="{% url "cropcount_user_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "cropcount_user_gardens" year=request.session.year %}">View your gardens</a>
-</h2>
-<h2>
-    <a class="image" href="{% url "cropcount_all_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "cropcount_all_gardens" year=request.session.year %}">View all gardens</a>
-</h2>
-{% if perms.farmingconcrete.can_edit_any_garden %}
-<h2>
-    <a class="image" href="{% url "farmingconcrete_gardens_add" %}"><img src="{% static "img/round_plus.png" %}" /></a>
-    <a class="text" href="{% url "farmingconcrete_gardens_add" %}">Add a garden</a>
-</h2>
-{% endif %}
+
+    <h2>
+        <a class="image" href="{% url "cropcount_user_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
+        <a class="text" href="{% url "cropcount_user_gardens" year=request.session.year %}">View your gardens</a>
+    </h2>
+
+    <h2>
+        <a class="image" href="{% url "cropcount_all_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
+        <a class="text" href="{% url "cropcount_all_gardens" year=request.session.year %}">View all gardens</a>
+    </h2>
+
+    {% if perms.farmingconcrete.can_edit_any_garden %}
+        <h2>
+            <a class="image" href="{% url "farmingconcrete_gardens_add" %}"><img src="{% static "img/round_plus.png" %}" /></a>
+            <a class="text" href="{% url "farmingconcrete_gardens_add" %}">Add a garden</a>
+        </h2>
+    {% endif %}
+
 {% endblock %}
