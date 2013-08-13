@@ -1,12 +1,12 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import GardenerAddView, HarvestAddView
+from .views import GardenerAddView, HarvestAddView, HarvestcountIndex
 
 
 urlpatterns = patterns('',
 
     url(r'^(?:(?P<year>\d{4})/)?$',
-        'metrics.harvestcount.views.index',
+        HarvestcountIndex.as_view(),
         name='harvestcount_index'
     ),
 

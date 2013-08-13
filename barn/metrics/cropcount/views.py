@@ -12,6 +12,7 @@ from django.views.generic.base import TemplateView
 
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
+from ..views import IndexView
 from .forms import BoxForm, PatchForm
 from .models import Box, Patch
 
@@ -23,32 +24,30 @@ def _patches(year=settings.FARMINGCONCRETE_YEAR):
     return Patch.objects.filter(added__year=year)
 
 
-@login_required
-@garden_type_aware
-@in_section('cropcount')
-@year_in_session
-def index(request, year=None):
-    """
-    Home page for Crop Count. Show current stats, give access to next actions.
-    """
-    garden_type = request.session['garden_type']
+class CropcountIndex(IndexView):
+    model = Patch
 
-    patches = _patches(year=year)
-    if garden_type != 'all':
-        patches = patches.filter(box__garden__type=garden_type)
+    def get_default_year(self):
+        return settings.FARMINGCONCRETE_YEAR
 
-    beds = Box.objects.filter(patch__in=patches).distinct()
-    gardens = Garden.objects.filter(box__in=beds).distinct()
+    def get_context_data(self, **kwargs):
+        context = super(CropcountIndex, self).get_context_data(**kwargs)
+        patches = self.get_records()
 
-    return render_to_response('cropcount/index.html', {
-        'gardens': gardens.count(),
-        'area': sum([b.length * b.width for b in beds]),
-        'beds': beds.count(),
-        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
-        'recent_types': patches.order_by('-added').values_list('variety__name',
-                                                               flat=True)[:3],
-        'garden_type': garden_type,
-    }, context_instance=RequestContext(request))
+        # TODO Add garden_type back?
+
+        beds = Box.objects.filter(patch__in=patches)
+        gardens = Garden.objects.filter(box__in=beds)
+        recent_types = patches.order_by('-added').values_list('variety__name',
+                                                              flat=True)[:3],
+        context.update({
+            'area': sum([b.length * b.width for b in beds]),
+            'beds': beds.count(),
+            'gardens': gardens.count(),
+            'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+            'recent_types': recent_types[0],
+        })
+        return context
 
 
 @login_required

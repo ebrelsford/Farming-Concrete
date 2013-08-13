@@ -18,6 +18,7 @@ from farmingconcrete.decorators import (garden_type_aware, in_section,
 from farmingconcrete.models import Garden, Variety
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin)
+from ..views import IndexView
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
 
@@ -29,27 +30,28 @@ def _harvests(year=settings.FARMINGCONCRETE_YEAR):
     return Harvest.objects.filter(harvested__year=year)
 
 
-@login_required
-@garden_type_aware
-@in_section('harvestcount')
-@year_in_session
-def index(request, year=None):
-    garden_type = request.session['garden_type']
+class HarvestcountIndex(IndexView):
+    model = Harvest
 
-    harvests = _harvests(year=year)
-    if garden_type != 'all':
-        harvests = harvests.filter(gardener__garden__type=garden_type).distinct()
+    def get_default_year(self):
+        return settings.FARMINGCONCRETE_YEAR
 
-    gardeners = Gardener.objects.filter(harvest__in=harvests).distinct()
-    gardens = Garden.objects.filter(gardener__in=gardeners).distinct()
+    def get_context_data(self, **kwargs):
+        context = super(HarvestcountIndex, self).get_context_data(**kwargs)
+        harvests = self.get_records()
 
-    return render_to_response('harvestcount/index.html', {
-        'gardens': gardens.count(),
-        'gardeners': gardeners.count(),
-        'weight': harvests.aggregate(t=Sum('weight'))['t'],
-        'plant_types': harvests.values('variety__id').distinct().count(),
-        'recent_harvests': harvests.order_by('-added')[:3],
-    }, context_instance=RequestContext(request))
+        gardeners = Gardener.objects.filter(harvest__in=harvests).distinct()
+        gardens = Garden.objects.filter(gardener__in=gardeners).distinct()
+
+        context.update({
+            'gardens': gardens.count(),
+            'gardeners': gardeners.count(),
+            'weight': harvests.aggregate(t=Sum('weight'))['t'],
+            'plant_types': harvests.values('variety__id').distinct().count(),
+            'recent_harvests': harvests.order_by('-added')[:3],
+        })
+
+        return context
 
 
 @login_required

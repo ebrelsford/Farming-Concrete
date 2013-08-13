@@ -1,12 +1,12 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import ConfirmDeletePatchView
+from .views import CropcountIndex, ConfirmDeletePatchView
 
 
 urlpatterns = patterns('metrics.cropcount.views',
 
-    url(r'^$',
-        'index',
+    url(r'^(?:(?P<year>\d{4})/)?$',
+        CropcountIndex.as_view(),
         name='cropcount_index'
     ),
 
