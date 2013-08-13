@@ -3,11 +3,14 @@
     <form method="post" action="." data-ajax="false">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
-        {{ hidden }}
+            {{ hidden }}
         {% endfor %}
         <div id="errors">
             {{ form.non_field_errors }}
-            {{ form.garden.errors }}{{ form.name.errors }}{{ form.width.errors }}{{ form.length.errors }}
+            {{ form.garden.errors }}
+            {{ form.name.errors }}
+            {{ form.width.errors }}
+            {{ form.length.errors }}
         </div>
         <div id="inputs">
             <div data-role="fieldcontain">
