@@ -24,7 +24,7 @@ class RecordsMixin(DefaultYearMixin):
     """
 
     def get_records(self):
-        return self.model.objects.filter(added__year=self.get_year())
+        return self.model.objects.filter(recorded__year=self.get_year())
 
 
 class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
