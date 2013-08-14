@@ -123,8 +123,12 @@ class GardenDetails(CropcountMixin, FormMixin, GardenView):
         return context
 
 
-class CropcountUserGardenView(CropcountMixin, UserGardenView):
+class CropcountUserGardenView(TitledPageMixin, CropcountMixin, UserGardenView):
     metric_model = Patch
+
+    def get_title(self):
+        garden_type = self.request.session['garden_type']
+        return 'Your %s gardens' % garden_type_label(garden_type)
 
 
 class CropcountAllGardensView(TitledPageMixin, DefaultYearMixin,

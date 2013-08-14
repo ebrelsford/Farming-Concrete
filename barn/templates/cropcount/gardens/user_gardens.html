@@ -1,13 +1,10 @@
 {% extends "metrics/map_base.html" %}
 {% load garden_tags %}
 
-{% block title %}
-    Your {{ request.session.garden_type|garden_type_label }} gardens
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block breadcrumbs %}
-    {{ block.super }}
-    Your {{ request.session.garden_type|garden_type_label }} gardens
+    {{ block.super }} {{ title }}
 {% endblock %}
 
 {% block map_params %}
@@ -15,9 +12,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>
-        Your {{ request.session.garden_type|garden_type_label }} gardens
-    </h1>
+    <h1>{{ title }}</h1>
     {{ block.super }}
 {% endblock %}
 
