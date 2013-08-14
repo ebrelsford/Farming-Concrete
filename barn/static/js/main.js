@@ -52,11 +52,11 @@ define(
         }
 
         if ($('.main-index-page').length > 0) {
-            require(['mainindexpage']);
+            require(['leaflet.basicmap']);
         }
 
         if ($('.map-base-page').length > 0) {
-            require(['mapbasepage']);
+            require(['leaflet.basicmap']);
         }
 
 });
