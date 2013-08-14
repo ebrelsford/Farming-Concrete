@@ -22,9 +22,9 @@
         {% for garden in all_gardens_with_records %}
             <li id="{{ garden.id }}">
                 {% if perms.can_edit_any_garden or garden in user_gardens %}
-                <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
+                    <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
                 {% else %}
-                <label>{{ garden.name }}</label>
+                    <label>{{ garden.name }}</label>
                 {% endif %}
             </li>
         {% empty %}
