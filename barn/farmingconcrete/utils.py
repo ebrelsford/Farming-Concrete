@@ -101,3 +101,9 @@ def get_variety(name, user):
     variety = Variety(name=name, added_by=user, needs_moderation=moderated)
     variety.save()
     return variety, True
+
+
+def garden_type_label(garden_type):
+    if garden_type and garden_type != 'all':
+        return '%ss' % garden_type
+    return ''

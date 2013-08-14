@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.http import QueryDict
+from django.views.generic.base import ContextMixin
 from django.views.generic.edit import FormMixin
 
 
@@ -97,3 +98,16 @@ class SuccessMessageFormMixin(FormMixin):
 
     def get_success_message(self):
         return self.success_message
+
+
+class TitledPageMixin(ContextMixin):
+
+    def get_title(self):
+        return self.title
+
+    def get_context_data(self, **kwargs):
+        context = super(TitledPageMixin, self).get_context_data(**kwargs)
+        context.update({
+            'title': self.get_title(),
+        })
+        return context

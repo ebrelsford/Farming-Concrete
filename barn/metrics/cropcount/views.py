@@ -14,6 +14,8 @@ from django.views.generic.edit import FormMixin
 
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
+from farmingconcrete.utils import garden_type_label
+from generic.views import TitledPageMixin
 from ..views import (AllGardensView, DefaultYearMixin, GardenView, IndexView,
                      MetricMixin, UserGardenView)
 from .forms import BoxForm, PatchForm
@@ -125,8 +127,13 @@ class CropcountUserGardenView(CropcountMixin, UserGardenView):
     metric_model = Patch
 
 
-class CropcountAllGardensView(DefaultYearMixin, CropcountMixin, AllGardensView):
+class CropcountAllGardensView(TitledPageMixin, DefaultYearMixin,
+                              CropcountMixin, AllGardensView):
     metric_model = Patch
+
+    def get_title(self):
+        garden_type = self.request.session['garden_type']
+        return 'All counted %s gardens' % garden_type_label(garden_type)
 
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR

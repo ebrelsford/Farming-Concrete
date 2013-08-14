@@ -2,9 +2,7 @@ from django import template
 
 register = template.Library()
 
+from ..utils import garden_type_label
 
-@register.filter
-def garden_type_label(garden_type):
-    if garden_type and garden_type != 'all':
-        return '%ss' % garden_type
-    return ''
+
+register.filter('garden_type_label', garden_type_label)
