@@ -98,7 +98,13 @@ class AllGardensView(LoginRequiredMixin, TemplateView):
         raise NotImplementedError('Implement get_all_gardens_with_records')
 
     def get_user_gardens(self):
-        raise NotImplementedError('Implement get_user_gardens')
+        profile = self.request.user.get_profile()
+        user_gardens = profile.gardens.all()
+
+        type = self.request.session['garden_type']
+        if type and type != 'all':
+            user_gardens = user_gardens.filter(type=type)
+        return user_gardens
 
     def get_context_data(self, **kwargs):
         context = super(AllGardensView, self).get_context_data(**kwargs)

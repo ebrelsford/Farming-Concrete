@@ -141,15 +141,6 @@ class CropcountAllGardensView(DefaultYearMixin, CropcountMixin, AllGardensView):
             counted_gardens = counted_gardens.filter(type=type)
         return counted_gardens.order_by('name')
 
-    def get_user_gardens(self):
-        profile = self.request.user.get_profile()
-        user_gardens = profile.gardens.all()
-
-        type = self.request.session['garden_type']
-        if type and type != 'all':
-            user_gardens = user_gardens.filter(type=type)
-        return user_gardens
-
 
 @login_required
 @garden_type_aware
