@@ -1,24 +1,18 @@
 {% extends "metrics/map_base.html" %}
+{% load garden_tags %}
 
 {% block title %}
-    {% with request.session.garden_type as garden_type %}
-        All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-    {% endwith %}
+    All counted {{ request.session.garden_type|garden_type_label }} gardens
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }}
-    {% with request.session.garden_type as garden_type %}
-        All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-    {% endwith %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    All counted {{ request.session.garden_type|garden_type_label }} gardens
 {% endblock %}
 
 {% block content %}
     <h1>
-        {% block list_label %}
-            {% with request.session.garden_type as garden_type %}
-                All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-            {% endwith %}
-        {% endblock %}
+        All counted {{ request.session.garden_type|garden_type_label }} gardens
     </h1>
     {{ block.super }}
 {% endblock %}
