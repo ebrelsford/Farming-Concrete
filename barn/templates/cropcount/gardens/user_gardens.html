@@ -1,18 +1,7 @@
 {% extends "metrics/map_base.html" %}
 
-{% block title %}{{ title }}{% endblock %}
-
-{% block breadcrumbs %}
-    {{ block.super }} {{ title }}
-{% endblock %}
-
 {% block map_params %}
     queryString: 'type={{ request.session.garden_type.short_name }}&ids={% if user_garden_ids %}{{ user_garden_ids|join:"," }}{% else %}-1{% endif %}',
-{% endblock %}
-
-{% block content %}
-    <h1>{{ title }}</h1>
-    {{ block.super }}
 {% endblock %}
 
 {% block left %}
