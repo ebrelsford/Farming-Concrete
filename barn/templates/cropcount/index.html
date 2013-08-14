@@ -1,6 +1,11 @@
 {% extends "metrics/map_base.html" %}
 {% load static %}
 
+{% block breadcrumbs %}
+    <a href="{% url "home" %}">Home</a> &gt;&gt;
+    {{ metric_name }}
+{% endblock %}
+
 {% block map_params %}
     {# TODO as data- attributes #}
     queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
