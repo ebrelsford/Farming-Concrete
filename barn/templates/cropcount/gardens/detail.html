@@ -28,8 +28,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">{{ garden.name }}</a>
-    &gt;&gt; crop count
+    {{ garden.name }}
 {% endblock %}
 
 {% block content %}

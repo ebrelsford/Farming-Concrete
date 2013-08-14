@@ -1,0 +1,15 @@
+{% extends "metrics/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="col-lg-6 col-sm-6">
+        {% block left %}{% endblock %}
+    </div>
+
+    <div class="col-lg-6 col-sm-6">
+        {% if not is_mobile %}
+            <div id="map"></div>
+        {% endif %}
+        {% block right %}{% endblock %}
+    </div>
+{% endblock %}

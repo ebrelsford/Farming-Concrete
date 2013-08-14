@@ -108,10 +108,6 @@ $(document).ready(function() {
     <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
     <a class="text" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}">View this garden's report</a>
 </h2>
-<h2>
-    <a class="image" href="{% url "cropcount_garden_details" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "cropcount_garden_details" id=garden.id year=request.session.year %}">Switch to Crop Count</a>
-</h2>
 {{ block.super }}
 <h2>
     <a class="image" href="{% url "harvestcount_index" year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>

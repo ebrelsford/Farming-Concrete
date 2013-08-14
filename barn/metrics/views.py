@@ -1,7 +1,29 @@
 from django.views.generic import DetailView, TemplateView
+from django.views.generic.base import ContextMixin
 from django.views.generic.dates import YearMixin
 
+from farmingconcrete.models import Garden
 from generic.views import LoginRequiredMixin
+
+
+class MetricMixin(ContextMixin):
+    """
+    A mixin that provides metric-specific context.
+    """
+
+    def get_index_url(self):
+        raise NotImplemented('Implement get_index_url')
+
+    def get_metric_name(self):
+        raise NotImplemented('Implement get_metric_name')
+
+    def get_context_data(self, **kwargs):
+        context = super(MetricMixin, self).get_context_data(**kwargs)
+        context.update({
+            'index_url': self.get_index_url(),
+            'metric_name': self.get_metric_name(),
+        })
+        return context
 
 
 class DefaultYearMixin(YearMixin):
@@ -24,7 +46,7 @@ class RecordsMixin(DefaultYearMixin):
     """
 
     def get_records(self):
-        return self.model.objects.filter(recorded__year=self.get_year())
+        return self.metric_model.objects.filter(recorded__year=self.get_year())
 
 
 class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
@@ -34,7 +56,7 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
 
     def get_template_names(self):
         return [
-            '%s/index.html' % self.model._meta.app_label,
+            '%s/index.html' % self.metric_model._meta.app_label,
         ]
 
 
@@ -46,8 +68,16 @@ class AllGardensView(TemplateView):
     pass
 
 
-class GardenView(DetailView):
-    pass
+class GardenView(LoginRequiredMixin, RecordsMixin, DetailView):
+    model = Garden
+
+    def get_records(self):
+        return super(GardenView, self).get_records().filter(garden=self.object)
+
+    def get_template_names(self):
+        return [
+            '%s/gardens/detail.html' % self.metric_model._meta.app_label,
+        ]
 
 
 class SummaryView(TemplateView):

@@ -1,6 +1,6 @@
 <div id="new-bed" style="border-bottom: 2px solid black; margin-bottom: 10px;">
     <h2 style="font-weight: bold;">Add a new bed to this garden</h2>
-    <form method="post" action="." data-ajax="false">
+    <form method="post" action="{% url "cropcount_add_bed" id=garden.pk %}" data-ajax="false">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
             {{ hidden }}

@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import CropcountIndex, ConfirmDeletePatchView
+from .views import CropcountIndex, ConfirmDeletePatchView, GardenDetails
 
 
 urlpatterns = patterns('metrics.cropcount.views',
@@ -26,8 +26,8 @@ urlpatterns = patterns('metrics.cropcount.views',
 
     # Garden details
 
-    url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?$',
-        'garden_details',
+    url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
+        GardenDetails.as_view(),
         name='cropcount_garden_details'
     ),
 

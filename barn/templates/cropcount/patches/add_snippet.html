@@ -66,6 +66,12 @@
                 <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
                 {{ form.area }} sq ft
             </span>
+
+            <span class="recorded">
+                {{ form.recorded.errors }}
+                {{ form.recorded.label }}<br />
+                {{ form.recorded }}
+            </span>
         {% else %}
             <span class="type">
                 {{ form.variety.errors }}

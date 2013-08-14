@@ -1,17 +1,10 @@
-{% extends "cropcount/map_base.html" %}
+{% extends "metrics/map_base.html" %}
 {% load static %}
 
-{% block title %}Crop Count{% endblock %}
-
 {% block map_params %}
+    {# TODO as data- attributes #}
     queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
 {% endblock %}
-
-{% block head %}
-{{ block.super }}
-{% endblock %}
-
-{% block breadcrumbs %}{{ block.super }} crop count{% endblock %}
 
 {% block content %}
     <h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
@@ -49,12 +42,5 @@
         <a class="image" href="{% url "cropcount_all_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
         <a class="text" href="{% url "cropcount_all_gardens" year=request.session.year %}">View all gardens</a>
     </h2>
-
-    {% if perms.farmingconcrete.can_edit_any_garden %}
-        <h2>
-            <a class="image" href="{% url "farmingconcrete_gardens_add" %}"><img src="{% static "img/round_plus.png" %}" /></a>
-            <a class="text" href="{% url "farmingconcrete_gardens_add" %}">Add a garden</a>
-        </h2>
-    {% endif %}
 
 {% endblock %}

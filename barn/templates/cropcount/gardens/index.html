@@ -1,4 +1,4 @@
-{% extends "cropcount/map_base.html" %}
+{% extends "metrics/map_base.html" %}
 {% load static %}
 
 {% block title %}Counted {{ request.session.garden_type }} gardens{% endblock %}
@@ -37,7 +37,7 @@ Your gardens
 <ul class="gardens">
     {% for garden in user_gardens %}
     <li id="{{ garden.id }}">
-        <a href="{% url "cropcount_garden_details" garden.id year=request.session.year %}">{{ garden.name }}</a>
+        <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
         {% if garden.box_set.count == 0 %}
         no crop count yet
         {% endif %}
@@ -51,7 +51,7 @@ Other gardens
 <ul class="gardens">
     {% for garden in counted_gardens %}
     {% if garden not in user_gardens %}
-    <li id="{{ garden.id }}"><label href="{% url "cropcount_garden_details" garden.id year=request.session.year %}">{{ garden.name }}</label></li>
+    <li id="{{ garden.id }}"><label href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</label></li>
     {% endif %}
     {% empty %}
     <li>None, yet!</li>
