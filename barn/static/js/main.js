@@ -7,10 +7,12 @@
 define(
     [
         'jquery',
+        'modernizr',
+
         'bootstrap',
-        
-        'feedback'
-    ], function ($) {
+        'feedback',
+        'jqueryui'
+    ], function ($, Modernizr) {
 
         /*
         * Global form-related scripts
@@ -31,6 +33,13 @@ define(
                 $(this).find('input[type="submit"]').attr('disabled', 'disabled');
             });
 
+            /*
+             * Add jQuery-ui datepicker if no native datepicker available
+             */
+            if (!Modernizr.inputtypes.date) {
+                $('input[type=date]').datepicker();
+            }
+
         });
 
 
@@ -44,6 +53,10 @@ define(
 
         if ($('.main-index-page').length > 0) {
             require(['mainindexpage']);
+        }
+
+        if ($('.map-base-page').length > 0) {
+            require(['mapbasepage']);
         }
 
 });
