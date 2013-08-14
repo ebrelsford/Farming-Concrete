@@ -12,7 +12,7 @@ class MetricMixin(ContextMixin):
     """
 
     def get_index_url(self):
-        raise NotImplemented('Implement get_index_url')
+        raise NotImplementedError('Implement get_index_url')
 
     def get_metric_name(self):
         raise NotImplemented('Implement get_metric_name')
@@ -29,7 +29,7 @@ class MetricMixin(ContextMixin):
 class DefaultYearMixin(YearMixin):
 
     def get_default_year(self):
-        raise NotImplemented('Implement get_default_year')
+        raise NotImplementedError('Implement get_default_year')
 
     def get_year(self):
         try:
@@ -87,8 +87,26 @@ class UserGardenView(LoginRequiredMixin, ListView):
         return context
 
 
-class AllGardensView(TemplateView):
-    pass
+class AllGardensView(LoginRequiredMixin, TemplateView):
+
+    def get_template_names(self):
+        return [
+            '%s/gardens/all_gardens.html' % self.metric_model._meta.app_label,
+        ]
+
+    def get_all_gardens_with_records(self):
+        raise NotImplementedError('Implement get_all_gardens_with_records')
+
+    def get_user_gardens(self):
+        raise NotImplementedError('Implement get_user_gardens')
+
+    def get_context_data(self, **kwargs):
+        context = super(AllGardensView, self).get_context_data(**kwargs)
+        context.update({
+            'all_gardens_with_records': self.get_all_gardens_with_records(),
+            'user_gardens': self.get_user_gardens(),
+        })
+        return context
 
 
 class GardenView(LoginRequiredMixin, RecordsMixin, DetailView):

@@ -16,7 +16,7 @@
     <h1>
         {% block list_label %}
             {% with request.session.garden_type as garden_type %}
-                Counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+                All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
             {% endwith %}
         {% endblock %}
     </h1>
@@ -25,7 +25,7 @@
 
 {% block left %}
     <ul class="gardens">
-        {% for garden in counted_gardens %}
+        {% for garden in all_gardens_with_records %}
             <li id="{{ garden.id }}">
                 {% if perms.can_edit_any_garden or garden in user_gardens %}
                 <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>

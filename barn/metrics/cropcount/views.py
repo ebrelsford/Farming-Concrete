@@ -14,7 +14,8 @@ from django.views.generic.edit import FormMixin
 
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
-from ..views import GardenView, IndexView, MetricMixin, UserGardenView
+from ..views import (AllGardensView, DefaultYearMixin, GardenView, IndexView,
+                     MetricMixin, UserGardenView)
 from .forms import BoxForm, PatchForm
 from .models import Box, Patch
 
@@ -124,27 +125,30 @@ class CropcountUserGardenView(CropcountMixin, UserGardenView):
     metric_model = Patch
 
 
-@login_required
-@garden_type_aware
-@in_section('cropcount')
-@year_in_session
-def all_gardens(request, year=None):
-    """Show all counted gardens"""
-    type = request.session['garden_type']
+class CropcountAllGardensView(DefaultYearMixin, CropcountMixin, AllGardensView):
+    metric_model = Patch
 
-    counted_gardens = Garden.counted().filter(
-        box__patch__added__year=year
-    ).distinct()
-    profile = request.user.get_profile()
-    user_gardens = profile.gardens.all()
-    if type != 'all':
-        counted_gardens = counted_gardens.filter(type=type)
-        user_gardens = user_gardens.filter(type=type)
+    def get_default_year(self):
+        return settings.FARMINGCONCRETE_YEAR
 
-    return render_to_response('cropcount/gardens/all_gardens.html', {
-        'counted_gardens': counted_gardens.order_by('name'),
-        'user_gardens': user_gardens,
-    }, context_instance=RequestContext(request))
+    def get_all_gardens_with_records(self):
+        counted_gardens = Garden.counted().filter(
+            box__patch__added__year=self.get_year()
+        ).distinct()
+
+        type = self.request.session['garden_type']
+        if type and type != 'all':
+            counted_gardens = counted_gardens.filter(type=type)
+        return counted_gardens.order_by('name')
+
+    def get_user_gardens(self):
+        profile = self.request.user.get_profile()
+        user_gardens = profile.gardens.all()
+
+        type = self.request.session['garden_type']
+        if type and type != 'all':
+            user_gardens = user_gardens.filter(type=type)
+        return user_gardens
 
 
 @login_required
