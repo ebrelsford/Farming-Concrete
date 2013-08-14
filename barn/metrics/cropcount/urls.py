@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import CropcountIndex, ConfirmDeletePatchView, GardenDetails
+from .views import (CropcountIndex, CropcountUserGardenView,
+                    ConfirmDeletePatchView, GardenDetails)
 
 
 urlpatterns = patterns('metrics.cropcount.views',
@@ -14,7 +15,7 @@ urlpatterns = patterns('metrics.cropcount.views',
     # Garden lists
 
     url(r'^yours/(?:(?P<year>\d{4})/)?$',
-        'user_gardens',
+        CropcountUserGardenView.as_view(),
         name='cropcount_user_gardens'
     ),
 

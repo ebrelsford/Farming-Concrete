@@ -14,7 +14,7 @@ from django.views.generic.edit import FormMixin
 
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
-from ..views import GardenView, IndexView, MetricMixin
+from ..views import GardenView, IndexView, MetricMixin, UserGardenView
 from .forms import BoxForm, PatchForm
 from .models import Box, Patch
 
@@ -120,23 +120,8 @@ class GardenDetails(CropcountMixin, FormMixin, GardenView):
         return context
 
 
-@login_required
-@garden_type_aware
-@in_section('cropcount')
-@year_in_session
-def user_gardens(request, year=None):
-    """Show the user's gardens"""
-    type = request.session['garden_type']
-
-    profile = request.user.get_profile()
-    user_gardens = profile.gardens.all()
-    if type != 'all':
-        user_gardens = user_gardens.filter(type=type)
-
-    return render_to_response('cropcount/gardens/user_gardens.html', {
-        'user_gardens': user_gardens.order_by('name'),
-        'user_garden_ids': user_gardens.values_list('id', flat=True),
-    }, context_instance=RequestContext(request))
+class CropcountUserGardenView(CropcountMixin, UserGardenView):
+    metric_model = Patch
 
 
 @login_required

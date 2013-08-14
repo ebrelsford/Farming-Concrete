@@ -1,36 +1,44 @@
-{% extends "cropcount/gardens/list_gardens.html" %}
+{% extends "metrics/map_base.html" %}
 
 {% block title %}
-{% with request.session.garden_type as garden_type %}
-Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-{% endwith %}
+    {% with request.session.garden_type as garden_type %}
+        Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+    {% endwith %}
 {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }}
-{% with request.session.garden_type as garden_type %}
-Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-{% endwith %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% with request.session.garden_type as garden_type %}
+        Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+    {% endwith %}
 {% endblock %}
 
 {% block map_params %}
-queryString: 'type={{ request.session.garden_type.short_name }}&ids={% if user_garden_ids %}{{ user_garden_ids|join:"," }}{% else %}-1{% endif %}',
+    queryString: 'type={{ request.session.garden_type.short_name }}&ids={% if user_garden_ids %}{{ user_garden_ids|join:"," }}{% else %}-1{% endif %}',
 {% endblock %}
 
-{% block list_label %}
-{% with request.session.garden_type as garden_type %}
-Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-{% endwith %}
+{% block content %}
+    <h1>
+        {% block list_label %}
+            {% with request.session.garden_type as garden_type %}
+            Your {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+            {% endwith %}
+        {% endblock %}
+    </h1>
+    {{ block.super }}
 {% endblock %}
 
-{% block list %}
-{% for garden in user_gardens %}
-<li id="{{ garden.id }}">
-    <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
-    {% if garden.box_set.count == 0 %}
-    no crop count yet
-    {% endif %}
-</li>
-{% empty %}
-None.
-{% endfor %}
+{% block left %}
+    <ul class="gardens">
+        {% for garden in user_gardens %}
+            <li id="{{ garden.id }}">
+                <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
+                {% if garden.box_set.count == 0 %}
+                    no crop count yet
+                {% endif %}
+            </li>
+        {% empty %}
+            None.
+        {% endfor %}
+    </ul>
 {% endblock %}

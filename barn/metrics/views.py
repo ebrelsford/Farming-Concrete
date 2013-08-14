@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.dates import YearMixin
 
@@ -60,8 +60,31 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
         ]
 
 
-class UserGardenView(TemplateView):
-    pass
+class UserGardenView(LoginRequiredMixin, ListView):
+
+    def get_template_names(self):
+        return [
+            '%s/gardens/user_gardens.html' % self.metric_model._meta.app_label,
+        ]
+
+    def get_queryset(self):
+        type = self.request.session['garden_type']
+
+        profile = self.request.user.get_profile()
+        user_gardens = profile.gardens.all()
+        if type != 'all':
+            user_gardens = user_gardens.filter(type=type)
+        return user_gardens
+
+    def get_context_data(self, **kwargs):
+        user_gardens = self.get_queryset()
+
+        context = super(UserGardenView, self).get_context_data(**kwargs)
+        context.update({
+            'user_gardens': user_gardens.order_by('name'),
+            'user_garden_ids': user_gardens.values_list('id', flat=True),
+        })
+        return context
 
 
 class AllGardensView(TemplateView):
