@@ -112,18 +112,6 @@
         </div>
     {% endif %}
 
-    {% verbatim %}
-        <script id="popup-template" type="text/x-handlebars-template">
-            <div class="garden-popup">
-                <div class="garden-popup-name">
-                    <a href="{{url}}" target="_blank">
-                        {{garden.properties.name}}
-                    </a>
-                </div>
-            </div>
-        </script>
-    {% endverbatim %}
-
 {% endblock %}
 
 {% if is_mobile %}

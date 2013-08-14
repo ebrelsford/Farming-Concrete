@@ -12,7 +12,7 @@ requirejs.config({
         'leaflet.usermarker': '../lib/leaflet-usermarker/leaflet.usermarker',
         'modernizr': '../lib/modernizr',
         'spin': '../lib/spin',
-        'underscore': 'lib/underscore-min',
+        'underscore': '../lib/underscore-min',
     },
     shim: {
         'bootstrap': ['jquery'],

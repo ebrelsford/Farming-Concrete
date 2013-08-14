@@ -203,7 +203,7 @@ def gardens_geojson(request):
     cropcount = request.GET.get('cropcount', None)
     harvestcount = request.GET.get('harvestcount', None)
     participating = request.GET.get('participating', None)
-    type = request.GET.get('type', None)
+    type = request.GET.get('gardentype', None)
     borough = request.GET.get('borough', None)
     year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
     user_gardens = request.GET.get('user_gardens', False)

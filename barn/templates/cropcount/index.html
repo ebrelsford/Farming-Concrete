@@ -6,13 +6,17 @@
     {{ metric_name }}
 {% endblock %}
 
-{% block map_params %}
-    {# TODO as data- attributes #}
-    queryString: 'cropcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
+{% block map_options %}
+    {{ block.super }}
+    data-lcropcount="yes"
+    data-lyear="{{ request.session.year }}"
+    {% if request.session.garden_type %}
+        data-lgardentype="{{ request.session.garden_type.short_name }}"
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-    <h1>{{ request.session.garden_type.name|default:"all garden" }}s counted so far</h1>
+    <h1>{{ request.session.garden_type.name|default:"All garden" }}s counted so far</h1>
 
     {{ block.super }}
 {% endblock %}
