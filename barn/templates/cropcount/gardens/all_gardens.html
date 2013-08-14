@@ -1,4 +1,4 @@
-{% extends "cropcount/gardens/list_gardens.html" %}
+{% extends "metrics/map_base.html" %}
 
 {% block title %}
     {% with request.session.garden_type as garden_type %}
@@ -12,22 +12,29 @@
     {% endwith %}
 {% endblock %}
 
-{% block list_label %}
-    {% with request.session.garden_type as garden_type %}
-        All counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
-    {% endwith %}
+{% block content %}
+    <h1>
+        {% block list_label %}
+            {% with request.session.garden_type as garden_type %}
+                Counted {% if garden_type != 'all' %}{{ garden_type }}s{% else %}gardens{% endif %}
+            {% endwith %}
+        {% endblock %}
+    </h1>
+    {{ block.super }}
 {% endblock %}
 
-{% block list %}
-    {% for garden in counted_gardens %}
-        <li id="{{ garden.id }}">
-            {% if perms.can_edit_any_garden or garden in user_gardens %}
-            <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
-            {% else %}
-            <label>{{ garden.name }}</label>
-            {% endif %}
-        </li>
-    {% empty %}
-        None.
-    {% endfor %}
+{% block left %}
+    <ul class="gardens">
+        {% for garden in counted_gardens %}
+            <li id="{{ garden.id }}">
+                {% if perms.can_edit_any_garden or garden in user_gardens %}
+                <a href="{% url "cropcount_garden_details" pk=garden.id year=request.session.year %}">{{ garden.name }}</a>
+                {% else %}
+                <label>{{ garden.name }}</label>
+                {% endif %}
+            </li>
+        {% empty %}
+            None.
+        {% endfor %}
+    </ul>
 {% endblock %}
