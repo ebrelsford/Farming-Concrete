@@ -43,11 +43,5 @@ queryString: 'type={{ request.session.garden_type.short_name }}&cropcount=yes&ye
 {% endblock %}
 
 {% block actions %}
-{{ block.super }}
-{% if perms.farmingconcrete.can_edit_any_garden %}
-<h2>
-    <a class="image" href="{% url "farmingconcrete_gardens_add" %}"><img src="{% static "img/round_plus.png" %}" /></a>
-    <a class="text" href="{% url "farmingconcrete_gardens_add" %}">Add a garden</a>
-</h2>
-{% endif %}
+    {{ block.super }}
 {% endblock %}
