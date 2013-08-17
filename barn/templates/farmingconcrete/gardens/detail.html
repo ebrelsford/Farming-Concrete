@@ -1,13 +1,25 @@
 {% extends "garden_base.html" %}
-{% load static %}
+{% load i18n metrics_tags %}
 
 {% block header_title %}{{ garden.name }}{% endblock %}
 
 {% block left %}
+
+    <h2>{% trans "Metrics Recorded at this Garden" %}</h2>
+
+    {% for metric in metrics %}
+        <section>
+            <h3>{{ metric.name }}</h3>
+            {% summarize metric.app metric.summary %}
+        <section>
+        <div class="btn-group">
+            <a href="{% url metric.detail_url_name pk=garden.pk %}" class="btn btn-default">
+                {% trans "View Details" %}
+            </a>
+        </div>
+    {% endfor %}
+
     <ul class="overview">
-        <li class="even"><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
-        <li class="odd"><b>{{ area|default:"0" }}</b> square feet</li>
-        <li class="even"><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
         <li class="odd"><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
         <li class="even"><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
         <li class="odd"><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
