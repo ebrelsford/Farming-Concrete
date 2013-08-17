@@ -1,0 +1,11 @@
+<ul class="overview">
+    <li class="odd">
+        <b>{{ beds|default:"0" }}</b> bed{{ beds.count|pluralize }}
+    </li>
+    <li class="even">
+        <b>{{ area|floatformat|default:"0" }}</b> square feet
+    </li>
+    <li class="odd">
+        <b>{{ plants|default:"0" }}</b> plant{{ plants.count|pluralize }}
+    </li>
+</ul>
