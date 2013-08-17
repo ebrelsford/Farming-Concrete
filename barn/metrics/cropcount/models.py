@@ -60,3 +60,13 @@ class Patch(BaseMetricRecord):
             self.plants or 0,
             self.area or 0,
         )
+
+    @classmethod
+    def summarize(cls, patches):
+        box_pks = set(patches.values_list('box__pk', flat=True))
+        beds = Box.objects.filter(pk__in=box_pks)
+        return {
+            'beds': beds.count(),
+            'area': beds.extra(select = {'area': 'SUM(length * width)'})[0].area,
+            'plants': patches.aggregate(models.Sum('plants'))['plants__sum'],
+        }

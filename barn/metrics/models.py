@@ -54,3 +54,24 @@ class BaseMetricRecord(AuditedModel):
 
     class Meta:
         abstract = True
+
+    @classmethod
+    def summarize(cls, records):
+        """
+        Summarize the given records in a way that will make sense in a template
+        context.
+        """
+        raise NotImplementedError('Implement BaseMetricRecord.summarize')
+
+    @classmethod
+    def get_summary_data(cls, garden, year=None, start=None, end=None):
+        """
+        Get a summary of this metric for the given garden and dates.
+        """
+        if year:
+            records = cls.objects.for_garden(garden).for_year(year)
+        elif start and end:
+            records = cls.objects.for_garden(garden).for_dates(start, end)
+        else:
+            records = cls.objects.for_garden(garden)
+        return cls.summarize(records)
