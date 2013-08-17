@@ -68,7 +68,7 @@ class UserGardenView(LoginRequiredMixin, ListView):
         ]
 
     def get_queryset(self):
-        type = self.request.session['garden_type']
+        type = self.request.session.get('garden_type', 'all')
 
         profile = self.request.user.get_profile()
         user_gardens = profile.gardens.all()

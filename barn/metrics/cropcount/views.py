@@ -127,7 +127,7 @@ class CropcountUserGardenView(TitledPageMixin, CropcountMixin, UserGardenView):
     metric_model = Patch
 
     def get_title(self):
-        garden_type = self.request.session['garden_type']
+        garden_type = self.request.session.get('garden_type', 'all')
         return 'Your %s gardens' % garden_type_label(garden_type)
 
 
