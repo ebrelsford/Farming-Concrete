@@ -4,17 +4,12 @@
 
 {% block breadcrumbs %}{{ block.super }}{{ garden.name }}{% endblock %}
 
-{% block map_params %}
-type: 'single',
-id: {{ garden.id }},   
-{% endblock %}
-
 {% block content %}
-{% if garden %}
-    <h1>{{ garden.name }}</h1>
+    {% if garden %}
+        <h1>{{ garden.name }}</h1>
 
-    {{ block.super }}
-{% else %}
-    <p>No such garden</p>
-{% endif %}
+        {{ block.super }}
+    {% else %}
+        <p>No such garden</p>
+    {% endif %}
 {% endblock %}

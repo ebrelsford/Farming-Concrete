@@ -4,33 +4,14 @@
 {% block header_title %}{{ garden.name }}{% endblock %}
 
 {% block left %}
-<ul class="overview">
-    <li class="even"><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
-    <li class="odd"><b>{{ area|default:"0" }}</b> square feet</li>
-    <li class="even"><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
-    <li class="odd"><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
-    <li class="even"><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
-    <li class="odd"><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
-</ul>
+    <ul class="overview">
+        <li class="even"><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
+        <li class="odd"><b>{{ area|default:"0" }}</b> square feet</li>
+        <li class="even"><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
+        <li class="odd"><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
+        <li class="even"><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
+        <li class="odd"><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
+    </ul>
 {% endblock %}
 
-{% block actions %}
-<h2>
-    <a class="image" href="{% url "cropcount_garden_details" pk=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "cropcount_garden_details" pk=garden.id %}">View Crop Count</a>
-</h2>
-<h2>
-    <a class="image" href="{% url "harvestcount_garden_details" id=garden.id %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-    <a class="text" href="{% url "harvestcount_garden_details" id=garden.id %}">View Harvest Count</a>
-</h2>
-{{ block.super }}
-{% endblock %}
-
-{% block content %}
-{% if is_mobile %}
-<a href="{% url "cropcount_garden_details" pk=garden.id %}" data-role="button">Crop Count</a>
-<a href="{% url "harvestcount_garden_details" id=garden.id %}" data-role="button">Harvest Count</a>
-{% else %}
-{{ block.super }}
-{% endif %}
-{% endblock %}
+{% block actions %}{% endblock %}
