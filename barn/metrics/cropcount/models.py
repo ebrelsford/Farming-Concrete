@@ -3,6 +3,7 @@ from django.db import models
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
 from ..models import BaseMetricRecord
+from ..registry import register
 
 
 class Box(AuditedModel):
@@ -70,3 +71,9 @@ class Patch(BaseMetricRecord):
             'area': beds.extra(select = {'area': 'SUM(length * width)'})[0].area,
             'plants': patches.aggregate(models.Sum('plants'))['plants__sum'],
         }
+
+
+register('Crop Count', {
+    'model': Patch,
+    'garden_detail_url_name': 'cropcount_garden_details',
+})

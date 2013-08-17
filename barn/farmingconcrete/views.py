@@ -17,8 +17,9 @@ from django.views.generic.list import ListView
 from accounts.models import UserProfile
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RememberPreviousPageMixin, SuccessMessageFormMixin)
-from metrics.cropcount.models import Box, Patch
+from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
+from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
 from .forms import GardenForm
@@ -86,17 +87,20 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
             if garden not in self.get_user_gardens():
                 raise Http403
 
+        metrics = []
+        for name, details in registry.items():
+            # TODO only append if there is a summary to show
+            metrics.append({
+                'name': name,
+                'app': details['model']._meta.app_label,
+                'summary': details['model'].get_summary_data(garden, year=year),
+                'detail_url_name': details['garden_detail_url_name'],
+            })
+
         harvests = _harvests(year=year).filter(gardener__garden=garden)
         context.update({
             'garden': garden,
-            'metrics': [
-                {
-                    'name': 'Crop Count',
-                    'app': 'cropcount',
-                    'summary': Patch.get_summary_data(garden, year=year),
-                    'detail_url_name': 'cropcount_garden_details',
-                },
-            ],
+            'metrics': metrics,
             'harvests': harvests.order_by('harvested', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
             'plant_types': harvests.values('variety__id').distinct().count(),
