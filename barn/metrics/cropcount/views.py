@@ -173,7 +173,7 @@ def gardens(request, year=None):
     user_gardens = profile.gardens.all()
     #counted_gardens = counted_gardens & profile.gardens.all()
 
-    return render_to_response('cropcount/gardens/index.html', {
+    return render_to_response('metrics/cropcount/gardens/index.html', {
         'user_gardens': user_gardens.order_by('name'),
         'counted_gardens': counted_gardens.all().order_by('name'),
     }, context_instance=RequestContext(request))
@@ -202,7 +202,7 @@ def summary(request, id=None, year=None):
         if month_name not in bed_months:
             bed_months.append(month_name)
 
-    return render_to_response('cropcount/gardens/summary.html', {
+    return render_to_response('metrics/cropcount/gardens/summary.html', {
         'garden': garden,
         'bed_list': sorted(beds),
         'area': sum([b.length * b.width for b in beds]),
@@ -257,7 +257,7 @@ def add_bed(request, id=None, year=None):
         if month_name not in bed_months:
             bed_months.append(month_name)
 
-    return render_to_response('cropcount/beds/add.html', {
+    return render_to_response('metrics/cropcount/beds/add.html', {
         'garden': garden,
         'bed_list': sorted(beds),
         'form': form,
@@ -301,7 +301,7 @@ def add_patch(request, bed_id=None):
             user=request.user
         )
 
-    return render_to_response('cropcount/patches/add.html', {
+    return render_to_response('metrics/cropcount/patches/add.html', {
         'bed': bed,
         'form': form,
         'variety': variety,
@@ -330,7 +330,7 @@ def bed_details(request, id, year=None):
         }
         form = PatchForm(initial=initial, user=request.user)
 
-    return render_to_response('cropcount/beds/detail.html', {
+    return render_to_response('metrics/cropcount/beds/detail.html', {
         'bed': bed,
         'form': form,
     }, context_instance=RequestContext(request))
@@ -346,7 +346,7 @@ def delete_patch(request, id):
 
 
 class ConfirmDeletePatchView(TemplateView):
-    template_name = 'cropcount/patches/confirm_delete.html'
+    template_name = 'metrics/cropcount/patches/confirm_delete.html'
 
     def get_context_data(self, **kwargs):
         context = super(ConfirmDeletePatchView, self).get_context_data(**kwargs)

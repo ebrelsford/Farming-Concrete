@@ -1,4 +1,4 @@
-{% extends "cropcount/beds/base.html" %}
+{% extends "metrics/cropcount/beds/base.html" %}
 {% load static %}
 
 {% block title %}{{ bed.garden.name }}, bed {{ bed.name }}{% endblock %}
@@ -31,7 +31,7 @@
         <ul class="values" data-role="listview">
             {% if not is_mobile %}
             <li id="new-plant" style="border-bottom: 2px solid black; margin-bottom: 10px;">
-            {% include "cropcount/patches/add_snippet.html" %}
+            {% include "metrics/cropcount/patches/add_snippet.html" %}
             </li>
             {% else %}
             <li data-icon="plus">
@@ -40,7 +40,7 @@
             {% endif %}
 
             {% with patches=bed.patch_set.all %}
-            {% include "cropcount/patches/list_snippet.html" %}
+            {% include "metrics/cropcount/patches/list_snippet.html" %}
             {% endwith %}
         </ul>
     </div>

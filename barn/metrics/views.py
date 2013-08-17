@@ -56,7 +56,7 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
 
     def get_template_names(self):
         return [
-            '%s/index.html' % self.metric_model._meta.app_label,
+            'metrics/%s/index.html' % self.metric_model._meta.app_label,
         ]
 
 
@@ -64,7 +64,7 @@ class UserGardenView(LoginRequiredMixin, ListView):
 
     def get_template_names(self):
         return [
-            '%s/gardens/user_gardens.html' % self.metric_model._meta.app_label,
+            'metrics/%s/gardens/user_gardens.html' % self.metric_model._meta.app_label,
         ]
 
     def get_queryset(self):
@@ -91,7 +91,7 @@ class AllGardensView(LoginRequiredMixin, TemplateView):
 
     def get_template_names(self):
         return [
-            '%s/gardens/all_gardens.html' % self.metric_model._meta.app_label,
+            'metrics/%s/gardens/all_gardens.html' % self.metric_model._meta.app_label,
         ]
 
     def get_all_gardens_with_records(self):
@@ -123,7 +123,7 @@ class GardenView(LoginRequiredMixin, RecordsMixin, DetailView):
 
     def get_template_names(self):
         return [
-            '%s/gardens/detail.html' % self.metric_model._meta.app_label,
+            'metrics/%s/gardens/detail.html' % self.metric_model._meta.app_label,
         ]
 
 
