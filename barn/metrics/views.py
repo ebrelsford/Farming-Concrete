@@ -46,7 +46,7 @@ class RecordsMixin(DefaultYearMixin):
     """
 
     def get_records(self):
-        return self.metric_model.objects.filter(recorded__year=self.get_year())
+        return self.metric_model.objects.for_year(self.get_year())
 
 
 class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
@@ -119,7 +119,7 @@ class GardenView(LoginRequiredMixin, RecordsMixin, DetailView):
     model = Garden
 
     def get_records(self):
-        return super(GardenView, self).get_records().filter(garden=self.object)
+        return super(GardenView, self).get_records().for_garden(self.object)
 
     def get_template_names(self):
         return [
