@@ -97,13 +97,9 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
                 'detail_url_name': details['garden_detail_url_name'],
             })
 
-        harvests = _harvests(year=year).filter(gardener__garden=garden)
         context.update({
             'garden': garden,
             'metrics': metrics,
-            'harvests': harvests.order_by('harvested', 'gardener__name'),
-            'weight': harvests.aggregate(t=Sum('weight'))['t'],
-            'plant_types': harvests.values('variety__id').distinct().count(),
         })
         return context
 

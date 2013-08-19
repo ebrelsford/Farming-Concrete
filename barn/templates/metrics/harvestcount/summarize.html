@@ -1,0 +1,5 @@
+<ul class="overview">
+    <li class="odd"><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
+    <li class="even"><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
+    <li class="odd"><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
+</ul>

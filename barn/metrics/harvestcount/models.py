@@ -1,8 +1,10 @@
 from django.db import models
+from django.db.models import Sum
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden, Variety
 from ..models import BaseMetricRecord
+from ..registry import register
 
 
 class Gardener(AuditedModel):
@@ -33,3 +35,17 @@ class Harvest(BaseMetricRecord):
             self.weight,
             self.variety.name,
         )
+
+    @classmethod
+    def summarize(cls, harvests):
+        return {
+            'harvests': harvests.order_by('harvested', 'gardener__name'),
+            'weight': harvests.aggregate(t=Sum('weight'))['t'],
+            'plant_types': harvests.values('variety__id').distinct().count(),
+        }
+
+
+register('Harvest Count', {
+    'model': Harvest,
+    'garden_detail_url_name': 'harvestcount_garden_details',
+})
