@@ -10,7 +10,7 @@ from django.db.models import Sum
 from django.http import HttpResponseForbidden, HttpResponse, Http404
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormMixin
 
 from barn.mobile import is_mobile
 from farmingconcrete.decorators import (garden_type_aware, in_section,
@@ -18,11 +18,9 @@ from farmingconcrete.decorators import (garden_type_aware, in_section,
 from farmingconcrete.models import Garden, Variety
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin)
-from ..views import IndexView, MetricMixin
+from ..views import GardenView, IndexView, MetricMixin
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
-
-from middleware.http import Http403
 
 
 def _harvests(year=settings.FARMINGCONCRETE_YEAR):
@@ -63,28 +61,17 @@ class HarvestcountIndex(HarvestcountMixin, IndexView):
         return context
 
 
-@login_required
-@in_section('harvestcount')
-@year_in_session
-def garden_details(request, id=None, year=None):
-    """Show details for a garden, let user add harvests"""
-    garden = get_object_or_404(Garden, pk=id)
+class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
+    form_class = AutocompleteHarvestForm
+    metric_model = Harvest
 
-    if not request.user.has_perm('farmingconcrete.can_edit_any_garden'):
-        profile = request.user.get_profile()
-        if garden not in profile.gardens.all():
-            raise Http403
+    def get_initial(self):
+        garden = self.get_object()
 
-    if request.method == 'POST':
-        form = AutocompleteHarvestForm(request.POST, user=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect(garden_details, id=id, year=year)
-    else:
         try:
             most_recent_harvest = Harvest.objects.filter(
                 gardener__garden=garden,
-                added__year=year,
+                added__year=self.get_year(),
             ).order_by('-added')[0]
             harvested = most_recent_harvest.harvested
             gardener_id = most_recent_harvest.gardener.id
@@ -92,21 +79,28 @@ def garden_details(request, id=None, year=None):
             harvested = date.today()
             gardener_id = None
 
-        form = AutocompleteHarvestForm(initial={
+        initial = super(GardenDetails, self).get_initial()
+        initial.update({
             'garden': garden,
             'harvested': harvested,
             'gardener': gardener_id,
-        }, user=request.user)
+        })
+        return initial
 
-    harvests = _harvests(year=year).filter(gardener__garden=garden)
-    return render_to_response('metrics/harvestcount/gardens/detail.html', {
-        'garden': garden,
-        'harvests': harvests.order_by('harvested', 'gardener__name'),
-        'form': form,
-        'weight': harvests.aggregate(t=Sum('weight'))['t'],
-        'plant_types': harvests.values('variety__id').distinct().count(),
-        'plants': None,
-    }, context_instance=RequestContext(request))
+    def get_context_data(self, **kwargs):
+        garden = self.get_object()
+        harvests = self.get_records()
+
+        context = super(GardenDetails, self).get_context_data(**kwargs)
+        context.update({
+            'form': self.get_form(self.form_class),
+            'garden': garden,
+            'harvests': harvests.order_by('harvested', 'gardener__name'),
+            'plant_types': harvests.values('variety__id').distinct().count(),
+            'plants': None,
+            'weight': harvests.aggregate(t=Sum('weight'))['t'],
+        })
+        return context
 
 
 @login_required
