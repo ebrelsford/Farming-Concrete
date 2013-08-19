@@ -38,6 +38,8 @@ class Harvest(BaseMetricRecord):
 
     @classmethod
     def summarize(cls, harvests):
+        if not harvests:
+            return None
         return {
             'harvests': harvests.order_by('harvested', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
