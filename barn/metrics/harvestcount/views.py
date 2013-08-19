@@ -16,9 +16,11 @@ from barn.mobile import is_mobile
 from farmingconcrete.decorators import (garden_type_aware, in_section,
                                         year_in_session)
 from farmingconcrete.models import Garden, Variety
+from farmingconcrete.utils import garden_type_label
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
-                           PermissionRequiredMixin, RedirectToPreviousPageMixin)
-from ..views import GardenView, IndexView, MetricMixin
+                           PermissionRequiredMixin, RedirectToPreviousPageMixin,
+                           TitledPageMixin)
+from ..views import GardenView, IndexView, MetricMixin, UserGardenView
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
 
@@ -120,6 +122,15 @@ def user_gardens(request, year=None):
         'user_gardens': user_gardens.order_by('name'),
         'user_garden_ids': user_gardens.values_list('id', flat=True),
     }, context_instance=RequestContext(request))
+
+
+class HarvestcountUserGardenView(TitledPageMixin, HarvestcountMixin,
+                                 UserGardenView):
+    metric_model = Harvest
+
+    def get_title(self):
+        garden_type = self.request.session.get('garden_type', 'all')
+        return 'Your %s gardens' % garden_type_label(garden_type)
 
 
 @login_required
