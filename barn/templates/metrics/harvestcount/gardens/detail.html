@@ -1,4 +1,4 @@
-{% extends "harvestcount/map_base.html" %}
+{% extends "metrics/harvestcount/map_base.html" %}
 {% load static %}
 
 {% block title %}{{ garden.name }}{% endblock %}
@@ -82,10 +82,10 @@ $(document).ready(function() {
 {% endif %}
 
 {% if not is_mobile %}
-{% include "harvestcount/harvests/add_snippet.html" %}
+{% include "metrics/harvestcount/harvests/add_snippet.html" %}
 {% endif %}
 
-{% include "harvestcount/harvests/list_snippet.html" %}
+{% include "metrics/harvestcount/harvests/list_snippet.html" %}
 
 {% endblock %}
 

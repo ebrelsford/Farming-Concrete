@@ -18,7 +18,7 @@ from farmingconcrete.decorators import (garden_type_aware, in_section,
 from farmingconcrete.models import Garden, Variety
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin)
-from ..views import IndexView
+from ..views import IndexView, MetricMixin
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
 
@@ -30,8 +30,17 @@ def _harvests(year=settings.FARMINGCONCRETE_YEAR):
     return Harvest.objects.filter(harvested__year=year)
 
 
-class HarvestcountIndex(IndexView):
-    model = Harvest
+class HarvestcountMixin(MetricMixin):
+
+    def get_index_url(self):
+        return reverse('harvestcount_index', kwargs={ 'year': 2013, })
+
+    def get_metric_name(self):
+        return 'Harvest Count'
+
+
+class HarvestcountIndex(HarvestcountMixin, IndexView):
+    metric_model = Harvest
 
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR
@@ -90,7 +99,7 @@ def garden_details(request, id=None, year=None):
         }, user=request.user)
 
     harvests = _harvests(year=year).filter(gardener__garden=garden)
-    return render_to_response('harvestcount/gardens/detail.html', {
+    return render_to_response('metrics/harvestcount/gardens/detail.html', {
         'garden': garden,
         'harvests': harvests.order_by('harvested', 'gardener__name'),
         'form': form,
@@ -113,7 +122,7 @@ def user_gardens(request, year=None):
     if type != 'all':
         user_gardens = user_gardens.filter(type=type)
 
-    return render_to_response('harvestcount/gardens/user_gardens.html', {
+    return render_to_response('metrics/harvestcount/gardens/user_gardens.html', {
         'user_gardens': user_gardens.order_by('name'),
         'user_garden_ids': user_gardens.values_list('id', flat=True),
     }, context_instance=RequestContext(request))
@@ -136,7 +145,7 @@ def all_gardens(request, year=None):
         gardens = gardens.filter(type=type)
         user_gardens = user_gardens.filter(type=type)
 
-    return render_to_response('harvestcount/gardens/all_gardens.html', {
+    return render_to_response('metrics/harvestcount/gardens/all_gardens.html', {
         'gardens': gardens.order_by('name'),
         'user_gardens': user_gardens,
     }, context_instance=RequestContext(request))
@@ -215,7 +224,7 @@ def download_garden_harvestcount_as_csv(request, id, year=None):
 
 
 class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
-    template_name = 'harvestcount/harvests/add.html'
+    template_name = 'metrics/harvestcount/harvests/add.html'
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -328,7 +337,7 @@ class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,
     form_class = GardenerForm
     permission = 'harvestcount.add_gardener'
     query_string_exclude = ('gardener',)
-    template_name = 'harvestcount/gardeners/add.html'
+    template_name = 'metrics/harvestcount/gardeners/add.html'
 
     def get_initial(self):
         return {
