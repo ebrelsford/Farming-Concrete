@@ -3,17 +3,13 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
-                          CharField, IntegerField, DecimalField, DateField,
-                          DateInput)
+                          CharField, IntegerField, DecimalField, DateField)
 
 from ajax_select.fields import AutoCompleteSelectField
 
 from farmingconcrete.models import Garden
+from ..forms import RecordedInput
 from .models import Box, Patch
-
-
-class RecordedInput(DateInput):
-    input_type = 'date'
 
 
 class BedSizeField(DecimalField):
