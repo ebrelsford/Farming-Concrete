@@ -61,3 +61,11 @@ DEBUG_TOOLBAR_PANELS = (
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+
+
+#
+# django-template-debug
+#
+INSTALLED_APPS += (
+    'template_debug',
+)

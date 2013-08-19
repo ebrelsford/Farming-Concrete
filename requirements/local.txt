@@ -1,2 +1,3 @@
 django-debug-toolbar==0.9.4
 django-pdb==0.3.2
+django-template-debug==0.3.3
