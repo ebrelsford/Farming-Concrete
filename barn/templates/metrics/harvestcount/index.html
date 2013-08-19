@@ -46,10 +46,4 @@
         <a class="image" href="{% url "harvestcount_all_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
         <a class="text" href="{% url "harvestcount_all_gardens" year=request.session.year %}">View all gardens</a>
     </h2>
-    {% if perms.farmingconcrete.can_edit_any_garden %}
-        <h2>
-            <a class="image" href="{% url "farmingconcrete_gardens_add" %}"><img src="{% static "img/round_plus.png" %}" /></a>
-            <a class="text" href="{% url "farmingconcrete_gardens_add" %}">Add a garden</a>
-        </h2>
-    {% endif %}
 {% endblock %}

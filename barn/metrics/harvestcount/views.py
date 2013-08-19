@@ -106,25 +106,6 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
         return context
 
 
-@login_required
-@garden_type_aware
-@in_section('harvestcount')
-@year_in_session
-def user_gardens(request, year=None):
-    """Show the user's gardens"""
-    type = request.session['garden_type']
-
-    profile = request.user.get_profile()
-    user_gardens = profile.gardens.all()
-    if type != 'all':
-        user_gardens = user_gardens.filter(type=type)
-
-    return render_to_response('metrics/harvestcount/gardens/user_gardens.html', {
-        'user_gardens': user_gardens.order_by('name'),
-        'user_garden_ids': user_gardens.values_list('id', flat=True),
-    }, context_instance=RequestContext(request))
-
-
 class HarvestcountUserGardenView(TitledPageMixin, HarvestcountMixin,
                                  UserGardenView):
     metric_model = Harvest
