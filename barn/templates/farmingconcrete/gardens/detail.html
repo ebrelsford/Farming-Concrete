@@ -5,19 +5,39 @@
 
 {% block left %}
 
-    <h2>{% trans "Metrics Recorded at this Garden" %}</h2>
-
-    {% for metric in metrics %}
+    {% if metrics %}
         <section>
-            <h3>{{ metric.name }}</h3>
-            {% summarize metric.app metric.summary %}
+            <h2>{% trans "Metrics Recorded at this Garden" %}</h2>
+
+            {% for metric in metrics %}
+                <section>
+                    <h3>{{ metric.name }}</h3>
+                    {% summarize metric.app metric.summary %}
+                </section>
+                <div class="btn-group">
+                    <a href="{% url metric.detail_url_name pk=garden.pk %}" class="btn btn-default">
+                        {% trans "View Details" %}
+                    </a>
+                </div>
+            {% endfor %}
         </section>
-        <div class="btn-group">
-            <a href="{% url metric.detail_url_name pk=garden.pk %}" class="btn btn-default">
-                {% trans "View Details" %}
-            </a>
-        </div>
-    {% endfor %}
+    {% endif %}
+
+    {% if unrecorded_metrics %}
+        <section>
+            <h2>{% trans "Metrics Not Recorded at this Garden" %}</h2>
+
+            {% for metric in unrecorded_metrics %}
+                <h3>{{ metric.name }}</h3>
+                <div class="btn-group">
+                    <a href="{% url metric.detail_url_name pk=garden.pk %}" class="btn btn-default">
+                        {% trans "Record Now" %}
+                    </a>
+                </div>
+            {% endfor %}
+        </section>
+    {% endif %}
+
 {% endblock %}
 
 {% block actions %}{% endblock %}

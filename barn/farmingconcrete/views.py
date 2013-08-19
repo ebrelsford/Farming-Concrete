@@ -88,18 +88,25 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
                 raise Http403
 
         metrics = []
+        unrecorded_metrics = []
         for name, details in registry.items():
-            # TODO only append if there is a summary to show
-            metrics.append({
+            model = details['model']
+            summary = model.get_summary_data(garden, year=year)
+            metric_details = {
                 'name': name,
-                'app': details['model']._meta.app_label,
-                'summary': details['model'].get_summary_data(garden, year=year),
+                'app': model._meta.app_label,
+                'summary': summary,
                 'detail_url_name': details['garden_detail_url_name'],
-            })
+            }
+            if summary:
+                metrics.append(metric_details)
+            else:
+                unrecorded_metrics.append(metric_details)
 
         context.update({
             'garden': garden,
             'metrics': metrics,
+            'unrecorded_metrics': unrecorded_metrics,
         })
         return context
 

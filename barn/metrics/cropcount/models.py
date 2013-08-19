@@ -64,6 +64,8 @@ class Patch(BaseMetricRecord):
 
     @classmethod
     def summarize(cls, patches):
+        if not patches:
+            return None
         box_pks = set(patches.values_list('box__pk', flat=True))
         beds = Box.objects.filter(pk__in=box_pks)
         return {
