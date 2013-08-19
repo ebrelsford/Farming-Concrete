@@ -163,7 +163,7 @@ def delete_harvest(request, id, year=None):
     harvest = get_object_or_404(Harvest, pk=id)
     garden_id = harvest.gardener.garden.id
     harvest.delete()
-    return redirect(garden_details, id=garden_id, year=year)
+    return redirect('harvestcount_garden_details', id=garden_id, year=year)
 
 
 @login_required
