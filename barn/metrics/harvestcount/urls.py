@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import patterns, url
 
 from .views import (GardenDetails, GardenerAddView, HarvestAddView,
-                    HarvestcountIndex, HarvestcountUserGardenView)
+                    HarvestcountAllGardensView, HarvestcountIndex,
+                    HarvestcountUserGardenView)
 
 
 urlpatterns = patterns('',
@@ -20,7 +21,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^harvested/(?:(?P<year>\d{4})/)?$',
-        'metrics.harvestcount.views.all_gardens',
+        HarvestcountAllGardensView.as_view(),
         name='harvestcount_all_gardens'
     ),
 

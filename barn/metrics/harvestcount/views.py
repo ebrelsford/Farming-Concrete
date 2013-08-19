@@ -20,7 +20,8 @@ from farmingconcrete.utils import garden_type_label
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin,
                            TitledPageMixin)
-from ..views import GardenView, IndexView, MetricMixin, UserGardenView
+from ..views import (AllGardensView, DefaultYearMixin, GardenView, IndexView,
+                     MetricMixin, UserGardenView)
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
 
@@ -133,27 +134,26 @@ class HarvestcountUserGardenView(TitledPageMixin, HarvestcountMixin,
         return 'Your %s gardens' % garden_type_label(garden_type)
 
 
-@login_required
-@garden_type_aware
-@in_section('harvestcount')
-@year_in_session
-def all_gardens(request, year=None):
-    """Show all harvested gardens"""
-    type = request.session['garden_type']
+class HarvestcountAllGardensView(TitledPageMixin, DefaultYearMixin,
+                                 HarvestcountMixin, AllGardensView):
+    metric_model = Harvest
 
-    gardens = Garden.objects.filter(
-        gardener__harvest__harvested__year=year
-    ).distinct()
-    profile = request.user.get_profile()
-    user_gardens = profile.gardens.all()
-    if type != 'all':
-        gardens = gardens.filter(type=type)
-        user_gardens = user_gardens.filter(type=type)
+    def get_title(self):
+        garden_type = self.request.session['garden_type']
+        return 'All counted %s gardens' % garden_type_label(garden_type)
 
-    return render_to_response('metrics/harvestcount/gardens/all_gardens.html', {
-        'gardens': gardens.order_by('name'),
-        'user_gardens': user_gardens,
-    }, context_instance=RequestContext(request))
+    def get_default_year(self):
+        return settings.FARMINGCONCRETE_YEAR
+
+    def get_all_gardens_with_records(self):
+        gardens = Garden.objects.filter(
+            gardener__harvest__harvested__year=self.get_year(),
+        ).distinct()
+
+        type = self.request.session.get('garden_type', 'all')
+        if type and type != 'all':
+            gardens = gardens.filter(type=type)
+        return gardens.order_by('name')
 
 
 @login_required
