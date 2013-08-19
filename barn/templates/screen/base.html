@@ -59,12 +59,13 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="{% url "cropcount_index" %}">Crop Count</a>
-                            </li>
-                            <li>
-                                <a href="{% url "harvestcount_index" %}">Harvest Count</a>
-                            </li>
+                            {% for name, details in registered_metrics.items %}
+                                <li>
+                                    <a href="{% url details.index_url_name %}">
+                                        {{ name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </li>
                     {% if user.is_staff %}

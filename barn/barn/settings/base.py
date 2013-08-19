@@ -72,6 +72,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'feedback.context_processors.feedback_form',
 
     'barn.context_processors.garden_types',
+    'metrics.context_processors.metrics',
 )
 
 MIDDLEWARE_CLASSES = (
