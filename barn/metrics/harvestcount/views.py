@@ -8,13 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponseForbidden, HttpResponse, Http404
-from django.shortcuts import render_to_response, redirect, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.edit import CreateView, FormMixin
 
 from barn.mobile import is_mobile
-from farmingconcrete.decorators import (garden_type_aware, in_section,
-                                        year_in_session)
+from farmingconcrete.decorators import in_section, year_in_session
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.utils import garden_type_label
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
@@ -28,7 +26,7 @@ from .models import Gardener, Harvest
 
 def _harvests(year=settings.FARMINGCONCRETE_YEAR):
     """Get current harvests"""
-    return Harvest.objects.filter(harvested__year=year)
+    return Harvest.objects.filter(recorded__year=year)
 
 
 class HarvestcountMixin(MetricMixin):
@@ -68,6 +66,9 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
     form_class = AutocompleteHarvestForm
     metric_model = Harvest
 
+    def get_default_year(self):
+        return settings.FARMINGCONCRETE_YEAR
+
     def get_initial(self):
         garden = self.get_object()
 
@@ -76,17 +77,18 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
                 gardener__garden=garden,
                 added__year=self.get_year(),
             ).order_by('-added')[0]
-            harvested = most_recent_harvest.harvested
+            recorded = most_recent_harvest.recorded
             gardener_id = most_recent_harvest.gardener.id
         except:
-            harvested = date.today()
+            recorded = date.today()
             gardener_id = None
 
         initial = super(GardenDetails, self).get_initial()
         initial.update({
+            'added_by': self.request.user,
             'garden': garden,
-            'harvested': harvested,
             'gardener': gardener_id,
+            'recorded': recorded,
         })
         return initial
 
@@ -98,7 +100,7 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
         context.update({
             'form': self.get_form(self.form_class),
             'garden': garden,
-            'harvests': harvests.order_by('harvested', 'gardener__name'),
+            'harvests': harvests.order_by('recorded', 'gardener__name'),
             'plant_types': harvests.values('variety__id').distinct().count(),
             'plants': None,
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
@@ -128,7 +130,7 @@ class HarvestcountAllGardensView(TitledPageMixin, DefaultYearMixin,
 
     def get_all_gardens_with_records(self):
         gardens = Garden.objects.filter(
-            gardener__harvest__harvested__year=self.get_year(),
+            gardener__harvest__recorded__year=self.get_year(),
         ).distinct()
 
         type = self.request.session.get('garden_type', 'all')
@@ -169,7 +171,7 @@ def quantity_for_last_harvest(request, id=None, year=None):
                 gardener__garden=garden,
                 gardener__name=gardener,
                 variety__name=variety
-            ).order_by('-harvested')[0]
+            ).order_by('-recorded')[0]
         except IndexError:
             raise Http404
 
@@ -203,7 +205,7 @@ def download_garden_harvestcount_as_csv(request, id, year=None):
             harvest.weight,
             harvest.plants or '',
             harvest.area or '',
-            harvest.harvested.strftime('%m-%d-%Y')
+            harvest.recorded.strftime('%m-%d-%Y')
         ])
 
     return response
@@ -235,7 +237,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         """
         area = None
         gardener = None
-        harvested = date.today()
+        recorded = date.today()
         plants = None
         variety = None
 
@@ -266,7 +268,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
                 most_recent_harvest = Harvest.objects.filter(
                     gardener__garden=garden,
                 ).order_by('-added')[0]
-                harvested = most_recent_harvest.harvested
+                recorded = most_recent_harvest.recorded
                 gardener = most_recent_harvest.gardener.pk
             except Exception:
                 pass
@@ -285,7 +287,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         return {
             'area': area,
             'gardener': gardener,
-            'harvested': harvested,
+            'recorded': recorded,
             'plants': plants,
             'variety': variety,
         }
@@ -305,10 +307,10 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         return AutocompleteHarvestForm
 
     def get_success_url(self):
-        return reverse('harvestcount_garden_details', kwargs={
-            'id': self.garden.id,
-            'year': self.year,
-        })
+        kwargs = { 'pk': self.garden.pk, }
+        if self.year:
+            kwargs['year'] = self.year
+        return reverse('harvestcount_garden_details', kwargs=kwargs)
 
     def form_invalid(self, form):
         try:

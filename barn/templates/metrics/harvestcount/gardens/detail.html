@@ -76,24 +76,12 @@
 {% endblock %}
 
 {% block left %}
-
-    {% if is_mobile %}
-        <ul class="overview pre-listview">
-            <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
-            <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
-            <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
-        </ul>
-    {% endif %}
-
-    {% if not is_mobile %}
-        {% include "metrics/harvestcount/harvests/add_snippet.html" %}
-    {% endif %}
-
+    {% include "metrics/harvestcount/harvests/add_snippet.html" %}
     {% include "metrics/harvestcount/harvests/list_snippet.html" %}
-
 {% endblock %}
 
 {% block right %}
+    {{ block.super }}
     {% if not is_mobile %}
         <ul class="overview">
             <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>

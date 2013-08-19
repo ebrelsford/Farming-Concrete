@@ -1,11 +1,13 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
-                          DateInput, ValidationError)
+                          ValidationError)
 
 from ajax_select.fields import AutoCompleteSelectField
 
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import get_variety
+from ..forms import RecordedInput
 from .models import Gardener, Harvest
 
 
@@ -20,10 +22,11 @@ class GardenerForm(ModelForm):
 class HarvestForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
                               widget=HiddenInput())
-
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(HarvestForm, self).__init__(*args, **kwargs)
+    added_by = ModelChoiceField(
+        label='added_by',
+        queryset=User.objects.all(),
+        widget=HiddenInput()
+    )
 
     class Meta:
         model = Harvest
@@ -31,7 +34,7 @@ class HarvestForm(ModelForm):
         widgets = {
             'area': TextInput(attrs={'size': 5, 'maxlength': 5}),
             'plants': TextInput(attrs={'size': 5, 'maxlength': 5}),
-            'harvested': DateInput(format='%m/%d/%Y'),
+            'recorded': RecordedInput(),
         }
 
 
@@ -94,8 +97,9 @@ class AutocompleteHarvestForm(HarvestForm):
 
         if not gardener or gardener.name != gardener_name:
             if gardener_name:
+                user = self.cleaned_data['added_by']
                 garden = Garden.objects.get(pk=self.data['garden'])
-                gardener = get_gardener(gardener_name, garden, self.user)
+                gardener = get_gardener(gardener_name, garden, user)
             else:
                 raise ValidationError('Please enter a gardener.')
 

@@ -20,10 +20,10 @@
         {% endif %}
     </td>
     <td class="harvested">
-        {{ harvest.harvested|date:"n/j/y" }}
+        {{ harvest.recorded|date:"n/j/y" }}
     </td>
     <td class="actions">
-        <a class="delete" href="{% url "harvestcount_delete_harvest" id=harvest.id year=request.session.year %}">
+        <a class="delete" href="{% url "harvestcount_delete_harvest" id=harvest.id %}">
             <img src="{% static "img/round_delete_small.png" %}" title="remove this bed" />
         </a>
     </td>
