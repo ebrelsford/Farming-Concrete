@@ -23,7 +23,7 @@ class Harvest(BaseMetricRecord):
     area = models.DecimalField(max_digits=4, decimal_places=2, null=True,
                                blank=True)
 
-    harvested = models.DateField()
+    harvested = models.DateField(blank=True, null=True)
     reportable = models.BooleanField(default=True)
 
     def __unicode__(self):
