@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'metrics',
     'metrics.cropcount',
     'metrics.harvestcount',
+    'metrics.landfilldiversion',
 )
 
 AJAX_LOOKUP_CHANNELS = {

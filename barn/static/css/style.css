@@ -355,6 +355,10 @@ td.number {
     text-align: right;
 }
 
+td.date {
+    text-align: right;
+}
+
 .report .section {
     margin-bottom: 50px;
 }

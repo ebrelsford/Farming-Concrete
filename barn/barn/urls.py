@@ -25,6 +25,9 @@ urlpatterns = patterns('',
     # harvest count
     (r'^metrics/harvestcount/', include('metrics.harvestcount.urls')),
 
+    # landfill diversion
+    (r'^metrics/landfilldiversion/', include('metrics.landfilldiversion.urls')),
+
     # Estimates
     url(r'^estimates/', include('estimates.urls')),
 

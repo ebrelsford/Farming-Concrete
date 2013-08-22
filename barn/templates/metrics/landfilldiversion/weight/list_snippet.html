@@ -1,0 +1,19 @@
+<h2>Records for {{ request.session.year }}</h2>
+
+<table class="sorted">
+    <thead>
+        <tr>
+            <th class="weight">lbs</th>
+            <th class="recorded">date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for record in records %}
+            <tr class="{% cycle "odd" "even" %}">
+                <td class="number">{{ record.weight|floatformat }}</td>
+                <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
