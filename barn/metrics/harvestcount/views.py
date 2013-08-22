@@ -39,9 +39,6 @@ class HarvestcountMixin(MetricMixin):
 class HarvestcountIndex(HarvestcountMixin, IndexView):
     metric_model = Harvest
 
-    def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
-
     def get_context_data(self, **kwargs):
         context = super(HarvestcountIndex, self).get_context_data(**kwargs)
         harvests = self.get_records()
@@ -63,9 +60,6 @@ class HarvestcountIndex(HarvestcountMixin, IndexView):
 class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
     form_class = AutocompleteHarvestForm
     metric_model = Harvest
-
-    def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
 
     def get_initial(self):
         garden = self.get_object()
@@ -122,9 +116,6 @@ class HarvestcountAllGardensView(TitledPageMixin, FarmingConcreteYearMixin,
     def get_title(self):
         garden_type = self.request.session['garden_type']
         return 'All counted %s gardens' % garden_type_label(garden_type)
-
-    def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
 
     def get_all_gardens_with_records(self):
         gardens = Garden.objects.filter(

@@ -38,9 +38,6 @@ class CropcountMixin(MetricMixin):
 class CropcountIndex(CropcountMixin, IndexView):
     metric_model = Patch
 
-    def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
-
     def get_context_data(self, **kwargs):
         context = super(CropcountIndex, self).get_context_data(**kwargs)
         patches = self.get_records()
@@ -64,9 +61,6 @@ class CropcountIndex(CropcountMixin, IndexView):
 class GardenDetails(CropcountMixin, FormMixin, GardenView):
     form_class = BoxForm
     metric_model = Patch
-
-    def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
 
     def get_initial_box_dimensions(self, garden):
         try:
@@ -135,9 +129,6 @@ class CropcountAllGardensView(TitledPageMixin, FarmingConcreteYearMixin,
     def get_title(self):
         garden_type = self.request.session['garden_type']
         return 'All counted %s gardens' % garden_type_label(garden_type)
-
-    def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
 
     def get_all_gardens_with_records(self):
         counted_gardens = Garden.counted().filter(
