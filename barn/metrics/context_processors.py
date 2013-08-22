@@ -3,6 +3,9 @@ from metrics.registry import registry
 
 def metrics(request):
     """Add metrics to the context."""
-    return {
-        'registered_metrics': registry,
-    }
+    if 'djangojs' in request.path:
+        return {}
+    else:
+        return {
+            'registered_metrics': registry,
+        }
