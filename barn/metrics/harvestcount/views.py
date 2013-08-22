@@ -31,9 +31,6 @@ def _harvests(year=settings.FARMINGCONCRETE_YEAR):
 
 class HarvestcountMixin(MetricMixin):
 
-    def get_index_url(self):
-        return reverse('harvestcount_index', kwargs={ 'year': 2013, })
-
     def get_metric_name(self):
         return 'Harvest Count'
 

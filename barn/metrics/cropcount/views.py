@@ -31,9 +31,6 @@ def _patches(year=settings.FARMINGCONCRETE_YEAR):
 
 class CropcountMixin(MetricMixin):
 
-    def get_index_url(self):
-        return reverse('cropcount_index', kwargs={ 'year': 2013, })
-
     def get_metric_name(self):
         return 'Crop Count'
 

@@ -1,9 +1,13 @@
+from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.dates import YearMixin
 
 from farmingconcrete.models import Garden
 from generic.views import LoginRequiredMixin
+
+from .registry import registry
 
 
 class MetricMixin(ContextMixin):
@@ -12,7 +16,12 @@ class MetricMixin(ContextMixin):
     """
 
     def get_index_url(self):
-        raise NotImplementedError('Implement get_index_url')
+        try:
+            return reverse(registry[self.get_metric_name()]['index_url_name'])
+        except:
+            raise ImproperlyConfigured('MetricMixin requires get_metric_name '
+                                       'to return a registered metric with an '
+                                       'index_url_name')
 
     def get_metric_name(self):
         raise NotImplemented('Implement get_metric_name')
