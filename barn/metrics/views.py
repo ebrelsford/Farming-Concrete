@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.dates import YearMixin
+from django.views.generic.detail import SingleObjectMixin
 
 from farmingconcrete.models import Garden
 from generic.views import LoginRequiredMixin
@@ -124,11 +125,14 @@ class AllGardensView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class GardenView(LoginRequiredMixin, RecordsMixin, DetailView):
+class GardenMixin(RecordsMixin, SingleObjectMixin):
     model = Garden
 
     def get_records(self):
-        return super(GardenView, self).get_records().for_garden(self.object)
+        return super(GardenMixin, self).get_records().for_garden(self.object)
+
+
+class GardenView(GardenMixin, LoginRequiredMixin, DetailView):
 
     def get_template_names(self):
         return [
