@@ -46,6 +46,15 @@ class RecordsMixin(FarmingConcreteYearMixin):
         return self.metric_model.objects.for_year(self.get_year())
 
 
+class RecordedGardensMixin(object):
+
+    def filter_gardens_by_type(self, qs):
+        type = self.request.session['garden_type']
+        if type and type != 'all':
+            qs = qs.filter(type=type)
+        return qs
+
+
 class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
     """
     The index / landing page for a metric.
@@ -92,7 +101,7 @@ class UserGardenView(LoginRequiredMixin, ListView):
         return context
 
 
-class AllGardensView(LoginRequiredMixin, TemplateView):
+class AllGardensView(RecordedGardensMixin, LoginRequiredMixin, TemplateView):
 
     def get_template_names(self):
         return [
@@ -112,9 +121,10 @@ class AllGardensView(LoginRequiredMixin, TemplateView):
         return user_gardens
 
     def get_context_data(self, **kwargs):
+        all_gardens = self.get_all_gardens_with_records()
         context = super(AllGardensView, self).get_context_data(**kwargs)
         context.update({
-            'all_gardens_with_records': self.get_all_gardens_with_records(),
+            'all_gardens_with_records': self.filter_gardens_by_type(all_gardens),
             'user_gardens': self.get_user_gardens(),
         })
         return context

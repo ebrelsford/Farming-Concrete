@@ -20,7 +20,7 @@ from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin,
                            TitledPageMixin)
 from ..views import (AllGardensView, GardenView, IndexView, MetricMixin,
-                     UserGardenView)
+                     RecordsMixin, UserGardenView)
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
 
@@ -34,6 +34,11 @@ class HarvestcountMixin(MetricMixin):
 
     def get_metric_name(self):
         return 'Harvest Count'
+
+    def get_all_gardens_with_records(self):
+        return Garden.objects.filter(
+            pk__in=self.get_records().values_list('garden__pk', flat=True)
+        ).distinct().order_by('name')
 
 
 class HarvestcountIndex(HarvestcountMixin, IndexView):
@@ -109,23 +114,14 @@ class HarvestcountUserGardenView(TitledPageMixin, HarvestcountMixin,
         return 'Your %s gardens' % garden_type_label(garden_type)
 
 
-class HarvestcountAllGardensView(TitledPageMixin, FarmingConcreteYearMixin,
-                                 HarvestcountMixin, AllGardensView):
+class HarvestcountAllGardensView(RecordsMixin, TitledPageMixin,
+                                 FarmingConcreteYearMixin, HarvestcountMixin,
+                                 AllGardensView):
     metric_model = Harvest
 
     def get_title(self):
         garden_type = self.request.session['garden_type']
         return 'All counted %s gardens' % garden_type_label(garden_type)
-
-    def get_all_gardens_with_records(self):
-        gardens = Garden.objects.filter(
-            gardener__harvest__recorded__year=self.get_year(),
-        ).distinct()
-
-        type = self.request.session.get('garden_type', 'all')
-        if type and type != 'all':
-            gardens = gardens.filter(type=type)
-        return gardens.order_by('name')
 
 
 @login_required

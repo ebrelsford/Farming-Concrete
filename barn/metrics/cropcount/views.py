@@ -17,7 +17,7 @@ from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenView, IndexView, MetricMixin,
-                     UserGardenView)
+                     RecordsMixin, UserGardenView)
 from .forms import BoxForm, PatchForm
 from .models import Box, Patch
 
@@ -33,6 +33,11 @@ class CropcountMixin(MetricMixin):
 
     def get_metric_name(self):
         return 'Crop Count'
+
+    def get_all_gardens_with_records(self):
+        return Garden.objects.filter(
+            pk__in=self.get_records().values_list('garden__pk', flat=True)
+        ).distinct().order_by('name')
 
 
 class CropcountIndex(CropcountMixin, IndexView):
@@ -122,23 +127,14 @@ class CropcountUserGardenView(TitledPageMixin, CropcountMixin, UserGardenView):
         return 'Your %s gardens' % garden_type_label(garden_type)
 
 
-class CropcountAllGardensView(TitledPageMixin, FarmingConcreteYearMixin,
-                              CropcountMixin, AllGardensView):
+class CropcountAllGardensView(RecordsMixin, TitledPageMixin,
+                              FarmingConcreteYearMixin, CropcountMixin,
+                              AllGardensView):
     metric_model = Patch
 
     def get_title(self):
         garden_type = self.request.session['garden_type']
         return 'All counted %s gardens' % garden_type_label(garden_type)
-
-    def get_all_gardens_with_records(self):
-        counted_gardens = Garden.counted().filter(
-            box__patch__added__year=self.get_year()
-        ).distinct()
-
-        type = self.request.session['garden_type']
-        if type and type != 'all':
-            counted_gardens = counted_gardens.filter(type=type)
-        return counted_gardens.order_by('name')
 
 
 @login_required
