@@ -15,8 +15,9 @@ from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
 from accounts.models import UserProfile
-from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
-                           RememberPreviousPageMixin, SuccessMessageFormMixin)
+from generic.views import (DefaultYearMixin, LoginRequiredMixin,
+                           PermissionRequiredMixin, RememberPreviousPageMixin,
+                           SuccessMessageFormMixin)
 from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
@@ -338,3 +339,9 @@ class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
+
+
+class FarmingConcreteYearMixin(DefaultYearMixin):
+
+    def get_default_year(self):
+        return settings.FARMINGCONCRETE_YEAR

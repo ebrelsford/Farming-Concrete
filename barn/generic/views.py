@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.http import QueryDict
 from django.views.generic.base import ContextMixin
+from django.views.generic.dates import YearMixin
 from django.views.generic.edit import FormMixin
 
 
@@ -111,3 +112,16 @@ class TitledPageMixin(ContextMixin):
             'title': self.get_title(),
         })
         return context
+
+
+class DefaultYearMixin(YearMixin):
+
+    def get_default_year(self):
+        raise NotImplementedError('Implement get_default_year')
+
+    def get_year(self):
+        try:
+            year = super(DefaultYearMixin, self).get_year()
+        except Exception:
+            year = None
+        return year or self.get_default_year()

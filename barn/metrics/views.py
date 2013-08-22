@@ -2,10 +2,10 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
-from django.views.generic.dates import YearMixin
 from django.views.generic.detail import SingleObjectMixin
 
 from farmingconcrete.models import Garden
+from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import LoginRequiredMixin
 
 from .registry import registry
@@ -36,20 +36,7 @@ class MetricMixin(ContextMixin):
         return context
 
 
-class DefaultYearMixin(YearMixin):
-
-    def get_default_year(self):
-        raise NotImplementedError('Implement get_default_year')
-
-    def get_year(self):
-        try:
-            year = super(DefaultYearMixin, self).get_year()
-        except Exception:
-            year = None
-        return year or self.get_default_year()
-
-
-class RecordsMixin(DefaultYearMixin):
+class RecordsMixin(FarmingConcreteYearMixin):
     """
     A mixin that aids in retrieving records (instances of models that derive
     from BaseMetricRecord) for a particular year.
@@ -63,6 +50,14 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
     """
     The index / landing page for a metric.
     """
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        records = self.get_records()
+        context.update({
+            'summary': self.metric_model.summarize(records),
+        })
+        return context
 
     def get_template_names(self):
         return [

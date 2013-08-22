@@ -15,11 +15,12 @@ from barn.mobile import is_mobile
 from farmingconcrete.decorators import in_section, year_in_session
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.utils import garden_type_label
+from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin,
                            TitledPageMixin)
-from ..views import (AllGardensView, DefaultYearMixin, GardenView, IndexView,
-                     MetricMixin, UserGardenView)
+from ..views import (AllGardensView, GardenView, IndexView, MetricMixin,
+                     UserGardenView)
 from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
 from .models import Gardener, Harvest
 
@@ -114,7 +115,7 @@ class HarvestcountUserGardenView(TitledPageMixin, HarvestcountMixin,
         return 'Your %s gardens' % garden_type_label(garden_type)
 
 
-class HarvestcountAllGardensView(TitledPageMixin, DefaultYearMixin,
+class HarvestcountAllGardensView(TitledPageMixin, FarmingConcreteYearMixin,
                                  HarvestcountMixin, AllGardensView):
     metric_model = Harvest
 
