@@ -1,27 +1,5 @@
-{% extends "metrics/map_base.html" %}
-{% load metrics_tags static %}
-
-{% block title %}{{ garden.name }}{% endblock %}
-{% block header_title %}{{ garden.name }}{% endblock %}
-
-{% block breadcrumbs %}
-    {{ block.super }}
-    {{ garden.name }}
-{% endblock %}
-
-{% block content %}
-    {% if garden %}
-        {% if not is_mobile %}
-            <h1>{{ garden.name }}</h1>
-        {% endif %}
-
-        <div class="garden-details">
-            {{ block.super }}
-        </div>
-    {% else %}
-        <p>No such garden</p>
-    {% endif %}
-{% endblock %}
+{% extends "metrics/garden_detail.html" %}
+{% load metrics_tags %}
 
 {% block left %}
     {% include "metrics/landfilldiversion/weight/add_snippet.html" %}
@@ -37,13 +15,5 @@
 
 {% block actions %}
     (download spreadsheet)
-    <h2>
-        <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-        <a class="text" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}">View this garden's report</a>
-    </h2>
     {{ block.super }}
-    <h2>
-        <a class="image" href="{% url "landfilldiversion_weight_index" year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>
-        <a class="text" href="{% url "landfilldiversion_weight_index" year=request.session.year %}">Done adding records to this garden!</a>
-    </h2>
 {% endblock %}
