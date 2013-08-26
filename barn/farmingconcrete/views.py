@@ -95,7 +95,6 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
             summary = model.get_summary_data(garden, year=year)
             metric_details = {
                 'name': name,
-                'app': model._meta.app_label,
                 'summary': summary,
                 'detail_url_name': details['garden_detail_url_name'],
             }

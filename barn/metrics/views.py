@@ -70,9 +70,12 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
         return context
 
     def get_template_names(self):
-        return [
+        templates = [
             'metrics/%s/index.html' % self.metric_model._meta.app_label,
         ]
+        if self.template_name:
+            templates = [self.template_name] + templates
+        return templates
 
 
 class UserGardenView(LoginRequiredMixin, ListView):
