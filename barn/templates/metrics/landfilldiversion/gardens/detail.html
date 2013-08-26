@@ -1,5 +1,5 @@
 {% extends "metrics/garden_detail.html" %}
-{% load metrics_tags %}
+{% load metrics_tags static %}
 
 {% block left %}
     {% include "metrics/landfilldiversion/weight/add_snippet.html" %}
@@ -14,6 +14,10 @@
 {% endblock %}
 
 {% block actions %}
-    (download spreadsheet)
+    <h2>
+        {% url "landfilldiversion_weight_garden_csv" pk=garden.pk year=request.session.year as csv_url %}
+        <a class="image" href="{{ csv_url }}"><img src="{% static "img/download.png" %}" /></a>
+        <a class="text" href="{{ csv_url }}">Download this as a spreadsheet</a>
+    </h2>
     {{ block.super }}
 {% endblock %}

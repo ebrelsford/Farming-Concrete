@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import (WeightAllGardensView, WeightGardenDetails, WeightIndex,
-                    WeightUserGardensView)
+from .views import (WeightAllGardensView, WeightGardenDetails, WeightGardenCSV,
+                    WeightIndex, WeightUserGardensView)
 
 
 urlpatterns = patterns('',
@@ -30,6 +30,11 @@ urlpatterns = patterns('',
     url(r'^weight/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         WeightGardenDetails.as_view(),
         name='landfilldiversion_weight_garden_details',
+    ),
+
+    url(r'^weight/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
+        WeightGardenCSV.as_view(),
+        name='landfilldiversion_weight_garden_csv',
     ),
 
 )

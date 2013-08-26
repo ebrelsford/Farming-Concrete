@@ -1,11 +1,13 @@
 from datetime import date
 
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 from django.views.generic.edit import FormView
 
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
-from generic.views import SuccessMessageFormMixin, TitledPageMixin
+from generic.views import (CSVView, LoginRequiredMixin,
+                           SuccessMessageFormMixin, TitledPageMixin)
 from ..views import (AllGardensView, GardenMixin, IndexView, MetricMixin,
                      RecordsMixin, UserGardenView)
 from .forms import LandfillDiversionWeightForm
@@ -13,6 +15,7 @@ from .models import LandfillDiversionWeight
 
 
 class WeightMixin(MetricMixin):
+    metric_model = LandfillDiversionWeight
 
     def get_metric_name(self):
         return 'Landfill Diversion by Weight'
@@ -96,3 +99,21 @@ class WeightGardenDetails(SuccessMessageFormMixin, WeightMixin, GardenMixin,
             'summary': LandfillDiversionWeight.summarize(records),
         })
         return context
+
+
+class WeightGardenCSV(WeightMixin, GardenMixin, LoginRequiredMixin, CSVView):
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.garden = self.get_object()
+        return super(WeightGardenCSV, self).get(request, *args, **kwargs)
+
+    def get_fields(self):
+        return ('weight', 'recorded',)
+
+    def get_rows(self):
+        for record in self.get_records():
+            yield dict(map(lambda f: (f, getattr(record, f)), self.get_fields()))
+
+    def get_filename(self):
+        # TODO add year, date retrieved
+        return '%s - landfill diversion by weight' % self.garden.name
