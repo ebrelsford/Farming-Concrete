@@ -82,6 +82,13 @@ a:hover {
     background: #098080;
 }
 
+#nav li.dropdown-header:hover {
+    background: inherit;
+}
+#nav li.divider:hover {
+    background: #e5e5e5;
+}
+
 .dropdown-menu {
     text-transform: none;
 }

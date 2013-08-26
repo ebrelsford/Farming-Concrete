@@ -7,5 +7,6 @@ def metrics(request):
         return {}
     else:
         return {
+            'grouped_metrics': registry.by_group(),
             'registered_metrics': registry,
         }

@@ -59,12 +59,26 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            {% for name, details in registered_metrics.items %}
-                                <li>
-                                    <a href="{% url details.index_url_name %}">
-                                        {{ name }}
-                                    </a>
-                                </li>
+                            {% for group, metrics in grouped_metrics.items %}
+
+                                {% if group %}
+                                    <li role="presentation" class="dropdown-header">
+                                        {{ group }}
+                                    </li>
+                                {% endif %}
+
+                                {% for metric in metrics %}
+                                    <li>
+                                        <a href="{% url metric.index_url_name %}">
+                                            {{ metric.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+
+                                {% if not forloop.last %}
+                                    <li role="presentation" class="divider"></li>
+                                {% endif %}
+
                             {% endfor %}
                         </ul>
                     </li>
