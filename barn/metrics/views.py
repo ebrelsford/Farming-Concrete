@@ -32,6 +32,7 @@ class MetricMixin(ContextMixin):
         context.update({
             'index_url': self.get_index_url(),
             'metric_name': self.get_metric_name(),
+            'metric': registry[self.get_metric_name()],
         })
         return context
 
@@ -49,7 +50,7 @@ class RecordsMixin(FarmingConcreteYearMixin):
 class RecordedGardensMixin(object):
 
     def filter_gardens_by_type(self, qs):
-        type = self.request.session['garden_type']
+        type = self.request.session.get('garden_type', 'all')
         if type and type != 'all':
             qs = qs.filter(type=type)
         return qs
@@ -106,6 +107,7 @@ class AllGardensView(RecordedGardensMixin, LoginRequiredMixin, TemplateView):
     def get_template_names(self):
         return [
             'metrics/%s/gardens/all_gardens.html' % self.metric_model._meta.app_label,
+            'metrics/all_gardens.html',
         ]
 
     def get_all_gardens_with_records(self):
@@ -115,7 +117,7 @@ class AllGardensView(RecordedGardensMixin, LoginRequiredMixin, TemplateView):
         profile = self.request.user.get_profile()
         user_gardens = profile.gardens.all()
 
-        type = self.request.session['garden_type']
+        type = self.request.session.get('garden_type', 'all')
         if type and type != 'all':
             user_gardens = user_gardens.filter(type=type)
         return user_gardens

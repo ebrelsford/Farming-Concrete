@@ -32,7 +32,7 @@ class WeightAllGardensView(RecordsMixin, TitledPageMixin, WeightMixin,
     metric_model = LandfillDiversionWeight
 
     def get_title(self):
-        garden_type = self.request.session['garden_type']
+        garden_type = self.request.session.get('garden_type', 'all')
         return ('All %s gardens weighing landfill diversion' %
                 garden_type_label(garden_type))
 
