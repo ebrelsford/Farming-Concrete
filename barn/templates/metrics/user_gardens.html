@@ -4,7 +4,7 @@
     <ul class="gardens">
         {% for garden in user_gardens %}
             <li id="{{ garden.pk }}">
-                <a href="{% url "landfilldiversion_weight_garden_details" pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
+                <a href="{% url metric.garden_detail_url_name pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
             </li>
         {% empty %}
             None.

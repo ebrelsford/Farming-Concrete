@@ -80,6 +80,7 @@ class UserGardenView(LoginRequiredMixin, ListView):
     def get_template_names(self):
         return [
             'metrics/%s/gardens/user_gardens.html' % self.metric_model._meta.app_label,
+            'metrics/user_gardens.html',
         ]
 
     def get_queryset(self):
