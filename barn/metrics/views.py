@@ -3,10 +3,11 @@ from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import FormView
 
 from farmingconcrete.models import Garden
 from farmingconcrete.views import FarmingConcreteYearMixin
-from generic.views import LoginRequiredMixin
+from generic.views import CSVView, LoginRequiredMixin, SuccessMessageFormMixin
 
 from .registry import registry
 
@@ -27,12 +28,18 @@ class MetricMixin(ContextMixin):
     def get_metric_name(self):
         raise NotImplemented('Implement get_metric_name')
 
+    def get_metric(self):
+        return registry[self.get_metric_name()]
+
+    def get_metric_model(self):
+        return registry[self.get_metric_name()]['model']
+
     def get_context_data(self, **kwargs):
         context = super(MetricMixin, self).get_context_data(**kwargs)
         context.update({
             'index_url': self.get_index_url(),
             'metric_name': self.get_metric_name(),
-            'metric': registry[self.get_metric_name()],
+            'metric': self.get_metric(),
         })
         return context
 
@@ -143,6 +150,50 @@ class GardenMixin(RecordsMixin, SingleObjectMixin):
         return super(GardenMixin, self).get_records().for_garden(self.object)
 
 
+class GardenDetailAddRecordView(SuccessMessageFormMixin, MetricMixin,
+                                GardenMixin, FormView):
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(GardenDetailAddRecordView, self).get(request, *args,
+                                                          **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(GardenDetailAddRecordView, self).post(request, *args,
+                                                           **kwargs)
+
+    def form_valid(self, form):
+        self.record = form.save()
+        return super(GardenDetailAddRecordView, self).form_valid(form)
+
+    def get_initial(self):
+        garden = self.object
+        initial = super(GardenDetailAddRecordView, self).get_initial()
+        initial.update({
+            'added_by': self.request.user,
+            'garden': garden,
+        })
+        return initial
+
+    def get_success_url(self):
+        return reverse(self.get_metric()['garden_detail_url_name'], kwargs={
+            'pk': self.object.pk,
+        })
+
+    def get_context_data(self, **kwargs):
+        context = super(GardenDetailAddRecordView, self).get_context_data(**kwargs)
+        garden = self.object
+        records = self.get_records()
+        context.update({
+            'form': self.get_form(self.form_class),
+            'garden': garden,
+            'records': records.order_by('recorded'),
+            'summary': self.get_metric_model().summarize(records),
+        })
+        return context
+
+
 class GardenView(GardenMixin, LoginRequiredMixin, DetailView):
 
     def get_template_names(self):
@@ -161,3 +212,15 @@ class AddView():
 
 class DeleteView():
     pass
+
+
+class MetricGardenCSVView(MetricMixin, GardenMixin, LoginRequiredMixin,
+                          CSVView):
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.garden = self.get_object()
+        return super(MetricGardenCSVView, self).get(request, *args, **kwargs)
+
+    def get_rows(self):
+        for record in self.get_records():
+            yield dict(map(lambda f: (f, getattr(record, f)), self.get_fields()))
