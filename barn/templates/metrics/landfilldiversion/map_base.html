@@ -1,14 +1,7 @@
 {% extends "metrics/landfilldiversion/base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="col-lg-6 col-sm-6">
-    {% block left %}{% endblock %}
-</div>
-
-<div class="col-lg-6 col-sm-6">
+{% block right %}
     <div id="map" style="width: 100%; height: 300px;"></div>
-    {% block right %}{% endblock %}
-</div>
+    {{ block.super }}
 {% endblock %}
-
