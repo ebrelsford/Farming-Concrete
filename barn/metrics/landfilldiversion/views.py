@@ -51,7 +51,7 @@ class WeightGardenDetails(SuccessMessageFormMixin, WeightMixin, GardenMixin,
                           FormView):
     form_class = LandfillDiversionWeightForm
     metric_model = LandfillDiversionWeight
-    template_name = 'metrics/landfilldiversion/gardens/detail.html'
+    template_name = 'metrics/landfilldiversion/weight/garden_detail.html'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
