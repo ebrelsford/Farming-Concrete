@@ -31,6 +31,9 @@ urlpatterns = patterns('',
     # landfill diversion
     (r'^metrics/landfilldiversion/', include('metrics.landfilldiversion.urls')),
 
+    # participation
+    (r'^metrics/participation/', include('metrics.participation.urls')),
+
     # Estimates
     url(r'^estimates/', include('estimates.urls')),
 

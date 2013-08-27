@@ -1,0 +1,21 @@
+<h2>Records for {{ request.session.year }}</h2>
+
+<table class="sorted">
+    <thead>
+        <tr>
+            <th class="hours">hours</th>
+            <th class="recorded-start">date start</th>
+            <th class="recorded">date end</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for record in records %}
+            <tr class="{% cycle "odd" "even" %}">
+                <td class="number">{{ record.hours|floatformat }}</td>
+                <td class="date">{{ record.recorded_start|date:"m/d/Y" }}</td>
+                <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
