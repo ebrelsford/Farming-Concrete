@@ -1,5 +1,5 @@
 {% extends "metrics/map_base.html" %}
-{% load static %}
+{% load metrics_tags static %}
 
 {% block title %}{{ garden.name }}{% endblock %}
 {% block header_title %}{{ garden.name }}{% endblock %}
@@ -21,6 +21,13 @@
     {% else %}
         <p>No such garden</p>
     {% endif %}
+{% endblock %}
+
+{% block right %}
+    {{ block.super }}
+    <ul class="overview">
+        {% summarize metric_name summary %}
+    </ul>
 {% endblock %}
 
 {% block actions %}

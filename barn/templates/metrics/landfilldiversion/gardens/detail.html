@@ -6,13 +6,6 @@
     {% include "metrics/landfilldiversion/weight/list_snippet.html" %}
 {% endblock %}
 
-{% block right %}
-    {{ block.super }}
-    <ul class="overview">
-        {% summarize metric_name summary %}
-    </ul>
-{% endblock %}
-
 {% block actions %}
     <h2>
         {% url "landfilldiversion_weight_garden_csv" pk=garden.pk year=request.session.year as csv_url %}

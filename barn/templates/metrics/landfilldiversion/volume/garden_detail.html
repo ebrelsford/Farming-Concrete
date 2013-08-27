@@ -2,15 +2,8 @@
 {% load metrics_tags static %}
 
 {% block left %}
-    {% include "metrics/landfilldiversion/volume/add_snippet.html" %}
-    {% include "metrics/landfilldiversion/volume/list_snippet.html" %}
-{% endblock %}
-
-{% block right %}
-    {{ block.super }}
-    <ul class="overview">
-        {% summarize "landfilldiversion" summary %}
-    </ul>
+    {% include "metrics/_add_record.html" %}
+    {% include "metrics/landfilldiversion/volume/_list_records.html" %}
 {% endblock %}
 
 {% block actions %}
