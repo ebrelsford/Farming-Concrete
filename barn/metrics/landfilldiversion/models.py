@@ -54,6 +54,7 @@ register('Landfill Diversion by Weight', {
     'garden_detail_url_name': 'landfilldiversion_weight_garden_details',
     'group': 'Landfill Diversion',
     'index_url_name': 'landfilldiversion_weight_index',
+    'summarize_template': 'metrics/landfilldiversion/weight/summarize.html',
 })
 
 

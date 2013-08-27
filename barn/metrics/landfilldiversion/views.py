@@ -27,6 +27,7 @@ class WeightMixin(MetricMixin):
 
 class WeightIndex(WeightMixin, IndexView):
     metric_model = LandfillDiversionWeight
+    template_name = 'metrics/landfilldiversion/weight/index.html'
 
 
 class WeightAllGardensView(RecordsMixin, TitledPageMixin, WeightMixin,
