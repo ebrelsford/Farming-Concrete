@@ -3,6 +3,9 @@ from django.conf.urls.defaults import patterns, url
 from .views import (HoursByGeographyAllGardensView,
                     HoursByGeographyGardenDetails, HoursByGeographyGardenCSV,
                     HoursByGeographyIndex, HoursByGeographyUserGardensView)
+from .views import (HoursByTaskAllGardensView, HoursByTaskGardenDetails,
+                    HoursByTaskGardenCSV, HoursByTaskIndex,
+                    HoursByTaskUserGardensView)
 
 
 urlpatterns = patterns('',
@@ -40,6 +43,42 @@ urlpatterns = patterns('',
     url(r'^geography/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
         HoursByGeographyGardenCSV.as_view(),
         name='participation_geography_garden_csv',
+    ),
+
+
+    #
+    # Hours by task
+    #
+
+    url(r'^task/(?:(?P<year>\d{4})/)?$',
+        HoursByTaskIndex.as_view(),
+        name='participation_task_index'
+    ),
+
+
+    # Garden lists
+
+    url(r'^task/recorded/(?:(?P<year>\d{4})/)?$',
+        HoursByTaskAllGardensView.as_view(),
+        name='participation_task_all_gardens'
+    ),
+
+    url(r'^task/yours/(?:(?P<year>\d{4})/)?$',
+        HoursByTaskUserGardensView.as_view(),
+        name='participation_task_user_gardens'
+    ),
+
+
+    # Garden details
+
+    url(r'^task/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
+        HoursByTaskGardenDetails.as_view(),
+        name='participation_task_garden_details',
+    ),
+
+    url(r'^task/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
+        HoursByTaskGardenCSV.as_view(),
+        name='participation_task_garden_csv',
     ),
 
 )

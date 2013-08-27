@@ -6,8 +6,8 @@ from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
-from .forms import HoursByGeographyForm#, HoursByTaskForm
-from .models import HoursByGeography#, HoursByTask
+from .forms import HoursByGeographyForm, HoursByTaskForm
+from .models import HoursByGeography, HoursByTask
 
 
 class HoursByGeographyMixin(MetricMixin):
@@ -68,3 +68,62 @@ class HoursByGeographyGardenCSV(HoursByGeographyMixin, MetricGardenCSVView):
     def get_filename(self):
         # TODO add year, date retrieved
         return '%s - hours by geography' % self.garden.name
+
+
+class HoursByTaskMixin(MetricMixin):
+    metric_model = HoursByTask
+
+    def get_metric_name(self):
+        return 'Participation Hours by Task'
+
+    def get_all_gardens_with_records(self):
+        return Garden.objects.filter(
+            pk__in=self.get_records().values_list('garden__pk', flat=True)
+        ).distinct().order_by('name')
+
+
+class HoursByTaskIndex(HoursByTaskMixin, IndexView):
+    template_name = 'metrics/participation/task/index.html'
+
+
+class HoursByTaskAllGardensView(RecordsMixin, TitledPageMixin,
+                                HoursByTaskMixin, AllGardensView):
+
+    def get_title(self):
+        garden_type = self.request.session.get('garden_type', 'all')
+        return ('All %s gardens measuring participation by task' %
+                garden_type_label(garden_type))
+
+
+class HoursByTaskUserGardensView(TitledPageMixin, HoursByTaskMixin,
+                                 UserGardenView):
+
+    def get_title(self):
+        garden_type = self.request.session.get('garden_type', 'all')
+        return 'Your %s gardens' % garden_type_label(garden_type)
+
+
+class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
+    form_class = HoursByTaskForm
+    template_name = 'metrics/participation/task/garden_detail.html'
+
+    def get_success_message(self):
+        return 'Successfully added %.1f hours to %s' % (self.record.hours,
+                                                        self.object)
+
+    def get_initial(self):
+        initial = super(HoursByTaskGardenDetails, self).get_initial()
+        initial.update({
+            'recorded': date.today(), # TODO get last recorded date if there is one
+        })
+        return initial
+
+
+class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
+
+    def get_fields(self):
+        return ('hours', 'task', 'recorded_start', 'recorded',)
+
+    def get_filename(self):
+        # TODO add year, date retrieved
+        return '%s - hours by task' % self.garden.name

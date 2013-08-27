@@ -1,0 +1,13 @@
+<ul class="overview">
+    <li class="odd">
+        {{ hours|floatformat }} hours
+    </li>
+    <li class="even">
+        {{ count }} records
+    </li>
+    <li class="odd">
+        records from 
+        {{ recorded_min|date:"m/d/Y" }} to 
+        {{ recorded_max|date:"m/d/Y" }}
+    </li>
+</ul>

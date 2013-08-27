@@ -89,10 +89,10 @@ register('Participation Hours by Geography', {
 })
 
 
-#register('Participation Hours by Task', {
-    #'model': HoursByTask,
-    #'garden_detail_url_name': 'participation_task_garden_details',
-    #'group': 'Participation',
-    #'index_url_name': 'participation_task_index',
-    #'summarize_template': 'metrics/participation/task/summarize.html',
-#})
+register('Participation Hours by Task', {
+    'model': HoursByTask,
+    'garden_detail_url_name': 'participation_task_garden_details',
+    'group': 'Participation',
+    'index_url_name': 'participation_task_index',
+    'summarize_template': 'metrics/participation/task/summarize.html',
+})
