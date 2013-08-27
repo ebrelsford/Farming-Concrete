@@ -19,6 +19,9 @@ urlpatterns = patterns('',
 
     (r'^gardens/', include('farmingconcrete.garden_urls')),
 
+    # compost
+    (r'^metrics/compost/', include('metrics.compost.urls')),
+
     # crop count
     (r'^metrics/cropcount/', include('metrics.cropcount.urls')),
 

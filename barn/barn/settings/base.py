@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'audit',
     'farmingconcrete',
     'metrics',
+    'metrics.compost',
     'metrics.cropcount',
     'metrics.harvestcount',
     'metrics.landfilldiversion',
