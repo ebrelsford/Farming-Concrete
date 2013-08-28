@@ -1,5 +1,5 @@
 from ..forms import RecordedInput, RecordForm
-from .models import HoursByGeography, HoursByTask
+from .models import HoursByGeography, HoursByTask, HoursByProject
 
 
 class HoursByGeographyForm(RecordForm):
@@ -21,5 +21,17 @@ class HoursByTaskForm(RecordForm):
                   'garden',)
         widgets = {
             'recorded_start': RecordedInput(),
+            'recorded': RecordedInput(),
+        }
+
+
+class HoursByProjectForm(RecordForm):
+
+    class Meta:
+        model = HoursByProject
+        fields = ('hours', 'project', 'recorded', 'added_by', 'garden',)
+        widgets = {
+            # TODO something special with gardener
+            # TODO something special with project
             'recorded': RecordedInput(),
         }

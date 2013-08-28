@@ -6,6 +6,9 @@ from .views import (HoursByGeographyAllGardensView,
 from .views import (HoursByTaskAllGardensView, HoursByTaskGardenDetails,
                     HoursByTaskGardenCSV, HoursByTaskIndex,
                     HoursByTaskUserGardensView)
+from .views import (HoursByProjectAllGardensView, HoursByProjectGardenDetails,
+                    HoursByProjectGardenCSV, HoursByProjectIndex,
+                    HoursByProjectUserGardensView)
 
 
 urlpatterns = patterns('',
@@ -79,6 +82,42 @@ urlpatterns = patterns('',
     url(r'^task/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
         HoursByTaskGardenCSV.as_view(),
         name='participation_task_garden_csv',
+    ),
+
+
+    #
+    # Hours by project
+    #
+
+    url(r'^project/(?:(?P<year>\d{4})/)?$',
+        HoursByProjectIndex.as_view(),
+        name='participation_project_index'
+    ),
+
+
+    # Garden lists
+
+    url(r'^project/recorded/(?:(?P<year>\d{4})/)?$',
+        HoursByProjectAllGardensView.as_view(),
+        name='participation_project_all_gardens'
+    ),
+
+    url(r'^project/yours/(?:(?P<year>\d{4})/)?$',
+        HoursByProjectUserGardensView.as_view(),
+        name='participation_project_user_gardens'
+    ),
+
+
+    # Garden details
+
+    url(r'^project/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
+        HoursByProjectGardenDetails.as_view(),
+        name='participation_project_garden_details',
+    ),
+
+    url(r'^project/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
+        HoursByProjectGardenCSV.as_view(),
+        name='participation_project_garden_csv',
     ),
 
 )

@@ -7,7 +7,7 @@ from ..registry import register
 
 
 class BaseParticipationMetric(BaseMetricRecord):
-    hours = models.DecimalField('hours',
+    hours = models.DecimalField(_('hours'),
         max_digits=8,
         decimal_places=2,
         help_text=_('Hours of participation in the given date range'),
@@ -80,6 +80,40 @@ class HoursByTask(BaseParticipationMetric):
                                  recorded_max=Max('recorded'))
 
 
+class Project(models.Model):
+    """A project happening at a particular garden."""
+    name = models.CharField(_('name'),
+        max_length=200,
+    )
+    garden = models.ForeignKey('farmingconcrete.Garden')
+
+    def __unicode__(self):
+        return self.name
+
+
+class HoursByProject(BaseMetricRecord):
+    project = models.ForeignKey('Project',
+        help_text=_('The project being worked on'),
+    )
+
+    gardener = models.ForeignKey('harvestcount.Gardener',
+        help_text=_('The gardener who participated in this project'),
+    )
+
+    hours = models.DecimalField(_('hours'),
+        max_digits=8,
+        decimal_places=2,
+        help_text=_('Hours of participation in the given date range'),
+    )
+
+    @classmethod
+    def summarize(cls, records):
+        if not records:
+            return None
+        return records.aggregate(count=Count('pk'), hours=Sum('hours'),
+                                 recorded=Max('recorded'))
+
+
 register('Participation Hours by Geography', {
     'model': HoursByGeography,
     'garden_detail_url_name': 'participation_geography_garden_details',
@@ -95,4 +129,13 @@ register('Participation Hours by Task', {
     'group': 'Participation',
     'index_url_name': 'participation_task_index',
     'summarize_template': 'metrics/participation/task/summarize.html',
+})
+
+
+register('Participation Hours by Project', {
+    'model': HoursByProject,
+    'garden_detail_url_name': 'participation_project_garden_details',
+    'group': 'Participation',
+    'index_url_name': 'participation_project_index',
+    'summarize_template': 'metrics/participation/project/summarize.html',
 })
