@@ -59,4 +59,8 @@ define(
             require(['leaflet.basicmap']);
         }
 
+        if ($('.btn-participation-new-project').length > 0) {
+            require(['newprojectwidget']);
+        }
+
 });

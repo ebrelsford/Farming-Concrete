@@ -9,6 +9,7 @@ from .views import (HoursByTaskAllGardensView, HoursByTaskGardenDetails,
 from .views import (HoursByProjectAllGardensView, HoursByProjectGardenDetails,
                     HoursByProjectGardenCSV, HoursByProjectIndex,
                     HoursByProjectUserGardensView)
+from .views import CreateProjectView
 
 
 urlpatterns = patterns('',
@@ -119,5 +120,16 @@ urlpatterns = patterns('',
         HoursByProjectGardenCSV.as_view(),
         name='participation_project_garden_csv',
     ),
+
+
+    #
+    # Non-record views
+    #
+
+    # Projects
+    url(r'^project/add/$',
+        CreateProjectView.as_view(),
+        name='participation_project_add',
+    )
 
 )

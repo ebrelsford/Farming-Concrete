@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'compressor',
     'djangojs',
     'feedback',
+    'floppyforms',
     'registration',
     'south',
     'widget_tweaks',

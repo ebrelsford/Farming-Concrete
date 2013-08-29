@@ -1,13 +1,19 @@
 from datetime import date
+import json
+
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView
 
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
-from generic.views import TitledPageMixin
+from generic.views import LoginRequiredMixin, TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
-from .forms import HoursByGeographyForm, HoursByProjectForm, HoursByTaskForm
-from .models import HoursByGeography, HoursByProject, HoursByTask
+from .forms import (HoursByGeographyForm, HoursByProjectForm, HoursByTaskForm,
+                    ProjectForm)
+from .models import HoursByGeography, HoursByProject, HoursByTask, Project
 
 
 class HoursByGeographyMixin(MetricMixin):
@@ -188,3 +194,26 @@ class HoursByProjectGardenCSV(HoursByProjectMixin, MetricGardenCSVView):
     def get_filename(self):
         # TODO add year, date retrieved
         return '%s - hours by project' % self.garden.name
+
+
+class CreateProjectView(LoginRequiredMixin, CreateView):
+    form_class = ProjectForm
+    model = Project
+    template_name = 'metrics/participation/project/project_form.html'
+
+    def get_existing_project(self, garden, name):
+        try:
+            return Project.objects.get(garden=garden, name=name)
+        except Exception:
+            return None
+
+    def form_valid(self, form):
+        # Check for project with the given name, first
+        project = self.get_existing_project(form.cleaned_data['garden'],
+                                            form.cleaned_data['name'])
+        if not project:
+            project = self.object = form.save()
+        return HttpResponse(json.dumps({
+            'name': project.name,
+            'pk': project.pk,
+        }), content_type='application/json')
