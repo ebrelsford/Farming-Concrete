@@ -52,7 +52,7 @@ class HoursByProjectForm(RecordForm):
         # Only get projects of this garden
         self.fields['project'].queryset = self.get_projects(garden)
 
-        # Only get projects of this garden
+        # Only get gardeners of this garden
         self.fields['gardener'].queryset = self.get_gardeners(garden)
 
     def get_gardeners(self, garden):
