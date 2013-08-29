@@ -12,7 +12,6 @@ define(
 
         // Other requirements
         'jquery.form',
-        'jquery.spin',
     ], function ($, Django) {
 
         function addModal() {
