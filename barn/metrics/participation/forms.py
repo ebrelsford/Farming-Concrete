@@ -2,6 +2,7 @@ from django.forms import HiddenInput, ModelForm
 
 from floppyforms.widgets import Select
 
+from ..harvestcount.models import Gardener
 from ..forms import RecordedInput, RecordForm
 from .models import HoursByGeography, HoursByTask, HoursByProject, Project
 
@@ -50,6 +51,12 @@ class HoursByProjectForm(RecordForm):
 
         # Only get projects of this garden
         self.fields['project'].queryset = self.get_projects(garden)
+
+        # Only get projects of this garden
+        self.fields['gardener'].queryset = self.get_gardeners(garden)
+
+    def get_gardeners(self, garden):
+        return Gardener.objects.filter(garden=garden).order_by('name')
 
     def get_projects(self, garden):
         return Project.objects.filter(garden=garden).order_by('name')
