@@ -7,7 +7,8 @@ from django.views.generic import CreateView
 
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
-from generic.views import LoginRequiredMixin, TitledPageMixin
+from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
+                           TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
@@ -196,9 +197,11 @@ class HoursByProjectGardenCSV(HoursByProjectMixin, MetricGardenCSVView):
         return '%s - hours by project' % self.garden.name
 
 
-class CreateProjectView(LoginRequiredMixin, CreateView):
+class CreateProjectView(LoginRequiredMixin, PermissionRequiredMixin,
+                        CreateView):
     form_class = ProjectForm
     model = Project
+    permission = 'participation.add_project'
     template_name = 'metrics/participation/project/project_form.html'
 
     def get_existing_project(self, garden, name):
