@@ -46,10 +46,10 @@ class HoursByProjectForm(RecordForm):
 
     class Meta:
         model = HoursByProject
-        fields = ('hours', 'project', 'recorded', 'added_by', 'garden',)
+        fields = ('hours', 'project', 'gardener', 'recorded', 'added_by',
+                  'garden',)
         widgets = {
             # TODO something special with gardener
-            # TODO something special with project
             'project': AddNewProjectWidget(),
             'recorded': RecordedInput(),
         }
