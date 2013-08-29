@@ -2,7 +2,6 @@ from datetime import date
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
 
 from farmingconcrete.models import Garden
