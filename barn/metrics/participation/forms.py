@@ -2,6 +2,7 @@ from django.forms import HiddenInput, ModelForm
 
 from floppyforms.widgets import Select
 
+from ..harvestcount.forms import AddNewGardenerWidget
 from ..harvestcount.models import Gardener
 from ..forms import RecordedInput, RecordForm
 from .models import HoursByGeography, HoursByTask, HoursByProject, Project
@@ -66,7 +67,7 @@ class HoursByProjectForm(RecordForm):
         fields = ('hours', 'project', 'gardener', 'recorded', 'added_by',
                   'garden',)
         widgets = {
-            # TODO something special with gardener
+            'gardener': AddNewGardenerWidget(),
             'project': AddNewProjectWidget(),
             'recorded': RecordedInput(),
         }

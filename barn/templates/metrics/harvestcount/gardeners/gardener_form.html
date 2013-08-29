@@ -1,0 +1,13 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add a new gardener</h4>
+        </div>
+        <div class="modal-body">
+            {% url "harvestcount_gardener_add" as action_url %}
+            {% include "_form.html" with form=form action=action_url cancel_button=True %}
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

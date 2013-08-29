@@ -63,4 +63,9 @@ define(
             require(['newprojectwidget']);
         }
 
-});
+        if ($('.btn-harvestcount-new-gardener').length > 0) {
+            require(['newgardenerwidget']);
+        }
+
+    }
+);

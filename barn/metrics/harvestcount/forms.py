@@ -4,6 +4,7 @@ from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
                           ValidationError)
 
 from ajax_select.fields import AutoCompleteSelectField
+from floppyforms.widgets import Select
 
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import get_variety
@@ -140,3 +141,7 @@ def get_gardener(name, garden, user):
     gardener = Gardener(name=name, added_by=user, garden=garden)
     gardener.save()
     return gardener
+
+
+class AddNewGardenerWidget(Select):
+    template_name = 'metrics/harvestcount/gardeners/new_gardener_widget.html'

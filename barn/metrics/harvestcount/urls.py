@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import (GardenDetails, GardenerAddView, HarvestAddView,
-                    HarvestcountAllGardensView, HarvestcountIndex,
-                    HarvestcountUserGardenView)
+from .views import (CreateGardenerView, GardenDetails, GardenerAddView,
+                    HarvestAddView, HarvestcountAllGardensView,
+                    HarvestcountIndex, HarvestcountUserGardenView)
 
 
 urlpatterns = patterns('',
@@ -54,6 +54,11 @@ urlpatterns = patterns('',
     url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?gardeners/add/$',
         GardenerAddView.as_view(),
         name='harvestcount_add_gardener',
+    ),
+
+    url(r'^gardener/add/$',
+        CreateGardenerView.as_view(),
+        name='harvestcount_gardener_add',
     ),
 
 

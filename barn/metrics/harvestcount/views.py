@@ -319,3 +319,28 @@ class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,
 
     def get_success_querystring(self):
         return 'gardener=%d' % self.object.pk
+
+
+class CreateGardenerView(LoginRequiredMixin, PermissionRequiredMixin,
+                         CreateView):
+    form_class = GardenerForm
+    model = Gardener
+    permission = 'harvestcount.add_gardener'
+    template_name = 'metrics/harvestcount/gardeners/gardener_form.html'
+
+    def get_existing_gardener(self, garden, name):
+        try:
+            return self.model.objects.get(garden=garden, name=name)
+        except Exception:
+            return None
+
+    def form_valid(self, form):
+        # Check for gardener with the given name, first
+        gardener = self.get_existing_gardener(form.cleaned_data['garden'],
+                                              form.cleaned_data['name'])
+        if not gardener:
+            gardener = self.object = form.save()
+        return HttpResponse(json.dumps({
+            'name': gardener.name,
+            'pk': gardener.pk,
+        }), content_type='application/json')
