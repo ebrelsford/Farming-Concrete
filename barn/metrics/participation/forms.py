@@ -44,6 +44,16 @@ class ProjectForm(ModelForm):
 
 class HoursByProjectForm(RecordForm):
 
+    def __init__(self, initial={}, *args, **kwargs):
+        super(HoursByProjectForm, self).__init__(initial=initial, *args, **kwargs)
+        garden = initial.get('garden', None)
+
+        # Only get projects of this garden
+        self.fields['project'].queryset = self.get_projects(garden)
+
+    def get_projects(self, garden):
+        return Project.objects.filter(garden=garden).order_by('name')
+
     class Meta:
         model = HoursByProject
         fields = ('hours', 'project', 'gardener', 'recorded', 'added_by',
