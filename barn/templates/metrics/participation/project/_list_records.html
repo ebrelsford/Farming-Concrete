@@ -4,9 +4,9 @@
     <thead>
         <tr>
             <th class="hours">hours</th>
-            <th class="task">task</th>
-            <th class="recorded-start">date start</th>
-            <th class="recorded">date end</th>
+            <th class="project">project</th>
+            <th class="gardener">gardener</th>
+            <th class="recorded">recorded</th>
         </tr>
     </thead>
 
@@ -14,8 +14,8 @@
         {% for record in records %}
             <tr class="{% cycle "odd" "even" %}">
                 <td class="number">{{ record.hours|floatformat }}</td>
-                <td class="date">{{ record.task }}</td>
-                <td class="date">{{ record.recorded_start|date:"m/d/Y" }}</td>
+                <td>{{ record.project.name }}</td>
+                <td>{{ record.gardener.name }}</td>
                 <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
             </tr>
         {% endfor %}
