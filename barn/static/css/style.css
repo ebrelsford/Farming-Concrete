@@ -576,6 +576,11 @@ label {
     font-weight: normal;
 }
 
+.nav > li > a:hover,
+.nav > li > a:focus {
+  background-color: inherit;
+}
+
 
 /*
  * Chosen overrides
