@@ -110,9 +110,13 @@ class HoursByProject(BaseMetricRecord):
     def summarize(cls, records):
         if not records:
             return None
-        return records.aggregate(count=Count('pk'), hours=Sum('hours'),
-                                 recorded_min=Min('recorded'),
-                                 recorded_max=Max('recorded'))
+        return records.aggregate(
+            count=Count('pk'),
+            gardens=Count('garden__pk'),
+            hours=Sum('hours'),
+            recorded_min=Min('recorded'),
+            recorded_max=Max('recorded')
+        )
 
 
 register('Participation Hours by Geography', {

@@ -1,9 +1,9 @@
 <ul class="overview">
     <li class="odd">
-        {{ hours|floatformat }} hours
+        {{ hours|floatformat }} hour{{ hours|pluralize }}
     </li>
     <li class="even">
-        {{ count }} records
+        {{ count }} record{{ count|pluralize }}
     </li>
     <li class="odd">
         records from 
