@@ -15,6 +15,7 @@ register
     Proxy registry.register.
 """
 from itertools import groupby
+from operator import itemgetter
 
 
 __all__ = ('MetricRegistry', 'registry', 'register',)
@@ -40,7 +41,7 @@ class MetricRegistry(dict):
         self[metric_name] = metric_details
 
     def by_group(self):
-        sorted_metrics = sorted(self.values(), key=lambda m: m['group'])
+        sorted_metrics = sorted(self.values(), key=itemgetter('group', 'name'))
         grouped = groupby(sorted_metrics, lambda m: m['group'])
         g = {}
         for group, metrics in grouped:
