@@ -25,7 +25,15 @@ define(
             fillColor: '#3f9438',
             fillOpacity: 0.4,
             radius: 5,
-            stroke: false,
+            stroke: false
+        };
+
+        var individualGardenStyle = {
+            fill: true,
+            fillColor: '#3f9438',
+            fillOpacity: 0.8,
+            radius: 25,
+            stroke: false
         };
 
         L.Map.include({
@@ -39,9 +47,18 @@ define(
                 });
             },
 
+            pickStyle: function () {
+                var instance = this;
+                if (instance.options.gardenid) {
+                    return individualGardenStyle;
+                }
+                return style;
+            },
+
             addGardenData: function (data) {
                 var instance = this,
-                    popupTemplate = Handlebars.compile($('#popup-template').html());
+                    popupTemplate = Handlebars.compile($('#popup-template').html()),
+                    style = instance.pickStyle();
 
                 var gardens = L.geoJson(data, {
                     pointToLayer: function (feature, latlng) {
