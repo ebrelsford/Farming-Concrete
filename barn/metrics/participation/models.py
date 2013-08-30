@@ -93,7 +93,7 @@ class Project(models.Model):
 
 class HoursByProject(BaseMetricRecord):
     project = models.ForeignKey('Project',
-        help_text=_('The project being worked on'),
+        help_text=_('The project worked on'),
     )
 
     gardener = models.ForeignKey('harvestcount.Gardener',
@@ -103,7 +103,7 @@ class HoursByProject(BaseMetricRecord):
     hours = models.DecimalField(_('hours'),
         max_digits=8,
         decimal_places=2,
-        help_text=_('Hours of participation in the given date range'),
+        help_text=_('Hours of participation on this project'),
     )
 
     @classmethod
