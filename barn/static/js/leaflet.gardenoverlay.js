@@ -17,6 +17,7 @@ define(
             'cropcount',
             'gardenid',
             'gardentype',
+            'metric',
             'year'
         ];
 

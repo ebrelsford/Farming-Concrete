@@ -213,11 +213,16 @@ def gardens_geojson(request):
     cropcount = request.GET.get('cropcount', None)
     gardenid = request.GET.get('gardenid', None)
     harvestcount = request.GET.get('harvestcount', None)
+    metric = request.GET.get('metric', None)
     participating = request.GET.get('participating', None)
     type = request.GET.get('gardentype', None)
     borough = request.GET.get('borough', None)
     year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
     user_gardens = request.GET.get('user_gardens', False)
+
+    if metric:
+        records = registry[metric]['model'].objects.for_year(year)
+        ids = records.values_list('garden__pk', flat=True)
 
     if user_gardens:
         user = request.user
