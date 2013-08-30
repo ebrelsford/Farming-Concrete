@@ -1,5 +1,5 @@
 {% extends "metrics/participation/index.html" %}
-{% load metrics_tags static %}
+{% load static %}
 
 {% block content %}
     <h1>{{ request.session.garden_type|default:"all" }} gardens, participation hours by project</h1>
