@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block content %}
-    <h1>{{ request.session.garden_type }} gardens, participation hours by geography</h1>
+    <h1>{{ request.session.garden_type|default:"all" }} gardens, participation hours by geography</h1>
     {{ block.super }}
 {% endblock %}
 
