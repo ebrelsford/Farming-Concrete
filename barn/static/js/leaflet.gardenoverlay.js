@@ -13,14 +13,20 @@ define(
         'underscore',
 
     ], function (Django, $, Handlebars, L, _) {
-        var mapParams = ['cropcount', 'gardentype', 'year'],
-            style = {
-                fill: true,
-                fillColor: '#3f9438',
-                fillOpacity: 0.4,
-                radius: 5,
-                stroke: false,
-            };
+        var mapParams = [
+            'cropcount',
+            'gardenid',
+            'gardentype',
+            'year'
+        ];
+
+        var style = {
+            fill: true,
+            fillColor: '#3f9438',
+            fillOpacity: 0.4,
+            radius: 5,
+            stroke: false,
+        };
 
         L.Map.include({
 

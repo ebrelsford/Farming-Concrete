@@ -211,6 +211,7 @@ def gardens_geojson(request):
 
     ids = request.GET.get('ids', None)
     cropcount = request.GET.get('cropcount', None)
+    gardenid = request.GET.get('gardenid', None)
     harvestcount = request.GET.get('harvestcount', None)
     participating = request.GET.get('participating', None)
     type = request.GET.get('gardentype', None)
@@ -226,6 +227,9 @@ def gardens_geojson(request):
                 ids = profile.gardens.all().values_list('pk', flat=True)
         except Exception:
             pass
+
+    if gardenid:
+        ids = [gardenid,]
 
     if ids:
         try:

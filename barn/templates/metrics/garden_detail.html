@@ -30,6 +30,11 @@
     </ul>
 {% endblock %}
 
+{% block map_options %}
+    {{ block.super }}
+    data-lgardenid="{{ garden.pk }}"
+{% endblock %}
+
 {% block actions %}
     <h2>
         <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
