@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Count, Max, Min, Sum
+from django.db.models import Sum
 
 from ..models import BaseMetricRecord
 from ..registry import register
@@ -19,12 +19,12 @@ class CompostProductionWeight(BaseMetricRecord):
         )
 
     @classmethod
-    def summarize(cls, records):
-        if not records:
-            return None
-        return records.aggregate(count=Count('pk'), weight=Sum('weight'),
-                                 recorded_min=Min('recorded'),
-                                 recorded_max=Max('recorded'))
+    def get_summarize_kwargs(cls):
+        kwargs = super(CompostProductionWeight, cls).get_summarize_kwargs()
+        kwargs.update({
+            'weight': Sum('weight'),
+        })
+        return kwargs
 
 
 class CompostProductionVolume(BaseMetricRecord):
@@ -34,19 +34,19 @@ class CompostProductionVolume(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'CompostProductionWeight (%d) %s %.2f gallons' % (
+        return 'CompostProductionVolume (%d) %s %.2f gallons' % (
             self.pk,
             self.garden,
             self.volume,
         )
 
     @classmethod
-    def summarize(cls, records):
-        if not records:
-            return None
-        return records.aggregate(count=Count('pk'), volume=Sum('volume'),
-                                 recorded_min=Min('recorded'),
-                                 recorded_max=Max('recorded'))
+    def get_summarize_kwargs(cls):
+        kwargs = super(CompostProductionVolume, cls).get_summarize_kwargs()
+        kwargs.update({
+            'volume': Sum('volume'),
+        })
+        return kwargs
 
 
 register('Compost Production by Weight', {

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count, Max, Min
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
 
@@ -61,7 +62,18 @@ class BaseMetricRecord(AuditedModel):
         Summarize the given records in a way that will make sense in a template
         context.
         """
-        raise NotImplementedError('Implement BaseMetricRecord.summarize')
+        if not records:
+            return None
+        return records.aggregate(**cls.get_summarize_kwargs())
+
+    @classmethod
+    def get_summarize_kwargs(cls):
+        return {
+            'count': Count('pk'),
+            'gardens': Count('garden__pk', distinct=True),
+            'recorded_min': Min('recorded'),
+            'recorded_max': Max('recorded'),
+        }
 
     @classmethod
     def get_summary_data(cls, garden, year=None, start=None, end=None):

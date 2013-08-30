@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Count, Max, Min, Sum
+from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
 
 from ..models import BaseMetricRecord
@@ -33,12 +33,12 @@ class HoursByGeography(BaseParticipationMetric):
         )
 
     @classmethod
-    def summarize(cls, records):
-        if not records:
-            return None
-        return records.aggregate(count=Count('pk'), hours=Sum('hours'),
-                                 recorded_min=Min('recorded'),
-                                 recorded_max=Max('recorded'))
+    def get_summarize_kwargs(cls):
+        kwargs = super(HoursByGeography, cls).get_summarize_kwargs()
+        kwargs.update({
+            'hours': Sum('hours'),
+        })
+        return kwargs
 
 
 class Task(models.Model):
@@ -72,12 +72,12 @@ class HoursByTask(BaseParticipationMetric):
         )
 
     @classmethod
-    def summarize(cls, records):
-        if not records:
-            return None
-        return records.aggregate(count=Count('pk'), hours=Sum('hours'),
-                                 recorded_min=Min('recorded'),
-                                 recorded_max=Max('recorded'))
+    def get_summarize_kwargs(cls):
+        kwargs = super(HoursByTask, cls).get_summarize_kwargs()
+        kwargs.update({
+            'hours': Sum('hours'),
+        })
+        return kwargs
 
 
 class Project(models.Model):
@@ -107,16 +107,13 @@ class HoursByProject(BaseMetricRecord):
     )
 
     @classmethod
-    def summarize(cls, records):
-        if not records:
-            return None
-        return records.aggregate(
-            count=Count('pk'),
-            gardens=Count('garden__pk'),
-            hours=Sum('hours'),
-            recorded_min=Min('recorded'),
-            recorded_max=Max('recorded')
-        )
+    def get_summarize_kwargs(cls):
+        kwargs = super(HoursByProject, cls).get_summarize_kwargs()
+        kwargs.update({
+            'hours': Sum('hours'),
+            'projects': Count('project__pk', distinct=True),
+        })
+        return kwargs
 
 
 register('Participation Hours by Geography', {
