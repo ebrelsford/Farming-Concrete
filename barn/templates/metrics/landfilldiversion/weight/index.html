@@ -1,23 +1,9 @@
-{% extends "metrics/landfilldiversion/map_base.html" %}
-{% load metrics_tags static %}
-
-{% block title %}Landfill Diversion by Weight{% endblock %}
-
-{% block breadcrumbs %}
-    <a href="{% url "home" %}">Home</a> &gt;&gt;
-    {{ metric_name }}
-{% endblock %}
+{% extends "metrics/landfilldiversion/index.html" %}
+{% load static %}
 
 {% block content %}
-    <h1>{{ request.session.garden_type }} gardens, landfill diversion by weight</h1>
-
+    <h1>{{ request.session.garden_type|default:"all" }} gardens, landfill diversion by weight</h1>
     {{ block.super }}
-{% endblock %}
-
-{% block left %}
-    <ul class="overview">
-        {% summarize metric_name summary %}
-    </ul>
 {% endblock %}
 
 {% block actions %}

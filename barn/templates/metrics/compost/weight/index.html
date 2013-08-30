@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block content %}
-    <h1>{{ request.session.garden_type }} gardens, compost production by weight</h1>
+    <h1>{{ request.session.garden_type|default:"all" }} gardens, compost production by weight</h1>
     {{ block.super }}
 {% endblock %}
 
