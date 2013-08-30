@@ -111,7 +111,8 @@ class HoursByProject(BaseMetricRecord):
         if not records:
             return None
         return records.aggregate(count=Count('pk'), hours=Sum('hours'),
-                                 recorded=Max('recorded'))
+                                 recorded_min=Min('recorded'),
+                                 recorded_max=Max('recorded'))
 
 
 register('Participation Hours by Geography', {
