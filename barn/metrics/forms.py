@@ -1,13 +1,15 @@
 from datetime import date
 
 from django.contrib.auth.models import User
-from django.forms import DateInput, HiddenInput, ModelChoiceField, ModelForm
+from django.forms import HiddenInput, ModelChoiceField, ModelForm
+
+from floppyforms.fields import DateField
+from floppyforms.widgets import DateInput
 
 from farmingconcrete.models import Garden
 
 
 class RecordedInput(DateInput):
-    input_type = 'date'
 
     def __init__(self, attrs=None, *args, **kwargs):
         try:
@@ -16,7 +18,11 @@ class RecordedInput(DateInput):
             attrs['max'] = date.today().isoformat()
         except Exception:
             pass
-        super(RecordedInput, self).__init__(attrs=attrs)
+        super(RecordedInput, self).__init__(attrs=attrs, *args, **kwargs)
+
+
+class RecordedField(DateField):
+    widget = RecordedInput
 
 
 class RecordForm(ModelForm):

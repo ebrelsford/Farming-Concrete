@@ -1,23 +1,25 @@
 from django.forms import HiddenInput, ModelForm
+from django.utils.translation import ugettext_lazy as _
 
 from floppyforms.widgets import Select
 
 from ..harvestcount.forms import AddNewGardenerWidget
 from ..harvestcount.models import Gardener
-from ..forms import RecordedInput, RecordForm
+from ..forms import RecordedField, RecordedInput, RecordForm
 from .models import HoursByGeography, HoursByTask, HoursByProject, Project
 
 
 class HoursByGeographyForm(RecordForm):
+    recorded_start = RecordedField()
+    recorded = RecordedField(
+        label=_('Recorded end'),
+        required=True,
+    )
 
     class Meta:
         model = HoursByGeography
         fields = ('hours', 'recorded_start', 'recorded', 'photo', 'added_by',
                   'garden',)
-        widgets = {
-            'recorded_start': RecordedInput(),
-            'recorded': RecordedInput(),
-        }
 
 
 class HoursByTaskForm(RecordForm):
