@@ -23,7 +23,12 @@ class BaseParticipationMetric(BaseMetricRecord):
 
 class HoursByGeography(BaseParticipationMetric):
 
-    # TODO photos
+    photo = models.ImageField(_('photo'),
+        help_text=_('The photo you took to record this'),
+        upload_to='participation_geography',
+        blank=True,
+        null=True,
+    )
 
     def __unicode__(self):
         return 'HoursByGeography (%d) %s %.2f hours' % (

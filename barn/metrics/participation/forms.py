@@ -12,7 +12,8 @@ class HoursByGeographyForm(RecordForm):
 
     class Meta:
         model = HoursByGeography
-        fields = ('hours', 'recorded_start', 'recorded', 'added_by', 'garden',)
+        fields = ('hours', 'recorded_start', 'recorded', 'photo', 'added_by',
+                  'garden',)
         widgets = {
             'recorded_start': RecordedInput(),
             'recorded': RecordedInput(),
