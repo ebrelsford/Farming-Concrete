@@ -45,6 +45,15 @@ class HoursByGeography(BaseParticipationMetric):
         })
         return kwargs
 
+    @classmethod
+    def summarize(cls, records):
+        context = super(HoursByGeography, cls).summarize(records)
+        photo = records.filter(photo__isnull=False).order_by('-added')[0].photo
+        context.update({
+            'photo': photo,
+        })
+        return context
+
 
 class Task(models.Model):
     """A type of task that can be worked on and recorded."""

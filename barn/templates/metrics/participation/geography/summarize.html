@@ -1,3 +1,5 @@
+{% load imagekit %}
+
 <ul class="overview">
     <li class="odd">
         {{ hours|floatformat }} hour{{ hours|pluralize }}
@@ -9,5 +11,8 @@
         records from 
         {{ recorded_min|date:"m/d/Y" }} to 
         {{ recorded_max|date:"m/d/Y" }}
+    </li>
+    <li class="even">
+        {% thumbnail "200x200" photo %}
     </li>
 </ul>

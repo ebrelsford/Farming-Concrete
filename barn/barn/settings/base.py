@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'accounts',
     'audit',
     'farmingconcrete',
+    'imagekit',
     'metrics',
     'metrics.compost',
     'metrics.cropcount',
