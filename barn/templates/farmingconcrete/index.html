@@ -63,23 +63,22 @@
                         </p>
 
                         {% if user_gardens %}
-                            <p>You have access to the following garden{{ user_gardens|pluralize }}:
-                                <ul class="garden-list">
-                                    {% for garden in user_gardens %}
-                                        <li class="garden-list-garden">
-                                            {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
-                                            <div class="garden-list-buttons btn-group">
-                                                <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}" class="btn btn-default btn-mini">
-                                                    {% trans "Edit" %}
-                                                </a>
-                                                <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
-                                                    Leave
-                                                </a>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </p>
+                            <h2>Your garden{{ user_gardens|pluralize }}</h2>
+                            <ul class="garden-list">
+                                {% for garden in user_gardens %}
+                                    <li class="garden-list-garden">
+                                        {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                                        <div class="garden-list-buttons btn-group">
+                                            <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}" class="btn btn-default btn-mini">
+                                                {% trans "Edit" %}
+                                            </a>
+                                            <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}" class="btn btn-danger btn-mini">
+                                                Leave
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         {% else %}
                             <p>
                                 It looks like you don't have access to any gardens yet.
