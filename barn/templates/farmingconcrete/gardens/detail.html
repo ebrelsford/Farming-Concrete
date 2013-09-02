@@ -13,12 +13,12 @@
                 <section>
                     <h3>{{ metric.name }}</h3>
                     {% summarize metric.name metric.summary %}
+                    <div class="btn-group">
+                        <a href="{% url metric.detail_url_name pk=garden.pk %}" class="btn btn-default">
+                            {% trans "View Details" %}
+                        </a>
+                    </div>
                 </section>
-                <div class="btn-group">
-                    <a href="{% url metric.detail_url_name pk=garden.pk %}" class="btn btn-default">
-                        {% trans "View Details" %}
-                    </a>
-                </div>
             {% endfor %}
         </section>
     {% endif %}
