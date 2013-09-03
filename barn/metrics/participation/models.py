@@ -48,7 +48,13 @@ class HoursByGeography(BaseParticipationMetric):
     @classmethod
     def summarize(cls, records):
         context = super(HoursByGeography, cls).summarize(records)
-        photo = records.filter(photo__isnull=False).order_by('-added')[0].photo
+        if not context:
+            context = {}
+
+        try:
+            photo = records.filter(photo__isnull=False).order_by('-added')[0].photo
+        except Exception:
+            photo = None
         context.update({
             'photo': photo,
         })
