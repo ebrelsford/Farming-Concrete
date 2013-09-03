@@ -26,7 +26,7 @@
 {% block right %}
     {{ block.super }}
     <ul class="overview">
-        {% summarize metric_name summary %}
+        {% summarize metric_name summary=summary %}
     </ul>
 {% endblock %}
 

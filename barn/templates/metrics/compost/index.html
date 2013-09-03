@@ -11,7 +11,7 @@
 {% block left %}
     {% if summary %}
         <ul class="overview">
-            {% summarize metric_name summary %}
+            {% summarize metric_name summary=summary %}
         </ul>
     {% else %}
         <p>No records yet.</p>
