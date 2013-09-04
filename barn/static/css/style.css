@@ -505,6 +505,15 @@ ul.garden-suggestions {
 
 
 /*
+ * Garden detail page
+ */
+
+.garden-detail-page .metric-group h3:only-child {
+    display: none;
+}
+
+
+/*
  * Feedback
  */
 
