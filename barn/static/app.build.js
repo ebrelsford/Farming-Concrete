@@ -14,7 +14,6 @@
         // require()d dependencies
         '../lib/bootstrap/js/bootstrap',
         'addgardenspage',
-        'mainindexpage',
 
     ],
     insertRequire: ['main'],
