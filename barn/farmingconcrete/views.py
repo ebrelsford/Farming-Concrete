@@ -86,10 +86,6 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
         if not user.has_perm('can_edit_any_garden'):
             if garden not in self.get_user_gardens():
                 raise Http403
-
-        context.update({
-            'garden': garden,
-        })
         return context
 
 
