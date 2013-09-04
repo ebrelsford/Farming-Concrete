@@ -82,26 +82,13 @@ class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
         context = super(FarmingConcreteGardenDetails, self).get_context_data(**kwargs)
 
         garden = self.object
-        year = self.kwargs['year']
         user = self.request.user
         if not user.has_perm('can_edit_any_garden'):
             if garden not in self.get_user_gardens():
                 raise Http403
 
-        unrecorded_metrics = []
-        for name, details in registry.items():
-            summary = details['model'].get_summary_data(garden, year=year)
-            if not summary:
-                metric_details = {
-                    'name': name,
-                    'summary': summary,
-                    'detail_url_name': details['garden_detail_url_name'],
-                }
-                unrecorded_metrics.append(metric_details)
-
         context.update({
             'garden': garden,
-            'unrecorded_metrics': unrecorded_metrics,
         })
         return context
 

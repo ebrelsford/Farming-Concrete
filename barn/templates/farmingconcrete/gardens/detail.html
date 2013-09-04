@@ -14,15 +14,18 @@
                     <h3>{{ group }}</h3>
                 {% endif %}
                 {% for metric in metrics %}
-                    <section>
-                        <h4>{{ metric.name }}</h4>
-                        {% summarize metric.name garden=garden year=year %}
-                        <div class="btn-group">
-                            <a href="{% url metric.garden_detail_url_name pk=garden.pk %}" class="btn btn-default">
-                                {% trans "View Details" %}
-                            </a>
-                        </div>
-                    </section>
+                    {% count_records metric.name garden=garden year=year as count %}
+                    {% if count > 0 %}
+                        <section>
+                            <h4>{{ metric.name }}</h4>
+                            {% summarize metric.name garden=garden year=year %}
+                            <div class="btn-group">
+                                <a href="{% url metric.garden_detail_url_name pk=garden.pk %}" class="btn btn-default">
+                                    {% trans "View Details" %}
+                                </a>
+                            </div>
+                        </section>
+                    {% endif %}
                 {% endfor %}
             </section>
         {% endfor %}

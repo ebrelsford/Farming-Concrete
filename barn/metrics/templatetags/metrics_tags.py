@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 
 from classytags.arguments import Argument, KeywordArgument
 from classytags.core import Options, Tag
+from classytags.helpers import AsTag
 
 from ..registry import registry
 
@@ -12,10 +13,54 @@ register = template.Library()
 
 # TODO add_record (dynamically get template name)
 # TODO list_records (dynamically get template name)
-# TODO has_records (check for records for garden in year/start/end)
 
 
-class Summarize(Tag):
+class MetricRecordTagMixin(object):
+
+    def args_to_dict(self, *args):
+        """
+        Gather KeywordArguments into a dict
+        """
+        kwargs = {}
+        for arg in args:
+            for k, v in arg.items():
+                kwargs[k] = v
+        return kwargs
+
+
+class CountRecords(MetricRecordTagMixin, AsTag):
+
+    options = Options(
+        Argument('name'),
+        KeywordArgument('garden', required=False),
+        KeywordArgument('year', required=False),
+        KeywordArgument('start', required=False),
+        KeywordArgument('end', required=False),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, name, garden, year, start, end):
+        # Get KeywordArguments with default values
+        kwargs = self.args_to_dict(garden, year, start, end)
+        garden = kwargs.get('garden', None)
+        year = kwargs.get('year', None)
+        start = kwargs.get('start', None)
+        end = kwargs.get('end', None)
+        if not year:
+            year = settings.FARMINGCONCRETE_YEAR
+
+        # Get the records requested
+        metric = registry[name]['model']
+        if start and end:
+            return metric.get_records(garden, start=start, end=end).count()
+        elif year:
+            return metric.get_records(garden, year=year).count()
+        return 0
+
+
+class Summarize(MetricRecordTagMixin, Tag):
+
     options = Options(
         Argument('name'),
         KeywordArgument('summary', required=False),
@@ -28,11 +73,7 @@ class Summarize(Tag):
 
     def render_tag(self, context, name, summary, records, garden, year, start,
                    end):
-        # Gather KeywordArguments into a dict
-        kwargs = {}
-        for arg in (summary, records, garden, year, start, end):
-            for k, v in arg.items():
-                kwargs[k] = v
+        kwargs = self.args_to_dict(summary, records, garden, year, start, end)
 
         # Get KeywordArguments with default values
         summary = kwargs.get('summary', None)
@@ -67,4 +108,5 @@ class Summarize(Tag):
         return template_name
 
 
+register.tag(CountRecords)
 register.tag(Summarize)

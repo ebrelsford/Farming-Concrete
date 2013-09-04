@@ -76,14 +76,20 @@ class BaseMetricRecord(AuditedModel):
         }
 
     @classmethod
-    def get_summary_data(cls, garden, year=None, start=None, end=None):
+    def get_records(cls, garden, year=None, start=None, end=None):
+        """
+        Get the records for this metric for the given garden and dates.
+        """
+        records = cls.objects.for_garden(garden)
+        if year:
+            records = records.for_year(year)
+        elif start and end:
+            records = records.for_dates(start, end)
+        return records
+
+    @classmethod
+    def get_summary_data(cls, garden, **kwargs):
         """
         Get a summary of this metric for the given garden and dates.
         """
-        if year:
-            records = cls.objects.for_garden(garden).for_year(year)
-        elif start and end:
-            records = cls.objects.for_garden(garden).for_dates(start, end)
-        else:
-            records = cls.objects.for_garden(garden)
-        return cls.summarize(records)
+        return cls.summarize(cls.get_records(garden, **kwargs))
