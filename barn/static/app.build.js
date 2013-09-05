@@ -12,7 +12,7 @@
         // Per-page modules
 
         // require()d dependencies
-        '../lib/bootstrap/js/bootstrap',
+        'bootstrap',
         'addgardenspage',
         'chosen.jquery_ready',
         'leaflet.basicmap',
