@@ -15,6 +15,7 @@
         '../lib/bootstrap/js/bootstrap',
         'addgardenspage',
         'chosen.jquery_ready',
+        'leaflet.basicmap',
     ],
     insertRequire: ['main'],
 
