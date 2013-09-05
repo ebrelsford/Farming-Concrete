@@ -15,6 +15,13 @@
     apt-get install git
 
 
+## Python package dependencies
+
+### Pillow
+
+    apt-get install libjpeg62-dev libjpeg62
+
+
 ## Python 
 
 ### pip
@@ -64,6 +71,9 @@ http://postfix.state-of-mind.de/patrick.koetter/smtpauth/smtp_auth_mailservers.h
 ## Webapp
 ### Clone
 ### Environment variables for settings
+
+
+## memcached
 
 
 ## nginx
