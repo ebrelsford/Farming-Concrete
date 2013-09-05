@@ -16,6 +16,8 @@ requirejs.config({
     },
     shim: {
         'bootstrap': ['jquery'],
+        'chosen.jquery.min': ['jquery'],
+        'chosen.jquery_ready': ['jquery', 'chosen.jquery.min'],
         'django': {
             deps: ['jquery'],
             exports: 'Django',
