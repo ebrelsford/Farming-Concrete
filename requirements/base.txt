@@ -3,7 +3,7 @@ Fabric==1.7.0
 numpy==1.7.1
 IMAPClient==0.9
 MySQL-python==1.2.3
-PIL==1.1.7
+Pillow==2.1.0
 docutils==0.9.1
 geojson==1.0.1
 html5lib==0.90
