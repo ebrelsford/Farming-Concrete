@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block header_title %}{% trans "Leave a garden" %}{% endblock %}
+{% block header_title %}{% trans "Remove garden from my list" %}{% endblock %}
 
 {% block content %}
     <section>
-        <h1>{% trans "Leave a garden" %}</h1>
+        <h1>{% trans "Remove garden from my list" %}</h1>
         <p>
             {% blocktrans %}
-                Are you sure you want to leave {{ garden }}? This will remove 
-                it from your list. No data will be deleted.
+                Are you sure you want to remove {{ garden }} from your list? No data will be deleted.
             {% endblocktrans %}
         </p>
         <p>
