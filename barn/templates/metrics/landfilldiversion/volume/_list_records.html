@@ -1,19 +1,15 @@
-<h2>Records for {{ request.session.year }}</h2>
+{% extends "metrics/_list_records.html" %}
 
-<table class="sorted">
-    <thead>
+{% block table_header %}
+    <th class="volume">gallons</th>
+    <th class="recorded">date</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for record in records %}
         <tr>
-            <th class="volume">gallons</th>
-            <th class="recorded">date</th>
+            <td class="number">{{ record.volume|floatformat }}</td>
+            <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
         </tr>
-    </thead>
-
-    <tbody>
-        {% for record in records %}
-            <tr class="{% cycle "odd" "even" %}">
-                <td class="number">{{ record.volume|floatformat }}</td>
-                <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% endfor %}
+{% endblock %}

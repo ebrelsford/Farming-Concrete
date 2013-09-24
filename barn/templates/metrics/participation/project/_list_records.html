@@ -1,23 +1,19 @@
-<h2>Records for {{ request.session.year }}</h2>
+{% extends "metrics/_list_records.html" %}
 
-<table class="sorted">
-    <thead>
+{% block table_header %}
+    <th class="hours">hours</th>
+    <th class="project">project</th>
+    <th class="gardener">gardener</th>
+    <th class="recorded">recorded</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for record in records %}
         <tr>
-            <th class="hours">hours</th>
-            <th class="project">project</th>
-            <th class="gardener">gardener</th>
-            <th class="recorded">recorded</th>
+            <td class="number">{{ record.hours|floatformat }}</td>
+            <td>{{ record.project.name }}</td>
+            <td>{{ record.gardener.name }}</td>
+            <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
         </tr>
-    </thead>
-
-    <tbody>
-        {% for record in records %}
-            <tr class="{% cycle "odd" "even" %}">
-                <td class="number">{{ record.hours|floatformat }}</td>
-                <td>{{ record.project.name }}</td>
-                <td>{{ record.gardener.name }}</td>
-                <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% endfor %}
+{% endblock %}
