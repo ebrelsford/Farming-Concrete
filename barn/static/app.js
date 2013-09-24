@@ -7,7 +7,7 @@ requirejs.config({
         'jquery': '../bower_components/jquery/jquery',
         'jquery.form': '../bower_components/jquery-form/jquery.form',
         'jquery.spin': '../bower_components/spin.js/jquery.spin',
-        'leaflet': '../bower_components/leaflet/dist/leaflet',
+        'leaflet': '../bower_components/leaflet/leaflet',
         'leaflet.usermarker': '../bower_components/leaflet-usermarker/src/leaflet.usermarker',
         'modernizr': '../bower_components/modernizr/modernizr',
         'spin': '../bower_components/spin.js/spin',
