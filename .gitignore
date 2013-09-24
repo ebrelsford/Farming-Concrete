@@ -3,5 +3,6 @@
 .DS_Store
 .project
 collected_static
+/barn/static/bower_components
 /barn/logs
 /barn/media

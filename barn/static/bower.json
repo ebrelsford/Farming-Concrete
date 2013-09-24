@@ -1,0 +1,32 @@
+{
+  "name": "farming-concrete",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ebrelsford/Farming-Concrete",
+  "authors": [
+    "Eric Brelsford <ebrelsford@gmail.com>"
+  ],
+  "description": "Farming Concrete",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.0.0",
+    "jquery": "1.10.2",
+    "handlebars.js": "~1.0.12",
+    "jquery-form": "~3.37.0",
+    "spin.js": "~1.3.2",
+    "leaflet": "~0.6.4",
+    "modernizr": "~2.6.2",
+    "underscore": "~1.5.2",
+    "almond": "~0.2.6",
+    "leaflet-usermarker": "git@github.com:heyman/leaflet-usermarker.git#master",
+    "requirejs": "~2.1.8"
+  }
+}

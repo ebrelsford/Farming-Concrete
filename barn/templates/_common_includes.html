@@ -1,11 +1,11 @@
 {% load compress js static %}
 
 {% compress css %}
-    <link rel="stylesheet" href="{% static "lib/leaflet/leaflet.css" %}" />
+    <link rel="stylesheet" href="{% static "bower_components/leaflet/dist/leaflet.css" %}" />
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="{% static "lib/leaflet/leaflet.ie.css" %}" />
+        <link rel="stylesheet" href="{% static "bower_components/leaflet/dist/leaflet.ie.css" %}" />
     <![endif]-->
-    <link rel="stylesheet" href="{% static "lib/leaflet-usermarker/leaflet.usermarker.css" %}" />
+    <link rel="stylesheet" href="{% static "bower_components/leaflet-usermarker/src/leaflet.usermarker.css" %}" />
 {% endcompress %}
 
 {% django_js_init jquery=false i18n=false csrf=false %}
@@ -18,5 +18,5 @@
         <script src="{% static "main-built.js" %}"></script>
     {% endcompress %}
 {% else %}
-    <script src="{% static "lib/require.js" %}" data-main="{% static "app.js" %}"></script>
+    <script src="{% static "bower_components/requirejs/require.js" %}" data-main="{% static "app.js" %}"></script>
 {% endif %}

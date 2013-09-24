@@ -11,7 +11,6 @@ define(
 
         'bootstrap',
         'feedback',
-        'jqueryui'
     ], function ($, Modernizr) {
 
         /*

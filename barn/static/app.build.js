@@ -2,7 +2,7 @@
 
     baseUrl: 'js',
     mainConfigFile: 'app.js',
-    name: '../lib/almond',
+    name: '../bower_components/almond/almond',
     out: 'main-built.js',
     include: [
 
