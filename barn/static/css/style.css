@@ -512,6 +512,13 @@ ul.garden-suggestions {
     margin-top: 30px;
 }
 
+.garden-detail-page section.metric {
+    border: 1px solid #6EBE44;
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px;
+    padding: 15px;
+}
+
 .garden-detail-page .metric-group h3:only-child {
     display: none;
 }
