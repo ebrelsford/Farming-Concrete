@@ -137,27 +137,33 @@ class HoursByProject(BaseMetricRecord):
 
 
 register('Participation Hours by Geography', {
+    'all_gardens_url_name': 'participation_geography_all_gardens',
     'model': HoursByGeography,
     'garden_detail_url_name': 'participation_geography_garden_details',
     'group': 'Participation',
     'index_url_name': 'participation_geography_index',
     'summarize_template': 'metrics/participation/geography/summarize.html',
+    'user_gardens_url_name': 'participation_geography_user_gardens',
 })
 
 
 register('Participation Hours by Task', {
+    'all_gardens_url_name': 'participation_task_all_gardens',
     'model': HoursByTask,
     'garden_detail_url_name': 'participation_task_garden_details',
     'group': 'Participation',
     'index_url_name': 'participation_task_index',
     'summarize_template': 'metrics/participation/task/summarize.html',
+    'user_gardens_url_name': 'participation_task_user_gardens',
 })
 
 
 register('Participation Hours by Project', {
+    'all_gardens_url_name': 'participation_project_all_gardens',
     'model': HoursByProject,
     'garden_detail_url_name': 'participation_project_garden_details',
     'group': 'Participation',
     'index_url_name': 'participation_project_index',
     'summarize_template': 'metrics/participation/project/summarize.html',
+    'user_gardens_url_name': 'participation_project_user_gardens',
 })
