@@ -10,23 +10,24 @@
 
     {% block page_title %}{% endblock %}
 
-    <div class="map-page report">
-        <div id="map" style="width: 100%; height: 300px;"
-            {% block map_options %}
-                data-lzoom="8"
-                data-lcenter="[40.71, -73.98]"
-                data-lapikey="781b27aa166a49e1a398cd9b38a81cdf"
-                data-lstyleid="24559"
-            {% endblock %}
-        ></div>
+    <div id="map" style="width: 100%; height: 300px;"
+        {% block map_options %}
+            data-lzoom="8"
+            data-lcenter="[40.71, -73.98]"
+            data-lapikey="781b27aa166a49e1a398cd9b38a81cdf"
+            data-lstyleid="24559"
+        {% endblock %}
+    ></div>
 
-        {% if not garden %}
+    {% if not garden %}
         <div>
             borough:
             <select class="filter" name="borough">
                 <option value="all">all</option>
                 {% for select_borough in boroughs %}
-                <option value="{{ select_borough }}"{% if borough|lower == select_borough|lower %} selected="selected"{% endif %}>{{ select_borough }}</option>
+                    <option value="{{ select_borough }}"{% if borough|lower == select_borough|lower %} selected="selected"{% endif %}>
+                        {{ select_borough }}
+                    </option>
                 {% endfor %}
             </select>
 
@@ -34,43 +35,45 @@
             <select class="filter" name="type">
                 <option value="all">all</option>
                 {% for select_type in garden_types %}
-                <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>{{ select_type.name }}s</option>
+                    <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>
+                        {{ select_type.name }}s
+                    </option>
                 {% endfor %}
             </select>
         </div>
         <div>(experimental!)
-            <input class="filter" type="checkbox" id="use_all_cropcount" name="use_all_cropcount" {% if use_all_cropcount %}checked="checked" {% endif %}/> <label for="use_all_cropcount"> Add previous years' cropcounts for gardens without one this year</label>
-        {% endif %}
+            <input class="filter" type="checkbox" id="use_all_cropcount" name="use_all_cropcount" {% if use_all_cropcount %}checked="checked" {% endif %}/> 
+            <label for="use_all_cropcount">
+                Add previous years' cropcounts for gardens without one this year
+            </label>
+        </div>
+    {% endif %}
 
-        <div class="tabs">
-            <ul class="nav nav-tabs">
-                {% if not garden %}
-                <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
-                {% endif %}
-                <li><a href="#cropcount" data-toggle="tab">Crop Count</a></li>
-                <li><a href="#harvestcount" data-toggle="tab">Harvest Count</a></li>
-            </ul>
+    <section>
+        <ul class="nav nav-tabs">
+            {% if not garden %}
+            <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
+            {% endif %}
+            <li><a href="#cropcount" data-toggle="tab">Crop Count</a></li>
+            <li><a href="#harvestcount" data-toggle="tab">Harvest Count</a></li>
+        </ul>
 
-            <div class="tab-content">
-                {% if not garden %}
+        <div class="tab-content">
+            {% if not garden %}
                 <div id="overall" class="tab-pane active">
-                {% include "reports/overall.html" %}
+                    {% include "reports/overall.html" %}
                 </div>
-                {% endif %}
+            {% endif %}
 
-                <div id="cropcount" class="tab-pane">
+            <div id="cropcount" class="tab-pane">
                 {% include "reports/cropcount.html" %}
-                </div>
-
-                <div id="harvestcount" class="tab-pane">
-                {% include "reports/harvestcount.html" %}
-                </div>
             </div>
 
+            <div id="harvestcount" class="tab-pane">
+                {% include "reports/harvestcount.html" %}
+            </div>
         </div>
-
-        <div id="bottom" style="clear: both;"> </div>
-    </div>
+    </section>
 {% endblock %}
 
 {% block actions %}{% endblock %}
