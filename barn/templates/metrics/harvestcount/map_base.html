@@ -1,5 +1,5 @@
 {% extends "metrics/harvestcount/base.html" %}
-{% load static %}
+{% load i18n static %}
 
 {% block body_class %}{{ block.super }} map-base-page{% endblock %}
 
@@ -22,12 +22,10 @@
 {% endblock %}
 
 {% block actions %}
-    <h2>
-        <a class="image" href="{% url "harvestcount_user_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-        <a class="text" href="{% url "harvestcount_user_gardens" year=request.session.year %}">View your gardens</a>
-    </h2>
-    <h2>
-        <a class="image" href="{% url "harvestcount_all_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-        <a class="text" href="{% url "harvestcount_all_gardens" year=request.session.year %}">View all gardens</a>
-    </h2>
+    <a class="btn btn-lg btn-primary" href="{% url metric.user_gardens_url_name year=request.session.year %}">
+        {% trans "View your gardens" %}
+    </a>
+    <a class="btn btn-lg btn-default" href="{% url metric.all_gardens_url_name year=request.session.year %}">
+        {% trans "View all gardens" %}
+    </a>
 {% endblock %}
