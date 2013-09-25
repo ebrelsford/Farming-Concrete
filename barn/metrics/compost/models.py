@@ -50,18 +50,22 @@ class CompostProductionVolume(BaseMetricRecord):
 
 
 register('Compost Production by Weight', {
+    'all_gardens_url_name': 'compostproduction_weight_all_gardens',
     'model': CompostProductionWeight,
     'garden_detail_url_name': 'compostproduction_weight_garden_details',
     'group': 'Compost',
     'index_url_name': 'compostproduction_weight_index',
     'summarize_template': 'metrics/compost/weight/summarize.html',
+    'user_gardens_url_name': 'compostproduction_weight_user_gardens',
 })
 
 
 register('Compost Production by Volume', {
+    'all_gardens_url_name': 'compostproduction_volume_all_gardens',
     'model': CompostProductionVolume,
     'garden_detail_url_name': 'compostproduction_volume_garden_details',
     'group': 'Compost',
     'index_url_name': 'compostproduction_volume_index',
     'summarize_template': 'metrics/compost/volume/summarize.html',
+    'user_gardens_url_name': 'compostproduction_volume_user_gardens',
 })
