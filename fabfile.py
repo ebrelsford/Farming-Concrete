@@ -29,6 +29,9 @@ def build_static():
         run('django-admin.py collectstatic --noinput')
 
     with cd('/'.join([server_src_dir, 'barn/collected_static'])):
+        run('bower install')
+
+    with cd('/'.join([server_src_dir, 'barn/collected_static'])):
         run('r.js -o app.build.js')
 
 
