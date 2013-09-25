@@ -1,13 +1,15 @@
-<h2>Records for {{ request.session.year }}</h2>
+<section class="list-records">
+    <h2>Records for {{ request.session.year }}</h2>
 
-<table class="table table-hover table-responsive sorted">
-    <thead>
-        <tr>
-            {% block table_header %}{% endblock %}
-        </tr>
-    </thead>
+    <table class="table table-hover table-responsive sorted">
+        <thead>
+            <tr>
+                {% block table_header %}{% endblock %}
+            </tr>
+        </thead>
 
-    <tbody>
-        {% block table_body %}{% endblock %}
-    </tbody>
-</table>
+        <tbody>
+            {% block table_body %}{% endblock %}
+        </tbody>
+    </table>
+</section>

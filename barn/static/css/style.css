@@ -567,6 +567,12 @@ ul.garden-suggestions {
     text-decoration: underline;
 }
 
+.add-record,
+.list-records {
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
 
 /*
  * General form styles
