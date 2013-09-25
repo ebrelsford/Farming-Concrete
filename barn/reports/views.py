@@ -34,6 +34,7 @@ def index(request, year=settings.FARMINGCONCRETE_YEAR):
         type = GardenType.objects.get(short_name=type);
 
     year = request.GET.get('year', year)
+    print 'year: %s' % year
 
     context = _context(type=type, year=year)
     context.update({
@@ -54,7 +55,7 @@ def _get_metrics_year_range():
         metric_min, metric_max = metric['model'].objects.all().year_range()
         min_year = min(min_year, metric_min)
         max_year = max(max_year, metric_max)
-    return range(min_year, max_year + 1)
+    return ['%s' % y for y in range(min_year, max_year + 1)]
 
 
 @login_required
