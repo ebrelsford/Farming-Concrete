@@ -333,6 +333,7 @@ table.sorted th {
     border-bottom: 1px solid black;
     cursor: pointer;
     padding-right: 15px;
+    text-align: center;
 }
 
 table.sorted th.sortable.sorting-asc {
