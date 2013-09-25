@@ -27,22 +27,24 @@ from models import SharedReport, Chart
 
 @login_required
 def index(request, year=settings.FARMINGCONCRETE_YEAR):
-    type = request.GET.get('type', None)
-    use_all_cropcount = request.GET.get('use_all_cropcount', False)
+    metric = request.GET.get('metric', None)
 
+    type = request.GET.get('type', None)
     if type:
         type = GardenType.objects.get(short_name=type);
 
-    context = _context(type=type, year=year, use_all_cropcount=use_all_cropcount)
-    print registry.by_group()
+    year = request.GET.get('year', year)
+
+    context = _context(type=type, year=year)
     context.update({
+        'metric': metric,
         'metrics': registry.by_group(),
         'type': type,
-        'use_all_cropcount': use_all_cropcount,
         'year': year,
         'years': _get_metrics_year_range(),
     })
-    return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
+    return render_to_response('reports/index.html', context,
+                              context_instance=RequestContext(request))
 
 
 def _get_metrics_year_range():

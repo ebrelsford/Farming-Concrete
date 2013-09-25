@@ -24,7 +24,7 @@ define(['jquery', 'leaflet.basicmap'], function ($) {
                 return params;
             }
             var params = buildQueryString();
-            window.location = '/reports/{{ year }}?' + $.param(params);
+            window.location = '/reports/?' + $.param(params);
         });
 
 
