@@ -8,6 +8,10 @@ h1, h2 {
     margin: 0;
 }
 
+h1 {
+    line-height: 46px;
+}
+
 img {
     border: 0;
 }
