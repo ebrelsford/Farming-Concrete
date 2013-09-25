@@ -1,0 +1,17 @@
+{% extends "metrics/cropcount/base.html" %}
+
+{% block body_class %}{{ block.super }} map-base-page{% endblock %}
+
+{% block content %}
+    <h1>{{ request.session.garden_type|default:"all" }} gardens, crop count</h1>
+    {{ block.super }}
+{% endblock %}
+
+{% block right %}
+    {% include "metrics/index/_map.html" %}
+    {{ block.super }}
+{% endblock %}
+
+{% block actions %}
+    {% include "metrics/index/_actions.html" %}
+{% endblock %}

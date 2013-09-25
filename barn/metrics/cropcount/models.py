@@ -76,8 +76,10 @@ class Patch(BaseMetricRecord):
 
 
 register('Crop Count', {
+    'all_gardens_url_name': 'cropcount_all_gardens',
     'model': Patch,
     'garden_detail_url_name': 'cropcount_garden_details',
     'group': 'Food Production',
     'index_url_name': 'cropcount_index',
+    'user_gardens_url_name': 'cropcount_user_gardens',
 })
