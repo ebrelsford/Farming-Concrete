@@ -1,49 +1,15 @@
 {% extends "metrics/harvestcount/map_base.html" %}
-{% load static %}
+{% load metrics_tags %}
 
-{% block title %}Harvest Count{% endblock %}
+{% block title %}{{ metric_name }}{% endblock %}
 
 {% block breadcrumbs %}
     <a href="{% url "home" %}">Home</a> &gt;&gt;
     {{ metric_name }}
 {% endblock %}
 
-{% block map_params %}
-    queryString: 'harvestcount=yes&type={{ request.session.garden_type.short_name }}&year={{ request.session.year }}',
-{% endblock %}
-
-{% block content %}
-    <h1>{{ request.session.garden_type }} gardens harvested so far</h1>
-
-    {{ block.super }}
-{% endblock %}
-
 {% block left %}
     <ul class="overview">
-        <li><b>{{ gardens|default:'0' }}</b> garden{{ gardens|pluralize }}</li>
-        <li class="even"><b>{{ gardeners|default:'0' }}</b> gardener{{ gardeners|pluralize }}</li>
-        <li class="odd"><b>{{ weight|floatformat|default:'0' }}</b> pound{{ weight|pluralize }}</li>
-        <li class="even"><b>{{ plant_types|default:'0' }}</b> plant type{{ plant_types|pluralize }}</li>
-        <li class="last">
-            <span>most recent harvests:</span>
-            <ul>
-                {% for harvest in recent_harvests %}
-                    <li>{{ harvest.variety.name }}, {{ harvest.weight|floatformat }} pound{{ harvest.weight|pluralize }}</li>
-                {% empty %}
-                    <li>None yet!</li>
-                {% endfor %}
-            </ul>
-        </li>
+        {% summarize metric_name summary=summary %}
     </ul>
-{% endblock %}
-
-{% block actions %}
-    <h2>
-        <a class="image" href="{% url "harvestcount_user_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-        <a class="text" href="{% url "harvestcount_user_gardens" year=request.session.year %}">View your gardens</a>
-    </h2>
-    <h2>
-        <a class="image" href="{% url "harvestcount_all_gardens" year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-        <a class="text" href="{% url "harvestcount_all_gardens" year=request.session.year %}">View all gardens</a>
-    </h2>
 {% endblock %}
