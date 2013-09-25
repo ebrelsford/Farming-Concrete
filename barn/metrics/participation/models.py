@@ -53,11 +53,11 @@ class HoursByGeography(BaseParticipationMetric):
 
         try:
             photo = records.filter(photo__isnull=False).order_by('-added')[0].photo
+            context.update({
+                'photo': photo,
+            })
         except Exception:
-            photo = None
-        context.update({
-            'photo': photo,
-        })
+            pass
         return context
 
 
