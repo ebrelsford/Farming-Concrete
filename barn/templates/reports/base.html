@@ -21,16 +21,6 @@
 
     {% if not garden %}
         <div>
-            borough:
-            <select class="filter" name="borough">
-                <option value="all">all</option>
-                {% for select_borough in boroughs %}
-                    <option value="{{ select_borough }}"{% if borough|lower == select_borough|lower %} selected="selected"{% endif %}>
-                        {{ select_borough }}
-                    </option>
-                {% endfor %}
-            </select>
-
             garden type:
             <select class="filter" name="type">
                 <option value="all">all</option>
