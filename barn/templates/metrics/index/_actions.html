@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<a class="btn btn-lg btn-primary" href="{% url metric.user_gardens_url_name year=request.session.year %}">
+    {% trans "View your gardens" %}
+</a>
+<a class="btn btn-lg btn-default" href="{% url metric.all_gardens_url_name year=request.session.year %}">
+    {% trans "View all gardens" %}
+</a>
