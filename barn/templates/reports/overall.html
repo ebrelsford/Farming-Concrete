@@ -1,6 +1,6 @@
 <div>
     <h2>Overall</h2>
-    <div class="totals section">
+    <div class="totals">
         <h3>Totals</h3>
         <table class="totals cycled">
             <tr class="even">
@@ -13,10 +13,6 @@
                 <td class="number">{{ count|default:"0" }}</td>
             </tr>
             {% endfor %}
-            <tr class="odd">
-                <th>participating gardeners (harvestcount)</th>
-                <td class="number">{{ overall_gardeners_count }}</td>
-            </tr>
             <tr class="even">
                 <th>distinct varieties</th>
                 <td class="number">{{ overall_varieties_count }}</td>
@@ -37,7 +33,7 @@
                     <tr>
                         <th>garden</th>
                         <th>participation</th>
-                        <th>participating gardeners (harvestcount)</th>
+                        <th>participating gardeners</th>
                         <th>yield (lbs)</th>
                         <th>dollar value</th>
                     </tr>

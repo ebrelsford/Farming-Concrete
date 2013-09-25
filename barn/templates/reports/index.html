@@ -1,9 +1,16 @@
 {% extends "reports/base.html" %}
 
-{% block title %}{{ year }} {% if borough %}{{ borough|title }}{% else %}City-wide{% endif %}{% if type %} {{ type.name|title }}s{% endif %} Report{% endblock %}
+{% block title %}
+    {{ year }} {% if type %} {{ type.name|title }}s{% endif %} Report
+{% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <a href="{% url "reports.views.index" %}">reports</a> {% endblock %}
+{% block breadcrumbs %}
+    {{ block.super }} 
+    <a href="{% url "reports.views.index" %}">Reports</a> 
+{% endblock %}
 
 {% block page_title %}
-<h1>{{ year }} {% if borough %}{{ borough|title }}{% else %}City-wide{% endif %}{% if type %} {{ type.name|title }}s{% endif %} Report</h1>
+    <h1>
+        {{ year }} {% if type %} {{ type.name|title }}s{% endif %} Report
+    </h1>
 {% endblock %}

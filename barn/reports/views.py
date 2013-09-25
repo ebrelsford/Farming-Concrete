@@ -14,47 +14,45 @@ from django.template import RequestContext
 from django_xhtml2pdf.utils import render_to_pdf_response
 
 from charts import (plants_per_crop, weight_per_crop, weight_per_gardener,
-        estimated_weight_per_crop)
+                    estimated_weight_per_crop)
 from estimates.common import (estimate_for_harvests_by_gardener_and_variety,
-        estimate_for_patches)
+                              estimate_for_patches)
 from farmingconcrete.models import Garden, GardenType
-from common import (filter_harvests, filter_patches, filter_boroughs,
-        consolidate_totals, get_garden_counts_by_type)
+from common import (filter_harvests, filter_patches, consolidate_totals,
+                    get_garden_counts_by_type)
 from metrics.cropcount.models import Box
+from metrics.registry import registry
 from models import SharedReport, Chart
 
 
 @login_required
 def index(request, year=settings.FARMINGCONCRETE_YEAR):
-    borough = request.GET.get('borough', None)
     type = request.GET.get('type', None)
     use_all_cropcount = request.GET.get('use_all_cropcount', False)
 
     if type:
         type = GardenType.objects.get(short_name=type);
 
-    context = _context(borough=borough, type=type, year=year, use_all_cropcount=use_all_cropcount)
-
-    cropcount_gardens = Garden.objects.filter(box__in=context['beds']) # TODO likely slow, should move to wherever filtering happens (eg, filter_patches())
-    harvestcount_gardens = Garden.objects.filter(gardener__harvest__harvested__year=year)
-    if borough:
-        cropcount_gardens = cropcount_gardens.filter(borough=borough)
-        harvestcount_gardens = harvestcount_gardens.filter(borough=borough)
-    if type:
-        cropcount_gardens = cropcount_gardens.filter(type=type)
-        harvestcount_gardens = harvestcount_gardens.filter(type=type)
-
+    context = _context(type=type, year=year, use_all_cropcount=use_all_cropcount)
+    print registry.by_group()
     context.update({
-        'cropcount_gardens_count': cropcount_gardens.distinct().count(),
-        'harvestcount_gardens_count': harvestcount_gardens.distinct().count(),
-        'boroughs': filter_boroughs(year),
-        'year': year,
-        'borough': borough,
+        'metrics': registry.by_group(),
         'type': type,
         'use_all_cropcount': use_all_cropcount,
+        'year': year,
+        'years': _get_metrics_year_range(),
     })
-
     return render_to_response('reports/index.html', context, context_instance=RequestContext(request))
+
+
+def _get_metrics_year_range():
+    min_year = settings.FARMINGCONCRETE_YEAR
+    max_year = 0
+    for metric in registry.values():
+        metric_min, metric_max = metric['model'].objects.all().year_range()
+        min_year = min(min_year, metric_min)
+        max_year = max(max_year, metric_max)
+    return range(min_year, max_year + 1)
 
 
 @login_required

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block body_class %}{{ block.super }} reports-page{% endblock %}
 
@@ -20,49 +21,63 @@
     ></div>
 
     {% if not garden %}
-        <div>
-            garden type:
-            <select class="filter" name="type">
-                <option value="all">all</option>
-                {% for select_type in garden_types %}
-                    <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>
-                        {{ select_type.name }}s
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>(experimental!)
-            <input class="filter" type="checkbox" id="use_all_cropcount" name="use_all_cropcount" {% if use_all_cropcount %}checked="checked" {% endif %}/> 
-            <label for="use_all_cropcount">
-                Add previous years' cropcounts for gardens without one this year
-            </label>
-        </div>
+        <section>
+            <form class="form-inline" role="form">
+
+                <div class="form-group">
+                    <label class="sr-only" for="garden-type">
+                        garden type:
+                    </label>
+                    <select id="garden-type" class="form-control filter" name="type">
+                        <option value="all">all garden types</option>
+                        {% for select_type in garden_types %}
+                            <option value="{{ select_type.short_name }}"{% if type.short_name == select_type.short_name %} selected="selected"{% endif %}>
+                                {{ select_type.name }}s
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only" for="year">
+                        year:
+                    </label>
+                    <select id="year" class="form-control filter" name="year">
+                        <option value="all">all years</option>
+                        {% for select_year in years %}
+                            <option value="{{ select_year }}" {% if year == select_year %}selected="selected"{% endif %}>
+                                {{ select_year }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only" for="metric">
+                        metric:
+                    </label>
+                    <select id="metric" class="form-control filter" name="metric">
+                        <option value="all">all metrics</option>
+                        {% for group_name, metric_list in metrics.items %}
+                            <optgroup label="{{ group_name }}">
+                                {% for select_metric in metric_list %}
+                                    <option value="{{ select_metric.name }}"{% if metric == select_metric.name %} selected="selected"{% endif %}>
+                                        {{ select_metric.name }}
+                                    </option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-default">{% trans "Update report" %}</button>
+
+            </form>
+        </section>
     {% endif %}
 
-    <section>
-        <ul class="nav nav-tabs">
-            {% if not garden %}
-            <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
-            {% endif %}
-            <li><a href="#cropcount" data-toggle="tab">Crop Count</a></li>
-            <li><a href="#harvestcount" data-toggle="tab">Harvest Count</a></li>
-        </ul>
-
-        <div class="tab-content">
-            {% if not garden %}
-                <div id="overall" class="tab-pane active">
-                    {% include "reports/overall.html" %}
-                </div>
-            {% endif %}
-
-            <div id="cropcount" class="tab-pane">
-                {% include "reports/cropcount.html" %}
-            </div>
-
-            <div id="harvestcount" class="tab-pane">
-                {% include "reports/harvestcount.html" %}
-            </div>
-        </div>
+    <section class="report-output">
+        {% include "reports/overall.html" %}
     </section>
 {% endblock %}
 

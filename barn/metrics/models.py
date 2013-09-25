@@ -17,20 +17,27 @@ class MetricQuerySet(QuerySet):
     def for_year(self, year):
         return self.filter(recorded__year=year)
 
+    def year_range(self):
+        date_range = self.aggregate(Min('recorded'), Max('recorded'))
+        return (
+            date_range['recorded__min'].year,
+            date_range['recorded__max'].year,
+        )
+
 
 class MetricManager(models.Manager):
 
-    def get_queryset(self):
+    def get_query_set(self):
         return MetricQuerySet(self.model)
 
     def for_dates(self, start, end):
-        return self.get_queryset().for_dates(start, end)
+        return self.get_query_set().for_dates(start, end)
 
     def for_garden(self, garden):
-        return self.get_queryset().for_garden(garden)
+        return self.get_query_set().for_garden(garden)
 
     def for_year(self, year):
-        return self.get_queryset().for_year(year)
+        return self.get_query_set().for_year(year)
 
 
 class BaseMetricRecord(AuditedModel):
