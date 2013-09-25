@@ -120,7 +120,7 @@ class HarvestcountAllGardensView(RecordsMixin, TitledPageMixin,
     metric_model = Harvest
 
     def get_title(self):
-        garden_type = self.request.session['garden_type']
+        garden_type = self.request.session.get('garden_type', 'all')
         return 'All counted %s gardens' % garden_type_label(garden_type)
 
 
