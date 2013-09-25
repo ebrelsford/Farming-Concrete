@@ -68,7 +68,7 @@
                                 {% for garden in user_gardens %}
                                     <li class="garden-list-garden">
                                         {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
-                                        <div class="garden-list-buttons btn-group">
+                                        <div class="garden-list-buttons btn-group-vertical">
                                             <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}" class="btn btn-primary btn-mini">
                                                 {% trans "Add data" %}
                                             </a>
