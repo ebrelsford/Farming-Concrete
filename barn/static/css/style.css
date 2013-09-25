@@ -339,7 +339,7 @@ table.sorted th.sortable.sorting-asc {
     background-image: url(/static/img/asc.gif);
 }
 
-table.sorted th.sortable.sorting-desc{
+table.sorted th.sortable.sorting-desc {
     background-image: url(/static/img/desc.gif);
 }
 
