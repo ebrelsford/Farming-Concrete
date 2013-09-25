@@ -25,10 +25,10 @@
     "modernizr": "~2.6.2",
     "underscore": "~1.5.2",
     "almond": "~0.2.6",
-    "leaflet-usermarker": "git@github.com:heyman/leaflet-usermarker.git#master",
     "requirejs": "~2.1.8",
     "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-stable.zip",
-    "jquery-autocomplete": "git@github.com:agarzola/jQueryAutocompletePlugin.git#master",
-    "stupid-jquery-table-sort": "*"
+    "jquery-autocomplete": "https://github.com/agarzola/jQueryAutocompletePlugin.git#master",
+    "stupid-jquery-table-sort": "*",
+    "leaflet-usermarker": "https://github.com/heyman/leaflet-usermarker.git#master"
   }
 }
