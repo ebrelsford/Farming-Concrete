@@ -28,6 +28,7 @@
     "leaflet-usermarker": "git@github.com:heyman/leaflet-usermarker.git#master",
     "requirejs": "~2.1.8",
     "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-stable.zip",
-    "jquery-autocomplete": "git@github.com:agarzola/jQueryAutocompletePlugin.git#master"
+    "jquery-autocomplete": "git@github.com:agarzola/jQueryAutocompletePlugin.git#master",
+    "stupid-jquery-table-sort": "*"
   }
 }

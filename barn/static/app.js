@@ -8,6 +8,7 @@ requirejs.config({
         'jquery.autocomplete': '../bower_components/jquery-autocomplete/jquery.autocomplete',
         'jquery.form': '../bower_components/jquery-form/jquery.form',
         'jquery.spin': '../bower_components/spin.js/jquery.spin',
+        'jquery.stupid-table-sort': '../bower_components/stupid-jquery-table-sort/stupidtable',
         'leaflet': '../bower_components/leaflet/leaflet',
         'leaflet.usermarker': '../bower_components/leaflet-usermarker/src/leaflet.usermarker',
         'modernizr': '../bower_components/modernizr/modernizr',
@@ -24,6 +25,7 @@ requirejs.config({
         },
         'jquery.autocomplete': ['jquery'],
         'jquery.form': ['jquery'],
+        'jquery.stupid-table-sort': ['jquery'],
         'handlebars': {
             exports: 'Handlebars',
         },

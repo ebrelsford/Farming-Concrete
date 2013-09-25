@@ -1,15 +1,15 @@
 {% extends "metrics/_list_records.html" %}
 
 {% block table_header %}
-    <th class="weight">lbs</th>
-    <th class="recorded">date</th>
+    <th class="sortable weight" data-sort="float">lbs</th>
+    <th class="sortable recorded" data-sort="string">date</th>
 {% endblock %}
 
 {% block table_body %}
     {% for record in records %}
         <tr>
             <td class="number">{{ record.weight|floatformat }}</td>
-            <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
         </tr>
     {% endfor %}
 {% endblock %}

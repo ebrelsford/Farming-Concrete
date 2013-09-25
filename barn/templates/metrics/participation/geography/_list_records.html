@@ -1,17 +1,17 @@
 {% extends "metrics/_list_records.html" %}
 
 {% block table_header %}
-    <th class="hours">hours</th>
-    <th class="recorded-start">date start</th>
-    <th class="recorded">date end</th>
+    <th class="sortable hours" data-sort="float">hours</th>
+    <th class="sortable recorded-start" data-sort="string">date start</th>
+    <th class="sortable recorded" data-sort="string">date end</th>
 {% endblock %}
 
 {% block table_body %}
     {% for record in records %}
         <tr>
             <td class="number">{{ record.hours|floatformat }}</td>
-            <td class="date">{{ record.recorded_start|date:"m/d/Y" }}</td>
-            <td class="date">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">{{ record.recorded_start|date:"m/d/Y" }}</td>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
         </tr>
     {% endfor %}
 {% endblock %}

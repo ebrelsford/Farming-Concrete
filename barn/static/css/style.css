@@ -319,12 +319,14 @@ input.ac_loading {
 }
 
 /*
- * sorted table styles
+ * Sorted table styles
  */
+
 table.sorted {
     width: 100%;
 }
-table.sorted thead tr .header {
+
+table.sorted th {
     background-image: url(/static/img/bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
@@ -332,21 +334,13 @@ table.sorted thead tr .header {
     cursor: pointer;
     padding-right: 15px;
 }
-table.sorted thead tr .headerSortUp {
+
+table.sorted th.sortable.sorting-asc {
     background-image: url(/static/img/asc.gif);
 }
-table.sorted thead tr .headerSortDown {
+
+table.sorted th.sortable.sorting-desc{
     background-image: url(/static/img/desc.gif);
-}
-table.sorted tbody tr.odd {
-}
-table.sorted tbody tr.even {
-    background-color: #F2E3C4;
-}
-table.cycled tbody tr.odd {
-}
-table.cycled tbody tr.even {
-    background-color: #F2E3C4;
 }
 
 .map-page table.totals {

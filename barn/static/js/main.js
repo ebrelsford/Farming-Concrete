@@ -12,7 +12,8 @@ define(
         'bootstrap',
         'farmingconcrete',
         'feedback',
-        'jquery.autocomplete'
+        'jquery.autocomplete',
+        'jquery.stupid-table-sort'
     ], function ($, Modernizr) {
 
         /*
@@ -40,6 +41,11 @@ define(
             if (!Modernizr.inputtypes.date) {
                 $('input[type=date]').datepicker();
             }
+
+            /*
+             * Always add sorting to sorted tables
+             */
+            $('table.sorted').stupidtable();
 
         });
 
