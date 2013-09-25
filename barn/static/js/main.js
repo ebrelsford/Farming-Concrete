@@ -74,5 +74,9 @@ define(
             require(['newgardenerwidget']);
         }
 
+        if ($('.reports-page').length > 0) {
+            require(['reports']);
+        }
+
     }
 );
