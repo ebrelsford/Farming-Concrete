@@ -5,6 +5,7 @@ requirejs.config({
         'django': 'djangojs/django',
         'handlebars': '../bower_components/handlebars.js/dist/handlebars',
         'jquery': '../bower_components/jquery/jquery',
+        'jquery.autocomplete': '../bower_components/jquery-autocomplete/jquery.autocomplete',
         'jquery.form': '../bower_components/jquery-form/jquery.form',
         'jquery.spin': '../bower_components/spin.js/jquery.spin',
         'leaflet': '../bower_components/leaflet/leaflet',
@@ -21,6 +22,7 @@ requirejs.config({
             deps: ['jquery'],
             exports: 'Django',
         },
+        'jquery.autocomplete': ['jquery'],
         'jquery.form': ['jquery'],
         'handlebars': {
             exports: 'Handlebars',

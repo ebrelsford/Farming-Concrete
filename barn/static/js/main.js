@@ -10,7 +10,9 @@ define(
         'modernizr',
 
         'bootstrap',
+        'farmingconcrete',
         'feedback',
+        'jquery.autocomplete'
     ], function ($, Modernizr) {
 
         /*
