@@ -11,7 +11,7 @@ define(
 
         // Requirements without exports
         'leaflet.cloudmade',
-        'leaflet.dataconfig',
+        'leaflet.dataoptions',
         'leaflet.gardenoverlay'
 
     ], function ($, L) {

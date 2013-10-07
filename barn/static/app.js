@@ -10,6 +10,7 @@ requirejs.config({
         'jquery.spin': '../bower_components/spin.js/jquery.spin',
         'jquery.stupid-table-sort': '../bower_components/stupid-jquery-table-sort/stupidtable',
         'leaflet': '../bower_components/leaflet/leaflet',
+        'leaflet.dataoptions': '../bower_components/leaflet.dataoptions/src/leaflet.dataoptions',
         'leaflet.usermarker': '../bower_components/leaflet-usermarker/src/leaflet.usermarker',
         'modernizr': '../bower_components/modernizr/modernizr',
         'spin': '../bower_components/spin.js/spin',
