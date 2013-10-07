@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'metrics.participation',
     'metrics.reach',
     'metrics.skills',
+    'metrics.yumyuck',
 )
 
 AJAX_LOOKUP_CHANNELS = {

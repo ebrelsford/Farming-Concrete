@@ -40,6 +40,9 @@ urlpatterns = patterns('',
     # smarts and skills
     (r'^metrics/skills/', include('metrics.skills.urls')),
 
+    # yum and yuck
+    (r'^metrics/yumyuck/', include('metrics.yumyuck.urls')),
+
     # Estimates
     url(r'^estimates/', include('estimates.urls')),
 

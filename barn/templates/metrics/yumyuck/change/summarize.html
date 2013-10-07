@@ -1,0 +1,25 @@
+<ul class="overview">
+    <li class="odd">
+        {{ vegetables }} vegetable{{ vegetables|pluralize }}
+    </li>
+    <li class="even">
+        {{ yum_before }} yum{{yum_before|pluralize }} before
+    </li>
+    <li class="odd">
+        {{ yuck_before }} yuck{{yuck_before|pluralize }} before
+    </li>
+    <li class="even">
+        {{ yum_after }} yum{{yum_after|pluralize }} after
+    </li>
+    <li class="odd">
+        {{ yuck_after }} yuck{{yuck_after|pluralize }} after
+    </li>
+    <li class="even">
+        {{ count }} record{{ count|pluralize }}
+    </li>
+    <li class="odd">
+        records from 
+        {{ recorded_min|date:"m/d/Y" }} to 
+        {{ recorded_max|date:"m/d/Y" }}
+    </li>
+</ul>
