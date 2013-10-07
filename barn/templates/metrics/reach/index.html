@@ -1,0 +1,15 @@
+{% extends "metrics/reach/map_base.html" %}
+{% load metrics_tags %}
+
+{% block title %}{{ metric_name }}{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url "home" %}">Home</a> &gt;&gt;
+    {{ metric_name }}
+{% endblock %}
+
+{% block left %}
+    <ul class="overview">
+        {% summarize metric_name summary=summary %}
+    </ul>
+{% endblock %}

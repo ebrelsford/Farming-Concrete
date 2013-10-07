@@ -1,0 +1,87 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block table_header %}
+    <th class="sortable name" data-sort="string">program name</th>
+    <th class="sortable recorded-start" data-sort="string">program start</th>
+    <th class="sortable recorded" data-sort="string">program end</th>
+    <th class="sortable hours-each-day" data-sort="int">hours each day</th>
+    <th class="sortable collaborated-with-organization" data-sort="string">
+        collaborated with organization
+    </th>
+    <th class="sortable collaboration-first" data-sort="string">
+        first collaboration with organization
+    </th>
+    <th class="sortable age-10" data-sort="int">participants under 10</th>
+    <th class="sortable age-10-14" data-sort="int">
+        participants between 10 and 14
+    </th>
+    <th class="sortable age-15-19" data-sort="int">
+        participants between 15 and 19
+    </th>
+    <th class="sortable age-20-24" data-sort="int">
+        participants between 20 and 24
+    </th>
+    <th class="sortable age-25-34" data-sort="int">
+        participants between 25 and 34
+    </th>
+    <th class="sortable age-35-44" data-sort="int">
+        participants between 35 and 44
+    </th>
+    <th class="sortable age-45-54" data-sort="int">
+        participants between 45 and 54
+    </th>
+    <th class="sortable age-55-64" data-sort="int">
+        participants between 55 and 64
+    </th>
+    <th class="sortable age-65" data-sort="int">
+        participants 65 and up
+    </th>
+    <th class="sortable gender-male" data-sort="int">
+        participants male
+    </th>
+    <th class="sortable gender-female" data-sort="int">
+        participants female
+    </th>
+    <th class="sortable gender-other" data-sort="int">
+        participants other gender
+    </th>
+    <th class="sortable zipcode-inside" data-sort="int">
+        participants within garden zip code
+    </th>
+    <th class="sortable zipcode-outside" data-sort="int">
+        participants outside garden zip code
+    </th>
+    <th class="sortable features" data-sort="string">program features</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for record in records %}
+        <tr>
+            <td class="string">{{ record.name }}</td>
+            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
+                {{ record.recorded_start|date:"m/d/Y" }}
+            </td>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
+                {{ record.recorded|date:"m/d/Y" }}
+            </td>
+            <td class="number">{{ record.hours_each_day|floatformat }}</td>
+            <td class="string">{{ record.collaborated_with_organization|yesno }}</td>
+            <td class="string">{{ record.collaboration_first|yesno }}</td>
+            <td class="number">{{ record.age_10|default:"0" }}</td>
+            <td class="number">{{ record.age_10_14|default:"0" }}</td>
+            <td class="number">{{ record.age_15_19|default:"0" }}</td>
+            <td class="number">{{ record.age_20_24|default:"0" }}</td>
+            <td class="number">{{ record.age_25_34|default:"0" }}</td>
+            <td class="number">{{ record.age_35_44|default:"0" }}</td>
+            <td class="number">{{ record.age_45_54|default:"0" }}</td>
+            <td class="number">{{ record.age_55_64|default:"0" }}</td>
+            <td class="number">{{ record.age_65|default:"0" }}</td>
+            <td class="number">{{ record.gender_male|default:"0" }}</td>
+            <td class="number">{{ record.gender_female|default:"0" }}</td>
+            <td class="number">{{ record.gender_other|default:"0" }}</td>
+            <td class="number">{{ record.zipcode_inside|default:"0" }}</td>
+            <td class="number">{{ record.zipcode_outside|default:"0" }}</td>
+            <td class="string">{{ record.features.all|join:", " }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

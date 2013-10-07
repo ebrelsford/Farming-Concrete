@@ -586,6 +586,25 @@ ul.garden-suggestions {
     font-weight: bold;
 }
 
+.form-group ul {
+    list-style: none;
+    padding: 0;
+}
+
+.form-group input[type="checkbox"] {
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    display: inline;
+    width: inherit;
+}
+
+table.table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+}
+
 
 /*
  * Bootstrap overrides
