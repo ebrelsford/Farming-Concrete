@@ -1,0 +1,35 @@
+{% load imagekit %}
+
+<ul class="overview">
+    <li class="odd">
+        {{ participants }} participant{{ participants|pluralize }}
+    </li>
+    <li class="even">
+        {{ skills_shared }} skill{{ skills_shared|pluralize }} shared
+    </li>
+    <li class="odd">
+        {{ concepts_shared }} concept{{ concepts_shared|pluralize }} shared
+    </li>
+    <li class="even">
+        {{ projects_proposed }} project{{ projects_proposed|pluralize }} proposed
+    </li>
+    <li class="odd">
+        {{ ideas_to_learn }} idea{{ ideas_to_learn|pluralize }} to learn
+    </li>
+    <li class="even">
+        {{ intentions_to_collaborate }} intention{{ intentions_to_collaborate|pluralize }} to collaborate
+    </li>
+    <li class="odd">
+        {{ count }} record{{ count|pluralize }}
+    </li>
+    <li class="even">
+        records from 
+        {{ recorded_min|date:"m/d/Y" }} to 
+        {{ recorded_max|date:"m/d/Y" }}
+    </li>
+    {% if photo %}
+        <li class="even">
+            {% thumbnail "200x200" photo %}
+        </li>
+    {% endif %}
+</ul>

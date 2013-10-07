@@ -1,0 +1,25 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block table_header %}
+    <th class="sortable recorded" data-sort="string">date end</th>
+    <th class="sortable participants" data-sort="int">participants</th>
+    <th class="sortable skills-shared" data-sort="int">skills shared</th>
+    <th class="sortable concepts-shared" data-sort="int">concepts shared</th>
+    <th class="sortable projects-proposed" data-sort="int">projects proposed</th>
+    <th class="sortable ideas-to-learn" data-sort="int">ideas to learn</th>
+    <th class="sortable intentions-to-collaborate" data-sort="int">intentions to collaborate</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for record in records %}
+        <tr>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="number">{{ record.participants }}</td>
+            <td class="number">{{ record.skills_shared }}</td>
+            <td class="number">{{ record.concepts_shared }}</td>
+            <td class="number">{{ record.projects_proposed }}</td>
+            <td class="number">{{ record.ideas_to_learn }}</td>
+            <td class="number">{{ record.intentions_to_collaborate }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

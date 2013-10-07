@@ -34,6 +34,9 @@ urlpatterns = patterns('',
     # participation
     (r'^metrics/participation/', include('metrics.participation.urls')),
 
+    # smarts and skills
+    (r'^metrics/skills/', include('metrics.skills.urls')),
+
     # Estimates
     url(r'^estimates/', include('estimates.urls')),
 
