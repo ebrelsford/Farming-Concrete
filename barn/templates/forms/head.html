@@ -1,0 +1,22 @@
+{% csrf_token %}
+
+{{ form.media }}
+
+{% for hidden in form.hidden_fields %}
+    {% if hidden.errors %}
+        <div class="alert alert-error">
+            {% for error in hidden.errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {{ hidden }}
+{% endfor %}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-error">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+{% endif %}

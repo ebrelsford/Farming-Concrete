@@ -1,0 +1,26 @@
+{% load widget_tweaks %}
+
+<div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+    <div class="col-lg-4 control-label">
+        {{ field.label_tag }}
+    </div>
+    <div class="col-lg-6">
+
+        <div class="controls">
+            {% render_field field class+="form-control" %}
+
+            {% if field.errors %}
+                <div class="help-block">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if field.help_text %}
+                <div class="help-text">{{ field.help_text|safe }}</div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
