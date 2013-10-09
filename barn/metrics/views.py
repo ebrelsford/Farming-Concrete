@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, TemplateView
@@ -208,6 +210,13 @@ class MetricGardenCSVView(MetricMixin, GardenMixin, LoginRequiredMixin,
     def get(self, request, *args, **kwargs):
         self.object = self.garden = self.get_object()
         return super(MetricGardenCSVView, self).get(request, *args, **kwargs)
+
+    def get_filename(self):
+        return '%s - %s - %s' % (
+            self.garden.name,
+            self.get_metric_name(),
+            date.today().strftime('%Y-%m-%d'),
+        )
 
     def get_rows(self):
         for record in self.get_records():
