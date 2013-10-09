@@ -202,18 +202,6 @@ class GardenView(GardenMixin, LoginRequiredMixin, DetailView):
         ]
 
 
-class SummaryView(TemplateView):
-    pass
-
-
-class AddView():
-    pass
-
-
-class DeleteView():
-    pass
-
-
 class MetricGardenCSVView(MetricMixin, GardenMixin, LoginRequiredMixin,
                           CSVView):
 
