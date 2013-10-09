@@ -1,0 +1,36 @@
+{% load widget_tweaks %}
+
+<div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+    <div class="col-lg-4 control-label">
+        {{ form.initial.mood }} ({{ form.initial.counted_time }})
+    </div>
+    <div class="col-lg-6">
+
+        <div class="controls">
+            {% for field in form.visible_fields %}
+                {% if field.name == "count" %}
+                    {% render_field field class+="form-control" %}
+                {% else %}
+                    <div style="display: none;">
+                        {% render_field field %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {% if field.errors %}
+                    <div class="help-block">
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% if form.fields.count.help_text %}
+                <div class="help-text">{{ form.fields.count.help_text|safe }}</div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>

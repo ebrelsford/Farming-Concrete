@@ -1,0 +1,8 @@
+{% extends "metrics/moods/base.html" %}
+
+{% block body_class %}{{ block.super }} map-base-page{% endblock %}
+
+{% block right %}
+    {% include "metrics/index/_map.html" %}
+    {{ block.super }}
+{% endblock %}
