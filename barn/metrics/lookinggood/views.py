@@ -7,7 +7,7 @@ from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
-from .forms import LookingGoodEventForm
+from .forms import LookingGoodEventForm, LookingGoodTagFormSet
 from .models import LookingGoodEvent
 
 
@@ -48,6 +48,26 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
                                     GardenDetailAddRecordView):
     form_class = LookingGoodEventForm
     template_name = 'metrics/lookinggood/event/garden_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LookingGoodEventGardenDetails, self).get_context_data(
+            **kwargs
+        )
+        if self.request.POST:
+            context['tag_formset'] = LookingGoodTagFormSet(self.request.POST)
+        else:
+            context['tag_formset'] = LookingGoodTagFormSet()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        tag_formset = context['tag_formset']
+        if tag_formset.is_valid():
+            tag_formset.instance = form.save()
+            tag_formset.save()
+            return super(LookingGoodEventGardenDetails, self).form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def get_success_message(self):
         return 'Successfully added looking good tags record to %s' % (

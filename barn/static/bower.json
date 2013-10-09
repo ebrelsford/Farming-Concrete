@@ -30,6 +30,7 @@
     "jquery-autocomplete": "https://github.com/agarzola/jQueryAutocompletePlugin.git#master",
     "stupid-jquery-table-sort": "*",
     "leaflet-usermarker": "https://github.com/heyman/leaflet-usermarker.git#master",
-    "leaflet.dataoptions": "https://github.com/ebrelsford/Leaflet.dataoptions.git#master"
+    "leaflet.dataoptions": "https://github.com/ebrelsford/Leaflet.dataoptions.git#master",
+    "django-dynamic-formset": "*"
   }
 }

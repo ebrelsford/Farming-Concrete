@@ -11,6 +11,10 @@ class LookingGoodTag(models.Model):
         verbose_name=_('event')
     )
 
+    comment = models.TextField(_('comment'),
+        help_text=_('A comment left on a looking good tag'),
+    )
+
 
 class LookingGoodEvent(BaseMetricRecord):
     start_time = models.TimeField(_('start time'),

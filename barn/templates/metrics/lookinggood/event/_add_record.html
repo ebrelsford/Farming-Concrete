@@ -1,3 +1,27 @@
 <h2>Add a new record</h2>
 
-{% include "_form.html" with form=form multipart=True %}
+<form class="form-horizontal" method="post" 
+    {% if action %}action="{{ action }}"{% endif %}
+    >
+
+    {% include "forms/head.html" %}
+
+    <div>
+        {% for field in form.visible_fields %}
+            {% include "forms/field.html" with field=field %}
+        {% endfor %}
+    </div>
+
+    {{ tag_formset.management_form }}
+
+    {% for tag_form in tag_formset %}
+        <div class="lookinggood-tag-formset">
+            {% for field in tag_form.visible_fields %}
+                {% include "forms/field.html" with field=field %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    {% include "forms/buttons.html" %}
+
+</form>

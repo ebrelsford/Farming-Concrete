@@ -3,6 +3,7 @@ requirejs.config({
     paths: {
         'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap',
         'django': 'djangojs/django',
+        'django-dynamic-formset': '../bower_components/django-dynamic-formset/src/jquery.formset',
         'handlebars': '../bower_components/handlebars.js/dist/handlebars',
         'jquery': '../bower_components/jquery/jquery',
         'jquery.autocomplete': '../bower_components/jquery-autocomplete/jquery.autocomplete',
@@ -24,6 +25,7 @@ requirejs.config({
             deps: ['jquery'],
             exports: 'Django',
         },
+        'django-dynamic-formset': ['jquery'],
         'jquery.autocomplete': ['jquery'],
         'jquery.form': ['jquery'],
         'jquery.stupid-table-sort': ['jquery'],
