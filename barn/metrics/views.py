@@ -150,8 +150,8 @@ class GardenMixin(RecordsMixin, SingleObjectMixin):
         return super(GardenMixin, self).get_records().for_garden(self.object)
 
 
-class GardenDetailAddRecordView(SuccessMessageFormMixin, MetricMixin,
-                                GardenMixin, FormView):
+class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
+                                MetricMixin, GardenMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
