@@ -31,6 +31,7 @@
     "stupid-jquery-table-sort": "*",
     "leaflet-usermarker": "https://github.com/heyman/leaflet-usermarker.git#master",
     "leaflet.dataoptions": "https://github.com/ebrelsford/Leaflet.dataoptions.git#master",
-    "django-dynamic-formset": "*"
+    "django-dynamic-formset": "*",
+    "pickadate": "~3.2.2"
   }
 }

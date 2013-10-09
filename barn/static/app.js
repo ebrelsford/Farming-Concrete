@@ -14,8 +14,11 @@ requirejs.config({
         'leaflet.dataoptions': '../bower_components/leaflet.dataoptions/src/leaflet.dataoptions',
         'leaflet.usermarker': '../bower_components/leaflet-usermarker/src/leaflet.usermarker',
         'modernizr': '../bower_components/modernizr/modernizr',
+        'pickadate': '../bower_components/pickadate/lib/picker',
+        'pickadate.date': '../bower_components/pickadate/lib/picker.date',
+        'pickadate.time': '../bower_components/pickadate/lib/picker.time',
         'spin': '../bower_components/spin.js/spin',
-        'underscore': '../bower_components/underscore/underscore',
+        'underscore': '../bower_components/underscore/underscore'
     },
     shim: {
         'bootstrap': ['jquery'],
@@ -23,23 +26,26 @@ requirejs.config({
         'chosen.jquery_ready': ['jquery', 'chosen.jquery.min'],
         'django': {
             deps: ['jquery'],
-            exports: 'Django',
+            exports: 'Django'
         },
         'django-dynamic-formset': ['jquery'],
         'jquery.autocomplete': ['jquery'],
         'jquery.form': ['jquery'],
         'jquery.stupid-table-sort': ['jquery'],
         'handlebars': {
-            exports: 'Handlebars',
+            exports: 'Handlebars'
         },
         'leaflet.usermarker': ['leaflet'],
         'modernizr': {
-            exports: 'Modernizr',
+            exports: 'Modernizr'
         },
+        'pickadate': ['jquery'],
+        'pickadate.date': ['pickadate'],
+        'pickadate.time': ['pickadate'],
         'underscore': {
-            exports: '_',
-        },
-    },
+            exports: '_'
+        }
+    }
 });
 
 // Load the main app module to start the app

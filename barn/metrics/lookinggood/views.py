@@ -77,7 +77,8 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
     def get_initial(self):
         initial = super(LookingGoodEventGardenDetails, self).get_initial()
         initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
+            # TODO get last recorded date if there is one
+            'recorded': date.today(),
         })
         return initial
 

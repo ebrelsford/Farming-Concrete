@@ -40,6 +40,15 @@ SERVER_EMAIL = 'admin@farmingconcrete.org'
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
 
+DATE_INPUT_FORMATS = (
+    '%m/%d/%Y', '%Y-%m-%d', '%m/%d/%y',
+    '%b %d %Y', '%b %d, %Y',
+    '%d %b %Y', '%d %b, %Y',
+    '%B %d %Y', '%B %d, %Y',
+    '%d %B %Y', '%d %B, %Y',
+)
+TIME_INPUT_FORMATS = ('%I:%M %p', '%H:%M:%S', '%H:%M')
+
 SITE_ID = 1
 
 USE_I18N = True

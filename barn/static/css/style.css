@@ -625,6 +625,12 @@ label {
   background-color: inherit;
 }
 
+/* Don't make pickadate inputs look disabled */
+.form-control.picker__input {
+    background-color: inherit;
+    cursor: inherit;
+}
+
 
 /*
  * Chosen overrides
@@ -636,4 +642,14 @@ label {
 
 .add-gardens-page .chzn-container-multi .chzn-choices .search-field input {
   height: inherit;
+}
+
+
+/*
+ * pickadate overrides
+ */
+
+.picker__nav--prev:hover,
+.picker__nav--next:hover {
+    background: white;
 }

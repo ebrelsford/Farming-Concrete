@@ -13,7 +13,9 @@ define(
         'farmingconcrete',
         'feedback',
         'jquery.autocomplete',
-        'jquery.stupid-table-sort'
+        'jquery.stupid-table-sort',
+        'pickadate.date',
+        'pickadate.time'
     ], function ($, Modernizr) {
 
         /*
@@ -36,10 +38,23 @@ define(
             });
 
             /*
-             * Add jQuery-ui datepicker if no native datepicker available
+             * Add pickadate if no native datepicker available
              */
             if (!Modernizr.inputtypes.date) {
-                $('input[type=date]').datepicker();
+                $('input[type=date]').each(function () {
+                    var max = $(this).attr('max');
+                    $(this).pickadate({
+                        format: 'mm/dd/yyyy',
+                        'max': max
+                    });
+                });
+            }
+
+            /*
+             * Add pickadate if time inputs
+             */
+            if (!Modernizr.inputtypes.time) {
+                $('input[type=time]').pickatime();
             }
 
             /*

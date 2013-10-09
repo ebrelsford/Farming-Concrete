@@ -19,6 +19,18 @@ LookingGoodTagFormSet = inlineformset_factory(LookingGoodEvent, LookingGoodTag,
     form=LookingGoodTagForm,
 )
 
+class EventTimeInput(TimeInput):
+
+    def __init__(self, attrs=None, *args, **kwargs):
+        try:
+            if not attrs or not 'step' in attrs:
+                attrs = {}
+                attrs['step'] = 5 * 60 # 5 minutes
+        except Exception:
+            pass
+        super(EventTimeInput, self).__init__(attrs=attrs, *args, **kwargs)
+
+
 class LookingGoodEventForm(RecordForm):
     recorded = RecordedField(
         required=True,
@@ -29,6 +41,6 @@ class LookingGoodEventForm(RecordForm):
         fields = ('recorded', 'start_time', 'end_time', 'total_tags',
                   'added_by', 'garden',)
         widgets = {
-            'end_time': TimeInput,
-            'start_time': TimeInput,
+            'end_time': EventTimeInput,
+            'start_time': EventTimeInput,
         }
