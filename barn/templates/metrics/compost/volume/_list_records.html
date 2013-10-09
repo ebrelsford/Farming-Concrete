@@ -1,15 +1,15 @@
 {% extends "metrics/_list_records.html" %}
 
 {% block table_header %}
-    <th class="sortable volume" data-sort="float">gallons</th>
     <th class="sortable recorded" data-sort="string">date</th>
+    <th class="sortable volume" data-sort="float">gallons</th>
 {% endblock %}
 
 {% block table_body %}
     {% for record in records %}
         <tr>
-            <td class="number">{{ record.volume|floatformat }}</td>
             <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="number">{{ record.volume|floatformat }}</td>
         </tr>
     {% endfor %}
 {% endblock %}
