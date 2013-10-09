@@ -1,0 +1,19 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block table_header %}
+    <th class="sortable recorded" data-sort="string">date end</th>
+    <th class="sortable start-time" data-sort="int">start time</th>
+    <th class="sortable end-time" data-sort="int">end time</th>
+    <th class="sortable total-tags" data-sort="int">total tags</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for record in records %}
+        <tr>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="number">{{ record.start_time }}</td>
+            <td class="number">{{ record.end_time }}</td>
+            <td class="number">{{ record.total_tags }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

@@ -31,6 +31,9 @@ urlpatterns = patterns('',
     # landfill diversion
     (r'^metrics/landfilldiversion/', include('metrics.landfilldiversion.urls')),
 
+    # looking good
+    (r'^metrics/lookinggood/', include('metrics.lookinggood.urls')),
+
     # moods
     (r'^metrics/moods/', include('metrics.moods.urls')),
 

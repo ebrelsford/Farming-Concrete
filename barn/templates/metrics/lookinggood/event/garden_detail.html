@@ -1,0 +1,16 @@
+{% extends "metrics/garden_detail.html" %}
+{% load metrics_tags static %}
+
+{% block left %}
+    {% include "metrics/lookinggood/event/_add_record.html" %}
+    {% include "metrics/lookinggood/event/_list_records.html" %}
+{% endblock %}
+
+{% block actions %}
+    <h2>
+        {% url "lookinggood_event_garden_csv" pk=garden.pk year=request.session.year as csv_url %}
+        <a class="image" href="{{ csv_url }}"><img src="{% static "img/download.png" %}" /></a>
+        <a class="text" href="{{ csv_url }}">Download this as a spreadsheet</a>
+    </h2>
+    {{ block.super }}
+{% endblock %}
