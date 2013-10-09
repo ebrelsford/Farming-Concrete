@@ -64,7 +64,3 @@ class YumYuckGardenCSV(YumYuckMixin, MetricGardenCSVView):
     def get_fields(self):
         return ('recorded', 'yum_before', 'yuck_before', 'yum_after',
                 'yuck_after',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - yum and yuck' % self.garden.name

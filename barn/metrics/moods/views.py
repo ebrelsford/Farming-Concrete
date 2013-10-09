@@ -2,8 +2,7 @@ from datetime import date
 
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
-from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
-                           TitledPageMixin)
+from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
@@ -98,7 +97,3 @@ class MoodChangeGardenCSV(MoodChangeMixin, MetricGardenCSVView):
     def get_fields(self):
         # TODO finish
         return ('recorded_start', 'recorded',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - good moods in the garden' % self.garden.name

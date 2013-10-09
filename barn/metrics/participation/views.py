@@ -71,10 +71,6 @@ class HoursByGeographyGardenCSV(HoursByGeographyMixin, MetricGardenCSVView):
     def get_fields(self):
         return ('hours', 'recorded_start', 'recorded',)
 
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - hours by geography' % self.garden.name
-
 
 class HoursByTaskMixin(MetricMixin):
     metric_model = HoursByTask
@@ -129,10 +125,6 @@ class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
 
     def get_fields(self):
         return ('hours', 'task', 'recorded_start', 'recorded',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - hours by task' % self.garden.name
 
 
 class HoursByProjectMixin(MetricMixin):
@@ -190,10 +182,6 @@ class HoursByProjectGardenCSV(HoursByProjectMixin, MetricGardenCSVView):
 
     def get_fields(self):
         return ('hours', 'project', 'recorded',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - hours by project' % self.garden.name
 
 
 class CreateProjectView(LoginRequiredMixin, PermissionRequiredMixin,

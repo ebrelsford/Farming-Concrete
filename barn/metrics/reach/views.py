@@ -69,7 +69,3 @@ class ProgramReachGardenCSV(ProgramReachMixin, MetricGardenCSVView):
                 'age_35_44', 'age_45_54', 'age_55_64', 'age_65', 'gender_male',
                 'gender_female', 'gender_other', 'zipcode_inside',
                 'zipcode_outside', 'features',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - program reach' % self.garden.name

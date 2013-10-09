@@ -86,7 +86,3 @@ class LookingGoodEventGardenCSV(LookingGoodEventMixin, MetricGardenCSVView):
 
     def get_fields(self):
         return ('recorded', 'start_time', 'end_time', 'total_tags',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - looking good' % self.garden.name

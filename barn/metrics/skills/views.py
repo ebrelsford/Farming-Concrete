@@ -67,7 +67,3 @@ class SmartsAndSkillsGardenCSV(SmartsAndSkillsMixin, MetricGardenCSVView):
         return ('recorded', 'photo', 'participants', 'skills_shared',
                 'concepts_shared', 'projects_proposed', 'ideas_to_learn',
                 'intentions_to_collaborate',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - smarts and skills' % self.garden.name

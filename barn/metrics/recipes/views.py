@@ -64,7 +64,3 @@ class RecipeTallyGardenCSV(RecipeTallyMixin, MetricGardenCSVView):
 
     def get_fields(self):
         return ('recorded',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - recipe tally' % self.garden.name
