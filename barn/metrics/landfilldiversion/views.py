@@ -1,14 +1,10 @@
 from datetime import date
 
-from django.core.urlresolvers import reverse
-from django.views.generic.edit import FormView
-
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
-from generic.views import (CSVView, LoginRequiredMixin,
-                           SuccessMessageFormMixin, TitledPageMixin)
-from ..views import (AllGardensView, GardenDetailAddRecordView, GardenMixin,
-                     IndexView, MetricGardenCSVView, MetricMixin, RecordsMixin,
+from generic.views import TitledPageMixin
+from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
+                     MetricGardenCSVView, MetricMixin, RecordsMixin,
                      UserGardenView)
 from .forms import LandfillDiversionVolumeForm, LandfillDiversionWeightForm
 from .models import LandfillDiversionVolume, LandfillDiversionWeight
