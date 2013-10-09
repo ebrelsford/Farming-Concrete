@@ -66,10 +66,6 @@ class WeightGardenCSV(WeightMixin, MetricGardenCSVView):
     def get_fields(self):
         return ('weight', 'recorded',)
 
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - landfill diversion by weight' % self.garden.name
-
 
 class VolumeMixin(MetricMixin):
     metric_model = LandfillDiversionVolume
@@ -126,7 +122,3 @@ class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):
 
     def get_fields(self):
         return ('volume', 'recorded',)
-
-    def get_filename(self):
-        # TODO add year, date retrieved
-        return '%s - landfill diversion by volume' % self.garden.name
