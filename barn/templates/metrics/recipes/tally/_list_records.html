@@ -1,0 +1,17 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block table_header %}
+    <th class="sortable recorded-start" data-sort="string">date start</th>
+    <th class="sortable recorded" data-sort="string">date end</th>
+    <th class="sortable recipes-count" data-sort="int"># of recipes</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for record in records %}
+        <tr>
+            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">{{ record.recorded_start|date:"m/d/Y" }}</td>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="number">{{ record.recipes_count }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "metrics/recipes/index.html" %}
+
+{% block content %}
+    <h1>{{ request.session.garden_type|default:"all" }} gardens, recipe tally</h1>
+    {{ block.super }}
+{% endblock %}
+
+{% block actions %}
+    {% include "metrics/index/_actions.html" %}
+{% endblock %}

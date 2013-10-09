@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'metrics.moods',
     'metrics.participation',
     'metrics.reach',
+    'metrics.recipes',
     'metrics.skills',
     'metrics.yumyuck',
 )
