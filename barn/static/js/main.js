@@ -97,5 +97,9 @@ define(
             require(['lookinggoodtagset']);
         }
 
+        if ($('.landfilldiversion-volume-chart').length > 0) {
+            require(['landfilldiversion-volume-chart']);
+        }
+
     }
 );

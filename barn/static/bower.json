@@ -32,6 +32,7 @@
     "leaflet-usermarker": "https://github.com/heyman/leaflet-usermarker.git#master",
     "leaflet.dataoptions": "https://github.com/ebrelsford/Leaflet.dataoptions.git#master",
     "django-dynamic-formset": "*",
-    "pickadate": "~3.2.2"
+    "pickadate": "~3.2.2",
+    "d3": "~3.3.7"
   }
 }

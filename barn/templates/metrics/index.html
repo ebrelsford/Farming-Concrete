@@ -30,6 +30,11 @@
     </section>
 {% endblock %}
 
+{% block right %}
+    {{ block.super }}
+    {% block chart %}{% endblock %}
+{% endblock %}
+
 {% block actions %}
     {% include "metrics/index/_actions.html" %}
 {% endblock %}

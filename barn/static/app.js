@@ -2,6 +2,7 @@ requirejs.config({
     baseUrl: '/static/js',
     paths: {
         'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap',
+        'd3': '../bower_components/d3/d3',
         'django': 'djangojs/django',
         'django-dynamic-formset': '../bower_components/django-dynamic-formset/src/jquery.formset',
         'handlebars': '../bower_components/handlebars.js/dist/handlebars',
@@ -24,6 +25,9 @@ requirejs.config({
         'bootstrap': ['jquery'],
         'chosen.jquery.min': ['jquery'],
         'chosen.jquery_ready': ['jquery', 'chosen.jquery.min'],
+        'd3': {
+            exports: 'd3'
+        },
         'django': {
             deps: ['jquery'],
             exports: 'Django'

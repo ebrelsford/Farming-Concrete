@@ -4,3 +4,25 @@
     <h1>{{ request.session.garden_type|default:"all" }} gardens, landfill diversion by volume</h1>
     {{ block.super }}
 {% endblock %}
+
+{% block chart %}
+    <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+    </style>
+    <div class="landfilldiversion-volume-chart"></div>
+{% endblock %}

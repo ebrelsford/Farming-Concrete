@@ -1,5 +1,9 @@
 from datetime import date
 
+from django.views.generic import View
+
+from braces.views import JSONResponseMixin
+
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
@@ -122,3 +126,16 @@ class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):
 
     def get_fields(self):
         return ('volume', 'recorded',)
+
+
+class VolumeSummaryJSON(VolumeMixin, JSONResponseMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        records = self.metric_model.objects.all().order_by('recorded')
+        def make_row(record):
+            return {
+                'date': record.recorded,
+                'volume': float(record.volume),
+            }
+        data = [make_row(r) for r in records]
+        return self.render_json_response(data)

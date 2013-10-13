@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns, url
 from .views import (WeightAllGardensView, WeightGardenDetails, WeightGardenCSV,
                     WeightIndex, WeightUserGardensView)
 from .views import (VolumeAllGardensView, VolumeGardenDetails, VolumeGardenCSV,
-                    VolumeIndex, VolumeUserGardensView)
+                    VolumeIndex, VolumeSummaryJSON, VolumeUserGardensView)
 
 
 urlpatterns = patterns('',
@@ -77,6 +77,11 @@ urlpatterns = patterns('',
     url(r'^volume/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
         VolumeGardenCSV.as_view(),
         name='landfilldiversion_volume_garden_csv',
+    ),
+
+    url(r'^volume/data/json/',
+        VolumeSummaryJSON.as_view(),
+        name='landfilldiversion_volume_data',
     ),
 
 )
