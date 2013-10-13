@@ -330,7 +330,7 @@ table.sorted {
     width: 100%;
 }
 
-table.sorted th {
+table.sorted > thead > tr > th {
     background-image: url(/static/img/bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
