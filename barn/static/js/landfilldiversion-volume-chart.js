@@ -45,7 +45,6 @@ define(
                     d.date = parseDate(d.date);
                     d.volume = d.volume;
                 });
-                console.log(data);
 
                 x.domain(d3.extent(data, function (d) { return d.date; }));
                 y.domain(d3.extent(data, function (d) { return d.volume; }));
