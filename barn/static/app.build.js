@@ -15,7 +15,8 @@
         'bootstrap',
         'addgardenspage',
         'chosen.jquery_ready',
-        'leaflet.basicmap',
+        'landfilldiversion-volume-chart',
+        'leaflet.basicmap'
     ],
     insertRequire: ['main'],
 
@@ -23,6 +24,6 @@
     optimizeCss: "none",
     optimize: "uglify2",
 
-    preserveLicenseComments: true,
+    preserveLicenseComments: true
     
 })
