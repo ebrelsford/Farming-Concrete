@@ -1,6 +1,6 @@
 from datetime import date
 
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
@@ -147,6 +147,14 @@ class AllGardensView(RecordedGardensMixin, LoginRequiredMixin, TemplateView):
 
 class GardenMixin(RecordsMixin, SingleObjectMixin):
     model = Garden
+
+    def get_object(self, queryset=None):
+        object = super(GardenMixin, self).get_object(queryset=queryset)
+        if self.request.user.has_perm('farmingconcrete.can_edit_any_garden'):
+            return object
+        elif object in self.request.user.get_profile().gardens.all():
+            return object
+        raise PermissionDenied
 
     def get_records(self):
         return super(GardenMixin, self).get_records().for_garden(self.object)
