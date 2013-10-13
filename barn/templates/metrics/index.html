@@ -1,4 +1,4 @@
-{% extends "metrics/yumyuck/map_base.html" %}
+{% extends "metrics/map_base.html" %}
 {% load metrics_tags %}
 
 {% block title %}{{ metric_name }}{% endblock %}
@@ -12,4 +12,8 @@
     <ul class="overview">
         {% summarize metric_name summary=summary %}
     </ul>
+{% endblock %}
+
+{% block actions %}
+    {% include "metrics/index/_actions.html" %}
 {% endblock %}
