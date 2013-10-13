@@ -2,6 +2,6 @@
 
 {% if perms.farmingconcrete.can_edit_any_garden %}
     <a class="btn btn-lg btn-default" href="{% url metric.all_gardens_url_name year=request.session.year %}">
-        {% trans "View all gardens" %}
+        {% trans "View all recorded gardens" %}
     </a>
 {% endif %}
