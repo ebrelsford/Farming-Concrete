@@ -9,7 +9,8 @@ from django.views.generic.edit import FormView
 
 from farmingconcrete.models import Garden
 from farmingconcrete.views import FarmingConcreteYearMixin
-from generic.views import CSVView, LoginRequiredMixin, SuccessMessageFormMixin
+from generic.views import (CSVView, LoginRequiredMixin,
+                           PermissionRequiredMixin, SuccessMessageFormMixin)
 
 from .registry import registry
 
@@ -115,7 +116,9 @@ class UserGardenView(LoginRequiredMixin, ListView):
         return context
 
 
-class AllGardensView(RecordedGardensMixin, LoginRequiredMixin, TemplateView):
+class AllGardensView(RecordedGardensMixin, LoginRequiredMixin,
+                     PermissionRequiredMixin, TemplateView):
+    permission = 'farmingconcrete.can_edit_any_garden'
 
     def get_template_names(self):
         return [
