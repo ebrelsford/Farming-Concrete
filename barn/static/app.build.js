@@ -15,7 +15,6 @@
         'bootstrap',
         'addgardenspage',
         'chosen.jquery_ready',
-        'landfilldiversion-volume-chart',
         'leaflet.basicmap'
     ],
     insertRequire: ['main'],

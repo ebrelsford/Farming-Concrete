@@ -14,6 +14,7 @@ define(
         'feedback',
         'jquery.autocomplete',
         'jquery.stupid-table-sort',
+        'landfilldiversion-volume-chart',
         'pickadate.date',
         'pickadate.time'
     ], function ($, Modernizr) {
