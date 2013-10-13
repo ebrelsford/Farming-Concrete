@@ -1,15 +1,15 @@
 {% extends "metrics/map_base.html" %}
 
 {% block left %}
-    <ul class="gardens">
+    <ul class="list-group gardens">
         {% for garden in all_gardens_with_records %}
-            <li id="{{ garden.pk }}">
-                {% if perms.can_edit_any_garden or garden in user_gardens %}
-                    <a href="{% url metric.garden_detail_url_name pk=garden.pk year=request.session.year %}">{{ garden.name }}</a>
-                {% else %}
-                    <label>{{ garden.name }}</label>
-                {% endif %}
-            </li>
+            {% if perms.can_edit_any_garden or garden in user_gardens %}
+                <a class="list-group-item" href="{% url metric.garden_detail_url_name pk=garden.pk year=request.session.year %}">
+                    {{ garden.name }}
+                </a>
+            {% else %}
+                <label>{{ garden.name }}</label>
+            {% endif %}
         {% empty %}
             None.
         {% endfor %}
