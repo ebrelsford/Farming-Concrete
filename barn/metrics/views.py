@@ -71,11 +71,20 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
     The index / landing page for a metric.
     """
 
+    def get_user_gardens(self):
+        type = self.request.session.get('garden_type', 'all')
+        profile = self.request.user.get_profile()
+        user_gardens = profile.gardens.all()
+        if type != 'all':
+            user_gardens = user_gardens.filter(type=type)
+        return user_gardens
+
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         records = self.get_records()
         context.update({
             'summary': self.metric_model.summarize(records),
+            'user_gardens': self.get_user_gardens().order_by('name'),
         })
         return context
 

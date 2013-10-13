@@ -9,9 +9,25 @@
 {% endblock %}
 
 {% block left %}
-    <ul class="overview">
-        {% summarize metric_name summary=summary %}
-    </ul>
+    <section>
+        <h2>Summary</h2>
+        <ul class="overview">
+            {% summarize metric_name summary=summary %}
+        </ul>
+    </section>
+
+    <section>
+        <h2>Your gardens</h2>
+        <div class="list-group gardens">
+            {% for garden in user_gardens %}
+                <a class="list-group-item" href="{% url metric.garden_detail_url_name pk=garden.pk year=request.session.year %}">
+                    {{ garden.name }}
+                </a>
+            {% empty %}
+                None.
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}
 
 {% block actions %}
