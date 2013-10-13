@@ -133,7 +133,7 @@ class CropcountAllGardensView(RecordsMixin, TitledPageMixin,
     metric_model = Patch
 
     def get_title(self):
-        garden_type = self.request.session['garden_type']
+        garden_type = self.request.session.get('garden_type', 'all')
         return 'All counted %s gardens' % garden_type_label(garden_type)
 
 
@@ -144,7 +144,7 @@ class CropcountAllGardensView(RecordsMixin, TitledPageMixin,
 def gardens(request, year=None):
     """Show counted gardens, let user add more"""
 
-    type = request.session['garden_type']
+    type = request.session.get('garden_type', 'all')
 
     counted_gardens = Garden.counted().filter(
         box__patch__added__year=year
