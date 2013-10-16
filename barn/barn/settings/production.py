@@ -24,7 +24,7 @@ CACHES = {
     )
 }
 
-JOHNNY_MIDDLEWARE_KEY_PREFIX='jc_myproj'
+JOHNNY_MIDDLEWARE_KEY_PREFIX='fc'
 
 MIDDLEWARE_CLASSES = (
     'johnny.middleware.LocalStoreClearMiddleware',
