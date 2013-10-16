@@ -16,7 +16,7 @@
         'addgardenspage',
         'chosen.jquery_ready',
         'leaflet.basicmap',
-        'landfilldiversion-volume-chart',
+        'landfilldiversionvolumechart',
         'newgardenerwidget',
         'newprojectwidget'
     ],

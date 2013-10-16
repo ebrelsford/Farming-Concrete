@@ -98,7 +98,7 @@ define(
         }
 
         if ($('.landfilldiversion-volume-chart').length > 0) {
-            require(['landfilldiversion-volume-chart']);
+            require(['landfilldiversionvolumechart']);
         }
 
     }
