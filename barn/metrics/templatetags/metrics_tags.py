@@ -1,3 +1,6 @@
+from itertools import groupby
+from operator import itemgetter
+
 from django import template
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -26,6 +29,26 @@ class MetricRecordTagMixin(object):
             for k, v in arg.items():
                 kwargs[k] = v
         return kwargs
+
+    def sort_metrics(self, metrics):
+        return sorted(metrics, key=itemgetter('group', 'name'))
+
+    def group_metrics(self, metrics):
+        grouped = groupby(metrics, lambda m: m['group'])
+        g = {}
+        for group, metric_list in grouped:
+            g[group] = list(metrics)
+        return g
+
+    def count_recorded_metrics(self, metric_model, garden, start=None,
+                               end=None, year=None):
+        if start and end:
+            count = metric_model.get_records(garden, start=start, end=end).count()
+        elif year:
+            count = metric_model.get_records(garden, year=year).count()
+        else:
+            count = metric_model.get_records(garden).count()
+        return count
 
 
 class CountRecords(MetricRecordTagMixin, AsTag):
@@ -108,5 +131,81 @@ class Summarize(MetricRecordTagMixin, Tag):
         return template_name
 
 
+class MetricsWithRecords(MetricRecordTagMixin, AsTag):
+
+    options = Options(
+        KeywordArgument('garden', required=False),
+        KeywordArgument('year', required=False),
+        KeywordArgument('start', required=False),
+        KeywordArgument('end', required=False),
+        KeywordArgument('grouped', required=False),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, garden, year, start, end, grouped):
+        # Get KeywordArguments with default values
+        kwargs = self.args_to_dict(garden, year, start, end)
+        garden = kwargs.get('garden', None)
+        year = kwargs.get('year', None)
+        start = kwargs.get('start', None)
+        end = kwargs.get('end', None)
+        grouped = kwargs.get('grouped', False)
+        if not year:
+            year = settings.FARMINGCONCRETE_YEAR
+
+        metrics_with_records = []
+        for metric in registry.values():
+            model = metric['model']
+            count = self.count_recorded_metrics(model, garden, start=start,
+                                                end=end, year=year)
+            if count:
+                metrics_with_records.append(metric)
+
+        sorted_metrics = self.sort_metrics(metrics_with_records)
+        if grouped:
+            return self.group_metrics(sorted_metrics)
+        return sorted_metrics
+
+
+class MetricsWithoutRecords(MetricRecordTagMixin, AsTag):
+
+    options = Options(
+        KeywordArgument('garden', required=False),
+        KeywordArgument('year', required=False),
+        KeywordArgument('start', required=False),
+        KeywordArgument('end', required=False),
+        KeywordArgument('grouped', required=False),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, garden, year, start, end, grouped):
+        # Get KeywordArguments with default values
+        kwargs = self.args_to_dict(garden, year, start, end)
+        garden = kwargs.get('garden', None)
+        year = kwargs.get('year', None)
+        start = kwargs.get('start', None)
+        end = kwargs.get('end', None)
+        grouped = kwargs.get('grouped', False)
+        if not year:
+            year = settings.FARMINGCONCRETE_YEAR
+
+        metrics_without_records = []
+        for metric in registry.values():
+            model = metric['model']
+            count = self.count_recorded_metrics(model, garden, start=start,
+                                                end=end, year=year)
+            if not count:
+                metrics_without_records.append(metric)
+
+        sorted_metrics = self.sort_metrics(metrics_without_records)
+        if grouped:
+            return self.group_metrics(sorted_metrics)
+        return sorted_metrics
+
+
 register.tag(CountRecords)
 register.tag(Summarize)
+register.tag(MetricsWithRecords)
+register.tag(MetricsWithoutRecords)

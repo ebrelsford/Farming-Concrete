@@ -10,14 +10,14 @@
     <section>
         <h2>{% trans "Metrics Recorded at this Garden" %}</h2>
 
-        {% for group, metrics in grouped_metrics.items %}
-            <section class="metric-group">
-                {% if group %}
-                    <h3>{{ group }}</h3>
-                {% endif %}
-                {% for metric in metrics %}
-                    {% count_records metric.name garden=garden year=year as count %}
-                    {% if count > 0 %}
+        {% metrics_with_records garden=garden year=year grouped=True as recorded_metrics %}
+        {% if recorded_metrics %}
+            {% for group, metrics in recorded_metrics.items %}
+                <section class="metric-group">
+                    {% if group %}
+                        <h3>{{ group }}</h3>
+                    {% endif %}
+                    {% for metric in metrics %}
                         <section class="metric">
                             <h4>{{ metric.name }}</h4>
                             {% summarize metric.name garden=garden year=year %}
@@ -27,38 +27,38 @@
                                 </a>
                             </div>
                         </section>
-                    {% endif %}
-                {% endfor %}
-            </section>
-        {% endfor %}
-
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        {% else %}
+            {% trans "None yet! Record some below." %}
+        {% endif %}
     </section>
 
-    <section>
-        <h2>{% trans "Metrics Not Recorded at this Garden" %}</h2>
+    {% metrics_without_records garden=garden year=year grouped=True as unrecorded_metrics %}
+    {% if unrecorded_metrics %}
+        <section>
+            <h2>{% trans "Metrics Not Recorded at this Garden" %}</h2>
 
-        {% for group, metrics in grouped_metrics.items %}
-            <section class="metric-group">
-                {% if group %}
-                    <h3>{{ group }}</h3>
-                {% endif %}
-                {% for metric in metrics %}
-                    {% count_records metric.name garden=garden year=year as count %}
-                    {% if count == 0 %}
+            {% for group, metrics in unrecorded_metrics.items %}
+                <section class="metric-group">
+                    {% if group %}
+                        <h3>{{ group }}</h3>
+                    {% endif %}
+                    {% for metric in metrics %}
                         <section class="metric">
                             <h4>{{ metric.name }}</h4>
-                            {% summarize metric.name garden=garden year=year %}
                             <div class="btn-group">
                                 <a href="{% url metric.garden_detail_url_name pk=garden.pk %}" class="btn btn-default">
                                     {% trans "Add data" %}
                                 </a>
                             </div>
                         </section>
-                    {% endif %}
-                {% endfor %}
-            </section>
-        {% endfor %}
-    </section>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        </section>
+    {% endif %}
 
 {% endblock %}
 
