@@ -15,7 +15,10 @@
         'bootstrap',
         'addgardenspage',
         'chosen.jquery_ready',
-        'leaflet.basicmap'
+        'leaflet.basicmap',
+        'landfilldiversion-volume-chart',
+        'newgardenerwidget',
+        'newprojectwidget'
     ],
     insertRequire: ['main'],
 
