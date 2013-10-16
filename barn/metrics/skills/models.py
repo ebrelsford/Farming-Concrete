@@ -55,6 +55,7 @@ class SmartsAndSkills(BaseMetricRecord):
 
 
 register('Smarts and Skills', {
+    'add_record_template': 'metrics/skills/smarts/add_record.html',
     'all_gardens_url_name': 'skills_smarts_all_gardens',
     'model': SmartsAndSkills,
     'garden_detail_url_name': 'skills_smarts_garden_details',

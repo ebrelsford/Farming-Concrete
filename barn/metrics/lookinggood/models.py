@@ -39,6 +39,7 @@ class LookingGoodEvent(BaseMetricRecord):
 
 
 register('Looking Good', {
+    'add_record_label': 'Add looking good tags',
     'all_gardens_url_name': 'lookinggood_event_all_gardens',
     'model': LookingGoodEvent,
     'garden_detail_url_name': 'lookinggood_event_garden_details',

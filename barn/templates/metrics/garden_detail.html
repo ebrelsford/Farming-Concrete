@@ -23,6 +23,10 @@
     {% endif %}
 {% endblock %}
 
+{% block left %}
+    {% add_record metric_name garden form %}
+{% endblock %}
+
 {% block right %}
     {{ block.super }}
     <ul class="overview">

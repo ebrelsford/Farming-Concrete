@@ -26,6 +26,7 @@ class RecipeTally(BaseMetricRecord):
 
 
 register('Recipe Tally', {
+    'add_record_template': 'metrics/recipes/tally/add_record.html',
     'all_gardens_url_name': 'recipes_tally_all_gardens',
     'model': RecipeTally,
     'garden_detail_url_name': 'recipes_tally_garden_details',

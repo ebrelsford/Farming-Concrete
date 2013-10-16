@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block left %}
-    {% include "metrics/moods/change/_add_record.html" %}
+    {{ block.super }}
     {% include "metrics/moods/change/_list_records.html" %}
 {% endblock %}
 

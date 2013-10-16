@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block left %}
-    {% include "metrics/yumyuck/change/_add_record.html" %}
+    {{ block.super }}
     {% include "metrics/yumyuck/change/_list_records.html" %}
 {% endblock %}
 

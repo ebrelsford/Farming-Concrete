@@ -50,6 +50,7 @@ class LandfillDiversionVolume(BaseMetricRecord):
 
 
 register('Landfill Diversion by Weight', {
+    'add_record_label': 'Add landfill diversion by weight',
     'all_gardens_url_name': 'landfilldiversion_weight_all_gardens',
     'model': LandfillDiversionWeight,
     'garden_detail_url_name': 'landfilldiversion_weight_garden_details',
@@ -61,6 +62,7 @@ register('Landfill Diversion by Weight', {
 
 
 register('Landfill Diversion by Volume', {
+    'add_record_label': 'Add landfill diversion by volume',
     'all_gardens_url_name': 'landfilldiversion_volume_all_gardens',
     'model': LandfillDiversionVolume,
     'garden_detail_url_name': 'landfilldiversion_volume_garden_details',

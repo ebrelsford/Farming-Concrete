@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block left %}
-    {% include "metrics/skills/smarts/_add_record.html" %}
+    {{ block.super }}
     {% include "metrics/skills/smarts/_list_records.html" %}
 {% endblock %}
 

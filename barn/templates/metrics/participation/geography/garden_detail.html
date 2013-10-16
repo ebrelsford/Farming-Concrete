@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block left %}
-    {% include "metrics/participation/geography/_add_record.html" %}
+    {{ block.super }}
     {% include "metrics/participation/geography/_list_records.html" %}
 {% endblock %}
 

@@ -2,7 +2,7 @@
 {% load metrics_tags static %}
 
 {% block left %}
-    {% include "metrics/recipes/tally/_add_record.html" %}
+    {{ block.super }}
     {% include "metrics/recipes/tally/_list_records.html" %}
 {% endblock %}
 

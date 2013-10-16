@@ -7,14 +7,13 @@ from django.template.loader import render_to_string
 
 from classytags.arguments import Argument, KeywordArgument
 from classytags.core import Options, Tag
-from classytags.helpers import AsTag
+from classytags.helpers import AsTag, InclusionTag
 
 from ..registry import registry
 
 register = template.Library()
 
 
-# TODO add_record (dynamically get template name)
 # TODO list_records (dynamically get template name)
 
 
@@ -205,6 +204,32 @@ class MetricsWithoutRecords(MetricRecordTagMixin, AsTag):
         return sorted_metrics
 
 
+class AddRecord(MetricRecordTagMixin, InclusionTag):
+
+    options = Options(
+        Argument('metric_name'),
+        Argument('garden'),
+        Argument('form'),
+    )
+
+    template = ''
+
+    def get_context(self, context, metric_name, garden, form):
+        context.update({
+            'add_record_label': registry[metric_name].get('add_record_label'),
+            'form': form,
+        })
+        return context
+
+    def get_template(self, context, metric_name, garden, form):
+        try:
+            template_name = registry[metric_name]['add_record_template']
+        except Exception:
+            template_name = 'metrics/add_record.html'
+        return template_name
+
+
+register.tag(AddRecord)
 register.tag(CountRecords)
 register.tag(Summarize)
 register.tag(MetricsWithRecords)
