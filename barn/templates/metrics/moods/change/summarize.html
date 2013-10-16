@@ -1,10 +1,6 @@
-<ul class="overview">
-    <li class="odd">
-        {{ count }} record{{ count|pluralize }}
-    </li>
-    <li class="even">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
-    </li>
-</ul>
+{% extends "metrics/summarize.html" %}
+{% load i18n %}
+
+{% block summary %}
+    {{ block.super }}
+{% endblock %}

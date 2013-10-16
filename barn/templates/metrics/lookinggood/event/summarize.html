@@ -1,13 +1,9 @@
-<ul class="overview">
+{% extends "metrics/summarize.html" %}
+{% load i18n %}
+
+{% block summary %}
+    {{ block.super }}
     <li class="odd">
-        {{ total_tags }} tag{{ total_tags|pluralize }}
+        {{ total_tags }} {% trans "tag" %}{{ total_tags|pluralize }}
     </li>
-    <li class="even">
-        {{ count }} record{{ count|pluralize }}
-    </li>
-    <li class="odd">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
-    </li>
-</ul>
+{% endblock %}

@@ -1,35 +1,34 @@
-{% load imagekit %}
+{% extends "metrics/summarize.html" %}
+{% load i18n imagekit %}
 
-<ul class="overview">
+{% block summary %}
+    {{ block.super }}
     <li class="odd">
-        {{ participants }} participant{{ participants|pluralize }}
+        {{ participants }} {% trans "participant" %}{{ participants|pluralize }}
     </li>
     <li class="even">
-        {{ skills_shared }} skill{{ skills_shared|pluralize }} shared
+        {{ skills_shared }} {% trans "skill" %}{{ skills_shared|pluralize }} 
+        {% trans "shared" %}
     </li>
     <li class="odd">
-        {{ concepts_shared }} concept{{ concepts_shared|pluralize }} shared
+        {{ concepts_shared }} {% trans "concept" %}{{ concepts_shared|pluralize }}
+        {% trans "shared" %}
     </li>
     <li class="even">
-        {{ projects_proposed }} project{{ projects_proposed|pluralize }} proposed
+        {{ projects_proposed }} {% trans "project" %}{{ projects_proposed|pluralize }}
+        {% trans "proposed" %}
     </li>
     <li class="odd">
-        {{ ideas_to_learn }} idea{{ ideas_to_learn|pluralize }} to learn
+        {{ ideas_to_learn }} {% trans "idea" %}{{ ideas_to_learn|pluralize }} 
+        {% trans "to learn" %}
     </li>
     <li class="even">
-        {{ intentions_to_collaborate }} intention{{ intentions_to_collaborate|pluralize }} to collaborate
-    </li>
-    <li class="odd">
-        {{ count }} record{{ count|pluralize }}
-    </li>
-    <li class="even">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
+        {{ intentions_to_collaborate }} {% trans "intention" %}{{ intentions_to_collaborate|pluralize }}
+        {% trans "to collaborate" %}
     </li>
     {% if photo %}
         <li class="even">
             {% thumbnail "200x200" photo %}
         </li>
     {% endif %}
-</ul>
+{% endblock %}

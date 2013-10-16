@@ -1,13 +1,9 @@
-<ul class="overview">
+{% extends "metrics/summarize.html" %}
+{% load i18n %}
+
+{% block summary %}
+    {{ block.super }}
     <li class="odd">
-        {{ weight|floatformat }} pounds
+        {{ weight|floatformat }} {% trans "pounds" %}
     </li>
-    <li class="even">
-        {{ count }} records
-    </li>
-    <li class="odd">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
-    </li>
-</ul>
+{% endblock %}

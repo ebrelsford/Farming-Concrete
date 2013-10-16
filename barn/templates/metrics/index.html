@@ -11,9 +11,7 @@
 {% block left %}
     <section>
         <h2>Summary</h2>
-        <ul class="overview">
-            {% summarize metric_name summary=summary %}
-        </ul>
+        {% summarize metric_name summary=summary %}
     </section>
 
     <section>

@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<ul class="overview">
+    {% block summary %}
+        <li class="odd">
+            {% trans "records from" %}
+            {{ recorded_min|date:"m/d/Y" }}
+            {% trans "to" %}
+            {{ recorded_max|date:"m/d/Y" }}
+        </li>
+        <li class="even">
+            {{ count }} {% trans "record" %}{{ count|pluralize }}
+        </li>
+    {% endblock %}
+</ul>

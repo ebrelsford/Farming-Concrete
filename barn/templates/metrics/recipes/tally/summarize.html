@@ -1,13 +1,9 @@
-<ul class="overview">
-    <li class="even">
-        {{ recipes_count }} recipes{{ recipes_count|pluralize }}
-    </li>
+{% extends "metrics/summarize.html" %}
+{% load i18n %}
+
+{% block summary %}
+    {{ block.super }}
     <li class="odd">
-        {{ count }} record{{ count|pluralize }}
+        {{ recipes_count }} {% trans "recipe" %}{{ recipes_count|pluralize }}
     </li>
-    <li class="even">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
-    </li>
-</ul>
+{% endblock %}

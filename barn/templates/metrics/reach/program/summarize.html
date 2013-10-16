@@ -1,12 +1,9 @@
-{% load imagekit %}
+{% extends "metrics/summarize.html" %}
+{% load i18n imagekit %}
 
-<ul class="overview">
+{% block summary %}
+    {{ block.super }}
     <li class="odd">
-        {{ count }} program{{ count|pluralize }}
+        {{ count }} {% trans "program" %}{{ count|pluralize }}
     </li>
-    <li class="even">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
-    </li>
-</ul>
+{% endblock %}

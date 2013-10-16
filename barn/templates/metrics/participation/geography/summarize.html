@@ -1,20 +1,14 @@
-{% load imagekit %}
+{% extends "metrics/summarize.html" %}
+{% load i18n imagekit %}
 
-<ul class="overview">
+{% block summary %}
+    {{ block.super }}
     <li class="odd">
-        {{ hours|floatformat }} hour{{ hours|pluralize }}
-    </li>
-    <li class="even">
-        {{ count }} record{{ count|pluralize }}
-    </li>
-    <li class="odd">
-        records from 
-        {{ recorded_min|date:"m/d/Y" }} to 
-        {{ recorded_max|date:"m/d/Y" }}
+        {{ hours|floatformat }} {% trans "hour" %}{{ hours|pluralize }}
     </li>
     {% if photo %}
         <li class="even">
             {% thumbnail "200x200" photo %}
         </li>
     {% endif %}
-</ul>
+{% endblock %}
