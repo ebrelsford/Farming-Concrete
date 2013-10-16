@@ -7,8 +7,9 @@ define(
         // Requirements with exports
         'jquery',
         'd3',
-        'django',
+        'django'
     ], function ($, d3, Django) {
+
         $(document).ready(function () {
             var parseDate = d3.time.format("%Y-%m-%d").parse;
 
@@ -72,6 +73,4 @@ define(
         });
 
     }
-
 );
-
