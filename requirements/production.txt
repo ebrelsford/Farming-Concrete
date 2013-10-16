@@ -1,4 +1,5 @@
 gunicorn==18.0
+johnny-cache==1.4
 memcacheinspector==0.2.0
 python-memcached==1.53
 supervisor==3.0
