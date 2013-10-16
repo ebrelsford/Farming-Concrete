@@ -46,7 +46,7 @@
             <span class="type">
                 {{ form.variety.errors }}
                 {{ form.variety.label_tag }}
-                <span id="variety_help" class="help_link"></span><br />
+                <span id="variety_help" class="help_link tooltip-trigger" data-toggle="tooltip" title="Start typing the plant type that you are entering and choose the closest match.">?</span><br />
                 {{ form.variety }}
 
                 <div id="add-new-plant-type">
@@ -62,7 +62,7 @@
             <span class="quantity">
                 {{ form.plants.errors }}
                 {{ form.area.errors }}
-                {{ form.plants }} plants<span id="quantity_help" class="help_link"></span><br />
+                {{ form.plants }} plants<span id="quantity_help" class="help_link tooltip-trigger" title="Please enter the number of plants of this type and/or the area these plants are planted in. We prefer to know the number of plants, but sometimes that's difficult!">?</span><br />
                 <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
                 {{ form.area }} sq ft
             </span>

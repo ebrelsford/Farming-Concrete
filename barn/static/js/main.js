@@ -62,6 +62,11 @@ define(
              */
             $('table.sorted').stupidtable();
 
+            /*
+             * Add tooltips where necessary
+             */
+            $('.tooltip-trigger').tooltip();
+
         });
 
 
