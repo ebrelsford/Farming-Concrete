@@ -1,7 +1,6 @@
-from datetime import date
-
 from django.contrib.auth.models import User
 from django.forms import HiddenInput, ModelChoiceField, ModelForm
+from django.utils.timezone import now
 
 from floppyforms.fields import DateField
 from floppyforms.widgets import DateInput
@@ -15,7 +14,7 @@ class RecordedInput(DateInput):
         try:
             if not attrs or not 'max' in attrs:
                 attrs = {}
-            attrs['max'] = date.today().isoformat()
+            attrs['max'] = now().date().isoformat()
         except Exception:
             pass
         super(RecordedInput, self).__init__(attrs=attrs, *args, **kwargs)
