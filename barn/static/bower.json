@@ -34,6 +34,7 @@
     "django-dynamic-formset": "*",
     "pickadate": "~3.2.2",
     "d3": "~3.3.7",
-    "select2": "~3.4.3"
+    "select2": "~3.4.3",
+    "resig-class": "git@github.com:ebrelsford/resig-class.git#master"
   }
 }
