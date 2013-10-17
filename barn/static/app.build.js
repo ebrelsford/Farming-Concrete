@@ -18,7 +18,8 @@
         'leaflet.basicmap',
         'landfilldiversionvolumechart',
         'newgardenerwidget',
-        'newprojectwidget'
+        'newprojectwidget',
+        'newvarietywidget'
     ],
     insertRequire: ['main'],
 
