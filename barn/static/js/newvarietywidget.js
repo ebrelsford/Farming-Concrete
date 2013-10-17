@@ -6,11 +6,10 @@ define(
     [
         // Requirements with exports
         'jquery',
-        'django',
 
         // Other requirements
         'jquery.form',
-    ], function ($, Django) {
+    ], function ($) {
 
         function addModal(id) {
             // Add our modal to the end of the body to reduce potential nested
