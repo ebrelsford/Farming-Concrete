@@ -12,15 +12,15 @@ define(
         'jquery.form',
     ], function ($, Django) {
 
-        function addModal() {
+        function addModal(id) {
             // Add our modal to the end of the body to reduce potential nested
             // forms confusion
             $('body').append(
                 $('<div></div>')
-                    .attr('id', 'new-variety-modal')
+                    .attr('id', id)
                     .attr('class', 'modal')
             );
-            return $('#new-variety-modal');
+            return $('#' + id);
         }
 
         function addError($nameInput, msg) {
@@ -37,13 +37,7 @@ define(
             }
         }
 
-        var inputName = 'variety';
-
-        function submitForm($modal, e) {
-            // Ensure the input is set
-            var pk = $(':input[name=' + inputName + '][value!=""]').val();
-            $modal.find(':input[name=' + inputName + ']').val(pk);
-
+        function submitForm($modal, $select, event) {
             var $form = $modal.find('form'),
                 $nameInput = $form.find(':input[name=name]');
 
@@ -54,8 +48,7 @@ define(
                         addError($nameInput, 'There was an error while adding. Please try again.');
                     },
                     success: function (data) {
-                        var $select = $('select[name=' + inputName + ']'),
-                            $existing = $select.find('option[value=' + data.pk + ']');
+                        var $existing = $select.find('option[value=' + data.pk + ']');
                         if ($existing.length > 0) {
                             $existing.prop('selected', true);
                         }
@@ -73,7 +66,7 @@ define(
             else {
                 // Let the user know that we need a name to submit
                 addError($nameInput, 'Please enter a name');
-                e.stopPropagation();
+                event.stopPropagation();
                 return false;
             }
             $modal.modal('hide');
@@ -81,7 +74,9 @@ define(
         }
 
         $(document).ready(function () {
-            var $modal = addModal();
+            var id = $('.btn-new-variety').data('target').slice(1),
+                $modal = addModal(id),
+                $select = $('select[name=variety]');
 
             // Hide modal when cancel button is clicked
             $modal.on('click', function (event) {
@@ -92,7 +87,7 @@ define(
 
             // Submit form when submitted
             $modal.on('submit', function (e) {
-                return submitForm($modal, e);
+                return submitForm($modal, $select, e);
             });
 
         });
