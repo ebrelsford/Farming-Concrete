@@ -5,9 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
                           CharField, IntegerField, DecimalField, DateField)
 
-from ajax_select.fields import AutoCompleteSelectField
-
-from farmingconcrete.models import Garden
+from farmingconcrete.models import Garden, Variety
 from ..forms import RecordedInput
 from .models import Box, Patch
 
@@ -86,8 +84,9 @@ class PatchForm(ModelForm):
         label='recorded',
         widget=RecordedInput,
     )
-    variety = AutoCompleteSelectField('variety',
+    variety = ModelChoiceField(
         label="Plant type",
+        queryset=Variety.objects.filter(needs_moderation=False),
         error_messages={
             'required': "Please enter a plant type.",
         }

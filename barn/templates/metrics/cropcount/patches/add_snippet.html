@@ -1,38 +1,4 @@
-<script>
-    $(document).ready(function() {
-        {% if is_mobile %}
-        $('#area-flip').change(function() {
-            $('#area-input').toggle();
-        });
-        {% else %}
-        $('#add-new-plant-type a').click(function() {
-            $('#add-new-plant-type .adder').toggle();   
-            return false;
-        });
-
-        var add_plant_type_url = '{% url "farmingconcrete_varieties_add" %}';
-
-        /*
-         * Add plant type when form is submitted.
-         */
-        $('form').submit(function(e) {
-            var name = $('input[name="new-plant-type"]').val();
-            get_or_create_plant_type(add_plant_type_url, name, true, function() {});
-        });   
-
-        /*
-         * Add plant type when person tabs out of plant type field.
-         */
-        $(':input#id_variety_text').blur(function() {
-            // only try to add plant type if autocomplete didn't get something
-            if ($(':input#id_variety').val() !== '') return;
-            get_or_create_plant_type(add_plant_type_url, $(this).val(), false, function() {});
-        });
-
-        {% endif %}
-    });
-</script>
-<h2 style="font-weight: bold; margin-top: 5px;">Add a new plant</h2>
+<h2>Add a new plant</h2>
 <form method="post" action="." data-ajax="false">
     {% csrf_token %}
     {% for hidden in form.hidden_fields %}
@@ -51,7 +17,7 @@
 
                 <div id="add-new-plant-type">
                     <div class="message"></div>
-                    <a href="#">add a new plant type</a>
+                    <a class="btn btn-default btn-xs" href="#">add a new plant type</a>
                     <div class="adder" style="display: none;">
                         <input type="text" name="new-plant-type" />
                         <input type="submit" name="add-new-plant-type" value="add" />
@@ -105,7 +71,7 @@
         {% endif %}
 
         <span class="actions">
-            <input type="submit" value="add" data-role="button" />
+            <button type="submit" class="btn btn-primary">add</button>
         </span>
     </div>
 </form>

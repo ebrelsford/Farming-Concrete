@@ -6,6 +6,8 @@
 
 {% block breadcrumbs %}{{ block.super }} <a href="{% url "cropcount_garden_details" pk=bed.garden.id year=request.session.year %}">{{ bed.garden.name }}</a> &gt;&gt; bed {{ bed.name }} {% endblock %}
 
+{% block body_class %}cropcount-bed-detail-page{% endblock %}
+
 {% block content %}
 {% if bed %}
     <h1 class="pre-listview">

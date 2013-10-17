@@ -653,3 +653,12 @@ label {
 .picker__nav--next:hover {
     background: white;
 }
+
+
+/*
+ * select2
+ */
+
+.select2-container {
+    width: 100%;
+}

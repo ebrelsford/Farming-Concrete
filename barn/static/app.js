@@ -18,6 +18,7 @@ requirejs.config({
         'pickadate': '../bower_components/pickadate/lib/picker',
         'pickadate.date': '../bower_components/pickadate/lib/picker.date',
         'pickadate.time': '../bower_components/pickadate/lib/picker.time',
+        'select2': '../bower_components/select2/select2',
         'spin': '../bower_components/spin.js/spin',
         'underscore': '../bower_components/underscore/underscore'
     },

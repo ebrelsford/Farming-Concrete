@@ -78,6 +78,10 @@ define(
             require(['addgardenspage']);
         }
 
+        if ($('.cropcount-bed-detail-page').length > 0) {
+            require(['cropcountbeddetailpage']);
+        }
+
         if ($('.main-index-page').length > 0) {
             require(['leaflet.basicmap']);
         }

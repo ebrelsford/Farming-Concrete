@@ -33,6 +33,7 @@
     "leaflet.dataoptions": "https://github.com/ebrelsford/Leaflet.dataoptions.git#master",
     "django-dynamic-formset": "*",
     "pickadate": "~3.2.2",
-    "d3": "~3.3.7"
+    "d3": "~3.3.7",
+    "select2": "~3.4.3"
   }
 }
