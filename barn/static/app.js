@@ -51,6 +51,7 @@ requirejs.config({
         'resig-class': {
             exports: 'Class'
         },
+        'select2': ['jquery'],
         'underscore': {
             exports: '_'
         }

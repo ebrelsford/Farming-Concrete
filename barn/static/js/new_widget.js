@@ -6,24 +6,25 @@ define(
     [
         // Requirements with exports
         'jquery',
+        'underscore',
         'resig-class',
 
         // Other requirements
         'jquery.form',
-    ], function ($, Class) {
+    ], function ($, _, Class) {
 
         var NewInstanceWidget = Class.extend({
 
             options: {
                 buttonSelector: '',
+                errorMessage: 'There was an error while adding. Please try again.',
                 selectSelector: ''
             },
 
             init: function (options) {
-                this.options = options;
-                var t = this;
-
-                var id = $(t.options.buttonSelector).data('target'),
+                this.options = _.extend(this.options, options);
+                var t = this,
+                    id = $(t.options.buttonSelector).data('target'),
                     $modal;
                 if (id) {
                     id = id.slice(1);
@@ -69,15 +70,22 @@ define(
                 }
             },
 
+            preSubmit: function ($modal) {
+                // Nothing. Placeholder to be overridden as needed
+            },
+
             submitForm: function ($modal, $select, event) {
-                var $form = $modal.find('form'),
+                var t = this,
+                    $form = $modal.find('form'),
                     $nameInput = $form.find(':input[name=name]');
+
+                t.preSubmit($modal);
 
                 if ($nameInput.val() !== '') {
                     // If we have a name for the entity, attempt to submit
                     $form.ajaxSubmit({
                         error: function () {
-                            this.addError($nameInput, 'There was an error while adding. Please try again.');
+                            t.addError($nameInput, t.options.errorMessage);
                         },
                         success: function (data) {
                             var $existing = $select.find('option[value=' + data.pk + ']');
@@ -97,7 +105,7 @@ define(
                 }
                 else {
                     // Let the user know that we need a name to submit
-                    this.addError($nameInput, 'Please enter a name');
+                    t.addError($nameInput, 'Please enter a name');
                     event.stopPropagation();
                     return false;
                 }
