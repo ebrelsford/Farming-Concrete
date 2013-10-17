@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
                           CharField, IntegerField, DecimalField, DateField)
 
+from farmingconcrete.forms import AddNewVarietyWidget
 from farmingconcrete.models import Garden, Variety
 from ..forms import RecordedInput
 from .models import Box, Patch
@@ -89,7 +90,8 @@ class PatchForm(ModelForm):
         queryset=Variety.objects.filter(needs_moderation=False),
         error_messages={
             'required': "Please enter a plant type.",
-        }
+        },
+        widget=AddNewVarietyWidget(),
     )
     area = DecimalField(
         max_value=Decimal('1000'),

@@ -15,7 +15,8 @@ define(
         'jquery.autocomplete',
         'jquery.stupid-table-sort',
         'pickadate.date',
-        'pickadate.time'
+        'pickadate.time',
+        'select2'
     ], function ($, Modernizr) {
 
         /*
@@ -67,6 +68,11 @@ define(
              */
             $('.tooltip-trigger').tooltip();
 
+            /*
+             * Add select2 support
+             */
+            $('.select2-basic-select').select2();
+
         });
 
 
@@ -76,10 +82,6 @@ define(
 
         if ($('.add-gardens-page').length > 0) {
             require(['addgardenspage']);
-        }
-
-        if ($('.cropcount-bed-detail-page').length > 0) {
-            require(['cropcountbeddetailpage']);
         }
 
         if ($('.main-index-page').length > 0) {
@@ -96,6 +98,10 @@ define(
 
         if ($('.btn-harvestcount-new-gardener').length > 0) {
             require(['newgardenerwidget']);
+        }
+
+        if ($('.btn-new-variety').length > 0) {
+            require(['newvarietywidget']);
         }
 
         if ($('.reports-page').length > 0) {

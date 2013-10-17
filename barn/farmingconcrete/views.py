@@ -23,7 +23,7 @@ from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
-from .forms import GardenForm
+from .forms import GardenForm, VarietyForm
 from .models import Garden, GardenGroup, GardenType, Variety
 from .utils import get_variety
 
@@ -281,48 +281,6 @@ class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin,
                 self.request.user.farmingconcrete_variety_added.all())
 
 
-class VarietyAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
-    http_method_names = ['post',]
-    permission = 'farmingconcrete.add_variety'
-
-    def variety_exists(self, name):
-        return Variety.objects.filter(name=name).count() > 0
-
-    def post(self, request, *args, **kwargs):
-        name = request.POST.get('name', None)
-        force = request.POST.get('force', False) == 'true'
-        variety = None
-
-        if self.variety_exists(name) or force:
-            # create the variety no matter what
-            variety, created = get_variety(name, request.user)
-
-        if not variety:
-            # either variety-creating failed...
-            message = 'failed to create new plant type'
-            if not force:
-                # ...or we were not allowed to force it
-                message = 'not found'
-
-            return HttpResponse(json.dumps({
-                'success': False,
-                'id': None,
-                'name': None,
-                'message': message,
-            }))
-
-        message = 'plant type %s added' % variety.name
-        if not created:
-            message = 'looks good! found %s.' % variety.name
-
-        return HttpResponse(json.dumps({
-            'success': True,
-            'id': variety.id,
-            'name': variety.name,
-            'message': message,
-        }))
-
-
 class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
 
@@ -331,3 +289,28 @@ class FarmingConcreteYearMixin(DefaultYearMixin):
 
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR
+
+
+class CreateVarietyView(LoginRequiredMixin, PermissionRequiredMixin,
+                        CreateView):
+    form_class = VarietyForm
+    model = Variety
+    permission = 'farmingconcrete.add_variety'
+    template_name = 'farmingconcrete/variety/variety_form.html'
+
+    def get_initial(self):
+        initial = self.initial.copy()
+        initial.update({
+            'added_by': self.request.user,
+            'updated_by': self.request.user,
+        })
+        return initial
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        variety, created = get_variety(name, self.request.user)
+        self.object = variety
+        return HttpResponse(json.dumps({
+            'name': variety.name,
+            'pk': variety.pk,
+        }), content_type='application/json')

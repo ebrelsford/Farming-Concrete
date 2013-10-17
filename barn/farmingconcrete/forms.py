@@ -3,9 +3,11 @@ from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField)
 
 from ajax_select.fields import AutoCompleteSelectField
 import chosen.forms
+from floppyforms.widgets import Select
 
 from accounts.models import UserProfile
-from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
+from .models import (Garden, GardenGroup, GardenGroupMembership, GardenType,
+                     Variety)
 
 
 class GardenTypeField(ModelChoiceField):
@@ -86,3 +88,18 @@ class GardenForm(ModelForm):
             )
             membership.save()
         return garden
+
+
+class AddNewVarietyWidget(Select):
+    template_name = 'farmingconcrete/variety/new_variety_widget.html'
+
+
+class VarietyForm(ModelForm):
+
+    class Meta:
+        model = Variety
+        widgets = {
+            'added_by': HiddenInput(),
+            'needs_moderation': HiddenInput(),
+            'updated_by': HiddenInput(),
+        }
