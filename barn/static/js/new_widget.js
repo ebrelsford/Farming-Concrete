@@ -7,7 +7,7 @@ define(
         // Requirements with exports
         'jquery',
         'underscore',
-        'resig-class',
+        'resig.class',
 
         // Other requirements
         'jquery.form',
