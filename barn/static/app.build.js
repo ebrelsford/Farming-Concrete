@@ -17,10 +17,11 @@
         'chosen.jquery_ready',
         'leaflet.basicmap',
         'landfilldiversionvolumechart',
+        'resig.class',
+        'new_widget',
         'newgardenerwidget',
         'newprojectwidget',
-        'newvarietywidget',
-        'resig.class'
+        'newvarietywidget'
     ],
     insertRequire: ['main'],
 
