@@ -19,7 +19,8 @@
         'landfilldiversionvolumechart',
         'newgardenerwidget',
         'newprojectwidget',
-        'newvarietywidget'
+        'newvarietywidget',
+        'resig.class'
     ],
     insertRequire: ['main'],
 
