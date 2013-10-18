@@ -21,7 +21,8 @@
         'new_widget',
         'newgardenerwidget',
         'newprojectwidget',
-        'newvarietywidget'
+        'newvarietywidget',
+        'underscore'
     ],
     insertRequire: ['main'],
 
