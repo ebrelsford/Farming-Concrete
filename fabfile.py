@@ -34,6 +34,14 @@ def build_static():
     with cd('/'.join([server_src_dir, 'barn/collected_static'])):
         run('r.js -o app.build.js')
 
+    # Compress manually with uglifyjs
+    with cd('/'.join([server_src_dir, 'barn/collected_static'])):
+        run('uglifyjs main-built.js -m -c > main-built-compressed.js')
+
+    # Replace main-built with compressed version
+    with cd('/'.join([server_src_dir, 'barn/collected_static'])):
+        run('mv main-built-compressed.js main-built.js')
+
 
 @task
 def install_requirements():

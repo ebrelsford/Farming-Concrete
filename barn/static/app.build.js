@@ -28,7 +28,9 @@
 
     // Let django-compressor take care of CSS
     optimizeCss: "none",
-    optimize: "uglify2",
+
+    // We will manually compress JS after
+    optimize: "none",
 
     preserveLicenseComments: true
     
