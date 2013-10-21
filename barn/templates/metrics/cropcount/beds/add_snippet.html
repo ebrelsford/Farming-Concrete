@@ -1,6 +1,8 @@
-<div id="new-bed" style="border-bottom: 2px solid black; margin-bottom: 10px;">
+{% load i18n widget_tweaks %}
+
+<section id="new-bed" class="add-record">
     <h2 style="font-weight: bold;">Add a new bed to this garden</h2>
-    <form method="post" action="{% url "cropcount_add_bed" id=garden.pk %}" data-ajax="false">
+    <form method="post" action="{% url "cropcount_add_bed" id=garden.pk %}" class="form-horizontal" role="form">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
             {{ hidden }}
@@ -13,17 +15,39 @@
             {{ form.length.errors }}
         </div>
         <div id="inputs">
-            <div data-role="fieldcontain">
-                <label for="id_name">{{ form.name.label }}:</label>
-                {{ form.name }} 
-                <span id="number_help" class="help_link"></span>
+            <div class="form-group required">
+                <div class="control-label col-lg-4">
+                    {{ form.name.label_tag }}
+                </div>
+                <div class="controls col-lg-6">
+                    {% render_field form.name class+="form-control tooltip-trigger" data-title="Enter the number for this bed. If you do not have a number for the bed, the default given should be okay." data-trigger="hover focus" %}
+                </div>
             </div>
-            <div data-role="fieldcontain">
-                <label for="id_width">{{ form.width.label }}:</label> 
-                <span style="white-space: nowrap;">{{ form.width }} ft x {{ form.length }} ft</span>
-                <span id="dimensions_help" class="help_link"></span>
+            <div class="form-group required">
+                <div class="control-label col-lg-4">
+                    {{ form.width.label_tag }}
+                </div>
+                <div class="controls col-lg-6">
+                    <span style="white-space: nowrap;">
+                        <div class="col-lg-6" style="padding-left: 0;">
+                            {% render_field form.width class+="form-control tooltip-trigger" data-title="Enter the dimensions for this bed. This helps us determine how much space is being used to grow food." data-trigger="hover focus" data-container="body" %} ft x
+                        </div>
+                        <div class="col-lg-6" style="padding-right: 0;">
+                            {% render_field form.length class+="form-control" %} ft
+                        </div>
+                    </span>
+                </div>
             </div>
-            <input type="submit" value="add" data-role="button" />
+            <div class="clearfix"></div>
+
+            <div class="form-actions">
+                <div class="col-lg-offset-4 col-lg-6">
+                    <button class="btn btn-primary" type="submit">
+                        {% trans "add" %}
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
         </div>
     </form>
-</div>
+</section>

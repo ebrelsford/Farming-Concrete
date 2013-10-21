@@ -204,6 +204,12 @@ ul.values {
     border-bottom: 1px solid black;
 }
 
+#new-bed form #id_width,
+#new-bed form #id_length {
+    display: inline-block;
+    width: 50%;
+}
+
 h2 a.image {
 }
 h2 a.text {
