@@ -1,10 +1,10 @@
-<li style="font-weight: bold; border-bottom: 1px solid black; padding-left: 10px;" data-role="list-divider">
+<li class="patch-list" style="font-weight: bold; border-bottom: 1px solid black; padding-left: 10px;" data-role="list-divider">
     <span class="type">plant</span>
     <span class="quantity">quantity</span>
 </li>
 
 {% for patch in patches %}
-    <li class="{% cycle 'odd' 'even' %}">
+    <li class="patch-list {% cycle 'odd' 'even' %}">
         <span class="type">{{ patch.variety }}</span>
     
         <span class="quantity">

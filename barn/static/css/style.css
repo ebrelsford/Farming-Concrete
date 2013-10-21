@@ -172,12 +172,15 @@ ul.values {
 #plants ul li span {
     display: inline-block;
 }
-#plants .type {
+
+.patch-list .type {
     width: 25%;
 }
-#plants .quantity {
+
+.patch-list .quantity {
     width: 35%;
 }
+
 #new-plant form #inputs span {
     vertical-align: top;
 }
@@ -206,6 +209,12 @@ ul.values {
 
 #new-bed form #id_width,
 #new-bed form #id_length {
+    display: inline-block;
+    width: 50%;
+}
+
+#new-plant form #id_plants,
+#new-plant form #id_area {
     display: inline-block;
     width: 50%;
 }
