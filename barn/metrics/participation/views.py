@@ -12,8 +12,9 @@ from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
 from .forms import (HoursByGeographyForm, HoursByProjectForm, HoursByTaskForm,
-                    ProjectForm)
-from .models import HoursByGeography, HoursByProject, HoursByTask, Project
+                    ProjectForm, TaskHoursFormSet)
+from .models import (HoursByGeography, HoursByProject, HoursByTask, Project,
+                     Task)
 
 
 class HoursByGeographyMixin(MetricMixin):
@@ -110,8 +111,37 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
     template_name = 'metrics/participation/task/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f hours to %s' % (self.record.hours,
-                                                        self.object)
+        return 'Successfully added hours by task to %s' % self.object
+
+    def get_initial_task_hours(self):
+        initial = []
+        for task in Task.objects.all():
+            initial.append({
+                'task': task,
+                'hours': 0,
+            })
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super(HoursByTaskGardenDetails, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['taskhours_formset'] = TaskHoursFormSet(self.request.POST)
+        else:
+            context['taskhours_formset'] = TaskHoursFormSet(
+                initial=self.get_initial_task_hours(),
+            )
+        context['tasks'] = Task.objects.all()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        taskhours_formset = context['taskhours_formset']
+        if taskhours_formset.is_valid():
+            taskhours_formset.instance = form.save()
+            taskhours_formset.save()
+            return super(HoursByTaskGardenDetails, self).form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def get_initial(self):
         initial = super(HoursByTaskGardenDetails, self).get_initial()

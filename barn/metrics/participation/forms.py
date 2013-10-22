@@ -1,4 +1,5 @@
 from django.forms import HiddenInput, ModelForm
+from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
 from floppyforms.widgets import Select
@@ -6,7 +7,8 @@ from floppyforms.widgets import Select
 from ..harvestcount.forms import AddNewGardenerWidget
 from ..harvestcount.models import Gardener
 from ..forms import RecordedField, RecordedInput, RecordForm
-from .models import HoursByGeography, HoursByTask, HoursByProject, Project
+from .models import (HoursByGeography, HoursByTask, HoursByProject, Project,
+                     Task, TaskHours)
 
 
 class HoursByGeographyForm(RecordForm):
@@ -22,12 +24,23 @@ class HoursByGeographyForm(RecordForm):
                   'garden',)
 
 
+class TaskHoursForm(ModelForm):
+    class Meta:
+        model = TaskHours
+
+
+TaskHoursFormSet = inlineformset_factory(HoursByTask, TaskHours,
+    can_delete=False,
+    extra=Task.objects.count(),
+    form=TaskHoursForm,
+)
+
+
 class HoursByTaskForm(RecordForm):
 
     class Meta:
         model = HoursByTask
-        fields = ('hours', 'task', 'recorded_start', 'recorded', 'added_by',
-                  'garden',)
+        fields = ('recorded_start', 'recorded', 'added_by', 'garden',)
         widgets = {
             'recorded_start': RecordedInput(),
             'recorded': RecordedInput(),

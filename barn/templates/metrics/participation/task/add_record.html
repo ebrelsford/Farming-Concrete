@@ -1,0 +1,24 @@
+<h2>Add participation hours by task</h2>
+
+<form class="form-horizontal" method="post" 
+    {% if multipart %}enctype="multipart/form-data"{% endif %}
+    {% if action %}action="{{ action }}"{% endif %}
+    >
+
+    {% include "forms/head.html" %}
+
+    <div>
+        {% for field in form.visible_fields %}
+            {% include "forms/field.html" with field=field %}
+        {% endfor %}
+    </div>
+
+    {{ taskhours_formset.management_form }}
+
+    {% for taskhours_form in taskhours_formset %}
+        {% include "metrics/participation/task/_taskhours_form.html" with form=taskhours_form %}
+    {% endfor %}
+
+    {% include "forms/buttons.html" %}
+
+</form>

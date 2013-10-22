@@ -71,10 +71,23 @@ class Task(models.Model):
         return self.name
 
 
-class HoursByTask(BaseParticipationMetric):
+class TaskHours(models.Model):
     task = models.ForeignKey('Task',
         verbose_name=_('task'),
-        help_text=_('What was being worked on?')
+    )
+    hours_by_task = models.ForeignKey('HoursByTask',
+        verbose_name=_('hours by task'),
+    )
+    hours = models.PositiveIntegerField(_('count'))
+
+
+class HoursByTask(BaseMetricRecord):
+    recorded_start = models.DateField(_('recorded start'),
+        help_text=_('The beginning of the date range for this record'),
+    )
+    tasks = models.ManyToManyField('Task',
+        through='TaskHours',
+        verbose_name=_('tasks'),
     )
     task_other = models.CharField(_('other task name'),
         max_length=200,
@@ -84,19 +97,12 @@ class HoursByTask(BaseParticipationMetric):
     )
 
     def __unicode__(self):
-        return 'HoursByTask (%d) %s %.2f hours working on %s' % (
-            self.pk,
-            self.garden,
-            self.hours,
-            self.task.name,
-        )
+        return 'HoursByTask (%d) %s' % (self.pk, self.garden,)
 
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(HoursByTask, cls).get_summarize_kwargs()
-        kwargs.update({
-            'hours': Sum('hours'),
-        })
+        #kwargs.update({ }) # TODO
         return kwargs
 
 
@@ -150,6 +156,7 @@ register('Participation Hours by Geography', {
 
 register('Participation Hours by Task', {
     'add_record_label': 'Add participation hours',
+    'add_record_template': 'metrics/participation/task/add_record.html',
     'all_gardens_url_name': 'participation_task_all_gardens',
     'model': HoursByTask,
     'garden_detail_url_name': 'participation_task_garden_details',
