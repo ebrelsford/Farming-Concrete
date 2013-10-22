@@ -1,51 +1,5 @@
 {% load widget_tweaks %}
 
-<script>
-    $(document).ready(function() {
-        {% if is_mobile %}
-        $('#area-flip').change(function() {
-            $('#area-input').toggle();
-        });
-        $('a.remember-context').click(function(e) {
-            var current_form = $('form :input[name!="csrfmiddlewaretoken"]').serialize();
-
-            var new_url = $(this).attr('href') + '?' + $.param({
-                previous: window.location.pathname,
-                previous_query_string: current_form,
-            });
-            $.mobile.changePage(new_url, {
-                role: $(this).attr('data-rel'),
-            });
-            return false;
-        });
-        {% else %}
-        $('#add-new-plant-type a').click(function() {
-            $('#add-new-plant-type .adder').toggle();   
-            return false;
-        });
-
-        var add_plant_type_url = '{% url "farmingconcrete_varieties_add" %}';
-
-        /*
-         * Add plant type when form is submitted.
-         */
-        $('form').submit(function(e) {
-            var name = $('input[name="new-plant-type"]').val();
-            get_or_create_plant_type(add_plant_type_url, name, true, function() {});
-        });   
-
-        /*
-         * Add plant type when person tabs out of plant type field.
-         */
-        $(':input#id_variety_text').blur(function() {
-            // only try to add plant type if autocomplete didn't get something
-            if ($(':input#id_variety').val() !== '') return;
-            get_or_create_plant_type(add_plant_type_url, $(this).val(), false, function() {});
-        });
-
-        {% endif %}
-    });
-</script>
 <section id="new-harvest" class="add-record">
     <h2>Add a new harvest</h2>
     <form method="post" action="{% url "harvestcount_add_harvest" id=garden.id %}" class="form-horizontal">

@@ -84,6 +84,10 @@ define(
             require(['addgardenspage']);
         }
 
+        if ($('.add-harvest-page').length > 0) {
+            require(['addharvestpage']);
+        }
+
         if ($('.main-index-page').length > 0) {
             require(['leaflet.basicmap']);
         }

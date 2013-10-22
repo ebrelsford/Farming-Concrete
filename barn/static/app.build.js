@@ -14,6 +14,7 @@
         // require()d dependencies
         'bootstrap',
         'addgardenspage',
+        'addharvestpage',
         'chosen.jquery_ready',
         'leaflet.basicmap',
         'landfilldiversionvolumechart',
