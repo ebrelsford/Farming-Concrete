@@ -21,7 +21,7 @@ from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
                            TitledPageMixin)
 from ..views import (AllGardensView, GardenView, IndexView, MetricMixin,
                      RecordsMixin, UserGardenView)
-from .forms import AutocompleteHarvestForm, GardenerForm, MobileHarvestForm
+from .forms import GardenerForm, HarvestForm
 from .models import Gardener, Harvest
 
 
@@ -63,7 +63,7 @@ class HarvestcountIndex(HarvestcountMixin, IndexView):
 
 
 class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
-    form_class = AutocompleteHarvestForm
+    form_class = HarvestForm
     metric_model = Harvest
 
     def get_initial(self):
@@ -197,6 +197,7 @@ def download_garden_harvestcount_as_csv(request, id, year=None):
 
 
 class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
+    form_class = HarvestForm
     template_name = 'metrics/harvestcount/harvests/add.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -285,11 +286,6 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
             'variety': self.variety,
         })
         return context
-
-    def get_form_class(self):
-        if self.is_mobile:
-            return MobileHarvestForm
-        return AutocompleteHarvestForm
 
     def get_success_url(self):
         kwargs = { 'pk': self.garden.pk, }
