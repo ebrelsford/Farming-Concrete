@@ -1,29 +1,7 @@
-{% extends "metrics/map_base.html" %}
+{% extends "metrics/garden_detail.html" %}
 {% load static %}
 
-{% block title %}{{ garden.name }}{% endblock %}
-{% block header_title %}{{ garden.name }}{% endblock %}
-
 {% block body_class %}{{ block.super }} add-harvest-page{% endblock %}
-
-{% block breadcrumbs %}
-    {{ block.super }}
-    {{ garden.name }}
-{% endblock %}
-
-{% block content %}
-    {% if garden %}
-        {% if not is_mobile %}
-            <h1>{{ garden.name }}</h1>
-        {% endif %}
-
-        <div class="garden-details">
-            {{ block.super }}
-        </div>
-    {% else %}
-        <p>No such garden</p>
-    {% endif %}
-{% endblock %}
 
 {% block left %}
     {% include "metrics/harvestcount/harvests/add_snippet.html" %}
@@ -32,13 +10,11 @@
 
 {% block right %}
     {{ block.super }}
-    {% if not is_mobile %}
-        <ul class="overview">
-            <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
-            <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
-            <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
-        </ul>
-    {% endif %}
+    <ul class="overview">
+        <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
+        <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
+        <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
+    </ul>
 {% endblock %}
 
 {% block actions %}
@@ -46,13 +22,5 @@
         <a class="image" href="{% url "harvestcount_download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}"><img src="{% static "img/download.png" %}" /></a>
         <a class="text" href="{% url "harvestcount_download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
     </h2>
-    <h2>
-        <a class="image" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}"><img src="{% static "img/round_arrow_right.png" %}" /></a>
-        <a class="text" href="{% url "reports.views.garden_report" id=garden.id year=request.session.year %}">View this garden's report</a>
-    </h2>
     {{ block.super }}
-    <h2>
-        <a class="image" href="{% url "harvestcount_index" year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>
-        <a class="text" href="{% url "harvestcount_index" year=request.session.year %}">Done adding harvests to this garden!</a>
-    </h2>
 {% endblock %}

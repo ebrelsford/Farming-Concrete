@@ -332,11 +332,6 @@ input.ac_loading {
     clear: both;
 }
 
-#new-harvest {
-    border-bottom: 2px solid black;
-    margin-bottom: 10px;
-}
-
 /*
  * Sorted table styles
  */
