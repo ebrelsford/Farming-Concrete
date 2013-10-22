@@ -1,15 +1,6 @@
-{% extends "metrics/harvestcount/map_base.html" %}
-{% load metrics_tags %}
+{% extends "metrics/index.html" %}
 
-{% block title %}{{ metric_name }}{% endblock %}
-
-{% block breadcrumbs %}
-    <a href="{% url "home" %}">Home</a> &gt;&gt;
-    {{ metric_name }}
-{% endblock %}
-
-{% block left %}
-    <ul class="overview">
-        {% summarize metric_name summary=summary %}
-    </ul>
+{% block content %}
+    <h1>{{ request.session.garden_type|default:"all" }} gardens, harvest count</h1>
+    {{ block.super }}
 {% endblock %}
