@@ -1,6 +1,7 @@
 from datetime import date
 import json
 
+from django.forms.models import inlineformset_factory
 from django.http import HttpResponse
 from django.views.generic import CreateView
 
@@ -12,9 +13,9 @@ from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
 from .forms import (HoursByGeographyForm, HoursByProjectForm, HoursByTaskForm,
-                    ProjectForm, TaskHoursFormSet)
+                    ProjectForm, TaskHoursForm)
 from .models import (HoursByGeography, HoursByProject, HoursByTask, Project,
-                     Task)
+                     Task, TaskHours)
 
 
 class HoursByGeographyMixin(MetricMixin):
@@ -124,6 +125,12 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
 
     def get_context_data(self, **kwargs):
         context = super(HoursByTaskGardenDetails, self).get_context_data(**kwargs)
+
+        TaskHoursFormSet = inlineformset_factory(HoursByTask, TaskHours,
+            can_delete=False,
+            extra=Task.objects.count(),
+            form=TaskHoursForm,
+        )
         if self.request.POST:
             context['taskhours_formset'] = TaskHoursFormSet(self.request.POST)
         else:

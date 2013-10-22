@@ -1,19 +1,31 @@
 {% extends "metrics/_list_records.html" %}
+{% load participation_tags %}
 
 {% block table_header %}
-    <th class="sortable hours" data-sort="float">hours</th>
-    <th class="sortable task" data-sort="string-ins">task</th>
     <th class="sortable recorded-start" data-sort="string">date start</th>
     <th class="sortable recorded" data-sort="string">date end</th>
+    {% for task in tasks %}
+        <th class="sortable task" data-sort="int">{{ task }}</th>
+    {% endfor %}
 {% endblock %}
 
 {% block table_body %}
     {% for record in records %}
         <tr class="{% cycle "odd" "even" %}">
-            <td class="number">{{ record.hours|floatformat }}</td>
-            <td class="date">{{ record.task }}</td>
-            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">{{ record.recorded_start|date:"m/d/Y" }}</td>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
+                {{ record.recorded_start|date:"m/d/Y" }}
+            </td>
+            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
+                {{ record.recorded|date:"m/d/Y" }}
+            </td>
+            {% for task in tasks %}
+                {% task_hours task for record as taskhour %}
+                <td class="number">
+                    {% if taskhour %}
+                        {{ taskhour.hours|floatformat }}
+                    {% endif %}
+                </td>
+            {% endfor %}
         </tr>
     {% endfor %}
 {% endblock %}

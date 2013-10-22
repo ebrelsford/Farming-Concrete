@@ -70,6 +70,9 @@ class Task(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ('name',)
+
 
 class TaskHours(models.Model):
     task = models.ForeignKey('Task',
@@ -79,6 +82,9 @@ class TaskHours(models.Model):
         verbose_name=_('hours by task'),
     )
     hours = models.PositiveIntegerField(_('count'))
+
+    class Meta:
+        ordering = ('task__name',)
 
 
 class HoursByTask(BaseMetricRecord):
@@ -95,6 +101,12 @@ class HoursByTask(BaseMetricRecord):
         null=True,
         help_text=_('If you enter "other" for task, enter the task here')
     )
+
+    def __getitem__(self, key):
+        try:
+            return self.taskhours_set.get(task__name=key)
+        except Exception:
+            return getattr(self, key, None)
 
     def __unicode__(self):
         return 'HoursByTask (%d) %s' % (self.pk, self.garden,)
