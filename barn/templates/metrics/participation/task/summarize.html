@@ -4,9 +4,6 @@
 {% block summary %}
     {{ block.super }}
     <li class="odd">
-        {{ hours|floatformat }} hour{{ hours|pluralize }}
-    </li>
-    <li class="even">
         {{ gardens }} garden{{ gardens|pluralize }}
     </li>
 {% endblock %}
