@@ -19,11 +19,15 @@ define(
                 }
             });
 
-            $('#id_gardener_text, #id_variety_text').focusout(function () {
-                var gardener = $('#id_gardener_text').val();
-                var variety = $('#id_variety_text').val();
+            $('#id_gardener, #id_variety').change(function () {
+                var gardener = $('#id_gardener').val();
+                var variety = $('#id_variety').val();
                 if (gardener && gardener !== '' && variety && variety !== '') {
-                    $.getJSON('last_harvest?gardener=' + gardener + '&variety=' + variety, function (h) {
+                    var params = {
+                        gardener: gardener,
+                        variety: variety
+                    };
+                    $.getJSON('last_harvest?' + $.param(params), function (h) {
                         $('#id_plants').val(h.plants);
                         $('#id_area').val(h.area);
                     });

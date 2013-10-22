@@ -136,8 +136,8 @@ def delete_harvest(request, id, year=None):
 
 @login_required
 @year_in_session
-def quantity_for_last_harvest(request, id=None, year=None):
-    garden = id
+def quantity_for_last_harvest(request, pk=None, year=None):
+    garden = pk
     gardener = request.GET.get('gardener', None)
     variety = request.GET.get('variety', None)
 
@@ -154,8 +154,8 @@ def quantity_for_last_harvest(request, id=None, year=None):
         try:
             harvest = Harvest.objects.filter(
                 gardener__garden=garden,
-                gardener__name=gardener,
-                variety__name=variety
+                gardener__pk=gardener,
+                variety__pk=variety
             ).order_by('-recorded')[0]
         except IndexError:
             raise Http404

@@ -64,7 +64,7 @@ urlpatterns = patterns('',
 
     # Other
 
-    url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?last_harvest',
+    url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?last_harvest',
         'metrics.harvestcount.views.quantity_for_last_harvest',
         name='harvestcount_quantity_for_last_harvest'
     ),
