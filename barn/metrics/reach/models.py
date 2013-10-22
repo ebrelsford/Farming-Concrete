@@ -53,99 +53,74 @@ class ProgramReach(BaseMetricRecord):
                     'this the first time you worked together?'),
     )
 
-    age_10 = models.IntegerField(_('Participants under 10'),
+    age_10 = models.IntegerField(_('# Under 10'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were under age 10'),
     )
 
-    age_10_14 = models.IntegerField(_('Participants between 10 and 14'),
+    age_10_14 = models.IntegerField(_('# 10 to 14'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 10 and '
-                    '14'),
     )
 
-    age_15_19 = models.IntegerField(_('Participants between 15 and 19'),
+    age_15_19 = models.IntegerField(_('# 15 to 19'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 15 and '
-                    '19'),
     )
 
-    age_20_24 = models.IntegerField(_('Participants between 20 and 24'),
+    age_20_24 = models.IntegerField(_('# 20 to 24'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 20 and '
-                    '24'),
     )
 
-    age_25_34 = models.IntegerField(_('Participants between 25 and 34'),
+    age_25_34 = models.IntegerField(_('# 25 to 34'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 25 and '
-                    '34'),
     )
 
-    age_35_44 = models.IntegerField(_('Participants between 35 and 44'),
+    age_35_44 = models.IntegerField(_('# 35 to 44'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 35 and '
-                    '44'),
     )
 
-    age_45_54 = models.IntegerField(_('Participants between 45 and 54'),
+    age_45_54 = models.IntegerField(_('# 45 to 54'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 45 and '
-                    '54'),
     )
 
-    age_55_64 = models.IntegerField(_('Participants between 55 and 64'),
+    age_55_64 = models.IntegerField(_('# 55 to 64'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were between ages 55 and '
-                    '64'),
     )
 
-    age_65 = models.IntegerField(_('Participants 65 and older'),
+    age_65 = models.IntegerField(_('65 and older'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were 65 and older'),
     )
 
-    gender_male = models.IntegerField(_('Participants male'),
+    gender_male = models.IntegerField(_('# Male'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were male'),
     )
 
-    gender_female = models.IntegerField(_('Participants female'),
+    gender_female = models.IntegerField(_('# Female'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were female'),
     )
 
-    gender_other = models.IntegerField(_('Participants other gender'),
+    gender_other = models.IntegerField(_('# Other gender'),
         blank=True,
         null=True,
-        help_text=_('The number of participants who were another gender'),
     )
 
-    zipcode_inside = models.IntegerField(
-        _('Participants within garden zip code'),
+    zipcode_inside = models.IntegerField(_('# Within garden zip code'),
         blank=True,
         null=True,
-        help_text=_("The number of participants who live within the garden's "
-                    "zip code"),
     )
 
-    zipcode_outside = models.IntegerField(
-        _('Participants outside garden zip code'),
+    zipcode_outside = models.IntegerField(_('# Outside garden zip code'),
         blank=True,
         null=True,
-        help_text=_("The number of participants who live outside the garden's "
-                    "zip code"),
     )
 
     features = models.ManyToManyField('ProgramFeature',

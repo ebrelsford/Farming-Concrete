@@ -1,3 +1,45 @@
 <h2>Add a new record</h2>
 
-{% include "_form.html" with form=form multipart=True %}
+<form class="form-horizontal" method="post">
+
+    {% include "forms/head.html" %}
+
+    <div>
+        {% for field in form.pre_fields %}
+            {% include "forms/field.html" with field=field %}
+        {% endfor %}
+        <section>
+            <h3>Participant Demographics</h3>
+            <section>
+                <h4>Youth Ages</h4>
+                {% for field in form.youth_fields %}
+                    {% include "forms/field.html" with field=field %}
+                {% endfor %}
+            </section>
+            <section>
+                <h4>Adult Ages</h4>
+                {% for field in form.adult_fields %}
+                    {% include "forms/field.html" with field=field %}
+                {% endfor %}
+            </section>
+            <section>
+                <h4>Gender</h4>
+                {% for field in form.gender_fields %}
+                    {% include "forms/field.html" with field=field %}
+                {% endfor %}
+            </section>
+            <section>
+                <h4>Location</h4>
+                {% for field in form.location_fields %}
+                    {% include "forms/field.html" with field=field %}
+                {% endfor %}
+            </section>
+        </section>
+        {% for field in form.post_fields %}
+            {% include "forms/field.html" with field=field %}
+        {% endfor %}
+    </div>
+
+    {% include "forms/buttons.html" %}
+
+</form>
