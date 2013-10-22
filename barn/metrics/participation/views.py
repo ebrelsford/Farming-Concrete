@@ -161,7 +161,21 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
 class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('hours', 'task', 'recorded_start', 'recorded',)
+        tasks = [task.name for task in Task.objects.all()]
+        return ['recorded_start', 'recorded',] + tasks
+
+    def get_rows(self):
+        for record in self.get_records():
+            def get_cell(field):
+                try:
+                    return getattr(record, field)
+                except Exception:
+                    try:
+                        # Maybe it's a task name
+                        return record[field].hours
+                    except Exception:
+                        return 0
+            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 class HoursByProjectMixin(MetricMixin):
