@@ -86,4 +86,4 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
 class LookingGoodEventGardenCSV(LookingGoodEventMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('recorded', 'start_time', 'end_time', 'total_tags',)
+        return ('recorded', 'start_time', 'end_time', 'total_tags', 'comments',)
