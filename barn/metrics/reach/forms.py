@@ -1,4 +1,5 @@
-from django.forms import CheckboxSelectMultiple, ModelMultipleChoiceField
+from django.forms import (CheckboxSelectMultiple, ModelMultipleChoiceField,
+                          NullBooleanSelect)
 from django.utils.translation import ugettext_lazy as _
 
 from ..forms import RecordedField, RecordForm
@@ -58,3 +59,7 @@ class ProgramReachForm(RecordForm):
                   'gender_male', 'gender_female', 'gender_other',
                   'zipcode_inside', 'zipcode_outside', 'features', 'added_by',
                   'garden',)
+        widgets = {
+            'collaborated_with_organization': NullBooleanSelect(),
+            'collaboration_first': NullBooleanSelect(),
+        }
