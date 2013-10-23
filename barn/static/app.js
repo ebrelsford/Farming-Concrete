@@ -2,6 +2,7 @@ requirejs.config({
     baseUrl: '/static/js',
     paths: {
         'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap',
+        'colorbox': '../bower_components/colorbox/jquery.colorbox',
         'd3': '../bower_components/d3/d3',
         'django': 'djangojs/django',
         'django-dynamic-formset': '../bower_components/django-dynamic-formset/src/jquery.formset',

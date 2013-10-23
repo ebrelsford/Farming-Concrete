@@ -1,9 +1,25 @@
 {% extends "metrics/garden_detail.html" %}
-{% load metrics_tags static %}
+{% load imagekit lookinggood_tags metrics_tags static %}
+
+{% block body_class %}{{ block.super }} add-lookinggood-event-page{% endblock %}
 
 {% block left %}
     {{ block.super }}
     {% include "metrics/lookinggood/event/_list_records.html" %}
+{% endblock %}
+
+{% block right %}
+    {{ block.super }}
+    <div class="row">
+        {% garden_photos for garden as photos %}
+        {% for photo in photos %}
+            <div class="col-md-4 lookinggood-photo">
+                <a href="{{ photo.photo.url }}" class="thumbnail">
+                    {% thumbnail "200x200" photo.photo %}
+                </a>
+            </div>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block actions %}
