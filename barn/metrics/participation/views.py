@@ -260,7 +260,21 @@ class HoursByProjectGardenDetails(HoursByProjectMixin,
 class HoursByProjectGardenCSV(HoursByProjectMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('hours', 'project', 'recorded',)
+        gardeners = self.object.gardener_set.all().order_by('name')
+        return ['recorded', 'project',] + list(gardeners.values_list('name', flat=True))
+
+    def get_rows(self):
+        for record in self.get_records().order_by('recorded'):
+            def get_cell(field):
+                try:
+                    return getattr(record, field)
+                except Exception:
+                    try:
+                        # Maybe it's a gardener name
+                        return record[field].hours
+                    except Exception:
+                        return 0
+            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 class CreateProjectView(LoginRequiredMixin, PermissionRequiredMixin,
