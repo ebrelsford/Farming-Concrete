@@ -1,13 +1,14 @@
-from django.forms import HiddenInput, ModelForm
+from django.forms import HiddenInput, ModelChoiceField, ModelForm
 from django.utils.translation import ugettext_lazy as _
 
 from floppyforms.widgets import Select
 
+from farmingconcrete.models import Garden
 from ..harvestcount.forms import AddNewGardenerWidget
 from ..harvestcount.models import Gardener
 from ..forms import RecordedField, RecordedInput, RecordForm
 from .models import (HoursByGeography, HoursByTask, HoursByProject, Project,
-                     TaskHours)
+                     ProjectHours, TaskHours)
 
 
 class HoursByGeographyForm(RecordForm):
@@ -52,6 +53,32 @@ class ProjectForm(ModelForm):
         }
 
 
+class ProjectHoursForm(ModelForm):
+
+    garden = ModelChoiceField(
+        queryset=Garden.objects.all(),
+        widget=HiddenInput(),
+    )
+
+    def __init__(self, initial={}, *args, **kwargs):
+        super(ProjectHoursForm, self).__init__(initial=initial, *args, **kwargs)
+        garden = initial.get('garden', None)
+
+        # Only get gardeners of this garden
+        self.fields['gardener'].queryset = self.get_gardeners(garden)
+
+    def get_gardeners(self, garden):
+        return Gardener.objects.filter(garden=garden).order_by('name')
+
+    class Meta:
+        model = ProjectHours
+        fields = ('record', 'gardener', 'hours', 'garden',)
+        widgets = {
+            'gardener': AddNewGardenerWidget(),
+            'record': HiddenInput(),
+        }
+
+
 class HoursByProjectForm(RecordForm):
 
     def __init__(self, initial={}, *args, **kwargs):
@@ -61,21 +88,13 @@ class HoursByProjectForm(RecordForm):
         # Only get projects of this garden
         self.fields['project'].queryset = self.get_projects(garden)
 
-        # Only get gardeners of this garden
-        self.fields['gardener'].queryset = self.get_gardeners(garden)
-
-    def get_gardeners(self, garden):
-        return Gardener.objects.filter(garden=garden).order_by('name')
-
     def get_projects(self, garden):
         return Project.objects.filter(garden=garden).order_by('name')
 
     class Meta:
         model = HoursByProject
-        fields = ('hours', 'project', 'gardener', 'recorded', 'added_by',
-                  'garden',)
+        fields = ('recorded', 'project', 'added_by', 'garden',)
         widgets = {
-            'gardener': AddNewGardenerWidget(),
             'project': AddNewProjectWidget(),
             'recorded': RecordedInput(),
         }

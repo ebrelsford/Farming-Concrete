@@ -615,6 +615,11 @@ table.table {
     width: 100%;
 }
 
+.projecthours-formset {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
 
 /*
  * Bootstrap overrides

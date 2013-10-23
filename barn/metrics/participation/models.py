@@ -129,26 +129,23 @@ class Project(models.Model):
         return self.name
 
 
+class ProjectHours(models.Model):
+    record = models.ForeignKey('HoursByProject')
+    hours = models.PositiveIntegerField(_('hours'))
+    gardener = models.ForeignKey('harvestcount.Gardener',
+        verbose_name=_('Participant'),
+    )
+
+
 class HoursByProject(BaseMetricRecord):
     project = models.ForeignKey('Project',
-        help_text=_('The project worked on'),
-    )
-
-    gardener = models.ForeignKey('harvestcount.Gardener',
-        help_text=_('The gardener who participated in this project'),
-    )
-
-    hours = models.DecimalField(_('hours'),
-        max_digits=8,
-        decimal_places=2,
-        help_text=_('Hours of participation on this project'),
+        verbose_name=_('project'),
     )
 
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(HoursByProject, cls).get_summarize_kwargs()
         kwargs.update({
-            'hours': Sum('hours'),
             'projects': Count('project__pk', distinct=True),
         })
         return kwargs
@@ -181,6 +178,7 @@ register('Participation Hours by Task', {
 
 register('Participation Hours by Project', {
     'add_record_label': 'Add participation hours',
+    'add_record_template': 'metrics/participation/project/add_record.html',
     'all_gardens_url_name': 'participation_project_all_gardens',
     'model': HoursByProject,
     'garden_detail_url_name': 'participation_project_garden_details',

@@ -88,6 +88,10 @@ define(
             require(['addharvestpage']);
         }
 
+        if ($('.add-participation-hours-page').length > 0) {
+            require(['addparticipationhourspage']);
+        }
+
         if ($('.main-index-page').length > 0) {
             require(['leaflet.basicmap']);
         }
