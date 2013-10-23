@@ -36,6 +36,7 @@
     "d3": "~3.3.7",
     "select2": "~3.4.3",
     "resig-class": "https://github.com/ebrelsford/resig-class.git#master",
-    "colorbox": "~1.4.32"
+    "colorbox": "~1.4.32",
+    "jquery.expander": "~1.4.7"
   }
 }

@@ -9,6 +9,7 @@ requirejs.config({
         'handlebars': '../bower_components/handlebars.js/dist/handlebars',
         'jquery': '../bower_components/jquery/jquery',
         'jquery.autocomplete': '../bower_components/jquery-autocomplete/jquery.autocomplete',
+        'jquery.expander': '../bower_components/jquery.expander/jquery.expander',
         'jquery.form': '../bower_components/jquery-form/jquery.form',
         'jquery.spin': '../bower_components/spin.js/jquery.spin',
         'jquery.stupid-table-sort': '../bower_components/stupid-jquery-table-sort/stupidtable',

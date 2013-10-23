@@ -8,7 +8,8 @@ define(
         'jquery',
 
         'colorbox',
-        'django-dynamic-formset'
+        'django-dynamic-formset',
+        'jquery.expander'
 
     ], function ($) {
 
@@ -27,6 +28,11 @@ define(
             $('.lookinggood-photo a').colorbox({
                 rel: 'gal',
             });
+
+            $('.list-records .comments').expander({
+                slicePoint: 5
+            });
+
         });
 
     }
