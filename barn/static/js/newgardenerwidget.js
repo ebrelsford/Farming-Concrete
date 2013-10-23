@@ -17,8 +17,8 @@ define(
 
         var NewGardenerWidget = NewInstanceWidget.extend({
 
-            getSelector: function () {
-                return this.$button.parent().find('select');
+            getSelector: function ($button) {
+                return $button.parent().find('select');
             },
 
             preSubmit: function ($modal) {
