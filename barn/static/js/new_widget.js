@@ -23,14 +23,15 @@ define(
 
             init: function (options) {
                 this.options = _.extend(this.options, options);
+                this.$button = $(this.options.buttonSelector);
                 var t = this,
-                    id = $(t.options.buttonSelector).data('target'),
+                    id = this.$button.data('target'),
                     $modal;
                 if (id) {
                     id = id.slice(1);
                     $modal = t.addModal(id);
                 }
-                var $select = $(t.options.selectSelector);
+                var $select = t.getSelector();
 
                 // Hide modal when cancel button is clicked
                 $modal.on('click', function (event) {
@@ -43,6 +44,11 @@ define(
                 $modal.on('submit', function (e) {
                     return t.submitForm($modal, $select, e);
                 });
+            },
+
+            getSelector: function () {
+                var t = this;
+                return $(t.options.selectSelector);
             },
 
             addModal: function (id) {

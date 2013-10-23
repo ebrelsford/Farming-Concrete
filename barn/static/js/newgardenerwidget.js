@@ -17,6 +17,10 @@ define(
 
         var NewGardenerWidget = NewInstanceWidget.extend({
 
+            getSelector: function () {
+                return this.$button.parent().find('select');
+            },
+
             preSubmit: function ($modal) {
                 // Ensure the garden input is set
                 var gardenPk = $(':input[name=garden][value!=""]').val();
@@ -29,7 +33,6 @@ define(
             var widget = new NewGardenerWidget({
                 buttonSelector: '.btn-new-gardener',
                 errorMessage: 'There was an error while adding your gardener. Please try again.',
-                selectSelector: 'select[name=gardener]'
             });
         });
 
