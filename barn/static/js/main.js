@@ -88,6 +88,10 @@ define(
             require(['addharvestpage']);
         }
 
+        if ($('.add-lookinggood-event-page').length > 0) {
+            require(['addlookinggoodeventpage']);
+        }
+
         if ($('.add-participation-hours-page').length > 0) {
             require(['addparticipationhourspage']);
         }

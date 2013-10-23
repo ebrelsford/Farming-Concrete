@@ -53,7 +53,8 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
             **kwargs
         )
         if self.request.POST:
-            context['photo_formset'] = LookingGoodPhotoFormSet(self.request.POST)
+            context['photo_formset'] = LookingGoodPhotoFormSet(self.request.POST,
+                                                               self.request.FILES)
         else:
             context['photo_formset'] = LookingGoodPhotoFormSet()
         return context
