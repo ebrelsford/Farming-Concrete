@@ -25,11 +25,11 @@ define(
                 this.options = _.extend(this.options, options);
                 this.$button = $(this.options.buttonSelector);
                 var t = this,
-                    id = this.$button.data('target'),
+                    modalId = this.$button.data('target'),
                     $modal;
-                if (id) {
-                    id = id.slice(1);
-                    $modal = t.addModal(id);
+                if (modalId) {
+                    modalId = modalId.slice(1);
+                    $modal = t.addModal(modalId);
                 }
                 var $select = t.getSelector();
 
