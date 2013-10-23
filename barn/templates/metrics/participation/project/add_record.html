@@ -15,7 +15,7 @@
 
     {{ projecthours_formset.management_form }}
 
-    {% for projecthours_form in projecthours_formset %}
+    {% for projecthours_form in projecthours_formset.forms %}
         {% include "metrics/participation/project/_projecthours_form.html" with form=projecthours_form %}
     {% endfor %}
 

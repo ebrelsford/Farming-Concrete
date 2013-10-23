@@ -235,18 +235,15 @@ class HoursByProjectGardenDetails(HoursByProjectMixin,
             extra=1,
             form=ProjectHoursForm,
         )
+        total_forms = self.request.POST.get('projecthours_set-TOTAL_FORMS', 1)
+        initial = ({ 'garden': self.object, },) * int(total_forms)
         if self.request.POST:
             context['projecthours_formset'] = ProjectHoursFormSet(self.request.POST,
-                initial=[{
-                    'garden': self.object,
-                }]
+                initial=initial
             )
         else:
-            context['projecthours_formset'] = ProjectHoursFormSet(
-                initial=[{
-                    'garden': self.object,
-                }]
-            )
+            context['projecthours_formset'] = ProjectHoursFormSet(initial=initial)
+        context['garden_gardeners'] = self.object.gardener_set.all().order_by('name')
         return context
 
     def form_valid(self, form):

@@ -142,6 +142,12 @@ class HoursByProject(BaseMetricRecord):
         verbose_name=_('project'),
     )
 
+    def __getitem__(self, key):
+        try:
+            return self.projecthours_set.get(gardener__name=key)
+        except Exception:
+            return getattr(self, key, None)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(HoursByProject, cls).get_summarize_kwargs()

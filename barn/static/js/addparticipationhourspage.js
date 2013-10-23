@@ -18,7 +18,8 @@ define(
                 added: function (row) {
                     var gardenPk = $('.projecthours-formset :input[name$=garden]:eq(0)').val();
                     row.find(':input[name$=garden]').val(gardenPk);
-                }
+                },
+                prefix: 'projecthours_set'
             });
         });
 
