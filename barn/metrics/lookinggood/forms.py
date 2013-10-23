@@ -4,19 +4,19 @@ from django.forms.models import inlineformset_factory
 from floppyforms.widgets import TimeInput
 
 from ..forms import RecordedField, RecordForm
-from .models import LookingGoodEvent, LookingGoodTag
+from .models import LookingGoodEvent, LookingGoodPhoto
 
 
-class LookingGoodTagForm(ModelForm):
+class LookingGoodPhotoForm(ModelForm):
 
     class Meta:
-        model = LookingGoodTag
+        model = LookingGoodPhoto
 
 
-LookingGoodTagFormSet = inlineformset_factory(LookingGoodEvent, LookingGoodTag,
+LookingGoodPhotoFormSet = inlineformset_factory(LookingGoodEvent, LookingGoodPhoto,
     can_delete=False,
     extra=1,
-    form=LookingGoodTagForm,
+    form=LookingGoodPhotoForm,
 )
 
 class EventTimeInput(TimeInput):
@@ -39,7 +39,7 @@ class LookingGoodEventForm(RecordForm):
     class Meta:
         model = LookingGoodEvent
         fields = ('recorded', 'start_time', 'end_time', 'total_tags',
-                  'added_by', 'garden',)
+                  'comments', 'added_by', 'garden',)
         widgets = {
             'end_time': EventTimeInput,
             'start_time': EventTimeInput,

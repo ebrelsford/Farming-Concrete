@@ -6,13 +6,15 @@ from ..models import BaseMetricRecord
 from ..registry import register
 
 
-class LookingGoodTag(models.Model):
+class LookingGoodPhoto(models.Model):
     event = models.ForeignKey('LookingGoodEvent',
         verbose_name=_('event')
     )
 
-    comment = models.TextField(_('comment'),
-        help_text=_('A comment left on a looking good tag'),
+    photo = models.ImageField(_('photo'),
+        upload_to='lookinggood_event',
+        blank=True,
+        null=True,
     )
 
 
@@ -29,6 +31,13 @@ class LookingGoodEvent(BaseMetricRecord):
         help_text=_('The total number of tags filled out during the event'),
     )
 
+    comments = models.TextField(_('comments'),
+        blank=True,
+        null=True,
+        help_text=_('Log some tag comments that are particularly striking, '
+                    'insightful, or interesting.'),
+    )
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(LookingGoodEvent, cls).get_summarize_kwargs()
@@ -40,6 +49,7 @@ class LookingGoodEvent(BaseMetricRecord):
 
 register('Looking Good', {
     'add_record_label': 'Add looking good tags',
+    'add_record_template': 'metrics/lookinggood/event/add_record.html',
     'all_gardens_url_name': 'lookinggood_event_all_gardens',
     'model': LookingGoodEvent,
     'garden_detail_url_name': 'lookinggood_event_garden_details',

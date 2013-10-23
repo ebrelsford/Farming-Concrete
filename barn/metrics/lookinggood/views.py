@@ -6,7 +6,7 @@ from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
-from .forms import LookingGoodEventForm, LookingGoodTagFormSet
+from .forms import LookingGoodEventForm, LookingGoodPhotoFormSet
 from .models import LookingGoodEvent
 
 
@@ -53,17 +53,17 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
             **kwargs
         )
         if self.request.POST:
-            context['tag_formset'] = LookingGoodTagFormSet(self.request.POST)
+            context['photo_formset'] = LookingGoodPhotoFormSet(self.request.POST)
         else:
-            context['tag_formset'] = LookingGoodTagFormSet()
+            context['photo_formset'] = LookingGoodPhotoFormSet()
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        tag_formset = context['tag_formset']
-        if tag_formset.is_valid():
-            tag_formset.instance = form.save()
-            tag_formset.save()
+        photo_formset = context['photo_formset']
+        if photo_formset.is_valid():
+            photo_formset.instance = form.save()
+            photo_formset.save()
             return super(LookingGoodEventGardenDetails, self).form_valid(form)
         else:
             return self.form_invalid(form)
