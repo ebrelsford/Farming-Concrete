@@ -64,6 +64,6 @@ class SmartsAndSkillsGardenDetails(SmartsAndSkillsMixin,
 class SmartsAndSkillsGardenCSV(SmartsAndSkillsMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('recorded', 'photo', 'participants', 'skills_shared',
-                'concepts_shared', 'projects_proposed', 'ideas_to_learn',
+        return ('recorded', 'participants', 'skills_shared', 'concepts_shared',
+                'projects_proposed', 'ideas_to_learn',
                 'intentions_to_collaborate',)
