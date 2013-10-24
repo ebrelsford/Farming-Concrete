@@ -2,6 +2,7 @@ from datetime import date
 
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.urlresolvers import reverse
+from django.db.models import Manager
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
@@ -240,4 +241,11 @@ class MetricGardenCSVView(MetricMixin, GardenMixin, LoginRequiredMixin,
 
     def get_rows(self):
         for record in self.get_records():
-            yield dict(map(lambda f: (f, getattr(record, f)), self.get_fields()))
+            def get_cell_value(record, field):
+                value = getattr(record, field, None)
+                if value is None:
+                    return ''
+                elif isinstance(value, Manager):
+                    return ';'.join([str(instance) for instance in value.all()])
+                return value
+            yield dict(map(lambda f: (f, get_cell_value(record, f)), self.get_fields()))
