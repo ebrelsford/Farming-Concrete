@@ -91,3 +91,12 @@ http://supervisord.org/configuration.html
 ## Gunicorn
 
 
+## Swap space
+
+http://dorwardvillaruz.com/lamp-digitalocean-5-droplets/
+
+dd if=/dev/zero of=/swapfile bs=1024 count=1048576
+mkswap /swapfile
+swapon /swapfile
+free -m
+echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
