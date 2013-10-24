@@ -1,3 +1,8 @@
+from django.forms import ModelChoiceField
+
+from farmingconcrete.forms import AddNewVarietyWidget
+from farmingconcrete.models import Variety
+
 from ..forms import RecordedField, RecordForm
 from .models import YumYuck
 
@@ -5,6 +10,10 @@ from .models import YumYuck
 class YumYuckForm(RecordForm):
     recorded = RecordedField(
         required=True,
+    )
+    vegetable = ModelChoiceField(
+        queryset=Variety.objects.filter(needs_moderation=False),
+        widget=AddNewVarietyWidget(),
     )
 
     class Meta:

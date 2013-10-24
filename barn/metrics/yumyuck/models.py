@@ -8,8 +8,8 @@ from ..registry import register
 
 class YumYuck(BaseMetricRecord):
 
-    vegetable = models.CharField(_('vegetable'),
-        max_length=150,
+    vegetable = models.ForeignKey('farmingconcrete.Variety',
+        verbose_name=_('vegetable')
     )
 
     yum_before = models.PositiveIntegerField(_('yums before'),

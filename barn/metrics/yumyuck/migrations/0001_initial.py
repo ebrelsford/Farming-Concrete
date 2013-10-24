@@ -17,7 +17,7 @@ class Migration(SchemaMigration):
             ('updated_by', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'yumyuck_yumyuck_updated', null=True, to=orm['auth.User'])),
             ('garden', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['farmingconcrete.Garden'], null=True, blank=True)),
             ('recorded', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('vegetable', self.gf('django.db.models.fields.CharField')(max_length=150)),
+            ('vegetable', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['farmingconcrete.Variety'])),
             ('yum_before', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('yuck_before', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('yum_after', self.gf('django.db.models.fields.PositiveIntegerField')()),
@@ -91,6 +91,16 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'short_name': ('django.db.models.fields.CharField', [], {'max_length': '32'})
         },
+        u'farmingconcrete.variety': {
+            'Meta': {'ordering': "['name']", 'object_name': 'Variety'},
+            'added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'added_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'farmingconcrete_variety_added'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
+            'needs_moderation': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'updated_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'farmingconcrete_variety_updated'", 'null': 'True', 'to': u"orm['auth.User']"})
+        },
         u'yumyuck.yumyuck': {
             'Meta': {'object_name': 'YumYuck'},
             'added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -100,7 +110,7 @@ class Migration(SchemaMigration):
             'recorded': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'updated_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'yumyuck_yumyuck_updated'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'vegetable': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
+            'vegetable': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['farmingconcrete.Variety']"}),
             'yuck_after': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'yuck_before': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'yum_after': ('django.db.models.fields.PositiveIntegerField', [], {}),
