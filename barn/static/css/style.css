@@ -339,6 +339,7 @@ input.ac_loading {
 table.table {
 }
 
+.add-program-reach-page table,
 .add-participation-hours-page table {
     /* Wider table, make it overflow-x */
     display: block;
