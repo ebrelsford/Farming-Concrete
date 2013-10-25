@@ -3,6 +3,7 @@ from operator import itemgetter
 
 from django import template
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
 
 from classytags.arguments import Argument, KeywordArgument
@@ -229,8 +230,37 @@ class AddRecord(MetricRecordTagMixin, InclusionTag):
         return template_name
 
 
+class MetricContentType(AsTag):
+
+    options = Options(
+        Argument('metric', resolve=True, required=True),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, metric):
+        return ContentType.objects.get_for_model(metric['model'])
+
+
+class IfCanDelete(Tag):
+    name = 'ifcandelete'
+    options = Options(
+        Argument('metric'),
+        blocks=[('endifcandelete', 'nodelist')],
+    )
+
+    def render_tag(self, context, metric, nodelist):
+        user = context['user']
+        meta = metric['model']._meta
+        if user.has_perm('%s.%s' % (meta.app_label, meta.get_delete_permission(),)):
+            return nodelist.render(context)
+        return ''
+
+
 register.tag(AddRecord)
 register.tag(CountRecords)
+register.tag(IfCanDelete)
 register.tag(Summarize)
+register.tag(MetricContentType)
 register.tag(MetricsWithRecords)
 register.tag(MetricsWithoutRecords)

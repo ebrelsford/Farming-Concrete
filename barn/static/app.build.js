@@ -26,6 +26,7 @@
         'newgardenerwidget',
         'newprojectwidget',
         'newvarietywidget',
+        'recordlistpage',
         'underscore'
     ],
     insertRequire: ['main'],

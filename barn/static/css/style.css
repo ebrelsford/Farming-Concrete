@@ -341,13 +341,16 @@ table.sorted {
 }
 
 table.sorted > thead > tr > th {
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+table.sorted > thead > tr > th.sortable {
     background-image: url(/static/img/bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
-    border-bottom: 1px solid black;
     cursor: pointer;
     padding-right: 15px;
-    text-align: center;
 }
 
 table.sorted th.sortable.sorting-asc {
@@ -618,6 +621,10 @@ table.table {
 .projecthours-formset {
     margin-top: 35px;
     margin-bottom: 35px;
+}
+
+.delete-record {
+    margin-left: 25px;
 }
 
 

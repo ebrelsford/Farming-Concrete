@@ -116,6 +116,10 @@ define(
             require(['newvarietywidget']);
         }
 
+        if ($('.record-list-page').length > 0) {
+            require(['recordlistpage']);
+        }
+
         if ($('.reports-page').length > 0) {
             require(['reports']);
         }

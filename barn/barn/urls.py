@@ -52,6 +52,9 @@ urlpatterns = patterns('',
     # yum and yuck
     (r'^metrics/yumyuck/', include('metrics.yumyuck.urls')),
 
+    # general metrics
+    (r'^metrics/', include('metrics.urls')),
+
     # Estimates
     url(r'^estimates/', include('estimates.urls')),
 

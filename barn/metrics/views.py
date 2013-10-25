@@ -1,9 +1,11 @@
 from datetime import date
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Manager
-from django.views.generic import DetailView, ListView, TemplateView
+from django.http import HttpResponse
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
@@ -65,6 +67,26 @@ class RecordedGardensMixin(object):
         if type and type != 'all':
             qs = qs.filter(type=type)
         return qs
+
+
+class DeleteRecordView(DeleteView):
+
+    def get_queryset(self):
+        record_type_pk = self.kwargs.get('record_type_pk', None)
+        record_model = ContentType.objects.get_for_id(record_type_pk).model_class()
+        return record_model._default_manager.all()
+
+    def has_permission(self):
+        meta = self.object._meta
+        perm = '%s.%s' % (meta.app_label, meta.get_delete_permission(),)
+        return self.request.user.has_perm(perm)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.has_permission():
+            raise PermissionDenied
+        self.object.delete()
+        return HttpResponse('OK')
 
 
 class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):

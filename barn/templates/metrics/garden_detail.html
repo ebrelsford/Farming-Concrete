@@ -4,6 +4,8 @@
 {% block title %}{{ garden.name }}{% endblock %}
 {% block header_title %}{{ garden.name }}{% endblock %}
 
+{% block body_class %}{{ block.super }} record-list-page{% endblock %}
+
 {% block breadcrumbs %}
     {{ block.super }}
     {{ garden.name }}
