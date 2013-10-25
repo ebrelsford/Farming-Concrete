@@ -2,9 +2,15 @@
 {% load i18n %}
 
 {% block content %}
-    <p>
-        {% blocktrans %}
-            Your account has been activated&mdash;welcome to Farming Concrete!
-        {% endblocktrans %}
-    </p>
+    <section>
+        <h1>{% trans "Account activated" %}</h1>
+        <p>
+            {% blocktrans %}
+                Your account has been activated&mdash;welcome to Farming Concrete!
+            {% endblocktrans %}
+        </p>
+        <a href="{% url "django.contrib.auth.views.login" %}" class="btn btn-primary" data-role="button">
+            {% trans "Log in" %}
+        </a> 
+    </section>
 {% endblock %}
