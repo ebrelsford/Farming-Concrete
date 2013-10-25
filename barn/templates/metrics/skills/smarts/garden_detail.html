@@ -11,8 +11,9 @@
     <div class="row">
         {% garden_photos for garden as photos %}
         {% for photo in photos %}
+            {% thumbnail "800x600" photo as full %}
             <div class="col-md-4 photo-gallery">
-                <a href="{{ photo.url }}" class="thumbnail">
+                <a href="{{ full.url }}" class="thumbnail">
                     {% thumbnail "200x200" photo %}
                 </a>
             </div>
