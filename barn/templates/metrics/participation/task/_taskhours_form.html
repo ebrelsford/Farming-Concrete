@@ -1,10 +1,10 @@
 {% load widget_tweaks %}
 
 <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
-    <div class="col-lg-4 control-label">
+    <div class="col-lg-4 col-md-5 col-sm-4 control-label">
         {{ form.initial.task }}
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-7 col-sm-8">
 
         <div class="controls">
             {% for field in form.visible_fields %}
