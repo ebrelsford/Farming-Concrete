@@ -11,18 +11,14 @@
     {% endfor %}
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr>
-            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
-                {{ record.recorded_start|date:"m/d/Y" }}
-            </td>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
-                {{ record.recorded|date:"m/d/Y" }}
-            </td>
-            {% for mood_count in record.moodcount_set.all %}
-                <td class="number">{{ mood_count.count }}</td>
-            {% endfor %}
-        </tr>
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
+        {{ record.recorded_start|date:"m/d/Y" }}
+    </td>
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
+        {{ record.recorded|date:"m/d/Y" }}
+    </td>
+    {% for mood_count in record.moodcount_set.all %}
+        <td class="number">{{ mood_count.count }}</td>
     {% endfor %}
 {% endblock %}

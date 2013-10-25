@@ -32,34 +32,30 @@
     <th class="sortable features" data-sort="string">program features</th>
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr>
-            <td class="string">{{ record.name }}</td>
-            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
-                {{ record.recorded_start|date:"m/d/Y" }}
-            </td>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
-                {{ record.recorded|date:"m/d/Y" }}
-            </td>
-            <td class="number">{{ record.hours_each_day|floatformat }}</td>
-            <td class="string">{{ record.collaborated_with_organization|yesno }}</td>
-            <td class="string">{{ record.collaboration_first|yesno }}</td>
-            <td class="number">{{ record.age_10|default:"0" }}</td>
-            <td class="number">{{ record.age_10_14|default:"0" }}</td>
-            <td class="number">{{ record.age_15_19|default:"0" }}</td>
-            <td class="number">{{ record.age_20_24|default:"0" }}</td>
-            <td class="number">{{ record.age_25_34|default:"0" }}</td>
-            <td class="number">{{ record.age_35_44|default:"0" }}</td>
-            <td class="number">{{ record.age_45_54|default:"0" }}</td>
-            <td class="number">{{ record.age_55_64|default:"0" }}</td>
-            <td class="number">{{ record.age_65|default:"0" }}</td>
-            <td class="number">{{ record.gender_male|default:"0" }}</td>
-            <td class="number">{{ record.gender_female|default:"0" }}</td>
-            <td class="number">{{ record.gender_other|default:"0" }}</td>
-            <td class="number">{{ record.zipcode_inside|default:"0" }}</td>
-            <td class="number">{{ record.zipcode_outside|default:"0" }}</td>
-            <td class="string">{{ record.features.all|join:", " }}</td>
-        </tr>
-    {% endfor %}
+{% block record_detail %}
+    <td class="string">{{ record.name }}</td>
+    <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
+        {{ record.recorded_start|date:"m/d/Y" }}
+    </td>
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
+        {{ record.recorded|date:"m/d/Y" }}
+    </td>
+    <td class="number">{{ record.hours_each_day|floatformat }}</td>
+    <td class="string">{{ record.collaborated_with_organization|yesno }}</td>
+    <td class="string">{{ record.collaboration_first|yesno }}</td>
+    <td class="number">{{ record.age_10|default:"0" }}</td>
+    <td class="number">{{ record.age_10_14|default:"0" }}</td>
+    <td class="number">{{ record.age_15_19|default:"0" }}</td>
+    <td class="number">{{ record.age_20_24|default:"0" }}</td>
+    <td class="number">{{ record.age_25_34|default:"0" }}</td>
+    <td class="number">{{ record.age_35_44|default:"0" }}</td>
+    <td class="number">{{ record.age_45_54|default:"0" }}</td>
+    <td class="number">{{ record.age_55_64|default:"0" }}</td>
+    <td class="number">{{ record.age_65|default:"0" }}</td>
+    <td class="number">{{ record.gender_male|default:"0" }}</td>
+    <td class="number">{{ record.gender_female|default:"0" }}</td>
+    <td class="number">{{ record.gender_other|default:"0" }}</td>
+    <td class="number">{{ record.zipcode_inside|default:"0" }}</td>
+    <td class="number">{{ record.zipcode_outside|default:"0" }}</td>
+    <td class="string">{{ record.features.all|join:", " }}</td>
 {% endblock %}

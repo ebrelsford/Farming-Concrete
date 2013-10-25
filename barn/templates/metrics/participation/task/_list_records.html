@@ -9,23 +9,19 @@
     {% endfor %}
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr class="{% cycle "odd" "even" %}">
-            <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
-                {{ record.recorded_start|date:"m/d/Y" }}
-            </td>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
-                {{ record.recorded|date:"m/d/Y" }}
-            </td>
-            {% for task in tasks %}
-                {% task_hours task for record as taskhour %}
-                <td class="number">
-                    {% if taskhour %}
-                        {{ taskhour.hours|floatformat }}
-                    {% endif %}
-                </td>
-            {% endfor %}
-        </tr>
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
+        {{ record.recorded_start|date:"m/d/Y" }}
+    </td>
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
+        {{ record.recorded|date:"m/d/Y" }}
+    </td>
+    {% for task in tasks %}
+        {% task_hours task for record as taskhour %}
+        <td class="number">
+            {% if taskhour %}
+                {{ taskhour.hours|floatformat }}
+            {% endif %}
+        </td>
     {% endfor %}
 {% endblock %}

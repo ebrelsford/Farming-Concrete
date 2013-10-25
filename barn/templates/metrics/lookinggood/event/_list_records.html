@@ -8,14 +8,10 @@
     <th class="sortable total-tags" data-sort="int">comments</th>
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-            <td class="number">{{ record.start_time }}</td>
-            <td class="number">{{ record.end_time }}</td>
-            <td class="number">{{ record.total_tags }}</td>
-            <td class="string comments">{{ record.comments|default:""|linebreaks }}</td>
-        </tr>
-    {% endfor %}
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+    <td class="number">{{ record.start_time }}</td>
+    <td class="number">{{ record.end_time }}</td>
+    <td class="number">{{ record.total_tags }}</td>
+    <td class="string comments">{{ record.comments|default:""|linebreaks }}</td>
 {% endblock %}

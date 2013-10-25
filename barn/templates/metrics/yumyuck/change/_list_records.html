@@ -9,15 +9,11 @@
     <th class="sortable yuck-after" data-sort="int">yucks after</th>
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-            <td class="string">{{ record.vegetable }}</td>
-            <td class="number">{{ record.yum_before }}</td>
-            <td class="number">{{ record.yuck_before }}</td>
-            <td class="number">{{ record.yum_after }}</td>
-            <td class="number">{{ record.yuck_after }}</td>
-        </tr>
-    {% endfor %}
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+    <td class="string">{{ record.vegetable }}</td>
+    <td class="number">{{ record.yum_before }}</td>
+    <td class="number">{{ record.yuck_before }}</td>
+    <td class="number">{{ record.yum_after }}</td>
+    <td class="number">{{ record.yuck_after }}</td>
 {% endblock %}

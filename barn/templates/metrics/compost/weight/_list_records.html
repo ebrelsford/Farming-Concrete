@@ -5,11 +5,7 @@
     <th class="sortable weight" data-sort="float">lbs</th>
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-            <td class="number">{{ record.weight|floatformat }}</td>
-        </tr>
-    {% endfor %}
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+    <td class="number">{{ record.weight|floatformat }}</td>
 {% endblock %}

@@ -9,19 +9,15 @@
     {% endfor %}
 {% endblock %}
 
-{% block table_body %}
-    {% for record in records %}
-        <tr>
-            <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-            <td>{{ record.project.name }}</td>
-            {% for gardener in garden_gardeners %}
-                {% gardener_project_hours gardener for record as projecthour %}
-                <td class="number">
-                    {% if projecthour %}
-                        {{ projecthour.hours|floatformat }}
-                    {% endif %}
-                </td>
-            {% endfor %}
-        </tr>
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+    <td>{{ record.project.name }}</td>
+    {% for gardener in garden_gardeners %}
+        {% gardener_project_hours gardener for record as projecthour %}
+        <td class="number">
+            {% if projecthour %}
+                {{ projecthour.hours|floatformat }}
+            {% endif %}
+        </td>
     {% endfor %}
 {% endblock %}
