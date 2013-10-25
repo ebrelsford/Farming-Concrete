@@ -104,6 +104,10 @@ define(
             require(['leaflet.basicmap']);
         }
 
+        if ($('.photo-gallery').length > 0) {
+            require(['photogallery']);
+        }
+
         if ($('.btn-participation-new-project').length > 0) {
             require(['newprojectwidget']);
         }

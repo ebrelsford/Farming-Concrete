@@ -159,6 +159,7 @@ class HoursByProject(BaseMetricRecord):
 
 register('Participation Hours by Geography', {
     'add_record_label': 'Add participation hours',
+    'add_record_template': 'metrics/participation/geography/add_record.html',
     'all_gardens_url_name': 'participation_geography_all_gardens',
     'model': HoursByGeography,
     'garden_detail_url_name': 'participation_geography_garden_details',

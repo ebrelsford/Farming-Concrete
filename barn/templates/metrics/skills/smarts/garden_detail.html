@@ -1,9 +1,23 @@
 {% extends "metrics/garden_detail.html" %}
-{% load metrics_tags static %}
+{% load imagekit metrics_tags skills_tags static %}
 
 {% block left %}
     {{ block.super }}
     {% include "metrics/skills/smarts/_list_records.html" %}
+{% endblock %}
+
+{% block right %}
+    {{ block.super }}
+    <div class="row">
+        {% garden_photos for garden as photos %}
+        {% for photo in photos %}
+            <div class="col-md-4 photo-gallery">
+                <a href="{{ photo.url }}" class="thumbnail">
+                    {% thumbnail "200x200" photo %}
+                </a>
+            </div>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block actions %}

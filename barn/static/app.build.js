@@ -26,6 +26,7 @@
         'newgardenerwidget',
         'newprojectwidget',
         'newvarietywidget',
+        'photogallery',
         'recordlistpage',
         'underscore'
     ],

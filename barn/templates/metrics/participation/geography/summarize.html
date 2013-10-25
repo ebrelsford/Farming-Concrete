@@ -6,9 +6,4 @@
     <li class="odd">
         {{ hours|floatformat }} {% trans "hour" %}{{ hours|pluralize }}
     </li>
-    {% if photo %}
-        <li class="even">
-            {% thumbnail "200x200" photo %}
-        </li>
-    {% endif %}
 {% endblock %}

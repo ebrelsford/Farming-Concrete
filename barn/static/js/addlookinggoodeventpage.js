@@ -7,7 +7,6 @@ define(
         // Requirements with exports
         'jquery',
 
-        'colorbox',
         'django-dynamic-formset',
         'jquery.expander'
 
@@ -23,10 +22,6 @@ define(
                     row.find(':input[name$=garden]').val(gardenPk);
                 },
                 prefix: 'lookinggoodphoto_set'
-            });
-
-            $('.lookinggood-photo a').colorbox({
-                rel: 'gal',
             });
 
             $('.list-records .comments').expander({

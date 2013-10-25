@@ -13,7 +13,7 @@
     <div class="row">
         {% garden_photos for garden as photos %}
         {% for photo in photos %}
-            <div class="col-md-4 lookinggood-photo">
+            <div class="col-md-4 photo-gallery">
                 <a href="{{ photo.photo.url }}" class="thumbnail">
                     {% thumbnail "200x200" photo.photo %}
                 </a>
