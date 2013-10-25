@@ -1,14 +1,21 @@
 {% extends "registration/base.html" %}
+{% load i18n %}
 
 {% block title %}Logged out{% endblock %}
 
 {% block breadcrumbs %}
-{{ block.super }} &gt;&gt; Logout
+    {{ block.super }} &gt;&gt; Logout
 {% endblock %}
 
 {% block content %}
+    <h1>{% trans "Logged out" %}</h1>
 
-<p>You have been logged out.</p>
-
+    <section>
+        <div class="alert alert-success">
+            {% trans "You have been logged out. Thanks for dropping by." %}
+        </div>
+        <a href="{% url "django.contrib.auth.views.login" %}" class="btn btn-primary" data-role="button">
+            {% trans "Log in" %}
+        </a> 
+    </section>
 {% endblock %}
-

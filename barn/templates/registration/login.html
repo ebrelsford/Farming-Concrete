@@ -1,29 +1,37 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-<p>Please log in. You should have received a username and password from the Farming Concrete team. If you've forgotten either, you can <a href="{% url "accounts.views.password_reset" %}">reset your password</a>.</p>
+    <h1>{% trans "Log in" %}</h1>
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+    <p>Please log in. You should have received a username and password from the Farming Concrete team. If you've forgotten either, you can <a href="{% url "accounts.views.password_reset" %}">reset your password</a>.</p>
 
-<form method="post" action="{% url "django.contrib.auth.views.login" %}">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% trans "Your username and password didn't match. Please try again." %}
+        </div>
+    {% endif %}
 
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{% firstof next '/' %}" />
-</form>
+    <form class="form-horizontal" method="post" action="{% url "django.contrib.auth.views.login" %}">
+        {% include "forms/head.html" %}
+        <input type="hidden" name="next" value="{% firstof next '/' %}" />
+
+        <div>
+            {% for field in form.visible_fields %}
+                {% include "forms/field.html" with field=field %}
+            {% endfor %}
+        </div>
+
+        <div class="form-actions">
+            <div class="col-lg-offset-4 col-lg-6">
+                <button class="btn btn-primary" type="submit">
+                    {% trans "login" %}
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </form>
 
 {% endblock %}

@@ -2,8 +2,9 @@
 {% load i18n %}
 
 {% block content %}
-    <p>{% trans "Register for Farming Concrete." %}</p>
-    <p>
+    <h1>{% trans "Register" %}</h1>
+    <p>Register for Farming Concrete.</p>
+    <div>
         {% include "_form.html" with form=form %}
-    </p>
+    </div>
 {% endblock %}
