@@ -37,7 +37,7 @@ class MetricRecordTagMixin(object):
         grouped = groupby(metrics, lambda m: m['group'])
         g = {}
         for group, metric_list in grouped:
-            g[group] = list(metrics)
+            g[group] = list(metric_list)
         return g
 
     def count_recorded_metrics(self, metric_model, garden, start=None,
