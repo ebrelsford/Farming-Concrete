@@ -333,8 +333,18 @@ input.ac_loading {
 }
 
 /*
- * Sorted table styles
+ * Table styles
  */
+
+table.table {
+}
+
+.add-participation-hours-page table {
+    /* Wider table, make it overflow-x */
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+}
 
 table.sorted {
     width: 100%;
@@ -368,6 +378,10 @@ table.sorted th.sortable.sorting-desc {
     text-align: left;
 }
 .map-page table.totals td {
+}
+
+td.actions {
+    text-align: right;
 }
 
 td.number {
@@ -610,12 +624,6 @@ ul.garden-suggestions {
     box-shadow: none;
     display: inline;
     width: inherit;
-}
-
-table.table {
-    display: block;
-    overflow-x: auto;
-    width: 100%;
 }
 
 .projecthours-formset {
