@@ -34,7 +34,7 @@ DATABASES = {
 }
 
 EMAIL_SUBJECT_PREFIX = 'Farming Concrete: '
-DEFAULT_FROM_EMAIL = 'info@farmingconcrete.org'
+DEFAULT_FROM_EMAIL = 'Farming Concrete <info@farmingconcrete.org>'
 SERVER_EMAIL = 'admin@farmingconcrete.org'
 
 TIME_ZONE = 'America/New_York'
