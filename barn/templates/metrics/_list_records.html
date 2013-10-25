@@ -1,3 +1,5 @@
+{% load metrics_tags %}
+
 <section class="list-records">
     <h2>Records for {{ request.session.year }}</h2>
 
@@ -5,11 +7,28 @@
         <thead>
             <tr>
                 {% block table_header %}{% endblock %}
+                {% ifcandelete metric %}
+                    <th></th>
+                {% endifcandelete %}
             </tr>
         </thead>
 
         <tbody>
-            {% block table_body %}{% endblock %}
+            {% block table_body %}
+                {% metric_content_type metric as content_type %}
+                {% for record in records %}
+                    <tr class="record" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
+
+                        {% block record_detail %}{% endblock %}
+
+                        {% ifcandelete metric %}
+                            <td>
+                                <button class="delete-record btn btn-xs btn-danger">x</button>
+                            </td>
+                        {% endifcandelete %}
+                    </tr>
+                {% endfor %}
+            {% endblock %}
         </tbody>
     </table>
 </section>
