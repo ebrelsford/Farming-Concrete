@@ -21,7 +21,7 @@ virtualenv==1.10.1
 wsgiref==0.1.2
 
 # Django requirements
-Django==1.5.4
+Django==1.5.5
 South==0.8.2
 django.js==0.8.0
 django-ajax-selects==1.1.4
