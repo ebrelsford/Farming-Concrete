@@ -72,6 +72,11 @@ define(
                     },
                 }).addTo(instance);
                 instance.fitBounds(gardens.getBounds());
+
+                // If we're only looking at one garden, zoom out a bit
+                if (gardens.getLayers().length === 1) {
+                    instance.setZoom(14);
+                }
             }
 
         });
