@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
@@ -76,14 +76,32 @@ class DeleteRecordView(DeleteView):
         record_model = ContentType.objects.get_for_id(record_type_pk).model_class()
         return record_model._default_manager.all()
 
-    def has_permission(self):
+    def can_delete(self, user, record):
+        if user.is_superuser:
+            return True
+        if (self.not_too_old(record) and self.has_permission(user, record) and
+            self.can_edit_garden(user, record)):
+            return True
+        return False
+
+    def not_too_old(self, record):
+        now = datetime.now()
+        a_year_ago = now.replace(year=now.year - 1)
+        return record.added > a_year_ago
+
+    def can_edit_garden(self, user, record):
+        if user.has_perm('farmingconcrete.can_edit_any_garden'):
+            return True
+        return user.get_profile().gardens.filter(pk=record.garden.pk).count() > 0
+
+    def has_permission(self, user, record):
         meta = self.object._meta
         perm = '%s.%s' % (meta.app_label, meta.get_delete_permission(),)
-        return self.request.user.has_perm(perm)
+        return user.has_perm(perm)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if not self.has_permission():
+        if not self.can_delete(self.request.user, self.object):
             raise PermissionDenied
         self.object.delete()
         return HttpResponse('OK')
