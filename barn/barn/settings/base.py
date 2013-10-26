@@ -157,6 +157,7 @@ AJAX_LOOKUP_CHANNELS = {
 }
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+DEFAULT_GROUPS = ('gardeners',)
 
 FARMINGCONCRETE_YEAR = 2013
 
