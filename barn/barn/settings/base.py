@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'accounts',
     'audit',
     'farmingconcrete',
+    'harvestmap',
     'imagekit',
     'metrics',
     'metrics.compost',
