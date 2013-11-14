@@ -133,6 +133,7 @@ INSTALLED_APPS = (
 
     'accounts',
     'audit',
+    'estimates',
     'farmingconcrete',
     'harvestmap',
     'imagekit',
