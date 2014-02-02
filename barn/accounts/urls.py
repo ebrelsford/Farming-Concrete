@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
 built_in_auth_urls = patterns('django.contrib.auth.views',
     url(r'^login/$', 'login'),

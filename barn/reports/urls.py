@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
 main_patterns = patterns('reports.views',
     url(r'^shared/(?P<access_key>.+)/$', 'shared_garden_report'),

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.shortcuts import redirect
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
 from estimates.models import EstimatedYield, EstimatedCost
 from estimates.admin_views import make_yield_estimates
