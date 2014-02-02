@@ -24,6 +24,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
+        # CREATE DATABASE farmingconcrete;
+        # CREATE USER 'farmingconcrete'@'localhost' IDENTIFIED BY 'XXX';
+        # GRANT ALL ON farmingconcrete.* TO 'farmingconcrete'@'localhost';
         'ENGINE': 'django.db.backends.mysql',
         'NAME': get_env_variable('FARMING_CONCRETE_DB_NAME'),
         'USER': get_env_variable('FARMING_CONCRETE_DB_USER'),
