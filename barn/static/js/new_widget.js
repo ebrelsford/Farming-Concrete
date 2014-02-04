@@ -64,6 +64,14 @@ define(
                     $('<div></div>')
                         .attr('id', id)
                         .attr('class', 'modal')
+                        .append(
+                            $('<div></div>')
+                                .attr('class', 'modal-dialog')
+                                .append(
+                                    $('<div></div>')
+                                        .attr('class', 'modal-content')
+                                )
+                        )
                 );
                 return $('#' + id);
             },
