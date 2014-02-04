@@ -15,7 +15,7 @@ define(
         $(document).ready(function () {
             var widget = new NewVarietyWidget({
                 buttonSelector: '.btn-new-variety',
-                selectSelector: 'select[name=variety]'
+                selectSelector: 'select[name=variety],select[name=vegetable]'
             });
         });
 

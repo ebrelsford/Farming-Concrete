@@ -109,17 +109,22 @@ define(
                         },
                         success: function (data) {
                             var $existing = $select.find('option[value=' + data.pk + ']');
-                            if ($existing.length > 0) {
-                                $existing.prop('selected', true);
+                            if ($select.find('.select2-basic-select').length > 0) {
+                                $select.select2('data', { id: data.pk, text: data.name });
                             }
                             else {
-                                var newOption = $('<option></option>')
-                                    .attr('value', data.pk)
-                                    .prop('selected', true)
-                                    .html(data.name);
-                                $select.append(newOption);
+                                if ($existing.length > 0) {
+                                    $existing.prop('selected', true);
+                                }
+                                else {
+                                    var newOption = $('<option></option>')
+                                        .attr('value', data.pk)
+                                        .prop('selected', true)
+                                        .html(data.name);
+                                    $select.append(newOption);
+                                }
+                                $select.trigger('change');
                             }
-                            $select.trigger('change');
                         }
                     });
                 }
