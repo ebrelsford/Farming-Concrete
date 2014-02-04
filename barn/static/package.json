@@ -1,0 +1,16 @@
+{
+  "name": "static",
+  "version": "0.0.0",
+  "description": "Static packages for Farming Concrete",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Brelsford",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.2",
+    "grunt-contrib-less": "~0.9.0"
+  }
+}

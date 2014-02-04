@@ -1,0 +1,708 @@
+body {
+    margin-bottom: 50px;
+    font-family: Arial, Helvetica;
+}
+
+body > .row {
+    margin: 0;
+}
+
+h1, h2 {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    line-height: 46px;
+}
+
+img {
+    border: 0;
+}
+
+a {
+    color: #6EBE44;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #6EBE44;
+    text-decoration: underline;
+}
+
+#header img {
+    max-width: 100%;
+}
+
+.navbar {
+    background: #0CA8A8;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    min-height: inherit;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+  color: white;
+}
+
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+  color: white;
+  background-color: inherit;
+}
+
+.navbar-nav > .open > a,
+.navbar-nav > .open > a:hover,
+.navbar-nav > .open > a:focus {
+  color: white;
+  background-color: inherit;
+}
+
+.navbar-nav > .dropdown > a .caret {
+  border-top-color: white;
+  border-bottom-color: white;
+}
+
+.nav {
+    background: #0CA8A8;
+    display: block;
+    clear: both;
+    text-transform: uppercase;
+}
+
+.nav > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+    border-right: 1px solid white;
+}
+
+.nav > li > a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#nav li:hover,
+#nav li.active {
+    background: #098080;
+}
+
+#nav li.dropdown-header:hover {
+    background: inherit;
+}
+#nav li.divider:hover {
+    background: #e5e5e5;
+}
+
+.dropdown-menu {
+    text-transform: none;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #098282;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#0CA8A8), to(#098282));
+  background-image: -webkit-linear-gradient(top, #0CA8A8, 0%, #098282, 100%);
+  background-image: -moz-linear-gradient(top, #0CA8A8 0%, #098282 100%);
+  background-image: linear-gradient(to bottom, #0CA8A8 0%, #098282 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff098282', endColorstr='#ff357ebd', GradientType=0);
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #098282;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#0CA8A8), to(#098282));
+  background-image: -webkit-linear-gradient(top, #0CA8A8, 0%, #098282, 100%);
+  background-image: -moz-linear-gradient(top, #0CA8A8 0%, #098282 100%);
+  background-image: linear-gradient(to bottom, #0CA8A8 0%, #098282 100%);
+  background-repeat: repeat-x;
+  outline: 0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff098282', endColorstr='#ff357ebd', GradientType=0);
+}
+
+#main {
+    clear: both;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border-left: 5px solid #6EBE44;
+    border-right: 5px solid #6EBE44;
+    border-bottom: 5px solid #6EBE44;
+}
+
+#breadcrumbs {
+    font-size: 12px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#bottom h2 {
+    padding: 5px 0;
+}
+#bottom h2 .image {
+    padding-right: 15px;
+}
+
+#inputs p label,
+#inputs label {
+    display: inline-block;
+    width: 35%;
+}
+
+ul.errorlist {
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    color: red;
+    list-style: none;
+    padding-left: 0;
+}
+
+ul.values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#plants ul li span {
+    display: inline-block;
+}
+
+.patch-list .type {
+    width: 25%;
+}
+
+.patch-list .quantity {
+    width: 35%;
+}
+
+#new-plant form #inputs span {
+    vertical-align: top;
+}
+
+#beds .month {
+    padding-top: 15px;
+}
+#beds .month .month-name {
+    font-style: italic;
+}
+#beds .name, #beds .dimensions {
+    display: inline-block;
+}
+#beds .name {
+    width: 30%;
+}
+#beds .dimensions {
+    width: 45%;
+}
+#beds #plants {
+    margin-top: 5px;
+}
+#beds li.bed {
+    border-bottom: 1px solid black;
+}
+
+#new-bed form #id_width,
+#new-bed form #id_length {
+    display: inline-block;
+    width: 50%;
+}
+
+#new-plant form #id_plants,
+#new-plant form #id_area {
+    display: inline-block;
+    width: 50%;
+}
+
+h2 a.image {
+}
+h2 a.text {
+    position: absolute;
+    padding-top: 3px;
+}
+
+ul.overview {
+    font-size: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+}
+ul.overview > li {
+    padding: 2px;
+}
+ul.overview > li.last {
+}
+ul.overview > li.even {
+    background-color: #F2E3C4;
+}
+
+ul.values {
+    /*width: 50%;*/
+}
+ul.values li {
+    padding: 3px;
+}
+ul.values li.odd {
+}
+ul.values li.even {
+    background-color: #F2E3C4;
+}
+
+.help_link {
+    font-weight: bold; 
+    font-size: 12px;
+    cursor: pointer; 
+    padding-left: 10px;
+}
+.help_box {
+    display: none;
+    position: absolute;
+    z-index: 2000;
+    background: white;
+    border: 1px solid black;
+    padding: 3px;
+    width: 200px;
+}
+
+ul.gardens {
+    list-style: none; 
+    padding-left: 20px;
+}
+
+.harvest .gardener {
+    display: inline-block;
+    width: 25%;
+}
+.harvest .variety {
+    display: inline-block;
+    width: 20%;
+}
+.harvest .weight {
+    display: inline-block;
+    width: 10%;
+}
+.harvest .dimensions {
+    display: inline-block;
+    width: 20%;
+}
+.harvest .harvested {
+    display: inline-block;
+    width: 15%;
+}
+
+/*** Map stuff ***/
+.olControlAttribution {
+    bottom: 3px !important;
+    font-size: 10px !important;
+}
+
+/*** autocomplete ***/
+.ac_results {
+    width: 160px !important;
+}
+
+.ac_over {
+    background-color: #0CA8A8 !important;
+}
+
+input.ac_loading {
+	background: #FFF url('/static/img/loading-indicator.gif') no-repeat;
+	background-position: right;
+}
+
+
+/* change the X to an image */
+.results_on_deck .iconic, .results_on_deck .iconic:hover {
+    cursor: pointer;
+    float: left;
+    background: url(/static/img/round_delete_small.png) no-repeat;
+    color: transparent;
+    border: 0;
+    width: 16px;
+    padding-right: 2px;
+}
+
+.results_on_deck > div {
+    clear: both;
+}
+
+/*
+ * Table styles
+ */
+
+table.table {
+}
+
+.add-program-reach-page table,
+.add-participation-hours-page table {
+    /* Wider table, make it overflow-x */
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+}
+
+table.sorted {
+    width: 100%;
+}
+
+table.sorted > thead > tr > th {
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+table.sorted > thead > tr > th.sortable {
+    background-image: url(/static/img/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+    padding-right: 15px;
+}
+
+table.sorted th.sortable.sorting-asc {
+    background-image: url(/static/img/asc.gif);
+}
+
+table.sorted th.sortable.sorting-desc {
+    background-image: url(/static/img/desc.gif);
+}
+
+.map-page table.totals {
+    width: 100%;
+}
+.map-page table.totals th {
+    text-align: left;
+}
+.map-page table.totals td {
+}
+
+td.actions {
+    text-align: right;
+}
+
+td.number {
+    text-align: right;
+}
+
+td.date {
+    text-align: right;
+}
+
+.report .section {
+    margin-bottom: 50px;
+}
+
+.report tr.child th {
+    padding-left: 35px;
+}
+
+.collapsible.collapsed .expandee {
+    display: none;
+}
+
+.share {
+}
+
+.share .sharebox {
+    display: none; 
+    font-size: 16px; 
+    font-weight: normal;
+    background-color: #FBF4E7;
+    border: 1px solid lightGray;
+    padding: 10px;
+}
+
+.share.shared .sharebox {
+    display: block;
+}
+
+.share .sharebox .url {
+    font-weight: bold;
+}
+
+#add-new-plant-type .message {
+    font-weight: bold;
+}
+
+
+/*
+ * info boxes
+ */
+
+.average-yield {
+    cursor: pointer;
+}
+.average-yield:hover {
+    border: 3px solid #6EBE44;
+}
+.average-yield.picked {
+    border: 3px solid #6EBE44;
+}
+
+.info-box {
+    background: white;
+    border: 1px solid black;
+    font-size: 75%;
+    padding: 5px;
+    position: absolute;
+}
+
+.info-box h3 {
+    margin: 0;
+}
+
+.info-box td {
+    border-right: 1px solid black;
+}
+
+.info-box tr {
+    border-bottom: 1px solid black;
+}
+
+
+/*
+ * Garden list
+ */
+
+ul.garden-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.garden-list-garden {
+    margin-top: 25px;
+}
+
+.garden-list-garden-name {
+    font-size: 20px;
+}
+
+.garden-list-buttons {
+    margin-top: 10px;
+}
+
+.garden-list-garden-groups {
+    margin-left: 25px;
+}
+
+
+/*
+ * Garden suggestions
+ */
+
+.add-garden-map {
+    height: 200px;
+    width: 100%;
+}
+
+.garden-suggestions-wrapper {
+    min-height: 100px;
+}
+
+.garden-suggestions-wrapper.is-loading,
+#feedback-form.is-loading {
+    opacity: 0.5;
+}
+
+ul.garden-suggestions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.garden-suggestion {
+    cursor: pointer;
+    padding: 8px;
+}
+
+.garden-suggestion:hover {
+    background-color: #F2E3C4;
+}
+
+.garden-suggestion-name {
+    font-weight: bold;
+}
+
+
+/*
+ * Garden detail page
+ */
+
+.garden-detail-page section {
+    margin-top: 30px;
+}
+
+.garden-detail-page section.metric {
+    border: 1px solid #6EBE44;
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px;
+    padding: 15px;
+}
+
+.garden-detail-page .metric-group h3:only-child {
+    display: none;
+}
+
+.record-list-page #map {
+    width: 100%;
+    height: 150px;
+}
+
+
+/*
+ * Feedback
+ */
+
+#feedback {
+    background-color: white;
+    border-left: 2px solid #6EBE44;
+    border-right: 2px solid #6EBE44;
+    border-bottom: 2px solid #6EBE44;
+    padding: 5px;
+    position: fixed;
+    right: 50px;
+    top: 0;
+    z-index: 2000;
+}
+
+#feedback-button {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#feedback-form {
+    display: none;
+    padding: 20px;
+}
+
+
+/*
+ * Popup
+ */
+
+.garden-popup {
+    font-family: Arial, Helvetica;
+    font-size: 14px;
+    line-height: 1.428571429;
+}
+
+.garden-popup a,
+.garden-popup a:link,
+.garden-popup a:hover {
+    color: #6EBE44 !important;
+    text-decoration: none;
+}
+
+.garden-popup a:hover {
+    text-decoration: underline;
+}
+
+.add-record,
+.list-records {
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+
+/*
+ * General form styles
+ */
+
+.required label {
+    font-weight: bold;
+}
+
+.form-group ul {
+    list-style: none;
+    padding: 0;
+}
+
+.form-group input[type="checkbox"] {
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    display: inline;
+    width: inherit;
+}
+
+.projecthours-formset {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.delete-record {
+    margin-left: 25px;
+}
+
+
+/*
+ * Bootstrap overrides
+ */
+
+.form-horizontal .control-label,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 5px;
+}
+
+label {
+    font-weight: normal;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  background-color: inherit;
+}
+
+/* Don't make pickadate inputs look disabled */
+.form-control.picker__input {
+    background-color: inherit;
+    cursor: inherit;
+}
+
+
+/*
+ * Chosen overrides
+ */
+
+.add-gardens-page .chzn-container-multi .chzn-choices .search-choice .search-choice-close {
+  width: 18px;
+}
+
+.add-gardens-page .chzn-container-multi .chzn-choices .search-field input {
+  height: inherit;
+}
+
+
+/*
+ * pickadate overrides
+ */
+
+.picker__nav--prev:hover,
+.picker__nav--next:hover {
+    background: white;
+}
+
+
+/*
+ * select2
+ */
+
+.select2-container {
+    width: 100%;
+}
+
