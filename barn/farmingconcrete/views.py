@@ -287,6 +287,9 @@ class GardenGroupDetailView(LoginRequiredMixin, DetailView):
 
 class FarmingConcreteYearMixin(DefaultYearMixin):
 
+    def get_year(self):
+        return self.request.session['year']
+
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR
 
