@@ -1,0 +1,118 @@
+.navbar {
+    background: #0CA8A8;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    min-height: inherit;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+  color: white;
+}
+
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+  color: white;
+  background-color: inherit;
+}
+
+.navbar-nav > .open > a,
+.navbar-nav > .open > a:hover,
+.navbar-nav > .open > a:focus {
+  color: white;
+  background-color: inherit;
+}
+
+.navbar-nav > .dropdown > a .caret {
+  border-top-color: white;
+  border-bottom-color: white;
+}
+
+.nav {
+    background: #0CA8A8;
+    display: block;
+    clear: both;
+    text-transform: uppercase;
+}
+
+.nav > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+    border-right: 1px solid white;
+}
+
+.nav > li > a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#nav li:hover,
+#nav li.active {
+    background: #098080;
+}
+#nav li.dropdown-header:hover {
+    background: inherit;
+}
+#nav li.divider:hover {
+    background: #e5e5e5;
+}
+
+.dropdown-menu {
+    text-transform: none;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #098282;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#0CA8A8), to(#098282));
+  background-image: -webkit-linear-gradient(top, #0CA8A8, 0%, #098282, 100%);
+  background-image: -moz-linear-gradient(top, #0CA8A8 0%, #098282 100%);
+  background-image: linear-gradient(to bottom, #0CA8A8 0%, #098282 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff098282', endColorstr='#ff357ebd', GradientType=0);
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #098282;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#0CA8A8), to(#098282));
+  background-image: -webkit-linear-gradient(top, #0CA8A8, 0%, #098282, 100%);
+  background-image: -moz-linear-gradient(top, #0CA8A8 0%, #098282 100%);
+  background-image: linear-gradient(to bottom, #0CA8A8 0%, #098282 100%);
+  background-repeat: repeat-x;
+  outline: 0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff098282', endColorstr='#ff357ebd', GradientType=0);
+}
+
+.form-horizontal .control-label,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 5px;
+}
+
+label {
+    font-weight: normal;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  background-color: inherit;
+}
+
+/* Don't make pickadate inputs look disabled */
+.form-control.picker__input {
+    background-color: inherit;
+    cursor: inherit;
+}

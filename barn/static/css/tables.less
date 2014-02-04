@@ -1,0 +1,56 @@
+table.table {
+}
+
+.add-program-reach-page table,
+.add-participation-hours-page table {
+    /* Wider table, make it overflow-x */
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+}
+
+table.sorted {
+    width: 100%;
+}
+
+table.sorted > thead > tr > th {
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+table.sorted > thead > tr > th.sortable {
+    background-image: url(/static/img/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+    padding-right: 15px;
+}
+
+table.sorted th.sortable.sorting-asc {
+    background-image: url(/static/img/asc.gif);
+}
+
+table.sorted th.sortable.sorting-desc {
+    background-image: url(/static/img/desc.gif);
+}
+
+.map-page table.totals {
+    width: 100%;
+}
+.map-page table.totals th {
+    text-align: left;
+}
+.map-page table.totals td {
+}
+
+td.actions {
+    text-align: right;
+}
+
+td.number {
+    text-align: right;
+}
+
+td.date {
+    text-align: right;
+}
