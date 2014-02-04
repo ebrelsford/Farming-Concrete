@@ -96,6 +96,10 @@ define(
             require(['addparticipationhourspage']);
         }
 
+        if ($('.list-records').length > 0) {
+            require(['listrecords']);
+        }
+
         if ($('.main-index-page').length > 0) {
             require(['leaflet.basicmap']);
         }

@@ -1,3 +1,4 @@
+from datetime import datetime
 from itertools import groupby
 from operator import itemgetter
 
@@ -257,10 +258,33 @@ class IfCanDelete(Tag):
         return ''
 
 
+class MetricYears(MetricRecordTagMixin, AsTag):
+
+    options = Options(
+        Argument('metric'),
+        Argument('garden'),
+        'as',
+        Argument('varname', resolve=False),
+    )
+
+    def get_value(self, context, metric, garden):
+        min_year = datetime.now().year - 1
+        max_year = datetime.now().year
+        try:
+            records = list(metric['model'].objects.for_garden(garden))
+            recordeds = records.values_list('recorded', flat=True).order_by('recorded')
+            min_year = min(min_year, recordeds[0].year)
+            max_year = max(max_year, recordeds[-1].year)
+        except Exception:
+            pass
+        return [str(year) for year in range(min_year, max_year + 1)]
+
+
 register.tag(AddRecord)
 register.tag(CountRecords)
 register.tag(IfCanDelete)
 register.tag(Summarize)
 register.tag(MetricContentType)
+register.tag(MetricYears)
 register.tag(MetricsWithRecords)
 register.tag(MetricsWithoutRecords)
