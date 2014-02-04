@@ -3,6 +3,10 @@ body {
     font-family: Arial, Helvetica;
 }
 
+body > .row {
+    margin: 0;
+}
+
 h1, h2 {
     padding: 0;
     margin: 0;
@@ -24,6 +28,10 @@ a {
 a:hover {
     color: #6EBE44;
     text-decoration: underline;
+}
+
+#header img {
+    max-width: 100%;
 }
 
 .navbar {
