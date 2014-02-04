@@ -40,7 +40,13 @@ class MetricMixin(ContextMixin):
     def get_metric_model(self):
         return registry[self.get_metric_name()]['model']
 
+    def set_year(self):
+        year = self.kwargs.get('year', None)
+        if year:
+            self.request.session['year'] = year
+
     def get_context_data(self, **kwargs):
+        self.set_year()
         context = super(MetricMixin, self).get_context_data(**kwargs)
         context.update({
             'index_url': self.get_index_url(),
@@ -242,6 +248,7 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
     def get_success_url(self):
         return reverse(self.get_metric()['garden_detail_url_name'], kwargs={
             'pk': self.object.pk,
+            'year': self.record.recorded.year,
         })
 
     def get_context_data(self, **kwargs):
