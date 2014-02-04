@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from os.path import abspath, dirname
 
@@ -164,7 +165,7 @@ AJAX_LOOKUP_CHANNELS = {
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 DEFAULT_GROUPS = ('gardeners',)
 
-FARMINGCONCRETE_YEAR = 2013
+FARMINGCONCRETE_YEAR = datetime.now().year
 
 LOGGING = {
     'version': 1,
