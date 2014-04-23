@@ -24,13 +24,18 @@ var GardenMap = {
             restrictedExtent: this.createBBox(-75.066, 41.526, -72.746, 39.953), 
         });
 
-        var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
-            key: '781b27aa166a49e1a398cd9b38a81cdf',
-            styleId: '24559',
-            transitionEffect: 'resize'
+        var mapbox = new OpenLayers.Layer.XYZ('mapbox', [
+            'https://a.tiles.mapbox.com/v3/farmingconcrete.i29og38a/${z}/${x}/${y}.png',
+            'https://b.tiles.mapbox.com/v3/farmingconcrete.i29og38a/${z}/${x}/${y}.png',
+            'https://c.tiles.mapbox.com/v3/farmingconcrete.i29og38a/${z}/${x}/${y}.png',
+            'https://d.tiles.mapbox.com/v3/farmingconcrete.i29og38a/${z}/${x}/${y}.png'
+        ], {
+            attribution: "Tiles &copy; <a href='http://mapbox.com/'>MapBox</a>",
+            sphericalMercator: true,
+            wrapDateLine: true
         });
-        this.olMap.addLayer(cloudmade);
-        this.olMap.setBaseLayer(cloudmade);
+        this.olMap.addLayer(mapbox);
+        this.olMap.setBaseLayer(mapbox);
 
         this.changeGardensLayer('2011'); // TODO replace with selected on map
 
