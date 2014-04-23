@@ -50,9 +50,10 @@ define(
                 center: [40.71, -73.98],
                 zoom: 8
             });
-            var baseLayer = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
-                key: '781b27aa166a49e1a398cd9b38a81cdf',
-                styleId: '24559'
+            L.tileLayer('https://{s}.tiles.mapbox.com/v3/{mapboxId}/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+                mapboxId: ''
             }).addTo(map);
             return map;
         }

@@ -10,9 +10,9 @@ define(
         'leaflet',
 
         // Requirements without exports
-        'leaflet.cloudmade',
         'leaflet.dataoptions',
-        'leaflet.gardenoverlay'
+        'leaflet.gardenoverlay',
+        'leaflet.mapbox'
 
     ], function ($, L) {
         $(document).ready(function () {
