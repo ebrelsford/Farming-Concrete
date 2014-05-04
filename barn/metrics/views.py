@@ -10,6 +10,7 @@ from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
 
+from accounts.utils import get_profile
 from farmingconcrete.models import Garden
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import (CSVView, LoginRequiredMixin,
@@ -98,7 +99,7 @@ class DeleteRecordView(DeleteView):
     def can_edit_garden(self, user, record):
         if user.has_perm('farmingconcrete.can_edit_any_garden'):
             return True
-        return user.get_profile().gardens.filter(pk=record.garden.pk).count() > 0
+        return get_profile(user).gardens.filter(pk=record.garden.pk).count() > 0
 
     def has_permission(self, user, record):
         meta = self.object._meta
@@ -120,7 +121,7 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
 
     def get_user_gardens(self):
         type = self.request.session.get('garden_type', 'all')
-        profile = self.request.user.get_profile()
+        profile = get_profile(self.request.user)
         user_gardens = profile.gardens.all()
         if type != 'all':
             user_gardens = user_gardens.filter(type=type)
@@ -155,7 +156,7 @@ class UserGardenView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         type = self.request.session.get('garden_type', 'all')
 
-        profile = self.request.user.get_profile()
+        profile = get_profile(self.request.user)
         user_gardens = profile.gardens.all()
         if type != 'all':
             user_gardens = user_gardens.filter(type=type)
@@ -186,7 +187,7 @@ class AllGardensView(RecordedGardensMixin, LoginRequiredMixin,
         raise NotImplementedError('Implement get_all_gardens_with_records')
 
     def get_user_gardens(self):
-        profile = self.request.user.get_profile()
+        profile = get_profile(self.request.user)
         user_gardens = profile.gardens.all()
 
         type = self.request.session.get('garden_type', 'all')
@@ -211,7 +212,7 @@ class GardenMixin(RecordsMixin, SingleObjectMixin):
         object = super(GardenMixin, self).get_object(queryset=queryset)
         if self.request.user.has_perm('farmingconcrete.can_edit_any_garden'):
             return object
-        elif object in self.request.user.get_profile().gardens.all():
+        elif object in get_profile(self.request.user).gardens.all():
             return object
         raise PermissionDenied
 

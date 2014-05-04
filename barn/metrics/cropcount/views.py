@@ -11,6 +11,7 @@ from django.db.models import Sum
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormMixin
 
+from accounts.utils import get_profile
 from farmingconcrete.models import Garden, Variety
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
 from farmingconcrete.utils import garden_type_label
@@ -153,7 +154,7 @@ def gardens(request, year=None):
         counted_gardens = counted_gardens.filter(type=type)
 
     #if not request.user.has_perm('can_edit_any_garden'):
-    profile = request.user.get_profile()
+    profile = get_profile(request.user)
     user_gardens = profile.gardens.all()
     #counted_gardens = counted_gardens & profile.gardens.all()
 
@@ -172,7 +173,7 @@ def summary(request, id=None, year=None):
     garden = get_object_or_404(Garden, pk=id)
 
     if not request.user.has_perm('can_edit_any_garden'):
-        profile = request.user.get_profile()
+        profile = get_profile(request.user)
         if garden not in profile.gardens.all():
             raise Http403
 
@@ -203,7 +204,7 @@ def add_bed(request, id=None, year=None):
     garden = get_object_or_404(Garden, pk=id)
 
     if not request.user.has_perm('can_edit_any_garden'):
-        profile = request.user.get_profile()
+        profile = get_profile(request.user)
         if garden not in profile.gardens.all():
             raise Http403
 

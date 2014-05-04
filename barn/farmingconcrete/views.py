@@ -14,7 +14,7 @@ from django.views.generic import (CreateView, DetailView, View, UpdateView,
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
-from accounts.models import UserProfile
+from accounts.utils import get_profile
 from generic.views import (DefaultYearMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, RememberPreviousPageMixin,
                            SuccessMessageFormMixin)
@@ -58,7 +58,7 @@ class UserGardensMixin(object):
         user = self.request.user
         try:
             if user.is_authenticated():
-                profile = user.get_profile()
+                profile = get_profile(user)
                 return profile.gardens.all().order_by('name')
         except Exception:
             return []
@@ -94,11 +94,7 @@ class AddUserGardenMixin(object):
     def add_garden_to_user(self, garden):
         user = self.request.user
         if user and user.is_authenticated():
-            try:
-                profile = user.get_profile()
-            except Exception:
-                profile = UserProfile(user=user)
-                profile.save()
+            profile = get_profile(user)
             profile.gardens.add(garden)
 
 
@@ -206,7 +202,7 @@ def gardens_geojson(request):
         user = request.user
         try:
             if user.is_authenticated():
-                profile = user.get_profile()
+                profile = get_profile(user)
                 ids = profile.gardens.all().values_list('pk', flat=True)
         except Exception:
             pass
@@ -258,11 +254,7 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
     def remove_garden_from_user(self, garden):
         user = self.request.user
         if user and user.is_authenticated():
-            try:
-                profile = user.get_profile()
-            except Exception:
-                profile = UserProfile(user=user)
-                profile.save()
+            profile = get_profile(user)
             profile.gardens.remove(garden)
 
     def get(self, request, *args, **kwargs):

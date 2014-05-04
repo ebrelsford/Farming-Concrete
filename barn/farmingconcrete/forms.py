@@ -6,6 +6,7 @@ import chosen.forms
 from floppyforms.widgets import Select
 
 from accounts.models import UserProfile
+from accounts.utils import get_profile
 from .models import (Garden, GardenGroup, GardenGroupMembership, GardenType,
                      Variety)
 
@@ -24,7 +25,7 @@ class GardenTypeField(ModelChoiceField):
 
         if user and not user.has_perm('can_edit_any_garden'):
             try:
-                profile = user.get_profile()
+                profile = get_profile(user)
                 if profile and profile.garden_types.count() > 0:
                     self.queryset = self.queryset & profile.garden_types.all()
             except UserProfile.DoesNotExist:

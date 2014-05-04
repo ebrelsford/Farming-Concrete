@@ -11,6 +11,7 @@ from django.http import HttpResponseForbidden, HttpResponse, Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.edit import CreateView, FormMixin
 
+from accounts.utils import get_profile
 from barn.mobile import is_mobile
 from farmingconcrete.decorators import in_section, year_in_session
 from farmingconcrete.models import Garden, Variety
@@ -148,7 +149,7 @@ def quantity_for_last_harvest(request, pk=None, year=None):
     if garden and gardener and variety:
         garden = get_object_or_404(Garden, pk=garden)
         if not request.user.has_perm('can_edit_any_garden'):
-            profile = request.user.get_profile()
+            profile = get_profile(request.user)
             if garden not in profile.gardens.all():
                 return HttpResponseForbidden()
         try:
@@ -242,7 +243,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         if not gardener:
             # if user is a gardener at this garden, use that
             try:
-                current_gardener = request.user.get_profile().gardener
+                current_gardener = get_profile(request.user).gardener
                 if current_gardener.garden == garden:
                     gardener = current_gardener
             except Exception:
