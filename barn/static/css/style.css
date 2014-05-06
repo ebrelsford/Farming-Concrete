@@ -1,6 +1,3 @@
-/*
- * Base styles
- */
 body {
   margin-bottom: 50px;
   font-family: Arial, Helvetica;
@@ -30,56 +27,75 @@ a:hover {
 #header img {
   max-width: 100%;
 }
+#main {
+  clear: both;
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+#breadcrumbs {
+  font-size: 12px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+#bottom h2 {
+  padding: 5px 0;
+}
+#bottom h2 .image {
+  padding-right: 15px;
+}
+/* Overrides */
 .navbar {
-  background: #0CA8A8;
   border-radius: 0;
+  border-bottom: 1px dotted black;
+  border-top: 1px solid black;
   padding: 0;
   margin: 0;
   min-height: inherit;
 }
-.navbar-nav > li > a:hover,
-.navbar-nav > li > a:focus {
-  color: white;
-}
 .navbar-nav > .active > a,
 .navbar-nav > .active > a:hover,
 .navbar-nav > .active > a:focus {
-  color: white;
+  color: black;
   background-color: inherit;
 }
 .navbar-nav > .open > a,
 .navbar-nav > .open > a:hover,
 .navbar-nav > .open > a:focus {
-  color: white;
+  color: black;
   background-color: inherit;
 }
 .navbar-nav > .dropdown > a .caret {
-  border-top-color: white;
-  border-bottom-color: white;
+  border-top-color: black;
+  border-bottom-color: black;
 }
 .nav {
-  background: #0CA8A8;
   display: block;
-  clear: both;
   text-transform: uppercase;
 }
 .nav > li {
   margin: 0;
+  margin-bottom: 8px;
+  margin-top: 3px;
   padding: 0;
   list-style: none;
   float: left;
-  border-right: 1px solid white;
+  border-right: 1px solid black;
+}
+.nav > li:last-child {
+  border-right: none;
 }
 .nav > li > a {
-  color: white;
+  color: black;
   text-decoration: none;
-  padding: 10px 16px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-top: 2px;
   font-size: 11px;
-  font-weight: bold;
 }
-#nav li:hover,
-#nav li.active {
-  background: #098080;
+#nav li:hover a,
+#nav li.active a {
+  background: black;
+  color: white;
 }
 #nav li.dropdown-header:hover {
   background: inherit;
@@ -116,159 +132,37 @@ a:hover {
   outline: 0;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff098282', endColorstr='#ff357ebd', GradientType=0);
 }
-#main {
-  clear: both;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  border-left: 5px solid #6EBE44;
-  border-right: 5px solid #6EBE44;
-  border-bottom: 5px solid #6EBE44;
+.form-horizontal .control-label,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 5px;
 }
-#breadcrumbs {
-  font-size: 12px;
-  font-weight: bold;
-  padding-bottom: 5px;
+label {
+  font-weight: normal;
 }
-#bottom h2 {
-  padding: 5px 0;
+.nav > li > a:hover,
+.nav > li > a:focus {
+  background-color: inherit;
 }
-#bottom h2 .image {
-  padding-right: 15px;
+/* Don't make pickadate inputs look disabled */
+.form-control.picker__input {
+  background-color: inherit;
+  cursor: inherit;
 }
-#inputs p label,
-#inputs label {
-  display: inline-block;
-  width: 35%;
+.add-gardens-page .chzn-container-multi .chzn-choices .search-choice .search-choice-close {
+  width: 18px;
 }
-ul.errorlist {
-  margin: 0;
-  margin-top: 10px;
-  padding: 0;
-  color: red;
-  list-style: none;
-  padding-left: 0;
+.add-gardens-page .chzn-container-multi .chzn-choices .search-field input {
+  height: inherit;
 }
-ul.values {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-#plants ul li span {
-  display: inline-block;
-}
-.patch-list .type {
-  width: 25%;
-}
-.patch-list .quantity {
-  width: 35%;
-}
-#new-plant form #inputs span {
-  vertical-align: top;
-}
-#beds .month {
-  padding-top: 15px;
-}
-#beds .month .month-name {
-  font-style: italic;
-}
-#beds .name,
-#beds .dimensions {
-  display: inline-block;
-}
-#beds .name {
-  width: 30%;
-}
-#beds .dimensions {
-  width: 45%;
-}
-#beds #plants {
-  margin-top: 5px;
-}
-#beds li.bed {
-  border-bottom: 1px solid black;
-}
-#new-bed form #id_width,
-#new-bed form #id_length {
-  display: inline-block;
-  width: 50%;
-}
-#new-plant form #id_plants,
-#new-plant form #id_area {
-  display: inline-block;
-  width: 50%;
-}
-h2 a.text {
-  position: absolute;
-  padding-top: 3px;
-}
-ul.overview {
-  font-size: 20px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  margin-bottom: 10px;
-}
-ul.overview > li {
-  padding: 2px;
-}
-ul.overview > li.even {
-  background-color: #F2E3C4;
-}
-ul.values {
-  /*width: 50%;*/
-}
-ul.values li {
-  padding: 3px;
-}
-ul.values li.even {
-  background-color: #F2E3C4;
-}
-.help_link {
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-  padding-left: 10px;
-}
-.help_box {
-  display: none;
-  position: absolute;
-  z-index: 2000;
+.picker__nav--prev:hover,
+.picker__nav--next:hover {
   background: white;
-  border: 1px solid black;
-  padding: 3px;
-  width: 200px;
 }
-ul.gardens {
-  list-style: none;
-  padding-left: 20px;
+.select2-container {
+  width: 100%;
 }
-.harvest .gardener {
-  display: inline-block;
-  width: 25%;
-}
-.harvest .variety {
-  display: inline-block;
-  width: 20%;
-}
-.harvest .weight {
-  display: inline-block;
-  width: 10%;
-}
-.harvest .dimensions {
-  display: inline-block;
-  width: 20%;
-}
-.harvest .harvested {
-  display: inline-block;
-  width: 15%;
-}
-.olControlAttribution {
-  bottom: 3px !important;
-  font-size: 10px !important;
-}
-/*** autocomplete ***/
+/* Widgets */
 .ac_results {
   width: 160px !important;
 }
@@ -293,9 +187,41 @@ input.ac_loading {
 .results_on_deck > div {
   clear: both;
 }
-/*
- * Table styles
- */
+#add-new-plant-type .message {
+  font-weight: bold;
+}
+.collapsible.collapsed .expandee {
+  display: none;
+}
+.required label {
+  font-weight: bold;
+}
+.form-group ul {
+  list-style: none;
+  padding: 0;
+}
+.form-group input[type="checkbox"] {
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  display: inline;
+  width: inherit;
+}
+.projecthours-formset {
+  margin-top: 35px;
+  margin-bottom: 35px;
+}
+.delete-record {
+  margin-left: 25px;
+}
+ul.errorlist {
+  margin: 0;
+  margin-top: 10px;
+  padding: 0;
+  color: red;
+  list-style: none;
+  padding-left: 0;
+}
 .add-program-reach-page table,
 .add-participation-hours-page table {
   /* Wider table, make it overflow-x */
@@ -338,63 +264,164 @@ td.number {
 td.date {
   text-align: right;
 }
-.report .section {
-  margin-bottom: 50px;
+/* Metrics */
+.add-record,
+.list-records {
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
-.report tr.child th {
-  padding-left: 35px;
+ul.overview {
+  font-size: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
 }
-.collapsible.collapsed .expandee {
-  display: none;
+ul.overview > li {
+  padding: 2px;
 }
-.share .sharebox {
-  display: none;
-  font-size: 16px;
-  font-weight: normal;
-  background-color: #FBF4E7;
-  border: 1px solid lightGray;
-  padding: 10px;
+ul.overview > li .even {
+  background-color: #F2E3C4;
 }
-.share.shared .sharebox {
-  display: block;
+ul.gardens {
+  list-style: none;
+  padding-left: 20px;
 }
-.share .sharebox .url {
+.help_link {
   font-weight: bold;
-}
-#add-new-plant-type .message {
-  font-weight: bold;
-}
-/*
- * info boxes
- */
-.average-yield {
+  font-size: 12px;
   cursor: pointer;
+  padding-left: 10px;
 }
-.average-yield:hover {
-  border: 3px solid #6EBE44;
-}
-.average-yield.picked {
-  border: 3px solid #6EBE44;
-}
-.info-box {
+.help_box {
+  display: none;
+  position: absolute;
+  z-index: 2000;
   background: white;
   border: 1px solid black;
-  font-size: 75%;
-  padding: 5px;
-  position: absolute;
+  padding: 3px;
+  width: 200px;
 }
-.info-box h3 {
-  margin: 0;
+.patch-list .type {
+  width: 25%;
 }
-.info-box td {
-  border-right: 1px solid black;
+.patch-list .quantity {
+  width: 35%;
 }
-.info-box tr {
+#new-plant form #inputs span {
+  vertical-align: top;
+}
+#inputs p label,
+#inputs label {
+  display: inline-block;
+  width: 35%;
+}
+#beds .month {
+  padding-top: 15px;
+}
+#beds .month .month-name {
+  font-style: italic;
+}
+#beds .name,
+#beds .dimensions {
+  display: inline-block;
+}
+#beds .name {
+  width: 30%;
+}
+#beds .dimensions {
+  width: 45%;
+}
+#beds #plants {
+  margin-top: 5px;
+}
+#beds li.bed {
   border-bottom: 1px solid black;
 }
-/*
- * Garden list
- */
+#new-bed form #id_width,
+#new-bed form #id_length {
+  display: inline-block;
+  width: 50%;
+}
+#new-plant form #id_plants,
+#new-plant form #id_area {
+  display: inline-block;
+  width: 50%;
+}
+#plants ul li span {
+  display: inline-block;
+}
+ul.values {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul.values li {
+  padding: 3px;
+}
+ul.values li .even {
+  background-color: #F2E3C4;
+}
+.harvest .gardener {
+  display: inline-block;
+  width: 25%;
+}
+.harvest .variety {
+  display: inline-block;
+  width: 20%;
+}
+.harvest .weight {
+  display: inline-block;
+  width: 10%;
+}
+.harvest .dimensions {
+  display: inline-block;
+  width: 20%;
+}
+.harvest .harvested {
+  display: inline-block;
+  width: 15%;
+}
+/* Other pages */
+h2 a.text {
+  position: absolute;
+  padding-top: 3px;
+}
+#feedback {
+  background-color: white;
+  border-left: 2px solid #6EBE44;
+  border-right: 2px solid #6EBE44;
+  border-bottom: 2px solid #6EBE44;
+  padding: 5px;
+  position: fixed;
+  right: 50px;
+  top: 0;
+  z-index: 2000;
+}
+#feedback-button {
+  cursor: pointer;
+  font-weight: bold;
+}
+#feedback-form {
+  display: none;
+  padding: 20px;
+}
+.garden-detail-page section {
+  margin-top: 30px;
+}
+.garden-detail-page section.metric {
+  border: 1px solid #6EBE44;
+  border-radius: 15px;
+  box-shadow: 1px 1px 5px;
+  padding: 15px;
+}
+.garden-detail-page .metric-group h3:only-child {
+  display: none;
+}
+.record-list-page #map {
+  width: 100%;
+  height: 150px;
+}
 ul.garden-list {
   list-style: none;
   margin: 0;
@@ -412,9 +439,20 @@ ul.garden-list {
 .garden-list-garden-groups {
   margin-left: 25px;
 }
-/*
- * Garden suggestions
- */
+.garden-popup {
+  font-family: Arial, Helvetica;
+  font-size: 14px;
+  line-height: 1.428571429;
+}
+.garden-popup a,
+.garden-popup a:link,
+.garden-popup a:hover {
+  color: #6EBE44 !important;
+  text-decoration: none;
+}
+.garden-popup a:hover {
+  text-decoration: underline;
+}
 .add-garden-map {
   height: 200px;
   width: 100%;
@@ -441,132 +479,36 @@ ul.garden-suggestions {
 .garden-suggestion-name {
   font-weight: bold;
 }
-/*
- * Garden detail page
- */
-.garden-detail-page section {
-  margin-top: 30px;
+.olControlAttribution {
+  bottom: 3px !important;
+  font-size: 10px !important;
 }
-.garden-detail-page section.metric {
-  border: 1px solid #6EBE44;
-  border-radius: 15px;
-  box-shadow: 1px 1px 5px;
-  padding: 15px;
+.report .section {
+  margin-bottom: 50px;
 }
-.garden-detail-page .metric-group h3:only-child {
-  display: none;
+.report tr.child th {
+  padding-left: 35px;
 }
-.record-list-page #map {
-  width: 100%;
-  height: 150px;
-}
-/*
- * Feedback
- */
-#feedback {
-  background-color: white;
-  border-left: 2px solid #6EBE44;
-  border-right: 2px solid #6EBE44;
-  border-bottom: 2px solid #6EBE44;
-  padding: 5px;
-  position: fixed;
-  right: 50px;
-  top: 0;
-  z-index: 2000;
-}
-#feedback-button {
+.average-yield {
   cursor: pointer;
-  font-weight: bold;
 }
-#feedback-form {
+.average-yield:hover {
+  border: 3px solid #6EBE44;
+}
+.average-yield.picked {
+  border: 3px solid #6EBE44;
+}
+.share .sharebox {
   display: none;
-  padding: 20px;
-}
-/*
- * Popup
- */
-.garden-popup {
-  font-family: Arial, Helvetica;
-  font-size: 14px;
-  line-height: 1.428571429;
-}
-.garden-popup a,
-.garden-popup a:link,
-.garden-popup a:hover {
-  color: #6EBE44 !important;
-  text-decoration: none;
-}
-.garden-popup a:hover {
-  text-decoration: underline;
-}
-.add-record,
-.list-records {
-  margin-bottom: 25px;
-  margin-top: 25px;
-}
-/*
- * General form styles
- */
-.required label {
-  font-weight: bold;
-}
-.form-group ul {
-  list-style: none;
-  padding: 0;
-}
-.form-group input[type="checkbox"] {
-  border: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  display: inline;
-  width: inherit;
-}
-.projecthours-formset {
-  margin-top: 35px;
-  margin-bottom: 35px;
-}
-.delete-record {
-  margin-left: 25px;
-}
-/*
- * Bootstrap overrides
- */
-.form-horizontal .control-label,
-.form-horizontal .radio-inline,
-.form-horizontal .checkbox-inline {
-  padding-top: 5px;
-}
-label {
+  font-size: 16px;
   font-weight: normal;
+  background-color: #FBF4E7;
+  border: 1px solid lightGray;
+  padding: 10px;
 }
-.nav > li > a:hover,
-.nav > li > a:focus {
-  background-color: inherit;
+.share.shared .sharebox {
+  display: block;
 }
-/* Don't make pickadate inputs look disabled */
-.form-control.picker__input {
-  background-color: inherit;
-  cursor: inherit;
-}
-/*
- * Chosen overrides
- */
-.add-gardens-page .chzn-container-multi .chzn-choices .search-choice .search-choice-close {
-  width: 18px;
-}
-.add-gardens-page .chzn-container-multi .chzn-choices .search-field input {
-  height: inherit;
-}
-/*
- * pickadate overrides
- */
-.picker__nav--prev:hover,
-.picker__nav--next:hover {
-  background: white;
-}
-/*
- * select2
- */
-.select2-container {
-  width: 100%;
+.share .sharebox .url {
+  font-weight: bold;
 }

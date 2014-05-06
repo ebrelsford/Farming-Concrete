@@ -1,67 +1,75 @@
 .navbar {
-    background: #0CA8A8;
     border-radius: 0;
+    border-bottom: 1px dotted black;
+    border-top: 1px solid black;
     padding: 0;
     margin: 0;
     min-height: inherit;
 }
 
-.navbar-nav > li > a:hover,
-.navbar-nav > li > a:focus {
-  color: white;
-}
-
 .navbar-nav > .active > a,
 .navbar-nav > .active > a:hover,
 .navbar-nav > .active > a:focus {
-  color: white;
+  color: black;
   background-color: inherit;
 }
 
 .navbar-nav > .open > a,
 .navbar-nav > .open > a:hover,
 .navbar-nav > .open > a:focus {
-  color: white;
+  color: black;
   background-color: inherit;
 }
 
 .navbar-nav > .dropdown > a .caret {
-  border-top-color: white;
-  border-bottom-color: white;
+  border-top-color: black;
+  border-bottom-color: black;
 }
 
 .nav {
-    background: #0CA8A8;
     display: block;
-    clear: both;
     text-transform: uppercase;
+
+    & > li {
+        margin: 0;
+        margin-bottom: 8px;
+        margin-top: 3px;
+        padding: 0;
+        list-style: none;
+        float: left;
+        border-right: 1px solid black;
+
+        &:last-child {
+            border-right: none;
+        }
+
+        & > a {
+            color: black;
+            text-decoration: none;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            padding-top: 2px;
+            font-size: 11px;
+        }
+    }
 }
 
-.nav > li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    float: left;
-    border-right: 1px solid white;
-}
-
-.nav > li > a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-#nav li:hover,
-#nav li.active {
-    background: #098080;
-}
-#nav li.dropdown-header:hover {
-    background: inherit;
-}
-#nav li.divider:hover {
-    background: #e5e5e5;
+#nav {
+    li {
+        &:hover,
+        &.active {
+            & a {
+                background: black;
+                color: white;
+            }
+        }
+        &.dropdown-header:hover {
+            background: inherit;
+        }
+        &.divider:hover {
+            background: #e5e5e5;
+        }
+    }
 }
 
 .dropdown-menu {
