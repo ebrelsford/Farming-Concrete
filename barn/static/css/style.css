@@ -5581,6 +5581,10 @@ a:hover {
   border-top-color: black;
   border-bottom-color: black;
 }
+.navbar-nav > .dropdown > a:hover .caret {
+  border-top-color: white;
+  border-bottom-color: white;
+}
 .nav {
   display: block;
   text-transform: uppercase;
@@ -5605,16 +5609,10 @@ a:hover {
   padding-top: 2px;
   font-size: 11px;
 }
-#nav li:hover a,
-#nav li.active a {
+#nav > ul > li > a:hover,
+#nav > ul > li > a.active {
   background: black;
   color: white;
-}
-#nav li.dropdown-header:hover {
-  background: inherit;
-}
-#nav li.divider:hover {
-  background: #e5e5e5;
 }
 .dropdown-menu {
   text-transform: none;
