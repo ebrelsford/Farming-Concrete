@@ -7,13 +7,14 @@ Pillow==2.1.0
 docutils==0.9.1
 geojson==1.0.1
 html5lib==0.90
-ipython==1.1.0
+ipython>=2.0.0
 matplotlib==1.0.1
 py==1.4.9
 pyPdf==1.13
 pytest==2.2.4
 git+git://github.com/jdunck/python-unicodecsv.git@22eabfe1
 reportlab==2.5
+requests==2.2.1
 simplejson==3.3.2
 simplekml==1.2.3
 xhtml2pdf==0.0.3

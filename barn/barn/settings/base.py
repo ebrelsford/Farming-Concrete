@@ -214,3 +214,5 @@ FEEDBACK_CHOICES = (
     ('general feedback', 'general feedback'),
     ('project feedback', 'project feedback'),
 )
+
+WUNDERGROUND_API_KEY = get_env_variable('FARMING_CONCRETE_WUNDERGROUND_API_KEY')
