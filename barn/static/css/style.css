@@ -222,6 +222,14 @@ ul.errorlist {
   list-style: none;
   padding-left: 0;
 }
+.form-control {
+  background-color: #EDEDED;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  color: black;
+}
 .add-program-reach-page table,
 .add-participation-hours-page table {
   /* Wider table, make it overflow-x */
