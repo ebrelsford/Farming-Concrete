@@ -5629,7 +5629,7 @@ label {
 }
 .btn {
   font-weight: bold;
-  padding: 6px 20px;
+  padding: 6px 10px;
   text-transform: uppercase;
 }
 .btn-primary {
@@ -5968,7 +5968,12 @@ ul.garden-list {
   padding: 0;
 }
 .garden-list-garden {
-  margin-top: 25px;
+  border-bottom: 1px dotted black;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.garden-list-garden:first-child {
+  border-top: 1px dotted black;
 }
 .garden-list-garden-name {
   font-size: 20px;
