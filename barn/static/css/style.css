@@ -5540,6 +5540,9 @@ a:hover {
 #header img {
   max-width: 100%;
 }
+#header #logout-link {
+  color: black;
+}
 #main {
   clear: both;
   padding-top: 10px;

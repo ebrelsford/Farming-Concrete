@@ -44,6 +44,7 @@
 
                 <div id="header" data-role="header">
                     <a href="{% url "home" %}"><img src="{% static "img/header.jpg" %}" /></a>
+                    <a id="logout-link" href="{% url "django.contrib.auth.views.logout" %}">Logout</a>
                 </div>
 
                 <div id="nav" class="navbar">
@@ -88,7 +89,6 @@
 
                         {% if user.is_authenticated %}
                         <li><a href="{% url "farmingconcrete.views.account" %}">Your account</a></li>
-                        <li><a href="{% url "django.contrib.auth.views.logout" %}">Logout</a></li>
                         {% else %}
                         <li><a href="{% url "django.contrib.auth.views.login" %}">Login</a></li>
                         {% endif %}
