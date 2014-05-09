@@ -5635,6 +5635,47 @@ label {
   padding: 6px 10px;
   text-transform: uppercase;
 }
+.btn-default {
+  color: #ffffff;
+  background-color: #849f38;
+  border-color: #849f38;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  color: #ffffff;
+  background-color: #6b812d;
+  border-color: #5e7228;
+}
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  background-image: none;
+}
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default.active {
+  background-color: #849f38;
+  border-color: #849f38;
+}
+.btn-default .badge {
+  color: #849f38;
+  background-color: #ffffff;
+}
 .btn-primary {
   color: #ffffff;
   background-color: #f64813;
