@@ -6,15 +6,27 @@
         text-transform: uppercase;
     }
 
-    section {
-        margin-top: 30px;
+    section.metric {
+        border-top: 1px dotted black;
+        padding: 15px;
+
+        &:last-child {
+            border-bottom: 1px dotted black;
+        }
     }
 
-    section.metric {
-        border: 1px solid #6EBE44;
-        border-radius: 15px;
-        box-shadow: 1px 1px 5px;
-        padding: 15px;
+    .metric-group {
+        border-top: 1px solid black;
+        margin-top: 100px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
     }
 
     .metric-group h3:only-child {
