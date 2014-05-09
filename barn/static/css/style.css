@@ -6092,6 +6092,15 @@ ul.garden-suggestions {
 .garden-suggestion-name {
   font-weight: bold;
 }
+h2#your-gardens-title {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+#your-gardens-section {
+  border-top: 1px solid black;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 .olControlAttribution {
   bottom: 3px !important;
   font-size: 10px !important;
