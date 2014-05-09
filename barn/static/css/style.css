@@ -5592,6 +5592,9 @@ a:hover {
   font-weight: bold;
   text-transform: uppercase;
 }
+.metric-name:hover {
+  color: #849f38;
+}
 /* Overrides */
 .navbar {
   border-radius: 0;
