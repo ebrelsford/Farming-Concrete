@@ -5559,6 +5559,30 @@ a:hover {
 #bottom h2 .image {
   padding-right: 15px;
 }
+#left {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  #left {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+#right {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  #right {
+    float: left;
+    width: 33.33333333%;
+  }
+}
 /* Overrides */
 .navbar {
   border-radius: 0;
