@@ -1,15 +1,22 @@
 {% extends "metrics/base.html" %}
 {% load static %}
 
+{% block body_class %} map-base-page {% endblock %}
+
 {% block content %}
-    <div class="col-lg-6 col-sm-6">
+    <div id="left">
         {% block left %}{% endblock %}
     </div>
 
-    <div class="col-lg-6 col-sm-6">
-        {% if not is_mobile %}
-            <div id="map"></div>
-        {% endif %}
+    <div id="right">
+        <div id="map"
+            data-l-zoom="8"
+            data-l-center="[40.71, -73.98]"
+            data-l-mapbox-id="farmingconcrete.i29og38a"
+            {% block map_garden_params %}
+                data-l-user_gardens="true"
+            {% endblock %}
+        ></div>
         {% block right %}{% endblock %}
     </div>
 {% endblock %}

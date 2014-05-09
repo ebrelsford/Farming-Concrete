@@ -1,15 +1,5 @@
-{% extends is_mobile|yesno:"mobile/base.html,map_base.html" %}
+{% extends "map_base.html" %}
 
 {% block title %}{{ garden.name }}{% endblock %}
 
 {% block breadcrumbs %}{{ block.super }}{{ garden.name }}{% endblock %}
-
-{% block content %}
-    {% if garden %}
-        <h1>{{ garden.name }}</h1>
-
-        {{ block.super }}
-    {% else %}
-        <p>No such garden</p>
-    {% endif %}
-{% endblock %}

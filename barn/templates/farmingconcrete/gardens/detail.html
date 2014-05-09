@@ -62,4 +62,31 @@
 
 {% endblock %}
 
+{% block right %}
+    <h1>{{ garden.name }}</h1>
+    <div>
+        {% if garden.address %}
+        {{ garden.address }},
+        {% endif %}
+        {% if garden.borough %}
+        {{ garden.borough }}
+        {% else %}
+        {{ garden.city }}, {{ garden.state }}
+        {% endif %}
+    </div>
+    <div>
+        <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">
+            {% trans "Edit" %}
+        </a>
+        |
+        <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">
+            {% trans "Delete" %}
+        </a>
+    </div>
+{% endblock %}
+
+{% block map_garden_params %}
+    data-l-ids="{{ garden.pk }}"
+{% endblock %}
+
 {% block actions %}{% endblock %}
