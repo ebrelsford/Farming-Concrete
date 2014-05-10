@@ -8,6 +8,10 @@ from .views import (AddSuggestedGardenView, CreateGardenView,
 
 urlpatterns = patterns('',
 
+    #
+    # View
+    #
+
     url(r'^geojson', 'farmingconcrete.views.gardens_geojson',
         name='farmingconcrete_gardens_geojson'
     ),
@@ -16,6 +20,15 @@ urlpatterns = patterns('',
         FarmingConcreteGardenDetails.as_view(),
         name='farmingconcrete_garden_details'
     ),
+
+    url(r'^group/(?P<pk>\d+)/$',
+        GardenGroupDetailView.as_view(),
+        name='farmingconcrete_gardengroup_detail',
+    ),
+
+    #
+    # Add / edit
+    #
 
     url(r'^add/$',
         CreateGardenView.as_view(),
@@ -45,11 +58,6 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/leave/confirmed/$',
         UserGardenLeaveConfirmedView.as_view(),
         name='farmingconcrete_gardens_leave_confirmed',
-    ),
-
-    url(r'^group/(?P<pk>\d+)/$',
-        GardenGroupDetailView.as_view(),
-        name='farmingconcrete_gardengroup_detail',
     ),
 
 )
