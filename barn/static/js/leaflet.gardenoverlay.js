@@ -25,15 +25,15 @@ define(
 
         var style = {
             fill: true,
-            fillColor: '#3f9438',
+            fillColor: '#F54613',
             fillOpacity: 0.4,
-            radius: 5,
+            radius: 15,
             stroke: false
         };
 
         var individualGardenStyle = {
             fill: true,
-            fillColor: '#3f9438',
+            fillColor: '#F54613',
             fillOpacity: 0.8,
             radius: 25,
             stroke: false
