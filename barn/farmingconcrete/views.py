@@ -73,13 +73,13 @@ class IndexView(AddYearToSessionMixin, UserGardensMixin, TemplateView):
     template_name = 'farmingconcrete/index.html'
 
 
-class FarmingConcreteGardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
-                                   UserGardensMixin, DetailView):
+class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
+                    UserGardensMixin, DetailView):
     model = Garden
     template_name = 'farmingconcrete/gardens/detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super(FarmingConcreteGardenDetails, self).get_context_data(**kwargs)
+        context = super(GardenDetails, self).get_context_data(**kwargs)
 
         garden = self.object
         user = self.request.user
