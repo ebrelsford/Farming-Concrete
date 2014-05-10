@@ -53,33 +53,9 @@
                             <a href="{% url "home" %}">overview</a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="{% url "farmingconcrete_gardens_user" %}">
                                 enter your data
-                                <b class="caret"></b>
                             </a>
-                            <ul class="dropdown-menu">
-                                {% for group, metrics in grouped_metrics.items %}
-
-                                    {% if group %}
-                                        <li role="presentation" class="dropdown-header">
-                                            {{ group }}
-                                        </li>
-                                    {% endif %}
-
-                                    {% for metric in metrics %}
-                                        <li>
-                                            <a href="{% url metric.index_url_name %}">
-                                                {{ metric.name }}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-
-                                    {% if not forloop.last %}
-                                        <li role="presentation" class="divider"></li>
-                                    {% endif %}
-
-                                {% endfor %}
-                            </ul>
                         </li>
                         {% if user.is_staff %}
                         <li><a href="{% url "reports.views.index" %}">data reports</a></li>
