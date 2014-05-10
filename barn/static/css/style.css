@@ -6030,13 +6030,6 @@ h2 a.text {
   display: none;
   padding: 20px;
 }
-.garden-detail-page h1 {
-  color: #f54613;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 24px;
-  text-transform: uppercase;
-}
 .garden-detail-page .garden-item {
   border-bottom: 1px dotted black;
   padding-bottom: 15px;
@@ -6081,7 +6074,11 @@ ul.garden-list {
   border-top: 1px dotted black;
 }
 .garden-list-garden-name {
-  font-size: 20px;
+  color: #f54613;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 24px;
+  text-transform: uppercase;
 }
 .garden-list-buttons {
   margin-top: 10px;

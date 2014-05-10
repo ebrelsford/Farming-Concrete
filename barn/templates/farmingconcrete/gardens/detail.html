@@ -55,7 +55,7 @@
 {% block right %}
     {% for garden in garden_list %}
         <div class="garden-item">
-            <h1>{{ garden.name }}</h1>
+            <h1 class="garden-list-garden-name">{{ garden.name }}</h1>
             <div>
                 {% if garden.address %}
                 {{ garden.address }},
