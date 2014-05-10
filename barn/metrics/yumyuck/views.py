@@ -14,7 +14,7 @@ class YumYuckMixin(MetricMixin):
     metric_model = YumYuck
 
     def get_metric_name(self):
-        return 'Yum and Yuck'
+        return 'Changes in Attitude: Yum & Yuck'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(

@@ -14,7 +14,7 @@ class RecipeTallyMixin(MetricMixin):
     metric_model = RecipeTally
 
     def get_metric_name(self):
-        return 'Recipe Tally'
+        return 'Healthy Eating'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(

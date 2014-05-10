@@ -14,7 +14,7 @@ class ProgramReachMixin(MetricMixin):
     metric_model = ProgramReach
 
     def get_metric_name(self):
-        return 'Program Reach'
+        return 'Reach of Programs'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(

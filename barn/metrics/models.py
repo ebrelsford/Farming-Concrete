@@ -14,6 +14,9 @@ class MetricQuerySet(QuerySet):
     def for_garden(self, garden):
         return self.filter(garden=garden)
 
+    def for_gardens(self, gardens):
+        return self.filter(garden__pk__in=[garden.pk for garden in gardens])
+
     def for_year(self, year):
         return self.filter(recorded__year=year)
 
@@ -35,6 +38,9 @@ class MetricManager(models.Manager):
 
     def for_garden(self, garden):
         return self.get_query_set().for_garden(garden)
+
+    def for_gardens(self, gardens):
+        return self.get_query_set().for_gardens(gardens)
 
     def for_year(self, year):
         return self.get_query_set().for_year(year)
@@ -83,11 +89,13 @@ class BaseMetricRecord(AuditedModel):
         }
 
     @classmethod
-    def get_records(cls, garden, year=None, start=None, end=None):
+    def get_records(cls, gardens, year=None, start=None, end=None):
         """
         Get the records for this metric for the given garden and dates.
         """
-        records = cls.objects.for_garden(garden)
+        if not isinstance(gardens, (list, tuple)):
+            gardens = (gardens,)
+        records = cls.objects.for_gardens(gardens)
         if year:
             records = records.for_year(year)
         elif start and end:
@@ -95,8 +103,12 @@ class BaseMetricRecord(AuditedModel):
         return records
 
     @classmethod
-    def get_summary_data(cls, garden, **kwargs):
+    def get_summary_data(cls, gardens, **kwargs):
         """
         Get a summary of this metric for the given garden and dates.
         """
-        return cls.summarize(cls.get_records(garden, **kwargs))
+        if isinstance(gardens, QuerySet):
+            gardens = list(gardens)
+        if gardens and not isinstance(gardens, (list, tuple)):
+            gardens = (gardens,)
+        return cls.summarize(cls.get_records(gardens, **kwargs))

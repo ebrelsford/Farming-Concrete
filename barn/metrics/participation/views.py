@@ -22,7 +22,7 @@ class HoursByGeographyMixin(MetricMixin):
     metric_model = HoursByGeography
 
     def get_metric_name(self):
-        return 'Participation Hours by Geography'
+        return 'Participation by Geography'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(
@@ -78,7 +78,7 @@ class HoursByTaskMixin(MetricMixin):
     metric_model = HoursByTask
 
     def get_metric_name(self):
-        return 'Participation Hours by Task'
+        return 'Participation by Task'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(
@@ -182,7 +182,7 @@ class HoursByProjectMixin(MetricMixin):
     metric_model = HoursByProject
 
     def get_metric_name(self):
-        return 'Participation Hours by Project'
+        return 'Participation by Project'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(

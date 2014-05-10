@@ -18,7 +18,7 @@ class WeightMixin(MetricMixin):
     metric_model = LandfillDiversionWeight
 
     def get_metric_name(self):
-        return 'Landfill Diversion by Weight'
+        return 'Landfill Waste Diversion by Weight'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(
@@ -75,7 +75,7 @@ class VolumeMixin(MetricMixin):
     metric_model = LandfillDiversionVolume
 
     def get_metric_name(self):
-        return 'Landfill Diversion by Volume'
+        return 'Landfill Waste Diversion by Volume'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(

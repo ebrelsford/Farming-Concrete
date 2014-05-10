@@ -14,7 +14,7 @@ class LookingGoodEventMixin(MetricMixin):
     metric_model = LookingGoodEvent
 
     def get_metric_name(self):
-        return 'Looking Good'
+        return 'Beauty of the Garden'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(

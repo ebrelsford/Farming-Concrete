@@ -85,26 +85,27 @@ class CountRecords(MetricRecordTagMixin, AsTag):
 
 class Summarize(MetricRecordTagMixin, Tag):
 
-    # TODO optionally take multiple gardens at once, summarize together
-
     options = Options(
         Argument('name'),
         KeywordArgument('summary', required=False),
         KeywordArgument('records', required=False),
         KeywordArgument('garden', required=False),
+        KeywordArgument('gardens', required=False),
         KeywordArgument('year', required=False),
         KeywordArgument('start', required=False),
         KeywordArgument('end', required=False),
     )
 
-    def render_tag(self, context, name, summary, records, garden, year, start,
-                   end):
-        kwargs = self.args_to_dict(summary, records, garden, year, start, end)
+    def render_tag(self, context, name, summary, records, garden, gardens,
+                   year, start, end):
+        kwargs = self.args_to_dict(summary, records, garden, gardens, year,
+                                   start, end)
 
         # Get KeywordArguments with default values
         summary = kwargs.get('summary', None)
         records = kwargs.get('records', None)
         garden = kwargs.get('garden', None)
+        gardens = kwargs.get('gardens', None)
         year = kwargs.get('year', settings.FARMINGCONCRETE_YEAR)
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
@@ -117,9 +118,9 @@ class Summarize(MetricRecordTagMixin, Tag):
         if not summary:
             # If we do not have records either, get them and summarize
             if start and end:
-                summary = metric.get_summary_data(garden, start=start, end=end)
+                summary = metric.get_summary_data(gardens, start=start, end=end)
             else:
-                summary = metric.get_summary_data(garden, year=year)
+                summary = metric.get_summary_data(gardens, year=year)
 
         if not summary:
             return ''

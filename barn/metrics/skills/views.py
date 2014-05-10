@@ -14,7 +14,7 @@ class SmartsAndSkillsMixin(MetricMixin):
     metric_model = SmartsAndSkills
 
     def get_metric_name(self):
-        return 'Smarts and Skills'
+        return 'Skills & Knowledge in the Garden'
 
     def get_all_gardens_with_records(self):
         return Garden.objects.filter(
