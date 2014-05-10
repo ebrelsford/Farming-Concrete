@@ -1,0 +1,104 @@
+[
+{
+    "pk": 1, 
+    "model": "farmingconcrete.gardentype", 
+    "fields": {
+        "name": "community garden", 
+        "short_name": "community"
+    }
+},
+{
+    "pk": 3, 
+    "model": "farmingconcrete.gardentype", 
+    "fields": {
+        "name": "school garden", 
+        "short_name": "school"
+    }
+},
+{
+    "pk": 4, 
+    "model": "farmingconcrete.gardentype", 
+    "fields": {
+        "name": "backyard garden", 
+        "short_name": "backyard"
+    }
+},
+{
+    "pk": 5, 
+    "model": "farmingconcrete.gardentype", 
+    "fields": {
+        "name": "private organization garden", 
+        "short_name": "private_org"
+    }
+},
+{
+    "pk": 6, 
+    "model": "farmingconcrete.gardentype", 
+    "fields": {
+        "name": "farm", 
+        "short_name": "farm"
+    }
+},
+{
+    "pk": 1, 
+    "model": "farmingconcrete.garden", 
+    "fields": {
+        "city": null, 
+        "updated": "2011-05-23T16:49:07", 
+        "added": "2011-05-23T16:49:07", 
+        "neighborhood": "Test Neighborhood", 
+        "name": "Test Garden", 
+        "zip": "00000", 
+        "gardenid": null, 
+        "longitude": "0", 
+        "state": null, 
+        "address": "Test Address", 
+        "latitude": "0", 
+        "borough": "Brooklyn", 
+        "type": 1
+    }
+},
+{
+    "pk": 2, 
+    "model": "farmingconcrete.garden", 
+    "fields": {
+        "city": null, 
+        "updated": "2013-02-24T21:30:07", 
+        "added": "2011-05-23T16:49:07", 
+        "neighborhood": "Test Neighborhood 2", 
+        "name": "Test Garden 2", 
+        "zip": "00001", 
+        "gardenid": "", 
+        "longitude": "1", 
+        "state": null, 
+        "address": "Test Address 2", 
+        "latitude": "2", 
+        "borough": "Brooklyn", 
+        "type": 1
+    }
+},
+{
+    "pk": 86, 
+    "model": "farmingconcrete.variety", 
+    "fields": {
+        "updated": "2011-05-25T14:41:34", 
+        "added": "2011-05-25T14:40:42", 
+        "updated_by": null, 
+        "needs_moderation": false, 
+        "added_by": null, 
+        "name": "beans"
+    }
+},
+{
+    "pk": 87, 
+    "model": "farmingconcrete.variety", 
+    "fields": {
+        "updated": "2011-05-25T14:41:34", 
+        "added": "2011-05-25T14:40:42", 
+        "updated_by": null, 
+        "needs_moderation": false, 
+        "added_by": null, 
+        "name": "beets"
+    }
+}
+]

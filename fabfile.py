@@ -24,6 +24,11 @@ def pull():
 
 
 @task
+def test():
+    local('django-admin.py test farmingconcrete')
+
+
+@task
 def build_static():
     with workon(server_virtualenv):
         run('django-admin.py collectstatic --noinput')

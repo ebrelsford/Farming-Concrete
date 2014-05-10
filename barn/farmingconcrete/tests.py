@@ -1,23 +1,28 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+def login(client):
+    return client.post(reverse('django.contrib.auth.views.login'), {
+        'username': 'eric',
+        'password': 'muppet',
+    })
 
->>> 1 + 1 == 2
-True
-"""}
 
+class FarmingConcreteViewsTest(TestCase):
+    fixtures = ['farmingconcrete_test.json', 'accounts_test.json',]
+
+    def test_index(self):
+        resp = self.client.get(reverse('home'))
+        self.assertEqual(resp.status_code, 200)
+
+    def test_login(self):
+        self.client.get(reverse('home'))
+        resp = login(self.client)
+        self.assertEqual(resp.status_code, 302)
+
+    def test_gardens(self):
+        login(self.client)
+        resp = self.client.get(reverse('farmingconcrete_gardens_user'))
+        print resp.content
+        self.assertEqual(resp.status_code, 200)
