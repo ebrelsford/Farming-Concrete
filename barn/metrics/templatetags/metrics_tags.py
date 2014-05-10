@@ -85,6 +85,8 @@ class CountRecords(MetricRecordTagMixin, AsTag):
 
 class Summarize(MetricRecordTagMixin, Tag):
 
+    empty_template_name = 'metrics/summarize_empty.html'
+
     options = Options(
         Argument('name'),
         KeywordArgument('summary', required=False),
@@ -123,7 +125,7 @@ class Summarize(MetricRecordTagMixin, Tag):
                 summary = metric.get_summary_data(gardens, year=year)
 
         if not summary:
-            return ''
+            return render_to_string(self.empty_template_name)
         return render_to_string(self.get_template(name), summary)
 
     def get_template(self, metric_name):

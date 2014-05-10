@@ -5904,6 +5904,10 @@ ul.overview > li {
 ul.overview > li .even {
   background-color: #F2E3C4;
 }
+.overview.empty {
+  color: #a0a0a0;
+  font-weight: bold;
+}
 ul.gardens {
   list-style: none;
   padding-left: 20px;
