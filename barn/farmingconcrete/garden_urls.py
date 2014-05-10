@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (AddSuggestedGardenView, CreateGardenView, GardenDetails,
-                    GardenGroupDetailView, GardenSuggestionView,
+                    GardenGroupDetailView, GardenSuggestionView, UserGardens,
                     UserGardenLeaveView, UpdateGardenView,
                     UserGardenLeaveConfirmedView)
 
@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     url(r'^geojson', 'farmingconcrete.views.gardens_geojson',
         name='farmingconcrete_gardens_geojson'
     ),
+
+    url(r'^$', UserGardens.as_view(), name='farmingconcrete_gardens_user'),
 
     url(r'^(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$', GardenDetails.as_view(),
         name='farmingconcrete_garden_details'

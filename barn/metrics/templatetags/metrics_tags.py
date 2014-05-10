@@ -85,6 +85,8 @@ class CountRecords(MetricRecordTagMixin, AsTag):
 
 class Summarize(MetricRecordTagMixin, Tag):
 
+    # TODO optionally take multiple gardens at once, summarize together
+
     options = Options(
         Argument('name'),
         KeywordArgument('summary', required=False),

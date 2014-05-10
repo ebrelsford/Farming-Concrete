@@ -15,19 +15,38 @@
                 {% endif %}
                 {% for metric in metrics %}
                     <section class="metric">
-                        {% url metric.garden_detail_url_name pk=garden.pk as metric_url%}
                         <div class="pull-right">
-                            <a href="{{ metric_url }}" class="btn btn-default">
-                                {% trans "add data" %}
-                            </a>
+                            {% ifequal garden_list|length 1 %}
+                                {% url metric.garden_detail_url_name pk=garden.pk as metric_url %}
+                                <a href="{{ metric_url }}" class="btn btn-default">
+                                    {% trans "add data" %}
+                                </a>
+                            {% else %}
+                                <div class="btn-group">
+                                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        {% trans "add data" %}
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        {% for garden in garden_list %}
+                                            <li>
+                                                <a href="{% url metric.garden_detail_url_name pk=garden.pk %}">{{ garden.name }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endifequal %}
                         </div>
                         <h4>
-                            <a class="metric-name" href="{{ metric_url }}">
+                            <span class="metric-name">
                                 {{ metric.group_number }}.{{ metric.number }}
                                 {{ metric.name }}
-                            </a>
+                            </span>
                         </h4>
-                        {% summarize metric.name garden=garden year=year %}
+                        {% for garden in garden_list %}
+                            {# TODO make summarize take garden lists #}
+                            {% summarize metric.name garden=garden year=year %}
+                        {% endfor %}
                     </section>
                 {% endfor %}
             </section>
@@ -37,30 +56,32 @@
 {% endblock %}
 
 {% block right %}
-    <h1>{{ garden.name }}</h1>
-    <div>
-        {% if garden.address %}
-        {{ garden.address }},
-        {% endif %}
-        {% if garden.borough %}
-        {{ garden.borough }}
-        {% else %}
-        {{ garden.city }}, {{ garden.state }}
-        {% endif %}
-    </div>
-    <div>
-        <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">
-            {% trans "Edit" %}
-        </a>
-        |
-        <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">
-            {% trans "Delete" %}
-        </a>
-    </div>
+    {% for garden in garden_list %}
+        <h1>{{ garden.name }}</h1>
+        <div>
+            {% if garden.address %}
+            {{ garden.address }},
+            {% endif %}
+            {% if garden.borough %}
+            {{ garden.borough }}
+            {% else %}
+            {{ garden.city }}, {{ garden.state }}
+            {% endif %}
+        </div>
+        <div>
+            <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">
+                {% trans "Edit" %}
+            </a>
+            |
+            <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">
+                {% trans "Delete" %}
+            </a>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block map_garden_params %}
-    data-l-ids="{{ garden.pk }}"
+    data-l-ids="{{ garden_ids|join:"," }}"
 {% endblock %}
 
 {% block actions %}{% endblock %}

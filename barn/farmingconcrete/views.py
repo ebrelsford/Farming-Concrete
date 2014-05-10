@@ -86,6 +86,23 @@ class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
         if not user.has_perm('can_edit_any_garden'):
             if garden not in self.get_user_gardens():
                 raise Http403
+        context['garden_list'] = (garden,)
+        context['garden_ids'] = (garden.pk,)
+        return context
+
+
+class UserGardens(LoginRequiredMixin, AddYearToSessionMixin, UserGardensMixin,
+                  ListView):
+    context_object_name = 'garden_list'
+    model = Garden
+    template_name = 'farmingconcrete/gardens/detail.html'
+
+    def get_queryset(self):
+        return self.get_user_gardens()
+
+    def get_context_data(self, **kwargs):
+        context = super(UserGardens, self).get_context_data(**kwargs)
+        context['garden_ids'] = self.get_queryset().values_list('pk', flat=True)
         return context
 
 
