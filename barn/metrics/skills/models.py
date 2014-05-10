@@ -54,12 +54,14 @@ class SmartsAndSkills(BaseMetricRecord):
         return kwargs
 
 
-register('Smarts and Skills', {
+register('Skills & Knowledge in the Garden', {
     'add_record_template': 'metrics/skills/smarts/add_record.html',
     'all_gardens_url_name': 'skills_smarts_all_gardens',
     'model': SmartsAndSkills,
+    'number': 4,
     'garden_detail_url_name': 'skills_smarts_garden_details',
-    'group': 'Skills & Knowledge',
+    'group': 'Social Data',
+    'group_number': 2,
     'index_url_name': 'skills_smarts_index',
     'summarize_template': 'metrics/skills/smarts/summarize.html',
     'user_gardens_url_name': 'skills_smarts_user_gardens',

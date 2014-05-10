@@ -14,6 +14,7 @@ registry
 register
     Proxy registry.register.
 """
+from collections import OrderedDict
 from itertools import groupby
 from operator import itemgetter
 
@@ -41,9 +42,10 @@ class MetricRegistry(dict):
         self[metric_name] = metric_details
 
     def by_group(self):
-        sorted_metrics = sorted(self.values(), key=itemgetter('group', 'name'))
+        sorted_metrics = sorted(self.values(),
+                                key=itemgetter('group_number', 'number', 'name'))
         grouped = groupby(sorted_metrics, lambda m: m['group'])
-        g = {}
+        g = OrderedDict()
         for group, metrics in grouped:
             g[group] = list(metrics)
         return g

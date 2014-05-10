@@ -47,13 +47,15 @@ class LookingGoodEvent(BaseMetricRecord):
         return kwargs
 
 
-register('Looking Good', {
+register('Beauty of the Garden', {
     'add_record_label': 'Add looking good tags',
     'add_record_template': 'metrics/lookinggood/event/add_record.html',
     'all_gardens_url_name': 'lookinggood_event_all_gardens',
     'model': LookingGoodEvent,
+    'number': 4,
     'garden_detail_url_name': 'lookinggood_event_garden_details',
-    'group': 'Health & Wellness',
+    'group': 'Health Data',
+    'group_number': 3,
     'index_url_name': 'lookinggood_event_index',
     'summarize_template': 'metrics/lookinggood/event/summarize.html',
     'user_gardens_url_name': 'lookinggood_event_user_gardens',

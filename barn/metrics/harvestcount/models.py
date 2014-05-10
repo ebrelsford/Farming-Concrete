@@ -50,8 +50,10 @@ class Harvest(BaseMetricRecord):
 register('Harvest Count', {
     'all_gardens_url_name': 'harvestcount_all_gardens',
     'model': Harvest,
+    'number': 2,
     'garden_detail_url_name': 'harvestcount_garden_details',
     'group': 'Food Production',
+    'group_number': 0,
     'index_url_name': 'harvestcount_index',
     'user_gardens_url_name': 'harvestcount_user_gardens',
 })

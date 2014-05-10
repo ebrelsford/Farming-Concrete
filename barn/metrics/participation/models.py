@@ -157,39 +157,45 @@ class HoursByProject(BaseMetricRecord):
         return kwargs
 
 
-register('Participation Hours by Geography', {
+register('Participation by Geography', {
     'add_record_label': 'Add participation hours',
     'add_record_template': 'metrics/participation/geography/add_record.html',
     'all_gardens_url_name': 'participation_geography_all_gardens',
     'model': HoursByGeography,
+    'number': 1,
     'garden_detail_url_name': 'participation_geography_garden_details',
-    'group': 'Participation',
+    'group': 'Social Data',
+    'group_number': 2,
     'index_url_name': 'participation_geography_index',
     'summarize_template': 'metrics/participation/geography/summarize.html',
     'user_gardens_url_name': 'participation_geography_user_gardens',
 })
 
 
-register('Participation Hours by Task', {
+register('Participation by Task', {
     'add_record_label': 'Add participation hours',
     'add_record_template': 'metrics/participation/task/add_record.html',
     'all_gardens_url_name': 'participation_task_all_gardens',
     'model': HoursByTask,
+    'number': 2,
     'garden_detail_url_name': 'participation_task_garden_details',
-    'group': 'Participation',
+    'group': 'Social Data',
+    'group_number': 2,
     'index_url_name': 'participation_task_index',
     'summarize_template': 'metrics/participation/task/summarize.html',
     'user_gardens_url_name': 'participation_task_user_gardens',
 })
 
 
-register('Participation Hours by Project', {
+register('Participation by Project', {
     'add_record_label': 'Add participation hours',
     'add_record_template': 'metrics/participation/project/add_record.html',
     'all_gardens_url_name': 'participation_project_all_gardens',
     'model': HoursByProject,
+    'number': 3,
     'garden_detail_url_name': 'participation_project_garden_details',
-    'group': 'Participation',
+    'group': 'Social Data',
+    'group_number': 2,
     'index_url_name': 'participation_project_index',
     'summarize_template': 'metrics/participation/project/summarize.html',
     'user_gardens_url_name': 'participation_project_user_gardens',

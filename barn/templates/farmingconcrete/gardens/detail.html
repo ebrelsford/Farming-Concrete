@@ -22,7 +22,10 @@
                             </a>
                         </div>
                         <h4>
-                            <a class="metric-name" href="{{ metric_url }}">{{ metric.name }}</a>
+                            <a class="metric-name" href="{{ metric_url }}">
+                                {{ metric.group_number }}.{{ metric.number }}
+                                {{ metric.name }}
+                            </a>
                         </h4>
                         {% summarize metric.name garden=garden year=year %}
                     </section>

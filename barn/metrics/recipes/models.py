@@ -25,12 +25,14 @@ class RecipeTally(BaseMetricRecord):
         return kwargs
 
 
-register('Recipe Tally', {
+register('Healthy Eating', {
     'add_record_template': 'metrics/recipes/tally/add_record.html',
     'all_gardens_url_name': 'recipes_tally_all_gardens',
     'model': RecipeTally,
+    'number': 3,
     'garden_detail_url_name': 'recipes_tally_garden_details',
-    'group': 'Health & Wellness',
+    'group': 'Health Data',
+    'group_number': 3,
     'index_url_name': 'recipes_tally_index',
     'summarize_template': 'metrics/recipes/tally/summarize.html',
     'user_gardens_url_name': 'recipes_tally_user_gardens',

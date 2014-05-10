@@ -49,24 +49,28 @@ class LandfillDiversionVolume(BaseMetricRecord):
         return kwargs
 
 
-register('Landfill Diversion by Weight', {
+register('Landfill Waste Diversion by Weight', {
     'add_record_label': 'Add landfill diversion by weight',
     'all_gardens_url_name': 'landfilldiversion_weight_all_gardens',
     'model': LandfillDiversionWeight,
+    'number': 1,
     'garden_detail_url_name': 'landfilldiversion_weight_garden_details',
-    'group': 'Compost',
+    'group': 'Environmental Data',
+    'group_number': 1,
     'index_url_name': 'landfilldiversion_weight_index',
     'summarize_template': 'metrics/landfilldiversion/weight/summarize.html',
     'user_gardens_url_name': 'landfilldiversion_weight_user_gardens',
 })
 
 
-register('Landfill Diversion by Volume', {
+register('Landfill Waste Diversion by Volume', {
     'add_record_label': 'Add landfill diversion by volume',
     'all_gardens_url_name': 'landfilldiversion_volume_all_gardens',
     'model': LandfillDiversionVolume,
+    'number': 1,
     'garden_detail_url_name': 'landfilldiversion_volume_garden_details',
-    'group': 'Compost',
+    'group': 'Environmental Data',
+    'group_number': 1,
     'index_url_name': 'landfilldiversion_volume_index',
     'summarize_template': 'metrics/landfilldiversion/volume/summarize.html',
     'user_gardens_url_name': 'landfilldiversion_volume_user_gardens',

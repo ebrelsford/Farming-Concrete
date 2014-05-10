@@ -140,11 +140,13 @@ class ProgramReach(BaseMetricRecord):
         return kwargs
 
 
-register('Program Reach', {
+register('Reach of Programs', {
     'all_gardens_url_name': 'reach_program_all_gardens',
     'model': ProgramReach,
+    'number': 5,
     'garden_detail_url_name': 'reach_program_garden_details',
-    'group': 'Skills & Knowledge',
+    'group': 'Social Data',
+    'group_number': 2,
     'index_url_name': 'reach_program_index',
     'summarize_template': 'metrics/reach/program/summarize.html',
     'user_gardens_url_name': 'reach_program_user_gardens',

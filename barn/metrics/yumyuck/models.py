@@ -41,12 +41,14 @@ class YumYuck(BaseMetricRecord):
         return kwargs
 
 
-register('Yum and Yuck', {
+register('Changes in Attitude: Yum & Yuck', {
     'add_record_template': 'metrics/yumyuck/change/add_record.html',
     'all_gardens_url_name': 'yumyuck_change_all_gardens',
     'model': YumYuck,
+    'number': 1,
     'garden_detail_url_name': 'yumyuck_change_garden_details',
-    'group': 'Health & Wellness',
+    'group': 'Health Data',
+    'group_number': 3,
     'index_url_name': 'yumyuck_change_index',
     'summarize_template': 'metrics/yumyuck/change/summarize.html',
     'user_gardens_url_name': 'yumyuck_change_user_gardens',
