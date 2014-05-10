@@ -19,15 +19,6 @@
     {% include "metrics/cropcount/beds/list_snippet.html" %}
 {% endblock %}
 
-{% block right %}
-    {{ block.super }}
-    <ul class="overview">
-        <li><b>{{ beds|default:"0" }}</b> bed{{ beds|pluralize }}</li>
-        <li><b>{{ area|default:"0" }}</b> square feet</li>
-        <li><b>{{ plants|default:"0" }}</b> plant{{ plants|pluralize }}</li>
-    </ul>
-{% endblock %}
-
 {% block actions %}
     <h2>
         <a class="image" href="{% url "cropcount_download_garden_cropcount_as_csv" id=garden.id year=request.session.year %}"><img src="{% static "img/download.png" %}" /></a>

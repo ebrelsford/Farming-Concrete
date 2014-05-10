@@ -43,10 +43,7 @@
                                 {{ metric.name }}
                             </span>
                         </h4>
-                        {% for garden in garden_list %}
-                            {# TODO make summarize take garden lists #}
-                            {% summarize metric.name garden=garden year=year %}
-                        {% endfor %}
+                        {% summarize metric.name gardens=garden_list year=year %}
                     </section>
                 {% endfor %}
             </section>
