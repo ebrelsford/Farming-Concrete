@@ -5553,6 +5553,9 @@ a:hover {
   float: right;
   margin-top: 50px;
 }
+#header #logout-link .arrow {
+  font-size: 20px;
+}
 #main {
   clear: both;
   padding-top: 10px;
