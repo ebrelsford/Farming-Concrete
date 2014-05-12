@@ -5561,8 +5561,7 @@ footer {
 }
 main {
   clear: both;
-  padding-top: 10px;
-  padding-bottom: 30px;
+  padding-top: 50px;
 }
 #breadcrumbs {
   font-size: 12px;
