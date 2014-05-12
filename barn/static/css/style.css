@@ -6061,7 +6061,8 @@ h2 a.text {
   color: white;
   padding: 5px 10px;
   position: fixed;
-  right: 50px;
+  right: 8.33333333%;
+  margin-right: 15px;
   top: 0;
   z-index: 2000;
 }
