@@ -1,34 +1,7 @@
 {% extends "metrics/summarize.html" %}
-{% load i18n imagekit %}
+{% load i18n %}
 
-{% block summary %}
-    {{ block.super }}
-    <li class="odd">
-        {{ participants }} {% trans "participant" %}{{ participants|pluralize }}
-    </li>
-    <li class="even">
-        {{ skills_shared }} {% trans "skill" %}{{ skills_shared|pluralize }} 
-        {% trans "shared" %}
-    </li>
-    <li class="odd">
-        {{ concepts_shared }} {% trans "concept" %}{{ concepts_shared|pluralize }}
-        {% trans "shared" %}
-    </li>
-    <li class="even">
-        {{ projects_proposed }} {% trans "project" %}{{ projects_proposed|pluralize }}
-        {% trans "proposed" %}
-    </li>
-    <li class="odd">
-        {{ ideas_to_learn }} {% trans "idea" %}{{ ideas_to_learn|pluralize }} 
-        {% trans "to learn" %}
-    </li>
-    <li class="even">
-        {{ intentions_to_collaborate }} {% trans "intention" %}{{ intentions_to_collaborate|pluralize }}
-        {% trans "to collaborate" %}
-    </li>
-    {% if photo %}
-        <li class="even">
-            {% thumbnail "200x200" photo %}
-        </li>
-    {% endif %}
+{% block summary_details %}
+    {{ skills_shared }} {% trans "skill" %}{{ skills_shared|pluralize }} 
+    {% trans "shared" %}
 {% endblock %}

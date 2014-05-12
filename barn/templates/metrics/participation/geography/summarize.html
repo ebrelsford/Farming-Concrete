@@ -1,9 +1,6 @@
 {% extends "metrics/summarize.html" %}
-{% load i18n imagekit %}
+{% load i18n %}
 
-{% block summary %}
-    {{ block.super }}
-    <li class="odd">
-        {{ hours|floatformat }} {% trans "hour" %}{{ hours|pluralize }}
-    </li>
+{% block summary_details %}
+    {{ hours|floatformat }} {% trans "hour" %}{{ hours|pluralize }}
 {% endblock %}

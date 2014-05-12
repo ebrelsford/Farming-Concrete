@@ -1,25 +1,7 @@
 {% extends "metrics/summarize.html" %}
-{% load i18n imagekit %}
+{% load i18n %}
 
-{% block summary %}
-    {{ block.super }}
-    <li class="odd">
-        {{ vegetables }} {% trans "vegetable" %}{{ vegetables|pluralize }}
-    </li>
-    <li class="even">
-        {{ yum_before }} {% trans "yum" %}{{yum_before|pluralize }} 
-        {% trans "before" %}
-    </li>
-    <li class="odd">
-        {{ yuck_before }} {% trans "yuck" %}{{yuck_before|pluralize }} 
-        {% trans "before" %}
-    </li>
-    <li class="even">
-        {{ yum_after }} {% trans "yum" %}{{yum_after|pluralize }} 
-        {% trans "after" %}
-    </li>
-    <li class="odd">
-        {{ yuck_after }} {% trans "yuck" %}{{yuck_after|pluralize }} 
-        {% trans "after" %}
-    </li>
+{% block summary_details %}
+    {{ yum_before }} {% trans "yum" %}{{yum_before|pluralize }} {% trans "before" %} and
+    {{ yum_after }} {% trans "yum" %}{{yum_after|pluralize }} {% trans "after" %}
 {% endblock %}

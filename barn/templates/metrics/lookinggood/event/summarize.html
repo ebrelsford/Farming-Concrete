@@ -1,9 +1,6 @@
 {% extends "metrics/summarize.html" %}
 {% load i18n %}
 
-{% block summary %}
-    {{ block.super }}
-    <li class="odd">
-        {{ total_tags }} {% trans "tag" %}{{ total_tags|pluralize }}
-    </li>
+{% block summary_details %}
+    {{ total_tags }} {% trans "tag" %}{{ total_tags|pluralize }}
 {% endblock %}

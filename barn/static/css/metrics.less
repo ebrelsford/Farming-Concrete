@@ -4,25 +4,27 @@
     margin-top: 25px;
 }
 
-ul.overview {
-    font-size: 20px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    margin-bottom: 10px;
-}
-ul.overview > li {
-    padding: 2px;
-    .last {
-    }
-    .even {
-        background-color: #F2E3C4;
-    }
-}
-
-.overview.empty {
-    color: #a0a0a0;
+.summary {
+    .make-row();
+    font-size: 14px;
     font-weight: bold;
+
+    &.empty {
+        color: #a0a0a0;
+        padding-left: 15px;
+    }
+
+    &-record-count {
+        .make-sm-column(3);
+    }
+
+    &-details {
+        .make-sm-column(4);
+    }
+
+    &-last-record-date {
+        .make-sm-column(5);
+    }
 }
 
 ul.gardens {

@@ -15,7 +15,16 @@
                 {% endif %}
                 {% for metric in metrics %}
                     <section class="metric">
-                        <div class="pull-right">
+                        <div class="metric-details">
+                            <h4>
+                                <span class="metric-name">
+                                    {{ metric.group_number }}.{{ metric.number }}
+                                    {{ metric.name }}
+                                </span>
+                            </h4>
+                            {% summarize metric.name gardens=garden_list year=year %}
+                        </div>
+                        <div class="col-md-2">
                             {% ifequal garden_list|length 1 %}
                                 {% url metric.garden_detail_url_name pk=garden.pk as metric_url %}
                                 <a href="{{ metric_url }}" class="btn btn-default">
@@ -37,13 +46,6 @@
                                 </div>
                             {% endifequal %}
                         </div>
-                        <h4>
-                            <span class="metric-name">
-                                {{ metric.group_number }}.{{ metric.number }}
-                                {{ metric.name }}
-                            </span>
-                        </h4>
-                        {% summarize metric.name gardens=garden_list year=year %}
                     </section>
                 {% endfor %}
             </section>

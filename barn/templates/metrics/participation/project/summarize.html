@@ -1,12 +1,7 @@
 {% extends "metrics/summarize.html" %}
 {% load i18n %}
 
-{% block summary %}
-    {{ block.super }}
-    <li class="odd">
-        {{ hours|floatformat }} hour{{ hours|pluralize }}
-    </li>
-    <li class="even">
-        {{ projects }} project{{ projects|pluralize }}
-    </li>
+{% block summary_details %}
+    {{ hours|floatformat }} hour{{ hours|pluralize }},
+    {{ projects }} project{{ projects|pluralize }}
 {% endblock %}

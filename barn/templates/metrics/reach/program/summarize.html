@@ -1,9 +1,6 @@
 {% extends "metrics/summarize.html" %}
-{% load i18n imagekit %}
+{% load i18n %}
 
-{% block summary %}
-    {{ block.super }}
-    <li class="odd">
-        {{ count }} {% trans "program" %}{{ count|pluralize }}
-    </li>
+{% block summary_details %}
+    {{ count }} {% trans "program" %}{{ count|pluralize }}
 {% endblock %}

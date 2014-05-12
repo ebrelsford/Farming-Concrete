@@ -1,13 +1,6 @@
 {% extends "metrics/summarize.html" %}
 
-{% block summary %}
-    <li class="odd">
-        <b>{{ beds|default:"0" }}</b> bed{{ beds.count|pluralize }}
-    </li>
-    <li class="even">
-        <b>{{ area|floatformat|default:"0" }}</b> square feet
-    </li>
-    <li class="odd">
-        <b>{{ plants|default:"0" }}</b> plant{{ plants.count|pluralize }}
-    </li>
+{% block summary_details %}
+    {{ beds|default:"0" }} bed{{ beds|pluralize }},
+    {{ plants|default:"0" }} plant{{ plants|pluralize }}
 {% endblock %}
