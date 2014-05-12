@@ -5544,10 +5544,14 @@ a:hover {
   text-decoration: underline;
 }
 #header img {
+  margin-bottom: 15px;
+  margin-top: 15px;
   max-width: 100%;
 }
 #header #logout-link {
   color: black;
+  float: right;
+  margin-top: 50px;
 }
 #main {
   clear: both;
