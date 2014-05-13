@@ -1,7 +1,9 @@
-{% load metrics_tags %}
+{% load metrics_tags static %}
 
 <section class="list-records">
-    <h2>Records for {{ request.session.year }}</h2>
+    <h2 class="recorded-header">
+        <img src="{% static "img/recorded.png" %}" />
+    </h2>
     <p>
         {% metric_years metric garden as years %}
         <label for="list-records-year">

@@ -4,12 +4,6 @@
 
 {% block body_class %}{{ block.super }} map-base-page{% endblock %}
 
-{% block breadcrumbs %}
-    <a href="{% url "home" %}">Home</a> &gt;&gt;
-    <a href="{{ index_url }}">{{ metric_name }}</a> &gt;&gt;
-    {{ title }}
-{% endblock %}
-
 {% block content %}
     <h1>{{ title }}</h1>
     {{ block.super }}

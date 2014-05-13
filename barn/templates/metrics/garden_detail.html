@@ -4,29 +4,29 @@
 {% block title %}{{ garden.name }}{% endblock %}
 {% block header_title %}{{ garden.name }}{% endblock %}
 
-{% block body_class %}{{ block.super }} record-list-page{% endblock %}
-
-{% block breadcrumbs %}
-    {{ block.super }}
-    {{ garden.name }}
-{% endblock %}
+{% block body_class %}{{ block.super }} metric-garden-page record-list-page{% endblock %}
 
 {% block content %}
     {% if garden %}
-        {% if not is_mobile %}
-            <h1>{{ garden.name }}</h1>
-        {% endif %}
-
         <div class="garden-details clearfix">
             {{ block.super }}
         </div>
     {% else %}
+        {# TODO raise 404 instead #}
         <p>No such garden</p>
     {% endif %}
 {% endblock %}
 
 {% block left %}
-    {% add_record metric_name garden form %}
+    <h1 class="metric-name">
+        {% with metric_src="img/metrics/"|add:metric_name|add:".jpg" %}
+            <img src="{% static metric_src %}" />
+        {% endwith %}
+    </h1>
+    {% block add_record %}
+        {% add_record metric_name garden form %}
+    {% endblock %}
+    {% block list_records %}{% endblock %}
 {% endblock %}
 
 {% block right %}
@@ -39,12 +39,4 @@
 {% block map_options %}
     {{ block.super }}
     data-l-gardenid="{{ garden.pk }}"
-{% endblock %}
-
-{% block actions %}
-    {{ block.super }}
-    <h2>
-        <a class="image" href="{% url metric.index_url_name year=request.session.year %}"><img src="{% static "img/round_checkmark.png" %}" /></a>
-        <a class="text" href="{% url metric.index_url_name year=request.session.year %}">Done adding records to this garden!</a>
-    </h2>
 {% endblock %}
