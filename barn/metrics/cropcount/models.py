@@ -77,6 +77,7 @@ class Patch(BaseMetricRecord):
 
 register('Crop Count', {
     'all_gardens_url_name': 'cropcount_all_gardens',
+    'download_url_name': 'cropcount_download_garden_cropcount_as_csv',
     'model': Patch,
     'number': 1,
     'garden_detail_url_name': 'cropcount_garden_details',

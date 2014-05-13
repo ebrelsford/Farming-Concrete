@@ -28,6 +28,7 @@ class RecipeTally(BaseMetricRecord):
 register('Healthy Eating', {
     'add_record_template': 'metrics/recipes/tally/add_record.html',
     'all_gardens_url_name': 'recipes_tally_all_gardens',
+    'download_url_name': 'recipes_tally_garden_csv',
     'model': RecipeTally,
     'number': 3,
     'garden_detail_url_name': 'recipes_tally_garden_details',

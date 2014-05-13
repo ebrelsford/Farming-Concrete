@@ -38,7 +38,7 @@ urlpatterns = patterns('metrics.cropcount.views',
         name='cropcount_summary'
     ),
 
-    url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?csv/$',
+    url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
         'download_garden_cropcount_as_csv',
         name='cropcount_download_garden_cropcount_as_csv'
     ),

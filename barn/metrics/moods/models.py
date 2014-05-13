@@ -71,6 +71,7 @@ class MoodChange(BaseMetricRecord):
 register('Good Moods in the Garden', {
     'add_record_template': 'metrics/moods/change/add_record.html',
     'all_gardens_url_name': 'moods_change_all_gardens',
+    'download_url_name': 'moods_change_garden_csv',
     'model': MoodChange,
     'number': 2,
     'garden_detail_url_name': 'moods_change_garden_details',

@@ -142,6 +142,7 @@ class ProgramReach(BaseMetricRecord):
 
 register('Reach of Programs', {
     'all_gardens_url_name': 'reach_program_all_gardens',
+    'download_url_name': 'reach_program_garden_csv',
     'model': ProgramReach,
     'number': 5,
     'garden_detail_url_name': 'reach_program_garden_details',

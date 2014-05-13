@@ -27,6 +27,9 @@
         {% add_record metric_name garden form %}
     {% endblock %}
     {% block list_records %}{% endblock %}
+
+    {% url metric.download_url_name pk=garden.pk year=request.session.year as csv_url %}
+    <a class="btn btn-default" href="{{ csv_url }}">download data</a>
 {% endblock %}
 
 {% block right %}

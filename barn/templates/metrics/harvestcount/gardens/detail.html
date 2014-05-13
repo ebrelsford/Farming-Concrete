@@ -3,8 +3,11 @@
 
 {% block body_class %}{{ block.super }} add-harvest-page{% endblock %}
 
-{% block left %}
+{% block add_record %}
     {% include "metrics/harvestcount/harvests/add_snippet.html" %}
+{% endblock %}
+
+{% block list_records %}
     {% include "metrics/harvestcount/harvests/list_snippet.html" %}
 {% endblock %}
 
@@ -15,12 +18,4 @@
         <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
         <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
     </ul>
-{% endblock %}
-
-{% block actions %}
-    <h2>
-        <a class="image" href="{% url "harvestcount_download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}"><img src="{% static "img/download.png" %}" /></a>
-        <a class="text" href="{% url "harvestcount_download_garden_harvestcount_as_csv" id=garden.id year=request.session.year %}">Download this as a spreadsheet</a>
-    </h2>
-    {{ block.super }}
 {% endblock %}

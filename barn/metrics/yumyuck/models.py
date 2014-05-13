@@ -44,6 +44,7 @@ class YumYuck(BaseMetricRecord):
 register('Changes in Attitude: Yum & Yuck', {
     'add_record_template': 'metrics/yumyuck/change/add_record.html',
     'all_gardens_url_name': 'yumyuck_change_all_gardens',
+    'download_url_name': 'yumyuck_change_garden_csv',
     'model': YumYuck,
     'number': 1,
     'garden_detail_url_name': 'yumyuck_change_garden_details',

@@ -21,10 +21,3 @@
 {% block list_records %}
     {% include "metrics/cropcount/beds/list_snippet.html" %}
 {% endblock %}
-
-{% block actions %}
-    <h2>
-        <a class="btn btn-default" href="{% url "cropcount_download_garden_cropcount_as_csv" id=garden.id year=request.session.year %}">Download data</a>
-    </h2>
-    {{ block.super }}
-{% endblock %}

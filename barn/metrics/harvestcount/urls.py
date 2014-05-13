@@ -33,7 +33,7 @@ urlpatterns = patterns('',
         name='harvestcount_garden_details',
     ),
 
-    url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?csv/$',
+    url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
         'metrics.harvestcount.views.download_garden_harvestcount_as_csv',
         name='harvestcount_download_garden_harvestcount_as_csv'
     ),
