@@ -5559,6 +5559,9 @@ header #logout-link .arrow {
 footer {
   margin-top: 100px;
 }
+footer #farming-concrete-logo {
+  margin-bottom: 10px;
+}
 main {
   clear: both;
   padding-top: 50px;
