@@ -6204,6 +6204,52 @@ h2#your-gardens-title {
   padding-left: 15px;
   padding-right: 15px;
 }
+.btn-add-garden {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+  margin-top: 15px;
+}
+.btn-add-garden:hover,
+.btn-add-garden:focus,
+.btn-add-garden:active,
+.btn-add-garden.active,
+.open .dropdown-toggle.btn-add-garden {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-add-garden:active,
+.btn-add-garden.active,
+.open .dropdown-toggle.btn-add-garden {
+  background-image: none;
+}
+.btn-add-garden.disabled,
+.btn-add-garden[disabled],
+fieldset[disabled] .btn-add-garden,
+.btn-add-garden.disabled:hover,
+.btn-add-garden[disabled]:hover,
+fieldset[disabled] .btn-add-garden:hover,
+.btn-add-garden.disabled:focus,
+.btn-add-garden[disabled]:focus,
+fieldset[disabled] .btn-add-garden:focus,
+.btn-add-garden.disabled:active,
+.btn-add-garden[disabled]:active,
+fieldset[disabled] .btn-add-garden:active,
+.btn-add-garden.disabled.active,
+.btn-add-garden[disabled].active,
+fieldset[disabled] .btn-add-garden.active {
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-add-garden .badge {
+  color: #000000;
+  background-color: #ffffff;
+}
+#intro-text {
+  padding: 50px;
+  padding-top: 0;
+}
 .olControlAttribution {
   bottom: 3px !important;
   font-size: 10px !important;

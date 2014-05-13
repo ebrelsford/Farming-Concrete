@@ -10,50 +10,53 @@
         <div class="row">
             <div id="left">
 
-                <p>
-                    {% blocktrans %}
-                        Welcome to the 
-                        <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
-                        where you can store the data you collect with the 
-                        Five Borough Farm Data Collection Toolkit,
-                        developed by the Design Trust for Public Space 
-                        in collaboration with Farming Concrete.
-                    {% endblocktrans %}
-                </p>
-
-                {% if not user.is_authenticated %}
-
-                    {% url "django.contrib.auth.views.login" as login_url %}
-                    {% url "registration_register" as register_url %}
+                <section id="intro-text">
                     <p>
                         {% blocktrans %}
-                            If you are a gardener and would like to start entering data, 
-                            please 
-                            <a href="{{ login_url }}" data-role="button">log in</a> 
-                            first. If you don't yet have a login, you can 
-                            <a href="{{ register_url }}">create one now</a>
-                            If you are just visiting, we will eventually have some public 
-                            reports here for you to view.
+                            Welcome to the 
+                            <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
+                            where you can store the data you collect with the 
+                            Five Borough Farm Data Collection Toolkit,
+                            developed by the Design Trust for Public Space 
+                            in collaboration with Farming Concrete.
                         {% endblocktrans %}
                     </p>
 
-                    <p>
-                        {% blocktrans %}
-                            If you have any problems or questions, please email us at 
-                            <strong>gardens (at) farmingconcrete (dot) org</strong>.
-                        {% endblocktrans %}
-                    </p>
+                    {% if not user.is_authenticated %}
 
-                    <p>
-                        <a class="btn btn-default" href="{{ register_url }}">
-                            {% trans "Register" %}
-                        </a>
-                        <a class="btn btn-primary" href="{{ login_url }}">
-                            {% trans "Log in" %}
-                        </a>
-                    </p>
+                        {% url "django.contrib.auth.views.login" as login_url %}
+                        {% url "registration_register" as register_url %}
+                        <p>
+                            {% blocktrans %}
+                                If you are a gardener and would like to start entering data, 
+                                please 
+                                <a href="{{ login_url }}" data-role="button">log in</a> 
+                                first. If you don't yet have a login, you can 
+                                <a href="{{ register_url }}">create one now</a>
+                                If you are just visiting, we will eventually have some public 
+                                reports here for you to view.
+                            {% endblocktrans %}
+                        </p>
 
-                {% else %}
+                        <p>
+                            {% blocktrans %}
+                                If you have any problems or questions, please email us at 
+                                <strong>gardens (at) farmingconcrete (dot) org</strong>.
+                            {% endblocktrans %}
+                        </p>
+
+                        <p>
+                            <a class="btn btn-default" href="{{ register_url }}">
+                                {% trans "Register" %}
+                            </a>
+                            <a class="btn btn-primary" href="{{ login_url }}">
+                                {% trans "Log in" %}
+                            </a>
+                        </p>
+                    {% endif %}
+                </section>
+
+                {% if user.is_authenticated %}
                     <section id="your-gardens-section">
 
                         {% if user_gardens %}
@@ -82,7 +85,7 @@
                                 {% endfor %}
                             </ul>
 
-                            <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary">
+                            <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
                                 Add a garden
                             </a>
                         {% else %}
