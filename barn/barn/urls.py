@@ -1,6 +1,7 @@
 from django.conf.urls import include, patterns, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.flatpages import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -74,6 +75,10 @@ urlpatterns = patterns('',
     # admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+
+    # Pages
+    url(r'^data-collection-toolkit/$', views.flatpage,
+        {'url': '/data-collection-toolkit/'}, name='data_collection_toolkit'),
 
     # miscellany
     (r'^ajax_select/', include('ajax_select.urls')),

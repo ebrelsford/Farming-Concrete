@@ -1,0 +1,17 @@
+[
+{
+    "pk": 1, 
+    "model": "flatpages.flatpage", 
+    "fields": {
+        "registration_required": false, 
+        "title": "Data Collection Toolkit", 
+        "url": "/data-collection-toolkit/", 
+        "template_name": "", 
+        "sites": [
+            1
+        ], 
+        "content": "Once there are videos and the final toolkit PDF exists they will be here.", 
+        "enable_comments": false
+    }
+}
+]
