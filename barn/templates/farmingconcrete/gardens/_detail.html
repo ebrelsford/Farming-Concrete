@@ -1,7 +1,5 @@
 <div>
-    <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">
-        <span class="garden-list-garden-name">{{ garden.name }}</span>
-    </a>
+    <a class="garden-list-garden-name" href="{% url "farmingconcrete_garden_details" pk=garden.pk %}">{{ garden.name }}</a>
 
     <div class="garden-list-garden-details">
         {% if garden.address %}

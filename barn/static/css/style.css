@@ -6149,6 +6149,9 @@ ul.garden-list {
   line-height: 24px;
   text-transform: uppercase;
 }
+.garden-list-garden-name:hover {
+  color: #f54613;
+}
 .garden-list-buttons {
   margin-top: 10px;
 }
