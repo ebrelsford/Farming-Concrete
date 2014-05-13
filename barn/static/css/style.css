@@ -5675,6 +5675,7 @@ main {
 }
 .dropdown-menu {
   text-transform: none;
+  z-index: 2000;
 }
 .form-horizontal .control-label,
 .form-horizontal .radio-inline,
