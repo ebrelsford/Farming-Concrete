@@ -7,50 +7,53 @@
 
 {% block content %}
     {% if not is_mobile %}
+        <div class="row">
+            <div id="left">
 
-        {% if not user.is_authenticated %}
+                <p>
+                    {% blocktrans %}
+                        Welcome to the 
+                        <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
+                        where you can store the data you collect with the 
+                        Five Borough Farm Data Collection Toolkit,
+                        developed by the Design Trust for Public Space 
+                        in collaboration with Farming Concrete.
+                    {% endblocktrans %}
+                </p>
 
-            {% url "django.contrib.auth.views.login" as login_url %}
-            {% url "registration_register" as register_url %}
-            <p>
-                {% blocktrans %}
-                    If you are a gardener and would like to start entering data, 
-                    please 
-                    <a href="{{ login_url }}" data-role="button">log in</a> 
-                    first. If you don't yet have a login, you can 
-                    <a href="{{ register_url }}">create one now</a>
-                    If you are just visiting, we will eventually have some public 
-                    reports here for you to view.
-                {% endblocktrans %}
-            </p>
+                {% if not user.is_authenticated %}
 
-            <p>
-                {% blocktrans %}
-                    If you have any problems or questions, please email us at 
-                    <strong>gardens (at) farmingconcrete (dot) org</strong>.
-                {% endblocktrans %}
-            </p>
-
-            <p>
-                <a class="btn btn-default" href="{{ register_url }}">
-                    {% trans "Register" %}
-                </a>
-                <a class="btn btn-primary" href="{{ login_url }}">
-                    {% trans "Log in" %}
-                </a>
-            </p>
-
-        {% else %}
-            <div class="row">
-
-                <div id="left">
+                    {% url "django.contrib.auth.views.login" as login_url %}
+                    {% url "registration_register" as register_url %}
                     <p>
                         {% blocktrans %}
-                            Welcome to the 
-                            <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
-                            where we store our data.
+                            If you are a gardener and would like to start entering data, 
+                            please 
+                            <a href="{{ login_url }}" data-role="button">log in</a> 
+                            first. If you don't yet have a login, you can 
+                            <a href="{{ register_url }}">create one now</a>
+                            If you are just visiting, we will eventually have some public 
+                            reports here for you to view.
                         {% endblocktrans %}
                     </p>
+
+                    <p>
+                        {% blocktrans %}
+                            If you have any problems or questions, please email us at 
+                            <strong>gardens (at) farmingconcrete (dot) org</strong>.
+                        {% endblocktrans %}
+                    </p>
+
+                    <p>
+                        <a class="btn btn-default" href="{{ register_url }}">
+                            {% trans "Register" %}
+                        </a>
+                        <a class="btn btn-primary" href="{{ login_url }}">
+                            {% trans "Log in" %}
+                        </a>
+                    </p>
+
+                {% else %}
                     <section id="your-gardens-section">
 
                         {% if user_gardens %}
@@ -90,22 +93,22 @@
                         {% endif %}
 
                     </section>
-
-                </div>
-
-                <div id="right">
-                    <div id="map" style="width: 100%; height: 300px;"
-                        {% block map_options %}
-                            data-l-zoom="8"
-                            data-l-center="[40.71, -73.98]"
-                            data-l-mapbox-id="farmingconcrete.i29og38a"
-                            data-l-user_gardens="true"
-                        {% endblock %}
-                    ></div>
-                </div>
+                {% endif %}
 
             </div>
-        {% endif %}
+
+            <div id="right">
+                <div id="map" style="width: 100%; height: 300px;"
+                    {% block map_options %}
+                        data-l-zoom="8"
+                        data-l-center="[40.71, -73.98]"
+                        data-l-mapbox-id="farmingconcrete.i29og38a"
+                        data-l-user_gardens="true"
+                    {% endblock %}
+                ></div>
+            </div>
+
+        </div>
     {% else %}
         <div id="logo"></div>
         <h1 style="width: 100%; text-align: center;">Farming Concrete Barn</h1>
