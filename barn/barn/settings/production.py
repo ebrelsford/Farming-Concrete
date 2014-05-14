@@ -4,6 +4,10 @@ from .base import *
 DEBUG = False
 TEMPLATE_DEBUG = False
 
+MEDIA_URL = '/barn/media/'
+STATIC_URL = '/barn/static/'
+ADMIN_MEDIA_PREFIX = '/barn/admin/media/'
+
 EMAIL_HOST = get_env_variable('FARMING_CONCRETE_EMAIL_HOST')
 EMAIL_HOST_USER = get_env_variable('FARMING_CONCRETE_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_env_variable('FARMING_CONCRETE_EMAIL_HOST_PASSWORD')
