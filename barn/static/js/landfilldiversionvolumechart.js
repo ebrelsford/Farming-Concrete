@@ -7,8 +7,8 @@ define(
         // Requirements with exports
         'jquery',
         'd3',
-        'django'
-    ], function ($, d3, Django) {
+        'prefixurl'
+    ], function ($, d3, prefixurl) {
 
         $(document).ready(function () {
             var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -41,7 +41,7 @@ define(
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            d3.json(Django.url('landfilldiversion_volume_data'), function (error, data) {
+            d3.json(prefixurl.url('landfilldiversion_volume_data'), function (error, data) {
                 data.forEach(function (d) {
                     d.date = parseDate(d.date);
                     d.volume = d.volume;
