@@ -61,10 +61,10 @@ USE_L10N = True
 PROJECT_ROOT = os.path.join(abspath(dirname(__file__)), '..', '..')
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = '/barn/media/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'collected_static')
-STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/admin/media/'
+STATIC_URL = '/barn/static/'
+ADMIN_MEDIA_PREFIX = '/barn/admin/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = get_env_variable('FARMING_CONCRETE_SECRET_KEY')
