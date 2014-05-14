@@ -1,5 +1,5 @@
 {% extends "garden_base.html" %}
-{% load i18n metrics_tags %}
+{% load i18n metrics_tags static %}
 
 {% block header_title %}{{ garden.name }}{% endblock %}
 
@@ -11,7 +11,11 @@
         {% for group, metrics in grouped_metrics.items %}
             <section class="metric-group">
                 {% if group %}
-                    <h3>{{ group }}</h3>
+                    <h3>
+                        {% with header_src="img/metric_groups/"|add:group|add:".jpg" %}
+                            <img src="{% static header_src %}" />
+                        {% endwith %}
+                    </h3>
                 {% endif %}
                 {% for metric in metrics %}
                     <section class="metric">

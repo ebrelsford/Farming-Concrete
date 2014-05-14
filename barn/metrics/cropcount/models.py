@@ -81,7 +81,7 @@ register('Crop Count', {
     'model': Patch,
     'number': 1,
     'garden_detail_url_name': 'cropcount_garden_details',
-    'group': 'Food Production',
+    'group': 'Food Production Data',
     'group_number': 0,
     'index_url_name': 'cropcount_index',
     'user_gardens_url_name': 'cropcount_user_gardens',

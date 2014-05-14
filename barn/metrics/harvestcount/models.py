@@ -53,7 +53,7 @@ register('Harvest Count', {
     'model': Harvest,
     'number': 2,
     'garden_detail_url_name': 'harvestcount_garden_details',
-    'group': 'Food Production',
+    'group': 'Food Production Data',
     'group_number': 0,
     'index_url_name': 'harvestcount_index',
     'user_gardens_url_name': 'harvestcount_user_gardens',
