@@ -14,6 +14,7 @@ define(
 
         // Other requirements
         'jquery.spin',
+        'leaflet.dataoptions',
         'leaflet.usermarker'
     ], function ($, prefixurl, L, geocode) {
 
@@ -46,14 +47,11 @@ define(
         }
 
         function initializeMap() {
-            var map = L.map('add-garden-map', {
-                center: [40.71, -73.98],
-                zoom: 8
-            });
+            var map = L.map('add-garden-map');
             L.tileLayer('https://{s}.tiles.mapbox.com/v3/{mapboxId}/{z}/{x}/{y}.png', {
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
                 maxZoom: 18,
-                mapboxId: ''
+                mapboxId: map.options.mapboxId
             }).addTo(map);
             return map;
         }
