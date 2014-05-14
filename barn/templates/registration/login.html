@@ -16,7 +16,8 @@
 
     <form class="form-horizontal" method="post" action="{% url "django.contrib.auth.views.login" %}">
         {% include "forms/head.html" %}
-        <input type="hidden" name="next" value="{% firstof next '/' %}" />
+        {% url "home" as home_url %}
+        <input type="hidden" name="next" value="{% firstof next home_url %}" />
 
         <div>
             {% for field in form.visible_fields %}
