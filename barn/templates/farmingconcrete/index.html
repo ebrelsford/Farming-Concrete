@@ -80,16 +80,16 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-
-                            <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
-                                Add a garden
-                            </a>
                         {% else %}
                             <p>
                                 It looks like you don't have access to any gardens yet.
                                 Add one?
                             </p>
                         {% endif %}
+
+                        <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
+                            Add a garden
+                        </a>
 
                     </section>
                 {% endif %}
