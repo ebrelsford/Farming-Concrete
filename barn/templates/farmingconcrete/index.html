@@ -60,7 +60,9 @@
                     <section id="your-gardens-section">
 
                         {% if user_gardens %}
-                            <h2 id="your-gardens-title">Your garden{{ user_gardens|pluralize }}</h2>
+                            <h2 id="your-gardens-title">
+                                <img src="{% static "img/your_gardens.jpg" %}" />
+                            </h2>
                             <ul class="garden-list">
                                 {% for garden in user_gardens %}
                                     <li class="garden-list-garden row">
