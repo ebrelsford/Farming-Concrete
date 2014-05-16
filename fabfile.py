@@ -25,7 +25,7 @@ def pull():
 
 @task
 def test():
-    local('django-admin.py test farmingconcrete')
+    local('DJANGO_SETTINGS_MODULE=barn.settings.test django-admin.py test farmingconcrete metrics')
 
 
 @task
