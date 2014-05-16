@@ -5556,6 +5556,9 @@ header #logout-link {
 header #logout-link .arrow {
   font-size: 20px;
 }
+header #logout-link:hover {
+  text-decoration: none;
+}
 footer {
   margin-top: 100px;
 }
