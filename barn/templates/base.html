@@ -49,7 +49,7 @@
                     <nav id="nav" class="navbar">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="{% url "home" %}">overview</a>
+                                <a {% ifequal page_type "index" %}class="active"{% endifequal %} href="{% url "home" %}">overview</a>
                             </li>
                             <li>
                                 <a href="{% url "data_collection_toolkit" %}">
@@ -57,7 +57,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a {% if data_entry %}class="active"{% endif %} href="{% url "farmingconcrete_gardens_user" %}">
+                                <a {% ifequal page_type "data_entry" %}class="active"{% endifequal %} href="{% url "farmingconcrete_gardens_user" %}">
                                     enter your data
                                 </a>
                             </li>
