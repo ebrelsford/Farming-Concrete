@@ -40,3 +40,43 @@ def get_rainfall_history(latlng, date):
         'lng': latlng[1],
     })
     return float(data.json()['history']['dailysummary'][0]['precipi'])
+
+
+def get_station(latlng, start, end):
+    # TODO save to garden?
+    stations = []
+    buffer = .2
+
+    while not stations:
+        stations = get_stations_buffer(latlng, start, end, buffer=buffer)
+        buffer *= 2
+
+    # TODO then find the closest
+    #  calculate distance between each
+    #  smallest distance
+    return stations
+
+
+def get_stations_buffer(latlng, start, end, buffer=.2):
+    lat, lng = latlng
+    extent = [
+        lat - buffer,
+        lng - buffer,
+        lat + buffer,
+        lng + buffer,
+    ]
+    params = {
+        'extent': extent,
+        'datasetid': 'GHCND',
+        'datatypeid': 'PRCP',
+        'startdate': start.strftime('%Y-%m-%d'),
+        'enddate': end.strftime('%Y-%m-%d'),
+    }
+    headers = {
+        'token': 'XXX token here',
+    }
+    url = 'http://www.ncdc.noaa.gov/cdo-web/api/v2/stations'
+    try:
+        return requests.get(url, params=params, headers=headers).json()['results']
+    except Exception:
+        return []
