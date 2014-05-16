@@ -1,5 +1,9 @@
+{% load static %}
+
 <div id="harvests">
-    <h2 style="font-weight: bold;" class="pre-listview">Harvests for {{ request.session.year }}</h2>
+    <h2 class="recorded-header">
+        <img src="{% static "img/recorded.png" %}" />
+    </h2>
     {% if harvests %}
         <table class="sorted">
             <thead>
