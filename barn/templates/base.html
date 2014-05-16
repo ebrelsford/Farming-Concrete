@@ -56,8 +56,8 @@
                                     {% trans "data collection toolkit" %}
                                 </a>
                             </li>
-                            <li class="dropdown">
-                                <a href="{% url "farmingconcrete_gardens_user" %}">
+                            <li>
+                                <a {% if data_entry %}class="active"{% endif %} href="{% url "farmingconcrete_gardens_user" %}">
                                     enter your data
                                 </a>
                             </li>

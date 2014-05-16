@@ -88,6 +88,7 @@ class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
                 raise Http403
         context['garden_list'] = (garden,)
         context['garden_ids'] = (garden.pk,)
+        context['data_entry'] = True
         return context
 
 
@@ -103,6 +104,7 @@ class UserGardens(LoginRequiredMixin, AddYearToSessionMixin, UserGardensMixin,
     def get_context_data(self, **kwargs):
         context = super(UserGardens, self).get_context_data(**kwargs)
         context['garden_ids'] = self.get_queryset().values_list('pk', flat=True)
+        context['data_entry'] = True
         return context
 
 

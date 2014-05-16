@@ -50,6 +50,7 @@ class MetricMixin(ContextMixin):
         self.set_year()
         context = super(MetricMixin, self).get_context_data(**kwargs)
         context.update({
+            'data_entry': True,
             'index_url': self.get_index_url(),
             'metric_name': self.get_metric_name(),
             'metric': self.get_metric(),
