@@ -42,6 +42,9 @@ urlpatterns = patterns('',
     (r'^metrics/participation/', include('metrics.participation.urls')),
 
     # reach
+    (r'^metrics/rainwater/', include('metrics.rainwater.urls')),
+
+    # reach
     (r'^metrics/reach/', include('metrics.reach.urls')),
 
     # recipes

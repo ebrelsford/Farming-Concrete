@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'metrics.lookinggood',
     'metrics.moods',
     'metrics.participation',
+    'metrics.rainwater',
     'metrics.reach',
     'metrics.recipes',
     'metrics.skills',
