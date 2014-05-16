@@ -69,9 +69,11 @@ class Patch(BaseMetricRecord):
         box_pks = set(patches.values_list('box__pk', flat=True))
         beds = Box.objects.filter(pk__in=box_pks)
         return {
+            'count': patches.count(),
             'beds': beds.count(),
             'area': beds.extra(select = {'area': 'SUM(length * width)'})[0].area,
             'plants': patches.aggregate(models.Sum('plants'))['plants__sum'],
+            'recorded_max': patches.aggregate(models.Max('recorded'))['recorded__max'],
         }
 
 
