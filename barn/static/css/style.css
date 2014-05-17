@@ -5617,6 +5617,12 @@ main {
 .metric-name:hover {
   color: #849f38;
 }
+.metric-name .metric-number {
+  color: black;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 12px;
+}
 /* Overrides */
 .navbar {
   border-radius: 0;
@@ -6119,6 +6125,9 @@ h2 a.text {
 .garden-detail-page .metric-group h3 {
   margin-bottom: 20px;
   margin-top: 10px;
+}
+.garden-detail-page .metric-group h3 img {
+  max-width: 100%;
 }
 .garden-detail-page .metric-group h4 {
   margin-bottom: 0;

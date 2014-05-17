@@ -19,6 +19,9 @@
 
 {% block left %}
     <h1 class="metric-name">
+        <div class="metric-number">
+            {{ metric.group_number }}.{{ metric.number }}
+        </div>
         {% with metric_src="img/metrics/"|add:metric_name|add:".jpg" %}
             <img src="{% static metric_src %}" />
         {% endwith %}
