@@ -30,8 +30,7 @@
                         </div>
                         <div class="col-md-2">
                             {% ifequal garden_list|length 1 %}
-                                {% url metric.garden_detail_url_name pk=garden.pk as metric_url %}
-                                <a href="{{ metric_url }}" class="btn btn-default">
+                                <a href="{% url metric.garden_detail_url_name pk=garden_list.0.pk %}" class="btn btn-default">
                                     {% trans "add data" %}
                                 </a>
                             {% else %}
