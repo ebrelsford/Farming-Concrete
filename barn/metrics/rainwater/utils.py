@@ -39,4 +39,7 @@ def get_rainfall_history(latlng, date):
         'lat': latlng[0],
         'lng': latlng[1],
     })
-    return float(data.json()['history']['dailysummary'][0]['precipi'])
+    try:
+        return float(data.json()['history']['dailysummary'][0]['precipi'])
+    except Exception:
+        return 0
