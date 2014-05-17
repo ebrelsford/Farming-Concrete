@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     'metrics.rainwater',
     'metrics.reach',
     'metrics.recipes',
+    'metrics.sales',
     'metrics.skills',
     'metrics.yumyuck',
 )

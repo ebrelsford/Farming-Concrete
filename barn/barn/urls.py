@@ -53,6 +53,9 @@ urlpatterns = patterns('',
     # recipes
     (r'^metrics/recipes/', include('metrics.recipes.urls')),
 
+    # sales
+    (r'^metrics/sales/', include('metrics.sales.urls')),
+
     # smarts and skills
     (r'^metrics/skills/', include('metrics.skills.urls')),
 
