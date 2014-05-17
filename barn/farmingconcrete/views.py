@@ -107,6 +107,13 @@ class UserGardens(LoginRequiredMixin, AddYearToSessionMixin, UserGardensMixin,
         return self.get_user_gardens()
 
     def get_context_data(self, **kwargs):
+        if not self.get_queryset().exists():
+            add_url = reverse('farmingconcrete_gardens_add')
+            message = """
+                Whoa now, you don't have any gardens! You should
+                <a href="%s">add a new garden</a> before you add data.
+            """ % (add_url,)
+            messages.add_message(self.request, messages.WARNING, message)
         context = super(UserGardens, self).get_context_data(**kwargs)
         context['garden_ids'] = self.get_queryset().values_list('pk', flat=True)
         context['page_type'] = 'data_entry'
