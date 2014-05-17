@@ -18,4 +18,3 @@ urlpatterns = patterns('',
     ),
 
 )
-
