@@ -41,3 +41,34 @@ ul.errorlist {
     -webkit-box-shadow: none;
     color: black;
 }
+
+.form-horizontal {
+    .control-label {
+        text-align: left;
+    }
+
+    .fields {
+        .make-row(0);
+    }
+
+    .form-group {
+        .make-row(0);
+    }
+
+    .form-actions {
+        .make-row(0);
+    }
+
+    button.btn-cancel {
+        .make-md-column-offset(6);
+        .make-md-column(3);
+    }
+
+    button[type="submit"] {
+        .make-md-column(3);
+
+        &:first-child {
+            .make-md-column-offset(9);
+        }
+    }
+}

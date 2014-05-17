@@ -5310,6 +5310,12 @@ button.close {
 .panel-body:after,
 .modal-footer:before,
 .modal-footer:after,
+.form-horizontal .fields:before,
+.form-horizontal .fields:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.form-horizontal .form-actions:before,
+.form-horizontal .form-actions:after,
 .summary:before,
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
@@ -5331,6 +5337,9 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-footer:after,
+.form-horizontal .fields:after,
+.form-horizontal .form-group:after,
+.form-horizontal .form-actions:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after {
   clear: both;
@@ -5872,6 +5881,55 @@ ul.errorlist {
   -webkit-box-shadow: none;
   color: black;
 }
+.form-horizontal .control-label {
+  text-align: left;
+}
+.form-horizontal .fields {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-horizontal .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-horizontal .form-actions {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-horizontal button.btn-cancel {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-horizontal button.btn-cancel {
+    margin-left: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .form-horizontal button.btn-cancel {
+    float: left;
+    width: 25%;
+  }
+}
+.form-horizontal button[type="submit"] {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-horizontal button[type="submit"] {
+    float: left;
+    width: 25%;
+  }
+}
+@media (min-width: 992px) {
+  .form-horizontal button[type="submit"]:first-child {
+    margin-left: 75%;
+  }
+}
 .add-program-reach-page table,
 .add-participation-hours-page table {
   /* Wider table, make it overflow-x */
@@ -6009,7 +6067,6 @@ ul.gardens {
 #inputs p label,
 #inputs label {
   display: inline-block;
-  width: 35%;
 }
 #beds .month {
   padding-top: 15px;
@@ -6037,6 +6094,33 @@ ul.gardens {
 #new-bed form #id_length {
   display: inline-block;
   width: 50%;
+}
+#new-bed form .field-dimensions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-dimensions {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+#new-bed form .field-dimensions input {
+  max-width: 30%;
+}
+#new-bed form .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-name {
+    float: left;
+    width: 16.66666667%;
+  }
 }
 #new-plant form #id_plants,
 #new-plant form #id_area {
