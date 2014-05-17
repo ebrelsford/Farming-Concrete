@@ -5610,6 +5610,7 @@ main {
 }
 .metric-name {
   color: #849f38;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -5916,7 +5917,7 @@ td.date {
 .summary {
   margin-left: -15px;
   margin-right: -15px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
 }
 .summary.empty {
