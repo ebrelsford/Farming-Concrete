@@ -355,8 +355,8 @@ def delete_bed(request, id, year=None):
 
 @login_required
 @year_in_session
-def download_garden_cropcount_as_csv(request, id, year=None):
-    garden = get_object_or_404(Garden, pk=id)
+def download_garden_cropcount_as_csv(request, pk=None, year=None):
+    garden = get_object_or_404(Garden, pk=pk)
     filename = '%s Crop Count (%s).csv' % (
         garden.name,
         date.today().strftime('%m-%d-%Y'),
