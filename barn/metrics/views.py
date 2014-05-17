@@ -28,9 +28,7 @@ class MetricMixin(ContextMixin):
         try:
             return reverse(registry[self.get_metric_name()]['index_url_name'])
         except:
-            raise ImproperlyConfigured('MetricMixin requires get_metric_name '
-                                       'to return a registered metric with an '
-                                       'index_url_name')
+            return None
 
     def get_metric_name(self):
         raise NotImplemented('Implement get_metric_name')

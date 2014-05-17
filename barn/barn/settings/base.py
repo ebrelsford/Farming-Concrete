@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'metrics',
     'metrics.compost',
     'metrics.cropcount',
+    'metrics.donations',
     'metrics.harvestcount',
     'metrics.landfilldiversion',
     'metrics.lookinggood',

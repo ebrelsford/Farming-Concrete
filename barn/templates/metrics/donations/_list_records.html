@@ -1,0 +1,13 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block table_header %}
+    <th class="sortable recorded" data-sort="string">date</th>
+    <th class="sortable" data-sort="string">produce name</th>
+    <th class="sortable" data-sort="float">pounds</th>
+{% endblock %}
+
+{% block record_detail %}
+    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
+    <td class="string">{{ record.produce_name }}</td>
+    <td class="number">{{ record.pounds|floatformat }}</td>
+{% endblock %}
