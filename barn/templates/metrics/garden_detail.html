@@ -26,10 +26,16 @@
             <img src="{% static metric_src %}" />
         {% endwith %}
     </h1>
-    {% block add_record %}
-        {% add_record metric_name garden form %}
-    {% endblock %}
-    {% block list_records %}{% endblock %}
+
+    <section class="metric-add-record">
+        {% block add_record %}
+            {% add_record metric_name garden form %}
+        {% endblock %}
+    </section>
+
+    <section class="metric-list-records">
+        {% block list_records %}{% endblock %}
+    </section>
 
     {% url metric.download_url_name pk=garden.pk year=request.session.year as csv_url %}
     <a class="btn btn-default" href="{{ csv_url }}">download data</a>

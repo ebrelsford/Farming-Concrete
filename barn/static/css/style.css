@@ -5991,10 +5991,13 @@ td.date {
   text-align: right;
 }
 /* Metrics */
-.add-record,
-.list-records {
+.metric-add-record {
   margin-bottom: 25px;
   margin-top: 25px;
+}
+.metric-list-records {
+  margin-bottom: 25px;
+  margin-top: 100px;
 }
 .summary {
   margin-left: -15px;

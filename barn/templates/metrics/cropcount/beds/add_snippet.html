@@ -1,6 +1,6 @@
 {% load i18n widget_tweaks %}
 
-<section id="new-bed" class="add-record">
+<section id="new-bed">
     <form method="post" action="{% url "cropcount_add_bed" id=garden.pk %}" class="form-horizontal" role="form">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
