@@ -1,5 +1,5 @@
 {% extends "metrics/map_base.html" %}
-{% load metrics_tags static %}
+{% load i18n metrics_tags static %}
 
 {% block title %}{{ garden.name }}{% endblock %}
 {% block header_title %}{{ garden.name }}{% endblock %}
@@ -43,12 +43,13 @@
 
 {% block right %}
     {{ block.super }}
+    {% include "farmingconcrete/gardens/_list_detail.html" with garden=garden %}
     <ul class="overview">
         {% summarize metric_name gardens=garden %}
     </ul>
 {% endblock %}
 
 {% block map_options %}
-    {{ block.super }}
-    data-l-gardenid="{{ garden.pk }}"
+{{ block.super }}
+data-l-gardenid="{{ garden.pk }}"
 {% endblock %}

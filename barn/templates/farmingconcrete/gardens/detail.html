@@ -59,28 +59,7 @@
 
 {% block right %}
     {% for garden in garden_list %}
-        <div class="garden-item">
-            <h1 class="garden-list-garden-name">{{ garden.name }}</h1>
-            <div>
-                {% if garden.address %}
-                {{ garden.address }},
-                {% endif %}
-                {% if garden.borough %}
-                {{ garden.borough }}
-                {% else %}
-                {{ garden.city }}, {{ garden.state }}
-                {% endif %}
-            </div>
-            <div>
-                <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">
-                    {% trans "Edit" %}
-                </a>
-                |
-                <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">
-                    {% trans "Delete" %}
-                </a>
-            </div>
-        </div>
+        {% include "farmingconcrete/gardens/_list_detail.html" with garden=garden %}
     {% endfor %}
 {% endblock %}
 
