@@ -6275,6 +6275,39 @@ ul.garden-list {
 .garden-list-garden:first-child {
   border-top: 1px dotted black;
 }
+.garden-list-garden-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
+  padding-top: 20px;
+  text-align: right;
+}
+@media (min-width: 992px) {
+  .garden-list-garden-actions {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-list-garden-details {
+  font-size: 12px;
+}
+.garden-list-garden-buttons {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .garden-list-garden-buttons {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-list-garden-buttons button {
+  width: 100%;
+}
 .garden-list-garden-name {
   color: #f54613;
   font-size: 16px;
@@ -6284,9 +6317,6 @@ ul.garden-list {
 }
 .garden-list-garden-name:hover {
   color: #f54613;
-}
-.garden-list-buttons {
-  margin-top: 10px;
 }
 .garden-list-garden-groups {
   margin-left: 25px;
