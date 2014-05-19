@@ -1,27 +1,26 @@
 {% extends "metrics/_list_records.html" %}
 {% load participation_tags %}
 
-{% block table_header %}
-    <th class="sortable recorded-start" data-sort="string">date start</th>
-    <th class="sortable recorded" data-sort="string">date end</th>
-    {% for task in tasks %}
-        <th class="sortable task" data-sort="int">{{ task }}</th>
-    {% endfor %}
+{% block record_class %}participation-task-record{% endblock %}
+
+{% block recorded %}
+    <div class="field-recorded">
+        {{ record.recorded_start|date:"m/d/Y" }} - {{ record.recorded|date:"m/d/Y" }}
+    </div>
 {% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
-        {{ record.recorded_start|date:"m/d/Y" }}
-    </td>
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
-        {{ record.recorded|date:"m/d/Y" }}
-    </td>
-    {% for task in tasks %}
-        {% task_hours task for record as taskhour %}
-        <td class="number">
-            {% if taskhour %}
-                {{ taskhour.hours|floatformat }}
-            {% endif %}
-        </td>
-    {% endfor %}
+    <div class="field-tasks-list">
+        {% for task in tasks %}
+            <div class="field-task-hours">
+                <div class="field-task">
+                    {{ task }}
+                </div>
+                <div class="field-hours">
+                    {% task_hours task for record as taskhour %}
+                    {{ taskhour.hours|floatformat|default:"0" }} hours
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

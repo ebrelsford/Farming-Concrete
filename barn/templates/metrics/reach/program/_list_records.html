@@ -1,61 +1,110 @@
 {% extends "metrics/_list_records.html" %}
 
-{% block table_header %}
-    <th class="sortable name" data-sort="string">program name</th>
-    <th class="sortable recorded-start" data-sort="string">program start</th>
-    <th class="sortable recorded" data-sort="string">program end</th>
-    <th class="sortable hours-each-day" data-sort="int">hours each day</th>
-    <th class="sortable collaborated-with-organization" data-sort="string">
-        collaborated with organization
-    </th>
-    <th class="sortable collaboration-first" data-sort="string">
-        first collaboration with organization
-    </th>
-    <th class="sortable age-10" data-sort="int"># under 10</th>
-    <th class="sortable age-10-14" data-sort="int"># 10 to 14</th>
-    <th class="sortable age-15-19" data-sort="int"># 15 to 19</th>
-    <th class="sortable age-20-24" data-sort="int"># 20 to 24</th>
-    <th class="sortable age-25-34" data-sort="int"># 25 to 34</th>
-    <th class="sortable age-35-44" data-sort="int"># 35 to 44</th>
-    <th class="sortable age-45-54" data-sort="int"># 45 to 54</th>
-    <th class="sortable age-55-64" data-sort="int"># 55 to 64</th>
-    <th class="sortable age-65" data-sort="int"># 65 and up</th>
-    <th class="sortable gender-male" data-sort="int"># male</th>
-    <th class="sortable gender-female" data-sort="int"># female</th>
-    <th class="sortable gender-other" data-sort="int"># other gender</th>
-    <th class="sortable zipcode-inside" data-sort="int">
-        # within garden zip code
-    </th>
-    <th class="sortable zipcode-outside" data-sort="int">
-        # outside garden zip code
-    </th>
-    <th class="sortable features" data-sort="string">program features</th>
+{% block record_class %}reach-program-record{% endblock %}
+
+{% block recorded %}
+    <div class="field-recorded">
+        {{ record.recorded_start|date:"m/d/Y" }} - {{ record.recorded|date:"m/d/Y" }}
+    </div>
 {% endblock %}
 
 {% block record_detail %}
-    <td class="string">{{ record.name }}</td>
-    <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
-        {{ record.recorded_start|date:"m/d/Y" }}
-    </td>
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
-        {{ record.recorded|date:"m/d/Y" }}
-    </td>
-    <td class="number">{{ record.hours_each_day|floatformat }}</td>
-    <td class="string">{{ record.collaborated_with_organization|yesno }}</td>
-    <td class="string">{{ record.collaboration_first|yesno }}</td>
-    <td class="number">{{ record.age_10|default:"0" }}</td>
-    <td class="number">{{ record.age_10_14|default:"0" }}</td>
-    <td class="number">{{ record.age_15_19|default:"0" }}</td>
-    <td class="number">{{ record.age_20_24|default:"0" }}</td>
-    <td class="number">{{ record.age_25_34|default:"0" }}</td>
-    <td class="number">{{ record.age_35_44|default:"0" }}</td>
-    <td class="number">{{ record.age_45_54|default:"0" }}</td>
-    <td class="number">{{ record.age_55_64|default:"0" }}</td>
-    <td class="number">{{ record.age_65|default:"0" }}</td>
-    <td class="number">{{ record.gender_male|default:"0" }}</td>
-    <td class="number">{{ record.gender_female|default:"0" }}</td>
-    <td class="number">{{ record.gender_other|default:"0" }}</td>
-    <td class="number">{{ record.zipcode_inside|default:"0" }}</td>
-    <td class="number">{{ record.zipcode_outside|default:"0" }}</td>
-    <td class="string">{{ record.features.all|join:", " }}</td>
+    <div class="field-details">
+
+        <div class="field-name">
+            <div class="field-label">program name</div>
+            <div class="field-value">{{ record.name }}</div>
+        </div>
+
+        <div class="field-hours-each-day">
+            <div class="field-label">hours each day</div>
+            <div class="field-value">{{ record.hours_each_day|floatformat }}</div>
+        </div>
+
+        <div class="field-collaborated-with-organization">
+            <div class="field-label">collaborated with organization</div>
+            <div class="field-value">{{ record.collaborated_with_organization|yesno }}</div>
+        </div>
+
+        <div class="field-collaboration-first">
+            <div class="field-label">first collaboration with organization</div>
+            <div class="field-value">{{ record.collaboration_first|yesno }}</div>
+        </div>
+
+        <div class="field-age-10">
+            <div class="field-label"># under 10</div>
+            <div class="field-value">{{ record.age_10|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-10-14">
+            <div class="field-label"># 10 to 14</div>
+            <div class="field-value">{{ record.age_10_14|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-15-19">
+            <div class="field-label"># 15 to 19</div>
+            <div class="field-value">{{ record.age_15_19|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-20-24">
+            <div class="field-label"># 20 to 24</div>
+            <div class="field-value">{{ record.age_20_24|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-25-34">
+            <div class="field-label"># 25 to 34</div>
+            <div class="field-value">{{ record.age_25_34|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-35-44">
+            <div class="field-label"># 35 to 44</div>
+            <div class="field-value">{{ record.age_35_44|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-45-54">
+            <div class="field-label"># 45 to 54</div>
+            <div class="field-value">{{ record.age_45_54|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-55-64">
+            <div class="field-label"># 55 to 64</div>
+            <div class="field-value">{{ record.age_55_64|default:"0" }}</div>
+        </div>
+
+        <div class="field-age-65">
+            <div class="field-label"># 65 and up</div>
+            <div class="field-value">{{ record.age_65|default:"0" }}</div>
+        </div>
+
+        <div class="field-gender-male">
+            <div class="field-label"># male</div>
+            <div class="field-value">{{ record.gender_male|default:"0" }}</div>
+        </div>
+
+        <div class="field-gender-female">
+            <div class="field-label"># female</div>
+            <div class="field-value">{{ record.gender_female|default:"0" }}</div>
+        </div>
+
+        <div class="field-gender-other">
+            <div class="field-label"># other gender</div>
+            <div class="field-value">{{ record.gender_other|default:"0" }}</div>
+        </div>
+
+        <div class="field-zipcode-inside">
+            <div class="field-label"># within garden zip code</div>
+            <div class="field-value">{{ record.zipcode_inside|default:"0" }}</div>
+        </div>
+
+        <div class="field-zipcode-outside">
+            <div class="field-label"># outside garden zip code</div>
+            <div class="field-value">{{ record.zipcode_outside|default:"0" }}</div>
+        </div>
+
+        <div class="field-features">
+            <div class="field-label">program features</div>
+            <div class="field-value">{{ record.features.all|join:", " }}</div>
+        </div>
+
+    </div>
 {% endblock %}

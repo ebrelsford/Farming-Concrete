@@ -1,19 +1,13 @@
 {% extends "metrics/_list_records.html" %}
 
-{% block table_header %}
-    <th class="sortable recorded" data-sort="string">date</th>
-    <th class="sortable" data-sort="string">product</th>
-    <th class="sortable" data-sort="string">unit</th>
-    <th class="sortable" data-sort="float">unit price</th>
-    <th class="sortable" data-sort="string">units sold</th>
-    <th class="sortable" data-sort="float">total price</th>
-{% endblock %}
+{% block record_class %}sales-record{% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-    <td class="string">{{ record.product }}</td>
-    <td class="string">{{ record.unit }}</td>
-    <td class="number">${{ record.unit_price|floatformat:"2" }}</td>
-    <td class="number">{{ record.units_sold|floatformat:"0" }}</td>
-    <td class="number">${{ record.total_price|floatformat:"2" }}</td>
+    <div class="field-product">{{ record.product }}</div>
+    <div class="field-units-sold">
+        {{ record.units_sold|floatformat:"0" }}
+        {{ record.unit }}
+    </div>
+    <div class="field-unit-price">at ${{ record.unit_price|floatformat:"2" }} each</div>
+    <div class="field-total-price">total: ${{ record.total_price|floatformat:"2" }}</div>
 {% endblock %}

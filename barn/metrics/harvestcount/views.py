@@ -98,9 +98,9 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
         context.update({
             'form': self.get_form(self.form_class),
             'garden': garden,
-            'harvests': harvests.order_by('recorded', 'gardener__name'),
             'plant_types': harvests.values('variety__id').distinct().count(),
             'plants': None,
+            'records': harvests.order_by('recorded', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
         })
         return context

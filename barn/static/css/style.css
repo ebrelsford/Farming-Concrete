@@ -5316,6 +5316,8 @@ button.close {
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:before,
 .form-horizontal .form-actions:after,
+.record:before,
+.record:after,
 .summary:before,
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
@@ -5340,6 +5342,7 @@ button.close {
 .form-horizontal .fields:after,
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:after,
+.record:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after {
   clear: both;
@@ -6009,6 +6012,620 @@ td.date {
 }
 .metric-list-records .recorded-header img {
   max-width: 150px;
+}
+.metric-list-records ul {
+  list-style: none;
+  padding-left: 0;
+}
+.record {
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 1px dotted black;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .record .field-recorded {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.record .actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .record .actions {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.compost-volume-record .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .compost-volume-record .field-volume {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.compost-weight-record .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .compost-weight-record .field-weight {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.donations-record .field-produce-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .donations-record .field-produce-name {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.donations-record .field-pounds {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .donations-record .field-pounds {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.harvestcount-record .field-dimensions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-dimensions {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-gardener {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-gardener {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-variety {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-variety {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-weight {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.landfilldiversion-volume-record .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .landfilldiversion-volume-record .field-volume {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.landfilldiversion-weight-record .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .landfilldiversion-weight-record .field-weight {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.lookinggood-event-record .field-start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-start {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.lookinggood-event-record .field-end {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-end {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.lookinggood-event-record .field-total-tags {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-total-tags {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.lookinggood-event-record .field-comments {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-comments {
+    float: left;
+    width: 25%;
+  }
+}
+.moods-change-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.moods-change-record .field-counts {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-counts {
+    float: left;
+    width: 50%;
+  }
+}
+.moods-change-record .field-counts .field-count {
+  display: inline-block;
+}
+.moods-change-record .field-counts .field-mood {
+  display: inline-block;
+}
+.participation-geography-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .participation-geography-record .field-recorded {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.participation-geography-record .field-hours {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-geography-record .field-hours {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.participation-project-record .field-project {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-project-record .field-project {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.participation-project-record .field-gardener-hours-list {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-project-record .field-gardener-hours-list {
+    float: left;
+    width: 50%;
+  }
+}
+.participation-project-record .field-gardener {
+  display: inline-block;
+}
+.participation-project-record .field-hours {
+  display: inline-block;
+}
+.participation-task-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .participation-task-record .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.participation-task-record .field-tasks-list {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-task-record .field-tasks-list {
+    float: left;
+    width: 50%;
+  }
+}
+.participation-task-record .field-task {
+  display: inline-block;
+}
+.participation-task-record .field-hours {
+  display: inline-block;
+}
+.rainwater-harvest-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .rainwater-harvest-record .field-recorded {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.rainwater-harvest-record .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .rainwater-harvest-record .field-volume {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.reach-program-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .reach-program-record .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.reach-program-record .field-details {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .reach-program-record .field-details {
+    float: left;
+    width: 50%;
+  }
+}
+.reach-program-record .field-label {
+  display: inline-block;
+  width: 60%;
+}
+.reach-program-record .field-value {
+  display: inline-block;
+  width: 30%;
+}
+.recipes-tally-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .recipes-tally-record .field-recorded {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.recipes-tally-record .field-recipes-count {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .recipes-tally-record .field-recipes-count {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.sales-record .field-product {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-product {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.sales-record .field-units-sold {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-units-sold {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.sales-record .field-unit-price {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-unit-price {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.sales-record .field-total-price {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-total-price {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.skills-smarts-record .field-participants {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-participants {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-skills-shared {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-skills-shared {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-concepts-shared {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-concepts-shared {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-projects-proposed {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-projects-proposed {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-ideas-to-learn {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-ideas-to-learn {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.skills-smarts-record .field-intentions-to-collaborate {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-intentions-to-collaborate {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.yumyuck-change-record .field-vegetable {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-vegetable {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.yumyuck-change-record .field-yum-before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yum-before {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.yumyuck-change-record .field-yuck-before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yuck-before {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.yumyuck-change-record .field-yum-after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yum-after {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.yumyuck-change-record .field-yuck-after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yuck-after {
+    float: left;
+    width: 16.66666667%;
+  }
 }
 .summary {
   margin-left: -15px;

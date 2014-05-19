@@ -1,17 +1,10 @@
 {% extends "metrics/_list_records.html" %}
 
-{% block table_header %}
-    <th class="sortable recorded" data-sort="string">date</th>
-    <th class="sortable start-time" data-sort="int">start time</th>
-    <th class="sortable end-time" data-sort="int">end time</th>
-    <th class="sortable total-tags" data-sort="int">total tags</th>
-    <th class="sortable total-tags" data-sort="int">comments</th>
-{% endblock %}
+{% block record_class %}lookinggood-event-record{% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-    <td class="number">{{ record.start_time }}</td>
-    <td class="number">{{ record.end_time }}</td>
-    <td class="number">{{ record.total_tags }}</td>
-    <td class="string comments">{{ record.comments|default:""|linebreaks }}</td>
+    <div class="field-start">{{ record.start_time }}</div>
+    <div class="field-end">{{ record.end_time }}</div>
+    <div class="field-total-tags">{{ record.total_tags }}</div>
+    <div class="field-comments">{{ record.comments|default:""|linebreaks }}</div>
 {% endblock %}

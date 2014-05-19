@@ -1,13 +1,8 @@
 {% extends "metrics/_list_records.html" %}
 
-{% block table_header %}
-    <th class="sortable recorded" data-sort="string">date</th>
-    <th class="sortable" data-sort="string">produce name</th>
-    <th class="sortable" data-sort="float">pounds</th>
-{% endblock %}
+{% block record_class %}donations-record{% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-    <td class="string">{{ record.produce_name }}</td>
-    <td class="number">{{ record.pounds|floatformat }}</td>
+    <div class="field-produce-name">{{ record.produce_name }}</div>
+    <div class="field-pounds">{{ record.pounds|floatformat }} pounds</div>
 {% endblock %}
