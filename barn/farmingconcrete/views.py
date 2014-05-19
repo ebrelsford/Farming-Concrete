@@ -310,8 +310,15 @@ class GardenGroupDetailView(LoginRequiredMixin, DetailView):
 
 class FarmingConcreteYearMixin(DefaultYearMixin):
 
+    def add_year_to_session(self):
+        year = (self.kwargs.get('year', None)
+                or self.request.session.get('year', None)
+                or settings.FARMINGCONCRETE_YEAR)
+        self.request.session['year'] = self.kwargs['year'] = year
+
     def get_year(self):
         try:
+            self.add_year_to_session()
             return self.request.session['year']
         except Exception:
             return self.get_default_year()
