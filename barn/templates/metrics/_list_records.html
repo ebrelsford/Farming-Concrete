@@ -2,20 +2,15 @@
 
 <h2 class="recorded-header">
     <img src="{% static "img/recorded.png" %}" />
-</h2>
-<p>
     {% metric_years metric garden as years %}
-    <label for="list-records-year">
-        Change year:
-    </label>
-    <select class="list-records-year" id="list-records-year">
+    <select class="list-records-year pull-right" id="list-records-year">
         {% for year in years %}
             <option {% ifequal year request.session.year %}selected{% endifequal %} value="{% url metric.garden_detail_url_name pk=garden.pk year=year %}">
                 {{ year }}
             </option>
         {% endfor %}
     </select>
-</p>
+</h2>
 
 {% block record_list %}
     <ul>
