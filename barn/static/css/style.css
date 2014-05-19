@@ -5568,6 +5568,11 @@ header #logout-link .arrow {
 header #logout-link:hover {
   text-decoration: none;
 }
+@media (max-width: 991px) {
+  header #logout-link {
+    display: none;
+  }
+}
 footer {
   margin-top: 100px;
 }
@@ -5633,39 +5638,32 @@ main {
   line-height: 12px;
 }
 /* Overrides */
-.navbar {
-  border-radius: 0;
+.navbar-default {
+  background: white;
+  border-left: none;
+  border-right: none;
   border-bottom: 1px dotted black;
   border-top: 1px solid black;
-  padding: 0;
+  border-radius: 0;
+  color: black;
   margin: 0;
   min-height: inherit;
+  padding: 0;
 }
-.navbar-nav > .active > a,
-.navbar-nav > .active > a:hover,
-.navbar-nav > .active > a:focus {
-  color: black;
-  background-color: inherit;
+.navbar-default .container-fluid {
+  padding: 0;
 }
-.navbar-nav > .open > a,
-.navbar-nav > .open > a:hover,
-.navbar-nav > .open > a:focus {
-  color: black;
-  background-color: inherit;
-}
-.navbar-nav > .dropdown > a .caret {
-  border-top-color: black;
-  border-bottom-color: black;
-}
-.navbar-nav > .dropdown > a:hover .caret {
-  border-top-color: white;
-  border-bottom-color: white;
-}
-.nav {
+.navbar-default .navbar-nav {
   display: block;
   text-transform: uppercase;
 }
-.nav > li {
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: black;
+  background-color: inherit;
+}
+.navbar-default .navbar-nav > li {
   margin: 0;
   margin-bottom: 8px;
   margin-top: 3px;
@@ -5674,10 +5672,10 @@ main {
   float: left;
   border-right: 1px solid black;
 }
-.nav > li:last-child {
+.navbar-default .navbar-nav > li:last-child {
   border-right: none;
 }
-.nav > li > a {
+.navbar-default .navbar-nav > li > a {
   color: black;
   text-decoration: none;
   margin-left: 5px;
@@ -5687,8 +5685,28 @@ main {
   padding-top: 2px;
   font-size: 11px;
 }
-#nav > ul > li > a:hover,
-#nav > ul > li > a.active {
+#nav .navbar-collapse {
+  margin-left: 0;
+  margin-right: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  #nav .navbar-collapse.collapsing li,
+  #nav .navbar-collapse.in li {
+    display: block;
+    float: none;
+    padding-left: 10px;
+  }
+  #nav .navbar-collapse.collapsing li a,
+  #nav .navbar-collapse.in li a {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+#nav .navbar-collapse > ul > li > a:hover,
+#nav .navbar-collapse > ul > li > a.active {
   background: black;
   color: white;
 }

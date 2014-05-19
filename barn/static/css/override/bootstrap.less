@@ -1,40 +1,30 @@
-.navbar {
-    border-radius: 0;
+.navbar-default {
+    background: white;
+    border-left: none;
+    border-right: none;
     border-bottom: 1px dotted black;
     border-top: 1px solid black;
-    padding: 0;
+    border-radius: 0;
+    color: black;
     margin: 0;
     min-height: inherit;
-}
+    padding: 0;
 
-.navbar-nav > .active > a,
-.navbar-nav > .active > a:hover,
-.navbar-nav > .active > a:focus {
-  color: black;
-  background-color: inherit;
-}
-
-.navbar-nav > .open > a,
-.navbar-nav > .open > a:hover,
-.navbar-nav > .open > a:focus {
-  color: black;
-  background-color: inherit;
-}
-
-.navbar-nav > .dropdown > a { 
-    .caret {
-        border-top-color: black;
-        border-bottom-color: black;
-    }
-    &:hover .caret {
-        border-top-color: white;
-        border-bottom-color: white;
+    .container-fluid {
+        padding: 0;
     }
 }
 
-.nav {
+.navbar-default .navbar-nav {
     display: block;
     text-transform: uppercase;
+
+    & > .active > a,
+    & > .active > a:hover,
+    & > .active > a:focus {
+        color: black;
+        background-color: inherit;
+    }
 
     & > li {
         margin: 0;
@@ -62,7 +52,26 @@
     }
 }
 
-#nav {
+#nav .navbar-collapse {
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0;
+
+    &.collapsing li, &.in li {
+        @media (max-width: @screen-xs-max) {
+            display: block;
+            float: none;
+            padding-left: 10px;
+
+            a {
+                font-size: 24px;
+                line-height: 28px;
+            }
+        }
+    }
+
     & > ul > li > a {
         &:hover,
         &.active {
