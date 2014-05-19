@@ -5883,9 +5883,6 @@ input.ac_loading {
   margin-top: 35px;
   margin-bottom: 35px;
 }
-.delete-record {
-  margin-left: 25px;
-}
 ul.errorlist {
   margin: 0;
   margin-top: 10px;
@@ -6041,11 +6038,12 @@ td.date {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
+  font-size: 12px;
 }
 @media (min-width: 768px) {
   .record .actions {
     float: left;
-    width: 16.66666667%;
+    width: 8.33333333%;
   }
 }
 .compost-volume-record .field-volume {
