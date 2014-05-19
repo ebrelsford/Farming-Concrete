@@ -6305,7 +6305,7 @@ ul.garden-list {
     width: 25%;
   }
 }
-.garden-list-garden-buttons button {
+.garden-list-garden-buttons a {
   width: 100%;
 }
 .garden-list-garden-name {
