@@ -6004,6 +6004,8 @@ td.date {
   border-top: 1px solid black;
   padding-bottom: 15px;
   padding-top: 15px;
+  padding-bottom: 25px;
+  padding-top: 10px;
 }
 .metric-list-records .recorded-header img {
   max-width: 150px;
