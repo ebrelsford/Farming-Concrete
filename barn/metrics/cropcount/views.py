@@ -92,15 +92,6 @@ class GardenDetails(CropcountMixin, FormMixin, GardenView):
         })
         return initial
 
-    def get_bed_months(self, beds):
-        bed_added = beds.values_list('added', flat=True).order_by('added')
-        bed_months = []
-        for added in bed_added:
-            month_name = added.strftime('%B')
-            if month_name not in bed_months:
-                bed_months.append(month_name)
-        return bed_months
-
     def get_context_data(self, **kwargs):
         context = super(GardenDetails, self).get_context_data(**kwargs)
 
@@ -111,11 +102,11 @@ class GardenDetails(CropcountMixin, FormMixin, GardenView):
         context.update({
             'area': sum([b.length * b.width for b in beds]),
             'bed_list': sorted(beds),
-            'bed_months': self.get_bed_months(beds),
             'beds': beds.count(),
             'form': self.get_form(self.form_class),
             'garden': garden,
             'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+            'records': sorted(beds),
         })
         return context
 

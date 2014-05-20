@@ -5318,6 +5318,8 @@ button.close {
 .form-horizontal .form-actions:after,
 .record:before,
 .record:after,
+.cropcount-bed-record .field-patch:before,
+.cropcount-bed-record .field-patch:after,
 .summary:before,
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
@@ -5343,6 +5345,7 @@ button.close {
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:after,
 .record:after,
+.cropcount-bed-record .field-patch:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after {
   clear: both;
@@ -6072,6 +6075,70 @@ td.date {
     width: 66.66666667%;
   }
 }
+.cropcount-bed-record .field-bed-details {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-bed-details {
+    float: left;
+    width: 75%;
+  }
+}
+.cropcount-bed-record .field-dimensions {
+  font-weight: bold;
+}
+.cropcount-bed-record .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-name {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.cropcount-bed-record .field-patches {
+  font-weight: bold;
+}
+.cropcount-bed-record .field-patch {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 15px;
+  padding: 0;
+}
+.cropcount-bed-record .field-patch .field-quantity {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-patch .field-quantity {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.cropcount-bed-record .field-patch .field-variety-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-patch .field-variety-name {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.cropcount-bed-record .field-recorded-details {
+  margin-top: 15px;
+}
 .donations-record .field-produce-name {
   position: relative;
   min-height: 1px;
@@ -6711,12 +6778,6 @@ ul.gardens {
 #inputs p label,
 #inputs label {
   display: inline-block;
-}
-#beds .month {
-  padding-top: 15px;
-}
-#beds .month .month-name {
-  font-style: italic;
 }
 #beds .name,
 #beds .dimensions {

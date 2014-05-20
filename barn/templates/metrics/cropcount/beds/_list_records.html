@@ -1,25 +1,35 @@
 {% extends "metrics/_list_records.html" %}
 {% load static %}
 
-{% block record_list %}
-    {% if bed_list %}
-        {% for month in bed_months %}
-            <li class="month">
-                <span class="month-name">Added in {{ month }}</span>
-                <ul class="values">
-                    {% for box in bed_list %}
-                        {% with box.added|date:"F" as m %}
-                            {% if m == month %}
-                                <li class="bed">
-                                    {% include "metrics/cropcount/beds/detail_snippet.html" %}
-                                </li>
-                            {% endif %}
-                        {% endwith %}
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    {% else %}
-        <li>No beds yet.</li>
-    {% endif %}
+{% block record_class %}cropcount-bed-record{% endblock %}
+
+{% block recorded %}{% endblock %}
+
+{% block record_detail %}
+    <div class="field-name">
+        <a href="{% url "cropcount_bed_details" id=record.pk %}">bed {{ record.name }}</a>
+    </div> 
+    <div class="field-bed-details">
+        <div class="field-dimensions">
+            {{ record.width }} ft x {{ record.length }} ft
+        </div>
+        <div class="field-recorded-details">
+            {{ record.patch_set.all.0.recorded|date:"m/d/Y" }}
+        </div>
+        <ul class="field-patches">
+            {% for patch in record.patch_set.all %}
+                <li class="field-patch">
+                    <div class="field-quantity">
+                        {% if patch.plants %}
+                            {{ patch.plants }} plants
+                        {% endif %}
+                        {% if patch.area %}
+                            {{ patch.area }} square feet
+                        {% endif %}
+                    </div>
+                    <div class="field-variety-name">{{ patch.variety.name }}</div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
