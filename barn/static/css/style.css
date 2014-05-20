@@ -6049,6 +6049,9 @@ td.date {
     width: 8.33333333%;
   }
 }
+.record .actions .delete-record {
+  cursor: pointer;
+}
 .compost-volume-record .field-volume {
   position: relative;
   min-height: 1px;
