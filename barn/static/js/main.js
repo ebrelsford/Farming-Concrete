@@ -14,6 +14,7 @@ define(
         'feedback',
         'jquery.autocomplete',
         'jquery.stupid-table-sort',
+        'listrecords',
         'pickadate.date',
         'pickadate.time',
         'select2'
