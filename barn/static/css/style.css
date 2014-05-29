@@ -6998,14 +6998,14 @@ ul.garden-list {
   }
 }
 .garden-list-garden-name {
-  color: #f54613;
+  color: #f63c04;
   font-size: 16px;
   font-weight: bold;
   line-height: 24px;
   text-transform: uppercase;
 }
 .garden-list-garden-name:hover {
-  color: #f54613;
+  color: #f63c04;
 }
 .garden-list-garden-groups {
   margin-left: 25px;

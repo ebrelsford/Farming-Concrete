@@ -24,7 +24,7 @@ define(
 
         var style = {
             fill: true,
-            fillColor: '#F54613',
+            fillColor: '#F63C04',
             fillOpacity: 0.4,
             radius: 15,
             stroke: false
