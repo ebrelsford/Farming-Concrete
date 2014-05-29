@@ -5323,7 +5323,9 @@ button.close {
 .summary:before,
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
-.garden-detail-page .metric-group .metric:after {
+.garden-detail-page .metric-group .metric:after,
+.garden-list-garden:before,
+.garden-list-garden:after {
   content: " ";
   display: table;
 }
@@ -5347,7 +5349,8 @@ button.close {
 .record:after,
 .cropcount-bed-record .field-patch:after,
 .summary:after,
-.garden-detail-page .metric-group .metric:after {
+.garden-detail-page .metric-group .metric:after,
+.garden-list-garden:after {
   clear: both;
 }
 .center-block {
@@ -5559,6 +5562,7 @@ a:hover {
   text-decoration: underline;
 }
 header img {
+  margin-left: -7px;
   margin-bottom: 15px;
   margin-top: 15px;
   max-width: 100%;
@@ -5710,6 +5714,9 @@ main {
     font-size: 24px;
     line-height: 28px;
   }
+}
+#nav .navbar-collapse > ul > li:first-child a {
+  margin-left: 0;
 }
 #nav .navbar-collapse > ul > li > a:hover,
 #nav .navbar-collapse > ul > li > a.active {
@@ -6955,12 +6962,29 @@ ul.garden-list {
   padding: 0;
 }
 .garden-list-garden {
+  margin-left: -15px;
+  margin-right: -15px;
   border-bottom: 1px dotted #8c8c8c;
+  margin-left: 0;
   padding-bottom: 15px;
   padding-top: 15px;
 }
 .garden-list-garden:first-child {
   border-top: 1px dotted #8c8c8c;
+}
+.garden-list-garden-main {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
+  padding-left: 5px;
+}
+@media (min-width: 992px) {
+  .garden-list-garden-main {
+    float: left;
+    width: 50%;
+  }
 }
 .garden-list-garden-actions {
   font-size: 12px;
@@ -7056,7 +7080,6 @@ h2#your-gardens-title {
 }
 #your-gardens-section {
   border-top: 1px solid #404040;
-  padding-left: 15px;
   padding-right: 15px;
 }
 .btn-add-garden {

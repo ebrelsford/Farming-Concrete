@@ -65,8 +65,8 @@
                             </h2>
                             <ul class="garden-list">
                                 {% for garden in user_gardens %}
-                                    <li class="garden-list-garden row">
-                                        <div class="col-md-6">
+                                    <li class="garden-list-garden">
+                                        <div class="garden-list-garden-main">
                                             {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
                                         </div>
                                         <div class="garden-list-garden-actions">
