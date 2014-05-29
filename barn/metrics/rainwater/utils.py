@@ -15,23 +15,23 @@ ureg = UnitRegistry()
 
 def calculate_rainwater_gallons(latlng, length, width, start, end):
     station = get_station(latlng, start, end)
-    rainfall = get_rainfall_total(station, start, end)
+    rainfall = get_rainfall_total(station['id'], start, end)
     return rainfall * length * width * GALLONS_PER_SF * HARVESTING_EFFICIENCY
 
 
-def get_rainfall_total(station, start, end):
+def get_rainfall_total(stationid, start, end):
     """Get the rainfall total in inches"""
-    entries = get_rainfall_entries(station, start, end)
+    entries = get_rainfall_entries(stationid, start, end)
     total = sum(map(lambda e: e['value'], entries))
 
     # Convert from tenths of millimeters to inches
     return ((total / 10.0) * ureg.mm).to(ureg.inches).magnitude
 
 
-def get_rainfall_entries(station, start, end):
+def get_rainfall_entries(stationid, start, end):
     """Get all rainfall entries for a station and timeframe"""
     params = {
-        'stationid': station['id'],
+        'stationid': stationid,
         'datasetid': 'GHCND',
         'datatypeid': 'PRCP',
         'startdate': start.strftime('%Y-%m-%d'),
