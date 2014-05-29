@@ -5584,10 +5584,22 @@ header #logout-link:hover {
   }
 }
 footer {
+  font-family: Arial, 12px;
+  font-size: 12px;
   margin-top: 100px;
+}
+footer a {
+  color: black;
+}
+footer a:hover {
+  color: black;
 }
 footer #farming-concrete-logo {
   margin-bottom: 10px;
+  margin-right: 20px;
+}
+footer #fbf-logo {
+  margin-bottom: 5px;
 }
 main {
   clear: both;
