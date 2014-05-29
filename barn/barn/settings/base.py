@@ -220,4 +220,4 @@ FEEDBACK_CHOICES = (
     ('project feedback', 'project feedback'),
 )
 
-WUNDERGROUND_API_KEY = get_env_variable('FARMING_CONCRETE_WUNDERGROUND_API_KEY')
+NOAA_TOKEN = get_env_variable('FARMING_CONCRETE_NOAA_TOKEN')
