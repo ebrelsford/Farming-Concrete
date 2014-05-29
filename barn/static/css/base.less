@@ -49,6 +49,10 @@ header {
         &:hover {
             text-decoration: none;
         }
+
+        @media (max-width: @screen-sm-max) {
+            display: none;
+        }
     }
 }
 
@@ -94,10 +98,18 @@ main {
 
 .metric-name {
     color: @metric-color;
+    font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
 
     &:hover {
         color: @metric-color;
+    }
+
+    .metric-number {
+        color: black;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 12px;
     }
 }

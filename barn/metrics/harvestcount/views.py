@@ -98,9 +98,9 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
         context.update({
             'form': self.get_form(self.form_class),
             'garden': garden,
-            'harvests': harvests.order_by('recorded', 'gardener__name'),
             'plant_types': harvests.values('variety__id').distinct().count(),
             'plants': None,
+            'records': harvests.order_by('recorded', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
         })
         return context
@@ -171,8 +171,8 @@ def quantity_for_last_harvest(request, pk=None, year=None):
 
 @login_required
 @year_in_session
-def download_garden_harvestcount_as_csv(request, id, year=None):
-    garden = get_object_or_404(Garden, pk=id)
+def download_garden_harvestcount_as_csv(request, pk=None, year=None):
+    garden = get_object_or_404(Garden, id=pk)
     filename = '%s Harvest Count (%s).csv' % (garden.name,
                                               date.today().strftime('%m-%d-%Y'))
 

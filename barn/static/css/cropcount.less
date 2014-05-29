@@ -13,15 +13,8 @@
 #inputs p label,
 #inputs label {
     display: inline-block;
-    width: 35%;
 }
 
-#beds .month {
-    padding-top: 15px;
-}
-#beds .month .month-name {
-    font-style: italic;
-}
 #beds .name, #beds .dimensions {
     display: inline-block;
 }
@@ -38,10 +31,25 @@
     border-bottom: 1px solid black;
 }
 
-#new-bed form #id_width,
-#new-bed form #id_length {
-    display: inline-block;
-    width: 50%;
+#new-bed form {
+    #id_width,
+    #id_length {
+        display: inline-block;
+        width: 50%;
+    }
+
+    .field-dimensions {
+        .make-sm-column(8);
+
+        input {
+            max-width: 30%;
+        }
+    }
+
+    .field-name {
+        .make-sm-column(2);
+    }
+
 }
 
 #new-plant form #id_plants,

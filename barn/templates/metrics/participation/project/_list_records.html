@@ -1,23 +1,21 @@
 {% extends "metrics/_list_records.html" %}
 {% load participation_tags %}
 
-{% block table_header %}
-    <th class="sortable recorded" data-sort="string">recorded</th>
-    <th class="sortable project" data-sort="string-ins">project</th>
-    {% for gardener in garden_gardeners %}
-        <th class="sortable gardener" data-sort="string">{{ gardener }}</th>
-    {% endfor %}
-{% endblock %}
+{% block record_class %}participation-project-record{% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-    <td>{{ record.project.name }}</td>
-    {% for gardener in garden_gardeners %}
-        {% gardener_project_hours gardener for record as projecthour %}
-        <td class="number">
-            {% if projecthour %}
-                {{ projecthour.hours|floatformat }}
-            {% endif %}
-        </td>
-    {% endfor %}
+    <div class="field-project">{{ record.project.name }}</div>
+    <div class="field-gardener-hours-list">
+        {% for gardener in garden_gardeners %}
+            <div class="field-gardener-hours">
+                <div class="field-gardener">
+                    {{ gardener }}
+                </div>
+                <div class="field-hours">
+                    {% gardener_project_hours gardener for record as projecthour %}
+                    {{ projecthour.hours|floatformat }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

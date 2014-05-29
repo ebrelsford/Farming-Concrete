@@ -14,6 +14,7 @@ define(
         'feedback',
         'jquery.autocomplete',
         'jquery.stupid-table-sort',
+        'listrecords',
         'pickadate.date',
         'pickadate.time',
         'select2'
@@ -96,7 +97,7 @@ define(
             require(['addparticipationhourspage']);
         }
 
-        if ($('.list-records').length > 0) {
+        if ($('.record-list-page').length > 0) {
             require(['listrecords']);
         }
 

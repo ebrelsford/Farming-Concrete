@@ -1,7 +1,8 @@
 {% extends "metrics/_list_records.html" %}
 
+{% block record_class %}skills-smarts-record{% endblock %}
+
 {% block table_header %}
-    <th class="sortable recorded" data-sort="string">date end</th>
     <th class="sortable participants" data-sort="int">participants</th>
     <th class="sortable skills-shared" data-sort="int">skills shared</th>
     <th class="sortable concepts-shared" data-sort="int">concepts shared</th>
@@ -11,11 +12,22 @@
 {% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-    <td class="number">{{ record.participants }}</td>
-    <td class="number">{{ record.skills_shared }}</td>
-    <td class="number">{{ record.concepts_shared }}</td>
-    <td class="number">{{ record.projects_proposed }}</td>
-    <td class="number">{{ record.ideas_to_learn }}</td>
-    <td class="number">{{ record.intentions_to_collaborate }}</td>
+    <div class="field-participants">
+        {{ record.participants }} participants
+    </div>
+    <div class="field-skills-shared">
+        {{ record.skills_shared }} skills shared
+    </div>
+    <div class="field-concepts-shared">
+        {{ record.concepts_shared }} concepts shared
+    </div>
+    <div class="field-projects-proposed">
+        {{ record.projects_proposed }} projects proposed
+    </div>
+    <div class="field-ideas-to-learn">
+        {{ record.ideas_to_learn }} ideas to learn
+    </div>
+    <div class="field-intentions-to-collaborate">
+        {{ record.intentions_to_collaborate }} intentions to collaborate
+    </div>
 {% endblock %}

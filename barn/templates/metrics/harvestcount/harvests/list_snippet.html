@@ -1,24 +1,19 @@
-<div id="harvests">
-    <h2 style="font-weight: bold;" class="pre-listview">Harvests for {{ request.session.year }}</h2>
-    {% if harvests %}
-        <table class="sorted">
-            <thead>
-            <tr>
-                <th class="gardener">gardener</th>
-                <th class="variety">plant type</th>
-                <th class="weight">lbs</th>
-                <th class="dimensions">quantity</th>
-                <th class="harvested">date</th>
-            </tr>
-            </thead>
+{% extends "metrics/_list_records.html" %}
+{% load static %}
 
-            <tbody>
-                {% for harvest in harvests %}
-                    {% include "metrics/harvestcount/gardens/detail_harvest_snippet.html" %}
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        none
-    {% endif %}
-</div>
+{% block record_class %}harvestcount-record{% endblock %}
+
+{% block record_detail %}
+    <div class="field-gardener">{{ record.gardener.name }}</div> 
+    <div class="field-variety">{{ record.variety.name }}</div>
+    <div class="field-weight">{{ record.weight|floatformat }} pounds</div>
+    <div class="field-dimensions">
+        {% if record.plants %}
+            {{ record.plants|floatformat }} plants{% if record.area %},{% endif %}
+        {% endif %}
+        
+        {% if record.area %}
+            {{ record.area|floatformat }} sq ft
+        {% endif %}
+    </div>
+{% endblock %}

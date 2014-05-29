@@ -72,6 +72,11 @@ class UserGardensMixin(object):
 class IndexView(AddYearToSessionMixin, UserGardensMixin, TemplateView):
     template_name = 'farmingconcrete/index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['page_type'] = 'index'
+        return context
+
 
 class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
                     UserGardensMixin, DetailView):
@@ -88,6 +93,7 @@ class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
                 raise Http403
         context['garden_list'] = (garden,)
         context['garden_ids'] = (garden.pk,)
+        context['page_type'] = 'data_entry'
         return context
 
 
@@ -101,8 +107,16 @@ class UserGardens(LoginRequiredMixin, AddYearToSessionMixin, UserGardensMixin,
         return self.get_user_gardens()
 
     def get_context_data(self, **kwargs):
+        if not self.get_queryset().exists():
+            add_url = reverse('farmingconcrete_gardens_add')
+            message = """
+                Whoa now, you don't have any gardens! You should
+                <a href="%s">add a new garden</a> before you add data.
+            """ % (add_url,)
+            messages.add_message(self.request, messages.WARNING, message)
         context = super(UserGardens, self).get_context_data(**kwargs)
         context['garden_ids'] = self.get_queryset().values_list('pk', flat=True)
+        context['page_type'] = 'data_entry'
         return context
 
 
@@ -296,8 +310,18 @@ class GardenGroupDetailView(LoginRequiredMixin, DetailView):
 
 class FarmingConcreteYearMixin(DefaultYearMixin):
 
+    def add_year_to_session(self):
+        year = (self.kwargs.get('year', None)
+                or self.request.session.get('year', None)
+                or settings.FARMINGCONCRETE_YEAR)
+        self.request.session['year'] = self.kwargs['year'] = year
+
     def get_year(self):
-        return self.request.session['year']
+        try:
+            self.add_year_to_session()
+            return self.request.session['year']
+        except Exception:
+            return self.get_default_year()
 
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR

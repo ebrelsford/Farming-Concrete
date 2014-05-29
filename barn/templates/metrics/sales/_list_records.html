@@ -1,0 +1,13 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block record_class %}sales-record{% endblock %}
+
+{% block record_detail %}
+    <div class="field-product">{{ record.product }}</div>
+    <div class="field-units-sold">
+        {{ record.units_sold|floatformat:"0" }}
+        {{ record.unit }}
+    </div>
+    <div class="field-unit-price">at ${{ record.unit_price|floatformat:"2" }} each</div>
+    <div class="field-total-price">total: ${{ record.total_price|floatformat:"2" }}</div>
+{% endblock %}

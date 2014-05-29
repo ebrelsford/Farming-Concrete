@@ -1,24 +1,20 @@
 {% extends "metrics/_list_records.html" %}
 
-{% block table_header %}
-    <th class="sortable recorded-start" data-sort="string">date start</th>
-    <th class="sortable recorded" data-sort="string">date end</th>
-    {% for mood in moods %}
-        <th class="sortable mood-count" data-sort="int">{{ mood }} (in)</th>
-    {% endfor %}
-    {% for mood in moods %}
-        <th class="sortable mood-count" data-sort="int">{{ mood }} (out)</th>
-    {% endfor %}
+{% block record_class %}moods-change-record{% endblock %}
+
+{% block recorded %}
+    <div class="field-recorded">
+        {{ record.recorded_start|date:"m/d/Y" }} - {{ record.recorded|date:"m/d/Y" }}
+    </div>
 {% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded_start|date:"c" }}">
-        {{ record.recorded_start|date:"m/d/Y" }}
-    </td>
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">
-        {{ record.recorded|date:"m/d/Y" }}
-    </td>
-    {% for mood_count in record.moodcount_set.all %}
-        <td class="number">{{ mood_count.count }}</td>
-    {% endfor %}
+    <div class="field-counts">
+        {% for mood_count in record.moodcount_set.all %}
+            <div class="field-mood-count">
+                <div class="field-mood">{{ mood_count.mood }}:</div>
+                <div class="field-count">{{ mood_count.count }}</div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -10,7 +10,7 @@ define(['leaflet'], function (L) {
 
         addMapboxLayer: function () {
             L.tileLayer('https://{s}.tiles.mapbox.com/v3/{mapboxId}/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+                attribution: 'Data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
                 maxZoom: 18,
                 mapboxId: this.options.mapboxId
             }).addTo(this);

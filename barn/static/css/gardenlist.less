@@ -12,6 +12,30 @@ ul.garden-list {
     &:first-child {
         border-top: 1px dotted black;
     }
+
+    &-actions {
+        font-size: 12px;
+    }
+
+    &-details {
+        font-size: 12px;
+    }
+
+    &-buttons {
+        .make-md-column(3);
+
+        a {
+            width: 100%;
+        }
+    }
+}
+
+.main-index-page {
+    .garden-list-garden-actions {
+        .make-md-column(3);
+        padding-top: 20px;
+        text-align: right;
+    }
 }
 
 .garden-list-garden-name {
@@ -24,10 +48,6 @@ ul.garden-list {
     &:hover {
         color: @garden-color;
     }
-}
-
-.garden-list-buttons {
-    margin-top: 10px;
 }
 
 .garden-list-garden-groups {

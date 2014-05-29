@@ -1,12 +1,21 @@
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 
+username = 'eric'
+year = 2014
+
+
 def login(client):
     return client.post(reverse('django.contrib.auth.views.login'), {
-        'username': 'eric',
+        'username': username,
         'password': 'muppet',
     })
+
+
+def get_user():
+    return User.objects.get(username=username)
 
 
 class FarmingConcreteViewsTest(TestCase):
@@ -24,5 +33,4 @@ class FarmingConcreteViewsTest(TestCase):
     def test_gardens(self):
         login(self.client)
         resp = self.client.get(reverse('farmingconcrete_gardens_user'))
-        print resp.content
         self.assertEqual(resp.status_code, 200)

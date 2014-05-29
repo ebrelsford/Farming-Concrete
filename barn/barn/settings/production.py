@@ -22,15 +22,7 @@ ALLOWED_HOSTS = [
 
 CACHES = {
     'default' : dict(
-        BACKEND = 'johnny.backends.memcached.MemcachedCache',
+        BACKEND = 'django.core.cache.backends.memcached.MemcachedCache',
         LOCATION = ['unix:///tmp/memcached.sock'],
-        JOHNNY_CACHE = True,
     )
 }
-
-JOHNNY_MIDDLEWARE_KEY_PREFIX='fc'
-
-MIDDLEWARE_CLASSES = (
-    'johnny.middleware.LocalStoreClearMiddleware',
-    'johnny.middleware.QueryCacheMiddleware',
-) + MIDDLEWARE_CLASSES

@@ -17,6 +17,7 @@ define(
     ], function ($, L) {
         $(document).ready(function () {
             var map = L.map('map');
+            map.attributionControl.setPrefix('');
         });
     }
 );

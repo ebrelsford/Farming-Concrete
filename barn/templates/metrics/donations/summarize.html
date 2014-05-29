@@ -1,0 +1,6 @@
+{% extends "metrics/summarize.html" %}
+{% load i18n %}
+
+{% block summary_details %}
+    {{ pounds|floatformat:"0" }} {% trans "pounds" %}
+{% endblock %}

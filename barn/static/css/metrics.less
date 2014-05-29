@@ -1,12 +1,328 @@
-.add-record,
-.list-records {
-    margin-bottom: 25px;
-    margin-top: 25px;
+.metric {
+    &-add-record {
+        margin-bottom: 25px;
+        margin-top: 25px;
+    }
+
+    &-list-records {
+        margin-bottom: 25px;
+        margin-top: 100px;
+
+        .recorded-header {
+            .make-header();
+            padding-bottom: 25px;
+            padding-top: 10px;
+
+            img {
+                max-width: 150px;
+            }
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+    }
+}
+
+.record {
+    .make-row(0);
+    border-bottom: 1px dotted black;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+    .field-recorded {
+        .make-sm-column(2);
+    }
+    .actions {
+        .make-sm-column(1);
+        font-size: 12px;
+
+        .delete-record {
+            cursor: pointer;
+        }
+    }
+}
+
+.compost-volume-record {
+    .field-volume {
+        .make-sm-column(8);
+        font-weight: bold;
+    }
+}
+
+.compost-weight-record {
+    .field-weight {
+        .make-sm-column(8);
+        font-weight: bold;
+    }
+}
+
+.cropcount-bed-record {
+    .field-bed-details {
+        .make-sm-column(9);
+    }
+    .field-dimensions {
+        font-weight: bold;
+    }
+    .field-name {
+        .make-sm-column(2);
+    }
+    .field-patches {
+        font-weight: bold;
+    }
+    .field-patch {
+        .make-row(0);
+        margin-top: 15px;
+        padding: 0;
+
+        .field-quantity {
+            .make-sm-column(4);
+            padding-left: 0;
+        }
+        .field-variety-name {
+            .make-sm-column(8);
+        }
+    }
+    .field-recorded-details {
+        margin-top: 15px;
+    }
+}
+
+.donations-record {
+    .field-produce-name {
+        .make-sm-column(4);
+        font-weight: bold;
+    }
+    .field-pounds {
+        .make-sm-column(4);
+        font-weight: bold;
+    }
+}
+
+.harvestcount-record {
+    .field-dimensions {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-gardener {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-variety {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-weight {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+}
+
+.landfilldiversion-volume-record {
+    .field-volume {
+        .make-sm-column(8);
+        font-weight: bold;
+    }
+}
+
+.landfilldiversion-weight-record {
+    .field-weight {
+        .make-sm-column(8);
+        font-weight: bold;
+    }
+}
+
+.lookinggood-event-record {
+    .field-start {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-end {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-total-tags {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-comments {
+        .make-sm-column(3);
+        font-weight: bold;
+    }
+}
+
+.moods-change-record {
+    .field-recorded {
+        .make-sm-column(4);
+    }
+    .field-counts {
+        .make-sm-column(6);
+        font-weight: bold;
+
+        .field-count {
+            display: inline-block;
+        }
+        .field-mood {
+            display: inline-block;
+        }
+    }
+}
+
+.participation-geography-record {
+    .field-recorded {
+        .make-sm-column(5);
+    }
+    .field-hours {
+        .make-sm-column(5);
+        font-weight: bold;
+    }
+}
+
+.participation-project-record {
+    .field-project {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-gardener-hours-list {
+        .make-sm-column(6);
+        font-weight: bold;
+    }
+    .field-gardener {
+        display: inline-block
+    }
+    .field-hours {
+        display: inline-block
+    }
+}
+
+.participation-task-record {
+    .field-recorded {
+        .make-sm-column(4);
+    }
+    .field-tasks-list {
+        .make-sm-column(6);
+        font-weight: bold;
+    }
+    .field-task {
+        display: inline-block
+    }
+    .field-hours {
+        display: inline-block
+    }
+}
+
+.rainwater-harvest-record {
+    .field-recorded {
+        .make-sm-column(5);
+    }
+    .field-volume {
+        .make-sm-column(5);
+        font-weight: bold;
+    }
+}
+
+.reach-program-record {
+    .field-recorded {
+        .make-sm-column(4);
+    }
+    .field-details {
+        .make-sm-column(6);
+        font-weight: bold;
+    }
+
+    .field-label {
+        display: inline-block;
+        width: 60%;
+    }
+    .field-value {
+        display: inline-block;
+        width: 30%;
+    }
+}
+
+.recipes-tally-record {
+    .field-recorded {
+        .make-sm-column(5);
+    }
+    .field-recipes-count {
+        .make-sm-column(5);
+        font-weight: bold;
+    }
+}
+
+.sales-record {
+    .field-product {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-units-sold {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-unit-price {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-total-price {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+}
+
+.skills-smarts-record {
+    .field-participants {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-skills-shared {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-concepts-shared {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-projects-proposed {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-ideas-to-learn {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-intentions-to-collaborate {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+}
+
+.yumyuck-change-record {
+    .field-vegetable {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-yum-before {
+        .make-sm-column(1);
+        font-weight: bold;
+    }
+    .field-yuck-before {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-yum-after {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
+    .field-yuck-after {
+        .make-sm-column(2);
+        font-weight: bold;
+    }
 }
 
 .summary {
     .make-row();
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
 
     &.empty {
@@ -30,12 +346,9 @@
 .metric-garden-page {
     .metric-name {
         .make-header();
-    }
-}
-
-.record-list-page {
-    .recorded-header {
-        .make-header();
+        img {
+            max-width: 100%;
+        }
     }
 }
 

@@ -12,7 +12,7 @@ define(
     ], function ($, Django, prefixurl) {
 
         $(document).ready(function () {
-            $('.list-records').on('click', '.delete-record', function () {
+            $('.record-list-page').on('click', '.delete-record', function () {
                 var confirmed = confirm('Delete record? There is no undo and the data will be lost.');
                 if (!confirmed) {
                     return;

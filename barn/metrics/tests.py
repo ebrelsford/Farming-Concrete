@@ -1,16 +1,18 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
 
+from farmingconcrete.tests import get_user, login, year
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+
+class MetricTest(TestCase):
+    fixtures = ['farmingconcrete_test.json', 'accounts_test.json',]
+
+    def setUp(self):
+        login(self.client)
+        self.user = get_user()
+        self.garden = self.user.get_profile().gardens.all()[0]
+
+    def get_garden_details_kwargs(self):
+        return {
+            'pk': self.garden.pk,
+            'year': year
+        }

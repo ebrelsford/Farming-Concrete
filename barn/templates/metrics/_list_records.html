@@ -1,49 +1,35 @@
 {% load metrics_tags static %}
 
-<section class="list-records">
-    <h2 class="recorded-header">
-        <img src="{% static "img/recorded.png" %}" />
-    </h2>
-    <p>
-        {% metric_years metric garden as years %}
-        <label for="list-records-year">
-            Change year:
-        </label>
-        <select class="list-records-year" id="list-records-year">
-            {% for year in years %}
-                <option {% ifequal year request.session.year %}selected{% endifequal %} value="{% url metric.garden_detail_url_name pk=garden.pk year=year %}">
-                    {{ year }}
-                </option>
-            {% endfor %}
-        </select>
-    </p>
+<h2 class="recorded-header">
+    <img src="{% static "img/recorded.png" %}" />
+    {% metric_years metric garden as years %}
+    <select class="list-records-year pull-right" id="list-records-year">
+        {% for year in years %}
+            <option {% ifequal year request.session.year %}selected{% endifequal %} value="{% url metric.garden_detail_url_name pk=garden.pk year=year %}">
+                {{ year }}
+            </option>
+        {% endfor %}
+    </select>
+</h2>
 
-    <table class="table table-hover table-responsive sorted">
-        <thead>
-            <tr>
-                {% block table_header %}{% endblock %}
+{% block record_list %}
+    <ul>
+        {% metric_content_type metric as content_type %}
+        {% for record in records %}
+            <li class="record {% block record_class %}{% endblock %}" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
+
+                {% block recorded %}
+                    <div class="field-recorded">{{ record.recorded|date:"m/d/Y" }}</div>
+                {% endblock %}
+
+                {% block record_detail %}{% endblock %}
+
                 {% ifcandelete metric %}
-                    <th></th>
+                    <div class="actions">
+                        <a class="delete-record">Delete</a>
+                    </div>
                 {% endifcandelete %}
-            </tr>
-        </thead>
-
-        <tbody>
-            {% block table_body %}
-                {% metric_content_type metric as content_type %}
-                {% for record in records %}
-                    <tr class="record" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
-
-                        {% block record_detail %}{% endblock %}
-
-                        {% ifcandelete metric %}
-                            <td class="actions">
-                                <button class="delete-record btn btn-xs btn-danger">x</button>
-                            </td>
-                        {% endifcandelete %}
-                    </tr>
-                {% endfor %}
-            {% endblock %}
-        </tbody>
-    </table>
-</section>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

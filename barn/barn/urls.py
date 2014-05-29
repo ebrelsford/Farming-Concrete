@@ -26,6 +26,9 @@ urlpatterns = patterns('',
     # crop count
     (r'^metrics/cropcount/', include('metrics.cropcount.urls')),
 
+    # donation
+    (r'^metrics/donations/', include('metrics.donations.urls')),
+
     # harvest count
     (r'^metrics/harvestcount/', include('metrics.harvestcount.urls')),
 
@@ -41,7 +44,7 @@ urlpatterns = patterns('',
     # participation
     (r'^metrics/participation/', include('metrics.participation.urls')),
 
-    # reach
+    # rainwater
     (r'^metrics/rainwater/', include('metrics.rainwater.urls')),
 
     # reach
@@ -49,6 +52,9 @@ urlpatterns = patterns('',
 
     # recipes
     (r'^metrics/recipes/', include('metrics.recipes.urls')),
+
+    # sales
+    (r'^metrics/sales/', include('metrics.sales.urls')),
 
     # smarts and skills
     (r'^metrics/skills/', include('metrics.skills.urls')),

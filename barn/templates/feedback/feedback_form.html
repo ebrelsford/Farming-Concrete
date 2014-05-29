@@ -3,4 +3,5 @@
     Having problems? Dislike something? Like something? 
     Let us know!
 </p>
-{% include "_form.html" with form=feedback_form action="/feedback/" cancel_button=True %}
+{% url "feedback" as feedback_action %}
+{% include "_form.html" with form=feedback_form action=feedback_action cancel_button=True %}

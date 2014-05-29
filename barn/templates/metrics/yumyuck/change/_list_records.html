@@ -1,19 +1,11 @@
 {% extends "metrics/_list_records.html" %}
 
-{% block table_header %}
-    <th class="sortable recorded" data-sort="string">date end</th>
-    <th class="sortable vegetable" data-sort="string">vegetable</th>
-    <th class="sortable yum-before" data-sort="int">yums before</th>
-    <th class="sortable yuck-before" data-sort="int">yucks before</th>
-    <th class="sortable yum-after" data-sort="int">yums after</th>
-    <th class="sortable yuck-after" data-sort="int">yucks after</th>
-{% endblock %}
+{% block record_class %}yumyuck-change-record{% endblock %}
 
 {% block record_detail %}
-    <td class="date" data-sort-value="{{ record.recorded|date:"c" }}">{{ record.recorded|date:"m/d/Y" }}</td>
-    <td class="string">{{ record.vegetable }}</td>
-    <td class="number">{{ record.yum_before }}</td>
-    <td class="number">{{ record.yuck_before }}</td>
-    <td class="number">{{ record.yum_after }}</td>
-    <td class="number">{{ record.yuck_after }}</td>
+    <div class="field-vegetable">{{ record.vegetable }}</div>
+    <div class="field-yum-before">{{ record.yum_before }} yums before</div>
+    <div class="field-yuck-before">{{ record.yuck_before }} yucks before</div>
+    <div class="field-yum-after">{{ record.yum_after }} yums after</div>
+    <div class="field-yuck-after">{{ record.yuck_after }} yucks after</div>
 {% endblock %}

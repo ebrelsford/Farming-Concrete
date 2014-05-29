@@ -1,0 +1,8 @@
+{% extends "metrics/_list_records.html" %}
+
+{% block record_class %}donations-record{% endblock %}
+
+{% block record_detail %}
+    <div class="field-produce-name">{{ record.produce_name }}</div>
+    <div class="field-pounds">{{ record.pounds|floatformat }} pounds</div>
+{% endblock %}

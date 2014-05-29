@@ -41,9 +41,11 @@ class Harvest(BaseMetricRecord):
         if not harvests:
             return None
         return {
+            'count': harvests.count(),
             'harvests': harvests.order_by('harvested', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
             'plant_types': harvests.values('variety__id').distinct().count(),
+            'recorded_max': harvests.aggregate(models.Max('recorded'))['recorded__max'],
         }
 
 

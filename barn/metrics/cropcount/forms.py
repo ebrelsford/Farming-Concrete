@@ -44,10 +44,10 @@ class BoxForm(ModelForm):
         max_length=32,
         error_messages={'required': "Please enter a bed number."},
         widget=TextInput(attrs={'size': 10}),
-        label="Number"
+        label="Bed #"
     )
     length = BedSizeField()
-    width = BedSizeField(label='Size')
+    width = BedSizeField(label='Dimensions (feet)')
 
     class Meta:
         model = Box

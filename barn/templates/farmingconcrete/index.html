@@ -69,13 +69,13 @@
                                         <div class="col-md-6">
                                             {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="garden-list-garden-actions">
                                             <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">{% trans "Edit" %}</a>
                                             |
                                             <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">{% trans "Delete" %}</a>
                                         </div>
-                                        <div class="col-md-3 garden-list-buttons btn-group-vertical">
-                                            <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}" class="btn btn-default btn-mini">
+                                        <div class="garden-list-garden-buttons">
+                                            <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}" class="btn btn-default">
                                                 {% trans "Add data" %}
                                             </a>
                                         </div>

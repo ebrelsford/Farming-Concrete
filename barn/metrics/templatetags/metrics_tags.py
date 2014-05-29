@@ -240,11 +240,16 @@ class MetricContentType(AsTag):
 
     options = Options(
         Argument('metric', resolve=True, required=True),
+        'for',
+        Argument('model', resolve=True, required=False),
         'as',
         Argument('varname', resolve=False, required=False),
     )
 
-    def get_value(self, context, metric):
+    def get_value(self, context, metric, model):
+        if model:
+            app_name, model_name = model.split('.')
+            return ContentType.objects.get_by_natural_key(app_name, model_name)
         return ContentType.objects.get_for_model(metric['model'])
 
 

@@ -5310,6 +5310,16 @@ button.close {
 .panel-body:after,
 .modal-footer:before,
 .modal-footer:after,
+.form-horizontal .fields:before,
+.form-horizontal .fields:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.form-horizontal .form-actions:before,
+.form-horizontal .form-actions:after,
+.record:before,
+.record:after,
+.cropcount-bed-record .field-patch:before,
+.cropcount-bed-record .field-patch:after,
 .summary:before,
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
@@ -5331,6 +5341,11 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-footer:after,
+.form-horizontal .fields:after,
+.form-horizontal .form-group:after,
+.form-horizontal .form-actions:after,
+.record:after,
+.cropcount-bed-record .field-patch:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after {
   clear: both;
@@ -5559,6 +5574,11 @@ header #logout-link .arrow {
 header #logout-link:hover {
   text-decoration: none;
 }
+@media (max-width: 991px) {
+  header #logout-link {
+    display: none;
+  }
+}
 footer {
   margin-top: 100px;
 }
@@ -5610,46 +5630,46 @@ main {
 }
 .metric-name {
   color: #849f38;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
 }
 .metric-name:hover {
   color: #849f38;
 }
+.metric-name .metric-number {
+  color: black;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 12px;
+}
 /* Overrides */
-.navbar {
-  border-radius: 0;
+.navbar-default {
+  background: white;
+  border-left: none;
+  border-right: none;
   border-bottom: 1px dotted black;
   border-top: 1px solid black;
-  padding: 0;
+  border-radius: 0;
+  color: black;
   margin: 0;
   min-height: inherit;
+  padding: 0;
 }
-.navbar-nav > .active > a,
-.navbar-nav > .active > a:hover,
-.navbar-nav > .active > a:focus {
-  color: black;
-  background-color: inherit;
+.navbar-default .container-fluid {
+  padding: 0;
 }
-.navbar-nav > .open > a,
-.navbar-nav > .open > a:hover,
-.navbar-nav > .open > a:focus {
-  color: black;
-  background-color: inherit;
-}
-.navbar-nav > .dropdown > a .caret {
-  border-top-color: black;
-  border-bottom-color: black;
-}
-.navbar-nav > .dropdown > a:hover .caret {
-  border-top-color: white;
-  border-bottom-color: white;
-}
-.nav {
+.navbar-default .navbar-nav {
   display: block;
   text-transform: uppercase;
 }
-.nav > li {
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: black;
+  background-color: inherit;
+}
+.navbar-default .navbar-nav > li {
   margin: 0;
   margin-bottom: 8px;
   margin-top: 3px;
@@ -5658,10 +5678,10 @@ main {
   float: left;
   border-right: 1px solid black;
 }
-.nav > li:last-child {
+.navbar-default .navbar-nav > li:last-child {
   border-right: none;
 }
-.nav > li > a {
+.navbar-default .navbar-nav > li > a {
   color: black;
   text-decoration: none;
   margin-left: 5px;
@@ -5671,8 +5691,28 @@ main {
   padding-top: 2px;
   font-size: 11px;
 }
-#nav > ul > li > a:hover,
-#nav > ul > li > a.active {
+#nav .navbar-collapse {
+  margin-left: 0;
+  margin-right: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  #nav .navbar-collapse.collapsing li,
+  #nav .navbar-collapse.in li {
+    display: block;
+    float: none;
+    padding-left: 10px;
+  }
+  #nav .navbar-collapse.collapsing li a,
+  #nav .navbar-collapse.in li a {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+#nav .navbar-collapse > ul > li > a:hover,
+#nav .navbar-collapse > ul > li > a.active {
   background: black;
   color: white;
 }
@@ -5846,9 +5886,6 @@ input.ac_loading {
   margin-top: 35px;
   margin-bottom: 35px;
 }
-.delete-record {
-  margin-left: 25px;
-}
 ul.errorlist {
   margin: 0;
   margin-top: 10px;
@@ -5864,6 +5901,55 @@ ul.errorlist {
   box-shadow: none;
   -webkit-box-shadow: none;
   color: black;
+}
+.form-horizontal .control-label {
+  text-align: left;
+}
+.form-horizontal .fields {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-horizontal .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-horizontal .form-actions {
+  margin-left: 0;
+  margin-right: 0;
+}
+.form-horizontal button.btn-cancel {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-horizontal button.btn-cancel {
+    margin-left: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .form-horizontal button.btn-cancel {
+    float: left;
+    width: 25%;
+  }
+}
+.form-horizontal button[type="submit"] {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-horizontal button[type="submit"] {
+    float: left;
+    width: 25%;
+  }
+}
+@media (min-width: 992px) {
+  .form-horizontal button[type="submit"]:first-child {
+    margin-left: 75%;
+  }
 }
 .add-program-reach-page table,
 .add-participation-hours-page table {
@@ -5908,15 +5994,711 @@ td.date {
   text-align: right;
 }
 /* Metrics */
-.add-record,
-.list-records {
+.metric-add-record {
   margin-bottom: 25px;
   margin-top: 25px;
+}
+.metric-list-records {
+  margin-bottom: 25px;
+  margin-top: 100px;
+}
+.metric-list-records .recorded-header {
+  border-bottom: 1px dotted black;
+  border-top: 1px solid black;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 25px;
+  padding-top: 10px;
+}
+.metric-list-records .recorded-header img {
+  max-width: 150px;
+}
+.metric-list-records ul {
+  list-style: none;
+  padding-left: 0;
+}
+.record {
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 1px dotted black;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .record .field-recorded {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.record .actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
+}
+@media (min-width: 768px) {
+  .record .actions {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.record .actions .delete-record {
+  cursor: pointer;
+}
+.compost-volume-record .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .compost-volume-record .field-volume {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.compost-weight-record .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .compost-weight-record .field-weight {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.cropcount-bed-record .field-bed-details {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-bed-details {
+    float: left;
+    width: 75%;
+  }
+}
+.cropcount-bed-record .field-dimensions {
+  font-weight: bold;
+}
+.cropcount-bed-record .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-name {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.cropcount-bed-record .field-patches {
+  font-weight: bold;
+}
+.cropcount-bed-record .field-patch {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 15px;
+  padding: 0;
+}
+.cropcount-bed-record .field-patch .field-quantity {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-patch .field-quantity {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.cropcount-bed-record .field-patch .field-variety-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-patch .field-variety-name {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.cropcount-bed-record .field-recorded-details {
+  margin-top: 15px;
+}
+.donations-record .field-produce-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .donations-record .field-produce-name {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.donations-record .field-pounds {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .donations-record .field-pounds {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.harvestcount-record .field-dimensions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-dimensions {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-gardener {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-gardener {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-variety {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-variety {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-weight {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.landfilldiversion-volume-record .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .landfilldiversion-volume-record .field-volume {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.landfilldiversion-weight-record .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .landfilldiversion-weight-record .field-weight {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.lookinggood-event-record .field-start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-start {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.lookinggood-event-record .field-end {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-end {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.lookinggood-event-record .field-total-tags {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-total-tags {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.lookinggood-event-record .field-comments {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .lookinggood-event-record .field-comments {
+    float: left;
+    width: 25%;
+  }
+}
+.moods-change-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.moods-change-record .field-counts {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-counts {
+    float: left;
+    width: 50%;
+  }
+}
+.moods-change-record .field-counts .field-count {
+  display: inline-block;
+}
+.moods-change-record .field-counts .field-mood {
+  display: inline-block;
+}
+.participation-geography-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .participation-geography-record .field-recorded {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.participation-geography-record .field-hours {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-geography-record .field-hours {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.participation-project-record .field-project {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-project-record .field-project {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.participation-project-record .field-gardener-hours-list {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-project-record .field-gardener-hours-list {
+    float: left;
+    width: 50%;
+  }
+}
+.participation-project-record .field-gardener {
+  display: inline-block;
+}
+.participation-project-record .field-hours {
+  display: inline-block;
+}
+.participation-task-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .participation-task-record .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.participation-task-record .field-tasks-list {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .participation-task-record .field-tasks-list {
+    float: left;
+    width: 50%;
+  }
+}
+.participation-task-record .field-task {
+  display: inline-block;
+}
+.participation-task-record .field-hours {
+  display: inline-block;
+}
+.rainwater-harvest-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .rainwater-harvest-record .field-recorded {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.rainwater-harvest-record .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .rainwater-harvest-record .field-volume {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.reach-program-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .reach-program-record .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.reach-program-record .field-details {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .reach-program-record .field-details {
+    float: left;
+    width: 50%;
+  }
+}
+.reach-program-record .field-label {
+  display: inline-block;
+  width: 60%;
+}
+.reach-program-record .field-value {
+  display: inline-block;
+  width: 30%;
+}
+.recipes-tally-record .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .recipes-tally-record .field-recorded {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.recipes-tally-record .field-recipes-count {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .recipes-tally-record .field-recipes-count {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.sales-record .field-product {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-product {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.sales-record .field-units-sold {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-units-sold {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.sales-record .field-unit-price {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-unit-price {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.sales-record .field-total-price {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .sales-record .field-total-price {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.skills-smarts-record .field-participants {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-participants {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-skills-shared {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-skills-shared {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-concepts-shared {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-concepts-shared {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-projects-proposed {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-projects-proposed {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.skills-smarts-record .field-ideas-to-learn {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-ideas-to-learn {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.skills-smarts-record .field-intentions-to-collaborate {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-intentions-to-collaborate {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.yumyuck-change-record .field-vegetable {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-vegetable {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.yumyuck-change-record .field-yum-before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yum-before {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.yumyuck-change-record .field-yuck-before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yuck-before {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.yumyuck-change-record .field-yum-after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yum-after {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.yumyuck-change-record .field-yuck-after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .yumyuck-change-record .field-yuck-after {
+    float: left;
+    width: 16.66666667%;
+  }
 }
 .summary {
   margin-left: -15px;
   margin-right: -15px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
 }
 .summary.empty {
@@ -5965,11 +6747,8 @@ td.date {
   padding-bottom: 15px;
   padding-top: 15px;
 }
-.record-list-page .recorded-header {
-  border-bottom: 1px dotted black;
-  border-top: 1px solid black;
-  padding-bottom: 15px;
-  padding-top: 15px;
+.metric-garden-page .metric-name img {
+  max-width: 100%;
 }
 ul.gardens {
   list-style: none;
@@ -6002,13 +6781,6 @@ ul.gardens {
 #inputs p label,
 #inputs label {
   display: inline-block;
-  width: 35%;
-}
-#beds .month {
-  padding-top: 15px;
-}
-#beds .month .month-name {
-  font-style: italic;
 }
 #beds .name,
 #beds .dimensions {
@@ -6030,6 +6802,33 @@ ul.gardens {
 #new-bed form #id_length {
   display: inline-block;
   width: 50%;
+}
+#new-bed form .field-dimensions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-dimensions {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+#new-bed form .field-dimensions input {
+  max-width: 30%;
+}
+#new-bed form .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-name {
+    float: left;
+    width: 16.66666667%;
+  }
 }
 #new-plant form #id_plants,
 #new-plant form #id_area {
@@ -6096,7 +6895,7 @@ h2 a.text {
 }
 .garden-detail-page .garden-item {
   border-bottom: 1px dotted black;
-  padding-bottom: 15px;
+  padding-bottom: 25px;
   padding-top: 15px;
 }
 .garden-detail-page section.metric {
@@ -6118,6 +6917,9 @@ h2 a.text {
 .garden-detail-page .metric-group h3 {
   margin-bottom: 20px;
   margin-top: 10px;
+}
+.garden-detail-page .metric-group h3 img {
+  max-width: 100%;
 }
 .garden-detail-page .metric-group h4 {
   margin-bottom: 0;
@@ -6160,6 +6962,41 @@ ul.garden-list {
 .garden-list-garden:first-child {
   border-top: 1px dotted black;
 }
+.garden-list-garden-actions {
+  font-size: 12px;
+}
+.garden-list-garden-details {
+  font-size: 12px;
+}
+.garden-list-garden-buttons {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .garden-list-garden-buttons {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-list-garden-buttons a {
+  width: 100%;
+}
+.main-index-page .garden-list-garden-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
+  text-align: right;
+}
+@media (min-width: 992px) {
+  .main-index-page .garden-list-garden-actions {
+    float: left;
+    width: 25%;
+  }
+}
 .garden-list-garden-name {
   color: #f54613;
   font-size: 16px;
@@ -6169,9 +7006,6 @@ ul.garden-list {
 }
 .garden-list-garden-name:hover {
   color: #f54613;
-}
-.garden-list-buttons {
-  margin-top: 10px;
 }
 .garden-list-garden-groups {
   margin-left: 25px;
