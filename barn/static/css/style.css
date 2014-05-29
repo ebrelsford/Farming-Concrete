@@ -5648,8 +5648,8 @@ main {
   background: white;
   border-left: none;
   border-right: none;
-  border-bottom: 1px dotted black;
-  border-top: 1px solid black;
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
   border-radius: 0;
   color: black;
   margin: 0;
@@ -6003,8 +6003,8 @@ td.date {
   margin-top: 100px;
 }
 .metric-list-records .recorded-header {
-  border-bottom: 1px dotted black;
-  border-top: 1px solid black;
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
   padding-bottom: 15px;
   padding-top: 15px;
   padding-bottom: 25px;
@@ -6020,7 +6020,7 @@ td.date {
 .record {
   margin-left: 0;
   margin-right: 0;
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted #8c8c8c;
   padding-bottom: 20px;
   padding-top: 20px;
 }
@@ -6742,8 +6742,8 @@ td.date {
   }
 }
 .metric-garden-page .metric-name {
-  border-bottom: 1px dotted black;
-  border-top: 1px solid black;
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
   padding-bottom: 15px;
   padding-top: 15px;
 }
@@ -6894,19 +6894,19 @@ h2 a.text {
   padding: 20px;
 }
 .garden-detail-page .garden-item {
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted #8c8c8c;
   padding-bottom: 25px;
   padding-top: 15px;
 }
 .garden-detail-page section.metric {
-  border-top: 1px dotted black;
+  border-top: 1px dotted #8c8c8c;
   padding: 15px;
 }
 .garden-detail-page section.metric:last-child {
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted #8c8c8c;
 }
 .garden-detail-page .metric-group {
-  border-top: 1px solid black;
+  border-top: 1px solid #404040;
   margin-top: 100px;
   padding-left: 15px;
   padding-right: 15px;
@@ -6955,12 +6955,12 @@ ul.garden-list {
   padding: 0;
 }
 .garden-list-garden {
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted #8c8c8c;
   padding-bottom: 15px;
   padding-top: 15px;
 }
 .garden-list-garden:first-child {
-  border-top: 1px dotted black;
+  border-top: 1px dotted #8c8c8c;
 }
 .garden-list-garden-actions {
   font-size: 12px;
@@ -7055,7 +7055,7 @@ h2#your-gardens-title {
   margin-top: 15px;
 }
 #your-gardens-section {
-  border-top: 1px solid black;
+  border-top: 1px solid #404040;
   padding-left: 15px;
   padding-right: 15px;
 }
