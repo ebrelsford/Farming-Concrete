@@ -28,14 +28,14 @@
                             </h4>
                             {% summarize metric.name gardens=garden_list year=year %}
                         </div>
-                        <div class="col-md-2">
+                        <div class="metric-actions">
                             {% ifequal garden_list|length 1 %}
-                                <a href="{% url metric.garden_detail_url_name pk=garden_list.0.pk %}" class="btn btn-default">
+                                <a href="{% url metric.garden_detail_url_name pk=garden_list.0.pk %}" class="btn btn-default btn-add-data">
                                     {% trans "add data" %}
                                 </a>
                             {% else %}
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <a href="#" class="btn btn-default btn-add-data dropdown-toggle" data-toggle="dropdown">
                                         {% trans "add data" %}
                                         <span class="caret"></span>
                                     </a>

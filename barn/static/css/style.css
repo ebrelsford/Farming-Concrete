@@ -5660,6 +5660,9 @@ main {
   font-weight: normal;
   line-height: 12px;
 }
+.btn-add-data {
+  font-size: 18px;
+}
 /* Overrides */
 .navbar-default {
   background: white;
@@ -6965,7 +6968,19 @@ h2 a.text {
 @media (min-width: 768px) {
   .garden-detail-page .metric-group .metric .metric-details {
     float: left;
-    width: 83.33333333%;
+    width: 75%;
+  }
+}
+.garden-detail-page .metric-group .metric .metric-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-detail-page .metric-group .metric .metric-actions {
+    float: left;
+    width: 25%;
   }
 }
 .garden-detail-page .metric-group h3:only-child {
