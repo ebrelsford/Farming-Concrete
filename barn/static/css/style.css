@@ -5570,10 +5570,11 @@ header img {
 header #logout-link {
   color: black;
   float: right;
+  font-size: 12px;
   margin-top: 50px;
 }
 header #logout-link .arrow {
-  font-size: 20px;
+  font-size: 16px;
 }
 header #logout-link:hover {
   text-decoration: none;
@@ -5729,6 +5730,9 @@ main {
 }
 #nav .navbar-collapse > ul > li:first-child a {
   margin-left: 0;
+}
+#nav .navbar-collapse > ul > li > a {
+  font-size: 12px;
 }
 #nav .navbar-collapse > ul > li > a:hover,
 #nav .navbar-collapse > ul > li > a.active {
@@ -6905,6 +6909,7 @@ h2 a.text {
 }
 #feedback-button {
   cursor: pointer;
+  font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
 }
