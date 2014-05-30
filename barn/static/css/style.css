@@ -7025,6 +7025,7 @@ ul.garden-list {
 }
 .garden-list-garden-details {
   font-size: 12px;
+  line-height: 18px;
 }
 .garden-list-garden-buttons {
   position: relative;
@@ -7057,7 +7058,7 @@ ul.garden-list {
 }
 .garden-list-garden-name {
   color: #f63c04;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   line-height: 24px;
   text-transform: uppercase;
@@ -7162,6 +7163,9 @@ fieldset[disabled] .btn-add-garden.active {
   background-color: #ffffff;
 }
 #intro-text {
+  font-size: 14px;
+  letter-spacing: .5px;
+  line-height: 24px;
   padding: 50px;
   padding-top: 0;
 }
