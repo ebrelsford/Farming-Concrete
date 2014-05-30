@@ -6938,6 +6938,8 @@ h2 a.text {
   margin-top: 10px;
 }
 .garden-detail-page .metric-group h3 img {
+  margin-left: -20px;
+  max-height: 38px;
   max-width: 100%;
 }
 .garden-detail-page .metric-group h4 {
