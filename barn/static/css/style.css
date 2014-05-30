@@ -7120,7 +7120,10 @@ h2#your-gardens-title {
   color: #ffffff;
   background-color: #000000;
   border-color: #000000;
+  font-size: 18px;
   margin-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .btn-add-garden:hover,
 .btn-add-garden:focus,
