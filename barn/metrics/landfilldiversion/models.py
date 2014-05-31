@@ -60,6 +60,7 @@ register('Landfill Waste Diversion by Weight', {
     'group_number': 1,
     'index_url_name': 'landfilldiversion_weight_index',
     'summarize_template': 'metrics/landfilldiversion/weight/summarize.html',
+    'short_name': 'weight',
     'user_gardens_url_name': 'landfilldiversion_weight_user_gardens',
 })
 
@@ -75,5 +76,6 @@ register('Landfill Waste Diversion by Volume', {
     'group_number': 1,
     'index_url_name': 'landfilldiversion_volume_index',
     'summarize_template': 'metrics/landfilldiversion/volume/summarize.html',
+    'short_name': 'volume',
     'user_gardens_url_name': 'landfilldiversion_volume_user_gardens',
 })
