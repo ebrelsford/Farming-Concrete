@@ -5660,8 +5660,10 @@ main {
   font-weight: normal;
   line-height: 12px;
 }
-.btn-add-data {
+.btn.btn-add-data {
   font-size: 18px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 /* Overrides */
 .navbar-default {
