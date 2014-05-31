@@ -5,6 +5,7 @@ from operator import itemgetter
 from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.template.base import TemplateDoesNotExist
 from django.template.loader import render_to_string
 
 from classytags.arguments import Argument, KeywordArgument
@@ -96,12 +97,13 @@ class Summarize(MetricRecordTagMixin, Tag):
         KeywordArgument('year', required=False),
         KeywordArgument('start', required=False),
         KeywordArgument('end', required=False),
+        KeywordArgument('page', required=False),
     )
 
     def render_tag(self, context, name, summary, records, garden, gardens,
-                   year, start, end):
+                   year, start, end, page):
         kwargs = self.args_to_dict(summary, records, garden, gardens, year,
-                                   start, end)
+                                   start, end, page)
 
         # Get KeywordArguments with default values
         summary = kwargs.get('summary', None)
@@ -111,6 +113,7 @@ class Summarize(MetricRecordTagMixin, Tag):
         year = kwargs.get('year', settings.FARMINGCONCRETE_YEAR)
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
+        page = kwargs.get('page', 'list')
 
         # Get the summary requested
         metric = registry[name]['model']
@@ -126,7 +129,16 @@ class Summarize(MetricRecordTagMixin, Tag):
 
         if not summary:
             return render_to_string(self.empty_template_name)
-        return render_to_string(self.get_template(name), summary)
+        try:
+            return render_to_string(self.get_page_template(name, page), summary)
+        except TemplateDoesNotExist:
+            return render_to_string(self.get_template(name), summary)
+
+    def get_page_template(self, metric_name, page):
+        app_label = registry[metric_name]['model']._meta.app_label
+        if page == 'detail':
+            return 'metrics/%s/summarize_detail.html' % app_label
+        return 'metrics/%s/summarize.html' % app_label
 
     def get_template(self, metric_name):
         try:

@@ -44,9 +44,9 @@
 {% block right %}
     {{ block.super }}
     {% include "farmingconcrete/gardens/_list_detail.html" with garden=garden %}
-    <ul class="overview">
-        {% summarize metric_name gardens=garden %}
-    </ul>
+    <div class="summary">
+        {% summarize metric_name gardens=garden page="detail" %}
+    </div>
 {% endblock %}
 
 {% block map_options %}

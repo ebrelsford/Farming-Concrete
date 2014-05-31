@@ -352,6 +352,35 @@
             max-width: 100%;
         }
     }
+
+    .summary {
+        border-bottom: @separator-border;
+        border-top: @separator-border;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 25px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        text-align: center;
+
+        .summary-details {
+            padding: 10px;
+            border-right: @separator-border;
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+
+        .number {
+            font-size: 48px;
+        }
+        .units {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    }
 }
 
 ul.gardens {

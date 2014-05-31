@@ -6779,6 +6779,31 @@ td.date {
   max-height: 42px;
   max-width: 100%;
 }
+.metric-garden-page .summary {
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px dotted #8c8c8c;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 25px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  text-align: center;
+}
+.metric-garden-page .summary .summary-details {
+  padding: 10px;
+  border-right: 1px dotted #8c8c8c;
+}
+.metric-garden-page .summary .summary-details:last-child {
+  border-right: none;
+}
+.metric-garden-page .summary .number {
+  font-size: 48px;
+}
+.metric-garden-page .summary .units {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+}
 ul.gardens {
   list-style: none;
   padding-left: 20px;
