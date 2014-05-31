@@ -5641,6 +5641,9 @@ main {
     width: 33.33333333%;
   }
 }
+#right .garden-item {
+  margin-top: 5px;
+}
 #map {
   height: 200px;
   width: 100%;
