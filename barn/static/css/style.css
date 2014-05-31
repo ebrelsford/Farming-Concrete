@@ -6772,6 +6772,7 @@ td.date {
   padding-top: 15px;
 }
 .metric-garden-page .metric-name img {
+  margin-left: 10px;
   max-height: 42px;
   max-width: 100%;
 }
