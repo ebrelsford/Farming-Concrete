@@ -131,24 +131,41 @@ class Summarize(MetricRecordTagMixin, Tag):
             if page == 'detail':
                 return ''
             return render_to_string(self.empty_template_name)
-        try:
-            return render_to_string(self.get_page_template(name, page), summary)
-        except TemplateDoesNotExist:
-            return render_to_string(self.get_template(name), summary)
 
-    def get_page_template(self, metric_name, page):
-        app_label = registry[metric_name]['model']._meta.app_label
+        templates = self.get_page_templates(name, page) + self.get_templates(name)
+        for template in templates:
+            try:
+                return render_to_string(template, summary)
+            except TemplateDoesNotExist:
+                continue
+
+    def get_page_templates(self, metric_name, page):
         if page == 'detail':
-            return 'metrics/%s/summarize_detail.html' % app_label
-        return 'metrics/%s/summarize.html' % app_label
-
-    def get_template(self, metric_name):
-        try:
-            template_name = registry[metric_name]['summarize_template']
-        except Exception:
             app_label = registry[metric_name]['model']._meta.app_label
-            template_name = 'metrics/%s/summarize.html' % app_label
-        return template_name
+            model_name = registry[metric_name]['model']._meta.model_name
+            short_name = registry[metric_name].get('short_name', model_name)
+            return [
+                'metrics/%s/%s/summarize_detail.html' % (app_label, short_name),
+                'metrics/%s/%s/summarize_detail.html' % (app_label, model_name),
+                'metrics/%s/summarize_detail.html' % app_label,
+            ]
+        return []
+
+    def get_templates(self, metric_name):
+        templates = []
+        try:
+            templates += [registry[metric_name]['summarize_template']]
+        except Exception:
+            pass
+        app_label = registry[metric_name]['model']._meta.app_label
+        model_name = registry[metric_name]['model']._meta.model_name
+        short_name = registry[metric_name].get('short_name', model_name)
+        templates += [
+            'metrics/%s/%s/summarize.html' % (app_label, short_name),
+            'metrics/%s/%s/summarize.html' % (app_label, model_name),
+            'metrics/%s/summarize.html' % app_label,
+        ]
+        return templates
 
 
 class MetricsWithRecords(MetricRecordTagMixin, AsTag):
