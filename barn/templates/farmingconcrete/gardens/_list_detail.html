@@ -16,7 +16,7 @@
         <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">
             {% trans "Edit" %}
         </a>
-        |
+        <span class="garden-list-garden-actions-separator">|</span>
         <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">
             {% trans "Delete" %}
         </a>

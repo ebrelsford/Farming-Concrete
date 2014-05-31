@@ -7023,6 +7023,10 @@ ul.garden-list {
 .garden-list-garden-actions {
   font-size: 12px;
 }
+.garden-list-garden-actions-separator {
+  margin-left: 5px;
+  margin-right: 5px;
+}
 .garden-list-garden-details {
   font-size: 12px;
   line-height: 18px;
