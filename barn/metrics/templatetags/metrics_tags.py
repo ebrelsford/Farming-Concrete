@@ -128,6 +128,8 @@ class Summarize(MetricRecordTagMixin, Tag):
                 summary = metric.get_summary_data(gardens, year=year)
 
         if not summary:
+            if page == 'detail':
+                return ''
             return render_to_string(self.empty_template_name)
         try:
             return render_to_string(self.get_page_template(name, page), summary)

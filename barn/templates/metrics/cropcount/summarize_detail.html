@@ -1,12 +1,14 @@
-<div class="summary-details">
-    <span class="number">{{ beds|default:"0" }}</span>
-    <span class="units">bed{{ beds|pluralize }}</span>
-</div>
-<div class="summary-details">
-    <span class="number">{{ plants|default:"0" }}</span>
-    <span class="units">plant{{ plants|pluralize }}</span>
-</div>
-<div class="summary-details">
-    <span class="number">{{ area|default:"0"|floatformat:"0" }}</span>
-    <span class="units">square {{ area|pluralize:"foot,feet" }}</span>
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ beds|default:"0" }}</span>
+        <span class="units">bed{{ beds|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ plants|default:"0" }}</span>
+        <span class="units">plant{{ plants|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ area|default:"0"|floatformat:"0" }}</span>
+        <span class="units">square {{ area|pluralize:"foot,feet" }}</span>
+    </div>
 </div>
