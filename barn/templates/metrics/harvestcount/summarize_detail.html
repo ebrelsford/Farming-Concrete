@@ -1,0 +1,12 @@
+<div class="summary-details">
+    <span class="number">{{ count|default:"0" }}</span>
+    <span class="units">harvest{{ count|pluralize }}</span>
+</div>
+<div class="summary-details">
+    <span class="number">{{ plant_types|default:"0" }}</span>
+    <span class="units">crop{{ plant_types|pluralize }}</span>
+</div>
+<div class="summary-details">
+    <span class="number">{{ weight|floatformat|default:"0" }}</span>
+    <span class="units">pound{{ weight|pluralize }}</span>
+</div>

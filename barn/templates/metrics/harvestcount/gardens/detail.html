@@ -10,12 +10,3 @@
 {% block list_records %}
     {% include "metrics/harvestcount/harvests/list_snippet.html" %}
 {% endblock %}
-
-{% block right %}
-    {{ block.super }}
-    <ul class="overview">
-        <li><b>{{ harvests.count|default:"0" }}</b> harvest{{ harvests.count|pluralize }}</li>
-        <li><b>{{ weight|floatformat|default:"0" }}</b> pounds</li>
-        <li><b>{{ plant_types|default:"0" }}</b> plant type{{ harvests.count|pluralize }}</li>
-    </ul>
-{% endblock %}
