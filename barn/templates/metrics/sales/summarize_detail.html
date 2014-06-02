@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ total_units|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "unit" %}{{ total_units|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">${{ total_price|default:"0"|floatformat:"2" }}</span>
+        <span class="units">{% trans "total" %}</span>
+    </div>
+</div>

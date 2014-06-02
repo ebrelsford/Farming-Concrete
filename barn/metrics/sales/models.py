@@ -36,6 +36,7 @@ class Sale(BaseMetricRecord):
     def get_summarize_kwargs(cls):
         kwargs = super(Sale, cls).get_summarize_kwargs()
         kwargs.update({
+            'total_units': Sum('units_sold'),
             'total_price': Sum('total_price'),
         })
         return kwargs
@@ -49,5 +50,4 @@ register('Market Sales', {
     'garden_detail_url_name': 'sales_garden_details',
     'group': 'Economic Data',
     'group_number': 4,
-    'summarize_template': 'metrics/sales/summarize.html',
 })
