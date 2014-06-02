@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ count|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "donation entr" %}{{ count|pluralize:"y,ies" }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ pounds|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "pound" %}{{ pounds|pluralize }}</span>
+    </div>
+</div>

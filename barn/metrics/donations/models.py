@@ -39,5 +39,4 @@ register('Donations of Food', {
     'garden_detail_url_name': 'donations_garden_details',
     'group': 'Economic Data',
     'group_number': 4,
-    'summarize_template': 'metrics/donations/summarize.html',
 })
