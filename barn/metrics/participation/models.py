@@ -114,7 +114,9 @@ class HoursByTask(BaseMetricRecord):
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(HoursByTask, cls).get_summarize_kwargs()
-        #kwargs.update({ }) # TODO
+        kwargs.update({
+            'hours': Sum('taskhours__hours'),
+        })
         return kwargs
 
 
@@ -153,6 +155,8 @@ class HoursByProject(BaseMetricRecord):
         kwargs = super(HoursByProject, cls).get_summarize_kwargs()
         kwargs.update({
             'projects': Count('project__pk', distinct=True),
+            'participants': Count('projecthours__gardener', distinct=True),
+            'hours': Sum('projecthours__hours'),
         })
         return kwargs
 
@@ -168,7 +172,7 @@ register('Participation by Geography', {
     'group': 'Social Data',
     'group_number': 2,
     'index_url_name': 'participation_geography_index',
-    'summarize_template': 'metrics/participation/geography/summarize.html',
+    'short_name': 'geography',
     'user_gardens_url_name': 'participation_geography_user_gardens',
 })
 
@@ -184,7 +188,7 @@ register('Participation by Task', {
     'group': 'Social Data',
     'group_number': 2,
     'index_url_name': 'participation_task_index',
-    'summarize_template': 'metrics/participation/task/summarize.html',
+    'short_name': 'task',
     'user_gardens_url_name': 'participation_task_user_gardens',
 })
 
@@ -200,6 +204,6 @@ register('Participation by Project', {
     'group': 'Social Data',
     'group_number': 2,
     'index_url_name': 'participation_project_index',
-    'summarize_template': 'metrics/participation/project/summarize.html',
+    'short_name': 'project',
     'user_gardens_url_name': 'participation_project_user_gardens',
 })

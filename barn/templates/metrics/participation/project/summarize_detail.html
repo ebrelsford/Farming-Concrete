@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ projects|default:"0" }}</span>
+        <span class="units">{% trans "project" %}{{ projects|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ participants|default:"0" }}</span>
+        <span class="units">{% trans "participant" %}{{ participants|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ hours|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "hour" %}{{ hours|pluralize }}</span>
+    </div>
+</div>
