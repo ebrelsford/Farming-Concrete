@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ total_tags|default:"0" }}</span>
+        <span class="units">{% trans "tag" %}{{ total_tags|pluralize }}</span>
+    </div>
+</div>
