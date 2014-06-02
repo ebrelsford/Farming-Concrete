@@ -64,6 +64,6 @@ register('Skills & Knowledge in the Garden', {
     'group': 'Social Data',
     'group_number': 2,
     'index_url_name': 'skills_smarts_index',
-    'summarize_template': 'metrics/skills/smarts/summarize.html',
+    'short_name': 'smarts',
     'user_gardens_url_name': 'skills_smarts_user_gardens',
 })

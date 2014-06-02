@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ participants|default:"0" }}</span>
+        <span class="units">{% trans "participant" %}{{ participants|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ skills_shared|default:"0" }}</span>
+        <span class="units">{% trans "skill" %}{{ skills_shared|pluralize }} shared</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ projects_proposed|default:"0" }}</span>
+        <span class="units">{% trans "project" %}{{ projects_proposed|pluralize }} proposed</span>
+    </div>
+</div>
