@@ -78,6 +78,6 @@ register('Good Moods in the Garden', {
     'group': 'Health Data',
     'group_number': 3,
     'index_url_name': 'moods_change_index',
-    'summarize_template': 'metrics/moods/change/summarize.html',
+    'short_name': 'change',
     'user_gardens_url_name': 'moods_change_user_gardens',
 })

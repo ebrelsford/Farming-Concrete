@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ count|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "record" %}{{ count|pluralize }}</span>
+    </div>
+</div>
