@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ programs|default:"0" }}</span>
+        <span class="units">{% trans "program" %}{{ programs|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ hours_each_day|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "hour" %}{{ hours_each_day|pluralize }} each day</span>
+    </div>
+</div>

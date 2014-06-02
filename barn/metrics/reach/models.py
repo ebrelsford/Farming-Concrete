@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
 
 from ..models import BaseMetricRecord
@@ -134,6 +134,7 @@ class ProgramReach(BaseMetricRecord):
     def get_summarize_kwargs(cls):
         kwargs = super(ProgramReach, cls).get_summarize_kwargs()
         kwargs.update({
+            'programs': Count('pk'),
             'hours_each_day': Sum('hours_each_day'),
             'age_10': Sum('age_10'),
         })
@@ -149,6 +150,6 @@ register('Reach of Programs', {
     'group': 'Social Data',
     'group_number': 2,
     'index_url_name': 'reach_program_index',
-    'summarize_template': 'metrics/reach/program/summarize.html',
+    'short_name': 'program',
     'user_gardens_url_name': 'reach_program_user_gardens',
 })
