@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ count|default:"0" }}</span>
+        <span class="units">{% trans "record" %}{{ count|pluralize }}</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ yum_before|default:"0" }}</span>
+        <span class="units">{% trans "yum" %}{{ yum_before|pluralize }} before</span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ yum_after|default:"0" }}</span>
+        <span class="units">{% trans "yum" %}{{ yum_after|pluralize }} after</span>
+    </div>
+</div>
