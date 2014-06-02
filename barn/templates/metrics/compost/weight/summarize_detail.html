@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ weight|default:"0"|floatformat:"0" }}</span>
+        <span class="units">{% trans "pound" %}{{ weight|pluralize }}</span>
+    </div>
+</div>
