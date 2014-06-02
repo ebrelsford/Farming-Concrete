@@ -51,5 +51,5 @@ register('Rainwater Harvesting', {
     'group': 'Environmental Data',
     'group_number': 1,
     'index_url_name': 'rainwater_harvest_index',
-    'summarize_template': 'metrics/rainwater/harvest/summarize.html',
+    'short_name': 'harvest',
 })
