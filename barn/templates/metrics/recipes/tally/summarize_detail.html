@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<div class="summary">
+    <div class="summary-details">
+        <span class="number">{{ recipes_count|default:"0" }}</span>
+        <span class="units">{% trans "recipe" %}{{ recipes_count|pluralize }}</span>
+    </div>
+</div>
