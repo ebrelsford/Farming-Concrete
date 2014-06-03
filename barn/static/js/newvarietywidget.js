@@ -6,7 +6,7 @@ define(
     [
         // Requirements with exports
         'jquery',
-        'new_widget',
+        'new_widget'
 
     ], function ($, NewInstanceWidget) {
 
