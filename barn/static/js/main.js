@@ -133,10 +133,6 @@ define(
             require(['reports']);
         }
 
-        if ($('.lookinggood-tag-formset').length > 0) {
-            require(['lookinggoodtagset']);
-        }
-
         if ($('.landfilldiversion-volume-chart').length > 0) {
             require(['landfilldiversionvolumechart']);
         }
