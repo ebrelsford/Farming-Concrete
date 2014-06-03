@@ -1,7 +1,7 @@
 {% load i18n widget_tweaks %}
 
 <section id="new-bed">
-    <form method="post" action="{% url "cropcount_add_bed" id=garden.pk %}" class="form-horizontal" role="form">
+    <form method="post" action="." class="form-horizontal" role="form">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
             {{ hidden }}
@@ -28,6 +28,15 @@
                     </div>
                 </div>
             </div>
+            <div class="fields">
+                {% include "forms/field.html" with field=form.recorded %}
+            </div>
+
+            {{ patch_formset.management_form }}
+
+            {% for patch_form in patch_formset.forms %}
+                {% include "metrics/cropcount/patches/add_snippet.html" with form=patch_form %}
+            {% endfor %}
 
             <div class="form-actions">
                 <button class="btn btn-primary" type="submit">

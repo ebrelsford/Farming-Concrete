@@ -6884,6 +6884,18 @@ ul.gardens {
     width: 16.66666667%;
   }
 }
+#new-bed form .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
 #new-plant form #id_plants,
 #new-plant form #id_area {
   display: inline-block;

@@ -81,6 +81,10 @@ define(
          * Page-specific modules
          */
 
+        if ($('.add-cropcount-page').length > 0) {
+            require(['addcropcountpage']);
+        }
+
         if ($('.add-gardens-page').length > 0) {
             require(['addgardenspage']);
         }

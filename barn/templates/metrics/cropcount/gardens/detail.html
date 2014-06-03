@@ -1,6 +1,8 @@
 {% extends "metrics/garden_detail.html" %}
 {% load static %}
 
+{% block body_class %}{{ block.super }} add-cropcount-page{% endblock %}
+
 {% block add_record %}
     {% include "metrics/cropcount/beds/add_snippet.html" %}
 {% endblock %}

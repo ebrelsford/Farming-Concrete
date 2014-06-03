@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ImproperlyConfigured, PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Manager
 from django.http import HttpResponse

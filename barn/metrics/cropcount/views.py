@@ -3,13 +3,13 @@ from datetime import date, datetime
 import unicodecsv
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormMixin
 
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden, Variety
@@ -17,9 +17,9 @@ from farmingconcrete.decorators import garden_type_aware, in_section, year_in_se
 from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import TitledPageMixin
-from ..views import (AllGardensView, GardenView, IndexView, MetricMixin,
-                     RecordsMixin, UserGardenView)
-from .forms import BoxForm, PatchForm
+from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
+                     MetricMixin, RecordsMixin, UserGardenView)
+from .forms import BoxForm, PatchForm, PatchFormSet
 from .models import Box, Patch
 
 from middleware.http import Http403
@@ -31,7 +31,6 @@ def _patches(year=settings.FARMINGCONCRETE_YEAR):
 
 
 class CropcountMixin(MetricMixin):
-
     def get_metric_name(self):
         return 'Crop Count'
 
@@ -64,9 +63,11 @@ class CropcountIndex(CropcountMixin, IndexView):
         return context
 
 
-class GardenDetails(CropcountMixin, FormMixin, GardenView):
+class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
     form_class = BoxForm
     metric_model = Patch
+    success_message = 'Successfully added bed'
+    template_name = 'metrics/cropcount/gardens/detail.html'
 
     def get_initial_box_dimensions(self, garden):
         try:
@@ -99,6 +100,12 @@ class GardenDetails(CropcountMixin, FormMixin, GardenView):
         patches = self.get_records()
         beds = Box.objects.filter(patch__in=patches).distinct()
 
+        if self.request.POST:
+            context['patch_formset'] = PatchFormSet(self.request.POST,
+                                                    self.request.FILES)
+        else:
+            context['patch_formset'] = PatchFormSet()
+
         context.update({
             'area': sum([b.length * b.width for b in beds]),
             'bed_list': sorted(beds),
@@ -109,6 +116,21 @@ class GardenDetails(CropcountMixin, FormMixin, GardenView):
             'records': sorted(beds),
         })
         return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        patch_formset = context['patch_formset']
+        if patch_formset.is_valid():
+            patch_formset.instance = form.save()
+            patch_formset.save()
+            return super(GardenDetails, self).form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_success_url(self):
+        return reverse(self.get_metric()['garden_detail_url_name'], kwargs={
+            'pk': self.object.pk,
+        })
 
 
 class CropcountUserGardenView(TitledPageMixin, CropcountMixin, UserGardenView):

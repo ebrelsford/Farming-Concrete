@@ -1,47 +1,36 @@
 {% load i18n widget_tweaks %}
 
-<section>
-    <h2>Add a new plant</h2>
-    <form method="post" action="." role="form">
-        {% csrf_token %}
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-        <div id="errors">
-            {{ form.non_field_errors }}
-        </div>
-
-        <div class="type form-group required col-md-4">
-            {{ form.variety.errors }}
-            <div class="control-label pull-left">
-                {{ form.variety.label_tag }}
+<div class="patch-formset form-group">
+    {% for hidden in form.hidden_fields %}
+        {% if hidden.errors %}
+            <div class="alert alert-error">
+                {% for error in hidden.errors %}
+                    {{ error }}
+                {% endfor %}
             </div>
-            <span id="variety_help" class="help_link tooltip-trigger" data-toggle="tooltip" title="Start typing the plant type that you are entering and choose the closest match.">?</span><br />
-            {% render_field form.variety class+="form-control" %}
-        </div>
+        {% endif %}
+        {{ hidden }}
+    {% endfor %}
+    <div id="errors">
+        {{ form.non_field_errors }}
+    </div>
 
-        <div class="quantity form-group required col-md-4">
-            {{ form.plants.errors }}
-            {{ form.area.errors }}
-            {% render_field form.plants class+="form-control" %} plants
-            
-            <span id="quantity_help" class="help_link tooltip-trigger" title="Please enter the number of plants of this type and/or the area these plants are planted in. We prefer to know the number of plants, but sometimes that's difficult!">?</span><br />
-            <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
-            {% render_field form.area class+="form-control" %} sq ft
+    <div class="type form-group required col-sm-6">
+        {{ form.variety.errors }}
+        <div class="control-label pull-left">
+            {{ form.variety.label_tag }}
         </div>
+        <span id="variety_help" class="help_link tooltip-trigger" data-toggle="tooltip" title="Start typing the plant type that you are entering and choose the closest match.">?</span><br />
+        {% render_field form.variety class+="form-control" %}
+    </div>
 
-        <div class="recorded form-group required col-md-4">
-            {{ form.recorded.errors }}
-            <div class="control-label">
-                {{ form.recorded.label }}
-            </div>
-            {% render_field form.recorded class+="form-control" %}
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="form-actions col-lg-6">
-            <button type="submit" class="btn btn-primary">add</button>
-        </div>
-        <div class="clearfix"></div>
-    </form>
-</section>
+    <div class="quantity form-group required col-sm-4">
+        {{ form.plants.errors }}
+        {{ form.area.errors }}
+        {% render_field form.plants class+="form-control" %} plants
+        
+        <span id="quantity_help" class="help_link tooltip-trigger" title="Please enter the number of plants of this type and/or the area these plants are planted in. We prefer to know the number of plants, but sometimes that's difficult!">?</span><br />
+        <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
+        {% render_field form.area class+="form-control" %} sq ft
+    </div>
+</div>

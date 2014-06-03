@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
                           CharField, IntegerField, DecimalField, DateField)
+from django.forms.models import inlineformset_factory
 
 from farmingconcrete.forms import AddNewVarietyWidget
 from farmingconcrete.models import Garden, Variety
@@ -49,6 +50,11 @@ class BoxForm(ModelForm):
     length = BedSizeField()
     width = BedSizeField(label='Dimensions (feet)')
 
+    recorded = DateField(
+        label='Recorded',
+        widget=RecordedInput,
+    )
+
     class Meta:
         model = Box
         exclude = ('added', 'updated')
@@ -83,7 +89,7 @@ class PatchForm(ModelForm):
     )
     recorded = DateField(
         label='recorded',
-        widget=RecordedInput,
+        widget=HiddenInput(),
     )
     variety = ModelChoiceField(
         label="Plant type",
@@ -144,3 +150,10 @@ class PatchForm(ModelForm):
                 self._errors['plants'] = self.error_class([msg])
 
         return data
+
+
+PatchFormSet = inlineformset_factory(Box, Patch,
+    can_delete=False,
+    extra=1,
+    form=PatchForm,
+)
