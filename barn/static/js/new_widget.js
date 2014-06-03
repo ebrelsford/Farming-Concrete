@@ -53,8 +53,12 @@ define(
             },
 
             getSelector: function ($button) {
-                var t = this;
-                return $(t.options.selectSelector);
+                var t = this,
+                    select = $(t.options.selectSelector);
+                if (select.length > 1) {
+                    select = $button.parent().find(t.options.selectSelector);
+                }
+                return select;
             },
 
             addModal: function (id) {
