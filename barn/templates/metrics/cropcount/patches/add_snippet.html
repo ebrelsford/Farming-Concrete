@@ -17,10 +17,9 @@
 
     <div class="type form-group required col-sm-6">
         {{ form.variety.errors }}
-        <div class="control-label pull-left">
+        <div class="control-label">
             {{ form.variety.label_tag }}
         </div>
-        <span id="variety_help" class="help_link tooltip-trigger" data-toggle="tooltip" title="Start typing the plant type that you are entering and choose the closest match.">?</span><br />
         {% render_field form.variety class+="form-control" %}
     </div>
 

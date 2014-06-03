@@ -92,7 +92,7 @@ class PatchForm(ModelForm):
         widget=HiddenInput(),
     )
     variety = ModelChoiceField(
-        label="Plant type",
+        label="Crop name",
         queryset=Variety.objects.filter(needs_moderation=False),
         error_messages={
             'required': "Please enter a plant type.",
