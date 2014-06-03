@@ -44,14 +44,6 @@ urlpatterns = patterns('metrics.cropcount.views',
     ),
 
 
-    # Add
-
-    url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?beds/add/$',
-        'add_bed',
-        name='cropcount_add_bed'
-    ),
-
-
     # Beds
 
     url(r'^beds/(?P<id>\d+)/$',
@@ -66,11 +58,6 @@ urlpatterns = patterns('metrics.cropcount.views',
 
 
     # Patches
-
-    url(r'^beds/(?P<bed_id>\d+)/patches/add/',
-        'add_patch',
-        name='cropcount_add_patch'
-    ),
 
     url(r'^patches/(?P<id>\d+)/confirm-delete/$',
         ConfirmDeletePatchView.as_view(),
