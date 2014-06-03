@@ -32,7 +32,7 @@
     "django-dynamic-formset": "*",
     "pickadate": "~3.3.2",
     "d3": "~3.4.1",
-    "select2": "~3.4.5",
+    "select2": "3.4.8",
     "resig-class": "https://github.com/ebrelsford/resig-class.git#master",
     "colorbox": "~1.4.36",
     "jquery.expander": "~1.4.7",
