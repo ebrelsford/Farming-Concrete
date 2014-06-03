@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (CropcountIndex, CropcountAllGardensView,
-                    CropcountUserGardenView, ConfirmDeletePatchView,
-                    GardenDetails)
+                    CropcountUserGardenView, GardenDetails)
 
 
 urlpatterns = patterns('metrics.cropcount.views',
@@ -46,26 +45,9 @@ urlpatterns = patterns('metrics.cropcount.views',
 
     # Beds
 
-    url(r'^beds/(?P<id>\d+)/$',
-        'bed_details',
-        name='cropcount_bed_details'
-    ),
-
     url(r'^beds/(?P<id>\d+)/delete/$',
         'delete_bed',
         name='cropcount_delete_bed'
     ),
 
-
-    # Patches
-
-    url(r'^patches/(?P<id>\d+)/confirm-delete/$',
-        ConfirmDeletePatchView.as_view(),
-        name='cropcount_patches_confirm_delete',
-    ),
-
-    url(r'^patches/(?P<id>\d+)/delete/$',
-        'delete_patch',
-        name='cropcount_delete_patch'
-    ),
 )

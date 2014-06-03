@@ -8,7 +8,7 @@
             <li class="record cropcount-bed-record" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
 
                 <div class="field-name">
-                    <a href="{% url "cropcount_bed_details" id=record.pk %}">bed {{ record.name }}</a>
+                    bed {{ record.name }}
                 </div> 
 
                 <div class="field-recorded">{{ record.recorded|date:"m/d/Y" }}</div>

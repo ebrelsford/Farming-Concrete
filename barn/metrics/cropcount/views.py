@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 
 import unicodecsv
 
@@ -9,17 +9,16 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from django.views.generic.base import TemplateView
 
 from accounts.utils import get_profile
-from farmingconcrete.models import Garden, Variety
+from farmingconcrete.models import Garden
 from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
 from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, RecordsMixin, UserGardenView)
-from .forms import BoxForm, PatchForm, PatchFormSet
+from .forms import BoxForm, PatchFormSet
 from .models import Box, Patch
 
 from middleware.http import Http403
@@ -208,52 +207,6 @@ def summary(request, id=None, year=None):
         'beds': beds.count(),
         'plants': patches.aggregate(Sum('plants'))['plants__sum'],
     }, context_instance=RequestContext(request))
-
-
-@login_required
-@in_section('cropcount')
-@year_in_session
-def bed_details(request, id, year=None):
-    """Show bed details, let users add patches of plants to the current one"""
-
-    bed = get_object_or_404(Box, pk=id)
-
-    if request.method == 'POST':
-        form = PatchForm(request.POST, user=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect(bed_details, id=id)
-    else:
-        initial = {
-            'added_by': request.user,
-            'box': bed,
-            'garden': bed.garden,
-            'recorded': datetime.now(),
-        }
-        form = PatchForm(initial=initial, user=request.user)
-
-    return render_to_response('metrics/cropcount/beds/detail.html', {
-        'bed': bed,
-        'form': form,
-    }, context_instance=RequestContext(request))
-
-
-@login_required
-@in_section('cropcount')
-def delete_patch(request, id):
-    patch = get_object_or_404(Patch, pk=id)
-    bed_id = patch.box.id
-    patch.delete()
-    return redirect(bed_details, id=bed_id)
-
-
-class ConfirmDeletePatchView(TemplateView):
-    template_name = 'metrics/cropcount/patches/confirm_delete.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ConfirmDeletePatchView, self).get_context_data(**kwargs)
-        context['patch_id'] = kwargs['id']
-        return context
 
 
 @login_required

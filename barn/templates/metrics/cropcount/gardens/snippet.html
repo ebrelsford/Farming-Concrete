@@ -6,11 +6,7 @@
         {% for box in beds %}
         <li class="bed">
             <span class="name">
-                {% if user.is_authenticated %}
-                <a href="{% url "cropcount_bed_details" id=box.id %}">bed {{ box.name }}</a>
-                {% else %}
                 bed {{ box.name }}
-                {% endif %}
             </span> 
             <span class="dimensions">
                 {{ box.width }} ft x {{ box.length }} ft
