@@ -12,6 +12,7 @@ class YumYuckForm(RecordForm):
         required=True,
     )
     vegetable = ModelChoiceField(
+        # TODO move to crops.Crop / crops.Variety
         queryset=Variety.objects.filter(needs_moderation=False),
         widget=AddNewVarietyWidget(),
     )

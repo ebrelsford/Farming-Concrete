@@ -82,6 +82,7 @@ class GardenGroupMembership(models.Model):
     added = models.DateTimeField(auto_now_add=True, editable=False)
 
 
+# TODO delete
 class Variety(AuditedModel):
     name = models.CharField(max_length=64)
     needs_moderation = models.BooleanField(default=False)

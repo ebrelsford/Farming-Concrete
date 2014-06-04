@@ -44,6 +44,9 @@ class Patch(BaseMetricRecord):
     box = models.ForeignKey(Box)
     variety = models.ForeignKey(Variety)
 
+    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
+
     quantity = models.DecimalField(max_digits=5, decimal_places=2)
 
     UNITS_CHOICES = (

@@ -3,17 +3,10 @@ from django.contrib import admin
 from estimates.models import EstimatedCost, EstimatedYield
 from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
-from .models import Garden, GardenGroup, GardenType, Variety
+from metrics.yumyuck.models import YumYuck
 
 
-class GardenAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'neighborhood', 'borough', 'city', 'state',)
-    list_filter = ('type', 'borough', 'neighborhood', 'state',)
-    search_fields = ('name', 'neighborhood', 'borough',)
-
-
-# TODO Move to crops
-class VarietyAdmin(admin.ModelAdmin):
+class CropAdmin(admin.ModelAdmin):
     readonly_fields = ('added', 'updated')
     fields = ('name', 'added_by', 'added', 'updated_by', 'updated',
               'needs_moderation')
@@ -22,18 +15,18 @@ class VarietyAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
     def mark_as_moderated(self, request, queryset):
-        """mark a set of varieties as moderated"""
+        """mark a set of crops as moderated"""
         rows = queryset.update(needs_moderation=False)
         if rows == 1:
-            bit = "1 variety"
+            bit = "1 crop"
         else:
-            bit = "%s varieties" % rows
+            bit = "%s crops" % rows
         self.message_user(request, "%s marked as moderated" % bit)
 
     def consolidate(self, request, queryset):
         moderated = queryset.filter(needs_moderation=False)
         if len(moderated) != 1:
-            self.message_user(request, ('Not sure which variety to consolidate'
+            self.message_user(request, ('Not sure which crop to consolidate '
                                         'on. No changes made.'))
             return
 
@@ -41,22 +34,14 @@ class VarietyAdmin(admin.ModelAdmin):
         unmoderated = queryset.filter(needs_moderation=True)
         num_consolidated = unmoderated.count()
 
-        Patch.objects.filter(variety__in=unmoderated).update(variety=moderated)
-        Harvest.objects.filter(variety__in=unmoderated).update(variety=moderated)
-        EstimatedCost.objects.filter(
-            variety__in=unmoderated
-        ).update(variety=moderated)
-        EstimatedYield.objects.filter(
-            variety__in=unmoderated
-        ).update(variety=moderated)
+        EstimatedCost.objects.filter(crop__in=unmoderated).update(crop=moderated)
+        EstimatedYield.objects.filter(crop__in=unmoderated).update(crop=moderated)
+        Harvest.objects.filter(crop__in=unmoderated).update(crop=moderated)
+        Patch.objects.filter(crop__in=unmoderated).update(crop=moderated)
+        YumYuck.objects.filter(crop__in=unmoderated).update(crop=moderated)
+
         unmoderated.delete()
         self.message_user(request, 'Consolidated %d varieties on %s' %
                           (num_consolidated, moderated.name))
 
     actions = (mark_as_moderated, consolidate)
-
-
-admin.site.register(Garden, GardenAdmin)
-admin.site.register(GardenGroup)
-admin.site.register(GardenType)
-admin.site.register(Variety, VarietyAdmin)

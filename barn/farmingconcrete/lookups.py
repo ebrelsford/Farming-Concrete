@@ -2,6 +2,7 @@ from django.db.models import Q
 
 from farmingconcrete.models import Garden, Variety
 
+# TODO move to crops.Crop and crops.Variety
 class VarietyLookup(object):
 
     def get_query(self, q, request):

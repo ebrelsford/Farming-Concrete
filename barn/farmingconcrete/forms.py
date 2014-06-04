@@ -91,10 +91,12 @@ class GardenForm(ModelForm):
         return garden
 
 
+# TODO move to crops
 class AddNewVarietyWidget(Select):
     template_name = 'farmingconcrete/variety/new_variety_widget.html'
 
 
+# TODO move to crops
 class VarietyForm(ModelForm):
 
     class Meta:

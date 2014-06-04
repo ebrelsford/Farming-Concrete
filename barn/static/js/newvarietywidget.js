@@ -10,6 +10,7 @@ define(
 
     ], function ($, NewInstanceWidget) {
 
+        // TODO make work with crops.Crop / crops.Variety
         var NewVarietyWidget = NewInstanceWidget.extend({});
 
         $(document).ready(function () {

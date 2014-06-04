@@ -8,6 +8,8 @@ from ..registry import register
 
 class YumYuck(BaseMetricRecord):
 
+    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
     vegetable = models.ForeignKey('farmingconcrete.Variety',
         verbose_name=_('vegetable')
     )

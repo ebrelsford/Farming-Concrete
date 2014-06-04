@@ -19,6 +19,9 @@ class Harvest(BaseMetricRecord):
     gardener = models.ForeignKey(Gardener)
     variety = models.ForeignKey(Variety)
 
+    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
+
     weight = models.DecimalField('weight (pounds)', max_digits=6,
                                  decimal_places=2)
     plants = models.IntegerField(null=True, blank=True)

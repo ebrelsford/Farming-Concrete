@@ -230,6 +230,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
 
         try:
             variety_id = request.GET['variety']
+            # TODO move to crops.Crop and crops.Variety
             variety = Variety.objects.get(id=variety_id)
         except Exception:
             pass

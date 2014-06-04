@@ -56,6 +56,7 @@ def _add_estimate(variety, pounds_per_plant, start, end, garden_type=None):
 
 def make_all_yield_estimates_by_garden_type(start, end, by_gardener=True):
     garden_types = GardenType.objects.all()
+    # TODO move to crops.Crop and crops.Variety
     varieties = Variety.objects.filter(harvest__harvested__gte=start, harvest__harvested__lt=end).distinct()
 
     for garden_type in garden_types:
@@ -66,6 +67,7 @@ def make_all_yield_estimates_by_garden_type(start, end, by_gardener=True):
 
 
 def make_all_yield_estimates(start, end, by_gardener=True):
+    # TODO move to crops.Crop and crops.Variety
     varieties = Variety.objects.filter(harvest__harvested__gte=start, harvest__harvested__lt=end).distinct()
     for variety in varieties:
         pounds_per_plant = _find_yield_estimate(variety, start, end, by_gardener)

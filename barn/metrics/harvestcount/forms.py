@@ -30,6 +30,7 @@ class HarvestForm(ModelForm):
         queryset=User.objects.all(),
         widget=HiddenInput()
     )
+    # TODO move to crops.Crop and crops.Variety
     variety = ModelChoiceField(
         label="Plant type",
         queryset=Variety.objects.filter(needs_moderation=False),
