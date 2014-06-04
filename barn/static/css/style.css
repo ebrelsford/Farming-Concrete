@@ -5978,6 +5978,16 @@ ul.errorlist {
     margin-left: 75%;
   }
 }
+.btn-new-crop {
+  color: #849f38;
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 0;
+}
+.btn-new-crop:hover,
+.btn-new-crop:active {
+  color: #849f38;
+}
 .btn-new-variety {
   color: #849f38;
   font-size: 12px;

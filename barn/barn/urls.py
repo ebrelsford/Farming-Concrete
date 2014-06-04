@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     ),
 
     (r'^gardens/', include('farmingconcrete.garden_urls')),
+    (r'^crops/', include('crops.urls')),
 
     # compost
     (r'^metrics/compost/', include('metrics.compost.urls')),

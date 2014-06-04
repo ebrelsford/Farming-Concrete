@@ -121,6 +121,10 @@ define(
             require(['newprojectwidget']);
         }
 
+        if ($('.btn-new-crop').length > 0) {
+            require(['newcropwidget']);
+        }
+
         if ($('.btn-new-gardener').length > 0) {
             require(['newgardenerwidget']);
         }

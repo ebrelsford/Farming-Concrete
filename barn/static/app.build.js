@@ -24,6 +24,7 @@
         'lookinggoodtagset',
         'resig.class',
         'new_widget',
+        'newcropwidget',
         'newgardenerwidget',
         'newprojectwidget',
         'newvarietywidget',
