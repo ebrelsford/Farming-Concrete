@@ -5,12 +5,17 @@ from django.db.models import Min, Sum
 
 from models import EstimatedCost, EstimatedYield
 
+
 def _find_estimated_crop_yield(variety_id, year, garden_type=None):
     """
     Find the most recent valid EstimatedYield in the year given for the variety/garden type given.
     """
     try:
-        yields = EstimatedYield.objects.filter(variety__id=variety_id, valid_start__year=year, should_be_used=True).order_by('-estimated')
+        yields = EstimatedYield.objects.filter(
+            variety__id=variety_id,
+            valid_start__year=year,
+            should_be_used=True
+        ).order_by('-estimated')
         if garden_type:
             yields = yields.filter(garden_type=garden_type)
         return yields[0].pounds_per_plant
@@ -20,7 +25,11 @@ def _find_estimated_crop_yield(variety_id, year, garden_type=None):
 
 def _find_estimated_dollar_value(variety_id, year):
     try:
-        estimates = EstimatedCost.objects.filter(variety__id=variety_id, valid_start__year=year, should_be_used=True).order_by('-estimated')
+        estimates = EstimatedCost.objects.filter(
+            variety__id=variety_id,
+            valid_start__year=year,
+            should_be_used=True
+        ).order_by('-estimated')
         return estimates[0].cost_per_pound
     except:
         return None
@@ -83,7 +92,9 @@ def estimate_for_harvests_by_gardener_and_variety(harvests):
 
 
 def estimate_for_harvests(harvests, estimate_value=False):
-    rows = harvests.values('variety__id', 'variety__name').annotate(pounds=Sum('weight')).distinct()
+    rows = harvests.values('variety__id', 'variety__name').annotate(
+        pounds=Sum('weight')
+    ).distinct()
     total_value = 0
     for row in rows:
         if estimate_value:

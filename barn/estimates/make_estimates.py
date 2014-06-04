@@ -6,17 +6,29 @@ from farmingconcrete.models import GardenType, Variety
 from metrics.harvestcount.models import Harvest
 from models import EstimatedYield
 
+
 def _find_yield_estimate(variety, start, end, _by_gardener=True, garden_type=None):
-    """Find an estiated yield for the given variety using harvests recorded in the given date range"""
+    """
+    Find an estiated yield for the given variety using harvests recorded in the
+    given date range
+    """
 
     # get total weight, maximum plants by gardener
-    harvests = Harvest.objects.filter(reportable=True, variety=variety, harvested__gte=start, harvested__lt=end)
+    harvests = Harvest.objects.filter(
+        reportable=True,
+        variety=variety,
+        harvested__gte=start,
+        harvested__lt=end
+    )
     if garden_type:
         harvests = harvests.filter(gardener__garden__type=garden_type)
     if not harvests.count():
         return None
 
-    results = harvests.values('gardener').annotate(pounds=Sum('weight'), plants=Max('plants'))
+    results = harvests.values('gardener').annotate(
+        pounds=Sum('weight'),
+        plants=Max('plants')
+    )
     averages = []
 
     results = [r for r in results if r['pounds'] and r['plants']]
@@ -57,18 +69,27 @@ def _add_estimate(variety, pounds_per_plant, start, end, garden_type=None):
 def make_all_yield_estimates_by_garden_type(start, end, by_gardener=True):
     garden_types = GardenType.objects.all()
     # TODO move to crops.Crop and crops.Variety
-    varieties = Variety.objects.filter(harvest__harvested__gte=start, harvest__harvested__lt=end).distinct()
+    varieties = Variety.objects.filter(
+        harvest__harvested__gte=start,
+        harvest__harvested__lt=end
+    ).distinct()
 
     for garden_type in garden_types:
         for variety in varieties:
-            pounds_per_plant = _find_yield_estimate(variety, start, end, _by_gardener=by_gardener, garden_type=garden_type)
+            pounds_per_plant = _find_yield_estimate(variety, start, end,
+                                                    _by_gardener=by_gardener,
+                                                    garden_type=garden_type)
             if pounds_per_plant is not None:
-                _add_estimate(variety, pounds_per_plant, start, end, garden_type=garden_type)
+                _add_estimate(variety, pounds_per_plant, start, end,
+                              garden_type=garden_type)
 
 
 def make_all_yield_estimates(start, end, by_gardener=True):
     # TODO move to crops.Crop and crops.Variety
-    varieties = Variety.objects.filter(harvest__harvested__gte=start, harvest__harvested__lt=end).distinct()
+    varieties = Variety.objects.filter(
+        harvest__harvested__gte=start,
+        harvest__harvested__lt=end
+    ).distinct()
     for variety in varieties:
         pounds_per_plant = _find_yield_estimate(variety, start, end, by_gardener)
         if pounds_per_plant is not None:
