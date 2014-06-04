@@ -6174,14 +6174,14 @@ td.date {
     width: 33.33333333%;
   }
 }
-.cropcount-bed-record .field-patch .field-variety-name {
+.cropcount-bed-record .field-patch .field-crop-name {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
 }
 @media (min-width: 768px) {
-  .cropcount-bed-record .field-patch .field-variety-name {
+  .cropcount-bed-record .field-patch .field-crop-name {
     float: left;
     width: 66.66666667%;
   }

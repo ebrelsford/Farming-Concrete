@@ -39,10 +39,10 @@ class Box(AuditedModel):
 class Patch(BaseMetricRecord):
     class Meta:
         verbose_name_plural = 'Patches'
-        ordering = ['variety']
+        ordering = ['crop']
 
     box = models.ForeignKey(Box)
-    variety = models.ForeignKey(Variety)
+    variety = models.ForeignKey(Variety, blank=True, null=True)
 
     crop = models.ForeignKey('crops.Crop', blank=True, null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
