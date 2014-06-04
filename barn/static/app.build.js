@@ -13,6 +13,7 @@
 
         // require()d dependencies
         'bootstrap',
+        'addcropcountpage',
         'addgardenspage',
         'addharvestpage',
         'addlookinggoodeventpage',
