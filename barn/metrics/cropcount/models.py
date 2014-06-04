@@ -47,6 +47,17 @@ class Patch(BaseMetricRecord):
     area = models.DecimalField(max_digits=5, decimal_places=2, null=True,
                                blank=True)
 
+    quantity = models.DecimalField(max_digits=5, decimal_places=2, null=True,
+                                   blank=True)
+
+    UNITS_CHOICES = (
+        ('plants', 'plants'),
+        ('row feet', 'row feet'),
+        ('square feet', 'square feet'),
+    )
+    units = models.CharField(max_length=15, choices=UNITS_CHOICES, null=True,
+                                   blank=True)
+
     estimated_plants = models.BooleanField(
         default=False,
         help_text=('True if the number of plants in this patch was estimated '
@@ -54,12 +65,12 @@ class Patch(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return "%s (%s), %s: %d (plants), %d (area)" % (
+        return "%s (%s), %s: %f %s" % (
             self.box.garden.name,
             self.box.name,
             self.variety,
-            self.plants or 0,
-            self.area or 0,
+            self.quantity or 0,
+            self.units,
         )
 
     @classmethod
@@ -72,7 +83,7 @@ class Patch(BaseMetricRecord):
             'count': patches.count(),
             'beds': beds.count(),
             'area': beds.extra(select = {'area': 'SUM(length * width)'})[0].area,
-            'plants': patches.aggregate(models.Sum('plants'))['plants__sum'],
+            'plants': patches.filter(units='plants').aggregate(models.Sum('quantity'))['quantity__sum'],
             'recorded_max': patches.aggregate(models.Max('recorded'))['recorded__max'],
         }
 

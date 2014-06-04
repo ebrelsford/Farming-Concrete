@@ -23,13 +23,20 @@
         {% render_field form.variety class+="form-control" %}
     </div>
 
-    <div class="quantity form-group required col-sm-4">
-        {{ form.plants.errors }}
-        {{ form.area.errors }}
-        {% render_field form.plants class+="form-control" %} plants
-        
-        <span id="quantity_help" class="help_link tooltip-trigger" title="Please enter the number of plants of this type and/or the area these plants are planted in. We prefer to know the number of plants, but sometimes that's difficult!">?</span><br />
-        <span style="margin-left: 10px; font-size: 10px;">and / or</span><br />
-        {% render_field form.area class+="form-control" %} sq ft
+    <div class="type form-group required col-sm-2">
+        {{ form.quantity.errors }}
+        <div class="control-label">
+            {{ form.quantity.label_tag }}
+        </div>
+        {% render_field form.quantity class+="form-control" %}
     </div>
+
+    <div class="type form-group required col-sm-3">
+        {{ form.units.errors }}
+        <div class="control-label">
+            {{ form.units.label_tag }}
+        </div>
+        {% render_field form.units class+="form-control" %}
+    </div>
+
 </div>

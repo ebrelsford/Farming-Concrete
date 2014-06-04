@@ -4,7 +4,7 @@
         <span class="units">bed{{ beds|pluralize }}</span>
     </div>
     <div class="summary-details">
-        <span class="number">{{ plants|default:"0" }}</span>
+        <span class="number">{{ plants|default:"0"|floatformat }}</span>
         <span class="units">plant{{ plants|pluralize }}</span>
     </div>
     <div class="summary-details">

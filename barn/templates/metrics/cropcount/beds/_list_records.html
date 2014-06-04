@@ -24,12 +24,7 @@
                         {% for patch in record.patch_set.all %}
                             <li class="field-patch">
                                 <div class="field-quantity">
-                                    {% if patch.plants %}
-                                        {{ patch.plants }} plants
-                                    {% endif %}
-                                    {% if patch.area %}
-                                        {{ patch.area }} square feet
-                                    {% endif %}
+                                    {{ patch.quantity|floatformat }} {{ patch.units }}
                                 </div>
                                 <div class="field-variety-name">{{ patch.variety.name }}</div>
                             </li>

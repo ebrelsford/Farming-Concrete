@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
-                          CharField, IntegerField, DecimalField, DateField)
+                          CharField, ChoiceField, DecimalField, DateField)
 from django.forms.models import inlineformset_factory
 
 from farmingconcrete.forms import AddNewVarietyWidget
@@ -99,7 +99,7 @@ class PatchForm(ModelForm):
         },
         widget=AddNewVarietyWidget(),
     )
-    area = DecimalField(
+    quantity = DecimalField(
         max_value=Decimal('1000'),
         min_value=Decimal('0.1'),
         max_digits=5,
@@ -114,18 +114,9 @@ class PatchForm(ModelForm):
                                    "decimal places."),
         },
         widget=TextInput(attrs={'size': 6, 'maxlength': 6}),
-        required=False
     )
-    plants = IntegerField(
-        max_value=Decimal('999'),
-        min_value=Decimal('1'),
-        error_messages={
-            'invalid': "Please enter a number for the number of plants.",
-            'min_value': "Please enter a non-negative number.",
-            'max_value': "Please enter a smaller number.",
-        },
-        widget=TextInput(attrs={'size': 3}),
-        required=False
+    units = ChoiceField(
+        choices = Patch.UNITS_CHOICES,
     )
     added_by = ModelChoiceField(
         label='added_by',
@@ -135,21 +126,7 @@ class PatchForm(ModelForm):
 
     class Meta:
         model = Patch
-        exclude = ('added', 'updated')
-
-    def clean(self):
-        super(PatchForm, self).clean()
-        data = self.cleaned_data
-        plants = data.get('plants')
-        area = data.get('area')
-
-        # only give one message for missing bed sizes
-        if not plants and not area:
-            if not 'plants' in self._errors:
-                msg = 'Please either enter the number of plants or the area.'
-                self._errors['plants'] = self.error_class([msg])
-
-        return data
+        exclude = ('added', 'area', 'plants', 'updated')
 
 
 PatchFormSet = inlineformset_factory(Box, Patch,
