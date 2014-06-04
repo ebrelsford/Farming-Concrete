@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Sum
 
 from audit.models import AuditedModel
-from farmingconcrete.models import Garden, Variety
+from farmingconcrete.models import Garden
 from ..models import BaseMetricRecord
 from ..registry import register
 
@@ -17,9 +17,8 @@ class Gardener(AuditedModel):
 
 class Harvest(BaseMetricRecord):
     gardener = models.ForeignKey(Gardener)
-    variety = models.ForeignKey(Variety)
 
-    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 
     weight = models.DecimalField('weight (pounds)', max_digits=6,
@@ -36,7 +35,7 @@ class Harvest(BaseMetricRecord):
             self.id,
             self.gardener.name,
             self.weight,
-            self.variety.name,
+            self.crop.name,
         )
 
     @classmethod
@@ -47,7 +46,7 @@ class Harvest(BaseMetricRecord):
             'count': harvests.count(),
             'harvests': harvests.order_by('harvested', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
-            'plant_types': harvests.values('variety__id').distinct().count(),
+            'plant_types': harvests.values('crop__id').distinct().count(),
             'recorded_max': harvests.aggregate(models.Max('recorded'))['recorded__max'],
         }
 

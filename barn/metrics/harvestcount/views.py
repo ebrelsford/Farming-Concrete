@@ -13,8 +13,9 @@ from django.views.generic.edit import CreateView, FormMixin
 
 from accounts.utils import get_profile
 from barn.mobile import is_mobile
+from crops.models import Crop
 from farmingconcrete.decorators import in_section, year_in_session
-from farmingconcrete.models import Garden, Variety
+from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
@@ -56,7 +57,7 @@ class HarvestcountIndex(HarvestcountMixin, IndexView):
             'gardens': gardens.count(),
             'gardeners': gardeners.count(),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
-            'plant_types': harvests.values('variety__id').distinct().count(),
+            'plant_types': harvests.values('crop__id').distinct().count(),
             'recent_harvests': harvests.order_by('-added')[:3],
         })
 
@@ -98,7 +99,7 @@ class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
         context.update({
             'form': self.get_form(self.form_class),
             'garden': garden,
-            'plant_types': harvests.values('variety__id').distinct().count(),
+            'plant_types': harvests.values('crop__id').distinct().count(),
             'plants': None,
             'records': harvests.order_by('recorded', 'gardener__name'),
             'weight': harvests.aggregate(t=Sum('weight'))['t'],
@@ -140,13 +141,13 @@ def delete_harvest(request, id, year=None):
 def quantity_for_last_harvest(request, pk=None, year=None):
     garden = pk
     gardener = request.GET.get('gardener', None)
-    variety = request.GET.get('variety', None)
+    crop = request.GET.get('crop', None)
 
     result = {
         'plants': '',
         'area': '',
     }
-    if garden and gardener and variety:
+    if garden and gardener and crop:
         garden = get_object_or_404(Garden, pk=garden)
         if not request.user.has_perm('can_edit_any_garden'):
             profile = get_profile(request.user)
@@ -156,7 +157,7 @@ def quantity_for_last_harvest(request, pk=None, year=None):
             harvest = Harvest.objects.filter(
                 gardener__garden=garden,
                 gardener__pk=gardener,
-                variety__pk=variety
+                crop__pk=crop
             ).order_by('-recorded')[0]
         except IndexError:
             raise Http404
@@ -184,10 +185,10 @@ def download_garden_harvestcount_as_csv(request, pk=None, year=None):
                      'area (square feet)', 'date'])
 
     harvests = _harvests(year=year).filter(gardener__garden=garden).distinct()
-    for harvest in harvests.order_by('gardener__name', 'variety__name'):
+    for harvest in harvests.order_by('gardener__name', 'crop__name'):
         writer.writerow([
             harvest.gardener.name,
-            harvest.variety.name,
+            harvest.crop.name,
             harvest.weight,
             harvest.plants or '',
             harvest.area or '',
@@ -211,7 +212,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
 
         # initialize initial, as the same values will be stored in the object
         self.initial = self._initial_init(request, self.garden)
-        self.variety = self.initial['variety']
+        self.crop = self.initial['crop']
         self.gardener = self.initial['gardener']
 
         self.initial['garden'] = self.garden.pk
@@ -226,12 +227,11 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         gardener = None
         recorded = date.today()
         plants = None
-        variety = None
+        crop = None
 
         try:
-            variety_id = request.GET['variety']
-            # TODO move to crops.Crop and crops.Variety
-            variety = Variety.objects.get(id=variety_id)
+            crop_id = request.GET['crop']
+            crop = Crop.objects.get(id=crop_id)
         except Exception:
             pass
 
@@ -261,14 +261,14 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
             except Exception:
                 pass
 
-        if variety and gardener and not request.GET.get('plants', None):
+        if crop and gardener and not request.GET.get('plants', None):
             try:
-                most_recent_variety_harvest = Harvest.objects.filter(
+                most_recent_crop_harvest = Harvest.objects.filter(
                     gardener=gardener,
-                    variety=variety,
+                    crop=crop,
                 ).order_by('-added')[0]
-                area = most_recent_variety_harvest.area
-                plants = most_recent_variety_harvest.plants
+                area = most_recent_crop_harvest.area
+                plants = most_recent_crop_harvest.plants
             except Exception:
                 pass
 
@@ -277,7 +277,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
             'gardener': gardener,
             'recorded': recorded,
             'plants': plants,
-            'variety': variety,
+            'crop': crop,
         }
 
     def get_context_data(self, **kwargs):
@@ -285,7 +285,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
         context.update({
             'garden': self.garden,
             'gardener': self.gardener,
-            'variety': self.variety,
+            'crop': self.crop,
         })
         return context
 
@@ -297,7 +297,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
 
     def form_invalid(self, form):
         try:
-            self.variety = Variety.objects.get(id=form.data['variety'])
+            self.crop = Variety.objects.get(id=form.data['crop'])
         except Exception:
             pass
         return super(HarvestAddView, self).form_invalid(form)

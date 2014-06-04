@@ -19,13 +19,13 @@ define(
                 }
             });
 
-            $('#id_gardener, #id_variety').change(function () {
+            $('#id_gardener, #id_crop').change(function () {
                 var gardener = $('#id_gardener').val();
-                var variety = $('#id_variety').val();
-                if (gardener && gardener !== '' && variety && variety !== '') {
+                var crop = $('#id_crop').val();
+                if (gardener && gardener !== '' && crop && crop !== '') {
                     var params = {
                         gardener: gardener,
-                        variety: variety
+                        crop: crop
                     };
                     $.getJSON('last_harvest?' + $.param(params), function (h) {
                         $('#id_plants').val(h.plants);

@@ -3,8 +3,10 @@ from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput)
 
 from floppyforms.widgets import Select
 
-from farmingconcrete.forms import AddNewVarietyWidget
-from farmingconcrete.models import Garden, Variety
+from crops.forms import AddNewCropWidget
+from crops.models import Crop
+from farmingconcrete.models import Garden
+
 from ..forms import RecordedInput
 from .models import Gardener, Harvest
 
@@ -29,14 +31,13 @@ class HarvestForm(ModelForm):
         queryset=User.objects.all(),
         widget=HiddenInput()
     )
-    # TODO move to crops.Crop and crops.Variety
-    variety = ModelChoiceField(
-        label="Plant type",
-        queryset=Variety.objects.filter(needs_moderation=False),
+    crop = ModelChoiceField(
+        label="Crop name",
+        queryset=Crop.objects.filter(needs_moderation=False),
         error_messages={
-            'required': "Please enter a plant type.",
+            'required': "Please enter a crop name",
         },
-        widget=AddNewVarietyWidget(),
+        widget=AddNewCropWidget(),
     )
 
     def __init__(self, initial={}, *args, **kwargs):

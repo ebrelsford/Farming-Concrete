@@ -4,7 +4,7 @@
     <thead>
     <tr>
         <th class="gardener">gardener</th>
-        <th class="variety">plant type</th>
+        <th class="crop">plant type</th>
         <th class="weight">lbs</th>
         <th class="dimensions">quantity</th>
         <th class="harvested">date</th>
@@ -17,8 +17,8 @@
         <td class="gardener">
             {{ harvest.gardener.name }}
         </td> 
-        <td class="variety">
-            {{ harvest.variety.name }}
+        <td class="crop">
+            {{ harvest.crop.name }}
         </td>
         <td class="weight">
             {{ harvest.weight|floatformat }}
