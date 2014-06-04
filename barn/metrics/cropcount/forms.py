@@ -105,7 +105,7 @@ class PatchForm(ModelForm):
         max_digits=5,
         decimal_places=2,
         error_messages={
-            'invalid': "Please enter a number for the area.",
+            'invalid': "Please enter a number for the quantity.",
             'min_value': "Please enter a non-negative number.",
             'max_value': "Please enter a smaller number.",
             'max_digits': "Please enter a smaller number.",
@@ -126,7 +126,7 @@ class PatchForm(ModelForm):
 
     class Meta:
         model = Patch
-        exclude = ('added', 'area', 'plants', 'updated')
+        exclude = ('added', 'updated')
 
 
 PatchFormSet = inlineformset_factory(Box, Patch,

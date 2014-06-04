@@ -56,7 +56,7 @@ class CropcountIndex(CropcountMixin, IndexView):
             'area': sum([b.length * b.width for b in beds]),
             'beds': beds.count(),
             'gardens': gardens.count(),
-            'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+            'plants': patches.filter(units='plants').aggregate(Sum('quantity'))['quantity__sum'],
             'recent_types': recent_types[0],
         })
         return context
@@ -111,7 +111,7 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
             'beds': beds.count(),
             'form': self.get_form(self.form_class),
             'garden': garden,
-            'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+            'plants': patches.filter(units='plants').aggregate(Sum('quantity'))['quantity__sum'],
             'records': sorted(beds),
         })
         return context
@@ -205,7 +205,7 @@ def summary(request, id=None, year=None):
         'area': sum([b.length * b.width for b in beds]),
         'bed_months': bed_months,
         'beds': beds.count(),
-        'plants': patches.aggregate(Sum('plants'))['plants__sum'],
+        'plants': patches.filter(units='plants').aggregate(Sum('quantity'))['quantity__sum'],
     }, context_instance=RequestContext(request))
 
 
@@ -236,7 +236,7 @@ def download_garden_cropcount_as_csv(request, pk=None, year=None):
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = unicodecsv.writer(response, encoding='utf-8')
-    writer.writerow(['bed', 'crop', 'plants', 'area (square feet)'])
+    writer.writerow(['bed', 'crop', 'quantity', 'units'])
 
     patches = _patches(year=year).filter(box__garden=garden).distinct()
     beds = Box.objects.filter(patch__in=patches).distinct()
@@ -246,8 +246,8 @@ def download_garden_cropcount_as_csv(request, pk=None, year=None):
             writer.writerow([
                 bed.name,
                 patch.variety.name,
-                patch.plants or '',
-                patch.area or '',
+                patch.quantity,
+                patch.units,
             ])
 
     return response

@@ -43,26 +43,15 @@ class Patch(BaseMetricRecord):
 
     box = models.ForeignKey(Box)
     variety = models.ForeignKey(Variety)
-    plants = models.IntegerField(null=True, blank=True)
-    area = models.DecimalField(max_digits=5, decimal_places=2, null=True,
-                               blank=True)
 
-    quantity = models.DecimalField(max_digits=5, decimal_places=2, null=True,
-                                   blank=True)
+    quantity = models.DecimalField(max_digits=5, decimal_places=2)
 
     UNITS_CHOICES = (
         ('plants', 'plants'),
         ('row feet', 'row feet'),
         ('square feet', 'square feet'),
     )
-    units = models.CharField(max_length=15, choices=UNITS_CHOICES, null=True,
-                                   blank=True)
-
-    estimated_plants = models.BooleanField(
-        default=False,
-        help_text=('True if the number of plants in this patch was estimated '
-                   'using average plants per square foot.')
-    )
+    units = models.CharField(max_length=15, choices=UNITS_CHOICES)
 
     def __unicode__(self):
         return "%s (%s), %s: %f %s" % (

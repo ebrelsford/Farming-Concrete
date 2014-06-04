@@ -2,5 +2,5 @@
 
 {% block summary_details %}
     {{ beds|default:"0" }} bed{{ beds|pluralize }},
-    {{ plants|default:"0" }} plant{{ plants|pluralize }}
+    {{ plants|default:"0"|floatformat }} plant{{ plants|pluralize }}
 {% endblock %}
