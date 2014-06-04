@@ -1,6 +1,6 @@
 from django.db import models
 
-from farmingconcrete.models import GardenType, Variety
+from farmingconcrete.models import GardenType
 
 
 class Estimate(models.Model):
@@ -16,9 +16,7 @@ class Estimate(models.Model):
 
 
 class VarietyEstimate(Estimate):
-    variety = models.ForeignKey(Variety)
-
-    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 
     class Meta:
