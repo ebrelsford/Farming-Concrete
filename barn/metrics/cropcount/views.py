@@ -50,7 +50,7 @@ class CropcountIndex(CropcountMixin, IndexView):
 
         beds = Box.objects.filter(patch__in=patches)
         gardens = Garden.objects.filter(box__in=beds)
-        recent_types = patches.order_by('-added').values_list('variety__name',
+        recent_types = patches.order_by('-added').values_list('crop__name',
                                                               flat=True)[:3],
         context.update({
             'area': sum([b.length * b.width for b in beds]),
@@ -245,7 +245,7 @@ def download_garden_cropcount_as_csv(request, pk=None, year=None):
         for patch in patches:
             writer.writerow([
                 bed.name,
-                patch.variety.name,
+                patch.crop.name,
                 patch.quantity,
                 patch.units,
             ])

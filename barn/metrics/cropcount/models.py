@@ -1,7 +1,7 @@
 from django.db import models
 
 from audit.models import AuditedModel
-from farmingconcrete.models import Garden, Variety
+from farmingconcrete.models import Garden
 from ..models import BaseMetricRecord
 from ..registry import register
 
@@ -42,9 +42,8 @@ class Patch(BaseMetricRecord):
         ordering = ['crop']
 
     box = models.ForeignKey(Box)
-    variety = models.ForeignKey(Variety, blank=True, null=True)
 
-    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 
     quantity = models.DecimalField(max_digits=5, decimal_places=2)
@@ -60,7 +59,7 @@ class Patch(BaseMetricRecord):
         return "%s (%s), %s: %f %s" % (
             self.box.garden.name,
             self.box.name,
-            self.variety,
+            self.crop,
             self.quantity or 0,
             self.units,
         )
