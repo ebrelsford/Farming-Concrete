@@ -5,6 +5,8 @@ from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 from metrics.yumyuck.models import YumYuck
 
+from .models import Crop
+
 
 class CropAdmin(admin.ModelAdmin):
     readonly_fields = ('added', 'updated')
@@ -45,3 +47,6 @@ class CropAdmin(admin.ModelAdmin):
                           (num_consolidated, moderated.name))
 
     actions = (mark_as_moderated, consolidate)
+
+
+admin.site.register(Crop, CropAdmin)
