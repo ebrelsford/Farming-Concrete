@@ -238,10 +238,18 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
 
     def get_initial(self):
         garden = self.object
+
+        # Get a reasonable initial date for recorded
+        try:
+            recorded = self.get_records().order_by('-recorded')[0].recorded
+        except Exception:
+            recorded = date.today()
+
         initial = super(GardenDetailAddRecordView, self).get_initial()
         initial.update({
             'added_by': self.request.user,
             'garden': garden,
+            'recorded': recorded,
         })
         return initial
 

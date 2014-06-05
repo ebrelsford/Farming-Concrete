@@ -84,8 +84,6 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
 
         initial = super(GardenDetails, self).get_initial()
         initial.update({
-            'garden': garden,
-            'added_by': self.request.user,
             'name': _get_next_box_name(garden, year=self.get_year()),
             'length': length,
             'width': width,

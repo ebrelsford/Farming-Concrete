@@ -1,5 +1,3 @@
-from datetime import date
-
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
@@ -50,13 +48,6 @@ class YumYuckGardenDetails(YumYuckMixin, GardenDetailAddRecordView):
         return 'Successfully added yum and yuck record to %s' % (
             self.object,
         )
-
-    def get_initial(self):
-        initial = super(YumYuckGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
 
 
 class YumYuckGardenCSV(YumYuckMixin, MetricGardenCSVView):

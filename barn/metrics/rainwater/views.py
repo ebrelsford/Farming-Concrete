@@ -1,5 +1,3 @@
-from datetime import date
-
 from farmingconcrete.models import Garden
 
 from ..views import (GardenDetailAddRecordView, IndexView, MetricGardenCSVView,
@@ -51,13 +49,6 @@ class RainwaterHarvestGardenDetails(RainwaterHarvestMixin,
             self.record.volume or 0,
             self.object,
         )
-
-    def get_initial(self):
-        initial = super(RainwaterHarvestGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
 
 
 class RainwaterHarvestGardenCSV(RainwaterHarvestMixin, MetricGardenCSVView):

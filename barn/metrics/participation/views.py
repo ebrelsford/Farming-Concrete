@@ -1,4 +1,3 @@
-from datetime import date
 import json
 
 from django.forms.models import inlineformset_factory
@@ -59,13 +58,6 @@ class HoursByGeographyGardenDetails(HoursByGeographyMixin,
     def get_success_message(self):
         return 'Successfully added %.1f hours to %s' % (self.record.hours,
                                                         self.object)
-
-    def get_initial(self):
-        initial = super(HoursByGeographyGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
 
 
 class HoursByGeographyGardenCSV(HoursByGeographyMixin, MetricGardenCSVView):
@@ -150,13 +142,6 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
         else:
             return self.form_invalid(form)
 
-    def get_initial(self):
-        initial = super(HoursByTaskGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
-
 
 class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
 
@@ -218,14 +203,6 @@ class HoursByProjectGardenDetails(HoursByProjectMixin,
 
     def get_success_message(self):
         return 'Successfully added project hours to %s' % self.object
-
-    def get_initial(self):
-        initial = super(HoursByProjectGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-            # TODO get last recorded project
-        })
-        return initial
 
     def get_context_data(self, **kwargs):
         context = super(HoursByProjectGardenDetails, self).get_context_data(**kwargs)

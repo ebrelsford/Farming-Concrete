@@ -1,5 +1,3 @@
-from datetime import date
-
 from farmingconcrete.models import Garden
 
 from ..views import GardenDetailAddRecordView, MetricGardenCSVView, MetricMixin
@@ -29,13 +27,6 @@ class DonationGardenDetails(DonationMixin, GardenDetailAddRecordView):
             self.record.pounds or 0,
             self.object,
         )
-
-    def get_initial(self):
-        initial = super(DonationGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
 
 
 class DonationGardenCSV(DonationMixin, MetricGardenCSVView):

@@ -1,4 +1,3 @@
-from datetime import date
 from itertools import product
 import re
 
@@ -85,13 +84,6 @@ class MoodChangeGardenDetails(MoodChangeMixin, GardenDetailAddRecordView):
         return 'Successfully added moods in the garden record to %s' % (
             self.object,
         )
-
-    def get_initial(self):
-        initial = super(MoodChangeGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
 
 
 class MoodChangeGardenCSV(MoodChangeMixin, MetricGardenCSVView):

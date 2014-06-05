@@ -1,5 +1,3 @@
-from datetime import date
-
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
@@ -53,13 +51,6 @@ class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
         return 'Successfully added %.1f pounds to %s' % (self.record.weight,
                                                          self.object)
 
-    def get_initial(self):
-        initial = super(WeightGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
-
 
 class WeightGardenCSV(WeightMixin, MetricGardenCSVView):
 
@@ -92,13 +83,6 @@ class VolumeGardenDetails(VolumeMixin, GardenDetailAddRecordView):
     def get_success_message(self):
         return 'Successfully added %.1f gallons to %s' % (self.record.volume,
                                                           self.object)
-
-    def get_initial(self):
-        initial = super(VolumeGardenDetails, self).get_initial()
-        initial.update({
-            'recorded': date.today(), # TODO get last recorded date if there is one
-        })
-        return initial
 
 
 class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,

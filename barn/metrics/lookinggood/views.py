@@ -1,5 +1,3 @@
-from datetime import date
-
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
@@ -73,14 +71,6 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
         return 'Successfully added looking good tags record to %s' % (
             self.object,
         )
-
-    def get_initial(self):
-        initial = super(LookingGoodEventGardenDetails, self).get_initial()
-        initial.update({
-            # TODO get last recorded date if there is one
-            'recorded': date.today(),
-        })
-        return initial
 
 
 class LookingGoodEventGardenCSV(LookingGoodEventMixin, MetricGardenCSVView):
