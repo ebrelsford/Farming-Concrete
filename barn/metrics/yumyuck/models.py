@@ -8,11 +8,8 @@ from ..registry import register
 
 class YumYuck(BaseMetricRecord):
 
-    crop = models.ForeignKey('crops.Crop', blank=True, null=True)
+    crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
-    vegetable = models.ForeignKey('farmingconcrete.Variety',
-        verbose_name=_('vegetable')
-    )
 
     yum_before = models.PositiveIntegerField(_('yums before'),
         help_text=_('The number of yums before'),
@@ -34,7 +31,7 @@ class YumYuck(BaseMetricRecord):
     def get_summarize_kwargs(cls):
         kwargs = super(YumYuck, cls).get_summarize_kwargs()
         kwargs.update({
-            'vegetables': Count('vegetable'),
+            'vegetables': Count('crop'),
             'yum_before': Sum('yum_before'),
             'yuck_before': Sum('yuck_before'),
             'yum_after': Sum('yum_after'),
