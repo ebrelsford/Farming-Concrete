@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from audit.models import AuditedModel
-
 
 class GardenType(models.Model):
     class Meta:
@@ -80,19 +78,3 @@ class GardenGroupMembership(models.Model):
 
     added_by = models.ForeignKey('auth.User', editable=False)
     added = models.DateTimeField(auto_now_add=True, editable=False)
-
-
-# TODO delete
-class Variety(AuditedModel):
-    name = models.CharField(max_length=64)
-    needs_moderation = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name_plural = 'Varieties'
-        ordering = ['name']
-        permissions = (
-            ('add_variety_unmoderated', 'Can add varieties without moderation'),
-        )
-
-    def __unicode__(self):
-        return self.name
