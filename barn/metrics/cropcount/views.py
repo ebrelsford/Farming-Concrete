@@ -236,16 +236,21 @@ def download_garden_cropcount_as_csv(request, pk=None, year=None):
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = unicodecsv.writer(response, encoding='utf-8')
-    writer.writerow(['bed', 'crop', 'quantity', 'units'])
+    writer.writerow(['bed', 'crop', 'crop variety', 'quantity', 'units'])
 
     patches = _patches(year=year).filter(box__garden=garden).distinct()
     beds = Box.objects.filter(patch__in=patches).distinct()
 
     for bed in sorted(beds):
         for patch in patches:
+            try:
+                crop_variety = patch.crop_variety.name
+            except Exception:
+                crop_variety = ''
             writer.writerow([
                 bed.name,
                 patch.crop.name,
+                crop_variety,
                 patch.quantity,
                 patch.units,
             ])
