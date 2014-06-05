@@ -30,4 +30,4 @@ class Variety(AuditedModel):
         )
 
     def __unicode__(self):
-        return '%s: %s' (self.crop.name, self.name)
+        return '%s: %s' % (self.crop.name, self.name)
