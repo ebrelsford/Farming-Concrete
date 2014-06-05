@@ -1,19 +1,8 @@
-from django.conf.urls import patterns, url
-
-from .views import CreateVarietyView, VarietyPickerListView
+from django.conf.urls import patterns
 
 
 urlpatterns = patterns('',
+
     (r'^type/(?P<type>\w+)$', 'farmingconcrete.views.switch_garden_type'),
 
-    # TODO move to crops
-    url(r'^varieties/add/',
-        CreateVarietyView.as_view(),
-        name='farmingconcrete_varieties_add',
-    ),
-
-    url(r'^varieties/',
-        VarietyPickerListView.as_view(),
-        name='farmingconcrete_varieties',
-    ),
 )

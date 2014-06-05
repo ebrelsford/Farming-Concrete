@@ -129,10 +129,6 @@ define(
             require(['newgardenerwidget']);
         }
 
-        if ($('.btn-new-variety').length > 0) {
-            require(['newvarietywidget']);
-        }
-
         if ($('.record-list-page').length > 0) {
             require(['recordlistpage']);
         }

@@ -5988,16 +5988,6 @@ ul.errorlist {
 .btn-new-crop:active {
   color: #849f38;
 }
-.btn-new-variety {
-  color: #849f38;
-  font-size: 12px;
-  margin-top: 5px;
-  padding: 0;
-}
-.btn-new-variety:hover,
-.btn-new-variety:active {
-  color: #849f38;
-}
 .add-program-reach-page table,
 .add-participation-hours-page table {
   /* Wider table, make it overflow-x */

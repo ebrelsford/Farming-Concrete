@@ -1,5 +1,4 @@
 import geojson
-import json
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -16,16 +15,14 @@ from django.views.generic.list import ListView
 
 from accounts.utils import get_profile
 from generic.views import (DefaultYearMixin, LoginRequiredMixin,
-                           PermissionRequiredMixin, RememberPreviousPageMixin,
                            SuccessMessageFormMixin)
 from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
-from .forms import GardenForm, VarietyForm
-from .models import Garden, GardenGroup, GardenType, Variety
-from .utils import get_variety
+from .forms import GardenForm
+from .models import Garden, GardenGroup, GardenType
 
 
 def _harvests(year=settings.FARMINGCONCRETE_YEAR):
@@ -295,15 +292,6 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
         return HttpResponseRedirect(reverse('home'))
 
 
-class VarietyPickerListView(LoginRequiredMixin, RememberPreviousPageMixin,
-                            ListView):
-    query_string_exclude = ('variety', 'variety_text')
-
-    def get_queryset(self):
-        return (Variety.objects.filter(needs_moderation=False) |
-                self.request.user.farmingconcrete_variety_added.all())
-
-
 class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
 
@@ -325,28 +313,3 @@ class FarmingConcreteYearMixin(DefaultYearMixin):
 
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR
-
-
-class CreateVarietyView(LoginRequiredMixin, PermissionRequiredMixin,
-                        CreateView):
-    form_class = VarietyForm
-    model = Variety
-    permission = 'farmingconcrete.add_variety'
-    template_name = 'farmingconcrete/variety/variety_form.html'
-
-    def get_initial(self):
-        initial = self.initial.copy()
-        initial.update({
-            'added_by': self.request.user,
-            'updated_by': self.request.user,
-        })
-        return initial
-
-    def form_valid(self, form):
-        name = form.cleaned_data['name']
-        variety, created = get_variety(name, self.request.user)
-        self.object = variety
-        return HttpResponse(json.dumps({
-            'name': variety.name,
-            'pk': variety.pk,
-        }), content_type='application/json')
