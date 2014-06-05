@@ -25,6 +25,7 @@
         'resig.class',
         'new_widget',
         'newcropwidget',
+        'newcropvarietywidget',
         'newgardenerwidget',
         'newprojectwidget',
         'photogallery',

@@ -26,7 +26,12 @@
                                 <div class="field-quantity">
                                     {{ patch.quantity|floatformat }} {{ patch.units }}
                                 </div>
-                                <div class="field-crop-name">{{ patch.crop.name }}</div>
+                                <div class="field-crop-name">
+                                    {{ patch.crop.name }}
+                                    {% if patch.crop_variety %}
+                                        ({{ patch.crop_variety.name }})
+                                    {% endif %}
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>

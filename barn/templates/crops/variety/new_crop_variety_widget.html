@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<select class="select2-basic-select" name="{{ name }}"{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %}>
+    <option value="">Pick crop first</option>
+</select>
+
+<button type="button" data-toggle="modal" data-target="#new-crop-variety-modal" href="{% url "crops_variety_add" %}" class="btn-new-crop-variety btn btn-link">
+    {% trans "+ new variety" %}
+</button>

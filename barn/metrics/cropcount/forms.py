@@ -6,8 +6,8 @@ from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
                           CharField, ChoiceField, DecimalField, DateField)
 from django.forms.models import inlineformset_factory
 
-from crops.forms import AddNewCropWidget
-from crops.models import Crop
+from crops.forms import AddNewCropWidget, VarietyField
+from crops.models import Crop, Variety
 from farmingconcrete.models import Garden
 from ..forms import RecordedInput
 from .models import Box, Patch
@@ -93,12 +93,16 @@ class PatchForm(ModelForm):
         widget=HiddenInput(),
     )
     crop = ModelChoiceField(
-        label="Crop name",
+        label='Crop name',
         queryset=Crop.objects.filter(needs_moderation=False),
         error_messages={
             'required': "Please enter a crop name.",
         },
         widget=AddNewCropWidget(),
+    )
+    crop_variety = VarietyField(
+        queryset=Variety.objects.filter(needs_moderation=False),
+        required=False,
     )
     quantity = DecimalField(
         max_value=Decimal('1000'),

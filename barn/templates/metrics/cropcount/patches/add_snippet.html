@@ -15,12 +15,20 @@
         {{ form.non_field_errors }}
     </div>
 
-    <div class="type form-group required col-sm-6">
+    <div class="type form-group required col-sm-3">
         {{ form.crop.errors }}
         <div class="control-label">
             {{ form.crop.label_tag }}
         </div>
         {% render_field form.crop class+="form-control" %}
+    </div>
+
+    <div class="type form-group required col-sm-3">
+        {{ form.crop_variety.errors }}
+        <div class="control-label">
+            {{ form.crop_variety.label_tag }}
+        </div>
+        {% render_field form.crop_variety class+="form-control" %}
     </div>
 
     <div class="type form-group required col-sm-2">
