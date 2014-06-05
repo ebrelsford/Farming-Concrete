@@ -1,26 +1,3 @@
-from models import Garden
-
-
-def is_garden_used(gardenpk):
-    garden = Garden.objects.get(pk=gardenpk)
-    if garden.gardener_set.all().count() > 0:
-        print 'garden has gardeners'
-        return True
-    if garden.box_set.all().count() > 0:
-        print 'garden has boxes'
-        return True
-    if garden.sharedreport_set.all().count() > 0:
-        print 'garden has sharedreports'
-        return True
-    if garden.chart_set.all().count() > 0:
-        print 'garden has chart'
-        return True
-    if garden.userprofile_set.all().count() > 0:
-        print 'garden has users'
-        return True
-
-    print 'garden is unused'
-    return False
 
 
 def consolidate_garden(to_delete, to_keep, copy_fields=False):
