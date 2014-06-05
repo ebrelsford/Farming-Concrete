@@ -162,7 +162,6 @@ INSTALLED_APPS = (
 )
 
 AJAX_LOOKUP_CHANNELS = {
-    'variety': ('farmingconcrete.lookups', 'VarietyLookup'),
     'garden': ('farmingconcrete.lookups', 'GardenLookup'),
     'uncounted_garden': ('cropcount.lookups', 'UncountedGardenLookup'),
     'gardener': ('metrics.harvestcount.lookups', 'GardenerLookup'),
