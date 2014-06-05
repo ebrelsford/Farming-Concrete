@@ -10,7 +10,6 @@ class Crop(AuditedModel):
     class Meta:
         ordering = ['name']
         permissions = (
-            # TODO account for this being renamed
             ('add_crop_unmoderated', 'Can add crops without moderation'),
         )
 
