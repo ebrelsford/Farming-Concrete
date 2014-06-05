@@ -86,7 +86,6 @@ class InitializeUsingGetMixin(FormMixin):
                 initial[field] = self.request.GET[field]
             except Exception:
                 continue
-        print initial
         return initial
 
 
