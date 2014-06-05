@@ -16,23 +16,11 @@ from django.views.generic.list import ListView
 from accounts.utils import get_profile
 from generic.views import (DefaultYearMixin, LoginRequiredMixin,
                            SuccessMessageFormMixin)
-from metrics.cropcount.models import Patch
-from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
 from .forms import GardenForm
 from .models import Garden, GardenGroup, GardenType
-
-
-def _harvests(year=settings.FARMINGCONCRETE_YEAR):
-    """Get current harvests"""
-    return Harvest.objects.filter(harvested__year=year)
-
-
-def _patches(year=settings.FARMINGCONCRETE_YEAR):
-    """Get current patches"""
-    return Patch.objects.filter(added__year=year)
 
 
 class AddYearToSessionMixin(View):
