@@ -297,7 +297,7 @@ class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
 
     def form_invalid(self, form):
         try:
-            self.crop = Variety.objects.get(id=form.data['crop'])
+            self.crop = Crop.objects.get(id=form.data['crop'])
         except Exception:
             pass
         return super(HarvestAddView, self).form_invalid(form)
