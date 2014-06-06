@@ -22,7 +22,9 @@ define(
             $('.patch-formset:eq(0)').clone().attr('id', 'form-template').appendTo('body').hide();
             $('.patch-formset:visible .select2-basic-select').select2();
 
-            // Every patch gets the same recorded date
+            // Every patch gets the same recorded date on load, then when it 
+            // changes
+            $('.patch-formset :input[name$=recorded]').val($('#id_recorded').val());
             $('#id_recorded').change(function () {
                 $('.patch-formset :input[name$=recorded]').val($(this).val());
             });
