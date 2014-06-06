@@ -6872,11 +6872,6 @@ ul.gardens {
 #beds li.bed {
   border-bottom: 1px solid black;
 }
-#new-bed form #id_width,
-#new-bed form #id_length {
-  display: inline-block;
-  width: 50%;
-}
 #new-bed form .field-dimensions {
   position: relative;
   min-height: 1px;
@@ -6890,6 +6885,7 @@ ul.gardens {
   }
 }
 #new-bed form .field-dimensions input {
+  display: inline-block;
   max-width: 30%;
 }
 #new-bed form .field-name {
@@ -6915,6 +6911,61 @@ ul.gardens {
     float: left;
     width: 33.33333333%;
   }
+}
+#new-bed form .select2-choice {
+  height: 32px;
+}
+#new-bed form .delete-row {
+  display: block;
+  margin-top: 25px;
+}
+#new-bed form .field-crop {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-right: 0;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-crop {
+    float: left;
+    width: 25%;
+  }
+}
+#new-bed form .field-crop-variety {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-right: 0;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-crop-variety {
+    float: left;
+    width: 25%;
+  }
+}
+#new-bed form .field-group-quantity {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-bed form .field-group-quantity {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+#new-bed form .field-group-quantity .field-quantity,
+#new-bed form .field-group-quantity .field-units {
+  display: inline-block;
+}
+#new-bed form .field-group-quantity .field-quantity {
+  width: 30%;
+}
+#new-bed form .field-group-quantity .field-units {
+  width: 65%;
 }
 #new-plant form #id_plants,
 #new-plant form #id_area {

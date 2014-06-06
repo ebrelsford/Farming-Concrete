@@ -4,7 +4,7 @@
 
 {% for hidden in form.hidden_fields %}
     {% if hidden.errors %}
-        <div class="alert alert-error">
+        <div class="alert alert-danger">
             {% for error in hidden.errors %}
                 {{ error }}
             {% endfor %}
@@ -14,7 +14,7 @@
 {% endfor %}
 
 {% if form.non_field_errors %}
-    <div class="alert alert-error">
+    <div class="alert alert-danger">
         {% for error in form.non_field_errors %}
             {{ error }}
         {% endfor %}

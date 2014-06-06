@@ -32,16 +32,11 @@
 }
 
 #new-bed form {
-    #id_width,
-    #id_length {
-        display: inline-block;
-        width: 50%;
-    }
-
     .field-dimensions {
         .make-sm-column(8);
 
         input {
+            display: inline-block;
             max-width: 30%;
         }
     }
@@ -52,6 +47,48 @@
 
     .field-recorded {
         .make-sm-column(4);
+    }
+
+    // Patch fields
+    .select2-choice {
+        // Try to get height to match other inputs
+        height: 32px;
+    }
+
+    .delete-row {
+        display: block;
+        margin-top: 25px;
+    }
+
+    .field {
+
+        &-crop {
+            .make-sm-column(3);
+            padding-right: 0;
+        }
+
+        &-crop-variety {
+            .make-sm-column(3);
+            padding-right: 0;
+        }
+
+        &-group-quantity {
+            .make-sm-column(4);
+
+            .field-quantity,
+            .field-units {
+                display: inline-block;
+            }
+
+            .field-quantity {
+                width: 30%;
+            }
+
+            .field-units {
+                width: 65%;
+            }
+        }
+
     }
 
 }

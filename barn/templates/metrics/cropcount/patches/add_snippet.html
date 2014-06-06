@@ -3,7 +3,7 @@
 <div class="patch-formset form-group">
     {% for hidden in form.hidden_fields %}
         {% if hidden.errors %}
-            <div class="alert alert-error">
+            <div class="alert alert-danger">
                 {% for error in hidden.errors %}
                     {{ error }}
                 {% endfor %}
@@ -11,40 +11,57 @@
         {% endif %}
         {{ hidden }}
     {% endfor %}
-    <div id="errors">
-        {{ form.non_field_errors }}
-    </div>
+    
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
 
-    <div class="type form-group required col-sm-3">
-        {{ form.crop.errors }}
+    {% if form.crop.errors %}
+        <div class="alert alert-danger">
+            {{ form.crop.errors }}
+        </div>
+    {% endif %}
+
+    {% if form.crop_variety.errors %}
+        <div class="alert alert-danger">
+            {{ form.crop_variety.errors }}
+        </div>
+    {% endif %}
+
+    {% if form.quantity.errors %}
+        <div class="alert alert-danger">
+            {{ form.quantity.errors }}
+        </div>
+    {% endif %}
+
+    {% if form.units.errors %}
+        <div class="alert alert-danger">
+            {{ form.units.errors }}
+        </div>
+    {% endif %}
+
+    <div class="form-group field-crop required {% if form.crop.errors %}has-error{% endif %}">
         <div class="control-label">
             {{ form.crop.label_tag }}
         </div>
         {% render_field form.crop class+="form-control" %}
     </div>
 
-    <div class="type form-group required col-sm-3">
-        {{ form.crop_variety.errors }}
+    <div class="form-group field-crop-variety {% if form.crop_variety.errors %}has-error{% endif %}">
         <div class="control-label">
             {{ form.crop_variety.label_tag }}
         </div>
         {% render_field form.crop_variety class+="form-control" %}
     </div>
 
-    <div class="type form-group required col-sm-2">
-        {{ form.quantity.errors }}
+    <div class="form-group field-group-quantity required {% if form.quantity.errors or form.units.errors %}has-error{% endif %}">
         <div class="control-label">
             {{ form.quantity.label_tag }}
         </div>
-        {% render_field form.quantity class+="form-control" %}
-    </div>
-
-    <div class="type form-group required col-sm-3">
-        {{ form.units.errors }}
-        <div class="control-label">
-            {{ form.units.label_tag }}
-        </div>
-        {% render_field form.units class+="form-control" %}
+        {% render_field form.quantity class+="form-control field-quantity" %}
+        {% render_field form.units class+="form-control field-units" %}
     </div>
 
 </div>
