@@ -20,7 +20,7 @@ def workon(ve):
 @task
 def pull():
     with cd(server_src_dir):
-        run('git pull')
+        run('git pull --no-edit')
 
 
 @task
