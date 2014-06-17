@@ -1,0 +1,8 @@
+{% load static %}
+
+<div class="input-group">
+    <input class="form-control" type="{{ type }}" name="{{ name }}"{% if value %} value="{{ value }}"{% endif %}{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %} />
+    <span class="recorded-input-addon input-group-addon">
+        <img src="{% static "img/calendar_1.png" %}" />
+    </span>
+</div>

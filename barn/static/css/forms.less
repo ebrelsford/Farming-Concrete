@@ -29,7 +29,8 @@ ul.errorlist {
     padding-left: 0;
 }
 
-.form-control {
+.form-control,
+.form-control.picker__input {
     background-color: #EDEDED;
     border: none;
     border-radius: 0;
@@ -67,4 +68,9 @@ ul.errorlist {
             .make-md-column-offset(9);
         }
     }
+}
+
+// Only make addon seem clickable if pickadate is enabled
+.picker ~ .recorded-input-addon {
+    cursor: pointer;
 }

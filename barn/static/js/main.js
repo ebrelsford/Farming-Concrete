@@ -50,6 +50,10 @@ define(
                         'max': max
                     });
                 });
+                $('.recorded-input-addon').click(function () {
+                    $(this).prevAll('input').pickadate('open');
+                    return false;
+                });
             }
 
             /*

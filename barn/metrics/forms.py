@@ -9,6 +9,7 @@ from farmingconcrete.models import Garden
 
 
 class RecordedInput(DateInput):
+    template_name = 'metrics/forms/recorded_input.html'
 
     def __init__(self, attrs=None, *args, **kwargs):
         try:
