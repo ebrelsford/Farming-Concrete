@@ -2,6 +2,7 @@
 *.swp
 .DS_Store
 .project
+TODO
 collected_static
 /barn/static/bower_components
 /barn/logs
