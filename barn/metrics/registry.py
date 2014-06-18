@@ -37,6 +37,8 @@ class MetricRegistry(dict):
     def register(self, metric_name, metric_details):
         """Register a metric."""
         metric_details['name'] = metric_name
+        if 'app' not in metric_details:
+            metric_details['app'] = metric_details['model']._meta.app_label
         if 'group' not in metric_details:
             metric_details['group'] = None
         self[metric_name] = metric_details

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.forms import HiddenInput, ModelChoiceField, ModelForm
 
 from farmingconcrete.models import Garden
-from ..forms import RecordedInput
+from ..forms import RecordedField, RecordedInput
 from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
 
@@ -15,12 +15,11 @@ class LandfillDiversionWeightForm(ModelForm):
         widget=HiddenInput()
     )
 
+    recorded = RecordedField(label='Date recorded', required=True)
+
     class Meta:
         model = LandfillDiversionWeight
-        fields = ('weight', 'recorded', 'added_by', 'garden',)
-        widgets = {
-            'recorded': RecordedInput(),
-        }
+        fields = ('recorded', 'weight', 'added_by', 'garden',)
 
 
 class LandfillDiversionVolumeForm(ModelForm):
@@ -32,9 +31,8 @@ class LandfillDiversionVolumeForm(ModelForm):
         widget=HiddenInput()
     )
 
+    recorded = RecordedField(label='Date recorded', required=True)
+
     class Meta:
         model = LandfillDiversionVolume
-        fields = ('volume', 'recorded', 'added_by', 'garden',)
-        widgets = {
-            'recorded': RecordedInput(),
-        }
+        fields = ('recorded', 'volume', 'added_by', 'garden',)

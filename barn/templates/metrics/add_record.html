@@ -1,1 +1,3 @@
-{% include "_form.html" with form=form %}
+<div class="add-{{ metric.app }}{% if metric.short_name %}-{{ metric.short_name }}{% endif %}">
+    {% include "_form.html" with form=form %}
+</div>
