@@ -1,2 +1,22 @@
-<h2>Add participation hours</h2>
-{% include "_form.html" with form=form multipart=True %}
+{% extends "metrics/add_record.html" %}
+{% load i18n %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post" enctype="multipart/form-data" {% if action %}action="{{ action }}"{% endif %}>
+
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded_start %}
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.hours %}
+            {% include "forms/field.html" with field=form.photo %}
+        </div>
+
+        {% include "forms/buttons.html" %}
+
+    </form>
+{% endblock %}

@@ -6258,6 +6258,59 @@ td.date {
     width: 33.33333333%;
   }
 }
+.add-participation-geography .field-recorded_start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-recorded_start {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-participation-geography .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-recorded {
+    margin-left: 16.66666667%;
+  }
+}
+.add-participation-geography .field-hours {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-hours {
+    float: left;
+    width: 25%;
+  }
+}
+.add-participation-geography .field-photo {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-photo {
+    float: left;
+    width: 58.33333333%;
+  }
+}
 .record {
   margin-left: 0;
   margin-right: 0;

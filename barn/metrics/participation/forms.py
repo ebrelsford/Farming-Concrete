@@ -12,15 +12,12 @@ from .models import (HoursByGeography, HoursByTask, HoursByProject, Project,
 
 
 class HoursByGeographyForm(RecordForm):
-    recorded_start = RecordedField()
-    recorded = RecordedField(
-        label=_('Recorded end'),
-        required=True,
-    )
+    recorded_start = RecordedField(label=_('Start date'))
+    recorded = RecordedField(label=_('End date'))
 
     class Meta:
         model = HoursByGeography
-        fields = ('hours', 'recorded_start', 'recorded', 'photo', 'added_by',
+        fields = ('recorded_start', 'recorded', 'hours', 'photo', 'added_by',
                   'garden',)
 
 
