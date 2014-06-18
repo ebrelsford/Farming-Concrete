@@ -6,7 +6,7 @@ from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.template.base import TemplateDoesNotExist
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, select_template
 
 from classytags.arguments import Argument, KeywordArgument
 from classytags.core import Options, Tag
@@ -258,11 +258,13 @@ class AddRecord(MetricRecordTagMixin, InclusionTag):
         return context
 
     def get_template(self, context, metric_name, garden, form):
+        templates = self.get_template_candidates(metric_name, 'add_record.html')
+        templates = templates + ['metrics/add_record.html',]
         try:
-            template_name = registry[metric_name]['add_record_template']
+            templates = [registry[metric_name]['add_record_template'],] + templates
         except Exception:
-            template_name = 'metrics/add_record.html'
-        return template_name
+            pass
+        return select_template(templates).name
 
 
 class MetricContentType(AsTag):
