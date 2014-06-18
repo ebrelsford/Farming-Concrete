@@ -1,0 +1,36 @@
+{% extends "metrics/add_record.html" %}
+{% load i18n %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post" {% if action %}action="{{ action }}"{% endif %}>
+
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.roof_length %}
+            <div class="dimensions-separator">x</div>
+            {% include "forms/field.html" with field=form.roof_width %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded_start %}
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="rainwater-explanation">
+            {% blocktrans %}
+                When you click calculate below, Barn will compute the gallons 
+                of rainwater you harvested in the above period by looking at
+                data recorded at your local NOAA weather station and the 
+                square footage of your roof.
+            {% endblocktrans %}
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">
+                {% trans "calculate" %}
+            </button>
+        </div>
+
+    </form>
+{% endblock %}

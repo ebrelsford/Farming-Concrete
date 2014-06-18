@@ -5951,6 +5951,8 @@ ul.errorlist {
 .form-horizontal .form-actions {
   margin-left: 0;
   margin-right: 0;
+  border-top: 1px dotted #8c8c8c;
+  padding-top: 25px;
 }
 .form-horizontal button.btn-cancel {
   position: relative;
@@ -6131,6 +6133,71 @@ td.date {
   .add-compost-weight .field-recorded {
     float: left;
     width: 33.33333333%;
+  }
+}
+.add-rainwater-harvest .dimensions-separator {
+  float: left;
+  margin-top: 35px;
+}
+.add-rainwater-harvest .rainwater-explanation {
+  border-top: 1px dotted #8c8c8c;
+  margin-top: 25px;
+  padding-top: 15px;
+  padding-bottom: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.add-rainwater-harvest .field-roof_length {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-rainwater-harvest .field-roof_length {
+    float: left;
+    width: 25%;
+  }
+}
+.add-rainwater-harvest .field-roof_width {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-rainwater-harvest .field-roof_width {
+    float: left;
+    width: 25%;
+  }
+}
+.add-rainwater-harvest .field-recorded_start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-rainwater-harvest .field-recorded_start {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-rainwater-harvest .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-rainwater-harvest .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-rainwater-harvest .field-recorded {
+    margin-left: 16.66666667%;
   }
 }
 .add-landfilldiversion-volume .field-volume {
