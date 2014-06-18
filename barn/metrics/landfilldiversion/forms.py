@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.forms import HiddenInput, ModelChoiceField, ModelForm
 
 from farmingconcrete.models import Garden
-from ..forms import RecordedField, RecordedInput
+from ..forms import RecordedField
 from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
 
