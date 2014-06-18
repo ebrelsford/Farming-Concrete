@@ -28,8 +28,14 @@ class RecordedField(DateField):
 class RecordForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
                               widget=HiddenInput())
+
+    recorded = RecordedField(label='Date recorded', required=True)
+
     added_by = ModelChoiceField(
         label='added_by',
         queryset=User.objects.all(),
         widget=HiddenInput()
     )
+
+    class Meta:
+        fields = ('recorded', 'added_by', 'garden',)

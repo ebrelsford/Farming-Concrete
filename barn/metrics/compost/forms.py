@@ -1,40 +1,16 @@
-from django.contrib.auth.models import User
-from django.forms import HiddenInput, ModelChoiceField, ModelForm
-
-from farmingconcrete.models import Garden
-from ..forms import RecordedInput
+from ..forms import RecordForm
 from .models import CompostProductionVolume, CompostProductionWeight
 
 
-class CompostProductionWeightForm(ModelForm):
-    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
-                              widget=HiddenInput())
-    added_by = ModelChoiceField(
-        label='added_by',
-        queryset=User.objects.all(),
-        widget=HiddenInput()
-    )
+class CompostProductionWeightForm(RecordForm):
 
-    class Meta:
+    class Meta(RecordForm.Meta):
         model = CompostProductionWeight
-        fields = ('weight', 'recorded', 'added_by', 'garden',)
-        widgets = {
-            'recorded': RecordedInput(),
-        }
+        fields = ('recorded', 'weight', 'added_by', 'garden',)
 
 
-class CompostProductionVolumeForm(ModelForm):
-    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
-                              widget=HiddenInput())
-    added_by = ModelChoiceField(
-        label='added_by',
-        queryset=User.objects.all(),
-        widget=HiddenInput()
-    )
+class CompostProductionVolumeForm(RecordForm):
 
     class Meta:
         model = CompostProductionVolume
-        fields = ('volume', 'recorded', 'added_by', 'garden',)
-        widgets = {
-            'recorded': RecordedInput(),
-        }
+        fields = ('recorded', 'volume', 'added_by', 'garden',)

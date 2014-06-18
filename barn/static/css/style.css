@@ -6075,6 +6075,64 @@ td.date {
   list-style: none;
   padding-left: 0;
 }
+.add-compost-volume .field-volume {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-compost-volume .field-volume {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-compost-volume .field-volume {
+    margin-left: 16.66666667%;
+  }
+}
+.add-compost-volume .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-compost-volume .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-compost-weight .field-weight {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-compost-weight .field-weight {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-compost-weight .field-weight {
+    margin-left: 16.66666667%;
+  }
+}
+.add-compost-weight .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-compost-weight .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
 .add-landfilldiversion-volume .field-volume {
   position: relative;
   min-height: 1px;
