@@ -1,4 +1,5 @@
 {% extends "metrics/_list_records.html" %}
+{% load imagekit %}
 
 {% block record_class %}participation-geography-record{% endblock %}
 
@@ -14,5 +15,14 @@
         <div class="field-hours-out">
             {{ record.hours_out|floatformat }} hour{{ record.hours_out|pluralize }} "OUT"
         </div>
+    </div>
+    <div class="field-photo">
+        {% if record.photo %} 
+            <div class="photo-gallery">
+                <a href="{{ record.photo.url }}">
+                    {% thumbnail '150x50' record.photo %}
+                </a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

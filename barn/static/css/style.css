@@ -6692,7 +6692,19 @@ td.date {
 @media (min-width: 768px) {
   .participation-geography-record .record-row-content {
     float: left;
-    width: 91.66666667%;
+    width: 41.66666667%;
+  }
+}
+.participation-geography-record .field-photo {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .participation-geography-record .field-photo {
+    float: left;
+    width: 50%;
   }
 }
 .participation-geography-record .field-recorded {
