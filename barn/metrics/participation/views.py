@@ -152,7 +152,7 @@ class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
 
     def get_fields(self):
         tasks = [task.name for task in Task.objects.all()]
-        return ['recorded_start', 'recorded',] + tasks
+        return ['recorded_start', 'recorded', 'task_other',] + tasks
 
     def get_rows(self):
         for record in self.get_records():
