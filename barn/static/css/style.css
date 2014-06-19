@@ -6415,6 +6415,18 @@ td.date {
 .add-participation-task .field-taskhours .control-label {
   text-transform: capitalize;
 }
+.add-participation-task .field-task_other {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-task .field-task_other {
+    float: left;
+    width: 50%;
+  }
+}
 .record {
   margin-left: 0;
   margin-right: 0;

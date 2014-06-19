@@ -46,10 +46,18 @@ class TaskHoursForm(ModelForm):
 class HoursByTaskForm(RecordForm):
     recorded_start = RecordedField(label='Start date')
     recorded = RecordedField(label='End date')
+    task_other = CharField(
+        label='What do the other tasks include?',
+        help_text=_('For example: building a shed, selling at the farmers '
+                    'market, or laying mulch'),
+        required=False,
+        widget=Textarea
+    )
 
     class Meta:
         model = HoursByTask
-        fields = ('recorded_start', 'recorded', 'added_by', 'garden',)
+        fields = ('recorded_start', 'recorded', 'task_other', 'added_by',
+                  'garden',)
 
 
 class AddNewProjectWidget(Select):

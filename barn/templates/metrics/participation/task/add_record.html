@@ -18,6 +18,10 @@
             {% endfor %}
         </div>
 
+        <div class="row">
+            {% include "forms/field.html" with field=form.task_other %}
+        </div>
+
         {% include "forms/buttons.html" %}
 
     </form>

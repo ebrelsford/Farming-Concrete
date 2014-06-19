@@ -132,11 +132,10 @@ class HoursByTask(BaseMetricRecord):
         through='TaskHours',
         verbose_name=_('tasks'),
     )
-    task_other = models.CharField(_('other task name'),
+    task_other = models.CharField(_('What do the other tasks include?'),
         max_length=200,
         blank=True,
         null=True,
-        help_text=_('If you enter "other" for task, enter the task here')
     )
 
     def __getitem__(self, key):

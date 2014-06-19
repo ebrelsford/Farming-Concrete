@@ -115,7 +115,7 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
                     'hours': 0,
                 })
         initial.append({
-            'task': 'other tasks',
+            'task': Task.objects.get(name='other tasks'),
             'hours': 0,
         })
         return initial
