@@ -2,12 +2,17 @@
 
 {% block record_class %}participation-geography-record{% endblock %}
 
-{% block recorded %}
-    <div class="field-recorded">
-        {{ record.recorded_start|date:"m/d/Y" }} - {{ record.recorded|date:"m/d/Y" }}
-    </div>
-{% endblock %}
+{% block record_row_content %}
+    <div class="record-row-content">
+        <div class="field-recorded">
+            {{ record.recorded_start|date:"m/d/Y" }} - {{ record.recorded|date:"m/d/Y" }}
+        </div>
 
-{% block record_detail %}
-    <div class="field-hours">{{ record.hours|floatformat }} hours</div>
+        <div class="field-hours-in">
+            {{ record.hours_in|floatformat }} hour{{ record.hours_in|pluralize }} "IN"
+        </div>
+        <div class="field-hours-out">
+            {{ record.hours_out|floatformat }} hour{{ record.hours_out|pluralize }} "OUT"
+        </div>
+    </div>
 {% endblock %}

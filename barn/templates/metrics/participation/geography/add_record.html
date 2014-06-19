@@ -16,7 +16,16 @@
         </div>
 
         <div class="row">
-            {% include "forms/field.html" with field=form.hours %}
+            {% include "forms/field.html" with field=form.in_half %}
+            {% include "forms/field.html" with field=form.in_whole %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.out_half %}
+            {% include "forms/field.html" with field=form.out_whole %}
+        </div>
+
+        <div class="row">
             {% include "forms/field.html" with field=form.photo %}
         </div>
 

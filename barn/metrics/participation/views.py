@@ -56,14 +56,14 @@ class HoursByGeographyGardenDetails(HoursByGeographyMixin,
     template_name = 'metrics/participation/geography/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f hours to %s' % (self.record.hours,
-                                                        self.object)
+        return 'Successfully added hours to %s' % (self.object)
 
 
 class HoursByGeographyGardenCSV(HoursByGeographyMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('hours', 'recorded_start', 'recorded',)
+        return ('in_half', 'in_whole', 'out_half', 'out_whole',
+                'recorded_start', 'recorded',)
 
 
 class HoursByTaskMixin(MetricMixin):

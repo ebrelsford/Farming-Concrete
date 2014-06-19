@@ -6311,16 +6311,52 @@ td.date {
     margin-left: 16.66666667%;
   }
 }
-.add-participation-geography .field-hours {
+.add-participation-geography .field-in_half {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
 }
 @media (min-width: 768px) {
-  .add-participation-geography .field-hours {
+  .add-participation-geography .field-in_half {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
+  }
+}
+.add-participation-geography .field-in_whole {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-in_whole {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-participation-geography .field-out_half {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-out_half {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-participation-geography .field-out_whole {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-out_whole {
+    float: left;
+    width: 33.33333333%;
   }
 }
 .add-participation-geography .field-photo {
@@ -6647,30 +6683,27 @@ td.date {
 .moods-change-record .field-counts .field-mood {
   display: inline-block;
 }
+.participation-geography-record .record-row-content {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .participation-geography-record .record-row-content {
+    float: left;
+    width: 91.66666667%;
+  }
+}
 .participation-geography-record .field-recorded {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+  float: none;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
 }
-@media (min-width: 768px) {
-  .participation-geography-record .field-recorded {
-    float: left;
-    width: 41.66666667%;
-  }
-}
-.participation-geography-record .field-hours {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+.participation-geography-record .field-hours-in,
+.participation-geography-record .field-hours-out {
   font-weight: bold;
-}
-@media (min-width: 768px) {
-  .participation-geography-record .field-hours {
-    float: left;
-    width: 41.66666667%;
-  }
 }
 .participation-project-record .field-project {
   position: relative;

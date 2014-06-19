@@ -18,11 +18,15 @@
         {% for record in records %}
             <li class="record {% block record_class %}{% endblock %}" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
 
-                {% block recorded %}
-                    <div class="field-recorded">{{ record.recorded|date:"m/d/Y" }}</div>
-                {% endblock %}
+                {% block record_row_content %}
+                    {% block recorded %}
+                        <div class="field-recorded">
+                            {{ record.recorded|date:"m/d/Y" }}
+                        </div>
+                    {% endblock %}
 
-                {% block record_detail %}{% endblock %}
+                    {% block record_detail %}{% endblock %}
+                {% endblock %}
 
                 {% ifcandelete metric %}
                     <div class="actions">

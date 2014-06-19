@@ -2,7 +2,15 @@
 
 <div class="summary">
     <div class="summary-details">
-        <span class="number">{{ hours|default:"0"|floatformat:"0" }}</span>
-        <span class="units">{% trans "hour" %}{{ hours|pluralize }}</span>
+        <span class="number">{{ in|default:"0"|floatformat }}</span>
+        <span class="units">
+            {% trans "hour" %}{{ in|pluralize }} {% trans "in" %}
+        </span>
+    </div>
+    <div class="summary-details">
+        <span class="number">{{ out|default:"0"|floatformat }}</span>
+        <span class="units">
+            {% trans "hour" %}{{ out|pluralize }} {% trans "out" %}
+        </span>
     </div>
 </div>

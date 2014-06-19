@@ -21,9 +21,30 @@ class BaseParticipationMetric(BaseMetricRecord):
         abstract = True
 
 
-class HoursByGeography(BaseParticipationMetric):
+class HoursByGeography(BaseMetricRecord):
+
+    recorded_start = models.DateField(_('recorded start'),
+        help_text=_('The beginning of the date range for this record'),
+    )
 
     neighborhood_definition = models.TextField(blank=True, null=True)
+
+    in_half = models.PositiveIntegerField(
+        _('1/2-hour pins "IN"'),
+        default=0,
+    )
+    in_whole = models.PositiveIntegerField(
+        _('1-hour pins "IN"'),
+        default=0,
+    )
+    out_half = models.PositiveIntegerField(
+        _('1/2-hour pins "OUT"'),
+        default=0,
+    )
+    out_whole = models.PositiveIntegerField(
+        _('1-hour pins "OUT"'),
+        default=0,
+    )
 
     photo = models.ImageField(_('photo'),
         help_text=_('The photo you took to record this'),
@@ -31,6 +52,14 @@ class HoursByGeography(BaseParticipationMetric):
         blank=True,
         null=True,
     )
+
+    def hours_in(self):
+        return self.in_half / 2.0 + self.in_whole
+    hours_in = property(hours_in)
+
+    def hours_out(self):
+        return self.out_half / 2.0 + self.out_whole
+    hours_out = property(hours_out)
 
     def __unicode__(self):
         return 'HoursByGeography (%d) %s %.2f hours' % (
@@ -43,7 +72,10 @@ class HoursByGeography(BaseParticipationMetric):
     def get_summarize_kwargs(cls):
         kwargs = super(HoursByGeography, cls).get_summarize_kwargs()
         kwargs.update({
-            'hours': Sum('hours'),
+            'in_half': Sum('in_half'),
+            'in_whole': Sum('in_whole'),
+            'out_half': Sum('out_half'),
+            'out_whole': Sum('out_whole'),
         })
         return kwargs
 
@@ -52,6 +84,9 @@ class HoursByGeography(BaseParticipationMetric):
         context = super(HoursByGeography, cls).summarize(records)
         if not context:
             context = {}
+
+        context['in'] = context.get('in_half', 0) / 2.0 + context.get('in_whole', 0)
+        context['out'] = context.get('out_half', 0) / 2.0 + context.get('out_whole', 0)
 
         try:
             photo = records.filter(photo__isnull=False).order_by('-added')[0].photo

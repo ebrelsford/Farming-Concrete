@@ -126,8 +126,20 @@
             .make-sm-column-offset(2);
         }
 
-        &-hours {
-            .make-sm-column(3);
+        &-in_half {
+            .make-sm-column(4);
+        }
+
+        &-in_whole {
+            .make-sm-column(4);
+        }
+
+        &-out_half {
+            .make-sm-column(4);
+        }
+
+        &-out_whole {
+            .make-sm-column(4);
         }
 
         &-photo {
@@ -284,12 +296,23 @@
 }
 
 .participation-geography-record {
-    .field-recorded {
-        .make-sm-column(5);
+    .record-row-content {
+        .make-sm-column(11);
     }
-    .field-hours {
-        .make-sm-column(5);
-        font-weight: bold;
+
+    .field {
+        &-recorded {
+            // Undo column styles added globally
+            float: none;
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+        }
+
+        &-hours-in,
+        &-hours-out {
+            font-weight: bold;
+        }
     }
 }
 

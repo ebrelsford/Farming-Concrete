@@ -26,7 +26,8 @@ class HoursByGeographyForm(RecordForm):
     class Meta:
         model = HoursByGeography
         fields = ('neighborhood_definition', 'recorded_start', 'recorded',
-                  'hours', 'photo', 'added_by', 'garden',)
+                  'in_half', 'in_whole', 'out_half', 'out_whole',
+                  'photo', 'added_by', 'garden',)
 
 
 class TaskHoursForm(ModelForm):
