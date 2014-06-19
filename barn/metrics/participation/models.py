@@ -23,6 +23,8 @@ class BaseParticipationMetric(BaseMetricRecord):
 
 class HoursByGeography(BaseParticipationMetric):
 
+    neighborhood_definition = models.TextField(blank=True, null=True)
+
     photo = models.ImageField(_('photo'),
         help_text=_('The photo you took to record this'),
         upload_to='participation_geography',

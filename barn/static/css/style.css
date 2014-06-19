@@ -5316,6 +5316,8 @@ button.close {
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:before,
 .form-horizontal .form-actions:after,
+.add-participation-geography .neighborhood-definition-row:before,
+.add-participation-geography .neighborhood-definition-row:after,
 .record:before,
 .record:after,
 .cropcount-bed-record .field-patch:before,
@@ -5346,6 +5348,7 @@ button.close {
 .form-horizontal .fields:after,
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:after,
+.add-participation-geography .neighborhood-definition-row:after,
 .record:after,
 .cropcount-bed-record .field-patch:after,
 .summary:after,
@@ -6256,6 +6259,27 @@ td.date {
   .add-landfilldiversion-weight .field-recorded {
     float: left;
     width: 33.33333333%;
+  }
+}
+.add-participation-geography .neighborhood-definition-row {
+  margin-left: -15px;
+  margin-right: -15px;
+  border-bottom: 1px dotted #8c8c8c;
+  margin-bottom: 10px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-bottom: 25px;
+}
+.add-participation-geography .field-neighborhood_definition {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-geography .field-neighborhood_definition {
+    float: left;
+    width: 66.66666667%;
   }
 }
 .add-participation-geography .field-recorded_start {

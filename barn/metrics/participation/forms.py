@@ -1,4 +1,5 @@
-from django.forms import HiddenInput, ModelChoiceField, ModelForm
+from django.forms import (CharField, HiddenInput, ModelChoiceField, ModelForm,
+                          Textarea)
 from django.utils.translation import ugettext_lazy as _
 
 from floppyforms.widgets import Select
@@ -12,13 +13,18 @@ from .models import (HoursByGeography, HoursByTask, HoursByProject, Project,
 
 
 class HoursByGeographyForm(RecordForm):
+    neighborhood_definition = CharField(
+        label=_('How do you define your neighborhood boundaries?'),
+        required=False,
+        widget=Textarea,
+    )
     recorded_start = RecordedField(label=_('Start date'))
     recorded = RecordedField(label=_('End date'))
 
     class Meta:
         model = HoursByGeography
-        fields = ('recorded_start', 'recorded', 'hours', 'photo', 'added_by',
-                  'garden',)
+        fields = ('neighborhood_definition', 'recorded_start', 'recorded',
+                  'hours', 'photo', 'added_by', 'garden',)
 
 
 class TaskHoursForm(ModelForm):

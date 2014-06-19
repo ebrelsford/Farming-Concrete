@@ -103,7 +103,20 @@
 }
 
 .add-participation-geography {
+    .neighborhood-definition-row {
+        .make-row();
+        border-bottom: @separator-border;
+        margin-bottom: 10px;
+        margin-left: 0;
+        margin-right: 0;
+        padding-bottom: 25px;
+    }
+
     .field {
+        &-neighborhood_definition {
+            .make-sm-column(8);
+        }
+
         &-recorded_start {
             .make-sm-column(4);
         }

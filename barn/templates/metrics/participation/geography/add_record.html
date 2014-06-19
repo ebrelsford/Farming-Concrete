@@ -6,6 +6,10 @@
 
         {% include "forms/head.html" %}
 
+        <div class="neighborhood-definition-row">
+            {% include "forms/field.html" with field=form.neighborhood_definition %}
+        </div>
+
         <div class="row">
             {% include "forms/field.html" with field=form.recorded_start %}
             {% include "forms/field.html" with field=form.recorded %}
