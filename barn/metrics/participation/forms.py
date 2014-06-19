@@ -44,14 +44,12 @@ class TaskHoursForm(ModelForm):
 
 
 class HoursByTaskForm(RecordForm):
+    recorded_start = RecordedField(label='Start date')
+    recorded = RecordedField(label='End date')
 
     class Meta:
         model = HoursByTask
         fields = ('recorded_start', 'recorded', 'added_by', 'garden',)
-        widgets = {
-            'recorded_start': RecordedInput(),
-            'recorded': RecordedInput(),
-        }
 
 
 class AddNewProjectWidget(Select):

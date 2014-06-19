@@ -109,10 +109,15 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
     def get_initial_task_hours(self):
         initial = []
         for task in Task.objects.all():
-            initial.append({
-                'task': task,
-                'hours': 0,
-            })
+            if task.name != 'other tasks':
+                initial.append({
+                    'task': task,
+                    'hours': 0,
+                })
+        initial.append({
+            'task': 'other tasks',
+            'hours': 0,
+        })
         return initial
 
     def get_context_data(self, **kwargs):
