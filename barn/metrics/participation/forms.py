@@ -1,5 +1,5 @@
 from django.forms import (CharField, HiddenInput, ModelChoiceField, ModelForm,
-                          Textarea)
+                          Textarea, ValidationError)
 from django.utils.translation import ugettext_lazy as _
 
 from floppyforms.widgets import Select
@@ -22,6 +22,14 @@ class HoursByGeographyForm(RecordForm):
     )
     recorded_start = RecordedField(label=_('Start date'))
     recorded = RecordedField(label=_('End date'))
+
+    def clean(self):
+        cleaned_data = super(HoursByGeographyForm, self).clean()
+        recorded_start = cleaned_data.get('recorded_start')
+        recorded = cleaned_data.get('recorded')
+        if recorded_start > recorded:
+            raise ValidationError('Start date must come before end date')
+        return cleaned_data
 
     class Meta:
         model = HoursByGeography
