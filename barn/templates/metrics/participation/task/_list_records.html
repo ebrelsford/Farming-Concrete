@@ -14,12 +14,19 @@
         {% for task in tasks %}
             <div class="field-task-hours">
                 <div class="field-task">
-                    {{ task }}
+                    {{ task }}:
                 </div>
                 <div class="field-hours">
                     {% task_hours task for record as taskhour %}
                     {{ taskhour.hours|floatformat|default:"0" }} hours
                 </div>
+                {% if record.task_other %}
+                    {% ifequal task.name "other tasks" %}
+                        <div class="field-task_other">
+                            {{ record.task_other }}
+                        </div>
+                    {% endifequal %}
+                {% endif %}
             </div>
         {% endfor %}
     </div>

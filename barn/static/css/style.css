@@ -6822,7 +6822,6 @@ td.date {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-  font-weight: bold;
 }
 @media (min-width: 768px) {
   .participation-task-record .field-tasks-list {
@@ -6832,9 +6831,15 @@ td.date {
 }
 .participation-task-record .field-task {
   display: inline-block;
+  text-transform: capitalize;
 }
 .participation-task-record .field-hours {
   display: inline-block;
+  font-weight: bold;
+}
+.participation-task-record .field-task_other {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 .rainwater-harvest-record .field-recorded {
   position: relative;
