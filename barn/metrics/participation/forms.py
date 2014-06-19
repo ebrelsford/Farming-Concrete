@@ -15,6 +15,8 @@ from .models import (HoursByGeography, HoursByTask, HoursByProject, Project,
 class HoursByGeographyForm(RecordForm):
     neighborhood_definition = CharField(
         label=_('How do you define your neighborhood boundaries?'),
+        help_text=_('Your zip code or cross streets are some examples of what '
+                    'could go here.'),
         required=False,
         widget=Textarea,
     )
