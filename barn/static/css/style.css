@@ -6561,6 +6561,18 @@ td.date {
     width: 33.33333333%;
   }
 }
+.add-skills-smarts .field-skills_shared_examples {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-skills_shared_examples {
+    float: left;
+    width: 58.33333333%;
+  }
+}
 .add-skills-smarts .field-concepts_shared {
   position: relative;
   min-height: 1px;
@@ -6571,6 +6583,18 @@ td.date {
   .add-skills-smarts .field-concepts_shared {
     float: left;
     width: 33.33333333%;
+  }
+}
+.add-skills-smarts .field-concepts_shared_examples {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-concepts_shared_examples {
+    float: left;
+    width: 58.33333333%;
   }
 }
 .add-skills-smarts .field-projects_proposed {
@@ -6585,6 +6609,18 @@ td.date {
     width: 33.33333333%;
   }
 }
+.add-skills-smarts .field-projects_proposed_examples {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-projects_proposed_examples {
+    float: left;
+    width: 58.33333333%;
+  }
+}
 .add-skills-smarts .field-ideas_to_learn {
   position: relative;
   min-height: 1px;
@@ -6597,6 +6633,18 @@ td.date {
     width: 33.33333333%;
   }
 }
+.add-skills-smarts .field-ideas_to_learn_examples {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-ideas_to_learn_examples {
+    float: left;
+    width: 58.33333333%;
+  }
+}
 .add-skills-smarts .field-intentions_to_collaborate {
   position: relative;
   min-height: 1px;
@@ -6607,6 +6655,18 @@ td.date {
   .add-skills-smarts .field-intentions_to_collaborate {
     float: left;
     width: 33.33333333%;
+  }
+}
+.add-skills-smarts .field-intentions_to_collaborate_examples {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-intentions_to_collaborate_examples {
+    float: left;
+    width: 58.33333333%;
   }
 }
 .record {

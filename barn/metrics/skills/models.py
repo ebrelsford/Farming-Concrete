@@ -9,13 +9,45 @@ from ..registry import register
 class SmartsAndSkills(BaseMetricRecord):
 
     participants = models.IntegerField(_('number of participants'))
+
     skills_shared = models.IntegerField(_('# of skills shared'))
+    skills_shared_examples = models.CharField(_('examples of skills shared'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
     concepts_shared = models.IntegerField(_('# of concepts shared'))
+    concepts_shared_examples = models.CharField(_('examples of concepts shared'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
     projects_proposed = models.IntegerField(_('# of projects proposed'))
+    projects_proposed_examples = models.CharField(_('examples of projects proposed'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
     ideas_to_learn = models.IntegerField(_('# of ideas to learn'))
+    ideas_to_learn_examples = models.CharField(_('examples of ideas to learn'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
     intentions_to_collaborate = models.IntegerField(
         _('# of intentions to collaborate'),
     )
+    intentions_to_collaborate_examples = models.CharField(
+        _('examples of intentions to collaborate'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
 
     @classmethod
     def get_summarize_kwargs(cls):

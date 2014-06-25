@@ -15,22 +15,27 @@
 
         <div class="row">
             {% include "forms/field.html" with field=form.skills_shared %}
+            {% include "forms/field.html" with field=form.skills_shared_examples %}
         </div>
 
         <div class="row">
             {% include "forms/field.html" with field=form.concepts_shared %}
+            {% include "forms/field.html" with field=form.concepts_shared_examples %}
         </div>
 
         <div class="row">
             {% include "forms/field.html" with field=form.projects_proposed %}
+            {% include "forms/field.html" with field=form.projects_proposed_examples %}
         </div>
 
         <div class="row">
             {% include "forms/field.html" with field=form.ideas_to_learn %}
+            {% include "forms/field.html" with field=form.ideas_to_learn_examples %}
         </div>
 
         <div class="row">
             {% include "forms/field.html" with field=form.intentions_to_collaborate %}
+            {% include "forms/field.html" with field=form.intentions_to_collaborate_examples %}
         </div>
 
         {% include "forms/buttons.html" %}
