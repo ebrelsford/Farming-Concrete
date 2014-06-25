@@ -6516,6 +6516,94 @@ td.date {
   float: right;
   margin-top: -75px;
 }
+.add-skills-smarts .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-skills-smarts .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-skills-smarts .field-participants {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-participants {
+    float: left;
+    width: 25%;
+  }
+}
+.add-skills-smarts .field-skills_shared {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-skills_shared {
+    float: left;
+    width: 25%;
+  }
+}
+.add-skills-smarts .field-concepts_shared {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-concepts_shared {
+    float: left;
+    width: 25%;
+  }
+}
+.add-skills-smarts .field-projects_proposed {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-projects_proposed {
+    float: left;
+    width: 25%;
+  }
+}
+.add-skills-smarts .field-ideas_to_learn {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-ideas_to_learn {
+    float: left;
+    width: 25%;
+  }
+}
+.add-skills-smarts .field-intentions_to_collaborate {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-intentions_to_collaborate {
+    float: left;
+    width: 25%;
+  }
+}
 .record {
   margin-left: 0;
   margin-right: 0;

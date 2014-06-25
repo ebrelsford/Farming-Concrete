@@ -1,2 +1,38 @@
-<h2>Add smarts and skills</h2>
-{% include "_form.html" with form=form multipart=True %}
+{% extends "metrics/add_record.html" %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post" 
+        {% if multipart %}enctype="multipart/form-data"{% endif %}
+        {% if action %}action="{{ action }}"{% endif %}
+        >
+
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded %}
+            {% include "forms/field.html" with field=form.participants %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.skills_shared %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.concepts_shared %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.projects_proposed %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.ideas_to_learn %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.intentions_to_collaborate %}
+        </div>
+
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}
