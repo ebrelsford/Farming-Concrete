@@ -27,30 +27,23 @@ class ProgramReach(BaseMetricRecord):
 
     name = models.CharField(_('program name'),
         max_length=300,
-        help_text=_('The name of the program'),
     )
 
-    recorded_start = models.DateField(_('program start'),
-        help_text=_('When this program started'),
-    )
+    recorded_start = models.DateField(_('program start'))
 
     hours_each_day = models.DecimalField(_('hours each day'),
         max_digits=3,
         decimal_places=1,
-        help_text=_('The number of hours each day the program ran'),
     )
 
     collaborated_with_organization = models.BooleanField(
-        _('collaborated with organization'),
+        _('Did you collaborate with another organization to host this program?'),
         default=False,
-        help_text=_('Did you collaborate with another organization to host '
-                    'this program?'),
     )
 
-    collaboration_first = models.BooleanField(_('first collaboration'),
+    collaboration_first = models.BooleanField(
+        _('Was this the first time you worked together?'),
         default=False,
-        help_text=_('If you did collaborate with another organization, was '
-                    'this the first time you worked together?'),
     )
 
     age_10 = models.IntegerField(_('# Under 10'),

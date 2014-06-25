@@ -82,6 +82,76 @@
     }
 }
 
+.add-reach-program {
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .field {
+        &-name {
+            .make-sm-column(8);
+        }
+        &-hours_each_day {
+            .make-sm-column(4);
+        }
+
+        &-recorded_start {
+            .make-sm-column(4);
+        }
+
+        &-recorded {
+            .make-sm-column(4);
+            .make-sm-column-offset(2);
+        }
+
+        &-collaborated_with_organization {
+            .make-sm-column(6);
+        }
+
+        &-collaboration_first {
+            .make-sm-column(6);
+        }
+
+        &-demographics {
+            .make-row(0);
+            border-top: @separator-border;
+            margin-top: 15px;
+            padding-top: 15px;
+
+            & > section {
+                .make-sm-column(3);
+            }
+        }
+
+        &-features {
+            border-top: @separator-border;
+            margin-top: 15px;
+            padding-top: 15px;
+
+            ul {
+                .make-row(0);
+
+                li {
+                    .make-sm-column(4);
+                }
+            }
+
+            .help-text {
+                font-style: italic;
+            }
+
+            label {
+                font-weight: normal;
+            }
+
+            input {
+                height: 16px;
+            }
+        }
+    }
+}
+
 .add-landfilldiversion-volume {
     .field-volume {
         .make-sm-column(4);

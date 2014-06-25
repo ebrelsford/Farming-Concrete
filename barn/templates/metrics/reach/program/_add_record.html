@@ -1,15 +1,26 @@
-<h2>Add a new record</h2>
+{% extends "metrics/add_record.html" %}
 
-<form class="form-horizontal" method="post">
+{% block add_record_form %}
+    <form class="form-horizontal" method="post">
 
-    {% include "forms/head.html" %}
+        {% include "forms/head.html" %}
 
-    <div>
-        {% for field in form.pre_fields %}
-            {% include "forms/field.html" with field=field %}
-        {% endfor %}
-        <section>
-            <h3>Participant Demographics</h3>
+        <div class="row">
+            {% include "forms/field.html" with field=form.name %}
+            {% include "forms/field.html" with field=form.hours_each_day %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded_start %}
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.collaborated_with_organization %}
+            {% include "forms/field.html" with field=form.collaboration_first %}
+        </div>
+
+        <div class="field-demographics">
             <section>
                 <h4>Youth Ages</h4>
                 {% for field in form.youth_fields %}
@@ -34,12 +45,13 @@
                     {% include "forms/field.html" with field=field %}
                 {% endfor %}
             </section>
-        </section>
+        </div>
+
         {% for field in form.post_fields %}
             {% include "forms/field.html" with field=field %}
         {% endfor %}
-    </div>
 
-    {% include "forms/buttons.html" %}
+        {% include "forms/buttons.html" %}
 
-</form>
+    </form>
+{% endblock %}

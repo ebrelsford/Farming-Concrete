@@ -7,16 +7,11 @@ from .models import ProgramFeature, ProgramReach
 
 
 class ProgramReachForm(RecordForm):
-    recorded_start = RecordedField(
-        label=_('Program start'),
-        required=True,
-    )
-    recorded = RecordedField(
-        label=_('Program end'),
-        required=True,
-    )
+    recorded_start = RecordedField(label=_('Start date'))
+    recorded = RecordedField(label=_('End date'))
 
     features = ModelMultipleChoiceField(
+        help_text=_('Check all that apply'),
         queryset = ProgramFeature.objects.filter(universal=True),
         widget = CheckboxSelectMultiple(),
     )

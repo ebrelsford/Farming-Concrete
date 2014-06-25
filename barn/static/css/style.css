@@ -5316,6 +5316,10 @@ button.close {
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:before,
 .form-horizontal .form-actions:after,
+.add-reach-program .field-demographics:before,
+.add-reach-program .field-demographics:after,
+.add-reach-program .field-features ul:before,
+.add-reach-program .field-features ul:after,
 .add-participation-geography .neighborhood-definition-row:before,
 .add-participation-geography .neighborhood-definition-row:after,
 .record:before,
@@ -5348,6 +5352,8 @@ button.close {
 .form-horizontal .fields:after,
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:after,
+.add-reach-program .field-demographics:after,
+.add-reach-program .field-features ul:after,
 .add-participation-geography .neighborhood-definition-row:after,
 .record:after,
 .cropcount-bed-record .field-patch:after,
@@ -6232,6 +6238,136 @@ td.date {
   .add-rainwater-harvest .field-recorded {
     margin-left: 16.66666667%;
   }
+}
+.add-reach-program .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-reach-program .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-name {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.add-reach-program .field-hours_each_day {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-hours_each_day {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-reach-program .field-recorded_start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-recorded_start {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-reach-program .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-recorded {
+    margin-left: 16.66666667%;
+  }
+}
+.add-reach-program .field-collaborated_with_organization {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-collaborated_with_organization {
+    float: left;
+    width: 50%;
+  }
+}
+.add-reach-program .field-collaboration_first {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-collaboration_first {
+    float: left;
+    width: 50%;
+  }
+}
+.add-reach-program .field-demographics {
+  margin-left: 0;
+  margin-right: 0;
+  border-top: 1px dotted #8c8c8c;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+.add-reach-program .field-demographics > section {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-demographics > section {
+    float: left;
+    width: 25%;
+  }
+}
+.add-reach-program .field-features {
+  border-top: 1px dotted #8c8c8c;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+.add-reach-program .field-features ul {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-reach-program .field-features ul li {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-reach-program .field-features ul li {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-reach-program .field-features .help-text {
+  font-style: italic;
+}
+.add-reach-program .field-features label {
+  font-weight: normal;
+}
+.add-reach-program .field-features input {
+  height: 16px;
 }
 .add-landfilldiversion-volume .field-volume {
   position: relative;
