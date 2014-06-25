@@ -1,4 +1,4 @@
-from django.forms import ModelChoiceField
+from django.forms import IntegerField, ModelChoiceField
 
 from crops.forms import AddNewCropWidget
 from crops.models import Crop
@@ -8,14 +8,16 @@ from .models import YumYuck
 
 
 class YumYuckForm(RecordForm):
-    recorded = RecordedField(
-        required=True,
-    )
+    recorded = RecordedField(label='Event date')
     crop = ModelChoiceField(
         label='Crop name',
         queryset=Crop.objects.filter(needs_moderation=False),
         widget=AddNewCropWidget(),
     )
+    yum_before = IntegerField(label='Yums')
+    yuck_before = IntegerField(label='Yucks')
+    yum_after = IntegerField(label='Yums')
+    yuck_after = IntegerField(label='Yucks')
 
     class Meta:
         model = YumYuck

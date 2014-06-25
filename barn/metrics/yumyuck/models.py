@@ -7,25 +7,13 @@ from ..registry import register
 
 
 class YumYuck(BaseMetricRecord):
-
     crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 
-    yum_before = models.PositiveIntegerField(_('yums before'),
-        help_text=_('The number of yums before'),
-    )
-
-    yuck_before = models.PositiveIntegerField(_('yucks before'),
-        help_text=_('The number of yucks before'),
-    )
-
-    yum_after = models.PositiveIntegerField(_('yums after'),
-        help_text=_('The number of yums after'),
-    )
-
-    yuck_after = models.PositiveIntegerField(_('yucks after'),
-        help_text=_('The number of yucks after'),
-    )
+    yum_before = models.PositiveIntegerField(_('yums before'))
+    yuck_before = models.PositiveIntegerField(_('yucks before'))
+    yum_after = models.PositiveIntegerField(_('yums after'))
+    yuck_after = models.PositiveIntegerField(_('yucks after'))
 
     @classmethod
     def get_summarize_kwargs(cls):

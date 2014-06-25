@@ -334,6 +334,57 @@
 
 }
 
+.add-yumyuck-change {
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .tasting-label {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .field {
+        &-recorded {
+            .make-sm-column(4);
+        }
+        &-crop {
+            .make-sm-column(4);
+            .make-sm-column-offset(2);
+        }
+
+        &-yumyucks {
+            margin-bottom: 15px;
+        }
+
+        &-before {
+            .make-sm-column(6);
+            .make-row(0);
+            border-right: 1px dotted black;
+        }
+
+        &-after {
+            .make-sm-column(6);
+            .make-row(0);
+        }
+
+        &-yum_before {
+            .make-sm-column(6);
+        }
+        &-yuck_before {
+            .make-sm-column(6);
+        }
+        &-yum_after {
+            .make-sm-column(6);
+        }
+        &-yuck_after {
+            .make-sm-column(6);
+        }
+    }
+}
+
 
 // List records
 

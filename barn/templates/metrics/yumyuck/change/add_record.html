@@ -1,2 +1,27 @@
-<h2>Add a new record</h2>
-{% include "_form.html" with form=form multipart=True %}
+{% extends "metrics/add_record.html" %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post">
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded %}
+            {% include "forms/field.html" with field=form.crop %}
+        </div>
+
+        <div class="row field-yumyucks">
+            <div class="field-before">
+                <div class="tasting-label">Before tasting</div>
+                {% include "forms/field.html" with field=form.yum_before %}
+                {% include "forms/field.html" with field=form.yuck_before %}
+            </div>
+            <div class="field-after">
+                <div class="tasting-label">After tasting</div>
+                {% include "forms/field.html" with field=form.yum_after %}
+                {% include "forms/field.html" with field=form.yuck_after %}
+            </div>
+        </div>
+
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}

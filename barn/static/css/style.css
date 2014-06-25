@@ -5322,6 +5322,10 @@ button.close {
 .add-reach-program .field-features ul:after,
 .add-participation-geography .neighborhood-definition-row:before,
 .add-participation-geography .neighborhood-definition-row:after,
+.add-yumyuck-change .field-before:before,
+.add-yumyuck-change .field-before:after,
+.add-yumyuck-change .field-after:before,
+.add-yumyuck-change .field-after:after,
 .record:before,
 .record:after,
 .cropcount-bed-record .field-patch:before,
@@ -5355,6 +5359,8 @@ button.close {
 .add-reach-program .field-demographics:after,
 .add-reach-program .field-features ul:after,
 .add-participation-geography .neighborhood-definition-row:after,
+.add-yumyuck-change .field-before:after,
+.add-yumyuck-change .field-after:after,
 .record:after,
 .cropcount-bed-record .field-patch:after,
 .summary:after,
@@ -6803,6 +6809,124 @@ td.date {
   .add-skills-smarts .field-intentions_to_collaborate_examples {
     float: left;
     width: 58.33333333%;
+  }
+}
+.add-yumyuck-change .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-yumyuck-change .tasting-label {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+.add-yumyuck-change .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-yumyuck-change .field-crop {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-crop {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-crop {
+    margin-left: 16.66666667%;
+  }
+}
+.add-yumyuck-change .field-yumyucks {
+  margin-bottom: 15px;
+}
+.add-yumyuck-change .field-before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 0;
+  margin-right: 0;
+  border-right: 1px dotted black;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-before {
+    float: left;
+    width: 50%;
+  }
+}
+.add-yumyuck-change .field-after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 0;
+  margin-right: 0;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-after {
+    float: left;
+    width: 50%;
+  }
+}
+.add-yumyuck-change .field-yum_before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-yum_before {
+    float: left;
+    width: 50%;
+  }
+}
+.add-yumyuck-change .field-yuck_before {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-yuck_before {
+    float: left;
+    width: 50%;
+  }
+}
+.add-yumyuck-change .field-yum_after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-yum_after {
+    float: left;
+    width: 50%;
+  }
+}
+.add-yumyuck-change .field-yuck_after {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-yumyuck-change .field-yuck_after {
+    float: left;
+    width: 50%;
   }
 }
 .record {
