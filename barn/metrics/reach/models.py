@@ -10,6 +10,7 @@ class ProgramFeature(models.Model):
     name = models.CharField(_('name'),
         max_length=300,
     )
+    order = models.PositiveIntegerField(default=0)
 
     universal = models.BooleanField(_('universal'),
         default=True,
@@ -20,7 +21,7 @@ class ProgramFeature(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('order',)
 
 
 class ProgramReach(BaseMetricRecord):
