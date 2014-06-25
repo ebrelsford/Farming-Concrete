@@ -6505,6 +6505,9 @@ td.date {
     width: 25%;
   }
 }
+.add-participation-project .add-row {
+  margin-bottom: 25px;
+}
 .add-participation-project .delete-row {
   float: right;
   margin-top: -75px;
@@ -7373,6 +7376,9 @@ ul.gardens {
 }
 #new-bed form .select2-choice {
   height: 32px;
+}
+#new-bed form .add-row {
+  margin-bottom: 25px;
 }
 #new-bed form .delete-row {
   display: block;
