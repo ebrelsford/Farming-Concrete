@@ -12,22 +12,64 @@
 {% endblock %}
 
 {% block record_detail %}
-    <div class="field-participants">
-        {{ record.participants }} participants
-    </div>
-    <div class="field-skills-shared">
-        {{ record.skills_shared }} skills shared
-    </div>
-    <div class="field-concepts-shared">
-        {{ record.concepts_shared }} concepts shared
-    </div>
-    <div class="field-projects-proposed">
-        {{ record.projects_proposed }} projects proposed
-    </div>
-    <div class="field-ideas-to-learn">
-        {{ record.ideas_to_learn }} ideas to learn
-    </div>
-    <div class="field-intentions-to-collaborate">
-        {{ record.intentions_to_collaborate }} intentions to collaborate
+    <div class="field-skills-detail">
+        <div class="field-participants">
+            {{ record.participants }} participants
+        </div>
+
+        {% if record.skills_shared %}
+            <div class="field-skill field-skills-shared">
+                <div class="field-skill-value">
+                    {{ record.skills_shared }} skills shared
+                </div>
+                <div class="field-skill-examples">
+                    {{ record.skills_shared_examples|default:"" }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if record.concepts_shared %}
+            <div class="field-skill field-concepts-shared">
+                <div class="field-skill-value">
+                    {{ record.concepts_shared }} concepts shared
+                </div>
+                <div class="field-skill-examples">
+                    {{ record.concepts_shared_examples|default:"" }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if record.projects_proposed %}
+            <div class="field-skill field-projects-proposed">
+                <div class="field-skill-value">
+                    {{ record.projects_proposed }} projects proposed
+                </div>
+                <div class="field-skill-examples">
+                    {{ record.projects_proposed_examples|default:"" }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if record.ideas_to_learn %}
+            <div class="field-skill field-ideas-to-learn">
+                <div class="field-skill-value">
+                    {{ record.ideas_to_learn }} ideas to learn
+                </div>
+                <div class="field-skill-examples">
+                    {{ record.ideas_to_learn_examples|default:"" }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if record.intentions_to_collaborate %}
+            <div class="field-skill field-intentions-to-collaborate">
+                <div class="field-skill-value">
+                    {{ record.intentions_to_collaborate }} intentions to collaborate
+                </div>
+                <div class="field-skill-examples">
+                    {{ record.intentions_to_collaborate_examples|default:"" }}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

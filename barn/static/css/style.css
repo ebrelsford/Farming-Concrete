@@ -7218,83 +7218,26 @@ td.date {
     width: 16.66666667%;
   }
 }
+.skills-smarts-record .field-skills-detail {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .skills-smarts-record .field-skills-detail {
+    float: left;
+    width: 66.66666667%;
+  }
+}
 .skills-smarts-record .field-participants {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
   font-weight: bold;
 }
-@media (min-width: 768px) {
-  .skills-smarts-record .field-participants {
-    float: left;
-    width: 8.33333333%;
-  }
+.skills-smarts-record .field-skill {
+  margin-top: 15px;
 }
-.skills-smarts-record .field-skills-shared {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+.skills-smarts-record .field-skill-value {
   font-weight: bold;
-}
-@media (min-width: 768px) {
-  .skills-smarts-record .field-skills-shared {
-    float: left;
-    width: 8.33333333%;
-  }
-}
-.skills-smarts-record .field-concepts-shared {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: bold;
-}
-@media (min-width: 768px) {
-  .skills-smarts-record .field-concepts-shared {
-    float: left;
-    width: 8.33333333%;
-  }
-}
-.skills-smarts-record .field-projects-proposed {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: bold;
-}
-@media (min-width: 768px) {
-  .skills-smarts-record .field-projects-proposed {
-    float: left;
-    width: 8.33333333%;
-  }
-}
-.skills-smarts-record .field-ideas-to-learn {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: bold;
-}
-@media (min-width: 768px) {
-  .skills-smarts-record .field-ideas-to-learn {
-    float: left;
-    width: 16.66666667%;
-  }
-}
-.skills-smarts-record .field-intentions-to-collaborate {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: bold;
-}
-@media (min-width: 768px) {
-  .skills-smarts-record .field-intentions-to-collaborate {
-    float: left;
-    width: 16.66666667%;
-  }
 }
 .yumyuck-change-record .field-vegetable {
   position: relative;
