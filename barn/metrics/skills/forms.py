@@ -9,6 +9,6 @@ class SmartsAndSkillsForm(RecordForm):
 
     class Meta:
         model = SmartsAndSkills
-        fields = ('recorded', 'photo', 'participants', 'skills_shared',
+        fields = ('recorded', 'participants', 'skills_shared',
                   'concepts_shared', 'projects_proposed', 'ideas_to_learn',
                   'intentions_to_collaborate', 'added_by', 'garden',)

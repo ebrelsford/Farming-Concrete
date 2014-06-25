@@ -17,13 +17,6 @@ class SmartsAndSkills(BaseMetricRecord):
         _('# of intentions to collaborate'),
     )
 
-    photo = models.ImageField(_('photo'),
-        help_text=_('The photo you took to record this'),
-        upload_to='skills_smarts',
-        blank=True,
-        null=True,
-    )
-
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(SmartsAndSkills, cls).get_summarize_kwargs()
