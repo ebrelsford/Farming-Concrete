@@ -123,6 +123,11 @@ class ProgramReach(BaseMetricRecord):
         help_text=_('Features this program included'),
         verbose_name=_('features'),
     )
+    other_features = models.CharField(_('other features'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
 
     @classmethod
     def get_summarize_kwargs(cls):

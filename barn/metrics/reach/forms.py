@@ -23,7 +23,7 @@ class ProgramReachForm(RecordForm):
             yield self[field]
 
     def post_fields(self):
-        fields = ('features',)
+        fields = ('features', 'other_features',)
         for field in fields:
             yield self[field]
 
@@ -53,7 +53,7 @@ class ProgramReachForm(RecordForm):
                   'age_35_44', 'age_45_54', 'age_55_64', 'age_65',
                   'gender_male', 'gender_female', 'gender_other',
                   'zipcode_inside', 'zipcode_outside', 'features', 'added_by',
-                  'garden',)
+                  'garden', 'other_features',)
         widgets = {
             'collaborated_with_organization': NullBooleanSelect(),
             'collaboration_first': NullBooleanSelect(),

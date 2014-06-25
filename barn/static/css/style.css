@@ -7261,7 +7261,6 @@ td.date {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-  font-weight: bold;
 }
 @media (min-width: 768px) {
   .reach-program-record .field-details {
@@ -7275,6 +7274,7 @@ td.date {
 }
 .reach-program-record .field-value {
   display: inline-block;
+  font-weight: bold;
   width: 30%;
 }
 .recipes-tally-record .field-recorded {
