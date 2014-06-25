@@ -6872,7 +6872,7 @@ td.date {
 @media (min-width: 768px) {
   .participation-project-record .field-project {
     float: left;
-    width: 16.66666667%;
+    width: 25%;
   }
 }
 .participation-project-record .field-gardener-hours-list {

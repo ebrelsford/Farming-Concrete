@@ -1,5 +1,5 @@
 {% extends "metrics/_list_records.html" %}
-{% load participation_tags %}
+{% load i18n participation_tags %}
 
 {% block record_class %}participation-project-record{% endblock %}
 
@@ -7,15 +7,18 @@
     <div class="field-project">{{ record.project.name }}</div>
     <div class="field-gardener-hours-list">
         {% for gardener in garden_gardeners %}
-            <div class="field-gardener-hours">
-                <div class="field-gardener">
-                    {{ gardener }}
+            {% gardener_project_hours gardener for record as projecthour %}
+            {% if projecthour.hours %}
+                <div class="field-gardener-hours">
+                    <div class="field-gardener">
+                        {{ gardener }}:
+                    </div>
+                    <div class="field-hours">
+                        {{ projecthour.hours|floatformat }}
+                        {% trans "hour" %}{{ projecthour.hours|pluralize }}
+                    </div>
                 </div>
-                <div class="field-hours">
-                    {% gardener_project_hours gardener for record as projecthour %}
-                    {{ projecthour.hours|floatformat }}
-                </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
