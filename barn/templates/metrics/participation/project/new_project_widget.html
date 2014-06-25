@@ -6,6 +6,6 @@
 	</optgroup>{% endif %}{% endfor %}
 </select>
 
-<button type="button" data-toggle="modal" data-target="#new-project-modal" href="{% url "participation_project_add" %}" class="btn-participation-new-project btn btn-default btn-xs" style="margin-top: 5px;">
-    {% trans "Add a new project" %}
+<button type="button" data-toggle="modal" data-target="#new-project-modal" href="{% url "participation_project_add" %}" class="btn-new-project btn btn-link">
+    + {% trans "Add a new project" %}
 </button>

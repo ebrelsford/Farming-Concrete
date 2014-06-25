@@ -6,6 +6,6 @@
 	</optgroup>{% endif %}{% endfor %}
 </select>
 
-<button type="button" data-toggle="modal" data-target="#new-gardener-modal" href="{% url "harvestcount_gardener_add" %}" class="btn-new-gardener btn btn-default btn-xs" style="margin-top: 5px;">
-    {% trans "Add a new gardener" %}
+<button type="button" data-toggle="modal" data-target="#new-gardener-modal" href="{% url "harvestcount_gardener_add" %}" class="btn-new-gardener btn btn-link">
+    + {% trans "Add a new gardener" %}
 </button>

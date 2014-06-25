@@ -27,7 +27,7 @@ define(
 
         $(document).ready(function () {
             var widget = new NewProjectWidget({
-                buttonSelector: '.btn-participation-new-project',
+                buttonSelector: '.btn-new-project',
                 errorMessage: 'There was an error while adding your project. Please try again.',
                 selectSelector: 'select[name=project]'
             });

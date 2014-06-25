@@ -5538,6 +5538,16 @@ td.visible-print {
     display: none !important;
   }
 }
+.make-new-widget-btn {
+  color: #849f38;
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 0;
+}
+.make-new-widget-btn:hover,
+.make-new-widget-btn:active {
+  color: #849f38;
+}
 body {
   margin-bottom: 50px;
   font-family: Arial, Helvetica;
@@ -6014,6 +6024,26 @@ ul.errorlist {
 .btn-new-crop-variety:active {
   color: #849f38;
 }
+.btn-new-gardener {
+  color: #849f38;
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 0;
+}
+.btn-new-gardener:hover,
+.btn-new-gardener:active {
+  color: #849f38;
+}
+.btn-new-project {
+  color: #849f38;
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 0;
+}
+.btn-new-project:hover,
+.btn-new-project:active {
+  color: #849f38;
+}
 .add-program-reach-page table,
 .add-participation-hours-page table {
   /* Wider table, make it overflow-x */
@@ -6426,6 +6456,58 @@ td.date {
     float: left;
     width: 50%;
   }
+}
+.add-participation-project .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-project .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-participation-project .field-project {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-project .field-project {
+    float: left;
+    width: 50%;
+  }
+}
+.add-participation-project .field-gardener {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-project .field-gardener {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.add-participation-project .field-hours {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-participation-project .field-hours {
+    float: left;
+    width: 25%;
+  }
+}
+.add-participation-project .delete-row {
+  float: right;
+  margin-top: -75px;
 }
 .record {
   margin-left: 0;

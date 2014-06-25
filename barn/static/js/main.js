@@ -121,7 +121,7 @@ define(
             require(['photogallery']);
         }
 
-        if ($('.btn-participation-new-project').length > 0) {
+        if ($('.btn-new-project').length > 0) {
             require(['newprojectwidget']);
         }
 

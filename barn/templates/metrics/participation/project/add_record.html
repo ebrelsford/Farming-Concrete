@@ -1,23 +1,27 @@
-<h2>Add participation hours by project</h2>
+{% extends "metrics/add_record.html" %}
 
-<form class="form-horizontal" method="post" 
-    {% if multipart %}enctype="multipart/form-data"{% endif %}
-    {% if action %}action="{{ action }}"{% endif %}
-    >
+{% block add_record_form %}
+    <form class="form-horizontal" method="post" 
+        {% if multipart %}enctype="multipart/form-data"{% endif %}
+        {% if action %}action="{{ action }}"{% endif %}
+        >
 
-    {% include "forms/head.html" %}
+        {% include "forms/head.html" %}
 
-    <div>
-        {% for field in form.visible_fields %}
-            {% include "forms/field.html" with field=field %}
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.project %}
+        </div>
+
+        {{ projecthours_formset.management_form }}
+
+        {% for projecthours_form in projecthours_formset.forms %}
+            {% include "metrics/participation/project/_projecthours_form.html" with form=projecthours_form %}
         {% endfor %}
-    </div>
 
-    {{ projecthours_formset.management_form }}
-
-    {% for projecthours_form in projecthours_formset.forms %}
-        {% include "metrics/participation/project/_projecthours_form.html" with form=projecthours_form %}
-    {% endfor %}
-
-    {% include "forms/buttons.html" %}
-</form>
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}
