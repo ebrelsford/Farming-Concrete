@@ -6541,7 +6541,12 @@ td.date {
 @media (min-width: 768px) {
   .add-skills-smarts .field-participants {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-skills-smarts .field-participants {
+    margin-left: 16.66666667%;
   }
 }
 .add-skills-smarts .field-skills_shared {
@@ -6553,7 +6558,7 @@ td.date {
 @media (min-width: 768px) {
   .add-skills-smarts .field-skills_shared {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
   }
 }
 .add-skills-smarts .field-concepts_shared {
@@ -6565,7 +6570,7 @@ td.date {
 @media (min-width: 768px) {
   .add-skills-smarts .field-concepts_shared {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
   }
 }
 .add-skills-smarts .field-projects_proposed {
@@ -6577,7 +6582,7 @@ td.date {
 @media (min-width: 768px) {
   .add-skills-smarts .field-projects_proposed {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
   }
 }
 .add-skills-smarts .field-ideas_to_learn {
@@ -6589,7 +6594,7 @@ td.date {
 @media (min-width: 768px) {
   .add-skills-smarts .field-ideas_to_learn {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
   }
 }
 .add-skills-smarts .field-intentions_to_collaborate {
@@ -6601,7 +6606,7 @@ td.date {
 @media (min-width: 768px) {
   .add-skills-smarts .field-intentions_to_collaborate {
     float: left;
-    width: 25%;
+    width: 33.33333333%;
   }
 }
 .record {

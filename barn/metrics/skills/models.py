@@ -8,29 +8,13 @@ from ..registry import register
 
 class SmartsAndSkills(BaseMetricRecord):
 
-    participants = models.IntegerField(_('participants'),
-        help_text=_('The number of participants'),
-    )
-
-    skills_shared = models.IntegerField(_('skills shared'),
-        help_text=_('The number of skills shared'),
-    )
-
-    concepts_shared = models.IntegerField(_('concepts shared'),
-        help_text=_('The number of concepts shared'),
-    )
-
-    projects_proposed = models.IntegerField(_('projects proposed'),
-        help_text=_('The number of projects proposed'),
-    )
-
-    ideas_to_learn = models.IntegerField(_('ideas to learn'),
-        help_text=_('The number of ideas to learn'),
-    )
-
+    participants = models.IntegerField(_('number of participants'))
+    skills_shared = models.IntegerField(_('# of skills shared'))
+    concepts_shared = models.IntegerField(_('# of concepts shared'))
+    projects_proposed = models.IntegerField(_('# of projects proposed'))
+    ideas_to_learn = models.IntegerField(_('# of ideas to learn'))
     intentions_to_collaborate = models.IntegerField(
-        _('intentions to collaborate'),
-        help_text=_('The number of intentions to collaborate'),
+        _('# of intentions to collaborate'),
     )
 
     photo = models.ImageField(_('photo'),
