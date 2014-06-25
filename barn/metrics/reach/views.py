@@ -59,4 +59,4 @@ class ProgramReachGardenCSV(ProgramReachMixin, MetricGardenCSVView):
                 'age_10', 'age_10_14', 'age_15_19', 'age_20_24', 'age_25_34',
                 'age_35_44', 'age_45_54', 'age_55_64', 'age_65', 'gender_male',
                 'gender_female', 'gender_other', 'zipcode_inside',
-                'zipcode_outside', 'features',)
+                'zipcode_outside', 'features', 'other_features',)
