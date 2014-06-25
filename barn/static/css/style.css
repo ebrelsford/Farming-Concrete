@@ -6457,6 +6457,10 @@ td.date {
     width: 50%;
   }
 }
+.add-participation-project .row {
+  margin-left: 0;
+  margin-right: 0;
+}
 .add-participation-project .field-recorded {
   position: relative;
   min-height: 1px;
