@@ -15,9 +15,8 @@ from farmingconcrete.decorators import in_section, year_in_session
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
-from generic.views import (LoginRequiredMixin,
-                           PermissionRequiredMixin, RedirectToPreviousPageMixin,
-                           TitledPageMixin)
+from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
+                           RedirectToPreviousPageMixin, TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, RecordsMixin, UserGardenView)
 from .forms import GardenerForm, HarvestForm
