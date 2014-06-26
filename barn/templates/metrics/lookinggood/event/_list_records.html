@@ -39,7 +39,7 @@
                             </a>
                         </div>
                         <div class="field-photos-photo-caption">
-                            {{ photo.caption }}
+                            {{ photo.caption|default:"" }}
                         </div>
                     </div>
                 {% endfor %}
