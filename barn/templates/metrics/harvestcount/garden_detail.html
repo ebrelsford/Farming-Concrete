@@ -3,10 +3,6 @@
 
 {% block body_class %}{{ block.super }} add-harvest-page{% endblock %}
 
-{% block add_record %}
-    {% include "metrics/harvestcount/harvests/add_snippet.html" %}
-{% endblock %}
-
 {% block list_records %}
     {% include "metrics/harvestcount/harvests/list_snippet.html" %}
 {% endblock %}

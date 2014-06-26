@@ -1,0 +1,42 @@
+{% extends "metrics/add_record.html" %}
+{% load widget_tweaks %}
+
+{% block add_record_form %}
+    <section id="new-harvest">
+        <form class="form-horizontal" method="post">
+            {% include "forms/head.html" %}
+
+            <div class="row">
+                {% include "forms/field.html" with field=form.recorded %}
+                {% include "forms/field.html" with field=form.gardener %}
+                {% include "forms/field.html" with field=form.crop %}
+            </div>
+
+            <div class="row">
+                {% include "forms/field.html" with field=form.weight %}
+
+                <div class="field-plants-area form-group required">
+                    {{ form.plants.errors }}{{ form.area.errors }}
+                    <div>
+                        <label for="id_plants">Plants or area</label>
+                        <span id="plants_help" class="help_link tooltip-trigger" data-title="Enter the number of plants that the harvest came from. If the type of plant grows densely and difficult to count, enter the area the plant was growing in." data-container="body">?</span>
+                    </div>
+                    <div>
+                        <div class="controls">
+                            <div class="input-group">
+                                {% render_field form.plants class+="form-control" %}
+                                <span class="input-group-addon">plants</span>
+                            </div>
+                            <div class="input-group">
+                                {% render_field form.area class+="form-control" %}
+                                <span class="input-group-addon">sq ft</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% include "forms/buttons.html" %}
+        </form>
+    </section>
+{% endblock %}

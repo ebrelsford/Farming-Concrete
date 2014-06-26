@@ -5,24 +5,21 @@ import unicodecsv
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponseForbidden, HttpResponse, Http404
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic.edit import CreateView, FormMixin
+from django.views.generic.edit import CreateView
 
 from accounts.utils import get_profile
-from barn.mobile import is_mobile
-from crops.models import Crop
 from farmingconcrete.decorators import in_section, year_in_session
 from farmingconcrete.models import Garden
 from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
-from generic.views import (InitializeUsingGetMixin, LoginRequiredMixin,
+from generic.views import (LoginRequiredMixin,
                            PermissionRequiredMixin, RedirectToPreviousPageMixin,
                            TitledPageMixin)
-from ..views import (AllGardensView, GardenView, IndexView, MetricMixin,
-                     RecordsMixin, UserGardenView)
+from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
+                     MetricMixin, RecordsMixin, UserGardenView)
 from .forms import GardenerForm, HarvestForm
 from .models import Gardener, Harvest
 
@@ -64,9 +61,13 @@ class HarvestcountIndex(HarvestcountMixin, IndexView):
         return context
 
 
-class GardenDetails(HarvestcountMixin, FormMixin, GardenView):
+class GardenDetails(HarvestcountMixin, GardenDetailAddRecordView):
     form_class = HarvestForm
     metric_model = Harvest
+    template_name = 'metrics/harvestcount/garden_detail.html'
+
+    def get_success_message(self):
+        return 'Successfully added harvest to %s' % self.object
 
     def get_initial(self):
         garden = self.get_object()
@@ -196,111 +197,6 @@ def download_garden_harvestcount_as_csv(request, pk=None, year=None):
         ])
 
     return response
-
-
-class HarvestAddView(LoginRequiredMixin, InitializeUsingGetMixin, CreateView):
-    form_class = HarvestForm
-    template_name = 'metrics/harvestcount/harvests/add.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        """
-        Prepare initial and object variables before dispatching.
-        """
-        self.garden = get_object_or_404(Garden, pk=kwargs['id'])
-        self.year = kwargs['year']
-        self.is_mobile = is_mobile(request)
-
-        # initialize initial, as the same values will be stored in the object
-        self.initial = self._initial_init(request, self.garden)
-        self.crop = self.initial['crop']
-        self.gardener = self.initial['gardener']
-
-        self.initial['garden'] = self.garden.pk
-
-        return super(HarvestAddView, self).dispatch(request, *args, **kwargs)
-
-    def _initial_init(self, request, garden):
-        """
-        Initialize the initial dict sent to the form.
-        """
-        area = None
-        gardener = None
-        recorded = date.today()
-        plants = None
-        crop = None
-
-        try:
-            crop_id = request.GET['crop']
-            crop = Crop.objects.get(id=crop_id)
-        except Exception:
-            pass
-
-        try:
-            gardener_id = request.GET['gardener']
-            gardener = Gardener.objects.get(id=gardener_id)
-        except Exception:
-            pass
-
-        if not gardener:
-            # if user is a gardener at this garden, use that
-            try:
-                current_gardener = get_profile(request.user).gardener
-                if current_gardener.garden == garden:
-                    gardener = current_gardener
-            except Exception:
-                pass
-
-        if not gardener:
-            # finally, if someone added a harvest here recently, use that
-            try:
-                most_recent_harvest = Harvest.objects.filter(
-                    gardener__garden=garden,
-                ).order_by('-added')[0]
-                recorded = most_recent_harvest.recorded
-                gardener = most_recent_harvest.gardener.pk
-            except Exception:
-                pass
-
-        if crop and gardener and not request.GET.get('plants', None):
-            try:
-                most_recent_crop_harvest = Harvest.objects.filter(
-                    gardener=gardener,
-                    crop=crop,
-                ).order_by('-added')[0]
-                area = most_recent_crop_harvest.area
-                plants = most_recent_crop_harvest.plants
-            except Exception:
-                pass
-
-        return {
-            'area': area,
-            'gardener': gardener,
-            'recorded': recorded,
-            'plants': plants,
-            'crop': crop,
-        }
-
-    def get_context_data(self, **kwargs):
-        context = super(HarvestAddView, self).get_context_data(**kwargs)
-        context.update({
-            'garden': self.garden,
-            'gardener': self.gardener,
-            'crop': self.crop,
-        })
-        return context
-
-    def get_success_url(self):
-        kwargs = { 'pk': self.garden.pk, }
-        if self.year:
-            kwargs['year'] = self.year
-        return reverse('harvestcount_garden_details', kwargs=kwargs)
-
-    def form_invalid(self, form):
-        try:
-            self.crop = Crop.objects.get(id=form.data['crop'])
-        except Exception:
-            pass
-        return super(HarvestAddView, self).form_invalid(form)
 
 
 class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,

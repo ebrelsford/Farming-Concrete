@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput)
+from django.forms import ModelForm, HiddenInput, ModelChoiceField, TextInput
 
 from floppyforms.widgets import Select
 
@@ -7,7 +6,7 @@ from crops.forms import AddNewCropWidget
 from crops.models import Crop
 from farmingconcrete.models import Garden
 
-from ..forms import RecordedInput
+from ..forms import RecordForm, RecordedField
 from .models import Gardener, Harvest
 
 
@@ -23,14 +22,8 @@ class GardenerForm(ModelForm):
         exclude = ('added_by', 'updated_by')
 
 
-class HarvestForm(ModelForm):
-    garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
-                              widget=HiddenInput())
-    added_by = ModelChoiceField(
-        label='added_by',
-        queryset=User.objects.all(),
-        widget=HiddenInput()
-    )
+class HarvestForm(RecordForm):
+    recorded = RecordedField(label='Date')
     crop = ModelChoiceField(
         label="Crop name",
         queryset=Crop.objects.filter(needs_moderation=False),
@@ -57,7 +50,6 @@ class HarvestForm(ModelForm):
             'area': TextInput(attrs={'size': 5, 'maxlength': 5}),
             'gardener': AddNewGardenerWidget(),
             'plants': TextInput(attrs={'size': 5, 'maxlength': 5}),
-            'recorded': RecordedInput(),
         }
 
 
