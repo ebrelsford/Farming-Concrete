@@ -16,8 +16,12 @@
             </div>
         </div>
 
-        {{ photo_formset.management_form }}
+        {{ item_formset.management_form }}
+        {% for item_form in item_formset.forms %}
+            {% include "metrics/lookinggood/event/_item_form.html" with form=item_form %}
+        {% endfor %}
 
+        {{ photo_formset.management_form }}
         {% for photo_form in photo_formset.forms %}
             {% include "metrics/lookinggood/event/_photo_form.html" with form=photo_form %}
         {% endfor %}

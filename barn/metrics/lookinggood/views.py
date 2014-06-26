@@ -4,7 +4,8 @@ from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin,
                      UserGardenView)
-from .forms import LookingGoodEventForm, LookingGoodPhotoFormSet
+from .forms import (LookingGoodEventForm, LookingGoodItemFormSet,
+                    LookingGoodPhotoFormSet)
 from .models import LookingGoodEvent
 
 
@@ -53,16 +54,22 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
         if self.request.POST:
             context['photo_formset'] = LookingGoodPhotoFormSet(self.request.POST,
                                                                self.request.FILES)
+            context['item_formset'] = LookingGoodItemFormSet(self.request.POST)
         else:
             context['photo_formset'] = LookingGoodPhotoFormSet()
+            context['item_formset'] = LookingGoodItemFormSet()
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         photo_formset = context['photo_formset']
-        if photo_formset.is_valid():
-            photo_formset.instance = form.save()
+        item_formset = context['item_formset']
+        if photo_formset.is_valid() and item_formset.is_valid():
+            instance = form.save()
+            photo_formset.instance = instance
             photo_formset.save()
+            item_formset.instance = instance
+            item_formset.save()
             return super(LookingGoodEventGardenDetails, self).form_valid(form)
         else:
             return self.form_invalid(form)
@@ -76,4 +83,4 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
 class LookingGoodEventGardenCSV(LookingGoodEventMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('recorded', 'total_tags', 'comments',)
+        return ('recorded', 'total_tags',)

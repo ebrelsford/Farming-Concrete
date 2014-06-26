@@ -18,6 +18,18 @@ class LookingGoodPhoto(models.Model):
     )
 
 
+class LookingGoodItem(models.Model):
+    event = models.ForeignKey('LookingGoodEvent',
+        verbose_name=_('event')
+    )
+
+    name = models.CharField(_('Tagged item'),
+        max_length=150,
+    )
+    tags = models.PositiveIntegerField(_('# of tags'))
+    comments = models.TextField(_('Comments'))
+
+
 class LookingGoodEvent(BaseMetricRecord):
     total_participants = models.PositiveIntegerField(_('# of participants'),
         default=0,
@@ -27,13 +39,6 @@ class LookingGoodEvent(BaseMetricRecord):
     )
     items_tagged = models.PositiveIntegerField(_('# of items tagged'),
         default=0,
-    )
-
-    comments = models.TextField(_('comments'),
-        blank=True,
-        null=True,
-        help_text=_('Log some tag comments that are particularly striking, '
-                    'insightful, or interesting.'),
     )
 
     @classmethod

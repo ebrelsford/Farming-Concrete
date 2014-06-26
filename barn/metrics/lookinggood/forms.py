@@ -1,10 +1,8 @@
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 
-from floppyforms.widgets import TimeInput
-
 from ..forms import RecordedField, RecordForm
-from .models import LookingGoodEvent, LookingGoodPhoto
+from .models import LookingGoodEvent, LookingGoodItem, LookingGoodPhoto
 
 
 class LookingGoodPhotoForm(ModelForm):
@@ -19,16 +17,18 @@ LookingGoodPhotoFormSet = inlineformset_factory(LookingGoodEvent, LookingGoodPho
     form=LookingGoodPhotoForm,
 )
 
-class EventTimeInput(TimeInput):
 
-    def __init__(self, attrs=None, *args, **kwargs):
-        try:
-            if not attrs or not 'step' in attrs:
-                attrs = {}
-                attrs['step'] = 5 * 60 # 5 minutes
-        except Exception:
-            pass
-        super(EventTimeInput, self).__init__(attrs=attrs, *args, **kwargs)
+class LookingGoodItemForm(ModelForm):
+
+    class Meta:
+        model = LookingGoodItem
+
+
+LookingGoodItemFormSet = inlineformset_factory(LookingGoodEvent, LookingGoodItem,
+    can_delete=False,
+    extra=1,
+    form=LookingGoodItemForm,
+)
 
 
 class LookingGoodEventForm(RecordForm):
@@ -37,4 +37,4 @@ class LookingGoodEventForm(RecordForm):
     class Meta:
         model = LookingGoodEvent
         fields = ('recorded', 'total_tags', 'total_participants',
-                  'items_tagged', 'comments', 'added_by', 'garden',)
+                  'items_tagged', 'added_by', 'garden',)

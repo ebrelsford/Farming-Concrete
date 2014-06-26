@@ -6208,6 +6208,9 @@ td.date {
   margin-left: 0;
   margin-right: 0;
 }
+.add-lookinggood-event .lookinggood-item-formset {
+  margin-top: 15px;
+}
 .add-lookinggood-event .field-recorded {
   position: relative;
   min-height: 1px;
@@ -6256,6 +6259,30 @@ td.date {
   .add-lookinggood-event .field-items_tagged {
     float: left;
     width: 66.66666667%;
+  }
+}
+.add-lookinggood-event .field-item-left {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-lookinggood-event .field-item-left {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.add-lookinggood-event .field-comments {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-lookinggood-event .field-comments {
+    float: left;
+    width: 58.33333333%;
   }
 }
 .add-rainwater-harvest .dimensions-separator {
