@@ -6208,7 +6208,17 @@ td.date {
   margin-left: 0;
   margin-right: 0;
 }
+.add-lookinggood-event .add-row {
+  margin-bottom: 25px;
+}
 .add-lookinggood-event .lookinggood-item-formset {
+  margin-top: 15px;
+}
+.add-lookinggood-event .lookinggood-item-formset .delete-row {
+  float: right;
+  margin-top: -50px;
+}
+.add-lookinggood-event .photo-formset {
   margin-top: 15px;
 }
 .add-lookinggood-event .field-recorded {
@@ -6270,7 +6280,7 @@ td.date {
 @media (min-width: 768px) {
   .add-lookinggood-event .field-item-left {
     float: left;
-    width: 41.66666667%;
+    width: 33.33333333%;
   }
 }
 .add-lookinggood-event .field-comments {

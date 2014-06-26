@@ -14,8 +14,18 @@ define(
 
         $(document).ready(function () {
 
+            $('.lookinggood-item-formset').formset({
+                addCssClass: 'add-row btn btn-default',
+                addText: 'Add another object',
+                added: function (row) {
+                    var gardenPk = $('.lookinggood-item-formset :input[name$=garden]:eq(0)').val();
+                    row.find(':input[name$=garden]').val(gardenPk);
+                },
+                prefix: 'lookinggooditem_set'
+            });
+
             $('.photo-formset').formset({
-                addCssClass: 'add-row col-lg-6 col-lg-offset-4',
+                addCssClass: 'add-row btn btn-default',
                 addText: 'Add another photo',
                 added: function (row) {
                     var gardenPk = $('.photo-formset :input[name$=garden]:eq(0)').val();
