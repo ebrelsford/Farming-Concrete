@@ -6869,6 +6869,82 @@ td.date {
     width: 50%;
   }
 }
+.add-sales .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-sales .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-sales .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-sales .field-product {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-sales .field-product {
+    float: left;
+    width: 25%;
+  }
+}
+.add-sales .field-unit {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-sales .field-unit {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.add-sales .field-unit_price {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-sales .field-unit_price {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.add-sales .field-units_sold {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-sales .field-units_sold {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.add-sales .field-total_price {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-sales .field-total_price {
+    float: left;
+    width: 25%;
+  }
+}
 .add-participation-project .row {
   margin-left: 0;
   margin-right: 0;

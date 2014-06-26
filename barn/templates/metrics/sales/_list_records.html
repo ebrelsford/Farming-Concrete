@@ -8,6 +8,6 @@
         {{ record.units_sold|floatformat:"0" }}
         {{ record.unit }}
     </div>
-    <div class="field-unit-price">at ${{ record.unit_price|floatformat:"2" }} each</div>
-    <div class="field-total-price">total: ${{ record.total_price|floatformat:"2" }}</div>
+    <div class="field-unit-price">${{ record.unit_price|floatformat:"2" }} each</div>
+    <div class="field-total-price">${{ record.total_price|floatformat:"2" }} total</div>
 {% endblock %}

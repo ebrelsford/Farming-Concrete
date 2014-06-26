@@ -1,0 +1,21 @@
+{% extends "metrics/add_record.html" %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post">
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.product %}
+            {% include "forms/field.html" with field=form.unit %}
+            {% include "forms/field.html" with field=form.unit_price %}
+            {% include "forms/field.html" with field=form.units_sold %}
+            {% include "forms/field.html" with field=form.total_price %}
+        </div>
+
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}
