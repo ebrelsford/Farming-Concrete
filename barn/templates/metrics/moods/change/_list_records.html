@@ -10,11 +10,62 @@
 
 {% block record_detail %}
     <div class="field-counts">
-        {% for mood_count in record.moodcount_set.all %}
-            <div class="field-mood-count">
-                <div class="field-mood">{{ mood_count.mood }}:</div>
-                <div class="field-count">{{ mood_count.count }}</div>
+        <div class="moods-labels">
+            <div class="moods-label-in">Attitudes walking in</div>
+            <div class="moods-label-out">Attitudes walking out</div>
+        </div>
+
+        <div class="moods-positive">
+            <div class="moods-in">
+                {% for mood_count in record.moodcount_set.all %}
+                    {% ifequal mood_count.counted_time "in" %}
+                        {% ifequal mood_count.mood.type "positive" %}
+                            <div class="field-mood-count">
+                                <div class="field-mood">{{ mood_count.mood }}:</div>
+                                <div class="field-count">{{ mood_count.count }}</div>
+                            </div>
+                        {% endifequal %}
+                    {% endifequal %}
+                {% endfor %}
             </div>
-        {% endfor %}
+            <div class="moods-out">
+                {% for mood_count in record.moodcount_set.all %}
+                    {% ifequal mood_count.counted_time "out" %}
+                        {% ifequal mood_count.mood.type "positive" %}
+                            <div class="field-mood-count">
+                                <div class="field-mood">{{ mood_count.mood }}:</div>
+                                <div class="field-count">{{ mood_count.count }}</div>
+                            </div>
+                        {% endifequal %}
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="moods-negative">
+            <div class="moods-in">
+                {% for mood_count in record.moodcount_set.all %}
+                    {% ifequal mood_count.counted_time "in" %}
+                        {% ifequal mood_count.mood.type "negative" %}
+                            <div class="field-mood-count">
+                                <div class="field-mood">{{ mood_count.mood }}:</div>
+                                <div class="field-count">{{ mood_count.count }}</div>
+                            </div>
+                        {% endifequal %}
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+            <div class="moods-out">
+                {% for mood_count in record.moodcount_set.all %}
+                    {% ifequal mood_count.counted_time "out" %}
+                        {% ifequal mood_count.mood.type "negative" %}
+                            <div class="field-mood-count">
+                                <div class="field-mood">{{ mood_count.mood }}:</div>
+                                <div class="field-count">{{ mood_count.count }}</div>
+                            </div>
+                        {% endifequal %}
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

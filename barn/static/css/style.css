@@ -5336,6 +5336,14 @@ button.close {
 .record:after,
 .cropcount-bed-record .field-patch:before,
 .cropcount-bed-record .field-patch:after,
+.moods-change-record .field-counts .field-mood-count:before,
+.moods-change-record .field-counts .field-mood-count:after,
+.moods-change-record .field-counts .moods-labels:before,
+.moods-change-record .field-counts .moods-labels:after,
+.moods-change-record .field-counts .moods-positive:before,
+.moods-change-record .field-counts .moods-positive:after,
+.moods-change-record .field-counts .moods-negative:before,
+.moods-change-record .field-counts .moods-negative:after,
 .summary:before,
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
@@ -5372,6 +5380,10 @@ button.close {
 .add-yumyuck-change .field-after:after,
 .record:after,
 .cropcount-bed-record .field-patch:after,
+.moods-change-record .field-counts .field-mood-count:after,
+.moods-change-record .field-counts .moods-labels:after,
+.moods-change-record .field-counts .moods-positive:after,
+.moods-change-record .field-counts .moods-negative:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after,
 .garden-list-garden:after {
@@ -7319,19 +7331,94 @@ td.date {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-  font-weight: bold;
 }
 @media (min-width: 768px) {
   .moods-change-record .field-counts {
     float: left;
-    width: 50%;
+    width: 58.33333333%;
+  }
+}
+.moods-change-record .field-counts .field-mood-count {
+  margin-left: 0;
+  margin-right: 0;
+}
+.moods-change-record .field-counts .field-mood {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-counts .field-mood {
+    float: left;
+    width: 66.66666667%;
   }
 }
 .moods-change-record .field-counts .field-count {
-  display: inline-block;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+  padding-right: 0;
+  text-align: right;
 }
-.moods-change-record .field-counts .field-mood {
-  display: inline-block;
+@media (min-width: 768px) {
+  .moods-change-record .field-counts .field-count {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.moods-change-record .field-counts .moods-labels {
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+.moods-change-record .field-counts .moods-labels > div {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-counts .moods-labels > div {
+    float: left;
+    width: 50%;
+  }
+}
+.moods-change-record .field-counts .moods-positive {
+  margin-left: 0;
+  margin-right: 0;
+}
+.moods-change-record .field-counts .moods-negative {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 15px;
+}
+.moods-change-record .field-counts .moods-in {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-counts .moods-in {
+    float: left;
+    width: 50%;
+  }
+}
+.moods-change-record .field-counts .moods-out {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .moods-change-record .field-counts .moods-out {
+    float: left;
+    width: 50%;
+  }
 }
 .participation-geography-record .record-row-content {
   position: relative;
