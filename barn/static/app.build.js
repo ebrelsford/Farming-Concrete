@@ -18,6 +18,7 @@
         'addharvestpage',
         'addlookinggoodeventpage',
         'addparticipationhourspage',
+        'addsales',
         'chosen.jquery_ready',
         'leaflet.basicmap',
         'landfilldiversionvolumechart',

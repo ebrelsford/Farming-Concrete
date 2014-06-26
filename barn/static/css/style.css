@@ -6945,6 +6945,9 @@ td.date {
     width: 25%;
   }
 }
+.add-sales .field-total_price :input:before {
+  content: "$";
+}
 .add-participation-project .row {
   margin-left: 0;
   margin-right: 0;

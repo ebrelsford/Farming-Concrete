@@ -105,6 +105,10 @@ define(
             require(['addparticipationhourspage']);
         }
 
+        if ($('.add-sales').length > 0) {
+            require(['addsales']);
+        }
+
         if ($('.record-list-page').length > 0) {
             require(['listrecords']);
         }
