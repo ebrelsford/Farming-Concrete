@@ -12,27 +12,9 @@
         {{ hidden }}
     {% endfor %}
 
-    {% for field in form.visible_fields %}
-        <div class="col-lg-4 col-md-5 col-sm-4 control-label">
-            {{ field.label_tag }}
-        </div>
-        <div class="col-lg-6 col-md-7 col-sm-8">
+    <div class="row">
+        {% include "forms/field.html" with field=form.photo %}
+        {% include "forms/field.html" with field=form.caption %}
+    </div>
 
-            <div class="controls">
-                {% render_field field class+="form-control" %}
-
-                {% if field.errors %}
-                    <div class="help-block">
-                        {% for error in field.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {% if field.help_text %}
-                    <div class="help-text">{{ field.help_text|safe }}</div>
-                {% endif %}
-            </div>
-        </div>
-    {% endfor %}
 </div>

@@ -16,6 +16,11 @@ class LookingGoodPhoto(models.Model):
         blank=True,
         null=True,
     )
+    caption = models.CharField(_('caption'),
+        max_length=250,
+        blank=True,
+        null=True,
+    )
 
 
 class LookingGoodItem(models.Model):

@@ -32,10 +32,15 @@
         {% if record.lookinggoodphoto_set.all %}
             <div class="field-photos">
                 {% for photo in record.lookinggoodphoto_set.all %}
-                    <div class="field-photos-photo photo-gallery">
-                        <a href="{{ photo.photo.url }}">
-                            {% thumbnail "150x50" photo.photo %}
-                        </a>
+                    <div class="field-photos-photo">
+                        <div class="field-photos-photo-thumbnail photo-gallery">
+                            <a href="{{ photo.photo.url }}">
+                                {% thumbnail "150x50" photo.photo %}
+                            </a>
+                        </div>
+                        <div class="field-photos-photo-caption">
+                            {{ photo.caption }}
+                        </div>
                     </div>
                 {% endfor %}
             </div>
