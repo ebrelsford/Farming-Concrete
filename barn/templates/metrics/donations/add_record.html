@@ -1,0 +1,18 @@
+{% extends "metrics/add_record.html" %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post">
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.produce_name %}
+            {% include "forms/field.html" with field=form.pounds %}
+        </div>
+
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}

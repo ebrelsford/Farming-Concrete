@@ -6869,6 +6869,51 @@ td.date {
     width: 50%;
   }
 }
+.add-donations .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-donations .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-donations .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-donations .field-produce_name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-donations .field-produce_name {
+    float: left;
+    width: 50%;
+  }
+}
+.add-donations .field-pounds {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-donations .field-pounds {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-donations .field-pounds {
+    margin-left: 8.33333333%;
+  }
+}
 .add-sales .row {
   margin-left: 0;
   margin-right: 0;
@@ -6944,9 +6989,6 @@ td.date {
     float: left;
     width: 25%;
   }
-}
-.add-sales .field-total_price :input:before {
-  content: "$";
 }
 .add-participation-project .row {
   margin-left: 0;
