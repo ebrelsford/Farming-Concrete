@@ -7401,57 +7401,41 @@ td.date {
     width: 66.66666667%;
   }
 }
-.lookinggood-event-record .field-start {
+.lookinggood-event-record .field-details {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-  font-weight: bold;
 }
 @media (min-width: 768px) {
-  .lookinggood-event-record .field-start {
+  .lookinggood-event-record .field-details {
     float: left;
-    width: 16.66666667%;
+    width: 75%;
   }
 }
-.lookinggood-event-record .field-end {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+.lookinggood-event-record .field-total-participants {
   font-weight: bold;
-}
-@media (min-width: 768px) {
-  .lookinggood-event-record .field-end {
-    float: left;
-    width: 16.66666667%;
-  }
 }
 .lookinggood-event-record .field-total-tags {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
   font-weight: bold;
 }
-@media (min-width: 768px) {
-  .lookinggood-event-record .field-total-tags {
-    float: left;
-    width: 8.33333333%;
-  }
+.lookinggood-event-record .field-items-item {
+  margin-top: 20px;
 }
-.lookinggood-event-record .field-comments {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+.lookinggood-event-record .field-items-item-header {
   font-weight: bold;
 }
-@media (min-width: 768px) {
-  .lookinggood-event-record .field-comments {
-    float: left;
-    width: 25%;
-  }
+.lookinggood-event-record .field-photos {
+  border-top: 1px dotted #8c8c8c;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+.lookinggood-event-record .field-photos-photo {
+  margin-top: 15px;
+}
+.lookinggood-event-record .separator {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .moods-change-record .field-recorded {
   position: relative;

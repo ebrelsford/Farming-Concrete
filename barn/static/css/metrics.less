@@ -615,21 +615,39 @@
 }
 
 .lookinggood-event-record {
-    .field-start {
-        .make-sm-column(2);
-        font-weight: bold;
+    .field {
+        &-details {
+            .make-sm-column(9);
+        }
+        &-total-participants {
+            font-weight: bold;
+        }
+        &-total-tags {
+            font-weight: bold;
+        }
+
+        &-items-item {
+            margin-top: 20px;
+
+            &-header {
+                font-weight: bold;
+            }
+        }
+
+        &-photos {
+            border-top: @separator-border;
+            margin-top: 15px;
+            padding-top: 15px;
+
+            &-photo {
+                margin-top: 15px;
+            }
+        }
     }
-    .field-end {
-        .make-sm-column(2);
-        font-weight: bold;
-    }
-    .field-total-tags {
-        .make-sm-column(1);
-        font-weight: bold;
-    }
-    .field-comments {
-        .make-sm-column(3);
-        font-weight: bold;
+
+    .separator {
+        margin-left: 10px;
+        margin-right: 10px;
     }
 }
 

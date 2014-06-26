@@ -1,10 +1,45 @@
 {% extends "metrics/_list_records.html" %}
+{% load imagekit %}
 
 {% block record_class %}lookinggood-event-record{% endblock %}
 
 {% block record_detail %}
-    <div class="field-start">{{ record.start_time }}</div>
-    <div class="field-end">{{ record.end_time }}</div>
-    <div class="field-total-tags">{{ record.total_tags }}</div>
-    <div class="field-comments">{{ record.comments|default:""|linebreaks }}</div>
+    <div class="field-details">
+        <div class="field-total-participants">
+            {{ record.total_participants }} 
+            participant{{ record.total_participants|pluralize }}
+        </div>
+        <div class="field-total-tags">
+            {{ record.total_tags }} tag{{ record.total_tags|pluralize }}
+            <span class="separator">|</span>
+            {{ record.items_tagged }} object{{ record.items_tagged|pluralize }} tagged
+        </div>
+        <div class="field-items">
+            {% for item in record.lookinggooditem_set.all %}
+                <div class="field-items-item">
+                    <div class="field-items-item-header">
+                        {{ item.name }}
+                        <span class="separator">|</span>
+                        {{ item.tags }} tag{{ item.tags|pluralize }}
+                    </div>
+                    <div>
+                        {{ item.comments }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if record.lookinggoodphoto_set.all %}
+            <div class="field-photos">
+                {% for photo in record.lookinggoodphoto_set.all %}
+                    <div class="field-photos-photo photo-gallery">
+                        <a href="{{ photo.photo.url }}">
+                            {% thumbnail "150x50" photo.photo %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
 {% endblock %}
