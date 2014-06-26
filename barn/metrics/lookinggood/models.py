@@ -19,14 +19,6 @@ class LookingGoodPhoto(models.Model):
 
 
 class LookingGoodEvent(BaseMetricRecord):
-    start_time = models.TimeField(_('start time'),
-        help_text=_('The time that the event started'),
-    )
-
-    end_time = models.TimeField(_('end time'),
-        help_text=_('The time that the event ended'),
-    )
-
     total_tags = models.PositiveIntegerField(_('total tags'),
         help_text=_('The total number of tags filled out during the event'),
     )

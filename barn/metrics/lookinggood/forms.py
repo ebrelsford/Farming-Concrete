@@ -38,9 +38,4 @@ class LookingGoodEventForm(RecordForm):
 
     class Meta:
         model = LookingGoodEvent
-        fields = ('recorded', 'start_time', 'end_time', 'total_tags',
-                  'comments', 'added_by', 'garden',)
-        widgets = {
-            'end_time': EventTimeInput,
-            'start_time': EventTimeInput,
-        }
+        fields = ('recorded', 'total_tags', 'comments', 'added_by', 'garden',)
