@@ -1,24 +1,69 @@
-<h2>Add moods in the garden</h2>
+{% extends "metrics/add_record.html" %}
 
-<form class="form-horizontal" method="post" 
-    {% if multipart %}enctype="multipart/form-data"{% endif %}
-    {% if action %}action="{{ action }}"{% endif %}
-    >
+{% block add_record_form %}
+    <form class="form-horizontal" method="post">
+        {% include "forms/head.html" %}
 
-    {% include "forms/head.html" %}
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded_start %}
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
 
-    <div>
-        {% for field in form.visible_fields %}
-            {% include "forms/field.html" with field=field %}
-        {% endfor %}
-    </div>
+        {{ moodcount_formset.management_form }}
 
-    {{ moodcount_formset.management_form }}
+        <div class="field-moods">
+            <div class="field-moods-labels">
+                <div class="field-moods-in">
+                    <div class="moods-label">Attitudes walking in</div>
+                </div>
+                <div class="field-moods-out">
+                    <div class="moods-label">Attitudes walking out</div>
+                </div>
+            </div>
 
-    {% for moodcount_form in moodcount_formset %}
-        {% include "metrics/moods/change/_moodcount_form.html" with form=moodcount_form %}
-    {% endfor %}
+            <div class="field-moods-positive">
+                <div class="field-moods-in">
+                    {% for moodcount_form in moodcount_formset %}
+                        {% ifequal moodcount_form.initial.counted_time "in" %}
+                            {% ifequal moodcount_form.initial.mood.type "positive" %}
+                                {% include "metrics/moods/change/_moodcount_form.html" with form=moodcount_form %}
+                            {% endifequal %}
+                        {% endifequal %}
+                    {% endfor %}
+                </div>
+                <div class="field-moods-out">
+                    {% for moodcount_form in moodcount_formset %}
+                        {% ifequal moodcount_form.initial.counted_time "out" %}
+                            {% ifequal moodcount_form.initial.mood.type "positive" %}
+                                {% include "metrics/moods/change/_moodcount_form.html" with form=moodcount_form %}
+                            {% endifequal %}
+                        {% endifequal %}
+                    {% endfor %}
+                </div>
+            </div>
 
-    {% include "forms/buttons.html" %}
+            <div class="field-moods-negative">
+                <div class="field-moods-in">
+                    {% for moodcount_form in moodcount_formset %}
+                        {% ifequal moodcount_form.initial.counted_time "in" %}
+                            {% ifequal moodcount_form.initial.mood.type "negative" %}
+                                {% include "metrics/moods/change/_moodcount_form.html" with form=moodcount_form %}
+                            {% endifequal %}
+                        {% endifequal %}
+                    {% endfor %}
+                </div>
+                <div class="field-moods-out">
+                    {% for moodcount_form in moodcount_formset %}
+                        {% ifequal moodcount_form.initial.counted_time "out" %}
+                            {% ifequal moodcount_form.initial.mood.type "negative" %}
+                                {% include "metrics/moods/change/_moodcount_form.html" with form=moodcount_form %}
+                            {% endifequal %}
+                        {% endifequal %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-</form>
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}

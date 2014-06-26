@@ -5320,6 +5320,12 @@ button.close {
 .add-reach-program .field-demographics:after,
 .add-reach-program .field-features ul:before,
 .add-reach-program .field-features ul:after,
+.add-moods-change .field-moods-labels:before,
+.add-moods-change .field-moods-labels:after,
+.add-moods-change .field-moods-positive:before,
+.add-moods-change .field-moods-positive:after,
+.add-moods-change .field-moods-negative:before,
+.add-moods-change .field-moods-negative:after,
 .add-participation-geography .neighborhood-definition-row:before,
 .add-participation-geography .neighborhood-definition-row:after,
 .add-yumyuck-change .field-before:before,
@@ -5358,6 +5364,9 @@ button.close {
 .form-horizontal .form-actions:after,
 .add-reach-program .field-demographics:after,
 .add-reach-program .field-features ul:after,
+.add-moods-change .field-moods-labels:after,
+.add-moods-change .field-moods-positive:after,
+.add-moods-change .field-moods-negative:after,
 .add-participation-geography .neighborhood-definition-row:after,
 .add-yumyuck-change .field-before:after,
 .add-yumyuck-change .field-after:after,
@@ -6431,6 +6440,89 @@ td.date {
   .add-landfilldiversion-weight .field-recorded {
     float: left;
     width: 33.33333333%;
+  }
+}
+.add-moods-change .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-moods-change .moods-label {
+  font-weight: bold;
+  text-align: center;
+}
+.add-moods-change .field-recorded_start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-moods-change .field-recorded_start {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-moods-change .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-moods-change .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-moods-change .field-recorded {
+    margin-left: 8.33333333%;
+  }
+}
+.add-moods-change .field-moods {
+  margin-top: 15px;
+}
+.add-moods-change .field-moods-labels {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-moods-change .field-moods-positive {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-moods-change .field-moods-negative {
+  margin-left: 0;
+  margin-right: 0;
+  border-top: 1px dotted #8c8c8c;
+  margin-top: 15px;
+}
+.add-moods-change .field-moods-in {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-moods-change .field-moods-in {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-moods-change .field-moods-out {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-moods-change .field-moods-out {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-moods-change .field-moods-out {
+    margin-left: 8.33333333%;
   }
 }
 .add-participation-geography .neighborhood-definition-row {

@@ -19,10 +19,8 @@ MoodCountFormSet = inlineformset_factory(MoodChange, MoodCount,
 
 
 class MoodChangeForm(RecordForm):
-    recorded_start = RecordedField()
-    recorded = RecordedField(
-        required=True,
-    )
+    recorded_start = RecordedField(label='Start date')
+    recorded = RecordedField(label='End date')
 
     class Meta:
         model = MoodChange

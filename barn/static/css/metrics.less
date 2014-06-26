@@ -172,6 +172,55 @@
     }
 }
 
+.add-moods-change {
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .moods-label {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .field {
+        &-recorded_start {
+            .make-sm-column(4);
+        }
+        &-recorded {
+            .make-sm-column(4);
+            .make-sm-column-offset(1);
+        }
+
+        &-moods {
+            margin-top: 15px;
+
+            &-labels {
+                .make-row(0);
+            }
+
+            &-positive {
+                .make-row(0);
+            }
+
+            &-negative {
+                .make-row(0);
+                border-top: @separator-border;
+                margin-top: 15px;
+            }
+
+            &-in {
+                .make-sm-column(4);
+            }
+            &-out {
+                .make-sm-column(4);
+                .make-sm-column-offset(1);
+            }
+        }
+
+    }
+}
+
 .add-participation-geography {
     .neighborhood-definition-row {
         .make-row();
