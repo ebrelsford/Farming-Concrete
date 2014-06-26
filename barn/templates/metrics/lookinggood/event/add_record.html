@@ -1,20 +1,22 @@
-<h2>Add looking good tags</h2>
+{% extends "metrics/add_record.html" %}
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data" action="{{ action }}">
+{% block add_record_form %}
+    <form class="form-horizontal" method="post" enctype="multipart/form-data" action="{{ action }}">
 
-    {% include "forms/head.html" %}
+        {% include "forms/head.html" %}
 
-    <div>
-        {% for field in form.visible_fields %}
-            {% include "forms/field.html" with field=field %}
+        <div>
+            {% for field in form.visible_fields %}
+                {% include "forms/field.html" with field=field %}
+            {% endfor %}
+        </div>
+
+        {{ photo_formset.management_form }}
+
+        {% for photo_form in photo_formset.forms %}
+            {% include "metrics/lookinggood/event/_photo_form.html" with form=photo_form %}
         {% endfor %}
-    </div>
 
-    {{ photo_formset.management_form }}
-
-    {% for photo_form in photo_formset.forms %}
-        {% include "metrics/lookinggood/event/_photo_form.html" with form=photo_form %}
-    {% endfor %}
-
-    {% include "forms/buttons.html" %}
-</form>
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}

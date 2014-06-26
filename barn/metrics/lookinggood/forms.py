@@ -32,9 +32,7 @@ class EventTimeInput(TimeInput):
 
 
 class LookingGoodEventForm(RecordForm):
-    recorded = RecordedField(
-        required=True,
-    )
+    recorded = RecordedField(label='Event date')
 
     class Meta:
         model = LookingGoodEvent
