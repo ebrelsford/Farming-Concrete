@@ -8,13 +8,8 @@ from ..registry import register
 
 class RecipeTally(BaseMetricRecord):
 
-    recorded_start = models.DateField(_('recorded start'),
-        help_text=_('The beginning of the date range for this record'),
-    )
-
-    recipes_count = models.PositiveIntegerField(_('# of recipes'),
-        help_text=_('The number of recipes counted'),
-    )
+    recorded_start = models.DateField(_('recorded start'))
+    recipes_count = models.PositiveIntegerField(_('# of recipes'))
 
     @classmethod
     def get_summarize_kwargs(cls):

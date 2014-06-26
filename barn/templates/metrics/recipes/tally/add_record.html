@@ -1,2 +1,18 @@
-<h2>Add recipes tally</h2>
-{% include "_form.html" with form=form multipart=True %}
+{% extends "metrics/add_record.html" %}
+
+{% block add_record_form %}
+    <form class="form-horizontal" method="post">
+        {% include "forms/head.html" %}
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded_start %}
+            {% include "forms/field.html" with field=form.recorded %}
+        </div>
+
+        <div class="row">
+            {% include "forms/field.html" with field=form.recipes_count %}
+        </div>
+
+        {% include "forms/buttons.html" %}
+    </form>
+{% endblock %}

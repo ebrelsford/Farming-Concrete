@@ -5,12 +5,8 @@ from .models import RecipeTally
 
 
 class RecipeTallyForm(RecordForm):
-    recorded_start = RecordedField()
-
-    recorded = RecordedField(
-        label=_('Recorded end'),
-        required=True,
-    )
+    recorded_start = RecordedField(label=_('Start date'))
+    recorded = RecordedField(label=_('End date'))
 
     class Meta:
         model = RecipeTally

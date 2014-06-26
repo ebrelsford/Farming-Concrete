@@ -5316,6 +5316,8 @@ button.close {
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:before,
 .form-horizontal .form-actions:after,
+.add-recipes-tally .row:before,
+.add-recipes-tally .row:after,
 .add-reach-program .field-demographics:before,
 .add-reach-program .field-demographics:after,
 .add-reach-program .field-features ul:before,
@@ -5370,6 +5372,7 @@ button.close {
 .form-horizontal .fields:after,
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:after,
+.add-recipes-tally .row:after,
 .add-reach-program .field-demographics:after,
 .add-reach-program .field-features ul:after,
 .add-moods-change .field-moods-labels:after,
@@ -6264,6 +6267,51 @@ td.date {
 @media (min-width: 768px) {
   .add-rainwater-harvest .field-recorded {
     margin-left: 16.66666667%;
+  }
+}
+.add-recipes-tally .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-recipes-tally .field-recorded_start {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-recipes-tally .field-recorded_start {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-recipes-tally .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-recipes-tally .field-recorded {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .add-recipes-tally .field-recorded {
+    margin-left: 16.66666667%;
+  }
+}
+.add-recipes-tally .field-recipes_count {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-recipes-tally .field-recipes_count {
+    float: left;
+    width: 33.33333333%;
   }
 }
 .add-reach-program .row {
