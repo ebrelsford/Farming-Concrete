@@ -19,8 +19,14 @@ class LookingGoodPhoto(models.Model):
 
 
 class LookingGoodEvent(BaseMetricRecord):
-    total_tags = models.PositiveIntegerField(_('total tags'),
-        help_text=_('The total number of tags filled out during the event'),
+    total_participants = models.PositiveIntegerField(_('# of participants'),
+        default=0,
+    )
+    total_tags = models.PositiveIntegerField(_('# of tags'),
+        default=0,
+    )
+    items_tagged = models.PositiveIntegerField(_('# of items tagged'),
+        default=0,
     )
 
     comments = models.TextField(_('comments'),

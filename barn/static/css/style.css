@@ -6204,6 +6204,60 @@ td.date {
     width: 33.33333333%;
   }
 }
+.add-lookinggood-event .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.add-lookinggood-event .field-recorded {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-lookinggood-event .field-recorded {
+    float: left;
+    width: 50%;
+  }
+}
+.add-lookinggood-event .field-totals {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-lookinggood-event .field-totals {
+    float: left;
+    width: 50%;
+  }
+}
+.add-lookinggood-event .field-total_tags {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .add-lookinggood-event .field-total_tags {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.add-lookinggood-event .field-items_tagged {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-right: 0;
+}
+@media (min-width: 768px) {
+  .add-lookinggood-event .field-items_tagged {
+    float: left;
+    width: 66.66666667%;
+  }
+}
 .add-rainwater-harvest .dimensions-separator {
   float: left;
   margin-top: 35px;

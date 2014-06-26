@@ -36,4 +36,5 @@ class LookingGoodEventForm(RecordForm):
 
     class Meta:
         model = LookingGoodEvent
-        fields = ('recorded', 'total_tags', 'comments', 'added_by', 'garden',)
+        fields = ('recorded', 'total_tags', 'total_participants',
+                  'items_tagged', 'comments', 'added_by', 'garden',)

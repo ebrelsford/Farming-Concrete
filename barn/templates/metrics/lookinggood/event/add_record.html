@@ -5,10 +5,15 @@
 
         {% include "forms/head.html" %}
 
-        <div>
-            {% for field in form.visible_fields %}
-                {% include "forms/field.html" with field=field %}
-            {% endfor %}
+        <div class="row">
+            {% include "forms/field.html" with field=form.recorded %}
+            <div class="field-totals">
+                {% include "forms/field.html" with field=form.total_participants %}
+                <div class="row">
+                    {% include "forms/field.html" with field=form.total_tags %}
+                    {% include "forms/field.html" with field=form.items_tagged %}
+                </div>
+            </div>
         </div>
 
         {{ photo_formset.management_form }}
