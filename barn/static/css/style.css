@@ -7538,19 +7538,6 @@ td.date {
     width: 33.33333333%;
   }
 }
-.harvestcount-record .field-dimensions {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: bold;
-}
-@media (min-width: 768px) {
-  .harvestcount-record .field-dimensions {
-    float: left;
-    width: 16.66666667%;
-  }
-}
 .harvestcount-record .field-gardener {
   position: relative;
   min-height: 1px;
@@ -7560,6 +7547,32 @@ td.date {
 }
 @media (min-width: 768px) {
   .harvestcount-record .field-gardener {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-crop {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-crop {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.harvestcount-record .field-dimensions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .harvestcount-record .field-dimensions {
     float: left;
     width: 16.66666667%;
   }

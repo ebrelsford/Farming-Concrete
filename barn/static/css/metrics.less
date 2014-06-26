@@ -665,21 +665,27 @@
 }
 
 .harvestcount-record {
-    .field-dimensions {
-        .make-sm-column(2);
-        font-weight: bold;
-    }
-    .field-gardener {
-        .make-sm-column(2);
-        font-weight: bold;
-    }
-    .field-variety {
-        .make-sm-column(2);
-        font-weight: bold;
-    }
-    .field-weight {
-        .make-sm-column(2);
-        font-weight: bold;
+    .field {
+        &-gardener {
+            .make-sm-column(2);
+            font-weight: bold;
+        }
+        &-crop {
+            .make-sm-column(2);
+            font-weight: bold;
+        }
+        &-dimensions {
+            .make-sm-column(2);
+            font-weight: bold;
+        }
+        &-variety {
+            .make-sm-column(2);
+            font-weight: bold;
+        }
+        &-weight {
+            .make-sm-column(2);
+            font-weight: bold;
+        }
     }
 }
 
