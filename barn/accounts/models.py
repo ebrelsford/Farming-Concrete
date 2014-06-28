@@ -26,7 +26,6 @@ class UserProfile(models.Model):
 
 @receiver(user_activated)
 def add_user_to_default_groups(sender, user, request, **kwargs):
-    print 'add_user_to_default_groups'
     try:
         default_group_names = settings.DEFAULT_GROUPS
         default_groups = Group.objects.filter(name__in=default_group_names)
