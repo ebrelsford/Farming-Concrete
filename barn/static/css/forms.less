@@ -39,6 +39,11 @@ ul.errorlist {
     color: black;
 }
 
+.form-actions {
+    border-top: @separator-border;
+    padding-top: 25px;
+}
+
 .form-horizontal {
     .control-label {
         text-align: left;
@@ -54,8 +59,6 @@ ul.errorlist {
 
     .form-actions {
         .make-row(0);
-        border-top: @separator-border;
-        padding-top: 25px;
     }
 
     button.btn-cancel {
@@ -70,6 +73,10 @@ ul.errorlist {
             .make-md-column-offset(9);
         }
     }
+}
+
+.registration-form {
+    .make-sm-column(4);
 }
 
 // Only make addon seem clickable if pickadate is enabled

@@ -5898,6 +5898,17 @@ fieldset[disabled] .btn-primary.active {
   color: #f63c04;
   background-color: #ffffff;
 }
+.btn-link {
+  color: #849f38;
+  font-size: 14px;
+  padding: 0;
+  padding-top: 5px;
+  text-transform: none;
+}
+.btn-link:hover {
+  color: #849f38;
+  text-decoration: underline;
+}
 .nav > li > a:hover,
 .nav > li > a:focus {
   background-color: inherit;
@@ -5989,6 +6000,10 @@ ul.errorlist {
   -webkit-box-shadow: none;
   color: black;
 }
+.form-actions {
+  border-top: 1px dotted #8c8c8c;
+  padding-top: 25px;
+}
 .form-horizontal .control-label {
   text-align: left;
 }
@@ -6003,8 +6018,6 @@ ul.errorlist {
 .form-horizontal .form-actions {
   margin-left: 0;
   margin-right: 0;
-  border-top: 1px dotted #8c8c8c;
-  padding-top: 25px;
 }
 .form-horizontal button.btn-cancel {
   position: relative;
@@ -6038,6 +6051,18 @@ ul.errorlist {
 @media (min-width: 992px) {
   .form-horizontal button[type="submit"]:first-child {
     margin-left: 75%;
+  }
+}
+.registration-form {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .registration-form {
+    float: left;
+    width: 33.33333333%;
   }
 }
 .picker ~ .recorded-input-addon {

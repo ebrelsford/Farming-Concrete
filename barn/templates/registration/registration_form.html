@@ -3,8 +3,7 @@
 
 {% block content %}
     <h1>{% trans "Register" %}</h1>
-    <p>Register for Farming Concrete.</p>
-    <div>
-        {% include "_form.html" with form=form %}
+    <div class="row">
+        {% include "registration/_form.html" with form=form %}
     </div>
 {% endblock %}
