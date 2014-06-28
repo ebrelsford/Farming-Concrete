@@ -2,6 +2,7 @@ import unicodecsv as csv
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, QueryDict
 from django.views.generic.base import ContextMixin, View
 from django.views.generic.dates import YearMixin
@@ -11,7 +12,7 @@ from django.views.generic.edit import FormMixin
 class LoginRequiredMixin(object):
     """A mixin the requires a user to be logged in before access a view"""
     def dispatch(self, request, *args, **kwargs):
-        @login_required
+        @login_required(login_url=reverse('django.contrib.auth.views.login'))
         def wrapper(request, *args, **kwargs):
             return super(LoginRequiredMixin, self).dispatch(request, *args,
                                                             **kwargs)
