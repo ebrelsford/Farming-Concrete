@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -15,7 +15,7 @@ def login(client):
 
 
 def get_user():
-    return User.objects.get(username=username)
+    return get_user_model().objects.get(username=username)
 
 
 class FarmingConcreteViewsTest(TestCase):

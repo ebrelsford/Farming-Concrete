@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField)
 
 from ajax_select.fields import AutoCompleteSelectField
@@ -52,7 +52,7 @@ class GardenForm(ModelForm):
         required=False,
     )
     added_by = ModelChoiceField(
-        queryset=User.objects.all(),
+        queryset=get_user_model().objects.all(),
         widget=HiddenInput(),
     )
 

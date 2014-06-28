@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.forms import (ModelForm, HiddenInput, ModelChoiceField, TextInput,
                           CharField, ChoiceField, DecimalField, DateField)
@@ -39,7 +39,8 @@ class BedSizeField(DecimalField):
 class BoxForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
                               widget=HiddenInput())
-    added_by = ModelChoiceField(label='added_by', queryset=User.objects.all(),
+    added_by = ModelChoiceField(label='added_by',
+                                queryset=get_user_model().objects.all(),
                                 widget=HiddenInput())
 
     name = CharField(
@@ -125,7 +126,7 @@ class PatchForm(ModelForm):
     )
     added_by = ModelChoiceField(
         label='added_by',
-        queryset=User.objects.all(),
+        queryset=get_user_model().objects.all(),
         widget=HiddenInput()
     )
 

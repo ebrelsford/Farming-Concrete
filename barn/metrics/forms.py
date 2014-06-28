@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.forms import HiddenInput, ModelChoiceField, ModelForm
 from django.utils.timezone import now
 
@@ -33,7 +33,7 @@ class RecordForm(ModelForm):
 
     added_by = ModelChoiceField(
         label='added_by',
-        queryset=User.objects.all(),
+        queryset=get_user_model().objects.all(),
         widget=HiddenInput()
     )
 

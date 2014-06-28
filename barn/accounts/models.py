@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.db import models
 from django.dispatch import receiver
-from django.contrib.auth.models import User
 
 from registration.signals import user_activated
 
@@ -11,7 +10,7 @@ from metrics.harvestcount.models import Gardener
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, unique=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
 
     # Gardens this user has access to. If none, and has 'any' permissions,
     # user can access all.
