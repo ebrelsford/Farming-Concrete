@@ -4,7 +4,6 @@ from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField)
 from ajax_select.fields import AutoCompleteSelectField
 import chosen.forms
 
-from accounts.models import UserProfile
 from accounts.utils import get_profile
 from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
 
@@ -22,12 +21,9 @@ class GardenTypeField(ModelChoiceField):
         super(GardenTypeField, self).__init__(*args, **kwargs)
 
         if user and not user.has_perm('can_edit_any_garden'):
-            try:
-                profile = get_profile(user)
-                if profile and profile.garden_types.count() > 0:
-                    self.queryset = self.queryset & profile.garden_types.all()
-            except UserProfile.DoesNotExist:
-                pass
+            profile = get_profile(user)
+            if profile.garden_types.count() > 0:
+                self.queryset = self.queryset & profile.garden_types.all()
 
 
 class FindGardenForm(Form):
