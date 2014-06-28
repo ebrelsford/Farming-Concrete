@@ -75,7 +75,7 @@
                                     {% if user.is_staff %}
                                     <li><a href="{% url "reports.views.index" %}">data reports</a></li>
 
-                                    <li><a href="/admin">Admin</a></li>
+                                    <li><a href="{% url "admin:index" %}">Admin</a></li>
                                     {% endif %}
 
                                     {% if user.is_authenticated %}
