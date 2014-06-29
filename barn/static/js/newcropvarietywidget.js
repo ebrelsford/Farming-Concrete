@@ -13,48 +13,60 @@ define(
 
         var NewCropVarietyWidget = NewInstanceWidget.extend({});
 
+        function loadCropVarieties($crop, $cropVariety) {
+            var url = prefixurl.url('crops_variety_list') + '?' + $.param({
+                crop: $crop.val()  
+            });
+
+            // Disable variety select until we have updated the data
+            $cropVariety.select2('enable', false);
+
+            // Select first option
+            $cropVariety.select2('val', '');
+
+            // Clear existing options (after the first)
+            $cropVariety.find('option:not(:first-of-type)').remove();
+
+            $.getJSON(url, function (data) {
+                $.each(data, function (i, variety) {
+                    $cropVariety.append(
+                        $('<option></option>')
+                            .val(variety.pk)
+                            .text(variety.name)
+                    );
+                });
+                // Re-enable variety select until we have updated the data
+                $cropVariety.select2('enable', true);
+            });
+        }
+
         $(document).ready(function () {
             var widget = new NewCropVarietyWidget({
                 buttonSelector: '.btn-new-crop-variety',
                 selectSelector: 'select[name=crop_variety],select[name$=crop_variety]'
             });
 
-            var cropSelector = 'select[name$=crop]';
+            var cropSelector = 'select[name$=crop]',
+                $crop = $(cropSelector),
+                cropVarietySelector = widget.options.selectSelector,
+                $cropVariety = $(cropVarietySelector);
+
+            // If we are working with formsets, get the variety select
+            // that has the same parent as the crop select that changed
+            //
+            // TODO consider moving into NewInstanceWidget
+            if ($('.patch-formset').length > 0) {
+                $cropVariety = $crop.nextAll(cropVarietySelector);
+            }
+
+            // If something is already selected (eg, on error), load crop
+            // varieties as soon as we can
+            if ($(cropSelector).val() != '') {
+                loadCropVarieties($crop, $cropVariety);
+            }
 
             $(cropSelector).change(function () {
-                var url = prefixurl.url('crops_variety_list') + '?' + $.param({
-                    crop: $(this).val()  
-                });
-                var $select = $(widget.options.selectSelector);
-
-                // If we are working with formsets, get the variety select
-                // that has the same parent as the crop select that changed
-                //
-                // TODO consider moving into NewInstanceWidget
-                if ($('.patch-formset').length > 0) {
-                    $select = $(this).parents('.patch-formset').find(widget.options.selectSelector);
-                }
-
-                // Disable variety select until we have updated the data
-                $select.select2('enable', false);
-
-                // Select first option
-                $select.select2('val', '');
-
-                // Clear existing options (after the first)
-                $select.find('option:not(:first-of-type)').remove();
-
-                $.getJSON(url, function (data) {
-                    $.each(data, function (i, variety) {
-                        $select.append(
-                            $('<option></option>')
-                                .val(variety.pk)
-                                .text(variety.name)
-                        );
-                    });
-                    // Re-enable variety select until we have updated the data
-                    $select.select2('enable', true);
-                });
+                loadCropVarieties($crop, $cropVariety);
             });
 
             $(widget.options.buttonSelector).click(function () {
