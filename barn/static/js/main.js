@@ -56,6 +56,13 @@ define(
             }
 
             /*
+             * Hide help text if it's in form fields' placeholder attributes.
+             */
+            if (Modernizr.input.placeholder) {
+                $(':input[type="text"] ~ .help-text, textarea ~ .help-text').hide();
+            }
+
+            /*
              * Add pickadate if time inputs
              */
             if (!Modernizr.inputtypes.time) {

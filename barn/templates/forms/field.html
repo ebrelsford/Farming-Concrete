@@ -5,7 +5,7 @@
         {{ field.label_tag }}
     </div>
     <div class="controls">
-        {% render_field field class+="form-control" %}
+        {% render_field field class+="form-control" placeholder=field.help_text %}
 
         {% if field.errors %}
             <div class="help-block">
