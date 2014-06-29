@@ -8209,6 +8209,7 @@ td.date {
 .metric-garden-page .summary {
   border-bottom: 1px dotted #8c8c8c;
   border-top: 1px dotted #8c8c8c;
+  margin-bottom: 25px;
   margin-left: 0;
   margin-right: 0;
   margin-top: 25px;
