@@ -6979,6 +6979,18 @@ td.date {
     width: 33.33333333%;
   }
 }
+.add-harvestcount .field-crop_variety {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-harvestcount .field-crop_variety {
+    float: left;
+    width: 33.33333333%;
+  }
+}
 .add-harvestcount .field-weight {
   position: relative;
   min-height: 1px;
