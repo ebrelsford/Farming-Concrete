@@ -280,7 +280,7 @@ class GardenView(GardenMixin, LoginRequiredMixin, DetailView):
         ]
 
 
-class MetricGardenCSVView(MetricMixin, GardenMixin, LoginRequiredMixin,
+class MetricGardenCSVView(LoginRequiredMixin, MetricMixin, GardenMixin,
                           CSVView):
 
     def get(self, request, *args, **kwargs):
