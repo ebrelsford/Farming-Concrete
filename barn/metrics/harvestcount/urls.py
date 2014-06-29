@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
 from .views import (CreateGardenerView, GardenDetails, GardenerAddView,
-                    HarvestcountAllGardensView, HarvestcountIndex,
-                    HarvestcountUserGardenView)
+                    HarvestcountAllGardensView, HarvestcountCSV,
+                    HarvestcountIndex, HarvestcountUserGardenView)
 
 
 urlpatterns = patterns('',
@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        'metrics.harvestcount.views.download_garden_harvestcount_as_csv',
+        HarvestcountCSV.as_view(),
         name='harvestcount_download_garden_harvestcount_as_csv'
     ),
 

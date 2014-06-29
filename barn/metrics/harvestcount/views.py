@@ -1,8 +1,6 @@
 from datetime import date
 import json
 
-import unicodecsv
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
@@ -18,7 +16,8 @@ from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RedirectToPreviousPageMixin, TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, RecordsMixin, UserGardenView)
+                     MetricGardenCSVView, MetricMixin, RecordsMixin,
+                     UserGardenView)
 from .forms import GardenerForm, HarvestForm
 from .models import Gardener, Harvest
 
@@ -29,6 +28,7 @@ def _harvests(year=settings.FARMINGCONCRETE_YEAR):
 
 
 class HarvestcountMixin(MetricMixin):
+    metric_model = Harvest
 
     def get_metric_name(self):
         return 'Harvest Count'
@@ -170,33 +170,31 @@ def quantity_for_last_harvest(request, pk=None, year=None):
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
 
-@login_required
-@year_in_session
-def download_garden_harvestcount_as_csv(request, pk=None, year=None):
-    # TODO move to MetricGardenCSVView
-    garden = get_object_or_404(Garden, id=pk)
-    filename = '%s Harvest Count (%s).csv' % (garden.name,
-                                              date.today().strftime('%m-%d-%Y'))
+class HarvestcountCSV(HarvestcountMixin, MetricGardenCSVView):
 
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+    def get_fields(self):
+        return super(HarvestcountCSV, self).get_fields() + (
+            'gardener',
+            'crop',
+            'crop_variety',
+            'weight',
+            'plants',
+            'area',
+        )
 
-    writer = unicodecsv.writer(response, encoding='utf-8')
-    writer.writerow(['gardener', 'plant type', 'pounds', 'number of plants',
-                     'area (square feet)', 'date'])
-
-    harvests = _harvests(year=year).filter(gardener__garden=garden).distinct()
-    for harvest in harvests.order_by('gardener__name', 'crop__name'):
-        writer.writerow([
-            harvest.gardener.name,
-            harvest.crop.name,
-            harvest.weight,
-            harvest.plants or '',
-            harvest.area or '',
-            harvest.recorded.strftime('%m-%d-%Y')
-        ])
-
-    return response
+    def get_rows(self):
+        for record in self.get_records():
+            def get_cell(field):
+                if field == 'crop_variety':
+                    if record.crop_variety:
+                        return record.crop_variety.name
+                    else:
+                        return ''
+                try:
+                    return getattr(record, field)
+                except Exception:
+                    return ''
+            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,
