@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import (CropcountIndex, CropcountAllGardensView,
+from .views import (CropcountIndex, CropcountAllGardensView, CropcountCSV,
                     CropcountUserGardenView, GardenDetails)
 
 
@@ -38,7 +38,7 @@ urlpatterns = patterns('metrics.cropcount.views',
     ),
 
     url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        'download_garden_cropcount_as_csv',
+        CropcountCSV.as_view(),
         name='cropcount_download_garden_cropcount_as_csv'
     ),
 

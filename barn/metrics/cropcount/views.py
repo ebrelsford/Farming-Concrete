@@ -1,10 +1,5 @@
-from datetime import date
-
-import unicodecsv
-
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -17,7 +12,8 @@ from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, RecordsMixin, UserGardenView)
+                     MetricMixin, MetricGardenCSVView, RecordsMixin,
+                     UserGardenView)
 from .forms import BoxForm, PatchFormSet
 from .models import Box, Patch
 
@@ -30,6 +26,8 @@ def _patches(year=settings.FARMINGCONCRETE_YEAR):
 
 
 class CropcountMixin(MetricMixin):
+    metric_model = Patch
+
     def get_metric_name(self):
         return 'Crop Count'
 
@@ -221,42 +219,32 @@ def delete_bed(request, id, year=None):
     return redirect('cropcount_garden_details', pk=garden_id, year=bed_year)
 
 
-@login_required
-@year_in_session
-def download_garden_cropcount_as_csv(request, pk=None, year=None):
-    # TODO move to MetricGardenCSVView
-    garden = get_object_or_404(Garden, pk=pk)
-    filename = '%s Crop Count (%s).csv' % (
-        garden.name,
-        date.today().strftime('%m-%d-%Y'),
-    )
+class CropcountCSV(CropcountMixin, MetricGardenCSVView):
 
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+    def get_fields(self):
+        return super(CropcountCSV, self).get_fields() + (
+            'bed',
+            'crop',
+            'crop_variety',
+            'quantity',
+            'units',
+        )
 
-    writer = unicodecsv.writer(response, encoding='utf-8')
-    writer.writerow(['bed', 'crop', 'crop variety', 'quantity', 'units',
-                     'recorded'])
-
-    patches = _patches(year=year).filter(box__garden=garden).distinct()
-    beds = Box.objects.filter(patch__in=patches).distinct()
-
-    for bed in sorted(beds):
-        for patch in patches:
-            try:
-                crop_variety = patch.crop_variety.name
-            except Exception:
-                crop_variety = ''
-            writer.writerow([
-                bed.name,
-                patch.crop.name,
-                crop_variety,
-                patch.quantity,
-                patch.units,
-                patch.recorded,
-            ])
-
-    return response
+    def get_rows(self):
+        for record in self.get_records():
+            def get_cell(field):
+                if field == 'bed' and record.box:
+                    return record.box.name
+                if field == 'crop_variety':
+                    if record.crop_variety:
+                        return record.crop_variety.name
+                    else:
+                        return ''
+                try:
+                    return getattr(record, field)
+                except Exception:
+                    return ''
+            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 #
