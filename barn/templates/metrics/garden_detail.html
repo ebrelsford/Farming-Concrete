@@ -6,17 +6,6 @@
 
 {% block body_class %}{{ block.super }} metric-garden-page record-list-page{% endblock %}
 
-{% block content %}
-    {% if garden %}
-        <div class="garden-details clearfix">
-            {{ block.super }}
-        </div>
-    {% else %}
-        {# TODO raise 404 instead #}
-        <p>No such garden</p>
-    {% endif %}
-{% endblock %}
-
 {% block left %}
     <h1 class="metric-name">
         <div class="metric-number">
