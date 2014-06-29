@@ -54,4 +54,5 @@ class RecipeTallyGardenDetails(RecipeTallyMixin, GardenDetailAddRecordView):
 class RecipeTallyGardenCSV(RecipeTallyMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('recorded_start', 'recorded', 'recipes_count',)
+        parent_fields =  super(RecipeTallyGardenCSV, self).get_fields()
+        return ('recorded_start',) + parent_fields + ('recipes_count',)

@@ -29,5 +29,10 @@ class SaleGardenDetails(SaleMixin, GardenDetailAddRecordView):
 class SaleGardenCSV(SaleMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('product', 'unit', 'unit_price', 'units_sold', 'total_price',
-                'recorded',)
+        return super(SaleGardenCSV, self).get_fields() + (
+            'product',
+            'unit',
+            'unit_price',
+            'units_sold',
+            'total_price',
+        )

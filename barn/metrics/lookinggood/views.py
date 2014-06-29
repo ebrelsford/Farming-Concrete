@@ -83,4 +83,9 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
 class LookingGoodEventGardenCSV(LookingGoodEventMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('recorded', 'total_participants', 'total_tags', 'items_tagged')
+        return super(LookingGoodEventGardenCSV, self).get_fields() + (
+            'total_participants',
+            'total_tags',
+            'items_tagged',
+        )
+        return ()

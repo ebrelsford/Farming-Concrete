@@ -173,6 +173,7 @@ def quantity_for_last_harvest(request, pk=None, year=None):
 @login_required
 @year_in_session
 def download_garden_harvestcount_as_csv(request, pk=None, year=None):
+    # TODO move to MetricGardenCSVView
     garden = get_object_or_404(Garden, id=pk)
     filename = '%s Harvest Count (%s).csv' % (garden.name,
                                               date.today().strftime('%m-%d-%Y'))

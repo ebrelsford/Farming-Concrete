@@ -32,4 +32,7 @@ class DonationGardenDetails(DonationMixin, GardenDetailAddRecordView):
 class DonationGardenCSV(DonationMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('produce_name', 'pounds', 'recorded',)
+        return super(DonationGardenCSV, self).get_fields() + (
+            'produce_name',
+            'pounds',
+        )

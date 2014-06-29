@@ -53,5 +53,10 @@ class YumYuckGardenDetails(YumYuckMixin, GardenDetailAddRecordView):
 class YumYuckGardenCSV(YumYuckMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('recorded', 'vegetable', 'yum_before', 'yuck_before',
-                'yum_after', 'yuck_after',)
+        return super(YumYuckGardenCSV, self).get_fields() + (
+            'crop',
+            'yum_before',
+            'yuck_before',
+            'yum_after',
+            'yuck_after',
+        )

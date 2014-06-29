@@ -62,8 +62,13 @@ class HoursByGeographyGardenDetails(HoursByGeographyMixin,
 class HoursByGeographyGardenCSV(HoursByGeographyMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('in_half', 'in_whole', 'out_half', 'out_whole',
-                'recorded_start', 'recorded',)
+        return super(HoursByGeographyGardenCSV, self).get_fields() + (
+            'recorded_start',
+            'in_half',
+            'in_whole',
+            'out_half',
+            'out_whole',
+        )
 
 
 class HoursByTaskMixin(MetricMixin):
@@ -151,8 +156,9 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
 class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
 
     def get_fields(self):
+        parent_fields = super(HoursByTaskGardenCSV, self).get_fields()
         tasks = [task.name for task in Task.objects.all()]
-        return ['recorded_start', 'recorded', 'task_other',] + tasks
+        return ('recorded_start',) + parent_fields + ('task_other',) + tuple(tasks)
 
     def get_rows(self):
         for record in self.get_records():
@@ -243,7 +249,9 @@ class HoursByProjectGardenCSV(HoursByProjectMixin, MetricGardenCSVView):
 
     def get_fields(self):
         gardeners = self.object.gardener_set.all().order_by('name')
-        return ['recorded', 'project',] + list(gardeners.values_list('name', flat=True))
+        gardener_fields = gardeners.values_list('name', flat=True)
+        parent_fields = super(HoursByProjectGardenCSV, self).get_fields()
+        return parent_fields + ('project',) + tuple(gardener_fields)
 
     def get_rows(self):
         for record in self.get_records().order_by('recorded'):

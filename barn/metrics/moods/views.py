@@ -92,7 +92,8 @@ class MoodChangeGardenCSV(MoodChangeMixin, MetricGardenCSVView):
         moods = Mood.objects.all().order_by('name')
         times = ('in', 'out')
         mood_fields = ['%s (%s)' % (m, t) for (m, t) in product(moods, times)]
-        return ['recorded_start', 'recorded',] + mood_fields
+        parent_fields = super(MoodChangeGardenCSV, self).get_fields()
+        return parent_fields + ('recorded_start',) + tuple(mood_fields)
 
     def get_rows(self):
 

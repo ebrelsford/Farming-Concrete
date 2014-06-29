@@ -54,5 +54,9 @@ class RainwaterHarvestGardenDetails(RainwaterHarvestMixin,
 class RainwaterHarvestGardenCSV(RainwaterHarvestMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('roof_length', 'roof_width', 'volume', 'recorded_start',
-                'recorded',)
+        parent_fields =  super(RainwaterHarvestGardenCSV, self).get_fields()
+        return ('recorded_start',) + parent_fields + (
+            'roof_length',
+            'roof_width',
+            'volume',
+        )

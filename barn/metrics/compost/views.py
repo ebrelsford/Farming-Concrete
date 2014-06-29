@@ -55,7 +55,7 @@ class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
 class WeightGardenCSV(WeightMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('weight', 'recorded',)
+        return super(WeightGardenCSV, self).get_fields() + ('weight',)
 
 
 class VolumeMixin(MetricMixin):
@@ -106,4 +106,4 @@ class VolumeUserGardensView(TitledPageMixin, VolumeMixin, UserGardenView):
 class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):
 
     def get_fields(self):
-        return ('volume', 'recorded',)
+        return super(VolumeGardenCSV, self).get_fields() + ('volume',)
