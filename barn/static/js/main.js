@@ -28,9 +28,7 @@ define(
             /*
              * Always give focus to the first visible input.
              */
-            if ($('input:visible').length > 0) {
-                $('input:visible:first').focus();
-            }
+            $(':input:visible:first:not([type="date"])').focus();
 
             /*
              * Disable submit buttons on forms once they have been submitted once.
@@ -40,9 +38,10 @@ define(
             });
 
             /*
-             * Add pickadate if no native datepicker available
+             * Add pickadate if no native datepicker available or we're likely
+             * on a desktop browser.
              */
-            if (!Modernizr.inputtypes.date) {
+            if (!Modernizr.inputtypes.date || Modernizr.mq('(min-width: 799px)')) {
                 $('input[type=date]').each(function () {
                     var max = $(this).attr('max');
                     $(this).pickadate({
