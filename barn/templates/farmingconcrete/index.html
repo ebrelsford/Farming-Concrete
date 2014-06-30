@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load garden_tags i18n static %}
 
 {% block title %}{% trans "Home" %}{% endblock %}
 
@@ -59,41 +59,14 @@
 
                 {% if user.is_authenticated %}
                     <section id="your-gardens-section">
-
-                        {% if user_gardens %}
-                            <h2 id="your-gardens-title">
-                                <img src="{% static "img/your_gardens.jpg" %}" />
-                            </h2>
-                            <ul class="garden-list">
-                                {% for garden in user_gardens %}
-                                    <li class="garden-list-garden">
-                                        <div class="garden-list-garden-main">
-                                            {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
-                                        </div>
-                                        <div class="garden-list-garden-actions">
-                                            <a href="{% url "farmingconcrete_gardens_update" pk=garden.pk %}">{% trans "Edit" %}</a>
-                                            <span class="garden-list-garden-actions-separator">|</span>
-                                            <a href="{% url "farmingconcrete_gardens_leave" pk=garden.pk %}">{% trans "Delete" %}</a>
-                                        </div>
-                                        <div class="garden-list-garden-buttons">
-                                            <a href="{% url "farmingconcrete_garden_details" pk=garden.pk %}" class="btn btn-default btn-add-data">
-                                                {% trans "add data" %}
-                                            </a>
-                                        </div>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>
-                                It looks like you don't have access to any gardens yet.
-                                Add one?
-                            </p>
-                        {% endif %}
+                        <h2 id="your-gardens-title">
+                            <img src="{% static "img/your_gardens.jpg" %}" />
+                        </h2>
+                        {% garden_list user %}
 
                         <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
                             Add a garden
                         </a>
-
                     </section>
                 {% endif %}
 

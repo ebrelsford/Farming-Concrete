@@ -1,5 +1,5 @@
 {% extends "registration/base.html" %}
-{% load i18n %}
+{% load garden_tags i18n %}
 
 {% block title %}Your account{% endblock %}
 
@@ -12,4 +12,8 @@
             {% trans "logout" %}
         </a>
     </section>
+
+    <section>
+        {% garden_list user %}
+    <section>
 {% endblock %}

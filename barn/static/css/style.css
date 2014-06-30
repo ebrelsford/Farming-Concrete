@@ -8580,7 +8580,7 @@ ul.garden-list {
 .garden-list-garden-buttons a {
   width: 100%;
 }
-.main-index-page .garden-list-garden-actions {
+.garden-list-garden-actions {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -8589,7 +8589,7 @@ ul.garden-list {
   text-align: right;
 }
 @media (min-width: 992px) {
-  .main-index-page .garden-list-garden-actions {
+  .garden-list-garden-actions {
     float: left;
     width: 25%;
   }
