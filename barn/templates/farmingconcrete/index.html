@@ -6,104 +6,81 @@
 {% block body_class %}main-index-page{% endblock %}
 
 {% block content %}
-    {% if not is_mobile %}
-        <div class="row">
-            <div id="left">
+    <div class="row">
+        <div id="left">
 
-                <section id="intro-text">
+            <section id="intro-text">
+                <p>
+                    {% url "data_collection_toolkit" as toolkit_url %}
+                    {% blocktrans %}
+                        Welcome to the 
+                        <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
+                        where you can store the data you collect with the 
+                        <a href="{{ toolkit_url }}">Five Borough Farm Data Collection Toolkit</a>,
+                        developed by the Design Trust for Public Space 
+                        in collaboration with Farming Concrete.
+                    {% endblocktrans %}
+                </p>
+
+                {% if not user.is_authenticated %}
+
+                    {% url "django.contrib.auth.views.login" as login_url %}
+                    {% url "registration_register" as register_url %}
                     <p>
-                        {% url "data_collection_toolkit" as toolkit_url %}
                         {% blocktrans %}
-                            Welcome to the 
-                            <a href="http://farmingconcrete.org">Farming Concrete</a> Barn,
-                            where you can store the data you collect with the 
-                            <a href="{{ toolkit_url }}">Five Borough Farm Data Collection Toolkit</a>,
-                            developed by the Design Trust for Public Space 
-                            in collaboration with Farming Concrete.
+                            If you are a gardener and would like to start entering data, 
+                            please 
+                            <a href="{{ login_url }}" data-role="button">log in</a> 
+                            first. If you don't yet have a login, you can 
+                            <a href="{{ register_url }}">create one now</a>
+                            If you are just visiting, we will eventually have some public 
+                            reports here for you to view.
                         {% endblocktrans %}
                     </p>
 
-                    {% if not user.is_authenticated %}
+                    <p>
+                        {% blocktrans %}
+                            If you have any problems or questions, please email us at 
+                            <strong>gardens (at) farmingconcrete (dot) org</strong>.
+                        {% endblocktrans %}
+                    </p>
 
-                        {% url "django.contrib.auth.views.login" as login_url %}
-                        {% url "registration_register" as register_url %}
-                        <p>
-                            {% blocktrans %}
-                                If you are a gardener and would like to start entering data, 
-                                please 
-                                <a href="{{ login_url }}" data-role="button">log in</a> 
-                                first. If you don't yet have a login, you can 
-                                <a href="{{ register_url }}">create one now</a>
-                                If you are just visiting, we will eventually have some public 
-                                reports here for you to view.
-                            {% endblocktrans %}
-                        </p>
-
-                        <p>
-                            {% blocktrans %}
-                                If you have any problems or questions, please email us at 
-                                <strong>gardens (at) farmingconcrete (dot) org</strong>.
-                            {% endblocktrans %}
-                        </p>
-
-                        <p>
-                            <a class="btn btn-default" href="{{ register_url }}">
-                                {% trans "Register" %}
-                            </a>
-                            <a class="btn btn-primary" href="{{ login_url }}">
-                                {% trans "Log in" %}
-                            </a>
-                        </p>
-                    {% endif %}
-                </section>
-
-                {% if user.is_authenticated %}
-                    <section id="your-gardens-section">
-                        <h2 id="your-gardens-title">
-                            <img src="{% static "img/your_gardens.jpg" %}" />
-                        </h2>
-                        {% garden_list user %}
-
-                        <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
-                            Add a garden
+                    <p>
+                        <a class="btn btn-default" href="{{ register_url }}">
+                            {% trans "Register" %}
                         </a>
-                    </section>
+                        <a class="btn btn-primary" href="{{ login_url }}">
+                            {% trans "Log in" %}
+                        </a>
+                    </p>
                 {% endif %}
+            </section>
 
-            </div>
+            {% if user.is_authenticated %}
+                <section id="your-gardens-section">
+                    <h2 id="your-gardens-title">
+                        <img src="{% static "img/your_gardens.jpg" %}" />
+                    </h2>
+                    {% garden_list user %}
 
-            <div id="right">
-                <div id="map" style="width: 100%; height: 300px;"
-                    {% block map_options %}
-                        data-l-zoom="8"
-                        data-l-center="[40.71, -73.98]"
-                        data-l-mapbox-id="farmingconcrete.i29og38a"
-                        data-l-user_gardens="true"
-                    {% endblock %}
-                ></div>
-            </div>
+                    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
+                        Add a garden
+                    </a>
+                </section>
+            {% endif %}
 
         </div>
-    {% else %}
-        <div id="logo"></div>
-        <h1 style="width: 100%; text-align: center;">Farming Concrete Barn</h1>
-        <div>
-            <ul data-role="listview" data-inset="true">
-                {% if user.is_authenticated %}
-                <li><a href="{% url "django.contrib.auth.views.logout" %}">Logout</a></li>
-                {% else %}
-                <li><a href="{% url "django.contrib.auth.views.login" %}">Login</a></li>
-                {% endif %}
-            </ul>
-            <ul data-role="listview" data-inset="true">
-            </ul>
-            <div class="clear"></div>
-        </div>
-    {% endif %}
 
+        <div id="right">
+            <div id="map" style="width: 100%; height: 300px;"
+                {% block map_options %}
+                    data-l-zoom="8"
+                    data-l-center="[40.71, -73.98]"
+                    data-l-mapbox-id="farmingconcrete.i29og38a"
+                    data-l-user_gardens="true"
+                {% endblock %}
+            ></div>
+        </div>
+
+    </div>
 {% endblock %}
-
-{% if is_mobile %}
-    {% block header %}{% endblock %}
-    {% block footer %}{% endblock %}
-{% endif %}

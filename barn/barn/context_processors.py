@@ -1,6 +1,6 @@
 from accounts.utils import get_profile
 from farmingconcrete.models import GardenType
-from .mobile import is_mobile
+
 
 def garden_types(request):
     """
@@ -15,10 +15,3 @@ def garden_types(request):
             types = types & profile.garden_types.all()
         return { 'garden_types': types }
     return {}
-
-def mobile(request):
-    """
-    Add is_mobile: True if user agent contains an obvious smartphone, False
-    otherwise
-    """
-    return { 'is_mobile': is_mobile(request), }
