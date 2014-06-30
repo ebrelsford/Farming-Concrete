@@ -10,6 +10,8 @@ define(
         'modernizr',
 
         'bootstrap',
+        'chosen.jquery.min',
+        'chosen.jquery_ready',
         'farmingconcrete',
         'feedback',
         'jquery.autocomplete',
