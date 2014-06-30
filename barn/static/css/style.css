@@ -8561,6 +8561,9 @@ h2 a.text {
   width: 100%;
   height: 150px;
 }
+.add-gardens-page .field-groups .help-text {
+  display: none;
+}
 ul.garden-list {
   list-style: none;
   margin: 0;
