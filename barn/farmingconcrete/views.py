@@ -119,9 +119,14 @@ class GardenFormMixin(FormMixin):
     model = Garden
 
     def get_initial(self):
+        try:
+            groups = self.object.gardengroup_set.all()
+        except Exception:
+            groups = None
         initial = super(GardenFormMixin, self).get_initial()
         initial.update({
             'added_by': self.request.user,
+            'groups': groups,
         })
         return initial
 
