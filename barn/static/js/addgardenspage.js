@@ -120,14 +120,17 @@ define(
                 showPointOnMap(lat, lng);
             }
 
-            $('#id_name').keyup(function () {
-                if ($(this).val().length >= 5) {
-                    updateSuggestions();
-                }
-                else {
-                    clearSuggestions();
-                }
-            });
+            // If creating a new garden, enable suggestions
+            if ($('#id_name').val() === '') {
+                $('#id_name').keyup(function () {
+                    if ($(this).val().length >= 5) {
+                        updateSuggestions();
+                    }
+                    else {
+                        clearSuggestions();
+                    }
+                });
+            }
 
             $('#id_address,#id_city,#id_state').change(geocodeAddress);
 
