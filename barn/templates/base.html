@@ -79,7 +79,7 @@
                                     {% endif %}
 
                                     {% if user.is_authenticated %}
-                                    <li><a href="{% url "farmingconcrete.views.account" %}">Your account</a></li>
+                                    <li><a {% ifequal page_type "account" %}class="active"{% endifequal %} href="{% url "farmingconcrete.views.account" %}">Your account</a></li>
                                     {% else %}
                                     <li><a href="{% url "django.contrib.auth.views.login" %}">Login</a></li>
                                     {% endif %}

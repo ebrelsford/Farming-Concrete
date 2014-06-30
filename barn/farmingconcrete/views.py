@@ -183,8 +183,9 @@ class AddSuggestedGardenView(LoginRequiredMixin, AddUserGardenMixin, DetailView)
 
 @login_required
 def account(request):
-    return render_to_response('farmingconcrete/account.html', {},
-                              context_instance=RequestContext(request))
+    return render_to_response('farmingconcrete/account.html', {
+        'page_type': 'account',
+    }, context_instance=RequestContext(request))
 
 
 @login_required

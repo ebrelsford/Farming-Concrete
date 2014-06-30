@@ -3,20 +3,13 @@
 
 {% block title %}Your account{% endblock %}
 
-{% block breadcrumbs %}
-{{ block.super }}
-{% endblock %}
-
 {% block content %}
     <section>
-        <h1>{% trans "Your account" %}</h1>
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="{% url "django.contrib.auth.views.password_change" %}">
-                {% trans "change your password" %}
-            </a>
-            <a class="btn btn-default" href="{% url "django.contrib.auth.views.logout" %}">
-                {% trans "logout" %}
-            </a>
-        </ul>
+        <a class="btn btn-default" href="{% url "django.contrib.auth.views.password_change" %}">
+            {% trans "change your password" %}
+        </a>
+        <a class="btn btn-primary" href="{% url "django.contrib.auth.views.logout" %}">
+            {% trans "logout" %}
+        </a>
     </section>
 {% endblock %}
