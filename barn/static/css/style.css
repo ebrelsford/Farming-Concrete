@@ -8751,7 +8751,8 @@ ul.garden-list {
     width: 25%;
   }
 }
-.garden-detail-page .garden-list-garden-actions {
+.garden-detail-page .garden-list-garden-actions,
+.metric-garden-page .garden-list-garden-actions {
   float: none;
   padding: 0;
   text-align: left;
