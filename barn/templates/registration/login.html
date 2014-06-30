@@ -2,13 +2,14 @@
 {% load i18n static %}
 
 {% block title %}Log in{% endblock %}
+{% block body_class %}{{ block.super }} login-page{% endblock %}
 
 {% block content %}
+    <h2>
+        <img alt="{% trans "Log in" %}" src="{% static "img/log_in.jpg" %}" />
+    </h2>
     <div class="row">
         <div class="registration-login-content">
-            <h2>
-                <img alt="{% trans "Log in" %}" src="{% static "img/log_in.jpg" %}" />
-            </h2>
             <p>Please log in.</p>
             <p>You should have received a username and password from the Farming Concrete team. If you've forgotten either, you can <a href="{% url "accounts.views.password_reset" %}">reset your password</a>.</p>
 

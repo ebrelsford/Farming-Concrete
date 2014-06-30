@@ -10,17 +10,21 @@
         <img alt="{% trans "Your account" %}" src="{% static "img/your_account.jpg" %}" />
     </h2>
 
-    <section class="actions">
-        <a class="btn btn-default" href="{% url "django.contrib.auth.views.password_change" %}">
-            {% trans "change your password" %}
-        </a>
-        <a class="btn btn-primary" href="{% url "django.contrib.auth.views.logout" %}">
-            {% trans "logout" %}
-        </a>
-    </section>
+    <div class="row">
+        <div class="your-account-content">
+            <section class="actions">
+                <a class="btn btn-default" href="{% url "django.contrib.auth.views.password_change" %}">
+                    {% trans "change your password" %}
+                </a>
+                <a class="btn btn-primary" href="{% url "django.contrib.auth.views.logout" %}">
+                    {% trans "logout" %}
+                </a>
+            </section>
 
-    {% garden_list user %}
-    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
-        Add a garden
-    </a>
+            {% garden_list user %}
+            <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
+                Add a garden
+            </a>
+        </div>
+    </div>
 {% endblock %}
