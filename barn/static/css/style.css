@@ -5350,6 +5350,8 @@ button.close {
 .moods-change-record .field-counts .moods-negative:after,
 .summary:before,
 .summary:after,
+.account-page #main:before,
+.account-page #main:after,
 .garden-detail-page .metric-group .metric:before,
 .garden-detail-page .metric-group .metric:after,
 .garden-list-garden:before,
@@ -5391,6 +5393,7 @@ button.close {
 .moods-change-record .field-counts .moods-positive:after,
 .moods-change-record .field-counts .moods-negative:after,
 .summary:after,
+.account-page #main:after,
 .garden-detail-page .metric-group .metric:after,
 .garden-list-garden:after {
   clear: both;
@@ -8430,6 +8433,25 @@ ul.values li .even {
   width: 15%;
 }
 /* Other pages */
+.account-page #main {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.account-page #content {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .account-page #content {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.account-page .garden-list {
+  margin-top: 100px;
+}
 h2 a.text {
   position: absolute;
   padding-top: 3px;

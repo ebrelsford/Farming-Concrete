@@ -3,6 +3,8 @@
 
 {% block title %}Your account{% endblock %}
 
+{% block body_class %}{{ block.super }} account-page{% endblock %}
+
 {% block content %}
     <section>
         <a class="btn btn-default" href="{% url "django.contrib.auth.views.password_change" %}">
@@ -13,7 +15,8 @@
         </a>
     </section>
 
-    <section>
-        {% garden_list user %}
-    <section>
+    {% garden_list user %}
+    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
+        Add a garden
+    </a>
 {% endblock %}
