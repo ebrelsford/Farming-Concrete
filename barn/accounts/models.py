@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.db import models
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from registration.signals import user_activated
+from templated_emails.utils import send_templated_email
 
 from farmingconcrete.models import GardenType
 from metrics.harvestcount.models import Gardener
@@ -44,6 +46,26 @@ class GardenMembership(models.Model):
 
     added_by = models.ForeignKey('auth.User', editable=False, null=True)
     added = models.DateTimeField(auto_now_add=True, editable=False)
+
+
+@receiver(post_save, sender=GardenMembership)
+def new_garden_membership(sender, instance, created=False, **kwargs):
+    if created:
+        # Try to find admins for this garden that are not the new person
+        admins = GardenMembership.objects.filter(
+            garden=instance.garden,
+            is_admin=True,
+        ).exclude(user_profile=instance.user_profile)
+        if admins:
+            send_templated_email(
+                [admin.user_profile.user.email for admin in admins],
+                'emails/new_garden_membership',
+                {
+                    'base_url': settings.BASE_URL,
+                    'garden': instance.garden,
+                    'new_user': instance.user_profile.user,
+                }
+            )
 
 
 @receiver(user_activated)

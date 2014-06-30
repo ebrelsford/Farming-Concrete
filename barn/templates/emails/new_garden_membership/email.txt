@@ -1,0 +1,5 @@
+A new member was added to {{ garden.name }} on Farming Concrete.
+
+You can view or edit the garden here:
+
+    {{ base_url }}{% url "farmingconcrete_gardens_update" pk=garden.pk %}

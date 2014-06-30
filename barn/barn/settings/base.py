@@ -38,7 +38,7 @@ DATABASES = {
 }
 
 EMAIL_SUBJECT_PREFIX = 'Farming Concrete: '
-DEFAULT_FROM_EMAIL = 'Farming Concrete <info@farmingconcrete.org>'
+DEFAULT_FROM_EMAIL = 'Farming Concrete <gardens@farmingconcrete.org>'
 SERVER_EMAIL = 'admin@farmingconcrete.org'
 
 TIME_ZONE = 'America/New_York'
@@ -221,3 +221,5 @@ FEEDBACK_CHOICES = (
 )
 
 NOAA_TOKEN = get_env_variable('FARMING_CONCRETE_NOAA_TOKEN')
+
+BASE_URL = get_env_variable('FARMING_CONCRETE_BASE_URL')
