@@ -8564,6 +8564,32 @@ h2 a.text {
 .add-gardens-page .field-groups .help-text {
   display: none;
 }
+.add-garden-map {
+  height: 200px;
+  width: 100%;
+}
+.garden-suggestions-wrapper {
+  min-height: 100px;
+}
+.garden-suggestions-wrapper.is-loading,
+#feedback-form.is-loading {
+  opacity: 0.5;
+}
+ul.garden-suggestions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.garden-suggestion {
+  cursor: pointer;
+  padding: 8px;
+}
+.garden-suggestion:hover {
+  background-color: #F2E3C4;
+}
+.garden-suggestion-name {
+  font-weight: bold;
+}
 ul.garden-list {
   list-style: none;
   margin: 0;
@@ -8660,32 +8686,6 @@ ul.garden-list {
 }
 .garden-popup a:hover {
   text-decoration: underline;
-}
-.add-garden-map {
-  height: 200px;
-  width: 100%;
-}
-.garden-suggestions-wrapper {
-  min-height: 100px;
-}
-.garden-suggestions-wrapper.is-loading,
-#feedback-form.is-loading {
-  opacity: 0.5;
-}
-ul.garden-suggestions {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.garden-suggestion {
-  cursor: pointer;
-  padding: 8px;
-}
-.garden-suggestion:hover {
-  background-color: #F2E3C4;
-}
-.garden-suggestion-name {
-  font-weight: bold;
 }
 h2#your-gardens-title {
   margin-bottom: 15px;
