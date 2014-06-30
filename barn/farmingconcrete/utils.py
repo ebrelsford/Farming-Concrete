@@ -13,6 +13,7 @@ def consolidate_garden(to_delete, to_keep, copy_fields=False):
     updated = to_delete.chart_set.all().update(garden=to_keep)
     print 'consolidating charts ... %d updated' % updated
 
+    # TODO fix for new GardenMembership through table
     for profile in to_delete.userprofile_set.all():
         profile.gardens.add(to_keep)
         profile.gardens.remove(to_delete)

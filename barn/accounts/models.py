@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 from registration.signals import user_activated
 
-from farmingconcrete.models import Garden, GardenType
+from farmingconcrete.models import GardenType
 from metrics.harvestcount.models import Gardener
 
 
@@ -14,13 +14,26 @@ class UserProfile(models.Model):
 
     # Gardens this user has access to. If none, and has 'any' permissions,
     # user can access all.
-    gardens = models.ManyToManyField(Garden, blank=True, null=True)
+    gardens = models.ManyToManyField('farmingconcrete.Garden',
+        blank=True,
+        null=True,
+        through='GardenMembership',
+    )
 
     # GardenTypes this user is restricted to. If none, user can access all.
     garden_types = models.ManyToManyField(GardenType, blank=True, null=True)
 
     # The corresponding Gardener for this user, if any.
     gardener = models.ForeignKey(Gardener, blank=True, null=True)
+
+
+class GardenMembership(models.Model):
+    garden = models.ForeignKey('farmingconcrete.Garden')
+    user_profile = models.ForeignKey('UserProfile')
+    is_admin = models.BooleanField(default=False)
+
+    added_by = models.ForeignKey('auth.User', editable=False, null=True)
+    added = models.DateTimeField(auto_now_add=True, editable=False)
 
 
 @receiver(user_activated)

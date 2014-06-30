@@ -13,6 +13,7 @@ from django.views.generic import (CreateView, DetailView, View, UpdateView,
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
+from accounts.models import GardenMembership
 from accounts.utils import get_profile
 from generic.views import (DefaultYearMixin, LoginRequiredMixin,
                            SuccessMessageFormMixin)
@@ -110,8 +111,12 @@ class AddUserGardenMixin(object):
     def add_garden_to_user(self, garden):
         user = self.request.user
         if user and user.is_authenticated():
-            profile = get_profile(user)
-            profile.gardens.add(garden)
+            garden_membership = GardenMembership(
+                garden=garden,
+                user_profile=get_profile(user),
+                added_by=user,
+            )
+            garden_membership.save()
 
 
 class GardenFormMixin(FormMixin):
@@ -276,8 +281,10 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
     def remove_garden_from_user(self, garden):
         user = self.request.user
         if user and user.is_authenticated():
-            profile = get_profile(user)
-            profile.gardens.remove(garden)
+            GardenMembership.objects.filter(
+                garden=garden,
+                user_profile=get_profile(user)
+            ).delete()
 
     def get(self, request, *args, **kwargs):
         garden = self.get_object()
