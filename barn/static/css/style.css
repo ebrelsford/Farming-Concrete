@@ -8433,6 +8433,15 @@ ul.values li .even {
   width: 15%;
 }
 /* Other pages */
+.account-page h2 {
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.account-page h2 img {
+  max-height: 42px;
+}
 .account-page #main {
   margin-left: -15px;
   margin-right: -15px;
@@ -8451,6 +8460,9 @@ ul.values li .even {
 }
 .account-page .garden-list {
   margin-top: 100px;
+}
+.account-page .actions {
+  margin-top: 50px;
 }
 h2 a.text {
   position: absolute;
@@ -8475,6 +8487,16 @@ h2 a.text {
 #feedback-form {
   display: none;
   padding: 20px;
+}
+.flatpages-page h2 {
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  margin-bottom: 50px;
+}
+.flatpages-page h2 img {
+  max-height: 42px;
 }
 .garden-detail-page .garden-item {
   border-bottom: 1px dotted #8c8c8c;
@@ -8744,6 +8766,16 @@ fieldset[disabled] .btn-add-garden.active {
     float: left;
     width: 66.66666667%;
   }
+}
+.registration-login-content h2 {
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  margin-bottom: 50px;
+}
+.registration-login-content h2 img {
+  max-height: 42px;
 }
 .registration-form-login {
   margin-top: 50px;

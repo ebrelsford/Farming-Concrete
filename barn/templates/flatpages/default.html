@@ -4,9 +4,10 @@
     {{ flatpage.title }}
 {% endblock %}
 
+{% block body_class %}{{ block.super }} flatpages-page{% endblock %}
+
 {% block content %}
     <article>
-        <h1>{{ flatpage.title }}</h1>
         {{ flatpage.content }}
     </article>
 {% endblock %}

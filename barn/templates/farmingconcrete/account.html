@@ -1,12 +1,16 @@
 {% extends "registration/base.html" %}
-{% load garden_tags i18n %}
+{% load garden_tags i18n static %}
 
 {% block title %}Your account{% endblock %}
 
 {% block body_class %}{{ block.super }} account-page{% endblock %}
 
 {% block content %}
-    <section>
+    <h2>
+        <img alt="{% trans "Your account" %}" src="{% static "img/your_account.jpg" %}" />
+    </h2>
+
+    <section class="actions">
         <a class="btn btn-default" href="{% url "django.contrib.auth.views.password_change" %}">
             {% trans "change your password" %}
         </a>
