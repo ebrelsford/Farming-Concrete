@@ -8678,11 +8678,8 @@ ul.garden-suggestions {
   cursor: pointer;
   padding: 8px;
 }
-.garden-suggestion:hover {
-  background-color: #F2E3C4;
-}
-.garden-suggestion-name {
-  font-weight: bold;
+.garden-suggestion:hover .garden-suggestion-name {
+  text-decoration: underline;
 }
 ul.garden-list {
   list-style: none;
