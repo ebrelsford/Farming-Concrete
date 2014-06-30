@@ -6,7 +6,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.views.generic import TemplateView
 
-import accounts.urls
 from farmingconcrete.views import IndexView
 import reports.urls
 
@@ -76,7 +75,7 @@ urlpatterns = patterns('',
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),
     (r'^accounts/registration/', include('registration.backends.default.urls')),
-    (r'^accounts/', include(accounts.urls.built_in_auth_urls)),
+    (r'^accounts/', include('django.contrib.auth.urls')),
 
     # admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
