@@ -32,6 +32,16 @@ class GardenMembership(models.Model):
     user_profile = models.ForeignKey('UserProfile')
     is_admin = models.BooleanField(default=False)
 
+    EMAIL_PREFERENCES_CHOICES = (
+        ('all', 'all'),
+        ('none', 'none'),
+    )
+    email_preferences = models.CharField(
+        max_length=50,
+        choices=EMAIL_PREFERENCES_CHOICES,
+        default='all',
+    )
+
     added_by = models.ForeignKey('auth.User', editable=False, null=True)
     added = models.DateTimeField(auto_now_add=True, editable=False)
 
