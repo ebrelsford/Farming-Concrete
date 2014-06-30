@@ -75,11 +75,7 @@ urlpatterns = patterns('',
 
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),
-    (r'^accounts/password/reset/$', 'accounts.views.password_reset'),
-    (r'^accounts/password/reset/email=(?P<email>.*)$',
-     'accounts.views.password_reset'),
-    (r'^accounts/registration/',
-     include('registration.backends.default.urls')),
+    (r'^accounts/registration/', include('registration.backends.default.urls')),
     (r'^accounts/', include(accounts.urls.built_in_auth_urls)),
 
     # admin
