@@ -8744,6 +8744,9 @@ fieldset[disabled] .btn-add-garden.active {
   padding: 50px;
   padding-top: 0;
 }
+.main-index-page .actions {
+  margin-top: 50px;
+}
 .olControlAttribution {
   bottom: 3px !important;
   font-size: 10px !important;
