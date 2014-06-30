@@ -8711,6 +8711,45 @@ fieldset[disabled] .btn-add-garden.active {
   bottom: 3px !important;
   font-size: 10px !important;
 }
+.registration-login-content {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .registration-login-content {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+.registration-form-login {
+  margin-top: 50px;
+}
+.registration-form-login .field-username {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .registration-form-login .field-username {
+    float: left;
+    width: 50%;
+  }
+}
+.registration-form-login .field-password {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .registration-form-login .field-password {
+    float: left;
+    width: 50%;
+  }
+}
 .report .section {
   margin-bottom: 50px;
 }
