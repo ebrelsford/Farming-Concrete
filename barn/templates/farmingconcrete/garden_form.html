@@ -30,7 +30,31 @@
                 {% endblocktrans %}
             </p>
         {% endif %}
-        {% include "_form.html" with form=form %}
+
+        <form method="post" {% if action %}action="{{ action }}"{% endif %}>
+            {% include "forms/head.html" %}
+
+            <div class="row">
+                {% include "forms/field.html" with field=form.name %}
+                {% include "forms/field.html" with field=form.type %}
+            </div>
+            <div class="row">
+                {% include "forms/field.html" with field=form.address %}
+            </div>
+            <div class="row">
+                {% include "forms/field.html" with field=form.city %}
+                {% include "forms/field.html" with field=form.state %}
+                {% include "forms/field.html" with field=form.zip %}
+            </div>
+            <div class="row">
+                {% include "forms/field.html" with field=form.neighborhood %}
+            </div>
+            <div class="row">
+                {% include "forms/field.html" with field=form.groups %}
+            </div>
+
+            {% include "forms/buttons.html" %}
+        </form>
     </section>
 
     <div class="col-lg-4">

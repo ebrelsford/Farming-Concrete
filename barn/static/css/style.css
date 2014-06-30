@@ -8561,6 +8561,102 @@ h2 a.text {
   width: 100%;
   height: 150px;
 }
+.add-gardens-page .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-name {
+    float: left;
+    width: 50%;
+  }
+}
+.add-gardens-page .field-type {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-type {
+    float: left;
+    width: 50%;
+  }
+}
+.add-gardens-page .field-address {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-address {
+    float: left;
+    width: 50%;
+  }
+}
+.add-gardens-page .field-city {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-city {
+    float: left;
+    width: 50%;
+  }
+}
+.add-gardens-page .field-state {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-state {
+    float: left;
+    width: 25%;
+  }
+}
+.add-gardens-page .field-zip {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-zip {
+    float: left;
+    width: 25%;
+  }
+}
+.add-gardens-page .field-neighborhood {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-neighborhood {
+    float: left;
+    width: 50%;
+  }
+}
+.add-gardens-page .field-groups {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-groups {
+    float: left;
+    width: 66.66666667%;
+  }
+}
 .add-gardens-page .field-groups .help-text {
   display: none;
 }
