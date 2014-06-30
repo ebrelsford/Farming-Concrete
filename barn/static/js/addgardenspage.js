@@ -112,8 +112,6 @@ define(
         $(document).ready(function () {
             map = initializeMap();
 
-            $('#id_borough').parents('.form-group').hide();
-
             var lat = $('#id_latitude').val(),
                 lng = $('#id_longitude').val();
             if (lat && lng) {
