@@ -8751,6 +8751,12 @@ ul.garden-list {
     width: 25%;
   }
 }
+.garden-detail-page .garden-list-garden-actions {
+  float: none;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
 .garden-list-garden-name {
   color: #f63c04;
   font-size: 14px;
