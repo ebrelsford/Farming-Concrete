@@ -111,9 +111,12 @@ class AddUserGardenMixin(object):
     def add_garden_to_user(self, garden):
         user = self.request.user
         if user and user.is_authenticated():
+            # Make user the admin if they're the first
+            is_first = not GardenMembership.objects.filter(garden=garden).exists()
             garden_membership = GardenMembership(
                 garden=garden,
                 user_profile=get_profile(user),
+                is_admin=is_first,
                 added_by=user,
             )
             garden_membership.save()
