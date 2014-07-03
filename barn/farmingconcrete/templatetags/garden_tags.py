@@ -32,5 +32,24 @@ class GardenList(InclusionTag):
         return context
 
 
+class GardenMemberList(InclusionTag):
+    options = Options(
+        Argument('garden'),
+    )
+    template = 'farmingconcrete/garden_member_list.html'
+
+    def get_garden_members(self, garden):
+        if garden:
+            return garden.gardenmembership_set.all()
+        return []
+
+    def get_context(self, context, garden):
+        context.update({
+            'members': self.get_garden_members(garden),
+        })
+        return context
+
+
 register.filter('garden_type_label', garden_type_label)
 register.tag(GardenList)
+register.tag(GardenMemberList)

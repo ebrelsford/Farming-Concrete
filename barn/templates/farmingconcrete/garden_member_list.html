@@ -1,0 +1,5 @@
+<ul class="garden-member-list">
+    {% for member in members %}
+        <li class="garden-member-list-item">{{ member.user_profile.user }}</li>
+    {% endfor %}
+</ul>

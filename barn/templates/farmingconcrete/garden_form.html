@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load garden_tags i18n %}
 
 {% block title %}{% include "farmingconcrete/garden_form_title.html" with garden=garden %}{% endblock %}
 {% block header_title %}{% include "farmingconcrete/garden_form_title.html" with garden=garden %}{% endblock %}
@@ -9,53 +9,62 @@
 {% block content %}
     <h1>{% include "farmingconcrete/garden_form_title.html" with garden=garden %}</h1>
 
-    <section class="col-lg-8">
-        {% if not garden %}
-            <p>
-                {% blocktrans %}
-                    Add a garden to Farming Concrete. The garden will be added to
-                    your account. 
-                {% endblocktrans %}
-            </p>
-            <p>
-                {% blocktrans %}
-                    If you enter a garden name that matches an existing one it 
-                    will show up to the right.
-                {% endblocktrans %}
-            </p>
-            <p>
-                {% blocktrans %}
-                    Otherwise, once you fill in all of the address information,
-                    the garden should show up on the map to the right.
-                {% endblocktrans %}
-            </p>
+    <div class="col-lg-8">
+        <section>
+            {% if not garden %}
+                <p>
+                    {% blocktrans %}
+                        Add a garden to Farming Concrete. The garden will be added to
+                        your account. 
+                    {% endblocktrans %}
+                </p>
+                <p>
+                    {% blocktrans %}
+                        If you enter a garden name that matches an existing one it 
+                        will show up to the right.
+                    {% endblocktrans %}
+                </p>
+                <p>
+                    {% blocktrans %}
+                        Otherwise, once you fill in all of the address information,
+                        the garden should show up on the map to the right.
+                    {% endblocktrans %}
+                </p>
+            {% endif %}
+
+            <form method="post" {% if action %}action="{{ action }}"{% endif %}>
+                {% include "forms/head.html" %}
+
+                <div class="row">
+                    {% include "forms/field.html" with field=form.name %}
+                    {% include "forms/field.html" with field=form.type %}
+                </div>
+                <div class="row">
+                    {% include "forms/field.html" with field=form.address %}
+                </div>
+                <div class="row">
+                    {% include "forms/field.html" with field=form.city %}
+                    {% include "forms/field.html" with field=form.state %}
+                    {% include "forms/field.html" with field=form.zip %}
+                </div>
+                <div class="row">
+                    {% include "forms/field.html" with field=form.neighborhood %}
+                </div>
+                <div class="row">
+                    {% include "forms/field.html" with field=form.groups %}
+                </div>
+
+                {% include "forms/buttons.html" %}
+            </form>
+        </section>
+
+        {% if garden %}
+            <section class="add-garden-current-members">
+                <h2>Current garden members</h2>
+                {% garden_member_list garden %}
+            </section>
         {% endif %}
-
-        <form method="post" {% if action %}action="{{ action }}"{% endif %}>
-            {% include "forms/head.html" %}
-
-            <div class="row">
-                {% include "forms/field.html" with field=form.name %}
-                {% include "forms/field.html" with field=form.type %}
-            </div>
-            <div class="row">
-                {% include "forms/field.html" with field=form.address %}
-            </div>
-            <div class="row">
-                {% include "forms/field.html" with field=form.city %}
-                {% include "forms/field.html" with field=form.state %}
-                {% include "forms/field.html" with field=form.zip %}
-            </div>
-            <div class="row">
-                {% include "forms/field.html" with field=form.neighborhood %}
-            </div>
-            <div class="row">
-                {% include "forms/field.html" with field=form.groups %}
-            </div>
-
-            {% include "forms/buttons.html" %}
-        </form>
-    </section>
+    </div>
 
     <div class="col-lg-4">
         <div class="garden-suggestions-wrapper"></div>

@@ -5965,6 +5965,17 @@ input.ac_loading {
 .collapsible.collapsed .expandee {
   display: none;
 }
+.garden-member-list {
+  list-style: none;
+  padding: 0;
+}
+.garden-member-list-item {
+  border-top: 1px dotted #8c8c8c;
+  padding: 15px;
+}
+.garden-member-list-item:last-of-type {
+  border-bottom: 1px dotted #8c8c8c;
+}
 .required label {
   font-weight: bold;
 }
@@ -8666,6 +8677,9 @@ h2 a.text {
 .add-garden-map {
   height: 200px;
   width: 100%;
+}
+.add-garden-current-members {
+  margin-top: 75px;
 }
 .garden-suggestions-wrapper.is-loading,
 #feedback-form.is-loading {
