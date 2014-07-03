@@ -8481,6 +8481,9 @@ h2 a.text {
   display: none;
   padding: 20px;
 }
+#feedback-form .field-type {
+  width: 100%;
+}
 .flatpages-page h2 {
   border-bottom: 1px dotted #8c8c8c;
   border-top: 1px solid #404040;
