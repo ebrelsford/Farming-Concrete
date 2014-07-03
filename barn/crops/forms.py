@@ -35,6 +35,7 @@ class VarietyForm(ModelForm):
         model = Variety
         widgets = {
             'added_by': HiddenInput(),
+            'crop': HiddenInput(),
             'needs_moderation': HiddenInput(),
             'updated_by': HiddenInput(),
         }
