@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from feedback.models import Feedback
 from registration.signals import user_activated
 from templated_emails.utils import send_templated_email
 
@@ -77,3 +78,14 @@ def add_user_to_default_groups(sender, user, request, **kwargs):
         user.save()
     except Exception:
         pass
+
+
+@receiver(post_save, sender=Feedback)
+def new_feedback(sender, instance, created=False, **kwargs):
+    """Send email when new feedback is sent via the feedback button"""
+    if created:
+        send_templated_email(
+            [email for name, email in settings.ADMINS],
+            'emails/new_feedback',
+            { 'feedback': instance, }
+        )
