@@ -23,12 +23,11 @@ define(
         function updateSuggestions() {
             var baseUrl = prefixurl.url('farmingconcrete_gardens_suggest'),
                 name = $('#id_name').val(),
-                url = baseUrl + '?name=' + name,
                 $wrapper = $('.garden-suggestions-wrapper');
             $wrapper
                 .spin('large')
                 .addClass('is-loading')
-                .load(url, function () {
+                .load(baseUrl + '?' + $.param({ name: name }), function () {
                     $wrapper
                         .spin(false)
                         .removeClass('is-loading');
