@@ -8,7 +8,7 @@ define(
     [
         // Requirements with exports
         'jquery',
-        'Django',
+        'django',
 
         // Requirements without exports
         'jquery.form',
