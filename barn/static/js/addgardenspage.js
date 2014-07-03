@@ -8,7 +8,7 @@ define(
     [
         // Requirements with exports
         'jquery',
-        'prefixurl',
+        'django',
         'leaflet',
         'geocode',
 
@@ -16,12 +16,12 @@ define(
         'jquery.spin',
         'leaflet.dataoptions',
         'leaflet.usermarker'
-    ], function ($, prefixurl, L, geocode) {
+    ], function ($, Django, L, geocode) {
 
         var map;
 
         function updateSuggestions() {
-            var baseUrl = prefixurl.url('farmingconcrete_gardens_suggest'),
+            var baseUrl = Django.url('farmingconcrete_gardens_suggest'),
                 name = $('#id_name').val(),
                 $wrapper = $('.garden-suggestions-wrapper');
             $wrapper
@@ -56,7 +56,7 @@ define(
         }
 
         function selectSuggestedGarden(pk) {
-            window.location.href = prefixurl.url('farmingconcrete_gardens_suggest_add', { 'pk': pk });
+            window.location.href = Django.url('farmingconcrete_gardens_suggest_add', { 'pk': pk });
         }
 
         function geocodeAddress() {

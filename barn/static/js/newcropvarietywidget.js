@@ -7,14 +7,14 @@ define(
         // Requirements with exports
         'jquery',
         'new_widget',
-        'prefixurl'
+        'django'
 
-    ], function ($, NewInstanceWidget, prefixurl) {
+    ], function ($, NewInstanceWidget, Django) {
 
         var NewCropVarietyWidget = NewInstanceWidget.extend({});
 
         function loadCropVarieties($crop, $cropVariety) {
-            var url = prefixurl.url('crops_variety_list') + '?' + $.param({
+            var url = Django.url('crops_variety_list') + '?' + $.param({
                 crop: $crop.val()  
             });
 

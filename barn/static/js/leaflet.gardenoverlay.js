@@ -10,8 +10,8 @@ define(
         'handlebars',
         'leaflet',
         'underscore',
-        'prefixurl'
-    ], function ($, Handlebars, L, _, prefixurl) {
+        'django'
+    ], function ($, Handlebars, L, _, Django) {
         var mapParams = [
             'cropcount',
             'gardenid',
@@ -42,7 +42,7 @@ define(
 
             addGardenOverlay: function () {
                 var instance = this,
-                    url = prefixurl.url('farmingconcrete_gardens_geojson');
+                    url = Django.url('farmingconcrete_gardens_geojson');
                 url += '?' + $.param(_.pick(instance.options, mapParams));
                 $.getJSON(url, function (data) {
                     instance.addGardenData(data);
@@ -67,7 +67,7 @@ define(
                         var marker = L.circleMarker(latlng, style);
                         marker.bindPopup(popupTemplate({
                             garden: feature,
-                            url: prefixurl.url('farmingconcrete_garden_details', { pk: feature.id })
+                            url: Django.url('farmingconcrete_garden_details', { pk: feature.id })
                         }));
                         return marker;
                     },

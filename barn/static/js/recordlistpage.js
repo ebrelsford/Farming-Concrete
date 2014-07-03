@@ -7,9 +7,8 @@ define(
         // Requirements with exports
         'jquery',
         'django',
-        'prefixurl'
 
-    ], function ($, Django, prefixurl) {
+    ], function ($, Django) {
 
         $(document).ready(function () {
             $('.record-list-page').on('click', '.delete-record', function () {
@@ -18,7 +17,7 @@ define(
                     return;
                 }
                 var record = $(this).parents('.record');
-                var delete_url = prefixurl.url('metrics_delete_record', {
+                var delete_url = Django.url('metrics_delete_record', {
                     pk: record.data('pk'),
                     record_type_pk: record.data('record-type-pk')
                 });
