@@ -5,7 +5,12 @@
 
 {% block record_detail %}
     <div class="field-gardener">{{ record.gardener.name }}</div> 
-    <div class="field-crop">{{ record.crop.name }}</div>
+    <div class="field-crop">
+        {{ record.crop.name }} 
+        {% if record.crop_variety %}
+            ({{ record.crop_variety.name }})
+        {% endif %}
+    </div>
     <div class="field-weight">{{ record.weight|floatformat }} pounds</div>
     <div class="field-dimensions">
         {% if record.plants %}
