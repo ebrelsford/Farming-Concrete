@@ -32,7 +32,8 @@ define(
         $(document).ready(function () {
             var widget = new NewGardenerWidget({
                 buttonSelector: '.btn-new-gardener',
-                errorMessage: 'There was an error while adding your gardener. Please try again.',
+                selectSelector: 'select[name$=gardener]',
+                errorMessage: 'There was an error while adding your gardener. Please try again.'
             });
         });
 
