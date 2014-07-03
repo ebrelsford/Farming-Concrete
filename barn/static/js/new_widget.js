@@ -22,7 +22,7 @@ define(
             },
 
             init: function (options) {
-                this.options = _.extend(this.options, options);
+                this.options = _.extend({}, this.options, options);
                 var t = this,
                     modalId = $(this.options.buttonSelector).data('target'),
                     $modal;
@@ -50,9 +50,11 @@ define(
                 $modal.on('submit', function (e) {
                     return t.submitForm($modal, t.$select, e);
                 });
+                return this;
             },
 
             getSelector: function ($button) {
+                // TODO this is getting confused, new variety in gardener select
                 var t = this,
                     select = $(t.options.selectSelector);
                 if (select.length > 1) {
