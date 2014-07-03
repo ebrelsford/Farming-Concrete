@@ -5,7 +5,7 @@ from metrics.cropcount.models import Patch
 from metrics.harvestcount.models import Harvest
 from metrics.yumyuck.models import YumYuck
 
-from .models import Crop
+from .models import Crop, Variety
 
 
 class CropAdmin(admin.ModelAdmin):
@@ -49,4 +49,14 @@ class CropAdmin(admin.ModelAdmin):
     actions = (mark_as_moderated, consolidate)
 
 
+class VarietyAdmin(admin.ModelAdmin):
+    readonly_fields = ('crop', 'added', 'added_by', 'updated', 'updated_by',)
+    fields = ('crop', 'name', 'needs_moderation',
+              'added_by', 'added', 'updated_by', 'updated',)
+    list_display = ('name', 'crop', 'added_by', 'added', 'needs_moderation')
+    list_filter = ('needs_moderation', 'crop', 'added_by', 'added',)
+    search_fields = ('name', 'crop',)
+
+
 admin.site.register(Crop, CropAdmin)
+admin.site.register(Variety, VarietyAdmin)
