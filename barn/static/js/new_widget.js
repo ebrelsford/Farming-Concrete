@@ -46,6 +46,12 @@ define(
                     }
                 });
 
+                // Focus on first input element on load. Only works the first
+                // time, but hopefully that's good enough
+                $modal.on('loaded.bs.modal', function () {
+                    $('.modal:visible form :input:visible:eq(0)').focus();
+                });
+
                 // Submit form when submitted
                 $modal.on('submit', function (e) {
                     return t.submitForm($modal, t.$select, e);
