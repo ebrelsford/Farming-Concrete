@@ -8,12 +8,12 @@ define(
     [
         // Requirements with exports
         'jquery',
-        'prefixurl',
+        'Django',
 
         // Requirements without exports
         'jquery.form',
         'jquery.spin'
-    ], function ($, prefixurl) {
+    ], function ($, Django) {
 
         function initializeFeedbackForm() {
 
@@ -35,7 +35,7 @@ define(
                     .spin('large');
                 $(this).ajaxSubmit({
                     data: {
-                        next: prefixurl.url('feedback_success'),
+                        next: Django.url('feedback_success'),
                     },
                     success: function () {
                         $('#feedback-form')
