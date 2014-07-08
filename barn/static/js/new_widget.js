@@ -137,6 +137,7 @@ define(
                                 }
                                 $select.trigger('change');
                             }
+                            $modal.modal('hide');
                         }
                     });
                 }
@@ -146,7 +147,6 @@ define(
                     event.stopPropagation();
                     return false;
                 }
-                $modal.modal('hide');
                 return false;
             }
 
