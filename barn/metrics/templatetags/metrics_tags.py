@@ -85,8 +85,7 @@ class CountRecords(MetricRecordTagMixin, AsTag):
         year = kwargs.get('year', None)
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
-        if not year:
-            year = settings.FARMINGCONCRETE_YEAR
+        year = kwargs.get('year', datetime.now().year)
 
         # Get the records requested
         metric = registry[name]['model']
@@ -123,7 +122,7 @@ class Summarize(MetricRecordTagMixin, Tag):
         records = kwargs.get('records', None)
         garden = kwargs.get('garden', None)
         gardens = kwargs.get('gardens', None)
-        year = kwargs.get('year', settings.FARMINGCONCRETE_YEAR)
+        year = kwargs.get('year', datetime.now().year)
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
         page = kwargs.get('page', 'list')
@@ -186,8 +185,7 @@ class MetricsWithRecords(MetricRecordTagMixin, AsTag):
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
         grouped = kwargs.get('grouped', False)
-        if not year:
-            year = settings.FARMINGCONCRETE_YEAR
+        year = kwargs.get('year', datetime.now().year)
 
         metrics_with_records = []
         for metric in registry.values():
@@ -223,8 +221,7 @@ class MetricsWithoutRecords(MetricRecordTagMixin, AsTag):
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
         grouped = kwargs.get('grouped', False)
-        if not year:
-            year = settings.FARMINGCONCRETE_YEAR
+        year = kwargs.get('year', datetime.now().year)
 
         metrics_without_records = []
         for metric in registry.values():

@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 
 from django.conf import settings
@@ -18,7 +19,7 @@ ONE_WEEK = 7 * 24 * 60 * 60
 @cache_page(ONE_WEEK)
 def map(request):
     context = {
-        'year': str(settings.FARMINGCONCRETE_YEAR),
+        'year': str(datetime.now().year),
         'varieties': {
             '2010': filter_varieties('2010'),
             '2011': filter_varieties('2011'),
@@ -41,7 +42,7 @@ def map(request):
 def kml(request):
     """Get kml for requested gardens for harvest map"""
 
-    year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
+    year = request.GET.get('year', datetime.now().year)
 
     # get from cache if possible
     cache_key = 'harvestmap_views_kml_' + year

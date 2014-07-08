@@ -1,7 +1,7 @@
+from datetime import datetime
 import json
 from StringIO import StringIO
 
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.files.base import ContentFile
@@ -26,7 +26,7 @@ from models import SharedReport, Chart
 
 
 @login_required
-def index(request, year=settings.FARMINGCONCRETE_YEAR):
+def index(request, year=datetime.now().year):
     metric = request.GET.get('metric', None)
 
     type = request.GET.get('type', None)
@@ -49,7 +49,7 @@ def index(request, year=settings.FARMINGCONCRETE_YEAR):
 
 
 def _get_metrics_year_range():
-    min_year = settings.FARMINGCONCRETE_YEAR
+    min_year = datetime.now().year
     max_year = 0
     for metric in registry.values():
         metric_min, metric_max = metric['model'].objects.all().year_range()
@@ -59,7 +59,7 @@ def _get_metrics_year_range():
 
 
 @login_required
-def garden_report(request, id=None, year=settings.FARMINGCONCRETE_YEAR):
+def garden_report(request, id=None, year=datetime.now().year):
     """get the report for the garden"""
     return _render_garden_report(request, id=id, year=year)
 

@@ -1,19 +1,5 @@
 from functools import wraps
 
-from django.conf import settings
-
-
-def year_in_session(f):
-    """
-    Stores year in session for use in places like templates
-    """
-    @wraps(f)
-    def wrapper(request, *args, **kwargs):
-        year = kwargs.get('year', None) or settings.FARMINGCONCRETE_YEAR
-        request.session['year'] = kwargs['year'] = year
-        return f(request, *args, **kwargs)
-    return wrapper
-
 
 def garden_type_aware(f):
     """

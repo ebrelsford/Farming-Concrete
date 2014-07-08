@@ -1,4 +1,5 @@
-from django.conf import settings
+from datetime import datetime
+
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -17,7 +18,7 @@ from .models import Box, Patch
 from middleware.http import Http403
 
 
-def _patches(year=settings.FARMINGCONCRETE_YEAR):
+def _patches(year=datetime.now().year):
     """Get current patches"""
     return Patch.objects.filter(added__year=year)
 
@@ -208,7 +209,7 @@ class CropcountCSV(CropcountMixin, MetricGardenCSVView):
 #
 # Utility functions
 #
-def _get_next_box_name(garden, year=settings.FARMINGCONCRETE_YEAR):
+def _get_next_box_name(garden, year=datetime.now().year):
     """
     If each box name for this garden so far has been an integer, guess we want
     the next integer.

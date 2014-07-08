@@ -1,14 +1,14 @@
+from datetime import datetime
 import geojson
 
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.views.generic import (CreateView, DetailView, View, UpdateView,
+from django.views.generic import (CreateView, DetailView, UpdateView,
                                   TemplateView)
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
@@ -208,7 +208,7 @@ def gardens_geojson(request):
     participating = request.GET.get('participating', None)
     type = request.GET.get('gardentype', None)
     borough = request.GET.get('borough', None)
-    year = request.GET.get('year', settings.FARMINGCONCRETE_YEAR)
+    year = request.GET.get('year', datetime.now().year)
     user_gardens = request.GET.get('user_gardens', False)
 
     if metric:
@@ -293,4 +293,4 @@ class FarmingConcreteYearMixin(DefaultYearMixin):
         return self.kwargs.get('year', None) or self.get_default_year()
 
     def get_default_year(self):
-        return settings.FARMINGCONCRETE_YEAR
+        return datetime.now().year

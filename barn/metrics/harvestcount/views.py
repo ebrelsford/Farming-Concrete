@@ -1,7 +1,6 @@
 from datetime import date
 import json
 
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import HttpResponseForbidden, HttpResponse, Http404
@@ -17,11 +16,6 @@ from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricGardenCSVView, MetricMixin, RecordsMixin)
 from .forms import GardenerForm, HarvestForm
 from .models import Gardener, Harvest
-
-
-def _harvests(year=settings.FARMINGCONCRETE_YEAR):
-    """Get current harvests"""
-    return Harvest.objects.filter(recorded__year=year)
 
 
 class HarvestcountMixin(MetricMixin):
