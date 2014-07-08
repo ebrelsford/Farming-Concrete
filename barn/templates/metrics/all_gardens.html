@@ -4,7 +4,7 @@
     <ul class="list-group gardens">
         {% for garden in all_gardens_with_records %}
             {% if perms.can_edit_any_garden or garden in user_gardens %}
-                <a class="list-group-item" href="{% url metric.garden_detail_url_name pk=garden.pk year=request.session.year %}">
+                <a class="list-group-item" href="{% url metric.garden_detail_url_name pk=garden.pk year=year %}">
                     {{ garden.name }}
                 </a>
             {% else %}

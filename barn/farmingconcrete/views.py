@@ -290,7 +290,10 @@ class GardenGroupDetailView(LoginRequiredMixin, DetailView):
 class FarmingConcreteYearMixin(DefaultYearMixin):
 
     def get_year(self):
-        return self.kwargs.get('year', None) or self.get_default_year()
+        try:
+            return int(self.kwargs.get('year', None))
+        except Exception:
+            return self.get_default_year()
 
     def get_default_year(self):
         return datetime.now().year

@@ -99,9 +99,7 @@ class GardenDetails(HarvestcountMixin, GardenDetailAddRecordView):
 
 
 class HarvestcountAllGardensView(RecordsMixin, TitledPageMixin,
-                                 FarmingConcreteYearMixin, HarvestcountMixin,
-                                 AllGardensView):
-    metric_model = Harvest
+                                 HarvestcountMixin, AllGardensView):
 
     def get_title(self):
         return 'All counted gardens'

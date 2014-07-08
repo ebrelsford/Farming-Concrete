@@ -5,7 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Manager
 from django.http import HttpResponse
-from django.views.generic import DeleteView, DetailView, ListView, TemplateView
+from django.views.generic import DeleteView, DetailView, TemplateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
@@ -126,7 +126,8 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
         return templates
 
 
-class AllGardensView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+class AllGardensView(FarmingConcreteYearMixin, LoginRequiredMixin,
+                     PermissionRequiredMixin, TemplateView):
     permission = 'farmingconcrete.can_edit_any_garden'
 
     def get_template_names(self):
@@ -146,6 +147,7 @@ class AllGardensView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         context = super(AllGardensView, self).get_context_data(**kwargs)
         context.update({
             'user_gardens': self.get_user_gardens(),
+            'year': self.get_year(),
         })
         return context
 
@@ -214,6 +216,7 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
             'garden': garden,
             'records': records.order_by('recorded'),
             'summary': self.get_metric_model().summarize(records),
+            'year': self.get_year(),
         })
         return context
 

@@ -126,10 +126,8 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
         })
 
 
-class CropcountAllGardensView(RecordsMixin, TitledPageMixin,
-                              FarmingConcreteYearMixin, CropcountMixin,
+class CropcountAllGardensView(RecordsMixin, TitledPageMixin, CropcountMixin,
                               AllGardensView):
-    metric_model = Patch
 
     def get_title(self):
         return 'All counted gardens'

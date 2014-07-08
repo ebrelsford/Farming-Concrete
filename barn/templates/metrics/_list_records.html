@@ -4,9 +4,9 @@
     <img src="{% static "img/recorded.png" %}" />
     {% metric_years metric garden as years %}
     <select class="list-records-year pull-right" id="list-records-year">
-        {% for year in years %}
-            <option {% ifequal year request.session.year %}selected{% endifequal %} value="{% url metric.garden_detail_url_name pk=garden.pk year=year %}">
-                {{ year }}
+        {% for select_year in years %}
+            <option {% ifequal select_year year %}selected{% endifequal %} value="{% url metric.garden_detail_url_name pk=garden.pk year=select_year %}">
+                {{ select_year }}
             </option>
         {% endfor %}
     </select>

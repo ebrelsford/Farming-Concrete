@@ -3,7 +3,6 @@ from itertools import groupby
 from operator import itemgetter
 
 from django import template
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.template.base import TemplateDoesNotExist
 from django.template.loader import render_to_string, select_template
@@ -315,7 +314,7 @@ class MetricYears(MetricRecordTagMixin, AsTag):
             max_year = max(max_year, recordeds[-1].year)
         except Exception:
             pass
-        return [str(year) for year in range(min_year, max_year + 1)]
+        return [year for year in range(min_year, max_year + 1)]
 
 
 register.tag(AddRecord)

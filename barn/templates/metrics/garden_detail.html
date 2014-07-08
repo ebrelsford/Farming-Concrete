@@ -26,7 +26,7 @@
         {% block list_records %}{% endblock %}
     </section>
 
-    {% url metric.download_url_name pk=garden.pk year=request.session.year as csv_url %}
+    {% url metric.download_url_name pk=garden.pk year=year as csv_url %}
     <a class="btn btn-default" href="{{ csv_url }}">download data</a>
 {% endblock %}
 
@@ -35,7 +35,7 @@
     {% include "farmingconcrete/gardens/_list_detail.html" with garden=garden %}
     {% summarize metric_name gardens=garden page="detail" %}
 
-    {% url metric.download_url_name pk=garden.pk year=request.session.year as csv_url %}
+    {% url metric.download_url_name pk=garden.pk year=year as csv_url %}
     <a class="btn btn-default" href="{{ csv_url }}">download data</a>
 {% endblock %}
 
