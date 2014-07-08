@@ -5310,6 +5310,8 @@ button.close {
 .panel-body:after,
 .modal-footer:before,
 .modal-footer:after,
+.garden-member-list-item:before,
+.garden-member-list-item:after,
 .form-horizontal .fields:before,
 .form-horizontal .fields:after,
 .form-horizontal .form-group:before,
@@ -5371,6 +5373,7 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-footer:after,
+.garden-member-list-item:after,
 .form-horizontal .fields:after,
 .form-horizontal .form-group:after,
 .form-horizontal .form-actions:after,
@@ -5970,11 +5973,37 @@ input.ac_loading {
   padding: 0;
 }
 .garden-member-list-item {
+  margin-left: -15px;
+  margin-right: -15px;
   border-top: 1px dotted #8c8c8c;
   padding: 15px;
 }
 .garden-member-list-item:last-of-type {
   border-bottom: 1px dotted #8c8c8c;
+}
+.garden-member-list-item-user {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-member-list-item-user {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.garden-member-list-item-type {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-member-list-item-type {
+    float: left;
+    width: 16.66666667%;
+  }
 }
 .required label {
   font-weight: bold;

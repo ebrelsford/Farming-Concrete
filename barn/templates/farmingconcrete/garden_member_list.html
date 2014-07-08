@@ -1,5 +1,14 @@
 <ul class="garden-member-list">
     {% for member in members %}
-        <li class="garden-member-list-item">{{ member.user_profile.user }}</li>
+        <li class="garden-member-list-item">
+            <div class="garden-member-list-item-user">
+                {{ member.user_profile.user }}
+            </div>
+            <div class="garden-member-list-item-type">
+                {% if member.is_admin %}
+                    admin
+                {% endif %}
+            </div>
+        </li>
     {% endfor %}
 </ul>

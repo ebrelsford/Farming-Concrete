@@ -3,11 +3,20 @@
     padding: 0;
 
     &-item {
+        .make-row();
         border-top: @separator-border;
         padding: 15px;
 
         &:last-of-type {
             border-bottom: @separator-border;
+        }
+
+        &-user {
+            .make-sm-column(2);
+        }
+
+        &-type {
+            .make-sm-column(2);
         }
     }
 }
