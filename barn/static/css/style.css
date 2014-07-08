@@ -6005,6 +6005,18 @@ input.ac_loading {
     width: 16.66666667%;
   }
 }
+.garden-member-list-item-last-login {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-member-list-item-last-login {
+    float: left;
+    width: 33.33333333%;
+  }
+}
 .required label {
   font-weight: bold;
 }

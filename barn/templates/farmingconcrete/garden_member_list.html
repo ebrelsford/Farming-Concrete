@@ -9,6 +9,10 @@
                     admin
                 {% endif %}
             </div>
+            <div class="garden-member-list-item-last-login">
+                last login:
+                {{ member.user_profile.user.last_login|date:"m/d/Y"|default:"never" }}
+            </div>
         </li>
     {% endfor %}
 </ul>
