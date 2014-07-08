@@ -81,6 +81,9 @@ class HoursByGeography(BaseMetricRecord):
 
     @classmethod
     def summarize(cls, records):
+        if not records:
+            return None
+
         context = super(HoursByGeography, cls).summarize(records)
         if not context:
             context = {}
