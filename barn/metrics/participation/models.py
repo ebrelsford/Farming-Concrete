@@ -88,8 +88,13 @@ class HoursByGeography(BaseMetricRecord):
         if not context:
             context = {}
 
-        context['in'] = context.get('in_half', 0) / 2.0 + context.get('in_whole', 0)
-        context['out'] = context.get('out_half', 0) / 2.0 + context.get('out_whole', 0)
+        hours_in = context.get('in_half', 0) / 2.0 + context.get('in_whole', 0)
+        hours_out = context.get('out_half', 0) / 2.0 + context.get('out_whole', 0)
+        context.update({
+            'in': hours_in,
+            'out': hours_out,
+            'hours': hours_in + hours_out,
+        })
 
         try:
             photo = records.filter(photo__isnull=False).order_by('-added')[0].photo
