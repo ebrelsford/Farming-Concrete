@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from audit.models import AuditedModel
@@ -81,6 +82,7 @@ class Patch(BaseMetricRecord):
 
 register('Crop Count', {
     'all_gardens_url_name': 'cropcount_all_gardens',
+    'bed_content_type': ContentType.objects.get_for_model(Box),
     'download_url_name': 'cropcount_download_garden_cropcount_as_csv',
     'model': Patch,
     'number': 1,

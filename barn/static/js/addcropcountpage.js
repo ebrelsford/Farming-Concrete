@@ -44,6 +44,27 @@ define(
                 prefix: 'patch_set'
             });
 
+            $('.delete-bed').click(function () {
+                var confirmed = confirm('Delete bed? There is no undo and the data will be lost.');
+                if (!confirmed) {
+                    return;
+                }
+                var deleteUrl = Django.url('metrics_delete_record', {
+                    pk: $(this).data('pk'),
+                    record_type_pk: $(this).data('record-type-pk')
+                });
+
+                var $deleteLink = $(this);
+                $.post(deleteUrl, { csrfmiddlewaretoken: Django.csrf_token() })
+                    .done(function () {
+                        $deleteLink.parents('.cropcount-bed-record').hide();
+                    })
+                    .fail(function () {
+                        alert('Could not delete bed. Let an administrator know if this continues to occur.');
+                    });
+                return false;
+            });
+
         });
 
     }

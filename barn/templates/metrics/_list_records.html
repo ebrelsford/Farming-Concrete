@@ -30,9 +30,11 @@
                 {% endblock %}
 
                 {% ifcandelete metric %}
-                    <div class="actions">
-                        <a class="delete-record">Delete</a>
-                    </div>
+                    {% block record_delete %}
+                        <div class="actions">
+                            <a class="delete-record">Delete</a>
+                        </div>
+                    {% endblock %}
                 {% endifcandelete %}
             </li>
         {% endfor %}

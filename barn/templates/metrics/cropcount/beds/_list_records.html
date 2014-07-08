@@ -33,11 +33,17 @@
 
                     {% ifcandelete metric %}
                         <div class="actions">
-                            <a class="delete-record">Delete</a>
+                            <a class="delete-record delete-record-patch">Delete</a>
                         </div>
                     {% endifcandelete %}
                 </li>
             {% endfor %}
         </ul>
+    </div>
+{% endblock %}
+
+{% block record_delete %}
+    <div class="actions">
+        <a href="#" class="delete-bed" data-record-type-pk="{{ metric.bed_content_type.pk }}" data-pk="{{ record.pk }}">Delete bed</a>
     </div>
 {% endblock %}
