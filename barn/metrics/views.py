@@ -284,7 +284,7 @@ class MetricGardenCSVView(LoginRequiredMixin, MetricMixin, GardenMixin,
                           CSVView):
 
     def get_fields(self):
-        return ('recorded', 'added_by',)
+        return ('recorded', 'added_by_display',)
 
     def get(self, request, *args, **kwargs):
         self.object = self.garden = self.get_object()
