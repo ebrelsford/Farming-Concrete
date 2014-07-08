@@ -11,7 +11,7 @@
             ({{ record.crop_variety.name }})
         {% endif %}
     </div>
-    <div class="field-weight">{{ record.weight|floatformat }} pounds</div>
+    <div class="field-weight">{{ record.weight|floatformat:"2" }} pounds</div>
     <div class="field-dimensions">
         {% if record.plants %}
             {{ record.plants|floatformat }} plants{% if record.area %},{% endif %}
