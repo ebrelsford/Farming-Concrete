@@ -184,20 +184,26 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
         self.record = form.save()
         return super(GardenDetailAddRecordView, self).form_valid(form)
 
-    def get_initial(self):
-        garden = self.object
-
-        # Get a reasonable initial date for recorded
+    def get_initial_recorded(self):
+        """Get a reasonable initial date for the recorded field"""
+        today = date.today()
         try:
             recorded = self.get_records().order_by('-recorded')[0].recorded
         except Exception:
-            recorded = date.today()
+            recorded = None
 
+        # Fall back to today if no records or recorded < today - ~6 mos
+        if not recorded or (today - recorded).days > 180:
+            recorded = today
+        return recorded
+
+    def get_initial(self):
         initial = super(GardenDetailAddRecordView, self).get_initial()
+        # TODO if recorded_start exists, populate that too
         initial.update({
             'added_by': self.request.user,
-            'garden': garden,
-            'recorded': recorded,
+            'garden': self.object,
+            'recorded': self.get_initial_recorded(),
         })
         return initial
 
