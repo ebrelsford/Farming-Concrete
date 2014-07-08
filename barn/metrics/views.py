@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
@@ -185,26 +185,47 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
         return super(GardenDetailAddRecordView, self).form_valid(form)
 
     def get_initial_recorded(self):
-        """Get a reasonable initial date for the recorded field"""
+        """
+        Get a reasonable initial date for the recorded and recorded_start
+        fields as appropriate.
+        """
         today = date.today()
         try:
-            recorded = self.get_records().order_by('-recorded')[0].recorded
+            start = self.get_records().order_by('-recorded')[0].recorded
         except Exception:
-            recorded = None
+            start = None
 
         # Fall back to today if no records or recorded < today - ~6 mos
-        if not recorded or (today - recorded).days > 180:
-            recorded = today
-        return recorded
+        if not start or (today - start).days > 180:
+            start = today
+
+        if self.has_recorded_start():
+            if start == today:
+                # Make room in range by pushing start back a bit
+                start = today - timedelta(days=1)
+                end = today
+            else:
+                # Leave start where it is, push end forward a week if we can
+                end = min(today, start + timedelta(days=7))
+            return {
+                'recorded_start': start,
+                'recorded': end,
+            }
+        else:
+            return {
+                'recorded': start,
+            }
+
+    def has_recorded_start(self):
+        return 'recorded_start' in self.get_form_class()().fields.keys()
 
     def get_initial(self):
         initial = super(GardenDetailAddRecordView, self).get_initial()
-        # TODO if recorded_start exists, populate that too
         initial.update({
             'added_by': self.request.user,
             'garden': self.object,
-            'recorded': self.get_initial_recorded(),
         })
+        initial.update(**self.get_initial_recorded())
         return initial
 
     def get_success_url(self):
