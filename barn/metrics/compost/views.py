@@ -1,9 +1,7 @@
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricGardenCSVView, MetricMixin, RecordsMixin,
-                     UserGardenView)
+                     MetricGardenCSVView, MetricMixin, RecordsMixin)
 from .forms import CompostProductionVolumeForm, CompostProductionWeightForm
 from .models import CompostProductionVolume, CompostProductionWeight
 
@@ -30,17 +28,7 @@ class WeightAllGardensView(RecordsMixin, TitledPageMixin, WeightMixin,
     metric_model = CompostProductionWeight
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens weighing compost production' %
-                garden_type_label(garden_type))
-
-
-class WeightUserGardensView(TitledPageMixin, WeightMixin, UserGardenView):
-    metric_model = CompostProductionWeight
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens weighing compost production'
 
 
 class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
@@ -90,17 +78,7 @@ class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,
     metric_model = CompostProductionVolume
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring compost production by volume' %
-                garden_type_label(garden_type))
-
-
-class VolumeUserGardensView(TitledPageMixin, VolumeMixin, UserGardenView):
-    metric_model = CompostProductionVolume
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring compost production by volume'
 
 
 class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):

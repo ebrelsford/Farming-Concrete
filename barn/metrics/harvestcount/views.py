@@ -9,15 +9,12 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.edit import CreateView
 
 from accounts.utils import get_profile
-from farmingconcrete.decorators import in_section, year_in_session
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RedirectToPreviousPageMixin, TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricGardenCSVView, MetricMixin, RecordsMixin,
-                     UserGardenView)
+                     MetricGardenCSVView, MetricMixin, RecordsMixin)
 from .forms import GardenerForm, HarvestForm
 from .models import Gardener, Harvest
 
@@ -107,28 +104,16 @@ class GardenDetails(HarvestcountMixin, GardenDetailAddRecordView):
         return context
 
 
-class HarvestcountUserGardenView(TitledPageMixin, HarvestcountMixin,
-                                 UserGardenView):
-    metric_model = Harvest
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
-
-
 class HarvestcountAllGardensView(RecordsMixin, TitledPageMixin,
                                  FarmingConcreteYearMixin, HarvestcountMixin,
                                  AllGardensView):
     metric_model = Harvest
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'All counted %s gardens' % garden_type_label(garden_type)
+        return 'All counted gardens'
 
 
 @login_required
-@in_section('harvestcount')
-@year_in_session
 def delete_harvest(request, id, year=None):
     harvest = get_object_or_404(Harvest, pk=id)
     garden_id = harvest.gardener.garden.id
@@ -137,7 +122,6 @@ def delete_harvest(request, id, year=None):
 
 
 @login_required
-@year_in_session
 def quantity_for_last_harvest(request, pk=None, year=None):
     garden = pk
     gardener = request.GET.get('gardener', None)

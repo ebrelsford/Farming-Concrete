@@ -150,5 +150,4 @@ register('Reach of Programs', {
     'group_number': 2,
     'index_url_name': 'reach_program_index',
     'short_name': 'program',
-    'user_gardens_url_name': 'reach_program_user_gardens',
 })

@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (ProgramReachAllGardensView, ProgramReachGardenDetails,
-                    ProgramReachGardenCSV, ProgramReachIndex,
-                    ProgramReachUserGardensView)
+                    ProgramReachGardenCSV, ProgramReachIndex)
 
 
 urlpatterns = patterns('',
@@ -18,11 +17,6 @@ urlpatterns = patterns('',
     url(r'^program/recorded/(?:(?P<year>\d{4})/)?$',
         ProgramReachAllGardensView.as_view(),
         name='reach_program_all_gardens'
-    ),
-
-    url(r'^program/yours/(?:(?P<year>\d{4})/)?$',
-        ProgramReachUserGardensView.as_view(),
-        name='reach_program_user_gardens'
     ),
 
 

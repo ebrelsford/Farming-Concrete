@@ -7,13 +7,10 @@ from django.db.models import Sum
 
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
-from farmingconcrete.decorators import garden_type_aware, in_section, year_in_session
-from farmingconcrete.utils import garden_type_label
 from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin,
-                     UserGardenView)
+                     MetricMixin, MetricGardenCSVView, RecordsMixin)
 from .forms import BoxForm, PatchFormSet
 from .models import Box, Patch
 
@@ -128,53 +125,16 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
         })
 
 
-class CropcountUserGardenView(TitledPageMixin, CropcountMixin, UserGardenView):
-    metric_model = Patch
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
-
-
 class CropcountAllGardensView(RecordsMixin, TitledPageMixin,
                               FarmingConcreteYearMixin, CropcountMixin,
                               AllGardensView):
     metric_model = Patch
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'All counted %s gardens' % garden_type_label(garden_type)
+        return 'All counted gardens'
 
 
 @login_required
-@garden_type_aware
-@in_section('cropcount')
-@year_in_session
-def gardens(request, year=None):
-    """Show counted gardens, let user add more"""
-
-    type = request.session.get('garden_type', 'all')
-
-    counted_gardens = Garden.counted().filter(
-        box__patch__added__year=year
-    ).distinct()
-    if type != 'all':
-        counted_gardens = counted_gardens.filter(type=type)
-
-    #if not request.user.has_perm('can_edit_any_garden'):
-    profile = get_profile(request.user)
-    user_gardens = profile.gardens.all()
-    #counted_gardens = counted_gardens & profile.gardens.all()
-
-    return render_to_response('metrics/cropcount/gardens/index.html', {
-        'user_gardens': user_gardens.order_by('name'),
-        'counted_gardens': counted_gardens.all().order_by('name'),
-    }, context_instance=RequestContext(request))
-
-
-@login_required
-@in_section('cropcount')
-@year_in_session
 def summary(request, id=None, year=None):
     """Show cropcount for a garden, don't let user add boxes"""
 
@@ -206,8 +166,6 @@ def summary(request, id=None, year=None):
 
 
 @login_required
-@in_section('cropcount')
-@year_in_session
 def delete_bed(request, id, year=None):
     bed = get_object_or_404(Box, pk=id)
     garden_id = bed.garden.id

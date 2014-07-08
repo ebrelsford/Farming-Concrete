@@ -1,9 +1,7 @@
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin,
-                     UserGardenView)
+                     MetricMixin, MetricGardenCSVView, RecordsMixin)
 from .forms import (LookingGoodEventForm, LookingGoodItemFormSet,
                     LookingGoodPhotoFormSet)
 from .models import LookingGoodEvent
@@ -29,17 +27,7 @@ class LookingGoodEventAllGardensView(RecordsMixin, TitledPageMixin,
                                      LookingGoodEventMixin, AllGardensView):
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring looking good tags' %
-                garden_type_label(garden_type))
-
-
-class LookingGoodEventUserGardensView(TitledPageMixin, LookingGoodEventMixin,
-                                      UserGardenView):
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring looking good tags'
 
 
 class LookingGoodEventGardenDetails(LookingGoodEventMixin,

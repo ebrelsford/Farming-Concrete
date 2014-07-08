@@ -209,7 +209,6 @@ register('Participation by Geography', {
     'group_number': 2,
     'index_url_name': 'participation_geography_index',
     'short_name': 'geography',
-    'user_gardens_url_name': 'participation_geography_user_gardens',
 })
 
 
@@ -225,7 +224,6 @@ register('Participation by Task', {
     'group_number': 2,
     'index_url_name': 'participation_task_index',
     'short_name': 'task',
-    'user_gardens_url_name': 'participation_task_user_gardens',
 })
 
 
@@ -241,5 +239,4 @@ register('Participation by Project', {
     'group_number': 2,
     'index_url_name': 'participation_project_index',
     'short_name': 'project',
-    'user_gardens_url_name': 'participation_project_user_gardens',
 })

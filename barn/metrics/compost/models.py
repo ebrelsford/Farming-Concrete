@@ -60,7 +60,6 @@ register('Compost Production by Weight', {
     'group_number': 1,
     'index_url_name': 'compostproduction_weight_index',
     'short_name': 'weight',
-    'user_gardens_url_name': 'compostproduction_weight_user_gardens',
 })
 
 
@@ -75,5 +74,4 @@ register('Compost Production by Volume', {
     'group_number': 1,
     'index_url_name': 'compostproduction_volume_index',
     'short_name': 'volume',
-    'user_gardens_url_name': 'compostproduction_volume_user_gardens',
 })

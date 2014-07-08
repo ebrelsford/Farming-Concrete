@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 from .views import (CreateGardenerView, GardenDetails, GardenerAddView,
                     HarvestcountAllGardensView, HarvestcountCSV,
-                    HarvestcountIndex, HarvestcountUserGardenView)
+                    HarvestcountIndex)
 
 
 urlpatterns = patterns('',
@@ -14,11 +14,6 @@ urlpatterns = patterns('',
 
 
     # Garden lists
-
-    url(r'^yours/(?:(?P<year>\d{4})/)?$',
-        HarvestcountUserGardenView.as_view(),
-        name='harvestcount_user_gardens'
-    ),
 
     url(r'^harvested/(?:(?P<year>\d{4})/)?$',
         HarvestcountAllGardensView.as_view(),

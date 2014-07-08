@@ -5,12 +5,10 @@ from django.http import HttpResponse
 from django.views.generic import CreateView
 
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin,
-                     UserGardenView)
+                     MetricMixin, MetricGardenCSVView, RecordsMixin)
 from .forms import (HoursByGeographyForm, HoursByProjectForm, HoursByTaskForm,
                     ProjectForm, ProjectHoursForm, TaskHoursForm)
 from .models import (HoursByGeography, HoursByProject, HoursByTask, Project,
@@ -37,17 +35,7 @@ class HoursByGeographyAllGardensView(RecordsMixin, TitledPageMixin,
                                      HoursByGeographyMixin, AllGardensView):
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring participation by geography' %
-                garden_type_label(garden_type))
-
-
-class HoursByGeographyUserGardensView(TitledPageMixin, HoursByGeographyMixin,
-                                      UserGardenView):
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring participation by geography'
 
 
 class HoursByGeographyGardenDetails(HoursByGeographyMixin,
@@ -91,17 +79,7 @@ class HoursByTaskAllGardensView(RecordsMixin, TitledPageMixin,
                                 HoursByTaskMixin, AllGardensView):
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring participation by task' %
-                garden_type_label(garden_type))
-
-
-class HoursByTaskUserGardensView(TitledPageMixin, HoursByTaskMixin,
-                                 UserGardenView):
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All %s gardens measuring participation by task'
 
 
 class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
@@ -194,17 +172,7 @@ class HoursByProjectAllGardensView(RecordsMixin, TitledPageMixin,
                                    HoursByProjectMixin, AllGardensView):
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring participation by project' %
-                garden_type_label(garden_type))
-
-
-class HoursByProjectUserGardensView(TitledPageMixin, HoursByProjectMixin,
-                                    UserGardenView):
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring participation by project'
 
 
 class HoursByProjectGardenDetails(HoursByProjectMixin,

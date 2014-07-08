@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (RecipeTallyAllGardensView, RecipeTallyGardenDetails,
-                    RecipeTallyGardenCSV, RecipeTallyIndex,
-                    RecipeTallyUserGardensView)
+                    RecipeTallyGardenCSV, RecipeTallyIndex)
 
 
 urlpatterns = patterns('',
@@ -18,11 +17,6 @@ urlpatterns = patterns('',
     url(r'^tally/recorded/(?:(?P<year>\d{4})/)?$',
         RecipeTallyAllGardensView.as_view(),
         name='recipes_tally_all_gardens'
-    ),
-
-    url(r'^tally/yours/(?:(?P<year>\d{4})/)?$',
-        RecipeTallyUserGardensView.as_view(),
-        name='recipes_tally_user_gardens'
     ),
 
 

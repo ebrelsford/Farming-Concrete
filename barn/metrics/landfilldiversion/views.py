@@ -3,11 +3,9 @@ from django.views.generic import View
 from braces.views import JSONResponseMixin
 
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricGardenCSVView, MetricMixin, RecordsMixin,
-                     UserGardenView)
+                     MetricGardenCSVView, MetricMixin, RecordsMixin)
 from .forms import LandfillDiversionVolumeForm, LandfillDiversionWeightForm
 from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
@@ -34,17 +32,7 @@ class WeightAllGardensView(RecordsMixin, TitledPageMixin, WeightMixin,
     metric_model = LandfillDiversionWeight
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens weighing landfill diversion' %
-                garden_type_label(garden_type))
-
-
-class WeightUserGardensView(TitledPageMixin, WeightMixin, UserGardenView):
-    metric_model = LandfillDiversionWeight
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens weighing landfill diversion'
 
 
 class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
@@ -93,17 +81,7 @@ class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,
     metric_model = LandfillDiversionVolume
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring landfill diversion by volume' %
-                garden_type_label(garden_type))
-
-
-class VolumeUserGardensView(TitledPageMixin, VolumeMixin, UserGardenView):
-    metric_model = LandfillDiversionVolume
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring landfill diversion by volume'
 
 
 class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):

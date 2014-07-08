@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, url
 
 from .views import (WeightAllGardensView, WeightGardenDetails, WeightGardenCSV,
-                    WeightIndex, WeightUserGardensView)
+                    WeightIndex)
 from .views import (VolumeAllGardensView, VolumeGardenDetails, VolumeGardenCSV,
-                    VolumeIndex, VolumeUserGardensView)
+                    VolumeIndex)
 
 
 urlpatterns = patterns('',
@@ -23,11 +23,6 @@ urlpatterns = patterns('',
     url(r'^weight/recorded/(?:(?P<year>\d{4})/)?$',
         WeightAllGardensView.as_view(),
         name='compostproduction_weight_all_gardens'
-    ),
-
-    url(r'^weight/yours/(?:(?P<year>\d{4})/)?$',
-        WeightUserGardensView.as_view(),
-        name='compostproduction_weight_user_gardens'
     ),
 
 
@@ -59,11 +54,6 @@ urlpatterns = patterns('',
     url(r'^volume/recorded/(?:(?P<year>\d{4})/)?$',
         VolumeAllGardensView.as_view(),
         name='compostproduction_volume_all_gardens'
-    ),
-
-    url(r'^volume/yours/(?:(?P<year>\d{4})/)?$',
-        VolumeUserGardensView.as_view(),
-        name='compostproduction_volume_user_gardens'
     ),
 
 

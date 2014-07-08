@@ -67,5 +67,4 @@ register('Beauty of the Garden', {
     'group_number': 3,
     'index_url_name': 'lookinggood_event_index',
     'short_name': 'event',
-    'user_gardens_url_name': 'lookinggood_event_user_gardens',
 })

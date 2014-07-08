@@ -39,5 +39,4 @@ register('Changes in Attitude: Yum & Yuck', {
     'group_number': 3,
     'index_url_name': 'yumyuck_change_index',
     'short_name': 'change',
-    'user_gardens_url_name': 'yumyuck_change_user_gardens',
 })

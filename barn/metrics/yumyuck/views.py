@@ -1,9 +1,7 @@
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin,
-                     UserGardenView)
+                     MetricMixin, MetricGardenCSVView, RecordsMixin)
 from .forms import YumYuckForm
 from .models import YumYuck
 
@@ -28,16 +26,7 @@ class YumYuckAllGardensView(RecordsMixin, TitledPageMixin, YumYuckMixin,
                             AllGardensView):
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring yum and yuck' %
-                garden_type_label(garden_type))
-
-
-class YumYuckUserGardensView(TitledPageMixin, YumYuckMixin, UserGardenView):
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring yum and yuck'
 
 
 class YumYuckGardenDetails(YumYuckMixin, GardenDetailAddRecordView):

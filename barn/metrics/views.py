@@ -39,13 +39,7 @@ class MetricMixin(ContextMixin):
     def get_metric_model(self):
         return registry[self.get_metric_name()]['model']
 
-    def set_year(self):
-        year = self.kwargs.get('year', None)
-        if year:
-            self.request.session['year'] = year
-
     def get_context_data(self, **kwargs):
-        self.set_year()
         context = super(MetricMixin, self).get_context_data(**kwargs)
         context.update({
             'index_url': self.get_index_url(),
@@ -64,15 +58,6 @@ class RecordsMixin(FarmingConcreteYearMixin):
 
     def get_records(self):
         return self.metric_model.objects.for_year(self.get_year())
-
-
-class RecordedGardensMixin(object):
-
-    def filter_gardens_by_type(self, qs):
-        type = self.request.session.get('garden_type', 'all')
-        if type and type != 'all':
-            qs = qs.filter(type=type)
-        return qs
 
 
 class DeleteRecordView(DeleteView):
@@ -119,11 +104,8 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
     """
 
     def get_user_gardens(self):
-        type = self.request.session.get('garden_type', 'all')
         profile = get_profile(self.request.user)
         user_gardens = profile.gardens.all()
-        if type != 'all':
-            user_gardens = user_gardens.filter(type=type)
         return user_gardens
 
     def get_context_data(self, **kwargs):
@@ -144,36 +126,7 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
         return templates
 
 
-class UserGardenView(LoginRequiredMixin, ListView):
-
-    def get_template_names(self):
-        return [
-            'metrics/%s/gardens/user_gardens.html' % self.metric_model._meta.app_label,
-            'metrics/user_gardens.html',
-        ]
-
-    def get_queryset(self):
-        type = self.request.session.get('garden_type', 'all')
-
-        profile = get_profile(self.request.user)
-        user_gardens = profile.gardens.all()
-        if type != 'all':
-            user_gardens = user_gardens.filter(type=type)
-        return user_gardens
-
-    def get_context_data(self, **kwargs):
-        user_gardens = self.get_queryset()
-
-        context = super(UserGardenView, self).get_context_data(**kwargs)
-        context.update({
-            'user_gardens': user_gardens.order_by('name'),
-            'user_garden_ids': user_gardens.values_list('id', flat=True),
-        })
-        return context
-
-
-class AllGardensView(RecordedGardensMixin, LoginRequiredMixin,
-                     PermissionRequiredMixin, TemplateView):
+class AllGardensView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     permission = 'farmingconcrete.can_edit_any_garden'
 
     def get_template_names(self):
@@ -187,18 +140,11 @@ class AllGardensView(RecordedGardensMixin, LoginRequiredMixin,
 
     def get_user_gardens(self):
         profile = get_profile(self.request.user)
-        user_gardens = profile.gardens.all()
-
-        type = self.request.session.get('garden_type', 'all')
-        if type and type != 'all':
-            user_gardens = user_gardens.filter(type=type)
-        return user_gardens
+        return profile.gardens.all()
 
     def get_context_data(self, **kwargs):
-        all_gardens = self.get_all_gardens_with_records()
         context = super(AllGardensView, self).get_context_data(**kwargs)
         context.update({
-            'all_gardens_with_records': self.filter_gardens_by_type(all_gardens),
             'user_gardens': self.get_user_gardens(),
         })
         return context

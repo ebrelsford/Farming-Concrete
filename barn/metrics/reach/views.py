@@ -1,9 +1,7 @@
 from farmingconcrete.models import Garden
-from farmingconcrete.utils import garden_type_label
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin,
-                     UserGardenView)
+                     MetricMixin, MetricGardenCSVView, RecordsMixin)
 from .forms import ProgramReachForm
 from .models import ProgramReach
 
@@ -28,17 +26,7 @@ class ProgramReachAllGardensView(RecordsMixin, TitledPageMixin,
                                  ProgramReachMixin, AllGardensView):
 
     def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return ('All %s gardens measuring program reach' %
-                garden_type_label(garden_type))
-
-
-class ProgramReachUserGardensView(TitledPageMixin, ProgramReachMixin,
-                                  UserGardenView):
-
-    def get_title(self):
-        garden_type = self.request.session.get('garden_type', 'all')
-        return 'Your %s gardens' % garden_type_label(garden_type)
+        return 'All gardens measuring program reach'
 
 
 class ProgramReachGardenDetails(ProgramReachMixin, GardenDetailAddRecordView):

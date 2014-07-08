@@ -31,5 +31,4 @@ register('Healthy Eating', {
     'group_number': 3,
     'index_url_name': 'recipes_tally_index',
     'short_name': 'tally',
-    'user_gardens_url_name': 'recipes_tally_user_gardens',
 })

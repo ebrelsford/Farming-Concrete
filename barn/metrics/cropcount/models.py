@@ -88,5 +88,4 @@ register('Crop Count', {
     'group': 'Food Production Data',
     'group_number': 0,
     'index_url_name': 'cropcount_index',
-    'user_gardens_url_name': 'cropcount_user_gardens',
 })

@@ -24,20 +24,6 @@ from .forms import GardenForm
 from .models import Garden, GardenGroup, GardenType
 
 
-class AddYearToSessionMixin(View):
-
-    def add_year_to_session(self, request):
-        year = (self.kwargs.get('year', None)
-                or request.session.get('year', None)
-                or settings.FARMINGCONCRETE_YEAR)
-        request.session['year'] = self.kwargs['year'] = year
-
-    def dispatch(self, request, *args, **kwargs):
-        self.add_year_to_session(request)
-        return super(AddYearToSessionMixin, self).dispatch(request, *args,
-                                                           **kwargs)
-
-
 class UserGardensMixin(object):
 
     def get_user_gardens(self):
@@ -55,7 +41,7 @@ class UserGardensMixin(object):
         return context
 
 
-class IndexView(AddYearToSessionMixin, UserGardensMixin, TemplateView):
+class IndexView(UserGardensMixin, TemplateView):
     template_name = 'farmingconcrete/index.html'
 
     def get_context_data(self, **kwargs):
@@ -64,8 +50,7 @@ class IndexView(AddYearToSessionMixin, UserGardensMixin, TemplateView):
         return context
 
 
-class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
-                    UserGardensMixin, DetailView):
+class GardenDetails(LoginRequiredMixin, UserGardensMixin, DetailView):
     model = Garden
     template_name = 'farmingconcrete/gardens/detail.html'
 
@@ -83,8 +68,7 @@ class GardenDetails(LoginRequiredMixin, AddYearToSessionMixin,
         return context
 
 
-class UserGardens(LoginRequiredMixin, AddYearToSessionMixin, UserGardensMixin,
-                  ListView):
+class UserGardens(LoginRequiredMixin, UserGardensMixin, ListView):
     context_object_name = 'garden_list'
     model = Garden
     template_name = 'farmingconcrete/gardens/detail.html'
@@ -211,13 +195,6 @@ def account(request):
     }, context_instance=RequestContext(request))
 
 
-@login_required
-def switch_garden_type(request, type='all'):
-    next = request.GET['next']
-    request.session['garden_type'] = type = _get_garden_type(type)
-    return redirect(next)
-
-
 def gardens_geojson(request):
     """Get GeoJSON for requested gardens"""
 
@@ -312,18 +289,8 @@ class GardenGroupDetailView(LoginRequiredMixin, DetailView):
 
 class FarmingConcreteYearMixin(DefaultYearMixin):
 
-    def add_year_to_session(self):
-        year = (self.kwargs.get('year', None)
-                or self.request.session.get('year', None)
-                or settings.FARMINGCONCRETE_YEAR)
-        self.request.session['year'] = self.kwargs['year'] = year
-
     def get_year(self):
-        try:
-            self.add_year_to_session()
-            return self.request.session['year']
-        except Exception:
-            return self.get_default_year()
+        return self.kwargs.get('year', None) or self.get_default_year()
 
     def get_default_year(self):
         return settings.FARMINGCONCRETE_YEAR
