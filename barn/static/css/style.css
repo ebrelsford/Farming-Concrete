@@ -7529,6 +7529,7 @@ td.date {
 .cropcount-bed-record .field-patch {
   margin-left: 0;
   margin-right: 0;
+  border: 0;
   margin-top: 15px;
   padding: 0;
 }
@@ -7554,7 +7555,19 @@ td.date {
 @media (min-width: 768px) {
   .cropcount-bed-record .field-patch .field-crop-name {
     float: left;
-    width: 66.66666667%;
+    width: 50%;
+  }
+}
+.cropcount-bed-record .field-patch .actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cropcount-bed-record .field-patch .actions {
+    float: left;
+    width: 16.66666667%;
   }
 }
 .cropcount-bed-record .field-recorded-details {

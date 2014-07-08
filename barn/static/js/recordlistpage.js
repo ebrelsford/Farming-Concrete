@@ -16,7 +16,7 @@ define(
                 if (!confirmed) {
                     return;
                 }
-                var record = $(this).parents('.record');
+                var record = $(this).parents('.record').eq(0);
                 var delete_url = Django.url('metrics_delete_record', {
                     pk: record.data('pk'),
                     record_type_pk: record.data('record-type-pk')

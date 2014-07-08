@@ -18,8 +18,9 @@
         </div>
 
         <ul class="field-patches">
+            {% metric_content_type metric as content_type %}
             {% for patch in record.patch_set.all %}
-                <li class="field-patch">
+                <li class="field-patch record" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ patch.pk }}">
                     <div class="field-quantity">
                         {{ patch.quantity|floatformat }} {{ patch.units }}
                     </div>
@@ -29,6 +30,12 @@
                             ({{ patch.crop_variety.name }})
                         {% endif %}
                     </div>
+
+                    {% ifcandelete metric %}
+                        <div class="actions">
+                            <a class="delete-record">Delete</a>
+                        </div>
+                    {% endifcandelete %}
                 </li>
             {% endfor %}
         </ul>
