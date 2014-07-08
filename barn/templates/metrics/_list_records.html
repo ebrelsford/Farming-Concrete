@@ -22,6 +22,7 @@
                     {% block recorded %}
                         <div class="field-recorded">
                             {{ record.recorded|date:"m/d/Y" }}
+                            by {{ record.added_by_display }}
                         </div>
                     {% endblock %}
 

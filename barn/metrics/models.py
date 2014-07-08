@@ -66,6 +66,17 @@ class BaseMetricRecord(AuditedModel):
         help_text=_('The date this was recorded'),
     )
 
+    def _added_by_display(self):
+        u = self.added_by
+        if not u:
+            return ''
+        if u.first_name:
+            if u.last_name:
+                return '%s %s.' % (u.first_name, u.last_name[0])
+            return u.first_name
+        return u.username
+    added_by_display = property(_added_by_display)
+
     class Meta:
         abstract = True
 

@@ -6,6 +6,7 @@
 {% block recorded %}
     <div class="field-recorded">
         {{ record.recorded_start|date:"m/d/Y" }} - {{ record.recorded|date:"m/d/Y" }}
+        <br />by {{ record.added_by_display }}
     </div>
 {% endblock %}
 

@@ -1,48 +1,36 @@
 {% extends "metrics/_list_records.html" %}
 {% load metrics_tags static %}
 
-{% block record_list %}
-    <ul>
-        {% metric_content_type metric for "cropcount.Box" as content_type %}
-        {% for record in records %}
-            <li class="record cropcount-bed-record" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
+{% block record_class %}cropcount-bed-record{% endblock %}
 
-                <div class="field-name">
-                    bed {{ record.name }}
-                </div> 
+{% block record_row_content %}
+    <div class="field-name">
+        bed {{ record.name }}
+    </div> 
+    <div class="field-bed-details">
+        <div class="field-dimensions">
+            {{ record.width }} ft x {{ record.length }} ft
+        </div>
 
-                <div class="field-recorded">{{ record.recorded|date:"m/d/Y" }}</div>
+        <div class="field-recorded-details">
+            {{ record.patch_set.all.0.recorded|date:"m/d/Y" }}
+            by {{ record.patch_set.all.0.added_by_display }}
+        </div>
 
-                <div class="field-bed-details">
-                    <div class="field-dimensions">
-                        {{ record.width }} ft x {{ record.length }} ft
+        <ul class="field-patches">
+            {% for patch in record.patch_set.all %}
+                <li class="field-patch">
+                    <div class="field-quantity">
+                        {{ patch.quantity|floatformat }} {{ patch.units }}
                     </div>
-                    <div class="field-recorded-details">
-                        {{ record.patch_set.all.0.recorded|date:"m/d/Y" }}
+                    <div class="field-crop-name">
+                        {{ patch.crop.name }}
+                        {% if patch.crop_variety %}
+                            ({{ patch.crop_variety.name }})
+                        {% endif %}
                     </div>
-                    <ul class="field-patches">
-                        {% for patch in record.patch_set.all %}
-                            <li class="field-patch">
-                                <div class="field-quantity">
-                                    {{ patch.quantity|floatformat }} {{ patch.units }}
-                                </div>
-                                <div class="field-crop-name">
-                                    {{ patch.crop.name }}
-                                    {% if patch.crop_variety %}
-                                        ({{ patch.crop_variety.name }})
-                                    {% endif %}
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                {% ifcandelete metric %}
-                    <div class="actions">
-                        <a class="delete-record">Delete</a>
-                    </div>
-                {% endifcandelete %}
-            </li>
-        {% endfor %}
-    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
