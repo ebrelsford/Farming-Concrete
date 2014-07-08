@@ -124,7 +124,7 @@ class DefaultYearMixin(YearMixin):
 
     def get_year(self):
         try:
-            return super(DefaultYearMixin, self).get_year()
+            return super(DefaultYearMixin, self).get_year() or self.get_default_year()
         except Exception:
             return self.get_default_year()
 

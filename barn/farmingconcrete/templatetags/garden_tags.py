@@ -8,8 +8,6 @@ from accounts.utils import get_profile
 
 register = template.Library()
 
-from ..utils import garden_type_label
-
 
 class GardenList(InclusionTag):
     options = Options(
@@ -50,6 +48,5 @@ class GardenMemberList(InclusionTag):
         return context
 
 
-register.filter('garden_type_label', garden_type_label)
 register.tag(GardenList)
 register.tag(GardenMemberList)

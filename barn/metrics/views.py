@@ -113,6 +113,7 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
         context.update({
             'summary': self.metric_model.summarize(records),
             'user_gardens': self.get_user_gardens().order_by('name'),
+            'year': datetime.now().year,
         })
         return context
 

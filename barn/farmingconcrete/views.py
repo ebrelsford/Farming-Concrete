@@ -15,7 +15,8 @@ from django.views.generic.list import ListView
 
 from accounts.models import GardenMembership
 from accounts.utils import get_profile
-from generic.views import LoginRequiredMixin, SuccessMessageFormMixin
+from generic.views import (DefaultYearMixin, LoginRequiredMixin,
+                           SuccessMessageFormMixin)
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
@@ -49,7 +50,8 @@ class IndexView(UserGardensMixin, TemplateView):
         return context
 
 
-class GardenDetails(LoginRequiredMixin, UserGardensMixin, DetailView):
+class GardenDetails(DefaultYearMixin, LoginRequiredMixin, UserGardensMixin,
+                    DetailView):
     model = Garden
     template_name = 'farmingconcrete/gardens/detail.html'
 
@@ -61,9 +63,12 @@ class GardenDetails(LoginRequiredMixin, UserGardensMixin, DetailView):
         if not user.has_perm('can_edit_any_garden'):
             if garden not in self.get_user_gardens():
                 raise Http403
-        context['garden_list'] = (garden,)
-        context['garden_ids'] = (garden.pk,)
-        context['page_type'] = 'data_entry'
+        context.update({
+            'garden_list': (garden,),
+            'garden_ids': (garden.pk,),
+            'page_type': 'data_entry',
+            'year': self.get_year(),
+        })
         return context
 
 
