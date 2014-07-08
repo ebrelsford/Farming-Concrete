@@ -9,7 +9,6 @@ from django.views.generic.edit import CreateView
 
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
-from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RedirectToPreviousPageMixin, TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,

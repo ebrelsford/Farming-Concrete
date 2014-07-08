@@ -8,7 +8,6 @@ from django.db.models import Sum
 
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
-from farmingconcrete.views import FarmingConcreteYearMixin
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, MetricGardenCSVView, RecordsMixin)

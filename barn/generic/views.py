@@ -1,3 +1,4 @@
+from datetime import datetime
 import unicodecsv as csv
 
 from django.contrib.auth.decorators import login_required, permission_required
@@ -119,14 +120,13 @@ class TitledPageMixin(ContextMixin):
 class DefaultYearMixin(YearMixin):
 
     def get_default_year(self):
-        raise NotImplementedError('Implement get_default_year')
+        return datetime.now().year
 
     def get_year(self):
         try:
-            year = super(DefaultYearMixin, self).get_year()
+            return super(DefaultYearMixin, self).get_year()
         except Exception:
-            year = None
-        return year or self.get_default_year()
+            return self.get_default_year()
 
 
 class CSVView(View):

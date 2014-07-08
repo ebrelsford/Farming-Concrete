@@ -15,8 +15,7 @@ from django.views.generic.list import ListView
 
 from accounts.models import GardenMembership
 from accounts.utils import get_profile
-from generic.views import (DefaultYearMixin, LoginRequiredMixin,
-                           SuccessMessageFormMixin)
+from generic.views import LoginRequiredMixin, SuccessMessageFormMixin
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
@@ -285,15 +284,3 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
 
 class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
-
-
-class FarmingConcreteYearMixin(DefaultYearMixin):
-
-    def get_year(self):
-        try:
-            return int(self.kwargs.get('year', None))
-        except Exception:
-            return self.get_default_year()
-
-    def get_default_year(self):
-        return datetime.now().year

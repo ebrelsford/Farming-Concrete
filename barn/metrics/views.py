@@ -12,8 +12,7 @@ from django.views.generic.edit import FormView
 
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
-from farmingconcrete.views import FarmingConcreteYearMixin
-from generic.views import (CSVView, LoginRequiredMixin,
+from generic.views import (CSVView, DefaultYearMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, SuccessMessageFormMixin)
 
 from .registry import registry
@@ -50,7 +49,7 @@ class MetricMixin(ContextMixin):
         return context
 
 
-class RecordsMixin(FarmingConcreteYearMixin):
+class RecordsMixin(DefaultYearMixin):
     """
     A mixin that aids in retrieving records (instances of models that derive
     from BaseMetricRecord) for a particular year.
@@ -126,7 +125,7 @@ class IndexView(LoginRequiredMixin, RecordsMixin, TemplateView):
         return templates
 
 
-class AllGardensView(FarmingConcreteYearMixin, LoginRequiredMixin,
+class AllGardensView(DefaultYearMixin, LoginRequiredMixin,
                      PermissionRequiredMixin, TemplateView):
     permission = 'farmingconcrete.can_edit_any_garden'
 
