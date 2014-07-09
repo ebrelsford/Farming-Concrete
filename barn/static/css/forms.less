@@ -42,6 +42,15 @@ ul.errorlist {
 .form-actions {
     border-top: @separator-border;
     padding-top: 25px;
+    .make-row(0);
+}
+
+button[type="submit"] {
+    .make-md-column(3);
+
+    &:first-child {
+        .make-md-column-offset(9);
+    }
 }
 
 .form-horizontal {
@@ -57,21 +66,9 @@ ul.errorlist {
         .make-row(0);
     }
 
-    .form-actions {
-        .make-row(0);
-    }
-
     button.btn-cancel {
         .make-md-column-offset(6);
         .make-md-column(3);
-    }
-
-    button[type="submit"] {
-        .make-md-column(3);
-
-        &:first-child {
-            .make-md-column-offset(9);
-        }
     }
 }
 

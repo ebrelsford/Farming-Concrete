@@ -5312,12 +5312,12 @@ button.close {
 .modal-footer:after,
 .garden-member-list-item:before,
 .garden-member-list-item:after,
+.form-actions:before,
+.form-actions:after,
 .form-horizontal .fields:before,
 .form-horizontal .fields:after,
 .form-horizontal .form-group:before,
 .form-horizontal .form-group:after,
-.form-horizontal .form-actions:before,
-.form-horizontal .form-actions:after,
 .add-recipes-tally .row:before,
 .add-recipes-tally .row:after,
 .add-reach-program .field-demographics:before,
@@ -5374,9 +5374,9 @@ button.close {
 .panel-body:after,
 .modal-footer:after,
 .garden-member-list-item:after,
+.form-actions:after,
 .form-horizontal .fields:after,
 .form-horizontal .form-group:after,
-.form-horizontal .form-actions:after,
 .add-recipes-tally .row:after,
 .add-reach-program .field-demographics:after,
 .add-reach-program .field-features ul:after,
@@ -6067,6 +6067,25 @@ ul.errorlist {
 .form-actions {
   border-top: 1px dotted #8c8c8c;
   padding-top: 25px;
+  margin-left: 0;
+  margin-right: 0;
+}
+button[type="submit"] {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  button[type="submit"] {
+    float: left;
+    width: 25%;
+  }
+}
+@media (min-width: 992px) {
+  button[type="submit"]:first-child {
+    margin-left: 75%;
+  }
 }
 .form-horizontal .control-label {
   text-align: left;
@@ -6076,10 +6095,6 @@ ul.errorlist {
   margin-right: 0;
 }
 .form-horizontal .form-group {
-  margin-left: 0;
-  margin-right: 0;
-}
-.form-horizontal .form-actions {
   margin-left: 0;
   margin-right: 0;
 }
@@ -6098,23 +6113,6 @@ ul.errorlist {
   .form-horizontal button.btn-cancel {
     float: left;
     width: 25%;
-  }
-}
-.form-horizontal button[type="submit"] {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 992px) {
-  .form-horizontal button[type="submit"] {
-    float: left;
-    width: 25%;
-  }
-}
-@media (min-width: 992px) {
-  .form-horizontal button[type="submit"]:first-child {
-    margin-left: 75%;
   }
 }
 .registration-form {
