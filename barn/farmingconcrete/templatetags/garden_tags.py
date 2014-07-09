@@ -12,6 +12,7 @@ register = template.Library()
 class GardenList(InclusionTag):
     options = Options(
         Argument('user'),
+        Argument('template', required=False, resolve=False),
     )
     template = 'farmingconcrete/garden_list.html'
 
@@ -23,11 +24,15 @@ class GardenList(InclusionTag):
         except Exception:
             return []
 
-    def get_context(self, context, user):
+    def get_context(self, context, user, template):
         context.update({
             'gardens': self.get_gardens(user),
         })
         return context
+
+    def get_template(self, context, **kwargs):
+        default_template = super(GardenList, self).get_template(context, **kwargs)
+        return kwargs.get('template', None) or default_template
 
 
 class GardenMemberList(InclusionTag):
