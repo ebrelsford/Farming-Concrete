@@ -35,7 +35,11 @@
                                 </a>
                             </li>
                         {% endif %}
-                        <li><a href="#">Remove from garden</a></li>
+                        <li>
+                            <a href="#" class="garden-member-list-action delete-member" data-membership-pk="{{ member.pk }}">
+                                Remove from garden
+                            </a>
+                        </li>
                     </ul>
                 </div>
             {% endifgardenadmin %}

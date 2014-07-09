@@ -54,3 +54,21 @@ class DeleteAdminView(LoginRequiredMixin, DetailView):
         self.delete_admin(membership)
         messages.success(request, self.get_success_message(membership))
         return HttpResponse('OK', content_type='text/plain')
+
+
+class DeleteMemberView(LoginRequiredMixin, DetailView):
+    """Remove a user from a garden."""
+    model = GardenMembership
+
+    def get_success_message(self, membership):
+        return 'Successfully removed %s' % membership.user_profile.user.username
+
+    def get(self, request, *args, **kwargs):
+        membership = self.get_object()
+
+        if not is_admin(request.user, membership.garden):
+            return HttpResponseForbidden()
+
+        membership.delete()
+        messages.success(request, self.get_success_message(membership))
+        return HttpResponse('OK', content_type='text/plain')

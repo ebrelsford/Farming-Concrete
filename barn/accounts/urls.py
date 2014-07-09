@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import AddAdminView, DeleteAdminView
+from .views import AddAdminView, DeleteAdminView, DeleteMemberView
 
 
 urlpatterns = patterns('',
@@ -13,6 +13,11 @@ urlpatterns = patterns('',
     url(r'^gardenmemberships/(?P<pk>\d+)/admin/delete/',
         DeleteAdminView.as_view(),
         name='gardenmemberships_admin_delete',
+    ),
+
+    url(r'^gardenmemberships/(?P<pk>\d+)/delete/',
+        DeleteMemberView.as_view(),
+        name='gardenmemberships_member_delete',
     ),
 
 )
