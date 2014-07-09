@@ -1,3 +1,5 @@
+{% load account_tags %}
+
 <ul class="garden-member-list">
     {% for member in members %}
         <li class="garden-member-list-item">
@@ -13,6 +15,30 @@
                 last login:
                 {{ member.user_profile.user.last_login|date:"m/d/Y"|default:"never" }}
             </div>
+            {% ifgardenadmin garden %}
+                <div class="garden-member-list-item-actions btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        actions <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if not member.is_admin %}
+                            <li>
+                                <a href="#" class="garden-member-list-action add-admin" data-membership-pk="{{ member.pk }}">
+                                    Add as admin
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if member.is_admin %}
+                            <li>
+                                <a href="#" class="garden-member-list-action delete-admin" data-membership-pk="{{ member.pk }}">
+                                    Remove as admin
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li><a href="#">Remove from garden</a></li>
+                    </ul>
+                </div>
+            {% endifgardenadmin %}
         </li>
     {% endfor %}
 </ul>

@@ -5990,7 +5990,7 @@ input.ac_loading {
 @media (min-width: 768px) {
   .garden-member-list-item-user {
     float: left;
-    width: 16.66666667%;
+    width: 25%;
   }
 }
 .garden-member-list-item-type {
@@ -6015,6 +6015,18 @@ input.ac_loading {
   .garden-member-list-item-last-login {
     float: left;
     width: 33.33333333%;
+  }
+}
+.garden-member-list-item-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-member-list-item-actions {
+    float: left;
+    width: 25%;
   }
 }
 .required label {

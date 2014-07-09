@@ -117,6 +117,10 @@ define(
             require(['addsales']);
         }
 
+        if ($('.garden-member-list').length > 0) {
+            require(['gardenmemberlist']);
+        }
+
         if ($('.record-list-page').length > 0) {
             require(['listrecords']);
         }
