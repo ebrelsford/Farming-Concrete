@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load garden_tags i18n %}
+{% load garden_tags i18n widget_tweaks %}
 
 {% block title %}{% include "farmingconcrete/garden_form_title.html" with garden=garden %}{% endblock %}
 {% block header_title %}{% include "farmingconcrete/garden_form_title.html" with garden=garden %}{% endblock %}
@@ -36,7 +36,26 @@
                 {% include "forms/head.html" %}
 
                 <div class="row">
-                    {% include "forms/field.html" with field=form.name %}
+
+                    {% with field=form.name %}
+                        <div class="form-group field-{{ field.name }} {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                            <div class="control-label">
+                                {{ field.label_tag }}
+                            </div>
+                            <div class="controls">
+                                {% render_field field class+="form-control" autocomplete="off" %}
+
+                                {% if field.errors %}
+                                    <div class="help-block">
+                                        {% for error in field.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endwith %}
+
                     {% include "forms/field.html" with field=form.type %}
                 </div>
                 <div class="row">
