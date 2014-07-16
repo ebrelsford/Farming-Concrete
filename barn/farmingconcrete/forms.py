@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField)
+from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField,
+                          ValidationError)
 
 from ajax_select.fields import AutoCompleteSelectField
 import chosen.forms
@@ -69,6 +70,38 @@ class GardenForm(ModelForm):
                 queryset=self.fields['type'].queryset,
                 user=user
             )
+
+    def clean(self):
+        cleaned_data = super(GardenForm, self).clean()
+
+        # Disallow gardens at the same address, city, and state as an existing
+        # one.
+        address_kwargs = {
+            'address': cleaned_data.get('address'),
+            'city': cleaned_data.get('city'),
+            'state': cleaned_data.get('state'),
+        }
+        if Garden.objects.filter(**address_kwargs).exists():
+            raise ValidationError("""
+                The address you entered is too similar to an existing garden's
+                address. Please change the address or pick the garden from the
+                list on the right. Contact us if you think this is a mistake.
+            """)
+
+        # Disallow gardens at the same latitude and longitude as an existing
+        # one.
+        centroid_kwargs = {
+            'latitude': cleaned_data.get('latitude'),
+            'longitude': cleaned_data.get('longitude'),
+        }
+        if Garden.objects.filter(**centroid_kwargs).exists():
+            raise ValidationError("""
+                The location you entered is too similar to an existing garden's
+                address. Please change the address or pick the garden from the
+                list on the right. Contact us if you think this is a mistake.
+            """)
+
+        return cleaned_data
 
     def save(self, *args, **kwargs):
         user = self.cleaned_data['added_by']
