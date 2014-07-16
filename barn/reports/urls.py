@@ -1,9 +1,11 @@
 from django.conf.urls import patterns, url
 
+from .views import Index
+
+
 main_patterns = patterns('reports.views',
     url(r'^shared/(?P<access_key>.+)/$', 'shared_garden_report'),
-    url(r'^(?P<year>\d+)', 'index'),
-    url(r'^', 'index'),
+    url(r'^(?P<year>\d+)?', Index.as_view(), name='reports_index'),
 )
 
 garden_patterns = patterns('reports.views',

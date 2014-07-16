@@ -10,6 +10,7 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.views.generic import TemplateView, View
 
 from django_xhtml2pdf.utils import render_to_pdf_response
 
@@ -17,7 +18,8 @@ from charts import (plants_per_crop, weight_per_crop, weight_per_gardener,
                     estimated_weight_per_crop)
 from estimates.common import (estimate_for_harvests_by_gardener_and_variety,
                               estimate_for_patches)
-from farmingconcrete.models import Garden, GardenType
+from farmingconcrete.models import Garden
+from generic.views import LoginRequiredMixin
 from common import (filter_harvests, filter_patches, consolidate_totals,
                     get_garden_counts_by_type)
 from metrics.cropcount.models import Box
@@ -25,27 +27,21 @@ from metrics.registry import registry
 from models import SharedReport, Chart
 
 
-@login_required
-def index(request, year=datetime.now().year):
-    metric = request.GET.get('metric', None)
+class Index(LoginRequiredMixin, TemplateView):
+    template_name = 'reports/index.html'
 
-    type = request.GET.get('type', None)
-    if type:
-        type = GardenType.objects.get(short_name=type);
 
-    year = request.GET.get('year', year)
-    print 'year: %s' % year
+class ExportData(LoginRequiredMixin, View):
 
-    context = _context(type=type, year=year)
-    context.update({
-        'metric': metric,
-        'metrics': registry.by_group(),
-        'type': type,
-        'year': year,
-        'years': _get_metrics_year_range(),
-    })
-    return render_to_response('reports/index.html', context,
-                              context_instance=RequestContext(request))
+    def get(self, request, *args, **kwargs):
+        # TODO only allow for garden admins
+
+        garden = None
+        year = None
+        # TODO for each metric, see if garden has records for that year
+        #  If it does, add a DataSet (https://github.com/kennethreitz/tablib)
+        #  Export as Excel
+        pass
 
 
 def _get_metrics_year_range():
