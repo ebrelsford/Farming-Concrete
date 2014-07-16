@@ -118,9 +118,14 @@ define(
             }
 
             // If creating a new garden, enable suggestions
-            if ($('#id_name').val() === '') {
+            if ($('.garden-form').is('.add-garden')) {
+                // If name already has text in it (eg on error), show
+                // suggestions
+                if ($('#id_name').val().length >= 3) {
+                    updateSuggestions();
+                }
                 $('#id_name').keyup(function () {
-                    if ($(this).val().length >= 5) {
+                    if ($(this).val().length >= 3) {
                         updateSuggestions();
                     }
                     else {

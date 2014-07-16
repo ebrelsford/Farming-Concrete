@@ -32,7 +32,7 @@
                 </p>
             {% endif %}
 
-            <form method="post" {% if action %}action="{{ action }}"{% endif %}>
+            <form method="post" {% if action %}action="{{ action }}"{% endif %} class="garden-form {% if garden %}edit-garden{% else %}add-garden{% endif %}">
                 {% include "forms/head.html" %}
 
                 <div class="row">
