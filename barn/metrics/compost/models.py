@@ -49,10 +49,12 @@ class CompostProductionVolume(BaseMetricRecord):
         return kwargs
 
 
+from .export import VolumeDataset, WeightDataset
+
+
 register('Compost Production by Weight', {
     'add_record_label': 'Add compost by weight',
     'all_gardens_url_name': 'compostproduction_weight_all_gardens',
-    'download_url_name': 'compostproduction_weight_garden_csv',
     'model': CompostProductionWeight,
     'number': 2,
     'garden_detail_url_name': 'compostproduction_weight_garden_details',
@@ -60,13 +62,13 @@ register('Compost Production by Weight', {
     'group_number': 1,
     'index_url_name': 'compostproduction_weight_index',
     'short_name': 'weight',
+    'dataset': WeightDataset,
 })
 
 
 register('Compost Production by Volume', {
     'add_record_label': 'Add compost by volume',
     'all_gardens_url_name': 'compostproduction_volume_all_gardens',
-    'download_url_name': 'compostproduction_volume_garden_csv',
     'model': CompostProductionVolume,
     'number': 2,
     'garden_detail_url_name': 'compostproduction_volume_garden_details',
@@ -74,4 +76,5 @@ register('Compost Production by Volume', {
     'group_number': 1,
     'index_url_name': 'compostproduction_volume_index',
     'short_name': 'volume',
+    'dataset': VolumeDataset,
 })

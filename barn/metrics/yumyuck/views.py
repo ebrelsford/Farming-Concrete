@@ -1,7 +1,7 @@
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import YumYuckForm
 from .models import YumYuck
 
@@ -36,16 +36,4 @@ class YumYuckGardenDetails(YumYuckMixin, GardenDetailAddRecordView):
     def get_success_message(self):
         return 'Successfully added yum and yuck record to %s' % (
             self.object,
-        )
-
-
-class YumYuckGardenCSV(YumYuckMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(YumYuckGardenCSV, self).get_fields() + (
-            'crop',
-            'yum_before',
-            'yuck_before',
-            'yum_after',
-            'yuck_after',
         )

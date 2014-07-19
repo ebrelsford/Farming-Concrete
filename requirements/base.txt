@@ -35,6 +35,7 @@ git+git://github.com/girasquid/django-feedback.git
 django-floppyforms==1.1.1
 django-imagekit==3.2
 django-registration==1.0
+git+git://github.com/ebrelsford/django-tablib.git@master
 django-widget-tweaks==1.3
 django-xhtml2pdf==0.0.3
 git+https://github.com/philippWassibauer/templated-emails.git@9f011ba84b

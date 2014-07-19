@@ -28,10 +28,12 @@ class YumYuck(BaseMetricRecord):
         return kwargs
 
 
+from .export import YumYuckDataset
+
+
 register('Changes in Attitude: Yum & Yuck', {
     'add_record_template': 'metrics/yumyuck/change/add_record.html',
     'all_gardens_url_name': 'yumyuck_change_all_gardens',
-    'download_url_name': 'yumyuck_change_garden_csv',
     'model': YumYuck,
     'number': 1,
     'garden_detail_url_name': 'yumyuck_change_garden_details',
@@ -39,4 +41,5 @@ register('Changes in Attitude: Yum & Yuck', {
     'group_number': 3,
     'index_url_name': 'yumyuck_change_index',
     'short_name': 'change',
+    'dataset': YumYuckDataset,
 })

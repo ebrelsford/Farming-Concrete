@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
@@ -146,6 +148,17 @@ class HoursByTask(BaseMetricRecord):
         null=True,
     )
 
+    def __getattr__(self, name):
+        # Attempt to get value for task, mostly useful for exporting
+        match = re.match(r'task_(\d+)', name)
+        if match:
+            try:
+                task_pk = int(match.group(1))
+                return self.taskhours_set.get(task__pk=task_pk).hours
+            except Exception:
+                pass
+        return super(HoursByTask, self).__getattr__(name)
+
     def __getitem__(self, key):
         try:
             return self.taskhours_set.get(task__name=key)
@@ -188,6 +201,17 @@ class HoursByProject(BaseMetricRecord):
         verbose_name=_('project'),
     )
 
+    def __getattr__(self, name):
+        # Attempt to get value for gardener, mostly useful for exporting
+        match = re.match(r'gardener_(\d+)', name)
+        if match:
+            try:
+                gardener_pk = int(match.group(1))
+                return self.projecthours_set.get(gardener__pk=gardener_pk).hours
+            except Exception:
+                return None
+        return super(HoursByProject, self).__getattr__(name)
+
     def __getitem__(self, key):
         try:
             return self.projecthours_set.get(gardener__name=key)
@@ -205,11 +229,14 @@ class HoursByProject(BaseMetricRecord):
         return kwargs
 
 
+from .export import (HoursByGeographyDataset, HoursByProjectDataset,
+                     HoursByTaskDataset)
+
+
 register('Participation by Geography', {
     'add_record_label': 'Add participation hours',
     'add_record_template': 'metrics/participation/geography/add_record.html',
     'all_gardens_url_name': 'participation_geography_all_gardens',
-    'download_url_name': 'participation_geography_garden_csv',
     'model': HoursByGeography,
     'number': 1,
     'garden_detail_url_name': 'participation_geography_garden_details',
@@ -217,6 +244,7 @@ register('Participation by Geography', {
     'group_number': 2,
     'index_url_name': 'participation_geography_index',
     'short_name': 'geography',
+    'dataset': HoursByGeographyDataset,
 })
 
 
@@ -224,7 +252,6 @@ register('Participation by Task', {
     'add_record_label': 'Add participation hours',
     'add_record_template': 'metrics/participation/task/add_record.html',
     'all_gardens_url_name': 'participation_task_all_gardens',
-    'download_url_name': 'participation_task_garden_csv',
     'model': HoursByTask,
     'number': 2,
     'garden_detail_url_name': 'participation_task_garden_details',
@@ -232,6 +259,7 @@ register('Participation by Task', {
     'group_number': 2,
     'index_url_name': 'participation_task_index',
     'short_name': 'task',
+    'dataset': HoursByTaskDataset,
 })
 
 
@@ -239,7 +267,6 @@ register('Participation by Project', {
     'add_record_label': 'Add participation hours',
     'add_record_template': 'metrics/participation/project/add_record.html',
     'all_gardens_url_name': 'participation_project_all_gardens',
-    'download_url_name': 'participation_project_garden_csv',
     'model': HoursByProject,
     'number': 3,
     'garden_detail_url_name': 'participation_project_garden_details',
@@ -247,4 +274,5 @@ register('Participation by Project', {
     'group_number': 2,
     'index_url_name': 'participation_project_index',
     'short_name': 'project',
+    'dataset': HoursByProjectDataset,
 })

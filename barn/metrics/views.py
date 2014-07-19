@@ -3,7 +3,6 @@ from datetime import date, datetime, timedelta
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.db.models import Manager
 from django.http import HttpResponse
 from django.views.generic import DeleteView, DetailView, TemplateView
 from django.views.generic.base import ContextMixin
@@ -12,7 +11,7 @@ from django.views.generic.edit import FormView
 
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
-from generic.views import (CSVView, DefaultYearMixin, LoginRequiredMixin,
+from generic.views import (DefaultYearMixin, LoginRequiredMixin,
                            PermissionRequiredMixin, SuccessMessageFormMixin)
 
 from .registry import registry
@@ -254,32 +253,3 @@ class GardenView(GardenMixin, LoginRequiredMixin, DetailView):
         return [
             'metrics/%s/gardens/detail.html' % self.metric_model._meta.app_label,
         ]
-
-
-class MetricGardenCSVView(LoginRequiredMixin, MetricMixin, GardenMixin,
-                          CSVView):
-
-    def get_fields(self):
-        return ('recorded', 'added_by_display',)
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.garden = self.get_object()
-        return super(MetricGardenCSVView, self).get(request, *args, **kwargs)
-
-    def get_filename(self):
-        return '%s - %s - %s' % (
-            self.garden.name,
-            self.get_metric_name(),
-            date.today().strftime('%Y-%m-%d'),
-        )
-
-    def get_rows(self):
-        for record in self.get_records():
-            def get_cell_value(record, field):
-                value = getattr(record, field, None)
-                if value is None:
-                    return ''
-                elif isinstance(value, Manager):
-                    return ';'.join([str(instance) for instance in value.all()])
-                return value
-            yield dict(map(lambda f: (f, get_cell_value(record, f)), self.get_fields()))

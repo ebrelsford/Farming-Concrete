@@ -31,12 +31,15 @@ class Donation(BaseMetricRecord):
         return kwargs
 
 
+from .export import DonationDataset
+
+
 register('Donations of Food', {
     'add_record_label': 'Add donation of food',
-    'download_url_name': 'donations_garden_csv',
     'model': Donation,
     'number': 2,
     'garden_detail_url_name': 'donations_garden_details',
     'group': 'Economic Data',
     'group_number': 4,
+    'dataset': DonationDataset
 })

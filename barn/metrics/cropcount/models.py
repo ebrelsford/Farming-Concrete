@@ -65,6 +65,16 @@ class Patch(BaseMetricRecord):
             self.units,
         )
 
+    def get_bed_display(self):
+        if self.box:
+            return self.box.name
+        return None
+
+    def get_crop_variety_display(self):
+        if self.crop_variety:
+            return self.crop_variety.name
+        return None
+
     @classmethod
     def summarize(cls, patches):
         if not patches:
@@ -80,14 +90,17 @@ class Patch(BaseMetricRecord):
         }
 
 
+from .export import CropcountDataset
+
+
 register('Crop Count', {
     'all_gardens_url_name': 'cropcount_all_gardens',
     'bed_content_type': ContentType.objects.get_for_model(Box),
-    'download_url_name': 'cropcount_download_garden_cropcount_as_csv',
     'model': Patch,
     'number': 1,
     'garden_detail_url_name': 'cropcount_garden_details',
     'group': 'Food Production Data',
     'group_number': 0,
     'index_url_name': 'cropcount_index',
+    'dataset': CropcountDataset,
 })

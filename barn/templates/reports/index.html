@@ -1,16 +1,10 @@
 {% extends "reports/base.html" %}
+{% load garden_tags %}
 
-{% block title %}
-    {{ year }} {% if type %} {{ type.name|title }}s{% endif %} Report
-{% endblock %}
+{% block title %}Reports{% endblock %}
 
-{% block breadcrumbs %}
-    {{ block.super }} 
-    <a href="{% url "reports.views.index" %}">Reports</a> 
-{% endblock %}
-
-{% block page_title %}
-    <h1>
-        {{ year }} {% if type %} {{ type.name|title }}s{% endif %} Report
-    </h1>
+{% block content %}
+    <h1>Reports</h1>
+    <p>More coming soon. In the meantime, you can download all of your gardens' data here.</p>
+    {% garden_list user "reports/garden_list.html" %}
 {% endblock %}

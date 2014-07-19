@@ -1,9 +1,8 @@
 from django.conf.urls import patterns, url
 
-from .views import (WeightAllGardensView, WeightGardenDetails, WeightGardenCSV,
-                    WeightIndex)
-from .views import (VolumeAllGardensView, VolumeGardenDetails, VolumeGardenCSV,
-                    VolumeIndex, VolumeSummaryJSON)
+from .views import (WeightAllGardensView, WeightGardenDetails, WeightIndex,
+                    VolumeAllGardensView, VolumeGardenDetails, VolumeIndex,
+                    VolumeSummaryJSON)
 
 
 urlpatterns = patterns('',
@@ -33,11 +32,6 @@ urlpatterns = patterns('',
         name='landfilldiversion_weight_garden_details',
     ),
 
-    url(r'^weight/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        WeightGardenCSV.as_view(),
-        name='landfilldiversion_weight_garden_csv',
-    ),
-
 
     #
     # Volume
@@ -62,11 +56,6 @@ urlpatterns = patterns('',
     url(r'^volume/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         VolumeGardenDetails.as_view(),
         name='landfilldiversion_volume_garden_details',
-    ),
-
-    url(r'^volume/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        VolumeGardenCSV.as_view(),
-        name='landfilldiversion_volume_garden_csv',
     ),
 
     url(r'^volume/data/json/',

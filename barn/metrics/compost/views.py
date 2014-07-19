@@ -1,7 +1,7 @@
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricGardenCSVView, MetricMixin, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import CompostProductionVolumeForm, CompostProductionWeightForm
 from .models import CompostProductionVolume, CompostProductionWeight
 
@@ -40,12 +40,6 @@ class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
                                                          self.object)
 
 
-class WeightGardenCSV(WeightMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(WeightGardenCSV, self).get_fields() + ('weight',)
-
-
 class VolumeMixin(MetricMixin):
     metric_model = CompostProductionVolume
 
@@ -79,9 +73,3 @@ class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,
 
     def get_title(self):
         return 'All gardens measuring compost production by volume'
-
-
-class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(VolumeGardenCSV, self).get_fields() + ('volume',)

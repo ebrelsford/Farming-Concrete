@@ -5,7 +5,7 @@ from braces.views import JSONResponseMixin
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricGardenCSVView, MetricMixin, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import LandfillDiversionVolumeForm, LandfillDiversionWeightForm
 from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
@@ -44,12 +44,6 @@ class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
                                                          self.object)
 
 
-class WeightGardenCSV(WeightMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(WeightGardenCSV, self).get_fields() + ('weight',)
-
-
 class VolumeMixin(MetricMixin):
     metric_model = LandfillDiversionVolume
 
@@ -82,12 +76,6 @@ class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,
 
     def get_title(self):
         return 'All gardens measuring landfill diversion by volume'
-
-
-class VolumeGardenCSV(VolumeMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(VolumeGardenCSV, self).get_fields() + ('volume',)
 
 
 class VolumeSummaryJSON(VolumeMixin, JSONResponseMixin, View):

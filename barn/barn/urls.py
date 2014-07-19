@@ -70,7 +70,7 @@ urlpatterns = patterns('',
 
     # reports
     url(r'^reports/', include(reports.urls.main_patterns)),
-    url(r'^gardens/(?P<id>\d+)/report/', include(reports.urls.garden_patterns)),
+    url(r'^gardens/(?P<pk>\d+)/report/', include(reports.urls.garden_patterns)),
 
     # auth
     (r'^accounts/$', 'farmingconcrete.views.account'),

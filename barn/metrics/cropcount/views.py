@@ -10,7 +10,7 @@ from accounts.utils import get_profile
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import BoxForm, PatchFormSet
 from .models import Box, Patch
 
@@ -173,34 +173,6 @@ def delete_bed(request, id, year=None):
         bed_year = year
     bed.delete()
     return redirect('cropcount_garden_details', pk=garden_id, year=bed_year)
-
-
-class CropcountCSV(CropcountMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(CropcountCSV, self).get_fields() + (
-            'bed',
-            'crop',
-            'crop_variety',
-            'quantity',
-            'units',
-        )
-
-    def get_rows(self):
-        for record in self.get_records():
-            def get_cell(field):
-                if field == 'bed' and record.box:
-                    return record.box.name
-                if field == 'crop_variety':
-                    if record.crop_variety:
-                        return record.crop_variety.name
-                    else:
-                        return ''
-                try:
-                    return getattr(record, field)
-                except Exception:
-                    return ''
-            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 #

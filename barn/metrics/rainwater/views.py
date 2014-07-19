@@ -1,7 +1,6 @@
 from farmingconcrete.models import Garden
 
-from ..views import (GardenDetailAddRecordView, IndexView, MetricGardenCSVView,
-                     MetricMixin)
+from ..views import GardenDetailAddRecordView, IndexView, MetricMixin
 
 from .forms import RainwaterHarvestForm
 from .models import RainwaterHarvest
@@ -48,15 +47,4 @@ class RainwaterHarvestGardenDetails(RainwaterHarvestMixin,
         return 'Successfully added %.1f gallons to %s' % (
             self.record.volume or 0,
             self.object,
-        )
-
-
-class RainwaterHarvestGardenCSV(RainwaterHarvestMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        parent_fields =  super(RainwaterHarvestGardenCSV, self).get_fields()
-        return ('recorded_start',) + parent_fields + (
-            'roof_length',
-            'roof_width',
-            'volume',
         )

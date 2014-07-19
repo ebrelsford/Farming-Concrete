@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import (YumYuckAllGardensView, YumYuckGardenDetails,
-                    YumYuckGardenCSV, YumYuckIndex)
+from .views import YumYuckAllGardensView, YumYuckGardenDetails, YumYuckIndex
 
 
 urlpatterns = patterns('',
@@ -25,11 +24,6 @@ urlpatterns = patterns('',
     url(r'^change/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         YumYuckGardenDetails.as_view(),
         name='yumyuck_change_garden_details',
-    ),
-
-    url(r'^change/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        YumYuckGardenCSV.as_view(),
-        name='yumyuck_change_garden_csv',
     ),
 
 )

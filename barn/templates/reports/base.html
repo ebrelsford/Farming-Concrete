@@ -3,10 +3,6 @@
 
 {% block body_class %}{{ block.super }} reports-page{% endblock %}
 
-{% block breadcrumbs %}
-    <a href="{% url "home" %}">Home</a> &gt;&gt; 
-{% endblock %}
-
 {% block content %}
 
     {% block page_title %}{% endblock %}
@@ -57,7 +53,7 @@
                     </label>
                     <select id="metric" class="form-control filter" name="metric">
                         <option value="all">all metrics</option>
-                        {% for group_name, metric_list in metrics.items %}
+                        {% for group_name, metric_list in grouped_metrics.items %}
                             <optgroup label="{{ group_name }}">
                                 {% for select_metric in metric_list %}
                                     <option value="{{ select_metric.name }}"{% if metric == select_metric.name %} selected="selected"{% endif %}>

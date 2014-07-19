@@ -42,12 +42,15 @@ class Sale(BaseMetricRecord):
         return kwargs
 
 
+from .export import SaleDataset
+
+
 register('Market Sales', {
     'add_record_label': 'Add market sale',
-    'download_url_name': 'sales_garden_csv',
     'model': Sale,
     'number': 1,
     'garden_detail_url_name': 'sales_garden_details',
     'group': 'Economic Data',
     'group_number': 4,
+    'dataset': SaleDataset,
 })
