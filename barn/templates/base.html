@@ -72,9 +72,9 @@
                                             enter your data
                                         </a>
                                     </li>
-                                    {% if user.is_staff %}
                                     <li><a href="{% url "reports_index" %}">data reports</a></li>
 
+                                    {% if user.is_staff %}
                                     <li><a href="{% url "admin:index" %}">Admin</a></li>
                                     {% endif %}
 
