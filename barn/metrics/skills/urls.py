@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (SmartsAndSkillsAllGardensView,
-                    SmartsAndSkillsGardenDetails, SmartsAndSkillsGardenCSV,
-                    SmartsAndSkillsIndex)
+                    SmartsAndSkillsGardenDetails, SmartsAndSkillsIndex)
 
 
 urlpatterns = patterns('',
@@ -26,11 +25,6 @@ urlpatterns = patterns('',
     url(r'^smarts/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         SmartsAndSkillsGardenDetails.as_view(),
         name='skills_smarts_garden_details',
-    ),
-
-    url(r'^smarts/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        SmartsAndSkillsGardenCSV.as_view(),
-        name='skills_smarts_garden_csv',
     ),
 
 )

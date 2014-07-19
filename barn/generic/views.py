@@ -9,6 +9,8 @@ from django.views.generic.base import ContextMixin, View
 from django.views.generic.dates import YearMixin
 from django.views.generic.edit import FormMixin
 
+from django_tablib.base import mimetype_map
+
 
 class LoginRequiredMixin(object):
     """A mixin the requires a user to be logged in before access a view"""
@@ -130,47 +132,32 @@ class DefaultYearMixin(YearMixin):
             return self.get_default_year()
 
 
-class CSVView(View):
+class TablibView(View):
+    format = 'csv'
     response_class = HttpResponse
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response()
 
-    def get_fields(self):
-        """Get the fields (column names) for this CSV"""
-        raise NotImplementedError
+    def get_dataset(self):
+        """Get the dataset"""
+        raise NotImplementedError('Implement TablibView.get_dataset()')
 
     def get_filename(self):
-        """Get the filename for this CSV"""
+        """Get the filename for the file"""
         return 'download'
 
-    def get_rows(self):
-        """
-        Get the rows for this CSV
-
-        The rows must be dicts of field (column) names to field values.
-
-        """
-        raise NotImplementedError
-
-    def write_csv(self, response):
-        fields = self.get_fields()
-        csv_file = csv.DictWriter(response, fields)
-
-        # Write header
-        response.write(','.join(['%s' % field.replace('_', ' ') for field in fields]))
-        response.write('\n')
-
-        # Write rows
-        for row in self.get_rows():
-            csv_file.writerow(row)
+    def get_format(self):
+        """Get the format for the file"""
+        return self.format
 
     def render_to_response(self):
-        """
-        Simple render to CSV.
-        """
-        response = self.response_class(mimetype='text/csv')
-        response['Content-Disposition'] = ('attachment; filename="%s.csv"' %
-                                           self.get_filename())
-        self.write_csv(response)
+        response = self.response_class(
+            getattr(self.get_dataset(), self.get_format()),
+            mimetype=mimetype_map.get(self.get_format(), 'application/octet-stream')
+        )
+        response['Content-Disposition'] = ('attachment; filename="%s.%s"' % (
+            self.get_filename(),
+            self.get_format(),
+        ))
         return response

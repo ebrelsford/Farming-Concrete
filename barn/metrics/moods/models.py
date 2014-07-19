@@ -59,6 +59,20 @@ class MoodChange(BaseMetricRecord):
         through='MoodCount'
     )
 
+    def __getattr__(self, name):
+        # Attempt to get value for mood and time (eg, 'happy_in')
+        if name.endswith(('_in', '_out')):
+            try:
+                name = name.replace('_', ' ')
+                mood, time = name.rsplit(' ', 1)
+                return self.moodcount_set.get(
+                    mood__name=mood,
+                    counted_time=time,
+                ).count
+            except Exception:
+                pass
+        return super(MoodChange, self).__getattr__(name)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(MoodChange, cls).get_summarize_kwargs()
@@ -68,10 +82,12 @@ class MoodChange(BaseMetricRecord):
         return kwargs
 
 
+from .export import MoodChangeDataset
+
+
 register('Good Moods in the Garden', {
     'add_record_template': 'metrics/moods/change/add_record.html',
     'all_gardens_url_name': 'moods_change_all_gardens',
-    'download_url_name': 'moods_change_garden_csv',
     'model': MoodChange,
     'number': 2,
     'garden_detail_url_name': 'moods_change_garden_details',
@@ -79,4 +95,5 @@ register('Good Moods in the Garden', {
     'group_number': 3,
     'index_url_name': 'moods_change_index',
     'short_name': 'change',
+    'dataset': MoodChangeDataset,
 })

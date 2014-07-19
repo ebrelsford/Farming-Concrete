@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (MoodChangeAllGardensView, MoodChangeGardenDetails,
-                    MoodChangeGardenCSV, MoodChangeIndex)
+                    MoodChangeIndex)
 
 
 urlpatterns = patterns('',
@@ -25,11 +25,6 @@ urlpatterns = patterns('',
     url(r'^change/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         MoodChangeGardenDetails.as_view(),
         name='moods_change_garden_details',
-    ),
-
-    url(r'^change/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        MoodChangeGardenCSV.as_view(),
-        name='moods_change_garden_csv',
     ),
 
 )

@@ -129,6 +129,10 @@ class ProgramReach(BaseMetricRecord):
         null=True,
     )
 
+    def get_features_display(self):
+        features = self.features.all().order_by('name')
+        return ', '.join(features.values_list('name', flat=True))
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(ProgramReach, cls).get_summarize_kwargs()
@@ -140,9 +144,11 @@ class ProgramReach(BaseMetricRecord):
         return kwargs
 
 
+from .export import ProgramReachDataset
+
+
 register('Reach of Programs', {
     'all_gardens_url_name': 'reach_program_all_gardens',
-    'download_url_name': 'reach_program_garden_csv',
     'model': ProgramReach,
     'number': 5,
     'garden_detail_url_name': 'reach_program_garden_details',
@@ -150,4 +156,5 @@ register('Reach of Programs', {
     'group_number': 2,
     'index_url_name': 'reach_program_index',
     'short_name': 'program',
+    'dataset': ProgramReachDataset,
 })

@@ -1,7 +1,7 @@
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import (LookingGoodEventForm, LookingGoodItemFormSet,
                     LookingGoodPhotoFormSet)
 from .models import LookingGoodEvent
@@ -66,14 +66,3 @@ class LookingGoodEventGardenDetails(LookingGoodEventMixin,
         return 'Successfully added looking good tags record to %s' % (
             self.object,
         )
-
-
-class LookingGoodEventGardenCSV(LookingGoodEventMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(LookingGoodEventGardenCSV, self).get_fields() + (
-            'total_participants',
-            'total_tags',
-            'items_tagged',
-        )
-        return ()

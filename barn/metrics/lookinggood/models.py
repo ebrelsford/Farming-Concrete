@@ -55,11 +55,14 @@ class LookingGoodEvent(BaseMetricRecord):
         return kwargs
 
 
+
+from .export import LookingGoodDataset
+
+
 register('Beauty of the Garden', {
     'add_record_label': 'Add looking good tags',
     'add_record_template': 'metrics/lookinggood/event/add_record.html',
     'all_gardens_url_name': 'lookinggood_event_all_gardens',
-    'download_url_name': 'lookinggood_event_garden_csv',
     'model': LookingGoodEvent,
     'number': 4,
     'garden_detail_url_name': 'lookinggood_event_garden_details',
@@ -67,4 +70,5 @@ register('Beauty of the Garden', {
     'group_number': 3,
     'index_url_name': 'lookinggood_event_index',
     'short_name': 'event',
+    'dataset': LookingGoodDataset,
 })

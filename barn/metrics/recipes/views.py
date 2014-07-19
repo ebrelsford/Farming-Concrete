@@ -1,7 +1,7 @@
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import RecipeTallyForm
 from .models import RecipeTally
 
@@ -37,10 +37,3 @@ class RecipeTallyGardenDetails(RecipeTallyMixin, GardenDetailAddRecordView):
         return 'Successfully added recipe tally record to %s' % (
             self.object,
         )
-
-
-class RecipeTallyGardenCSV(RecipeTallyMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        parent_fields =  super(RecipeTallyGardenCSV, self).get_fields()
-        return ('recorded_start',) + parent_fields + ('recipes_count',)

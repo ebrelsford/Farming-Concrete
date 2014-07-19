@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, url
 
 from .views import (HoursByGeographyAllGardensView,
-                    HoursByGeographyGardenDetails, HoursByGeographyGardenCSV,
-                    HoursByGeographyIndex)
+                    HoursByGeographyGardenDetails, HoursByGeographyIndex)
 from .views import (HoursByTaskAllGardensView, HoursByTaskGardenDetails,
-                    HoursByTaskGardenCSV, HoursByTaskIndex)
+                    HoursByTaskIndex)
 from .views import (HoursByProjectAllGardensView, HoursByProjectGardenDetails,
-                    HoursByProjectGardenCSV, HoursByProjectIndex)
+                    HoursByProjectIndex)
 from .views import CreateProjectView
 
 
@@ -37,11 +36,6 @@ urlpatterns = patterns('',
         name='participation_geography_garden_details',
     ),
 
-    url(r'^geography/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        HoursByGeographyGardenCSV.as_view(),
-        name='participation_geography_garden_csv',
-    ),
-
 
     #
     # Hours by task
@@ -68,11 +62,6 @@ urlpatterns = patterns('',
         name='participation_task_garden_details',
     ),
 
-    url(r'^task/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        HoursByTaskGardenCSV.as_view(),
-        name='participation_task_garden_csv',
-    ),
-
 
     #
     # Hours by project
@@ -97,11 +86,6 @@ urlpatterns = patterns('',
     url(r'^project/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         HoursByProjectGardenDetails.as_view(),
         name='participation_project_garden_details',
-    ),
-
-    url(r'^project/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        HoursByProjectGardenCSV.as_view(),
-        name='participation_project_garden_csv',
     ),
 
 

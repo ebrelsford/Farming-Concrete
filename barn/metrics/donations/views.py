@@ -1,6 +1,6 @@
 from farmingconcrete.models import Garden
 
-from ..views import GardenDetailAddRecordView, MetricGardenCSVView, MetricMixin
+from ..views import GardenDetailAddRecordView, MetricMixin
 
 from .forms import DonationForm
 from .models import Donation
@@ -26,13 +26,4 @@ class DonationGardenDetails(DonationMixin, GardenDetailAddRecordView):
         return 'Successfully added %.1f pounds to %s' % (
             self.record.pounds or 0,
             self.object,
-        )
-
-
-class DonationGardenCSV(DonationMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(DonationGardenCSV, self).get_fields() + (
-            'produce_name',
-            'pounds',
         )

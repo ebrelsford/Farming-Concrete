@@ -8,7 +8,7 @@ from farmingconcrete.models import Garden
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import (HoursByGeographyForm, HoursByProjectForm, HoursByTaskForm,
                     ProjectForm, ProjectHoursForm, TaskHoursForm)
 from .models import (HoursByGeography, HoursByProject, HoursByTask, Project,
@@ -45,18 +45,6 @@ class HoursByGeographyGardenDetails(HoursByGeographyMixin,
 
     def get_success_message(self):
         return 'Successfully added hours to %s' % (self.object)
-
-
-class HoursByGeographyGardenCSV(HoursByGeographyMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(HoursByGeographyGardenCSV, self).get_fields() + (
-            'recorded_start',
-            'in_half',
-            'in_whole',
-            'out_half',
-            'out_whole',
-        )
 
 
 class HoursByTaskMixin(MetricMixin):
@@ -131,27 +119,6 @@ class HoursByTaskGardenDetails(HoursByTaskMixin, GardenDetailAddRecordView):
             return self.form_invalid(form)
 
 
-class HoursByTaskGardenCSV(HoursByTaskMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        parent_fields = super(HoursByTaskGardenCSV, self).get_fields()
-        tasks = [task.name for task in Task.objects.all()]
-        return ('recorded_start',) + parent_fields + ('task_other',) + tuple(tasks)
-
-    def get_rows(self):
-        for record in self.get_records():
-            def get_cell(field):
-                try:
-                    return getattr(record, field)
-                except Exception:
-                    try:
-                        # Maybe it's a task name
-                        return record[field].hours
-                    except Exception:
-                        return 0
-            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
-
-
 class HoursByProjectMixin(MetricMixin):
     metric_model = HoursByProject
 
@@ -211,28 +178,6 @@ class HoursByProjectGardenDetails(HoursByProjectMixin,
             return super(HoursByProjectGardenDetails, self).form_valid(form)
         else:
             return self.form_invalid(form)
-
-
-class HoursByProjectGardenCSV(HoursByProjectMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        gardeners = self.object.gardener_set.all().order_by('name')
-        gardener_fields = gardeners.values_list('name', flat=True)
-        parent_fields = super(HoursByProjectGardenCSV, self).get_fields()
-        return parent_fields + ('project',) + tuple(gardener_fields)
-
-    def get_rows(self):
-        for record in self.get_records().order_by('recorded'):
-            def get_cell(field):
-                try:
-                    return getattr(record, field)
-                except Exception:
-                    try:
-                        # Maybe it's a gardener name
-                        return record[field].hours
-                    except Exception:
-                        return 0
-            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 class CreateProjectView(LoginRequiredMixin, PermissionRequiredMixin,

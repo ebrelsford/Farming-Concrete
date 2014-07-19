@@ -77,10 +77,12 @@ class SmartsAndSkills(BaseMetricRecord):
         return kwargs
 
 
+from .export import SmartsAndSkillsDataset
+
+
 register('Skills & Knowledge in the Garden', {
     'add_record_template': 'metrics/skills/smarts/add_record.html',
     'all_gardens_url_name': 'skills_smarts_all_gardens',
-    'download_url_name': 'skills_smarts_garden_csv',
     'model': SmartsAndSkills,
     'number': 4,
     'garden_detail_url_name': 'skills_smarts_garden_details',
@@ -88,4 +90,5 @@ register('Skills & Knowledge in the Garden', {
     'group_number': 2,
     'index_url_name': 'skills_smarts_index',
     'short_name': 'smarts',
+    'dataset': SmartsAndSkillsDataset,
 })

@@ -38,6 +38,12 @@ class Harvest(BaseMetricRecord):
             self.crop.name,
         )
 
+    def get_crop_variety_display(self):
+        if self.crop_variety:
+            return self.crop_variety.name
+        else:
+            return None
+
     @classmethod
     def summarize(cls, harvests):
         if not harvests:
@@ -51,6 +57,9 @@ class Harvest(BaseMetricRecord):
         }
 
 
+from .export import HarvestcountDataset
+
+
 register('Harvest Count', {
     'all_gardens_url_name': 'harvestcount_all_gardens',
     'download_url_name': 'harvestcount_download_garden_harvestcount_as_csv',
@@ -60,4 +69,5 @@ register('Harvest Count', {
     'group': 'Food Production Data',
     'group_number': 0,
     'index_url_name': 'harvestcount_index',
+    'dataset': HarvestcountDataset,
 })

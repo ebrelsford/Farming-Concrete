@@ -12,7 +12,7 @@ from farmingconcrete.models import Garden
 from generic.views import (LoginRequiredMixin, PermissionRequiredMixin,
                            RedirectToPreviousPageMixin, TitledPageMixin)
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricGardenCSVView, MetricMixin, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import GardenerForm, HarvestForm
 from .models import Gardener, Harvest
 
@@ -143,33 +143,6 @@ def quantity_for_last_harvest(request, pk=None, year=None):
         except:
             result['area'] = None
     return HttpResponse(json.dumps(result), mimetype='application/json')
-
-
-class HarvestcountCSV(HarvestcountMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(HarvestcountCSV, self).get_fields() + (
-            'gardener',
-            'crop',
-            'crop_variety',
-            'weight',
-            'plants',
-            'area',
-        )
-
-    def get_rows(self):
-        for record in self.get_records():
-            def get_cell(field):
-                if field == 'crop_variety':
-                    if record.crop_variety:
-                        return record.crop_variety.name
-                    else:
-                        return ''
-                try:
-                    return getattr(record, field)
-                except Exception:
-                    return ''
-            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))
 
 
 class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,

@@ -1,6 +1,6 @@
 from farmingconcrete.models import Garden
 
-from ..views import GardenDetailAddRecordView, MetricGardenCSVView, MetricMixin
+from ..views import GardenDetailAddRecordView, MetricMixin
 
 from .forms import SaleForm
 from .models import Sale
@@ -24,15 +24,3 @@ class SaleGardenDetails(SaleMixin, GardenDetailAddRecordView):
 
     def get_success_message(self):
         return 'Successfully added sale to %s' % (self.object,)
-
-
-class SaleGardenCSV(SaleMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        return super(SaleGardenCSV, self).get_fields() + (
-            'product',
-            'unit',
-            'unit_price',
-            'units_sold',
-            'total_price',
-        )

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import (ProgramReachAllGardensView, ProgramReachGardenDetails,
-                    ProgramReachGardenCSV, ProgramReachIndex)
+                    ProgramReachIndex)
 
 
 urlpatterns = patterns('',
@@ -25,11 +25,6 @@ urlpatterns = patterns('',
     url(r'^program/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$',
         ProgramReachGardenDetails.as_view(),
         name='reach_program_garden_details',
-    ),
-
-    url(r'^program/gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?csv/$',
-        ProgramReachGardenCSV.as_view(),
-        name='reach_program_garden_csv',
     ),
 
 )

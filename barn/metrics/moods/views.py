@@ -1,10 +1,7 @@
-from itertools import product
-import re
-
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
-                     MetricMixin, MetricGardenCSVView, RecordsMixin)
+                     MetricMixin, RecordsMixin)
 from .forms import MoodChangeForm, MoodCountFormSet
 from .models import Mood, MoodChange
 
@@ -72,42 +69,3 @@ class MoodChangeGardenDetails(MoodChangeMixin, GardenDetailAddRecordView):
         return 'Successfully added moods in the garden record to %s' % (
             self.object,
         )
-
-
-class MoodChangeGardenCSV(MoodChangeMixin, MetricGardenCSVView):
-
-    def get_fields(self):
-        moods = Mood.objects.all().order_by('name')
-        times = ('in', 'out')
-        mood_fields = ['%s (%s)' % (m, t) for (m, t) in product(moods, times)]
-        parent_fields = super(MoodChangeGardenCSV, self).get_fields()
-        return parent_fields + ('recorded_start',) + tuple(mood_fields)
-
-    def get_rows(self):
-
-        def get_mood_and_time(s):
-            """
-            Try to pull the mood and time out of a field name, which will be
-            formatted:
-
-                mood (time)
-
-            """
-            m = re.match('([^\(]+) \((.+)\)', s)
-            return m.group(1), m.group(2)
-
-        for record in self.get_records().order_by('recorded'):
-            def get_cell(field):
-                try:
-                    return getattr(record, field)
-                except Exception:
-                    try:
-                        # Maybe it's a mood
-                        mood, time = get_mood_and_time(field)
-                        return record.moodcount_set.get(
-                            mood__name=mood,
-                            counted_time=time,
-                        ).count
-                    except Exception:
-                        return 0
-            yield dict(map(lambda f: (f, get_cell(f)), self.get_fields()))

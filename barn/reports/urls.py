@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import Index
+from .views import Index, ExportView
 
 
 main_patterns = patterns('reports.views',
@@ -10,6 +10,7 @@ main_patterns = patterns('reports.views',
 
 garden_patterns = patterns('reports.views',
     (r'^$', 'garden_report'),
+    url(r'^export/', ExportView.as_view(), name='reports_export'),
     (r'^(?P<year>\d{4})/$', 'garden_report'),
     (r'^(?P<year>\d{4})/share/$', 'share'),
     (r'^(?P<year>\d{4})/pdf/$', 'pdf'),
