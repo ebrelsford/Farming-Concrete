@@ -4,6 +4,8 @@ import requests
 
 from django.conf import settings
 
+from .exceptions import NoRainfallResultsException, NoStationResultsException
+
 
 GALLONS_PER_SF = 0.6
 HARVESTING_EFFICIENCY = 0.75
@@ -41,7 +43,11 @@ def get_rainfall_entries(stationid, start, end):
     headers = {
         'token': settings.NOAA_TOKEN,
     }
-    return requests.get(NOAA_DATA_URL, params=params, headers=headers).json()['results']
+    response = requests.get(NOAA_DATA_URL, params=params, headers=headers).json()
+    try:
+        return response['results']
+    except KeyError:
+        raise NoRainfallResultsException()
 
 
 def get_station(latlng, start, end):
@@ -83,4 +89,8 @@ def get_stations_buffer(latlng, start, end, buffer=.2):
     headers = {
         'token': settings.NOAA_TOKEN,
     }
-    return requests.get(NOAA_STATIONS_URL, params=params, headers=headers).json()['results']
+    response = requests.get(NOAA_STATIONS_URL, params=params, headers=headers).json()
+    try:
+        return response['results']
+    except KeyError:
+        raise NoStationResultsException()
