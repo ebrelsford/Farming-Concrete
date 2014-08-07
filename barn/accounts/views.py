@@ -68,7 +68,7 @@ class DeleteAdminView(LoginRequiredMixin, DetailView):
         membership = self.get_object()
 
         if not is_admin(request.user, membership.garden):
-            return HttpResponseForbidden()
+            raise PermissionDenied
 
         self.delete_admin(membership)
         messages.success(request, self.get_success_message(membership))
@@ -86,7 +86,7 @@ class DeleteMemberView(LoginRequiredMixin, DetailView):
         membership = self.get_object()
 
         if not is_admin(request.user, membership.garden):
-            return HttpResponseForbidden()
+            raise PermissionDenied
 
         membership.delete()
         messages.success(request, self.get_success_message(membership))
