@@ -8532,6 +8532,45 @@ ul.values li .even {
 .account-page .actions {
   margin-top: 50px;
 }
+.account-page .edit {
+  margin-top: 50px;
+}
+.account-page .edit .field-first_name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .account-page .edit .field-first_name {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.account-page .edit .field-last_name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .account-page .edit .field-last_name {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.account-page .edit .field-email {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .account-page .edit .field-email {
+    float: left;
+    width: 66.66666667%;
+  }
+}
 h2 a.text {
   position: absolute;
   padding-top: 3px;

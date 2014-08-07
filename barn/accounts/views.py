@@ -1,20 +1,29 @@
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseForbidden
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, UpdateView
 
 from generic.views import LoginRequiredMixin
 
+from .forms import UserForm
 from .models import GardenMembership
 from .utils import is_admin
 
 
-class AccountDetailsView(TemplateView):
+class AccountDetailsView(UpdateView):
+    form_class = UserForm
     template_name = 'accounts/detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(AccountDetailsView, self).get_context_data(**kwargs)
         context['page_type'] = 'account'
         return context
+
+    def get_object(self, **kwargs):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse('account_details')
 
 
 class AddAdminView(LoginRequiredMixin, DetailView):

@@ -21,6 +21,23 @@
                 </a>
             </section>
 
+            <section class="edit">
+                <form class="form-horizontal" method="post">
+                    {% include "forms/head.html" %}
+
+                    <div class="row">
+                        {% include "forms/field.html" with field=form.first_name %}
+                        {% include "forms/field.html" with field=form.last_name %}
+                    </div>
+
+                    <div class="row">
+                        {% include "forms/field.html" with field=form.email %}
+                    </div>
+
+                    {% include "forms/buttons.html" %}
+                </form>
+            </section>
+
             {% garden_list user %}
             <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
                 Add a garden
