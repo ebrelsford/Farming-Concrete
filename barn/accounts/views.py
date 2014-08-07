@@ -1,6 +1,7 @@
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse
 from django.views.generic import DetailView, UpdateView
 
 from generic.views import LoginRequiredMixin
@@ -43,7 +44,7 @@ class AddAdminView(LoginRequiredMixin, DetailView):
         membership = self.get_object()
 
         if not is_admin(request.user, membership.garden):
-            return HttpResponseForbidden()
+            raise PermissionDenied
 
         self.add_admin(membership)
         messages.success(request, self.get_success_message(membership))
