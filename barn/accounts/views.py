@@ -1,11 +1,20 @@
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseForbidden
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 
 from generic.views import LoginRequiredMixin
 
 from .models import GardenMembership
 from .utils import is_admin
+
+
+class AccountDetailsView(TemplateView):
+    template_name = 'accounts/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountDetailsView, self).get_context_data(**kwargs)
+        context['page_type'] = 'account'
+        return context
 
 
 class AddAdminView(LoginRequiredMixin, DetailView):

@@ -1,9 +1,15 @@
 from django.conf.urls import patterns, url
 
-from .views import AddAdminView, DeleteAdminView, DeleteMemberView
+from .views import (AccountDetailsView, AddAdminView, DeleteAdminView,
+                    DeleteMemberView)
 
 
 urlpatterns = patterns('',
+
+    url(r'^$',
+        AccountDetailsView.as_view(),
+        name='account_details',
+    ),
 
     url(r'^gardenmemberships/(?P<pk>\d+)/admin/add/',
         AddAdminView.as_view(),

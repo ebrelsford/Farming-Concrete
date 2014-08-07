@@ -1,13 +1,10 @@
 from datetime import datetime
 import geojson
 
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 from django.views.generic import (CreateView, DetailView, UpdateView,
                                   TemplateView)
 from django.views.generic.edit import FormMixin
@@ -190,13 +187,6 @@ class AddSuggestedGardenView(LoginRequiredMixin, AddUserGardenMixin, DetailView)
     def get(self, request, *args, **kwargs):
         self.add_suggested()
         return HttpResponseRedirect(reverse('home'))
-
-
-@login_required
-def account(request):
-    return render_to_response('farmingconcrete/account.html', {
-        'page_type': 'account',
-    }, context_instance=RequestContext(request))
 
 
 def gardens_geojson(request):

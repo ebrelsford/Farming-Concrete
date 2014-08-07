@@ -73,8 +73,7 @@ urlpatterns = patterns('',
     url(r'^gardens/(?P<pk>\d+)/report/', include(reports.urls.garden_patterns)),
 
     # auth
-    (r'^accounts/$', 'farmingconcrete.views.account'),
-    (r'^accounts/gardens/', include('accounts.urls')),
+    (r'^accounts/', include('accounts.urls')),
     (r'^accounts/registration/', include('registration.backends.default.urls')),
     (r'^accounts/', include('django.contrib.auth.urls')),
 
