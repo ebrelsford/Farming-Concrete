@@ -8801,6 +8801,56 @@ ul.garden-suggestions {
 .garden-suggestion:hover .garden-suggestion-name {
   text-decoration: underline;
 }
+.btn-invite-member {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-invite-member:hover,
+.btn-invite-member:focus,
+.btn-invite-member:active,
+.btn-invite-member.active,
+.open .dropdown-toggle.btn-invite-member {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-invite-member:active,
+.btn-invite-member.active,
+.open .dropdown-toggle.btn-invite-member {
+  background-image: none;
+}
+.btn-invite-member.disabled,
+.btn-invite-member[disabled],
+fieldset[disabled] .btn-invite-member,
+.btn-invite-member.disabled:hover,
+.btn-invite-member[disabled]:hover,
+fieldset[disabled] .btn-invite-member:hover,
+.btn-invite-member.disabled:focus,
+.btn-invite-member[disabled]:focus,
+fieldset[disabled] .btn-invite-member:focus,
+.btn-invite-member.disabled:active,
+.btn-invite-member[disabled]:active,
+fieldset[disabled] .btn-invite-member:active,
+.btn-invite-member.disabled.active,
+.btn-invite-member[disabled].active,
+fieldset[disabled] .btn-invite-member.active {
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-invite-member .badge {
+  color: #000000;
+  background-color: #ffffff;
+}
+#invite-member-modal .alert {
+  display: none;
+}
+#invite-member-modal.success .alert-success {
+  display: block;
+}
+#invite-member-modal.error .alert-danger {
+  display: block;
+}
 ul.garden-list {
   list-style: none;
   margin: 0;

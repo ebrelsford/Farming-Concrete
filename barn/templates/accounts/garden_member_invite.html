@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{% trans "Invite a garden member" %}</h4>
+</div>
+<div class="modal-body">
+    <div class="alert alert-success">
+        {% trans "Successfully invited" %} <span id="invited-email-address"></span>
+    </div>
+    <div class="alert alert-danger">
+        {% trans "There was an error while sending the invite. Please try again and let us know if this keeps happening." %}
+    </div>
+    {% url "gardenmemberships_invite" as action_url %}
+    {% include "_form.html" with action=action_url form=form cancel_button=True %}
+</div>

@@ -1,0 +1,18 @@
+You've been invited to join Farming Concrete's Barn by {{ inviter.email }}.
+
+Follow this link to register:
+
+    {{ base_url }}{% url "registration_register" %}
+
+The person who invited you suggested that you join {{ garden }} once you do.
+
+Barn is an online tool for gardeners who want to record information about their
+gardens. You can learn more about the types of information you can record with
+Barn here:
+
+    http://farmingconcrete.org/toolkit/
+
+We hope you check it out. Let us know how it goes!
+
+
+Farming Concrete

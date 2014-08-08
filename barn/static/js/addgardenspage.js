@@ -13,6 +13,7 @@ define(
         'geocode',
 
         // Other requirements
+        'jquery.form',
         'jquery.spin',
         'leaflet.dataoptions',
         'leaflet.usermarker'
@@ -136,6 +137,36 @@ define(
 
             $('#id_address,#id_city,#id_state').change(geocodeAddress);
 
+            $('#invite-member-modal').on('shown.bs.modal', function () {
+                var $modal = $(this);
+
+                $modal.find(':input[name=garden]').val($modal.data('garden'));
+
+                $modal.find('.btn-cancel').click(function () {
+                    $('#invite-member-modal').modal('hide');
+                });
+
+                $modal.find('form').on('submit', function (e) {
+                    var $form = $(this),
+                        email = $form.find(':input[name=email]').val();
+                    $modal.removeClass('error success');
+
+                    // This could be handled more nicely, but seriously?
+                    if (!email) return false;
+
+                    $form.ajaxSubmit({
+                        error: function () {
+                            $modal.addClass('error');
+                        },
+                        success: function (data) {
+                            $modal.addClass('success');
+                            $('#invited-email-address').text(email);
+                            $form.find(':input[name=email]').val('');
+                        }
+                    });
+                    return false;
+                });
+            });
         });
 
     }

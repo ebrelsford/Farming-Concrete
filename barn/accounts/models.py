@@ -29,6 +29,8 @@ class UserProfile(models.Model):
     # The corresponding Gardener for this user, if any.
     gardener = models.ForeignKey(Gardener, blank=True, null=True)
 
+    invite_count = models.PositiveIntegerField(default=0)
+
 
 class GardenMembership(models.Model):
     garden = models.ForeignKey('farmingconcrete.Garden')

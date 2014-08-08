@@ -82,9 +82,15 @@
                 <h2>Current garden members</h2>
                 {% garden_member_list garden %}
 
-                <button type="button" data-toggle="modal" data-target="#invite-member-modal" class="btn btn-primary btn-invite-member">
+                <button type="button" data-toggle="modal" data-target="#invite-member-modal" class="btn btn-primary btn-invite-member" href="{% url "gardenmemberships_invite" %}">
                     {% trans "invite another member" %}
                 </button>
+
+                <div id="invite-member-modal" class="modal fade" data-garden="{{ garden.pk }}">
+                    <div class="modal-dialog">
+                        <div class="modal-content"></div>
+                    </div>
+                </div>
             </section>
         {% endif %}
     </div>
@@ -96,21 +102,5 @@
             data-l-center="[40.71, -73.98]"
             data-l-mapbox-id="farmingconcrete.i29og38a"
         ></div>
-    </div>
-
-    <div id="invite-member-modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans "Invite a garden member" %}</h4>
-                </div>
-                <div class="modal-body">
-                    {% url "crops_variety_add" as action_url %}
-                    {% include "_form.html" with form=form action=action_url cancel_button=True %}
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
