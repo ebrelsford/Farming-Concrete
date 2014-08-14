@@ -5,15 +5,15 @@ define(
         var geocoder = new google.maps.Geocoder();
 
         function geocode(address, state, f) {
-            state = state.toUpperCase();
+            state = state.toLowerCase();
             geocoder.geocode({
                 'address': address
             }, function (results, status) {
                 for (var i = 0; i < results.length; i++) {
                     var result_state = get_component(results[i],
                                                      'administrative_area_level_1');
-                    if (result_state.short_name === state ||
-                        result_state.long_name === state) {
+                    if (result_state.short_name.toLowerCase() === state ||
+                        result_state.long_name.toLowerCase() === state) {
                         return f(results[i], status);
                     }
                 }
