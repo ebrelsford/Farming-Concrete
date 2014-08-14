@@ -8781,6 +8781,11 @@ h2 a.text {
   height: 200px;
   width: 100%;
 }
+.add-garden-map-error {
+  color: #d9534f;
+  display: none;
+  font-weight: bold;
+}
 .add-garden-current-members {
   margin-top: 75px;
 }

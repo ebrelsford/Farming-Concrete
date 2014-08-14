@@ -118,6 +118,16 @@ define(
                 showPointOnMap(lat, lng);
             }
 
+            $('form.add-garden').on('submit', function () {
+                var latitude = $(this).find('[name=latitude]').val(),
+                    longitude = $(this).find('[name=longitude]').val();
+
+                if (!latitude || !longitude) {
+                    $('.add-garden-map-error').show();
+                    return false;
+                }
+            });
+
             // If creating a new garden, enable suggestions
             if ($('.garden-form').is('.add-garden')) {
                 // If name already has text in it (eg on error), show
