@@ -74,6 +74,16 @@ class GardenForm(ModelForm):
     def clean(self):
         cleaned_data = super(GardenForm, self).clean()
 
+        latitude = cleaned_data.get('latitude')
+        longitude = cleaned_data.get('longitude')
+
+        if not latitude or not longitude:
+            raise ValidationError("""
+                A point was not found for the address you entered. Please
+                enter the address again and ensure that the correct point is
+                shown on the map for the garden you're adding.
+            """)
+
         # Disallow gardens at the same address, city, and state as an existing
         # one.
         address_kwargs = {
@@ -91,8 +101,8 @@ class GardenForm(ModelForm):
         # Disallow gardens at the same latitude and longitude as an existing
         # one.
         centroid_kwargs = {
-            'latitude': cleaned_data.get('latitude'),
-            'longitude': cleaned_data.get('longitude'),
+            'latitude': latitude,
+            'longitude': longitude,
         }
         if Garden.objects.filter(**centroid_kwargs).exists():
             raise ValidationError("""
