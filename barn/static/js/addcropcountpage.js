@@ -31,7 +31,7 @@ define(
 
             $('.patch-formset:visible').formset({
                 addCssClass: 'add-row btn btn-default',
-                addText: 'Add another crop',
+                addText: 'Add another crop to this bed',
                 added: function (row) {
                     // Manually enable select2 each time a new row is added
                     row.find('.select2-basic-select').select2();
