@@ -6,6 +6,8 @@ from django.conf import settings
 from classytags.arguments import Argument, KeywordArgument
 from classytags.core import Options
 from classytags.helpers import AsTag
+from matplotlib.patches import Rectangle
+import matplotlib.pyplot as plt
 import pandas as pd
 import pylab
 
@@ -46,8 +48,32 @@ class CropcountChart(MetricRecordTagMixin, AsTag):
         df = pd.DataFrame.from_records(records.values('crop__name', 'quantity',
                                                       'recorded'),
                                        coerce_float=True)
-        qdf = df.groupby('recorded').sum()['quantity']
-        qdf.plot(kind='bar')
+        qdf = df.groupby('crop__name').sum()['quantity']
+        qdf.plot(kind='barh', color='#849F38', linewidth=0)
+
+        ax = plt.gca()
+        ax.yaxis.grid(False)
+
+        ax.set_ylabel('')
+        ax.set_xlabel('NUMBER OF PLANTS', fontsize=12, fontweight='bold')
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        ax.xaxis.set_ticks_position('bottom')
+        ax.xaxis.set_tick_params(direction='out')
+        ax.yaxis.set_ticks_position('left')
+        ax.yaxis.set_tick_params(direction='out', labelsize=14)
+
+        # Add labels to rectangles
+        for rect in ax.get_children():
+            if not isinstance(rect, Rectangle):
+                continue
+            if rect.get_facecolor() == (1, 1, 1, 1):
+                continue
+            width = rect.get_width()
+            ax.text(width - 0.5, rect.get_y() + rect.get_height() / 2. - .03,
+                    '%d' % int(width), ha='center', va='bottom', color='white',
+                    fontweight='bold')
 
         # TODO set destination to more explicit folder, make this a method
         #  /generated_charts/cropcount/garden_date_count.png
