@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'chosen',
     'compressor',
     'djangojs',
+    'easy_pdf',
     'feedback',
     'floppyforms',
     'registration',

@@ -15,6 +15,7 @@ from django.template import RequestContext
 from django.views.generic import TemplateView
 
 from django_xhtml2pdf.utils import render_to_pdf_response
+from easy_pdf.views import PDFTemplateView
 
 from charts import (plants_per_crop, weight_per_crop, weight_per_gardener,
                     estimated_weight_per_crop)
@@ -98,6 +99,22 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
             'Barn export',
             date.today().strftime('%Y-%m-%d'),
         )
+
+
+class ReportView(PDFTemplateView):
+    template_name = 'reports/year.html'
+
+    def get_garden(self, pk):
+        # TODO permission!
+        return Garden.objects.get(pk=pk)
+
+    def get_context_data(self, pk=None, year=None):
+        context = super(ReportView, self).get_context_data()
+        context.update({
+            'garden': self.get_garden(pk),
+            'year': year,
+        })
+        return context
 
 
 def _get_metrics_year_range():

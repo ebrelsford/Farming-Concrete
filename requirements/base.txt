@@ -9,11 +9,12 @@ geojson==1.0.1
 html5lib==0.90
 ipython>=2.0.0
 matplotlib==1.0.1
+pandas==0.14.1
 Pint==0.5
 py==1.4.9
 pyPdf==1.13
 pytest==2.2.4
-reportlab==2.5
+reportlab==2.7
 requests==2.2.1
 simplejson==3.3.2
 simplekml==1.2.3
@@ -31,6 +32,7 @@ git+git://github.com/theatlantic/django-chosen.git@3308dbff
 django-classy-tags==0.4
 django_compressor>=1.4
 git+git://github.com/girasquid/django-feedback.git
+django-easy-pdf==0.1.0
 django-floppyforms==1.1.1
 django-imagekit==3.2
 django-registration==1.0

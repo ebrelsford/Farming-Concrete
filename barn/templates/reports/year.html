@@ -1,0 +1,177 @@
+{% extends "easy_pdf/base.html" %}
+{% load i18n metrics_tags static %}
+
+{% block extra_style %}
+    <style>
+        /*
+         * Global page styles
+         */
+        @page {
+            size: {{ pagesize|default:"Letter" }};
+            margin-left: 1cm;
+            margin-right: 1cm;
+            margin-top: 1cm;
+            margin-bottom: 1cm;
+
+            @frame header {
+                -pdf-frame-content: page-header;
+                margin-top: 0.7cm;
+                margin-right: 2mm;
+                margin-bottom: 0cm;
+                margin-left: 1.2cm;
+            }
+
+            @frame footer {
+                -pdf-frame-content: page-footer;
+                bottom: 0cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 2cm;
+            }
+        }
+
+        .page {
+            page-break-after: always;
+        }
+
+
+        /*
+         * Header / framing
+         */
+        h1 {
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #000;
+            margin: 0;
+            padding-top: 10px;
+        }
+
+        .report-details {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            padding-top: 7px;
+        }
+
+        .garden-details {
+            width: 75%;
+        }
+
+        .report-date {
+            color: #aaa;
+            text-align: center;
+            width: 25%;
+        }
+
+        .garden-name {
+            color: #F63C04;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .metric-description-row {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            padding-top: 5px;
+        }
+
+        .metric-description {
+            vertical-align: top;
+            width: 75%;
+        }
+
+        .metric-summary {
+            height: 30px;
+            text-align: center;
+            width: 25%;
+        }
+
+        .metric-summary-number {
+            font-size: 40px;
+        }
+
+        .metric-summary-units {
+            font-weight: bold;
+        }
+
+        .metric-name {
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .metric-number {
+            border: 0;
+            border-top: 1px solid #000;
+            margin: 0;
+            padding: 0;
+            padding-top: 5px;
+            font-size: 8px;
+        }
+
+        .metric-chart {
+            width: 500px;
+        }
+
+
+        /*
+         * Footer / framing
+         */
+        .footer-main {
+            border-top: 1px solid #000;
+            padding-top: 5px;
+        }
+
+        .footer-toolkit-link {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .footer-credits-row {
+            border-top: 1px solid #ccc;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .footer-credits {
+            width: 90%;
+        }
+
+        .footer-page-number {
+            text-align: right;
+            width: 10%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% metrics_with_records garden=garden year=year as metrics %}
+    {% for metric in metrics %}
+        {% metric_report_page metric.name garden %}
+    {% endfor %}
+{% endblock %}
+
+{% block page_foot %}
+    <div class="footer-main">
+        <div class="footer-toolkit-link">
+            This data was collected with the Five Borough Farm Data Collection Toolkit. To see the full protocol please visit <a href="http://farmingconcrete.org/barn/">farmingconcrete.org/barn</a>.
+        </div>
+        <div class="footer-credits-row">
+            <table>
+                <tr>
+                    <td class="footer-credits">
+                        <img width="200px" src="{% static "img/fc_logo_footer.jpg" %}" />
+                        <span style="margin-left: 15px;">
+                            <img width="200px" src="{% static "img/fbf_logo_footer.jpg" %}" />
+                        </span>,
+                        a project of the Design Trust for Public Space
+                    </td>
+                    <td class="footer-page-number">
+                        <pdf:pagenumber />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

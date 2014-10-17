@@ -32,7 +32,7 @@ class MetricRecordTagMixin(object):
         return kwargs
 
     def sort_metrics(self, metrics):
-        return sorted(metrics, key=itemgetter('group', 'name'))
+        return sorted(metrics, key=itemgetter('group_number', 'number'))
 
     def group_metrics(self, metrics):
         grouped = groupby(metrics, lambda m: m['group'])
@@ -317,11 +317,36 @@ class MetricYears(MetricRecordTagMixin, AsTag):
         return [year for year in range(min_year, max_year + 1)]
 
 
+class MetricReportPage(MetricRecordTagMixin, InclusionTag):
+    options = Options(
+        Argument('metric_name'),
+        Argument('garden'),
+    )
+
+    template = ''
+
+    def get_context(self, context, metric_name, garden):
+        # TODO date range?
+        context.update({
+        })
+        return context
+
+    def get_template(self, context, metric_name, garden):
+        templates = self.get_template_candidates(metric_name, 'report_page.html')
+        templates = templates + ['metrics/report_page.html',]
+        try:
+            templates = [registry[metric_name]['report_page_template'],] + templates
+        except Exception:
+            pass
+        return select_template(templates).name
+
+
 register.tag(AddRecord)
 register.tag(CountRecords)
 register.tag(IfCanDelete)
 register.tag(Summarize)
 register.tag(MetricContentType)
+register.tag(MetricReportPage)
 register.tag(MetricYears)
 register.tag(MetricsWithRecords)
 register.tag(MetricsWithoutRecords)

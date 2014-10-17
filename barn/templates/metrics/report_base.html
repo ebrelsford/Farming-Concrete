@@ -1,0 +1,50 @@
+{% load static %}
+
+{% block report_page %}
+    <div class="page metric">
+        {% block report_page_header %}
+            <h1>
+                <div class="metric-number">
+                    {{ metric.group_number }}.{{ metric.number }}
+                </div>
+                <div class="metric-name">
+                    {% with metric_src="img/metrics/"|add:metric.name|add:".jpg" %}
+                        <img src="{% static metric_src %}" alt="{{ metric.name }}" title="{{ metric.name }}" />
+                    {% endwith %}
+                </div>
+            </h1> 
+            <div class="report-details">
+                <table>
+                    <tr>
+                        <td class="garden-details">
+                            <span class="garden-name">
+                                {{ garden.name|upper }}
+                            </span>
+                            <span class="garden-address">
+                                {{ garden.address }}
+                            </span>
+                        </td>
+                        <td class="report-date">
+                            Report covers: {{ year }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endblock %}
+
+        <div class="metric-description-row">
+            <table>
+                <tr>
+                    <td class="metric-description">
+                        {% block metric_description %}{% endblock %}
+                    </td>
+                    <td class="metric-summary">
+                        {% block metric_summary %}{% endblock %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        {% block report_page_content %}{% endblock %}
+    </div>
+{% endblock %}
