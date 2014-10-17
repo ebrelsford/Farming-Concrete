@@ -1,0 +1,29 @@
+{% extends "metrics/report_base.html" %}
+{% load harvestcount_tags static %}
+
+{% block metric_description %}
+    This is the description for harvestcount..
+{% endblock %}
+
+{% block metric_summary %}
+    <span class="metric-summary-number">
+        300
+    </span>
+    <br />
+    <span class="metric-summary-units">
+        {{ "pounds"|upper }}
+    </span>
+{% endblock %}
+
+{% block report_page_content %}
+    <table>
+        <tr></tr>
+        <tr>
+            <td style="width: 100px;"></td>
+            <td>
+                {% harvestcount_chart garden=garden year="2014" as chart_url %}
+                <img class="metric-chart metric-chart-harvestcount" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -11,13 +11,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pylab
 
-from metrics.cropcount.models import Patch
+from metrics.harvestcount.models import Harvest
 from metrics.templatetags.metrics_tags import MetricRecordTagMixin
 
 register = template.Library()
 
 
-class CropcountChart(MetricRecordTagMixin, AsTag):
+class HarvestcountChart(MetricRecordTagMixin, AsTag):
 
     options = Options(
         KeywordArgument('garden', required=False),
@@ -41,21 +41,21 @@ class CropcountChart(MetricRecordTagMixin, AsTag):
         # TODO more generically, offer to other tags
         records = None
         if start and end:
-            records = Patch.get_records(garden, start=start, end=end)
+            records = Harvest.get_records(garden, start=start, end=end)
         elif year:
-            records = Patch.get_records(garden, year=year)
+            records = Harvest.get_records(garden, year=year)
 
-        df = pd.DataFrame.from_records(records.values('crop__name', 'quantity',
-                                                      'recorded'),
+        df = pd.DataFrame.from_records(records.values('crop__name', 'weight', 'recorded'),
                                        coerce_float=True)
-        qdf = df.groupby('crop__name').sum()['quantity']
+
+        qdf = df.groupby('crop__name').sum()['weight']
         qdf.plot(kind='barh', color='#849F38', linewidth=0)
 
         ax = plt.gca()
         ax.yaxis.grid(False)
 
         ax.set_ylabel('')
-        ax.set_xlabel('NUMBER OF PLANTS', fontsize=12, fontweight='bold')
+        ax.set_xlabel('POUNDS HARVESTED', fontsize=12, fontweight='bold')
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
 
@@ -78,10 +78,10 @@ class CropcountChart(MetricRecordTagMixin, AsTag):
 
         # TODO set destination to more explicit folder, make this a method
         #  /generated_charts/cropcount/garden_date_count.png
-        pylab.savefig(settings.MEDIA_ROOT + '/test' + '/blah.png', bbox_inches='tight')
+        pylab.savefig(settings.MEDIA_ROOT + '/test' + '/blah2.png', bbox_inches='tight')
         plt.clf()
         plt.cla()
-        return 'test/blah.png'
+        return 'test/blah2.png'
 
 
-register.tag(CropcountChart)
+register.tag(HarvestcountChart)
