@@ -48,6 +48,17 @@ def _save_chart(destination_file):
     return os.path.join('charts', img_file)
 
 
+def _get_bar_rectangles(axis):
+    for rect in axis.get_children():
+        if not isinstance(rect, Rectangle):
+            continue
+
+        # Assume white rectangles are not bars
+        if rect.get_facecolor() == (1, 1, 1, 1):
+            continue
+        yield rect
+
+
 def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
                    ylabel=''):
     data_frame.plot(kind='barh', color=color, linewidth=0)
@@ -64,11 +75,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
     _format_ticks(ax)
 
     # Add labels to rectangles
-    for rect in ax.get_children():
-        if not isinstance(rect, Rectangle):
-            continue
-        if rect.get_facecolor() == (1, 1, 1, 1):
-            continue
+    for rect in _get_bar_rectangles(ax):
         width = rect.get_width()
         ax.text(width - (data_frame.max() * 0.05),
                 rect.get_y() + rect.get_height() / 2. - .03,
@@ -94,11 +101,7 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
     _format_ticks(ax)
 
     # Add labels to rectangles
-    for rect in ax.get_children():
-        if not isinstance(rect, Rectangle):
-            continue
-        if rect.get_facecolor() == (1, 1, 1, 1):
-            continue
+    for rect in _get_bar_rectangles(ax):
         height = rect.get_height()
         ax.text(rect.get_x() + rect.get_width() / 2.0,
                 height - (data_frame.max() * 0.05),
