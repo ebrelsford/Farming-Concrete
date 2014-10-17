@@ -14,10 +14,7 @@ class CropcountChart(ChartMixin, AsTag):
     def get_metric_model(self):
         return Patch
 
-    def get_value(self, context, garden, year, start, end):
-        # Get KeywordArguments with default values
-        kwargs = self.args_to_dict(garden, year, start, end)
-        records = self.get_records(**kwargs)
+    def get_chart(self, records, garden):
         df = pd.DataFrame.from_records(records.values('crop__name', 'quantity', 'recorded'),
                                        coerce_float=True)
 

@@ -14,14 +14,12 @@ class HarvestcountChart(ChartMixin, AsTag):
     def get_metric_model(self):
         return Harvest
 
-    def get_value(self, context, garden, year, start, end):
-        kwargs = self.args_to_dict(garden, year, start, end)
-        records = self.get_records(**kwargs)
+    def get_chart(self, records, garden):
         df = pd.DataFrame.from_records(records.values('crop__name', 'weight', 'recorded'),
                                        coerce_float=True)
 
         qdf = df.groupby('crop__name').sum()['weight']
-        return horizontal_bar(qdf, make_chart_name('harvestcount', kwargs['garden']),
+        return horizontal_bar(qdf, make_chart_name('harvestcount', garden),
                               xlabel='POUNDS HARVESTED')
 
 

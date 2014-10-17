@@ -78,12 +78,20 @@ class ChartMixin(MetricRecordTagMixin, AsTag):
     def get_metric_model(self):
         raise NotImplementedError('Implement ChartMixin.get_metric_model()')
 
+    def get_chart(self, records, garden):
+        raise NotImplementedError('Implement ChartMixin.get_chart()')
+
     def get_records(self, garden=None, start=None, end=None, year=None):
         metric_model = self.get_metric_model()
         if start and end:
             return metric_model.get_records(garden, start=start, end=end)
         elif year:
             return metric_model.get_records(garden, year=year)
+
+    def get_value(self, context, garden, year, start, end):
+        kwargs = self.args_to_dict(garden, year, start, end)
+        records = self.get_records(**kwargs)
+        return self.get_chart(records, kwargs['garden'])
 
 
 class CountRecords(MetricRecordTagMixin, AsTag):
