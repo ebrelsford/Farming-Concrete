@@ -68,3 +68,57 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
     plt.clf()
     plt.cla()
     return os.path.join('charts', img_file)
+
+
+def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
+                 ylabel=''):
+    data_frame.plot(kind='bar', color=color, linewidth=0)
+
+    ax = plt.gca()
+
+    # Turn off x-axis grid
+    ax.xaxis.grid(False)
+
+    # Set axis labels
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
+
+    # Remove top, right ticks
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Remove top, right ticks
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+
+    # Make ticks face out
+    ax.xaxis.set_tick_params(direction='out')
+    ax.yaxis.set_tick_params(direction='out', labelsize=14)
+
+    # Add labels to rectangles
+    for rect in ax.get_children():
+        if not isinstance(rect, Rectangle):
+            continue
+        if rect.get_facecolor() == (1, 1, 1, 1):
+            continue
+        height = rect.get_height()
+        ax.text(rect.get_x() + rect.get_width() / 2.0,
+                height - (data_frame.max() * 0.05),
+                '%d' % int(height), ha='center', va='bottom', color='white',
+                fontweight='bold')
+
+    # Do our best to get an appropriate file name and make room for it
+    img_file = destination_file
+    if not img_file.endswith('.png'):
+        img_file = '%s.png' % img_file
+    filename = os.path.abspath(os.path.join(settings.MEDIA_ROOT, 'charts', img_file))
+    if not os.path.exists(os.path.dirname(filename)):
+        os.makedirs(os.path.dirname(filename))
+
+    # Save
+    pylab.savefig(filename, bbox_inches='tight')
+
+    # Close this plot so we don't affect other plots
+    plt.clf()
+    plt.cla()
+    return os.path.join('charts', img_file)
