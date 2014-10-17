@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.forms import (Form, HiddenInput, ModelForm, ModelChoiceField,
-                          ValidationError)
+from django.forms import (Form, HiddenInput, IntegerField, ModelForm,
+                          ModelChoiceField, ValidationError)
 
 from ajax_select.fields import AutoCompleteSelectField
 import chosen.forms
@@ -43,6 +43,10 @@ class FindGardenForm(Form):
 
 
 class GardenForm(ModelForm):
+    id = IntegerField(
+        required=False,
+        widget=HiddenInput(),
+    )
     type = GardenTypeField()
     groups = chosen.forms.ChosenModelMultipleChoiceField(
         queryset=GardenGroup.objects.all().order_by('name'),
@@ -83,6 +87,11 @@ class GardenForm(ModelForm):
                 enter the address again and ensure that the correct point is
                 shown on the map for the garden you're adding.
             """)
+
+        # If we're editing the garden and it has a latitude and longitude,
+        # that's good enough
+        if cleaned_data.get('id'):
+            return cleaned_data
 
         # Disallow gardens at the same address, city, and state as an existing
         # one.
