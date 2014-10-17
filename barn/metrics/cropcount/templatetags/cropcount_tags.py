@@ -28,7 +28,6 @@ class CropcountChart(MetricRecordTagMixin, AsTag):
         # Get KeywordArguments with default values
         kwargs = self.args_to_dict(garden, year, start, end)
         garden = kwargs.get('garden', None)
-        year = kwargs.get('year', None)
         start = kwargs.get('start', None)
         end = kwargs.get('end', None)
         year = kwargs.get('year', datetime.now().year)
