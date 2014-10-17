@@ -13,7 +13,7 @@ from .models import GardenMembership
 from .utils import get_profile, is_admin
 
 
-class AccountDetailsView(UpdateView):
+class AccountDetailsView(LoginRequiredMixin, UpdateView):
     form_class = UserForm
     template_name = 'accounts/detail.html'
 
