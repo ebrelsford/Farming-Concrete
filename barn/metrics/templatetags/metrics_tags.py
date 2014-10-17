@@ -65,6 +65,27 @@ class MetricRecordTagMixin(object):
         ]
 
 
+class ChartMixin(MetricRecordTagMixin, AsTag):
+    options = Options(
+        KeywordArgument('garden', required=False),
+        KeywordArgument('year', required=False),
+        KeywordArgument('start', required=False),
+        KeywordArgument('end', required=False),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_metric_model(self):
+        raise NotImplementedError('Implement ChartMixin.get_metric_model()')
+
+    def get_records(self, garden=None, start=None, end=None, year=None):
+        metric_model = self.get_metric_model()
+        if start and end:
+            return metric_model.get_records(garden, start=start, end=end)
+        elif year:
+            return metric_model.get_records(garden, year=year)
+
+
 class CountRecords(MetricRecordTagMixin, AsTag):
 
     options = Options(
