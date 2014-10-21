@@ -4,8 +4,9 @@ from classytags.helpers import AsTag
 import pandas as pd
 
 from metrics.charts import horizontal_bar, make_chart_name
-from metrics.cropcount.models import Patch
-from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
+from metrics.cropcount.models import Box, Patch
+from metrics.templatetags.metrics_tags import (ChartMixin, MetricRecordsMixin,
+                                               MetricTotalTag)
 
 register = template.Library()
 
@@ -33,5 +34,31 @@ class CropcountTotal(MetricTotalTag):
         return 'quantity'
 
 
+class CropcountTotalBeds(MetricRecordsMixin, AsTag):
+
+    def get_metric_model(self):
+        return Patch
+
+    def get_value(self, context, garden, year, start, end):
+        kwargs = self.args_to_dict(garden, year, start, end)
+        records = self.get_records(**kwargs)
+        boxes = Box.objects.filter(patch__in=records).distinct()
+        return len(boxes)
+
+
+class CropcountTotalArea(MetricRecordsMixin, AsTag):
+
+    def get_metric_model(self):
+        return Patch
+
+    def get_value(self, context, garden, year, start, end):
+        kwargs = self.args_to_dict(garden, year, start, end)
+        records = self.get_records(**kwargs)
+        boxes = Box.objects.filter(patch__in=records).distinct()
+        return sum([b.length * b.width for b in boxes])
+
+
 register.tag(CropcountChart)
 register.tag(CropcountTotal)
+register.tag(CropcountTotalBeds)
+register.tag(CropcountTotalArea)

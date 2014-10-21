@@ -27,4 +27,44 @@
             </td>
         </tr>
     </table>
+
+    <table style="margin-top: 25px;">
+        <tr style="border-top: 1px dotted gray;">
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="width: 25%;"></td>
+            <td style="width: 25%; border-right: 1px dotted gray; text-align: center;">
+                <span class="metric-summary-number">
+                    {% cropcount_total_beds garden=garden year="2014" as total_beds %}
+                    {{ total_beds|floatformat }}
+                </span>
+                <br />
+                <span class="metric-summary-units">
+                    {{ "total beds"|upper }}
+                </span>
+            </td>
+            <td style="width: 25%; text-align: center;">
+                <span class="metric-summary-number">
+                    {% cropcount_total_area garden=garden year="2014" as total_area %}
+                    {{ total_area|floatformat }}
+                </span>
+                <br />
+                <span class="metric-summary-units">
+                    {{ "total square feet"|upper }}
+                </span>
+            </td>
+            <td style="width: 25%;"></td>
+        </tr>
+        <tr style="border-bottom: 1px dotted black;">
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
 {% endblock %}
