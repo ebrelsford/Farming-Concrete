@@ -1,0 +1,30 @@
+{% extends "metrics/report_base.html" %}
+{% load landfilldiversion_tags static %}
+
+{% block metric_description %}
+    This is the description for landfill diversion by volume
+{% endblock %}
+
+{% block metric_summary %}
+    <span class="metric-summary-number">
+        {% landfilldiversion_volume_total garden=garden year="2014" as total %}
+        {{ total|floatformat }}
+    </span>
+    <br />
+    <span class="metric-summary-units">
+        {{ "gallon"|upper }}
+    </span>
+{% endblock %}
+
+{% block report_page_content %}
+    <table>
+        <tr></tr>
+        <tr>
+            <td style="width: 100px;"></td>
+            <td>
+                {% landfilldiversion_volume_chart garden=garden year="2014" as chart_url %}
+                <img class="metric-chart metric-chart-landfilldiversion-volume" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
+    </table>
+{% endblock %}

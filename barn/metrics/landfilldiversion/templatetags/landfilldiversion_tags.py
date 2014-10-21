@@ -4,8 +4,8 @@ from classytags.helpers import AsTag
 import pandas as pd
 
 from metrics.charts import vertical_bar, make_chart_name
-from metrics.landfilldiversion.models import LandfillDiversionWeight
 from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
+from ..models import LandfillDiversionVolume, LandfillDiversionWeight
 
 register = template.Library()
 
@@ -32,5 +32,29 @@ class LandfilldiversionWeightTotal(MetricTotalTag):
         return 'weight'
 
 
+class LandfilldiversionVolumeChart(ChartMixin, AsTag):
+    def get_metric_model(self):
+        return LandfillDiversionVolume
+
+    def get_chart(self, records, garden):
+        df = pd.DataFrame.from_records(records.values('volume', 'recorded'),
+                                       coerce_float=True)
+
+        qdf = df.groupby('recorded').sum()['volume']
+        return vertical_bar(qdf, make_chart_name('landfilldiversion_volume', garden),
+                            ylabel='GALLONS DIVERTED')
+
+
+class LandfilldiversionVolumeTotal(MetricTotalTag):
+
+    def get_metric_model(self):
+        return LandfillDiversionVolume
+
+    def get_sum_field(self):
+        return 'volume'
+
+
 register.tag(LandfilldiversionWeightChart)
 register.tag(LandfilldiversionWeightTotal)
+register.tag(LandfilldiversionVolumeChart)
+register.tag(LandfilldiversionVolumeTotal)
