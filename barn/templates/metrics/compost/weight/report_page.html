@@ -1,0 +1,30 @@
+{% extends "metrics/report_base.html" %}
+{% load compost_tags static %}
+
+{% block metric_description %}
+    This is the description for compost by weight
+{% endblock %}
+
+{% block metric_summary %}
+    <span class="metric-summary-number">
+        {% compost_weight_total garden=garden year="2014" as total %}
+        {{ total|floatformat }}
+    </span>
+    <br />
+    <span class="metric-summary-units">
+        {{ "pounds"|upper }}
+    </span>
+{% endblock %}
+
+{% block report_page_content %}
+    <table>
+        <tr></tr>
+        <tr>
+            <td style="width: 100px;"></td>
+            <td>
+                {% compost_weight_chart garden=garden year="2014" as chart_url %}
+                <img class="metric-chart metric-chart-compost-weight" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
+    </table>
+{% endblock %}
