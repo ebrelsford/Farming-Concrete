@@ -3,7 +3,7 @@ from django import template
 from classytags.helpers import AsTag
 import pandas as pd
 
-from metrics.charts import horizontal_bar, line_fill, make_chart_name
+from metrics.charts import vertical_bar, line_fill, make_chart_name
 from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from ..models import RainwaterHarvest
 
@@ -21,8 +21,8 @@ class RainwaterHarvestChart(ChartMixin, AsTag):
                                        coerce_float=True)
 
         qdf = df.groupby('recorded').sum()['volume']
-        return horizontal_bar(qdf, make_chart_name('rainwater', garden),
-                              xlabel='GALLONS HARVESTED', shape='short')
+        return vertical_bar(qdf, make_chart_name('rainwater', garden),
+                            xlabel='GALLONS HARVESTED', shape='short')
 
 
 class RainwaterHarvestLineChart(ChartMixin, AsTag):
