@@ -26,5 +26,12 @@
                 <img class="metric-chart metric-chart-rainwater-harvest" src="{% get_media_prefix %}{{ chart_url }}" />
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td>
+                {% rainwater_harvest_line_chart garden=garden year="2014" as chart_url %}
+                <img class="metric-chart metric-chart-rainwater-harvest-line" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
     </table>
 {% endblock %}
