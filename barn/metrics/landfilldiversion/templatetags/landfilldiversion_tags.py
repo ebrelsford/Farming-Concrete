@@ -5,7 +5,7 @@ import pandas as pd
 
 from metrics.charts import vertical_bar, make_chart_name
 from metrics.landfilldiversion.models import LandfillDiversionWeight
-from metrics.templatetags.metrics_tags import ChartMixin
+from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 
 register = template.Library()
 
@@ -23,4 +23,14 @@ class LandfilldiversionWeightChart(ChartMixin, AsTag):
                             ylabel='POUNDS DIVERTED')
 
 
+class LandfilldiversionWeightTotal(MetricTotalTag):
+
+    def get_metric_model(self):
+        return LandfillDiversionWeight
+
+    def get_sum_field(self):
+        return 'weight'
+
+
 register.tag(LandfilldiversionWeightChart)
+register.tag(LandfilldiversionWeightTotal)

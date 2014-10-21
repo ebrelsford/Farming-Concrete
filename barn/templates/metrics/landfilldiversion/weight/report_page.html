@@ -7,7 +7,8 @@
 
 {% block metric_summary %}
     <span class="metric-summary-number">
-        300
+        {% landfilldiversion_weight_total garden=garden year="2014" as total %}
+        {{ total|floatformat }}
     </span>
     <br />
     <span class="metric-summary-units">
