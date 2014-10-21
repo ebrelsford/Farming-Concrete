@@ -77,7 +77,7 @@ class MetricRecordsMixin(MetricRecordTagMixin):
     )
 
     def get_metric_model(self):
-        raise NotImplementedError('Implement ChartMixin.get_metric_model()')
+        raise NotImplementedError('Implement MetricRecordsMixin.get_metric_model()')
 
     def get_records(self, garden=None, start=None, end=None, year=None):
         metric_model = self.get_metric_model()
