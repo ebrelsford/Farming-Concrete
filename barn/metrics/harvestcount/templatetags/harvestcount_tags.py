@@ -5,7 +5,7 @@ import pandas as pd
 
 from metrics.charts import horizontal_bar, make_chart_name
 from metrics.harvestcount.models import Harvest
-from metrics.templatetags.metrics_tags import ChartMixin
+from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 
 register = template.Library()
 
@@ -23,4 +23,14 @@ class HarvestcountChart(ChartMixin, AsTag):
                               xlabel='POUNDS HARVESTED')
 
 
+class HarvestcountTotal(MetricTotalTag):
+
+    def get_metric_model(self):
+        return Harvest
+
+    def get_sum_field(self):
+        return 'weight'
+
+
 register.tag(HarvestcountChart)
+register.tag(HarvestcountTotal)

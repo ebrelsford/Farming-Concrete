@@ -4,6 +4,7 @@ from operator import itemgetter
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Sum
 from django.template.base import TemplateDoesNotExist
 from django.template.loader import render_to_string, select_template
 
@@ -95,6 +96,17 @@ class ChartMixin(MetricRecordsMixin):
         kwargs = self.args_to_dict(garden, year, start, end)
         records = self.get_records(**kwargs)
         return self.get_chart(records, kwargs['garden'])
+
+
+class MetricTotalTag(MetricRecordsMixin, AsTag):
+
+    def get_sum_field(self):
+        raise NotImplementedError('Implement MetricTotalTag.get_sum_field()')
+
+    def get_value(self, context, garden, year, start, end):
+        kwargs = self.args_to_dict(garden, year, start, end)
+        records = self.get_records(**kwargs)
+        return records.aggregate(total=Sum(self.get_sum_field()))['total']
 
 
 class CountRecords(MetricRecordTagMixin, AsTag):
