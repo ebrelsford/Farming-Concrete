@@ -1,0 +1,30 @@
+{% extends "metrics/report_base.html" %}
+{% load sales_tags static %}
+
+{% block metric_description %}
+    This is the description for sales
+{% endblock %}
+
+{% block metric_summary %}
+    <span class="metric-summary-number">
+        {% sales_total garden=garden year="2014" as total %}
+        {{ total|floatformat }}
+    </span>
+    <br />
+    <span class="metric-summary-units">
+        {{ "sold"|upper }}
+    </span>
+{% endblock %}
+
+{% block report_page_content %}
+    <table>
+        <tr></tr>
+        <tr>
+            <td style="width: 100px;"></td>
+            <td>
+                {% sales_chart garden=garden year="2014" as chart_url %}
+                <img class="metric-chart metric-chart-sales" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
+    </table>
+{% endblock %}
