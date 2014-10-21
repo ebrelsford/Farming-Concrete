@@ -26,5 +26,12 @@
                 <img class="metric-chart metric-chart-landfilldiversion-weight" src="{% get_media_prefix %}{{ chart_url }}" />
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td>
+                {% landfilldiversion_weight_line_chart garden=garden year="2014" as chart_url %}
+                <img class="metric-chart metric-chart-landfilldiversion-weight-line" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
     </table>
 {% endblock %}

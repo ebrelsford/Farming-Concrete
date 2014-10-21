@@ -109,3 +109,23 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
                 fontweight='bold')
 
     return _save_chart(destination_file)
+
+
+def line_fill(data_frame, destination_file, color='#F63C04', xlabel='', ylabel=''):
+    data_frame.plot(kind='line', color=color, linewidth=1)
+
+    ax = plt.gca()
+
+    # Turn off x-axis grid
+    ax.xaxis.grid(False)
+
+    # Set axis labels
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
+
+    _format_ticks(ax)
+
+    # Fill between the line and y=0
+    ax.fill_between(sorted(data_frame.keys()), 0, data_frame.values, color=color)
+
+    return _save_chart(destination_file)
