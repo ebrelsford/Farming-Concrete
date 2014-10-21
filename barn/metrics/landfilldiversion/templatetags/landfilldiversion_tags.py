@@ -20,7 +20,7 @@ class LandfilldiversionWeightChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()['weight']
         return vertical_bar(qdf, make_chart_name('landfilldiversion_weight', garden),
-                            ylabel='POUNDS DIVERTED')
+                            ylabel='POUNDS DIVERTED', shape='short')
 
 
 class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
@@ -34,7 +34,7 @@ class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
         qdf = df.groupby('recorded').sum()['weight']
         return line_fill(qdf.cumsum(),
                          make_chart_name('landfilldiversion_weight_line', garden),
-                         ylabel='CUMULATIVE POUNDS DIVERTED')
+                         ylabel='CUMULATIVE POUNDS DIVERTED', shape='short')
 
 
 class LandfilldiversionWeightTotal(MetricTotalTag):

@@ -30,7 +30,7 @@ def _format_ticks(axis):
     axis.yaxis.set_tick_params(direction='out', labelsize=14)
 
 
-def _save_chart(destination_file):
+def _save_chart(destination_file, shape='square', **kwargs):
     # Do our best to get an appropriate file name and make room for it
     img_file = destination_file
     if not img_file.endswith('.png'):
@@ -39,12 +39,16 @@ def _save_chart(destination_file):
     if not os.path.exists(os.path.dirname(filename)):
         os.makedirs(os.path.dirname(filename))
 
+    if shape == 'short':
+        plt.gcf().set_size_inches(10, 5)
+
     # Save
     pylab.savefig(filename, bbox_inches='tight')
 
     # Close this plot so we don't affect other plots
     plt.clf()
     plt.cla()
+    plt.close()
     return os.path.join('charts', img_file)
 
 
@@ -60,7 +64,7 @@ def _get_bar_rectangles(axis):
 
 
 def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
-                   ylabel=''):
+                   ylabel='', **kwargs):
     data_frame.plot(kind='barh', color=color, linewidth=0)
 
     ax = plt.gca()
@@ -82,11 +86,11 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
                 '%d' % int(width), ha='center', va='bottom', color='white',
                 fontweight='bold')
 
-    return _save_chart(destination_file)
+    return _save_chart(destination_file, **kwargs)
 
 
 def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
-                 ylabel=''):
+                 ylabel='', **kwargs):
     data_frame.plot(kind='bar', color=color, linewidth=0)
 
     ax = plt.gca()
@@ -108,10 +112,11 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
                 '%d' % int(height), ha='center', va='bottom', color='white',
                 fontweight='bold')
 
-    return _save_chart(destination_file)
+    return _save_chart(destination_file, **kwargs)
 
 
-def line_fill(data_frame, destination_file, color='#F63C04', xlabel='', ylabel=''):
+def line_fill(data_frame, destination_file, color='#F63C04', xlabel='',
+              ylabel='', **kwargs):
     data_frame.plot(kind='line', color=color, linewidth=1)
 
     ax = plt.gca()
@@ -128,4 +133,4 @@ def line_fill(data_frame, destination_file, color='#F63C04', xlabel='', ylabel='
     # Fill between the line and y=0
     ax.fill_between(sorted(data_frame.keys()), 0, data_frame.values, color=color)
 
-    return _save_chart(destination_file)
+    return _save_chart(destination_file, **kwargs)
