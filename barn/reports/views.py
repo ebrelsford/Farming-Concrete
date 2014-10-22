@@ -17,6 +17,7 @@ from django.views.generic import TemplateView
 from django_xhtml2pdf.utils import render_to_pdf_response
 from easy_pdf.views import PDFTemplateView
 
+from accounts.utils import get_profile
 from charts import (plants_per_crop, weight_per_crop, weight_per_gardener,
                     estimated_weight_per_crop)
 from estimates.common import (estimate_for_harvests_by_gardener_and_variety,
@@ -105,8 +106,12 @@ class ReportView(PDFTemplateView):
     template_name = 'reports/year.html'
 
     def get_garden(self, pk):
-        # TODO permission!
-        return Garden.objects.get(pk=pk)
+        garden = get_object_or_404(Garden, pk=pk)
+        if self.request.user.has_perm('farmingconcrete.can_edit_any_garden'):
+            return garden
+        elif garden in get_profile(self.request.user).gardens.all():
+            return garden
+        raise PermissionDenied
 
     def get_context_data(self, pk=None, year=None):
         context = super(ReportView, self).get_context_data()
