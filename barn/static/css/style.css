@@ -9091,6 +9091,14 @@ fieldset[disabled] .btn-add-garden.active {
 .average-yield.picked {
   border: 3px solid #6EBE44;
 }
+.reports-date-type-list {
+  list-style: none;
+  padding-left: 20px;
+}
+.reports-date-type-list-item {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
 .share .sharebox {
   display: none;
   font-size: 16px;

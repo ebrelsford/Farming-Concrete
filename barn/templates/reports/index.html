@@ -7,4 +7,42 @@
     <h1>Reports</h1>
     <p>More coming soon. In the meantime, you can download all of your gardens' data here.</p>
     {% garden_list user "reports/garden_list.html" %}
+
+    <div class="modal fade pdf-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Download PDF</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please select the dates you want the PDF to cover:</p>
+                    <form class="form-inline">
+                        <input type="hidden" name="pk" />
+                        <ul class="reports-date-type-list">
+                            <li class="reports-date-type-list-item">
+                                <input id="all" name="date_type" type="radio" />
+                                <label for="all">all dates</label>
+                            </li>
+                            <li class="reports-date-type-list-item">
+                                <input id="year" name="date_type" type="radio" checked />
+                                <label for="year">year:</label>
+                                <select class="form-control" name="year"></select>
+                            </li>
+                            <li class="reports-date-type-list-item">
+                                <input id="range" name="date_type" type="radio" />
+                                <label for="range">range:</label>
+                                <input class="form-control" type="date" name="min" /> to 
+                                <input class="form-control" type="date" name="max" />
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-primary">Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
