@@ -96,10 +96,26 @@ class ReportView(PDFTemplateView):
             return garden
         raise PermissionDenied
 
-    def get_context_data(self, pk=None, year=None):
+    def get_context_data(self, pk=None):
         context = super(ReportView, self).get_context_data()
+        context['garden'] = self.get_garden(pk)
+
+        min_date = self.request.GET.get('min', None)
+        max_date = self.request.GET.get('max', None)
+        year = self.request.GET.get('year', None)
+
+        if year:
+            min_date = date(int(year), 1, 1)
+            max_date = date(int(year), 12, 31)
+
+        if not min_date:
+            min_date = date(2010, 1, 1) # The Farming Concrete epoch ;)
+
+        if not max_date:
+            max_date = date.today()
+
         context.update({
-            'garden': self.get_garden(pk),
-            'year': year,
+            'min': min_date,
+            'max': max_date,
         })
         return context

@@ -7,7 +7,7 @@
 
 {% block metric_summary %}
     <span class="metric-summary-number">
-        {% cropcount_total garden=garden year="2014" as total %}
+        {% cropcount_total garden=garden start=min end=max as total %}
         {{ total|floatformat }}
     </span>
     <br />
@@ -22,7 +22,7 @@
         <tr>
             <td style="width: 100px;"></td>
             <td>
-                {% cropcount_chart garden=garden year="2014" as chart_url %}
+                {% cropcount_chart garden=garden start=min end=max as chart_url %}
                 <img class="metric-chart metric-chart-cropcount" src="{% get_media_prefix %}{{ chart_url }}" />
             </td>
         </tr>
@@ -39,7 +39,7 @@
             <td style="width: 25%;"></td>
             <td style="width: 25%; border-right: 1px dotted gray; text-align: center;">
                 <span class="metric-summary-number">
-                    {% cropcount_total_beds garden=garden year="2014" as total_beds %}
+                    {% cropcount_total_beds garden=garden start=min end=max as total_beds %}
                     {{ total_beds|floatformat }}
                 </span>
                 <br />
@@ -49,7 +49,7 @@
             </td>
             <td style="width: 25%; text-align: center;">
                 <span class="metric-summary-number">
-                    {% cropcount_total_area garden=garden year="2014" as total_area %}
+                    {% cropcount_total_area garden=garden start=min end=max as total_area %}
                     {{ total_area|floatformat }}
                 </span>
                 <br />

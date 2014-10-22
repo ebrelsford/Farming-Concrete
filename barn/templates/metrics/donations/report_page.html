@@ -7,7 +7,7 @@
 
 {% block metric_summary %}
     <span class="metric-summary-number">
-        {% donations_total garden=garden year="2014" as total %}
+        {% donations_total garden=garden start=min end=max as total %}
         {{ total|floatformat }}
     </span>
     <br />
@@ -22,7 +22,7 @@
         <tr>
             <td style="width: 100px;"></td>
             <td>
-                {% donations_chart garden=garden year="2014" as chart_url %}
+                {% donations_chart garden=garden start=min end=max as chart_url %}
                 <img class="metric-chart metric-chart-donations" src="{% get_media_prefix %}{{ chart_url }}" />
             </td>
         </tr>
