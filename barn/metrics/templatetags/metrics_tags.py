@@ -1,10 +1,11 @@
 from datetime import datetime
+import itertools
 from itertools import groupby
 from operator import itemgetter
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Sum
+from django.db.models import Max, Min, Sum
 from django.template.base import TemplateDoesNotExist
 from django.template.loader import render_to_string, select_template
 
@@ -361,6 +362,59 @@ class MetricYears(MetricRecordTagMixin, AsTag):
         return [year for year in range(min_year, max_year + 1)]
 
 
+class GardenYearsRecorded(AsTag):
+    """Get each year that a given garden has some records of any type."""
+    options = Options(
+        Argument('garden'),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, garden):
+        metric_models = [m['model'] for m in registry.values()]
+        years = [m.objects.for_garden(garden).dates('recorded', 'year') for m in
+                 metric_models]
+        years = [list(y) for y in years if y]
+        years = [y.year for y in list(set(itertools.chain.from_iterable(years)))]
+        return sorted(years)
+
+
+class GardenMaxRecorded(AsTag):
+    """Get the date of the latest record of any type for a given garden."""
+    options = Options(
+        Argument('garden'),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, garden):
+        metric_models = [m['model'] for m in registry.values()]
+        max_dates = [m.objects.for_garden(garden).aggregate(max_date=Max('recorded'))['max_date'] for
+                     m in metric_models]
+        try:
+            return max(filter(None, max_dates))
+        except ValueError:
+            return None
+
+
+class GardenMinRecorded(AsTag):
+    """Get the date of the earliest record of any type for a given garden."""
+    options = Options(
+        Argument('garden'),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, garden):
+        metric_models = [m['model'] for m in registry.values()]
+        min_dates = [m.objects.for_garden(garden).aggregate(min_date=Min('recorded'))['min_date'] for
+                     m in metric_models]
+        try:
+            return min(filter(None, min_dates))
+        except ValueError:
+            return None
+
+
 class MetricReportPage(MetricRecordTagMixin, InclusionTag):
     options = Options(
         Argument('metric_name'),
@@ -387,6 +441,9 @@ class MetricReportPage(MetricRecordTagMixin, InclusionTag):
 
 register.tag(AddRecord)
 register.tag(CountRecords)
+register.tag(GardenMaxRecorded)
+register.tag(GardenMinRecorded)
+register.tag(GardenYearsRecorded)
 register.tag(IfCanDelete)
 register.tag(Summarize)
 register.tag(MetricContentType)
