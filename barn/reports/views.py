@@ -86,7 +86,7 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
 
 
 class ReportView(PDFTemplateView):
-    template_name = 'reports/year.html'
+    template_name = 'reports/pdf.html'
 
     def get_garden(self, pk):
         garden = get_object_or_404(Garden, pk=pk)
