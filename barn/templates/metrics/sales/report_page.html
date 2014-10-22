@@ -8,7 +8,7 @@
 {% block metric_summary %}
     <span class="metric-summary-number">
         {% sales_total garden=garden start=min end=max as total %}
-        {{ total|floatformat }}
+        ${{ total|floatformat:"2" }}
     </span>
     <br />
     <span class="metric-summary-units">
