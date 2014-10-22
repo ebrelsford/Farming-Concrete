@@ -5,7 +5,8 @@
 
 {% block content %}
     <h1>Reports</h1>
-    <p>More coming soon. In the meantime, you can download all of your gardens' data here.</p>
+    <div class="alert alert-warning">This area is experimental&mdash;download all your data as a spreadsheet or PDF.</div>
+
     {% garden_list user "reports/garden_list.html" %}
 
     <div class="modal fade pdf-modal">
