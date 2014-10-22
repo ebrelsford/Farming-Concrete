@@ -9,5 +9,5 @@ main_patterns = patterns('reports.views',
 
 garden_patterns = patterns('reports.views',
     url(r'^export/', ExportView.as_view(), name='reports_export'),
-    url(r'^(?P<year>\d{4})/full/', ReportView.as_view(), name='reports_full'),
+    url(r'^(?P<year>\d{4})/pdf/', ReportView.as_view(), name='reports_pdf'),
 )
