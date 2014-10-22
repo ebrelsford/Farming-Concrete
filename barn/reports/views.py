@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from tablib import Databook
 
 from django.core.exceptions import PermissionDenied
@@ -104,6 +104,11 @@ class ReportView(PDFTemplateView):
         min_date = self.request.GET.get('min', None)
         max_date = self.request.GET.get('max', None)
         year = self.request.GET.get('year', None)
+
+        if min_date:
+            min_date = datetime.strptime(min_date, '%m/%d/%Y')
+        if max_date:
+            max_date = datetime.strptime(max_date, '%m/%d/%Y')
 
         if year:
             min_date = date(int(year), 1, 1)
