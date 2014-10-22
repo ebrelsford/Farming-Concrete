@@ -8,9 +8,11 @@
                     {{ metric.group_number }}.{{ metric.number }}
                 </div>
                 <div class="metric-name">
-                    {% with metric_src="img/metrics/"|add:metric.name|add:".jpg" %}
-                        <img src="{% static metric_src %}" alt="{{ metric.name }}" title="{{ metric.name }}" />
-                    {% endwith %}
+                    <div class="metric-name-inner">
+                        {% with metric_src="img/report/"|add:metric.name|add:".jpg" %}
+                            <img height="30" src="{% static metric_src %}" alt="{{ metric.name }}" title="{{ metric.name }}" />
+                        {% endwith %}
+                    </div>
                 </div>
             </h1> 
             <div class="report-details">
