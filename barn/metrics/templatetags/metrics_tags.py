@@ -419,9 +419,6 @@ class MetricReportPage(MetricRecordTagMixin, InclusionTag):
     template = ''
 
     def get_context(self, context, metric_name, garden):
-        # TODO date range?
-        context.update({
-        })
         return context
 
     def get_template(self, context, metric_name, garden):
