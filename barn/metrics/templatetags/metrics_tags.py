@@ -5,7 +5,7 @@ from operator import itemgetter
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Max, Min, Sum
+from django.db.models import Max, Sum
 from django.template.base import TemplateDoesNotExist
 from django.template.loader import render_to_string, select_template
 
@@ -14,6 +14,7 @@ from classytags.core import Options, Tag
 from classytags.helpers import AsTag, InclusionTag
 
 from ..registry import registry
+from ..utils import get_min_recorded
 
 register = template.Library()
 
@@ -406,13 +407,7 @@ class GardenMinRecorded(AsTag):
     )
 
     def get_value(self, context, garden):
-        metric_models = [m['model'] for m in registry.values()]
-        min_dates = [m.objects.for_garden(garden).aggregate(min_date=Min('recorded'))['min_date'] for
-                     m in metric_models]
-        try:
-            return min(filter(None, min_dates))
-        except ValueError:
-            return None
+        return get_min_recorded(garden)
 
 
 class MetricReportPage(MetricRecordTagMixin, InclusionTag):

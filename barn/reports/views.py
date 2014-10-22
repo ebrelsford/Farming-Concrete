@@ -11,6 +11,7 @@ from easy_pdf.views import PDFTemplateView
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
 from generic.views import LoginRequiredMixin, TablibView
+from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
 from metrics.registry import registry
 
@@ -98,7 +99,7 @@ class ReportView(PDFTemplateView):
 
     def get_context_data(self, pk=None):
         context = super(ReportView, self).get_context_data()
-        context['garden'] = self.get_garden(pk)
+        garden = context['garden'] = self.get_garden(pk)
 
         min_date = self.request.GET.get('min', None)
         max_date = self.request.GET.get('max', None)
@@ -109,7 +110,7 @@ class ReportView(PDFTemplateView):
             max_date = date(int(year), 12, 31)
 
         if not min_date:
-            min_date = date(2010, 1, 1) # The Farming Concrete epoch ;)
+            min_date = get_min_recorded(garden)
 
         if not max_date:
             max_date = date.today()
