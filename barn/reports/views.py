@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from tablib import Databook
 
 from django.core.exceptions import PermissionDenied
@@ -103,13 +103,3 @@ class ReportView(PDFTemplateView):
             'year': year,
         })
         return context
-
-
-def _get_metrics_year_range():
-    min_year = datetime.now().year
-    max_year = 0
-    for metric in registry.values():
-        metric_min, metric_max = metric['model'].objects.all().year_range()
-        min_year = min(min_year, metric_min)
-        max_year = max(max_year, metric_max)
-    return ['%s' % y for y in range(min_year, max_year + 1)]
