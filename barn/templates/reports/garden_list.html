@@ -1,6 +1,8 @@
 {% extends "farmingconcrete/garden_list_base.html" %}
 {% load i18n metrics_tags %}
 
+{% block actions %}{% endblock %}
+
 {% block buttons %}
     {% garden_max_recorded garden as max %}
     {% garden_min_recorded garden as min %}
