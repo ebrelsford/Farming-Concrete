@@ -49,6 +49,16 @@ define(['jquery', 'django', 'bootstrap'], function ($, Django) {
     }
 
     $(document).ready(function () {
+        $('.btn-reports').click(function () {
+            if ($(this).data('has-records')) {
+                return true;
+            }
+            else {
+                alert($(this).data('no-records-message'));
+                return false;
+            }
+        });
+
         $('.btn-download-report').click(function () {
             $('.pdf-modal :input[name=pk]').val($(this).data('gardenPk'));
             updateFormInputs($(this).data());

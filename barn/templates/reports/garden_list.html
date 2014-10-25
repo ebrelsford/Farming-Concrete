@@ -2,14 +2,15 @@
 {% load i18n metrics_tags %}
 
 {% block buttons %}
-    <a href="{% url "reports_export" pk=garden.pk %}" class="btn btn-default btn-download-all-data">
-        {% trans "spreadsheet" %}
-    </a>
-
     {% garden_max_recorded garden as max %}
     {% garden_min_recorded garden as min %}
     {% garden_years_recorded garden as years %}
-    <a href="#" class="btn btn-default btn-download-report" data-target=".pdf-modal" data-toggle="modal" data-garden-pk="{{ garden.pk }}" data-years="{{ years }}" data-max="{{ max|date:"m/d/Y" }}" data-min="{{ min|date:"m/d/Y" }}">
+
+    <a href="{% url "reports_export" pk=garden.pk %}" class="btn btn-default btn-reports btn-download-all-data" data-has-records="{% if not years %}false{% else %}true{% endif %}" data-no-records-message="{% trans "This garden has no data to download. Please enter data before trying to download it." %}">
+        {% trans "spreadsheet" %}
+    </a>
+
+    <a href="#" class="btn btn-default btn-reports btn-download-report" data-target=".pdf-modal" data-toggle="modal" data-garden-pk="{{ garden.pk }}" data-years="{{ years }}" data-max="{{ max|date:"m/d/Y" }}" data-min="{{ min|date:"m/d/Y" }}" data-has-records="{% if not years %}false{% else %}true{% endif %}" data-no-records-message="{% trans "This garden has no data to download. Please enter data before trying to create a PDF." %}">
         {% trans "pdf" %}
     </a>
 {% endblock %}
