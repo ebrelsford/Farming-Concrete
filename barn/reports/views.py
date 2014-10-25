@@ -89,6 +89,23 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
 class ReportView(PDFTemplateView):
     template_name = 'reports/pdf.html'
 
+    def get_params(self):
+        return (
+            self.request.GET.get('min', None),
+            self.request.GET.get('max', None),
+            self.request.GET.get('year', None),
+        )
+
+    def get_pdf_filename(self):
+        garden = self.get_garden(self.kwargs.get('pk', None))
+        min_date, max_date, year = self.get_params()
+        dates = ''
+        if year:
+            dates = year
+        else:
+            dates = '%s to %s' % (min_date, max_date,)
+        return '%s - %s - %s' % (garden.name, 'Barn', dates,)
+
     def get_garden(self, pk):
         garden = get_object_or_404(Garden, pk=pk)
         if self.request.user.has_perm('farmingconcrete.can_edit_any_garden'):
@@ -100,10 +117,7 @@ class ReportView(PDFTemplateView):
     def get_context_data(self, pk=None):
         context = super(ReportView, self).get_context_data()
         garden = context['garden'] = self.get_garden(pk)
-
-        min_date = self.request.GET.get('min', None)
-        max_date = self.request.GET.get('max', None)
-        year = self.request.GET.get('year', None)
+        min_date, max_date, year = self.get_params()
 
         if min_date:
             min_date = datetime.strptime(min_date, '%m/%d/%Y')
