@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
@@ -103,4 +104,5 @@ register('Crop Count', {
     'group_number': 0,
     'index_url_name': 'cropcount_index',
     'dataset': CropcountDataset,
+    #'description': _(''),
 })

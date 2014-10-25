@@ -38,7 +38,9 @@
             <table>
                 <tr>
                     <td class="metric-description">
-                        {% block metric_description %}{% endblock %}
+                        {% block metric_description %}
+                            {{ metric.description|default:"No description available" }}
+                        {% endblock %}
                     </td>
                     <td class="metric-summary">
                         {% block metric_summary %}{% endblock %}

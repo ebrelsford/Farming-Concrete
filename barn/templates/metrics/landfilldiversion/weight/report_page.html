@@ -1,10 +1,6 @@
 {% extends "metrics/report_base.html" %}
 {% load landfilldiversion_tags static %}
 
-{% block metric_description %}
-    This is the description for landfill diversion by weight
-{% endblock %}
-
 {% block metric_summary %}
     <span class="metric-summary-number">
         {% landfilldiversion_weight_total garden=garden start=min end=max as total %}

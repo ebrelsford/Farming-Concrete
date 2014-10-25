@@ -1,10 +1,6 @@
 {% extends "metrics/report_base.html" %}
 {% load donations_tags static %}
 
-{% block metric_description %}
-    This is the description for donations
-{% endblock %}
-
 {% block metric_summary %}
     <span class="metric-summary-number">
         {% donations_total garden=garden start=min end=max as total %}

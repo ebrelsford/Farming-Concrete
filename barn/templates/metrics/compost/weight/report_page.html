@@ -1,10 +1,6 @@
 {% extends "metrics/report_base.html" %}
 {% load compost_tags static %}
 
-{% block metric_description %}
-    This is the description for compost by weight
-{% endblock %}
-
 {% block metric_summary %}
     <span class="metric-summary-number">
         {% compost_weight_total garden=garden start=min end=max as total %}

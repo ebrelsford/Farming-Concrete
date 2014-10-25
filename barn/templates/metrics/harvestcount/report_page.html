@@ -1,10 +1,6 @@
 {% extends "metrics/report_base.html" %}
 {% load harvestcount_tags static %}
 
-{% block metric_description %}
-    This is the description for harvestcount..
-{% endblock %}
-
 {% block metric_summary %}
     <span class="metric-summary-number">
         {% harvestcount_total garden=garden start=min end=max as total %}

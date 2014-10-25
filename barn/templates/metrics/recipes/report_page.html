@@ -1,10 +1,6 @@
 {% extends "metrics/report_base.html" %}
 {% load recipes_tags static %}
 
-{% block metric_description %}
-    This is the description for recipes
-{% endblock %}
-
 {% block metric_summary %}
     <span class="metric-summary-number">
         {% recipes_total garden=garden start=min end=max as total %}
