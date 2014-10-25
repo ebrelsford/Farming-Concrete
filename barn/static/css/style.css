@@ -9099,6 +9099,9 @@ fieldset[disabled] .btn-add-garden.active {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+.btn-download-report {
+  margin-top: 5px;
+}
 .share .sharebox {
   display: none;
   font-size: 16px;
