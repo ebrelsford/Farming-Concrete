@@ -27,6 +27,12 @@ class MetricQuerySet(QuerySet):
             date_range['recorded__max'].year,
         )
 
+    def garden_pks(self):
+        return self.values_list('garden', flat=True).distinct()
+
+    def added_by_pks(self):
+        return self.values_list('added_by', flat=True).distinct()
+
 
 class MetricManager(models.Manager):
 
