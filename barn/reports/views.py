@@ -3,13 +3,10 @@ from tablib import Databook
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
 from easy_pdf.views import PDFTemplateView
 
-from accounts.utils import get_profile
-from farmingconcrete.models import Garden
 from generic.views import LoginRequiredMixin, TablibView
 from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
@@ -86,7 +83,7 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
         )
 
 
-class ReportView(PDFTemplateView):
+class ReportView(GardenMixin, PDFTemplateView):
     template_name = 'reports/pdf.html'
 
     def get_params(self):
@@ -97,7 +94,7 @@ class ReportView(PDFTemplateView):
         )
 
     def get_pdf_filename(self):
-        garden = self.get_garden(self.kwargs.get('pk', None))
+        garden = self.get_object()
         min_date, max_date, year = self.get_params()
         dates = ''
         if year:
@@ -106,17 +103,9 @@ class ReportView(PDFTemplateView):
             dates = '%s to %s' % (min_date, max_date,)
         return '%s - %s - %s' % (garden.name, 'Barn', dates,)
 
-    def get_garden(self, pk):
-        garden = get_object_or_404(Garden, pk=pk)
-        if self.request.user.has_perm('farmingconcrete.can_edit_any_garden'):
-            return garden
-        elif garden in get_profile(self.request.user).gardens.all():
-            return garden
-        raise PermissionDenied
-
     def get_context_data(self, pk=None):
+        self.object = self.get_object()
         context = super(ReportView, self).get_context_data()
-        garden = context['garden'] = self.get_garden(pk)
         min_date, max_date, year = self.get_params()
 
         if min_date:
@@ -129,12 +118,13 @@ class ReportView(PDFTemplateView):
             max_date = date(int(year), 12, 31)
 
         if not min_date:
-            min_date = get_min_recorded(garden)
+            min_date = get_min_recorded(self.object)
 
         if not max_date:
             max_date = date.today()
 
         context.update({
+            'garden': self.object,
             'min': min_date,
             'max': max_date,
         })
