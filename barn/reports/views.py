@@ -83,7 +83,7 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
         )
 
 
-class ReportView(GardenMixin, PDFTemplateView):
+class ReportView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
     template_name = 'reports/pdf.html'
 
     def get_params(self):
