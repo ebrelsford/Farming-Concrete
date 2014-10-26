@@ -1,0 +1,27 @@
+{% load participation_tags static %}
+
+{% task_pairs as task_pairs %}
+{% for task_pair in task_pairs %}
+    <div class="page">
+        {% include "metrics/participation/task/report_header.html" %}
+        <table>
+            <tr></tr>
+            {% for task in task_pair %}
+                <tr>
+                    <td style="width: 100px;"></td>
+                    <td>
+                        {% hours_by_task_chart garden=garden start=min end=max task=task as chart_url %}
+                        <img class="metric-chart metric-chart-hours-by-task" src="{% get_media_prefix %}{{ chart_url }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="text-align: center;">
+                            {{ task|upper }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endfor %}

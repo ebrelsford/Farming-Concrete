@@ -1,0 +1,51 @@
+{% load participation_tags static %}
+
+<h1>
+    <div class="metric-number">
+        {{ metric.group_number }}.{{ metric.number }}
+    </div>
+    <div class="metric-name">
+        <div class="metric-name-inner">
+            {% with metric_src="img/report/"|add:metric.name|add:".jpg" %}
+                <img height="30" src="{% static metric_src %}" alt="{{ metric.name }}" title="{{ metric.name }}" />
+            {% endwith %}
+        </div>
+    </div>
+</h1> 
+<div class="report-details">
+    <table>
+        <tr>
+            <td class="garden-details">
+                <span class="garden-name">
+                    {{ garden.name|upper }}
+                </span>
+                <span class="garden-address">
+                    {{ garden.address }}
+                </span>
+            </td>
+            <td class="report-date">
+                Report covers:<br />{{ min|date }} to {{ max|date }}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="metric-description-row">
+    <table>
+        <tr>
+            <td class="metric-description">
+                {{ metric.description|default:"No description available" }}
+            </td>
+            <td class="metric-summary">
+                <span class="metric-summary-number">
+                    {% hours_by_task_total garden=garden start=min end=max as total %}
+                    {{ total|floatformat }}
+                </span>
+                <br />
+                <span class="metric-summary-units">
+                    {{ "hours"|upper }}
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>

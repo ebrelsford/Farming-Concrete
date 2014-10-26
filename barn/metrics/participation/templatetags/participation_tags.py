@@ -1,13 +1,13 @@
 import pandas as pd
 
+from classytags.arguments import Argument, KeywordArgument
 from classytags.core import Options
-from classytags.arguments import Argument
 from classytags.helpers import AsTag
 from django import template
 
 from metrics.charts import make_chart_name, vertical_bar
 from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
-from ..models import HoursByGeography
+from ..models import HoursByGeography, HoursByTask, Task
 
 register = template.Library()
 
@@ -56,6 +56,49 @@ class HoursByGeographyTotal(MetricTotalTag):
         return hours_in + hours_out
 
 
+class HoursByTaskChart(ChartMixin, AsTag):
+    options = Options(
+        KeywordArgument('garden', required=False),
+        KeywordArgument('start', required=False),
+        KeywordArgument('end', required=False),
+        KeywordArgument('task', required=True),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_metric_model(self):
+        return HoursByTask
+
+    def get_value(self, context, garden, start, end, task):
+        kwargs = self.args_to_dict(garden, start, end)
+        records = self.get_records(**kwargs)
+        return self.get_chart(records, kwargs['garden'], task['task'])
+
+    def get_chart(self, records, garden, task):
+        task_records = []
+        for r in records:
+            task_records.append({
+                'hours': r[str(task)].hours,
+                'recorded': r.recorded,
+            })
+        df = pd.DataFrame.from_records(task_records)
+        qdf = df.groupby('recorded').sum()['hours']
+        return vertical_bar(
+            qdf,
+            make_chart_name('participation_task_%s' % task.replace('/', '_'), garden),
+            ylabel='HOURS', shape='short'
+        )
+
+
+class HoursByTaskTotal(MetricTotalTag):
+
+    def get_metric_model(self):
+        return HoursByTask
+
+    def get_sum_field(self):
+        return 'taskhours__hours'
+
+
 class GardenerProjectHours(AsTag):
     options = Options(
         Argument('gardener', resolve=True, required=True),
@@ -67,6 +110,22 @@ class GardenerProjectHours(AsTag):
 
     def get_value(self, context, gardener, hours_by_project):
         return hours_by_project[gardener.name]
+
+
+class TaskPairs(AsTag):
+    options = Options(
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context):
+        """Get tasks in pairs, useful for PDF pairing of tasks"""
+        tasks = Task.objects.all().values_list('name', flat=True)
+        for i in range(0, len(tasks), 2):
+            try:
+                yield (tasks[i], tasks[i + 1])
+            except IndexError:
+                yield (tasks[i],)
 
 
 class TaskHours(AsTag):
@@ -99,4 +158,7 @@ register.tag(GardenerProjectHours)
 register.tag(HoursByGeographyInChart)
 register.tag(HoursByGeographyOutChart)
 register.tag(HoursByGeographyTotal)
+register.tag(HoursByTaskChart)
+register.tag(HoursByTaskTotal)
 register.tag(TaskHours)
+register.tag(TaskPairs)
