@@ -4,10 +4,11 @@ from classytags.arguments import Argument, KeywordArgument
 from classytags.core import Options
 from classytags.helpers import AsTag
 from django import template
+from django.db.models import Sum
 
 from metrics.charts import make_chart_name, vertical_bar
 from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
-from ..models import HoursByGeography, HoursByTask, Task
+from ..models import HoursByGeography, HoursByProject, HoursByTask, Task
 
 register = template.Library()
 
@@ -54,6 +55,35 @@ class HoursByGeographyTotal(MetricTotalTag):
         hours_in = sum([r.hours_in for r in records])
         hours_out = sum([r.hours_out for r in records])
         return hours_in + hours_out
+
+
+class HoursByProjectChart(ChartMixin, AsTag):
+
+    def get_metric_model(self):
+        return HoursByProject
+
+    def get_chart(self, records, garden):
+        project_records = []
+        for r in records:
+            project_records.append({
+                'hours': r.projecthours_set.all().aggregate(h=Sum('hours'))['h'],
+                'project': r.project,
+            })
+        df = pd.DataFrame.from_records(project_records, coerce_float=True) \
+            .sort(columns='project') \
+            .groupby('project') \
+            .sum()['hours']
+        return vertical_bar(df, make_chart_name('participation_project', garden),
+                            ylabel='HOURS')
+
+
+class HoursByProjectTotal(MetricTotalTag):
+
+    def get_metric_model(self):
+        return HoursByProject
+
+    def get_sum_field(self):
+        return 'projecthours__hours'
 
 
 class HoursByTaskChart(ChartMixin, AsTag):
@@ -158,6 +188,8 @@ register.tag(GardenerProjectHours)
 register.tag(HoursByGeographyInChart)
 register.tag(HoursByGeographyOutChart)
 register.tag(HoursByGeographyTotal)
+register.tag(HoursByProjectChart)
+register.tag(HoursByProjectTotal)
 register.tag(HoursByTaskChart)
 register.tag(HoursByTaskTotal)
 register.tag(TaskHours)
