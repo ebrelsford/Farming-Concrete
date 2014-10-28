@@ -1,0 +1,62 @@
+{% load skills_tags static %}
+
+{% skills_shareds as shareds %}
+{% for shared, shared_readable_name in shareds.items %}
+    <div class="page">
+        {% include "metrics/report_header.html" %}
+
+        <div class="metric-description-row">
+            <table>
+                <tr>
+                    <td class="metric-description">
+                        {% block metric_description %}
+                            {{ metric.description|default:"No description available" }}
+                        {% endblock %}
+                    </td>
+                    <td class="metric-summary">
+                        <span class="metric-summary-number">
+                            {% skills_total garden=garden start=min end=max shared=shared as total %}
+                            {{ total|floatformat }}
+                        </span>
+                        <br />
+                        <span class="metric-summary-units">
+                            {{ shared_readable_name|upper }}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <table>
+            <tr></tr>
+            <tr>
+                <td style="width: 100px;"></td>
+                <td>
+                    {% skills_chart garden=garden start=min end=max shared=shared as chart_url %}
+                    <img class="metric-chart metric-chart-skills" src="{% get_media_prefix %}{{ chart_url }}" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="text-align: center;">
+                        NUMBER OF {{ shared_readable_name|upper }} BY PERIOD
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="skills-shared-examples">
+            <h2 class="skills-shared-examples-header">
+                EXAMPLES OF {{ shared_readable_name|upper }} BY PERIOD
+            </h2>
+            <div>
+                {% skills_examples garden=garden start=min end=max shared=shared as examples %}
+                {% for recorded, values in examples.items %}
+                    <div class="skills-shared-examples-item">
+                        {{ recorded|date:"m/d/Y" }}: {{ values|default:"No examples" }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
