@@ -91,7 +91,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
 def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
                  ylabel='', **kwargs):
-    data_frame.plot(kind='bar', color=color, linewidth=0)
+    data_frame.plot(kind='bar', color=color, linewidth=0, rot=0)
 
     ax = plt.gca()
 
