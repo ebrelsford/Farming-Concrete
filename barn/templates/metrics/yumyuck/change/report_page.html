@@ -1,0 +1,29 @@
+{% extends "metrics/report_base.html" %}
+{% load yumyuck_tags static %}
+
+{% block metric_summary %}
+    <span class="metric-summary-number">
+        {% yum_yuck_total garden=garden start=min end=max as total %}
+        {{ total|floatformat }}
+    </span>
+    <br />
+    <span class="metric-summary-units">
+        {{ "crops tasted"|upper }}
+    </span>
+{% endblock %}
+
+{% block report_page_content %}
+    <table>
+        <tr></tr>
+        <tr>
+            <td style="width: 100px;"></td>
+            <td>
+                {% yum_yuck_chart garden=garden start=min end=max as chart_url %}
+                <img class="metric-chart metric-chart-yumyuck" src="{% get_media_prefix %}{{ chart_url }}" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="metric-chart-title">{{ "positive impressions of crops after trying them"|upper }}</td>
+        </tr>
+    </table>
+{% endblock %}
