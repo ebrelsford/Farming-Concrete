@@ -16,7 +16,7 @@
     <table>
         <tr></tr>
         <tr>
-            <td style="width: 100px;"></td>
+            <td class="metric-chart-left-padding"></td>
             <td>
                 {% moods_positive_chart garden=garden start=min end=max as chart_url %}
                 <img class="metric-chart metric-chart-moods" src="{% get_media_prefix %}{{ chart_url }}" />
@@ -26,7 +26,7 @@
             <td colspan="2" class="metric-chart-title">{{ "change in positive moods between entering and leaving the garden"|upper }}</td>
         </tr>
         <tr>
-            <td style="width: 100px;"></td>
+            <td class="metric-chart-left-padding"></td>
             <td>
                 {% moods_negative_chart garden=garden start=min end=max as chart_url %}
                 <img class="metric-chart metric-chart-moods" src="{% get_media_prefix %}{{ chart_url }}" />
