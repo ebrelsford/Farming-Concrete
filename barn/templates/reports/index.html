@@ -17,27 +17,32 @@
                     <h4 class="modal-title">Download PDF</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Please select the dates you want the PDF to cover:</p>
-                    <form class="form-inline">
-                        <input type="hidden" name="pk" />
-                        <ul class="reports-date-type-list">
-                            <li class="reports-date-type-list-item">
-                                <input id="all" name="date_type" type="radio" />
-                                <label for="all">all dates</label>
-                            </li>
-                            <li class="reports-date-type-list-item">
-                                <input id="year" name="date_type" type="radio" checked />
-                                <label for="year">year:</label>
-                                <select class="form-control" name="year"></select>
-                            </li>
-                            <li class="reports-date-type-list-item">
-                                <input id="range" name="date_type" type="radio" />
-                                <label for="range">range:</label>
-                                <input class="form-control" type="date" name="min" /> to 
-                                <input class="form-control" type="date" name="max" />
-                            </li>
-                        </ul>
-                    </form>
+                    <div class="pdf-download-select">
+                        <p>Please select the dates you want the PDF to cover:</p>
+                        <form class="form-inline">
+                            <input type="hidden" name="pk" />
+                            <ul class="reports-date-type-list">
+                                <li class="reports-date-type-list-item">
+                                    <input id="all" name="date_type" type="radio" />
+                                    <label for="all">all dates</label>
+                                </li>
+                                <li class="reports-date-type-list-item">
+                                    <input id="year" name="date_type" type="radio" checked />
+                                    <label for="year">year:</label>
+                                    <select class="form-control" name="year"></select>
+                                </li>
+                                <li class="reports-date-type-list-item">
+                                    <input id="range" name="date_type" type="radio" />
+                                    <label for="range">range:</label>
+                                    <input class="form-control" type="date" name="min" /> to 
+                                    <input class="form-control" type="date" name="max" />
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div class="pdf-download-success-message">
+                        Your download should start soon. Please be patient, this can take a few seconds.
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

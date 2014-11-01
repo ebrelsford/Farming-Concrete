@@ -29,3 +29,19 @@
 .btn-download-report {
     margin-top: 5px;
 }
+
+.pdf-modal {
+
+    .pdf-download-success-message {
+        display: none;
+    }
+
+    &.is-downloading {
+        .pdf-download-success-message {
+            display: block;
+        }
+        .pdf-download-select {
+            display: none;
+        }
+    }
+}

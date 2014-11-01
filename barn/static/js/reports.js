@@ -68,6 +68,18 @@ define(['jquery', 'django', 'bootstrap'], function ($, Django) {
         $('.pdf-modal form :input').change(function () {
             updateDownloadButtonUrl();
         });
+
+        // Once user starts downloading, disable, add a nice message
+        $('.pdf-modal .btn-primary').click(function () {
+            $(this).addClass('disabled');
+            $('.pdf-modal').addClass('is-downloading');
+            return true;
+        });
+
+        $('.pdf-modal').on('hidden.bs.modal', function () {
+            $(this).find('.btn-primary').removeClass('disabled');
+            $(this).removeClass('is-downloading');
+        });
     });
 
 });

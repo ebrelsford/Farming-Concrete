@@ -9102,6 +9102,15 @@ fieldset[disabled] .btn-add-garden.active {
 .btn-download-report {
   margin-top: 5px;
 }
+.pdf-modal .pdf-download-success-message {
+  display: none;
+}
+.pdf-modal.is-downloading .pdf-download-success-message {
+  display: block;
+}
+.pdf-modal.is-downloading .pdf-download-select {
+  display: none;
+}
 .share .sharebox {
   display: none;
   font-size: 16px;
