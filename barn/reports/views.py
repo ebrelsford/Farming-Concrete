@@ -17,7 +17,7 @@ class Index(LoginRequiredMixin, TemplateView):
     template_name = 'reports/index.html'
 
 
-class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
+class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
     """
     Export data for a garden for some or all metrics as an Excel spreadsheet.
     """
@@ -26,7 +26,7 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
     def get(self, request, *args, **kwargs):
         self.object = self.garden = self.get_object()
         self.metrics = self.get_metrics()
-        return super(ExportView, self).get(request, *args, **kwargs)
+        return super(SpreadsheetView, self).get(request, *args, **kwargs)
 
     def get_dataset_class(self, metric_name):
         try:
@@ -83,7 +83,7 @@ class ExportView(LoginRequiredMixin, GardenMixin, TablibView):
         )
 
 
-class ReportView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
+class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
     template_name = 'reports/pdf.html'
 
     def get_params(self):
@@ -105,7 +105,7 @@ class ReportView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
 
     def get_context_data(self, pk=None):
         self.object = self.get_object()
-        context = super(ReportView, self).get_context_data()
+        context = super(PDFView, self).get_context_data()
         min_date, max_date, year = self.get_params()
 
         if min_date:
