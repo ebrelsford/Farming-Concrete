@@ -3,6 +3,7 @@ import os
 
 from django.conf import settings
 
+import matplotlib
 from matplotlib.patches import Rectangle
 import matplotlib.pyplot as plt
 import pylab
@@ -28,6 +29,11 @@ def _format_ticks(axis):
     # Make ticks face out
     axis.xaxis.set_tick_params(direction='out')
     axis.yaxis.set_tick_params(direction='out', labelsize=14)
+
+
+def _set_font():
+    matplotlib.rcParams['font.sans-serif'] = ['Arial', 'Helvetica',
+                                              'sans-serif']
 
 
 def _save_chart(destination_file, shape='square', **kwargs):
@@ -65,6 +71,7 @@ def _get_bar_rectangles(axis):
 
 def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
                    ylabel='', **kwargs):
+    _set_font()
     data_frame.plot(kind='barh', color=color, linewidth=0)
 
     ax = plt.gca()
@@ -91,6 +98,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
 def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
                  ylabel='', **kwargs):
+    _set_font()
     data_frame.plot(kind='bar', color=color, linewidth=0, rot=0)
 
     ax = plt.gca()
@@ -117,6 +125,7 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
 def line_fill(data_frame, destination_file, color='#F63C04', xlabel='',
               ylabel='', **kwargs):
+    _set_font()
     data_frame.plot(kind='line', color=color, linewidth=1)
 
     ax = plt.gca()
