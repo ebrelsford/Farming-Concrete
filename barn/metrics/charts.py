@@ -119,8 +119,11 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
     # Add labels to rectangles
     for rect in _get_bar_rectangles(ax):
         height = rect.get_height()
-        ax.text(rect.get_x() + rect.get_width() / 2.0,
-                height - (data_frame.max() * 0.05),
+        label_y = height - (data_frame.max() * 0.05)
+        if rect.get_y() < 0:
+            label_y = rect.get_y() + (-data_frame.min() * 0.05)
+            height = -height
+        ax.text(rect.get_x() + rect.get_width() / 2.0, label_y,
                 '%d' % int(height), ha='center', va='bottom', color='white',
                 fontweight='bold')
 
