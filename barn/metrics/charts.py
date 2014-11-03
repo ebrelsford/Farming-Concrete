@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 import pylab
 
 
+date_format = '%m/%d/%y'
+
+
 def make_chart_name(metric_name, garden):
     return '_'.join([
         datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'),
@@ -29,10 +32,6 @@ def _format_ticks(axis, data_frame):
     # Make ticks face out
     axis.xaxis.set_tick_params(direction='out')
     axis.yaxis.set_tick_params(direction='out', labelsize=14)
-
-    if isinstance(data_frame.index[0], date):
-        axis.set_xticklabels([date.strftime(d, '%m/%d/%y') for d in
-                              data_frame.index])
 
 
 def _set_font():
@@ -87,6 +86,9 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
 
+    if isinstance(data_frame.index[0], date):
+        ax.set_yticklabels([date.strftime(d, '%m/%d/%y') for d in data_frame.index])
+
     _format_ticks(ax, data_frame)
 
     # Add labels to rectangles
@@ -118,6 +120,9 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
     # Set axis labels
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
+
+    if isinstance(data_frame.index[0], date):
+        ax.set_xticklabels([date.strftime(d, '%m/%d/%y') for d in data_frame.index])
 
     _format_ticks(ax, data_frame)
 
