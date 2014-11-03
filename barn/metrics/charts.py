@@ -91,10 +91,15 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
     # Add labels to rectangles
     for rect in _get_bar_rectangles(ax):
+        label_color = 'white'
         width = rect.get_width()
-        ax.text(width - (data_frame.max() * 0.05),
-                rect.get_y() + rect.get_height() / 2. - .03,
-                '%d' % int(width), ha='center', va='bottom', color='white',
+        x_diff = data_frame.max() * 0.05
+        label_x = width - x_diff
+        if label_x < 0:
+            label_color = color
+            label_x = width + x_diff
+        ax.text(label_x, rect.get_y() + rect.get_height() / 2. - .03,
+                '%d' % int(width), ha='center', va='bottom', color=label_color,
                 fontweight='bold')
 
     return _save_chart(destination_file, **kwargs)
@@ -118,13 +123,18 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
     # Add labels to rectangles
     for rect in _get_bar_rectangles(ax):
+        label_color = 'white'
         height = rect.get_height()
-        label_y = height - (data_frame.max() * 0.05)
+        y_diff = data_frame.max() * 0.05
+        label_y = height - y_diff
         if rect.get_y() < 0:
-            label_y = rect.get_y() + (-data_frame.min() * 0.05)
+            label_y = rect.get_y() + (-y_diff)
             height = -height
+        elif label_y < 0:
+            label_color = color
+            label_y = height + y_diff
         ax.text(rect.get_x() + rect.get_width() / 2.0, label_y,
-                '%d' % int(height), ha='center', va='bottom', color='white',
+                '%d' % int(height), ha='center', va='bottom', color=label_color,
                 fontweight='bold')
 
     return _save_chart(destination_file, **kwargs)
