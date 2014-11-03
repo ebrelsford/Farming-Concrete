@@ -50,6 +50,23 @@ class Garden(models.Model):
     def __unicode__(self):
         return self.name
 
+    def is_admin(self, user):
+        """Returns true if the given user is an admin of this garden"""
+        if user.has_perm('farmingconcrete.can_edit_any_garden'):
+            return True
+        return self.gardenmembership_set.filter(
+            is_admin=True,
+            user_profile__user=user,
+        ).exists()
+
+    def is_member(self, user):
+        """Returns true if the given user is a member of this garden"""
+        if user.has_perm('farmingconcrete.can_edit_any_garden'):
+            return True
+        return self.gardenmembership_set.filter(
+            user_profile__user=user,
+        ).exists()
+
 
 class GardenGroup(models.Model):
     name = models.CharField(_('name'), max_length=512)

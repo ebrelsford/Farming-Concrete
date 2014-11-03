@@ -12,7 +12,7 @@ from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
 from accounts.models import GardenMembership
-from accounts.utils import get_profile, is_member
+from accounts.utils import get_profile
 from generic.views import (DefaultYearMixin, LoginRequiredMixin,
                            SuccessMessageFormMixin)
 from metrics.registry import registry
@@ -156,7 +156,7 @@ class UpdateGardenView(LoginRequiredMixin, SuccessMessageFormMixin,
                        GardenFormMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
-        if not is_member(request.user, self.get_object()):
+        if not self.get_object().is_member(request.user):
             raise PermissionDenied
         return super(UpdateGardenView, self).get(request, *args, **kwargs)
 

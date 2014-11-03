@@ -7,7 +7,6 @@ from django.views.generic import TemplateView
 
 from easy_pdf.views import PDFTemplateView
 
-from accounts.utils import is_admin
 from generic.views import LoginRequiredMixin, TablibView
 from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
@@ -40,7 +39,7 @@ class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
             return self.request.GET['metrics'].split(',')
         except Exception:
             # If no metrics and user has access, get all metrics
-            if is_admin(self.request.user, self.garden):
+            if self.garden.is_admin(self.request.user):
                 return registry.keys()
             else:
                 raise PermissionDenied

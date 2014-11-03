@@ -1,23 +1,4 @@
-from .models import GardenMembership, UserProfile
-
-
-def is_admin(user, garden):
-    if user.has_perm('farmingconcrete.can_edit_any_garden'):
-        return True
-    return GardenMembership.objects.filter(
-        garden=garden,
-        is_admin=True,
-        user_profile__user=user,
-    ).exists()
-
-
-def is_member(user, garden):
-    if user.has_perm('farmingconcrete.can_edit_any_garden'):
-        return True
-    return GardenMembership.objects.filter(
-        garden=garden,
-        user_profile__user=user,
-    ).exists()
+from .models import UserProfile
 
 
 def get_profile(user):

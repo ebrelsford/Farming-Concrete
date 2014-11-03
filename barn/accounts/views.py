@@ -10,7 +10,7 @@ from templated_emails.utils import send_templated_email
 
 from .forms import InviteForm, UserForm
 from .models import GardenMembership
-from .utils import get_profile, is_admin
+from .utils import get_profile
 
 
 class AccountDetailsView(LoginRequiredMixin, UpdateView):
@@ -45,7 +45,7 @@ class AddAdminView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         membership = self.get_object()
 
-        if not is_admin(request.user, membership.garden):
+        if not membership.garden.is_admin(request.user):
             raise PermissionDenied
 
         self.add_admin(membership)
@@ -69,7 +69,7 @@ class DeleteAdminView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         membership = self.get_object()
 
-        if not is_admin(request.user, membership.garden):
+        if not membership.garden.is_admin(request.user):
             raise PermissionDenied
 
         self.delete_admin(membership)
@@ -87,7 +87,7 @@ class DeleteMemberView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         membership = self.get_object()
 
-        if not is_admin(request.user, membership.garden):
+        if not membership.garden.is_admin(request.user):
             raise PermissionDenied
 
         membership.delete()
