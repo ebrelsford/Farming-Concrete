@@ -91,7 +91,7 @@ class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
             dates = '%s to %s' % (min_date, max_date,)
         else:
             dates = 'All dates'
-        return '%s - %s - %s' % (garden.name, 'Barn', dates,)
+        return '%s - %s - %s.pdf' % (garden.name, 'Barn', dates,)
 
     def get_context_data(self, pk=None):
         self.object = self.get_object()
