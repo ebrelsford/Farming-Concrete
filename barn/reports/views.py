@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 
 from easy_pdf.views import PDFTemplateView
 
+from accounts.utils import is_admin
 from generic.views import LoginRequiredMixin, TablibView
 from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
@@ -34,24 +35,12 @@ class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
         except KeyError:
             return None
 
-    def can_download_all(self, user, garden):
-        """
-        If user has superadmin permissions or is listed as an admin for a
-        garden, let them download all the data for the garden.
-        """
-        if user.has_perm('farmingconcrete.can_edit_any_garden'):
-            return True
-        return user.gardenmembership_set.filter(
-            garden=garden,
-            is_admin=True,
-        ).exists()
-
     def get_metrics(self):
         try:
             return self.request.GET['metrics'].split(',')
         except Exception:
             # If no metrics and user has access, get all metrics
-            if self.can_download_all(self.request.user, self.garden):
+            if is_admin(self.request.user, self.garden):
                 return registry.keys()
             else:
                 raise PermissionDenied
