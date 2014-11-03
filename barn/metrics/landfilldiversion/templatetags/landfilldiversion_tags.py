@@ -20,7 +20,7 @@ class LandfilldiversionWeightChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()['weight']
         return vertical_bar(qdf, make_chart_name('landfilldiversion_weight', garden),
-                            ylabel='POUNDS DIVERTED', shape='short')
+                            ylabel='LBS', shape='short')
 
 
 class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
@@ -34,7 +34,7 @@ class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
         qdf = df.groupby('recorded').sum()['weight']
         return line_fill(qdf.cumsum(),
                          make_chart_name('landfilldiversion_weight_line', garden),
-                         ylabel='CUMULATIVE POUNDS DIVERTED', shape='short')
+                         ylabel='LBS', shape='short')
 
 
 class LandfilldiversionWeightTotal(MetricTotalTag):
@@ -56,7 +56,21 @@ class LandfilldiversionVolumeChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()['volume']
         return vertical_bar(qdf, make_chart_name('landfilldiversion_volume', garden),
-                            ylabel='GALLONS DIVERTED')
+                            ylabel='GALLONS', shape='short')
+
+
+class LandfilldiversionVolumeLineChart(ChartMixin, AsTag):
+    def get_metric_model(self):
+        return LandfillDiversionVolume
+
+    def get_chart(self, records, garden):
+        df = pd.DataFrame.from_records(records.values('volume', 'recorded'),
+                                       coerce_float=True)
+
+        qdf = df.groupby('recorded').sum()['volume']
+        return line_fill(qdf.cumsum(),
+                         make_chart_name('landfilldiversion_volume_line', garden),
+                         ylabel='GALLONS', shape='short')
 
 
 class LandfilldiversionVolumeTotal(MetricTotalTag):
@@ -72,4 +86,5 @@ register.tag(LandfilldiversionWeightChart)
 register.tag(LandfilldiversionWeightLineChart)
 register.tag(LandfilldiversionWeightTotal)
 register.tag(LandfilldiversionVolumeChart)
+register.tag(LandfilldiversionVolumeLineChart)
 register.tag(LandfilldiversionVolumeTotal)

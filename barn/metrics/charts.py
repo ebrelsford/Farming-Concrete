@@ -50,7 +50,7 @@ def _save_chart(destination_file, shape='square', **kwargs):
         os.makedirs(os.path.dirname(filename))
 
     if shape == 'short':
-        plt.gcf().set_size_inches(10, 5)
+        plt.gcf().set_size_inches(10, 4)
 
     # Save
     pylab.savefig(filename, bbox_inches='tight')
