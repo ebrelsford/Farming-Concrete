@@ -50,14 +50,6 @@ class Garden(models.Model):
     def __unicode__(self):
         return self.name
 
-    @staticmethod
-    def counted():
-        return Garden.objects.exclude(box=None)
-
-    @staticmethod
-    def uncounted():
-        return Garden.objects.filter(box=None)
-
 
 class GardenGroup(models.Model):
     name = models.CharField(_('name'), max_length=512)
