@@ -22,7 +22,7 @@ class RainwaterHarvestChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()['volume']
         return vertical_bar(qdf, make_chart_name('rainwater', garden),
-                            xlabel='GALLONS HARVESTED', shape='short')
+                            ylabel='GALLONS', shape='short')
 
 
 class RainwaterHarvestLineChart(ChartMixin, AsTag):
@@ -37,7 +37,7 @@ class RainwaterHarvestLineChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()['volume']
         return line_fill(qdf.cumsum(), make_chart_name('rainwater_line', garden),
-                         shape='short')
+                         ylabel='GALLONS', shape='short')
 
 
 class RainwaterHarvestTotal(MetricTotalTag):
