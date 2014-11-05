@@ -30,8 +30,8 @@ def _format_ticks(axis, data_frame):
     axis.yaxis.set_ticks_position('left')
 
     # Make ticks face out
-    axis.xaxis.set_tick_params(direction='out')
-    axis.yaxis.set_tick_params(direction='out', labelsize=14)
+    axis.xaxis.set_tick_params(direction='out', labelsize=10)
+    axis.yaxis.set_tick_params(direction='out', labelsize=10)
 
 
 def _set_font():
@@ -84,7 +84,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
     # Set axis labels
     ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
+    ax.set_xlabel(xlabel, fontsize=10)
 
     if isinstance(data_frame.index[0], date):
         ax.set_yticklabels([date.strftime(d, '%m/%d/%y') for d in data_frame.index])
@@ -101,8 +101,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
             label_color = color
             label_x = width + x_diff
         ax.text(label_x, rect.get_y() + rect.get_height() / 2. - .03,
-                '%d' % int(width), ha='center', va='bottom', color=label_color,
-                fontweight='bold')
+                '%d' % int(width), ha='center', va='bottom', color=label_color)
 
     return _save_chart(destination_file, **kwargs)
 
@@ -119,7 +118,7 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
     # Set axis labels
     ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
+    ax.set_xlabel(xlabel, fontsize=10)
 
     if isinstance(data_frame.index[0], date):
         ax.set_xticklabels([date.strftime(d, '%m/%d/%y') for d in data_frame.index])
@@ -139,8 +138,7 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
             label_color = color
             label_y = height + y_diff
         ax.text(rect.get_x() + rect.get_width() / 2.0, label_y,
-                '%d' % int(height), ha='center', va='bottom', color=label_color,
-                fontweight='bold')
+                '%d' % int(height), ha='center', va='bottom', color=label_color)
 
     return _save_chart(destination_file, **kwargs)
 
@@ -157,7 +155,7 @@ def line_fill(data_frame, destination_file, color='#F63C04', xlabel='',
 
     # Set axis labels
     ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel, fontsize=12, fontweight='bold')
+    ax.set_xlabel(xlabel, fontsize=10)
 
     _format_ticks(ax, data_frame)
 
