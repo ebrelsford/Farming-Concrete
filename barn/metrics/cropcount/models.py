@@ -104,5 +104,9 @@ register('Crop Count', {
     'group_number': 0,
     'index_url_name': 'cropcount_index',
     'dataset': CropcountDataset,
-    #'description': _(''),
+    'description': _('Keeping track of your crop count helps you get a handle '
+                     'on the annual productivity of your garden. This report '
+                     'displays total number of crops in a garden, and how '
+                     'many plants of each crop type measure by bed, row feet '
+                     'or square feet.'),
 })
