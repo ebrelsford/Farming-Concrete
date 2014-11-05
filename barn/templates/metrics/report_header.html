@@ -1,30 +1,41 @@
 {% load static %}
 
 <h1>
-    <div class="metric-number">
-        {{ metric.group_number }}.{{ metric.number }}
-    </div>
-    <div class="metric-name">
-        <div class="metric-name-inner">
-            {% with metric_src="img/report/"|add:metric.name|add:".jpg" %}
-                <img height="30" src="{% static metric_src %}" alt="{{ metric.name }}" title="{{ metric.name }}" />
-            {% endwith %}
-        </div>
-    </div>
+    <table>
+        <tr>
+            <td>
+                <div class="metric-number">
+                    {{ metric.group_number }}.{{ metric.number }}
+                </div>
+                <div class="metric-name">
+                    <div class="metric-name-inner">
+                        {% with metric_src="img/report/"|add:metric.name|add:".jpg" %}
+                            <img height="30" src="{% static metric_src %}" alt="{{ metric.name }}" title="{{ metric.name }}" />
+                        {% endwith %}
+                    </div>
+                </div>
+            </td>
+            <td width="150">
+                <div class="metric-date">
+                    {{ min|date:"m/d/Y" }} &mdash; {{ max|date:"m/d/Y" }}<br />
+                    <span class="metric-generated-date">
+                        {{ "created"|upper }}: {{ today|date }}
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </table>
 </h1> 
 <div class="report-details">
     <table>
         <tr>
-            <td class="garden-details">
+            <td colspan="2" class="garden-details">
                 <span class="garden-name">
                     {{ garden.name|upper }}
                 </span>
                 <span class="garden-address">
                     {{ garden.address }}
                 </span>
-            </td>
-            <td class="report-date">
-                Report covers:<br />{{ min|date }} to {{ max|date }}
             </td>
         </tr>
     </table>

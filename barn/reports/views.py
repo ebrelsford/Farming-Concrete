@@ -117,5 +117,6 @@ class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
             'garden': self.object,
             'min': min_date,
             'max': max_date,
+            'today': date.today(),
         })
         return context
