@@ -37,6 +37,10 @@
                     {% endblock %}
                 {% endifcandelete %}
             </li>
+        {% empty %}
+            <div class="record-list-empty">
+                No data yet
+            </div>
         {% endfor %}
     </ul>
 {% endblock %}

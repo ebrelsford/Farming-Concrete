@@ -8628,6 +8628,10 @@ h2 a.text {
 .garden-detail-page .metric-group h3:only-child {
   display: none;
 }
+.record-list-empty {
+  font-style: italic;
+  padding: 25px;
+}
 .record-list-page #map {
   width: 100%;
   height: 150px;
