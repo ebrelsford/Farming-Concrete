@@ -101,7 +101,8 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
             label_color = color
             label_x = width + x_diff
         ax.text(label_x, rect.get_y() + rect.get_height() / 2. - .03,
-                '%d' % int(width), ha='center', va='bottom', color=label_color)
+                '%d' % int(width), ha='center', va='bottom', color=label_color,
+                size=9)
 
     return _save_chart(destination_file, **kwargs)
 
@@ -138,7 +139,8 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
             label_color = color
             label_y = height + y_diff
         ax.text(rect.get_x() + rect.get_width() / 2.0, label_y,
-                '%d' % int(height), ha='center', va='bottom', color=label_color)
+                '%d' % int(height), ha='center', va='bottom', color=label_color,
+                size=9)
 
     return _save_chart(destination_file, **kwargs)
 
