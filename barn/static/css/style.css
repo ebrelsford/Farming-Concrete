@@ -8209,6 +8209,9 @@ td.date {
     width: 41.66666667%;
   }
 }
+.metric-garden-page #left {
+  padding-left: 0;
+}
 .metric-garden-page .metric-name {
   border-bottom: 1px dotted #8c8c8c;
   border-top: 1px solid #404040;
@@ -8216,7 +8219,8 @@ td.date {
   padding-top: 15px;
 }
 .metric-garden-page .metric-name img {
-  margin-left: 10px;
+  margin-left: 20px;
+  margin-top: -12px;
   max-height: 42px;
   max-width: 100%;
 }
