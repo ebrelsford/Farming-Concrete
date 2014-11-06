@@ -25,7 +25,7 @@
     </table>
 
     <table style="margin-top: 25px;">
-        <tr style="border-top: 1px dotted gray;">
+        <tr style="border-top: 1px dotted #ddd;">
             <td>&nbsp;</td>
             <td></td>
             <td></td>
@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td style="width: 25%;"></td>
-            <td style="width: 25%; border-right: 1px dotted gray; text-align: center;">
+            <td style="width: 25%; border-right: 1px dotted #ddd; text-align: center;">
                 <span class="metric-summary-number">
                     {% cropcount_total_beds garden=garden start=min end=max as total_beds %}
                     {{ total_beds|floatformat }}
