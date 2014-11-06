@@ -21,6 +21,12 @@
                         </div>
                     </td>
                 </tr>
+
+                {% if not forloop.last %}
+                    <tr>
+                        <td colspan="2" class="chart-separator"></td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </table>
     </div>
