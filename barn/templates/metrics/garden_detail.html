@@ -34,7 +34,7 @@
     {% include "farmingconcrete/gardens/_list_detail.html" with garden=garden %}
     {% summarize metric_name gardens=garden page="detail" year=year %}
 
-    <a class="btn btn-default" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
+    <a class="btn btn-default btn-download-center" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
 {% endblock %}
 
 {% block map_options %}

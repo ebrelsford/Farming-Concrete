@@ -6241,6 +6241,12 @@ td.date {
   list-style: none;
   padding-left: 0;
 }
+.btn-download-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
 .add-compost-volume .field-volume {
   position: relative;
   min-height: 1px;
