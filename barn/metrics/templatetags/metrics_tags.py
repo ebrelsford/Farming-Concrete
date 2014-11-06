@@ -342,6 +342,9 @@ class IfCanDelete(Tag):
 
 
 class MetricYears(MetricRecordTagMixin, AsTag):
+    """
+    Get years for which we have data for the given garden and metric.
+    """
 
     options = Options(
         Argument('metric'),
