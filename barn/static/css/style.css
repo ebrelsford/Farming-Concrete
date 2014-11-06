@@ -8208,13 +8208,15 @@ td.date {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-  font-weight: bold;
 }
 @media (min-width: 768px) {
   .summary-details {
     float: left;
     width: 33.33333333%;
   }
+}
+.summary-details .units {
+  font-weight: bold;
 }
 .summary-last-record-date {
   position: relative;
