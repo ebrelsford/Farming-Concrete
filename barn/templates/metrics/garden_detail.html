@@ -26,7 +26,11 @@
         {% block list_records %}{% endblock %}
     </section>
 
-    <a class="btn btn-default" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
+
+    {% count_records metric_name garden=garden year=year as records_count %}
+    {% if records_count %}
+        <a class="btn btn-default" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
+    {% endif %}
 {% endblock %}
 
 {% block right %}
@@ -34,7 +38,10 @@
     {% include "farmingconcrete/gardens/_list_detail.html" with garden=garden %}
     {% summarize metric_name gardens=garden page="detail" year=year %}
 
-    <a class="btn btn-default btn-download-center" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
+    {% count_records metric_name garden=garden year=year as records_count %}
+    {% if records_count %}
+        <a class="btn btn-default btn-download-center" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
+    {% endif %}
 {% endblock %}
 
 {% block map_options %}
