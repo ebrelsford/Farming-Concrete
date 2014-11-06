@@ -960,6 +960,18 @@
     &-details {
         .make-sm-column(4);
 
+        &:nth-child(3n + 1):last-child {
+            .make-sm-column(12);
+        }
+
+        &:nth-child(3n + 1):nth-last-child(2) {
+            .make-sm-column(6);
+        }
+
+        &:nth-child(3n + 2):last-child {
+            .make-sm-column(6);
+        }
+
         .units {
             font-weight: bold;
         }
