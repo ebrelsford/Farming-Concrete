@@ -8180,7 +8180,6 @@ td.date {
   margin-left: -15px;
   margin-right: -15px;
   font-size: 12px;
-  font-weight: bold;
 }
 .summary.empty {
   color: #a0a0a0;
@@ -8195,19 +8194,7 @@ td.date {
 @media (min-width: 768px) {
   .summary-record-count {
     float: left;
-    width: 25%;
-  }
-}
-.summary-details {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 768px) {
-  .summary-details {
-    float: left;
-    width: 33.33333333%;
+    width: 58.33333333%;
   }
 }
 .summary-last-record-date {
@@ -8548,6 +8535,9 @@ h2 a.text {
 .flatpages-page h2 img {
   max-height: 42px;
 }
+.garden-detail-page #left {
+  padding-left: 0;
+}
 .garden-detail-page .garden-item {
   border-bottom: 1px dotted #8c8c8c;
   padding-bottom: 25px;
@@ -8556,6 +8546,7 @@ h2 a.text {
 .garden-detail-page section.metric {
   border-top: 1px dotted #8c8c8c;
   padding: 15px;
+  padding-left: 5px;
 }
 .garden-detail-page section.metric:last-child {
   border-bottom: 1px dotted #8c8c8c;

@@ -3,9 +3,7 @@
 <div class="summary">
     {% block summary %}
         <div class="summary-record-count">
-            {{ count }} {% trans "record" %}{{ count|pluralize }}
-        </div>
-        <div class="summary-details">
+            {{ count }} {% trans "record" %}{{ count|pluralize }} |
             {% block summary_details %}{% endblock %}
         </div>
         <div class="summary-last-record-date">
