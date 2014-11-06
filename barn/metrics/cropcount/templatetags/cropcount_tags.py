@@ -21,8 +21,7 @@ class CropcountChart(ChartMixin, AsTag):
                                        coerce_float=True)
 
         qdf = df.groupby('crop__name').sum()['quantity']
-        return horizontal_bar(qdf, make_chart_name('cropcount', garden),
-                              xlabel='NUMBER OF PLANTS')
+        return horizontal_bar(qdf, make_chart_name('cropcount', garden))
 
 
 class CropcountTotal(MetricTotalTag):

@@ -19,8 +19,7 @@ class HarvestcountChart(ChartMixin, AsTag):
                                        coerce_float=True)
 
         qdf = df.groupby('crop__name').sum()['weight']
-        return horizontal_bar(qdf, make_chart_name('harvestcount', garden),
-                              xlabel='POUNDS HARVESTED')
+        return horizontal_bar(qdf, make_chart_name('harvestcount', garden))
 
 
 class HarvestcountTotal(MetricTotalTag):

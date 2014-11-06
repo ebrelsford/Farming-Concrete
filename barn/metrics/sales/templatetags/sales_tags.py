@@ -20,8 +20,7 @@ class SalesChart(ChartMixin, AsTag):
                                        coerce_float=True)
 
         qdf = df.groupby('recorded').sum()['total_price']
-        return horizontal_bar(qdf, make_chart_name('sales', garden),
-                              xlabel='TOTAL SOLD')
+        return horizontal_bar(qdf, make_chart_name('sales', garden))
 
 
 class SalesTotal(MetricTotalTag):
