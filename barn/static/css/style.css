@@ -8197,6 +8197,19 @@ td.date {
     width: 58.33333333%;
   }
 }
+.summary-details {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .summary-details {
+    float: left;
+    width: 33.33333333%;
+  }
+}
 .summary-last-record-date {
   position: relative;
   min-height: 1px;
