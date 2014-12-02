@@ -6242,6 +6242,15 @@ td.visible-print {
   letter-spacing: .5px;
   line-height: 24px;
 }
+.summary-callout-number {
+  font-size: 48px;
+}
+.summary-callout-label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 body {
   margin-bottom: 50px;
   font-family: Arial, Helvetica;
@@ -8973,6 +8982,7 @@ td.date {
 .metric-garden-page .summary .units {
   display: block;
   font-size: 12px;
+  font-weight: bold;
   text-transform: uppercase;
 }
 ul.gardens {
