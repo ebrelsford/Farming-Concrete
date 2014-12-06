@@ -105,6 +105,16 @@ class BaseMetricRecord(AuditedModel):
         return u.username
     added_by_display = property(_added_by_display)
 
+    def _garden_state(self):
+        """Get garden state, convenient for exporting"""
+        return self.garden.state
+    garden_state = property(_garden_state)
+
+    def _garden_zip(self):
+        """Get garden state, convenient for exporting"""
+        return self.garden.zip
+    garden_zip = property(_garden_zip)
+
     class Meta:
         abstract = True
 
