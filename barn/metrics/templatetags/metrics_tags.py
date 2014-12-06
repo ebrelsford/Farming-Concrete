@@ -47,11 +47,11 @@ class MetricRecordTagMixin(object):
     def count_recorded_metrics(self, metric_model, garden, start=None,
                                end=None, year=None):
         if start and end:
-            count = metric_model.get_records(garden, start=start, end=end).count()
+            count = metric_model.get_records(gardens=garden, start=start, end=end).count()
         elif year:
-            count = metric_model.get_records(garden, year=year).count()
+            count = metric_model.get_records(gardens=garden, year=year).count()
         else:
-            count = metric_model.get_records(garden).count()
+            count = metric_model.get_records(gardens=garden).count()
         return count
 
     def get_template_candidates(self, metric_name, filename):
@@ -84,9 +84,9 @@ class MetricRecordsMixin(MetricRecordTagMixin):
     def get_records(self, garden=None, start=None, end=None, year=None):
         metric_model = self.get_metric_model()
         if start and end:
-            return metric_model.get_records(garden, start=start, end=end)
+            return metric_model.get_records(gardens=garden, start=start, end=end)
         elif year:
-            return metric_model.get_records(garden, year=year)
+            return metric_model.get_records(gardens=garden, year=year)
 
 
 class ChartMixin(MetricRecordsMixin):
@@ -135,9 +135,9 @@ class CountRecords(MetricRecordTagMixin, AsTag):
         # Get the records requested
         metric = registry[name]['model']
         if start and end:
-            return metric.get_records(garden, start=start, end=end).count()
+            return metric.get_records(gardens=garden, start=start, end=end).count()
         elif year:
-            return metric.get_records(garden, year=year).count()
+            return metric.get_records(gardens=garden, year=year).count()
         return 0
 
 

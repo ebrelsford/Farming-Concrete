@@ -9,6 +9,12 @@ from audit.models import AuditedModel
 class MetricQuerySet(QuerySet):
     public_dict_values_args = ('garden__pk', 'recorded',)
 
+    def after(self, start):
+        return self.filter(recorded__gte=start)
+
+    def before(self, end):
+        return self.filter(recorded__lte=end)
+
     def for_dates(self, start, end):
         return self.filter(recorded__gte=start, recorded__lte=end)
 
@@ -48,6 +54,12 @@ class MetricManager(models.Manager):
 
     def get_queryset(self):
         return MetricQuerySet(self.model)
+
+    def after(self, start):
+        return self.get_queryset().after(start)
+
+    def before(self, end):
+        return self.get_queryset().before(end)
 
     def for_dates(self, start, end):
         return self.get_queryset().for_dates(start, end)
@@ -116,17 +128,23 @@ class BaseMetricRecord(AuditedModel):
         }
 
     @classmethod
-    def get_records(cls, gardens, year=None, start=None, end=None):
+    def get_records(cls, gardens=None, year=None, start=None, end=None):
         """
         Get the records for this metric for the given garden and dates.
         """
-        if not isinstance(gardens, (list, tuple)):
-            gardens = (gardens,)
-        records = cls.objects.for_gardens(gardens)
+        records = cls.objects.all()
+        if gardens:
+            if not isinstance(gardens, (list, tuple)):
+                gardens = (gardens,)
+            records = cls.objects.for_gardens(gardens)
         if year:
             records = records.for_year(year)
         elif start and end:
             records = records.for_dates(start, end)
+        elif start:
+            records = records.after(start)
+        elif end:
+            records = records.before(end)
         return records
 
     @classmethod
@@ -138,4 +156,4 @@ class BaseMetricRecord(AuditedModel):
             gardens = list(gardens)
         if gardens and not isinstance(gardens, (list, tuple)):
             gardens = (gardens,)
-        return cls.summarize(cls.get_records(gardens, **kwargs))
+        return cls.summarize(cls.get_records(gardens=gardens, **kwargs))
