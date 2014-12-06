@@ -105,6 +105,11 @@ class BaseMetricRecord(AuditedModel):
         return u.username
     added_by_display = property(_added_by_display)
 
+    def _garden_pk(self):
+        """Get garden pk, convenient for exporting"""
+        return self.garden.pk
+    garden_pk = property(_garden_pk)
+
     def _garden_state(self):
         """Get garden state, convenient for exporting"""
         return self.garden.state
