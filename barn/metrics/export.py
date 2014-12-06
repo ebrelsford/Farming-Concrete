@@ -3,12 +3,12 @@ from django_tablib import Field
 
 class DynamicQuerysetDatasetMixin(object):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         try:
             self.queryset = self.get_queryset()
         except Exception:
             pass
-        super(DynamicQuerysetDatasetMixin, self).__init__()
+        super(DynamicQuerysetDatasetMixin, self).__init__(*args, **kwargs)
 
 
 class MetricDatasetMixin(DynamicQuerysetDatasetMixin):
@@ -24,4 +24,4 @@ class MetricDatasetMixin(DynamicQuerysetDatasetMixin):
         super(MetricDatasetMixin, self).__init__()
 
     def get_queryset(self):
-        return self.model.get_records(self.gardens, start=self.start, end=self.end)
+        return self.model.get_records(gardens=self.gardens, start=self.start, end=self.end)
