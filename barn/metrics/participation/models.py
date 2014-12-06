@@ -4,8 +4,58 @@ from django.db import models
 from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
+
+
+class HoursByGeographyQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'in_half',
+            'in_whole',
+            'out_half',
+            'out_whole',
+        )
+        return self.values(*values_args)
+
+
+class HoursByGeographyManager(MetricManager):
+    
+    def get_queryset(self):
+        return HoursByGeographyQuerySet(self.model)
+
+
+class HoursByTaskQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'hours',
+        )
+        return self.annotate(hours=Sum('tasks__taskhours__hours')) \
+                .values(*values_args)
+
+
+class HoursByTaskManager(MetricManager):
+    
+    def get_queryset(self):
+        return HoursByTaskQuerySet(self.model)
+
+
+class HoursByProjectQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'hours',
+        )
+        return self.annotate(hours=Sum('projecthours__hours')) \
+                .values(*values_args)
+
+
+class HoursByProjectManager(MetricManager):
+    
+    def get_queryset(self):
+        return HoursByProjectQuerySet(self.model)
 
 
 class BaseParticipationMetric(BaseMetricRecord):
@@ -24,6 +74,7 @@ class BaseParticipationMetric(BaseMetricRecord):
 
 
 class HoursByGeography(BaseMetricRecord):
+    objects = HoursByGeographyManager()
 
     recorded_start = models.DateField(_('recorded start'),
         help_text=_('The beginning of the date range for this record'),
@@ -135,6 +186,7 @@ class TaskHours(models.Model):
 
 
 class HoursByTask(BaseMetricRecord):
+    objects = HoursByTaskManager()
     recorded_start = models.DateField(_('recorded start'),
         help_text=_('The beginning of the date range for this record'),
     )
@@ -197,6 +249,7 @@ class ProjectHours(models.Model):
 
 
 class HoursByProject(BaseMetricRecord):
+    objects = HoursByProjectManager()
     project = models.ForeignKey('Project',
         verbose_name=_('project'),
     )

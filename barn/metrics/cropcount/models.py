@@ -4,8 +4,21 @@ from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
+
+
+class CropCountQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + ('crop__name', 'quantity',)
+        return self.values(*values_args)
+
+
+class CropCountManager(MetricManager):
+    
+    def get_queryset(self):
+        return CropCountQuerySet(self.model)
 
 
 class Box(AuditedModel):
@@ -42,6 +55,8 @@ class Patch(BaseMetricRecord):
     class Meta:
         verbose_name_plural = 'Patches'
         ordering = ['crop']
+
+    objects = CropCountManager()
 
     box = models.ForeignKey(Box)
 

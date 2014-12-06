@@ -6251,6 +6251,12 @@ td.visible-print {
   font-weight: bold;
   text-transform: uppercase;
 }
+.text-header {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 24px;
+  text-transform: uppercase;
+}
 body {
   margin-bottom: 50px;
   font-family: Arial, Helvetica;

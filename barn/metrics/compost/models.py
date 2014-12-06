@@ -1,11 +1,25 @@
 from django.db import models
 from django.db.models import Sum
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class CompostProductionWeightQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + ('weight',)
+        return self.values(*values_args)
+
+
+class CompostProductionWeightManager(MetricManager):
+    
+    def get_queryset(self):
+        return CompostProductionWeightQuerySet(self.model)
+
+
 class CompostProductionWeight(BaseMetricRecord):
+    objects = CompostProductionWeightManager()
     weight = models.DecimalField('weight (pounds)',
         max_digits=8,
         decimal_places=2
@@ -27,7 +41,21 @@ class CompostProductionWeight(BaseMetricRecord):
         return kwargs
 
 
+class CompostProductionVolumeQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + ('volume',)
+        return self.values(*values_args)
+
+
+class CompostProductionVolumeManager(MetricManager):
+    
+    def get_queryset(self):
+        return CompostProductionVolumeQuerySet(self.model)
+
+
 class CompostProductionVolume(BaseMetricRecord):
+    objects = CompostProductionVolumeManager()
     volume = models.DecimalField('volume (gallons)',
         max_digits=8,
         decimal_places=2

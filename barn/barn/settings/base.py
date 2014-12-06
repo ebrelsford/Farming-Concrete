@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
 
     'accounts',
+    'api',
     'audit',
     'crops',
     'estimates',

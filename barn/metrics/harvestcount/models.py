@@ -3,7 +3,7 @@ from django.db.models import Sum
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
@@ -15,7 +15,26 @@ class Gardener(AuditedModel):
         return self.name
 
 
+class HarvestCountQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'crop__name',
+            'crop_variety__name',
+            'plants',
+            'weight',
+        )
+        return self.values(*values_args)
+
+
+class HarvestCountManager(MetricManager):
+    
+    def get_queryset(self):
+        return HarvestCountQuerySet(self.model)
+
+
 class Harvest(BaseMetricRecord):
+    objects = HarvestCountManager()
     gardener = models.ForeignKey(Gardener)
 
     crop = models.ForeignKey('crops.Crop', null=True)

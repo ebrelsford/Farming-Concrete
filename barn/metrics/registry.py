@@ -43,10 +43,14 @@ class MetricRegistry(dict):
             metric_details['group'] = None
         self[metric_name] = metric_details
 
-    def by_group(self):
-        sorted_metrics = sorted(self.values(),
-                                key=itemgetter('group_number', 'number', 'name'))
-        grouped = groupby(sorted_metrics, lambda m: m['group'])
+    def sorted(self, metrics=None):
+        chosen_metrics = self.values()
+        if metrics:
+            chosen_metrics = [m for m in chosen_metrics if m['name'] in metrics]
+        return sorted(chosen_metrics, key=itemgetter('group_number', 'number', 'name'))
+
+    def by_group(self, metrics=None):
+        grouped = groupby(self.sorted(metrics=metrics), lambda m: m['group'])
         g = OrderedDict()
         for group, metrics in grouped:
             g[group] = list(metrics)

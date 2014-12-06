@@ -2,11 +2,31 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class SmartsAndSkillsQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'participants',
+            'concepts_shared',
+            'ideas_to_learn',
+            'projects_proposed',
+            'skills_shared',
+        )
+        return self.values(*values_args)
+
+
+class SmartsAndSkillsManager(MetricManager):
+    
+    def get_queryset(self):
+        return SmartsAndSkillsQuerySet(self.model)
+
+
 class SmartsAndSkills(BaseMetricRecord):
+    objects = SmartsAndSkillsManager()
 
     participants = models.IntegerField(_('number of participants'))
 

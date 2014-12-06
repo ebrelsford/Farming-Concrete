@@ -2,11 +2,28 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class RainwaterHarvestQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'recorded_start',
+            'volume',
+        )
+        return self.values(*values_args)
+
+
+class RainwaterHarvestManager(MetricManager):
+    
+    def get_queryset(self):
+        return RainwaterHarvestQuerySet(self.model)
+
+
 class RainwaterHarvest(BaseMetricRecord):
+    objects = RainwaterHarvestManager()
     roof_length = models.DecimalField(_('roof length (feet)'),
         max_digits=10,
         decimal_places=2

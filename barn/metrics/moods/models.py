@@ -1,8 +1,25 @@
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
+
+
+class MoodChangeQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'moods',
+        )
+        return self.annotate(moods=Sum('mood_counts__moodcount__count')) \
+                .values(*values_args)
+
+
+class MoodChangeManager(MetricManager):
+    
+    def get_queryset(self):
+        return MoodChangeQuerySet(self.model)
 
 
 class Mood(models.Model):
@@ -50,6 +67,7 @@ class MoodCount(models.Model):
 
 
 class MoodChange(BaseMetricRecord):
+    objects = MoodChangeManager()
 
     recorded_start = models.DateField(_('recorded start'),
         help_text=_('When you started recording mood changes'),

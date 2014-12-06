@@ -2,11 +2,32 @@ from django.db import models
 from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class YumYuckQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'crop__name',
+            'crop_variety__name',
+            'yum_before',
+            'yuck_before',
+            'yum_after',
+            'yuck_after',
+        )
+        return self.values(*values_args)
+
+
+class YumYuckManager(MetricManager):
+    
+    def get_queryset(self):
+        return YumYuckQuerySet(self.model)
+
+
 class YumYuck(BaseMetricRecord):
+    objects = YumYuckManager()
     crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 

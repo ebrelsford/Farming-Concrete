@@ -2,8 +2,24 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
+
+
+class LookingGoodEventQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'total_participants',
+            'total_tags',
+        )
+        return self.values(*values_args)
+
+
+class LookingGoodEventManager(MetricManager):
+    
+    def get_queryset(self):
+        return LookingGoodEventQuerySet(self.model)
 
 
 class LookingGoodPhoto(models.Model):
@@ -36,6 +52,7 @@ class LookingGoodItem(models.Model):
 
 
 class LookingGoodEvent(BaseMetricRecord):
+    objects = LookingGoodEventManager()
     total_participants = models.PositiveIntegerField(_('# of participants'),
         default=0,
     )

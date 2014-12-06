@@ -7,6 +7,7 @@ from audit.models import AuditedModel
 
 
 class MetricQuerySet(QuerySet):
+    public_dict_values_args = ('garden__pk', 'recorded',)
 
     def for_dates(self, start, end):
         return self.filter(recorded__gte=start, recorded__lte=end)
@@ -33,23 +34,32 @@ class MetricQuerySet(QuerySet):
     def added_by_pks(self):
         return self.values_list('added_by', flat=True).distinct()
 
+    def public_dict(self):
+        """
+        Get a dict of this queryset that is JSON-serializable.
+
+        Garden PKs will need to be anonymized elsewhere to safely share 
+        publicly.
+        """
+        return self.values(self.public_dict_values_args)
+
 
 class MetricManager(models.Manager):
 
-    def get_query_set(self):
+    def get_queryset(self):
         return MetricQuerySet(self.model)
 
     def for_dates(self, start, end):
-        return self.get_query_set().for_dates(start, end)
+        return self.get_queryset().for_dates(start, end)
 
     def for_garden(self, garden):
-        return self.get_query_set().for_garden(garden)
+        return self.get_queryset().for_garden(garden)
 
     def for_gardens(self, gardens):
-        return self.get_query_set().for_gardens(gardens)
+        return self.get_queryset().for_gardens(gardens)
 
     def for_year(self, year):
-        return self.get_query_set().for_year(year)
+        return self.get_queryset().for_year(year)
 
 
 class BaseMetricRecord(AuditedModel):

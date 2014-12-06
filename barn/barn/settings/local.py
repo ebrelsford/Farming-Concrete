@@ -65,3 +65,17 @@ DEBUG_TOOLBAR_PANELS = (
 INSTALLED_APPS += (
     'template_debug',
 )
+
+
+#
+# CORS for API (not necessary in prod since it's on the same domain there)
+#
+INSTALLED_APPS += (
+    'corsheaders',
+)
+
+MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
+) + MIDDLEWARE_CLASSES
+
+CORS_ORIGIN_ALLOW_ALL = True

@@ -2,11 +2,28 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class DonationQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'produce_name',
+            'pounds',
+        )
+        return self.values(*values_args)
+
+
+class DonationManager(MetricManager):
+    
+    def get_queryset(self):
+        return DonationQuerySet(self.model)
+
+
 class Donation(BaseMetricRecord):
+    objects = DonationManager()
     produce_name = models.CharField(_('produce name'),
         max_length=100,
     )

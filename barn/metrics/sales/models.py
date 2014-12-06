@@ -2,11 +2,30 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class SaleQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'product',
+            'unit',
+            'units_sold',
+            'total_price',
+        )
+        return self.values(*values_args)
+
+
+class SaleManager(MetricManager):
+    
+    def get_queryset(self):
+        return SaleQuerySet(self.model)
+
+
 class Sale(BaseMetricRecord):
+    objects = SaleManager()
     product = models.CharField(_('product'),
         max_length=100,
     )

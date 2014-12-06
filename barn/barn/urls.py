@@ -72,6 +72,9 @@ urlpatterns = patterns('',
     url(r'^reports/', include(reports.urls.main_patterns)),
     url(r'^gardens/(?P<pk>\d+)/report/', include(reports.urls.garden_patterns)),
 
+    # API
+    url(r'^api/', include('api.urls')),
+
     # auth
     (r'^accounts/', include('accounts.urls')),
     (r'^accounts/registration/', include('registration.backends.default.urls')),

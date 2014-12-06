@@ -2,8 +2,24 @@ from django.db import models
 from django.db.models import Count, Sum
 from django.utils.translation import ugettext_lazy as _
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
+
+
+class ProgramReachQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'hours_each_day',
+            'recorded_start',
+        )
+        return self.values(*values_args)
+
+
+class ProgramReachManager(MetricManager):
+    
+    def get_queryset(self):
+        return ProgramReachQuerySet(self.model)
 
 
 class ProgramFeature(models.Model):
@@ -25,6 +41,7 @@ class ProgramFeature(models.Model):
 
 
 class ProgramReach(BaseMetricRecord):
+    objects = ProgramReachManager()
 
     name = models.CharField(_('program name'),
         max_length=300,

@@ -1,11 +1,27 @@
 from django.db import models
 from django.db.models import Sum
 
-from ..models import BaseMetricRecord
+from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
 
 
+class LandfillDiversionWeightQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'weight',
+        )
+        return self.values(*values_args)
+
+
+class LandfillDiversionWeightManager(MetricManager):
+    
+    def get_queryset(self):
+        return LandfillDiversionWeightQuerySet(self.model)
+
+
 class LandfillDiversionWeight(BaseMetricRecord):
+    objects = LandfillDiversionWeightManager()
     weight = models.DecimalField('weight (pounds)',
         max_digits=8,
         decimal_places=2
@@ -27,7 +43,23 @@ class LandfillDiversionWeight(BaseMetricRecord):
         return kwargs
 
 
+class LandfillDiversionVolumeQuerySet(MetricQuerySet):
+
+    def public_dict(self):
+        values_args = self.public_dict_values_args + (
+            'volume',
+        )
+        return self.values(*values_args)
+
+
+class LandfillDiversionVolumeManager(MetricManager):
+    
+    def get_queryset(self):
+        return LandfillDiversionVolumeQuerySet(self.model)
+
+
 class LandfillDiversionVolume(BaseMetricRecord):
+    objects = LandfillDiversionVolumeManager()
     volume = models.DecimalField('volume (gallons)',
         max_digits=8,
         decimal_places=2
