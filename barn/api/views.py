@@ -61,7 +61,7 @@ class AvailableFiltersView(JSONResponseMixin, View):
         return sorted(filter(None, types))
 
     def get(self, request, *args, **kwargs):
-        states_dict = {}
+        states_dict = OrderedDict()
         for state in self.get_states():
             states_dict[state] = {
                 'cities': self.get_cities(state),
