@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from datetime import date, datetime
 import decimal
 from uuid import uuid4
@@ -40,6 +41,13 @@ class AvailableFiltersView(JSONResponseMixin, View):
         groups = list(set(Garden.objects.values_list('gardengroup__name', flat=True)))
         return sorted(filter(None, groups))
 
+    def get_metrics(self):
+        metrics_grouped = registry.by_group()
+        new_metrics = OrderedDict()
+        for name, metrics in metrics_grouped.items():
+            new_metrics[name] = [m['name'] for m in metrics]
+        return new_metrics
+
     def get_states(self):
         states = list(set(Garden.objects.values_list('state', flat=True)))
         return sorted(filter(None, states))
@@ -62,6 +70,7 @@ class AvailableFiltersView(JSONResponseMixin, View):
         return self.render_json_response({
             'garden_types': self.get_types(),
             'groups': self.get_groups(),
+            'metrics': self.get_metrics(),
             'states': states_dict,
         })
 
