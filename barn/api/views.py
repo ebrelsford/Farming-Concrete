@@ -60,9 +60,9 @@ class AvailableFiltersView(JSONResponseMixin, View):
                 'zips': self.get_zips(state),
             }
         return self.render_json_response({
+            'garden_types': self.get_types(),
             'groups': self.get_groups(),
             'states': states_dict,
-            'types': self.get_types(),
         })
 
 
