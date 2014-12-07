@@ -10,6 +10,8 @@ server_project_dir = '/opt/fc'
 server_src_dir = '/'.join([server_project_dir, 'Farming-Concrete'])
 server_virtualenv = 'fc'
 
+server_front_dir = '/opt/mill'
+
 
 @contextlib.contextmanager
 def workon(ve):
@@ -91,3 +93,9 @@ def deploy():
     migrate()
     build_static()
     restart_django()
+
+
+@task
+def deploy_front():
+    with cd(server_front_dir):
+        run('git pull --no-edit')
