@@ -5,13 +5,16 @@ from uuid import uuid4
 from tablib import Databook
 
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Q
+from django.db.models import Sum, Q
 from django.http import Http404
 from django.views.generic import View
 
 from braces.views import JSONResponseMixin
 
+from farmingconcrete.models import Garden
 from generic.views import TablibView
+from metrics.compost.models import CompostProductionWeight
+from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
 
 
@@ -60,6 +63,24 @@ class FilteredApiMixin(object):
 
     def get_metrics(self, metrics=None, **kwargs):
         return registry.sorted(metrics=metrics)
+
+
+class OverviewView(JSONResponseMixin, View):
+
+    def get_compost_pounds(self):
+        pounds = CompostProductionWeight.objects.aggregate(pounds=Sum('weight'))['pounds']
+        return round(pounds)
+
+    def get_food_pounds(self):
+        pounds = Harvest.objects.aggregate(pounds=Sum('weight'))['pounds']
+        return round(pounds)
+
+    def get(self, request, *args, **kwargs):
+        return self.render_json_response({
+            'gardens': Garden.objects.count(),
+            'pounds_of_compost': self.get_compost_pounds(),
+            'pounds_of_food': self.get_food_pounds(),
+        })
 
 
 class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
