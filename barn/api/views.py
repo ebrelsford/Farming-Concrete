@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.views.generic import View
 
-from braces.views import LoginRequiredMixin, JSONResponseMixin
+from braces.views import JSONResponseMixin
 
 from generic.views import TablibView
 from metrics.registry import registry
@@ -164,7 +164,7 @@ def obfuscated_garden(gardens, row, index):
         return gardens[garden_id]
 
 
-class SpreadsheetView(LoginRequiredMixin, FilteredApiMixin, TablibView):
+class SpreadsheetView(FilteredApiMixin, TablibView):
     """Export data as an Excel spreadsheet."""
     format = 'xlsx'
 
