@@ -29,6 +29,32 @@ class DecimalJSONEncoder(DjangoJSONEncoder):
         return super(DecimalJSONEncoder, self).default(o)
 
 
+class AvailableFiltersView(JSONResponseMixin, View):
+
+    def get_cities(self, state):
+        cities = list(set(Garden.objects.filter(state=state).values_list('city', flat=True)))
+        return sorted(filter(None, cities))
+
+    def get_states(self):
+        states = list(set(Garden.objects.values_list('state', flat=True)))
+        return sorted(filter(None, states))
+
+    def get_zips(self, state):
+        zips = list(set(Garden.objects.filter(state=state).values_list('zip', flat=True)))
+        return sorted(filter(None, zips))
+
+    def get(self, request, *args, **kwargs):
+        states_dict = {}
+        for state in self.get_states():
+            states_dict[state] = {
+                'cities': self.get_cities(state),
+                'zips': self.get_zips(state),
+            }
+        return self.render_json_response({
+            'states': states_dict,
+        })
+
+
 class FilteredApiMixin(object):
     date_format = '%m/%d/%y'
     where_fields = ('state', 'city', 'zip',)
