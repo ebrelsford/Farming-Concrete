@@ -97,7 +97,7 @@ class SmartsAndSkills(BaseMetricRecord):
         return kwargs
 
 
-from .export import SmartsAndSkillsDataset
+from .export import SmartsAndSkillsDataset, PublicSmartsAndSkillsDataset
 
 
 register('Skills & Knowledge in the Garden', {
@@ -111,4 +111,5 @@ register('Skills & Knowledge in the Garden', {
     'index_url_name': 'skills_smarts_index',
     'short_name': 'smarts',
     'dataset': SmartsAndSkillsDataset,
+    'public_dataset': PublicSmartsAndSkillsDataset,
 })

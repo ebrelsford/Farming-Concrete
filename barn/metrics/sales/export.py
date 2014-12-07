@@ -1,10 +1,11 @@
 from django_tablib import Field, ModelDataset
 
+from api.export import PublicMetricDatasetMixin
 from ..export import MetricDatasetMixin
 from .models import Sale
 
 
-class SaleDataset(MetricDatasetMixin, ModelDataset):
+class SaleDatasetMixin():
     recorded = Field(header='recorded')
     product = Field(header='product')
     unit = Field(header='unit')
@@ -14,12 +15,28 @@ class SaleDataset(MetricDatasetMixin, ModelDataset):
 
     class Meta:
         model = Sale
+        fields = [
+            'recorded',
+            'product',
+            'unit',
+            'unit_price',
+            'units_sold',
+            'total_price',
+        ]
         field_order = (
             'recorded',
-            'added_by_display',
             'product',
             'unit',
             'unit_price',
             'units_sold',
             'total_price',
         )
+
+
+class SaleDataset(SaleDatasetMixin, MetricDatasetMixin, ModelDataset):
+    pass
+
+
+class PublicSaleDataset(SaleDatasetMixin, PublicMetricDatasetMixin,
+                        ModelDataset):
+    pass

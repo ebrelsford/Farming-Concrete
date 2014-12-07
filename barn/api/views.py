@@ -1,13 +1,22 @@
+from datetime import date, datetime
 import decimal
 from uuid import uuid4
 
+from tablib import Databook
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
+from django.http import Http404
 from django.views.generic import View
 
-from braces.views import JSONResponseMixin
+from braces.views import LoginRequiredMixin, JSONResponseMixin
 
+from generic.views import TablibView
 from metrics.registry import registry
+
+
+def get_random_id():
+    return str(uuid4()).split('-')[0]
 
 
 class DecimalJSONEncoder(DjangoJSONEncoder):
@@ -18,8 +27,15 @@ class DecimalJSONEncoder(DjangoJSONEncoder):
 
 
 class FilteredApiMixin(object):
+    date_format = '%m/%d/%y'
     where_fields = ('state', 'city', 'zip',)
     when_fields = ('start', 'end',)
+
+    def parse_date(self, date):
+        try:
+            return datetime.strptime(date, self.date_format)
+        except Exception:
+            return None
 
     def filters(self, request):
         """Get filters from the request"""
@@ -32,7 +48,8 @@ class FilteredApiMixin(object):
             'where': dict([(k, GET.get(k, None)) for k in self.where_fields]),
 
             # When
-            'when': dict([(k, GET.get(k, None)) for k in self.when_fields]),
+            'when': dict([(k, self.parse_date(GET.get(k, None))) for k in \
+                          self.when_fields]),
 
             # Groups
             'groups': GET.getlist('group'),
@@ -106,7 +123,7 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
                 try:
                     new_id = garden_ids[record['garden__pk']]
                 except KeyError:
-                    new_id = garden_ids[record['garden__pk']] = str(uuid4()).split('-')[0]
+                    new_id = garden_ids[record['garden__pk']] = get_random_id()
                 record['garden'] = new_id
                 del record['garden__pk']
         return metric_entries
@@ -136,3 +153,59 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
         return self.render_json_response({
             'results': self.get_results(**self.filters(request)),
         })
+
+
+def obfuscated_garden(gardens, row, index):
+    garden_id = row[index]
+    try:
+        return gardens[garden_id]
+    except KeyError:
+        gardens[garden_id] = get_random_id()
+        return gardens[garden_id]
+
+
+class SpreadsheetView(LoginRequiredMixin, FilteredApiMixin, TablibView):
+    """Export data as an Excel spreadsheet."""
+    format = 'xlsx'
+
+    def get(self, request, *args, **kwargs):
+        self.request_filters = self.filters(request)
+        self.metrics = self.get_metrics(**self.request_filters)
+        return super(SpreadsheetView, self).get(request, *args, **kwargs)
+
+    def get_dataset(self):
+        datasets = []
+
+        # Mapping of gardens to obfuscated ids, global for each download
+        garden_mapping = {}
+
+        for metric in sorted(self.metrics):
+            dataset_cls = metric['public_dataset']
+            if not dataset_cls:
+                continue
+
+            ds = dataset_cls(**self.request_filters)
+
+            # Replace garden column with a randomized unique id
+            index = ds.headers.index('garden')
+            ds.insert_col(index,
+                          lambda r: obfuscated_garden(garden_mapping, r, index), 
+                          header='garden unique id')
+            del ds['garden']
+
+            # Only append if there is data to append
+            if not ds.height:
+                continue
+
+            # Sheet titles can be 31 characters at most, cannot contain :s
+            ds.title = metric['name'][:31].replace(':', '')
+            datasets.append(ds)
+        if not datasets:
+            raise Http404
+        return Databook(datasets)
+
+    def get_filename(self):
+        return '%s - %s' % (
+            'Mill export',
+            date.today().strftime('%Y-%m-%d'),
+        )

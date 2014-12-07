@@ -1,10 +1,11 @@
 from django_tablib import Field, ModelDataset
 
+from api.export import PublicMetricDatasetMixin
 from ..export import MetricDatasetMixin
 from .models import HoursByGeography, HoursByProject, HoursByTask, Task
 
 
-class HoursByGeographyDataset(MetricDatasetMixin, ModelDataset):
+class HoursByGeographyDatasetMixin(object):
     recorded_start = Field(header='recorded start')
     recorded = Field(header='recorded end')
     in_half = Field(header='1/2-hour pins "IN"')
@@ -14,11 +15,35 @@ class HoursByGeographyDataset(MetricDatasetMixin, ModelDataset):
 
     class Meta:
         model = HoursByGeography
-        field_order = ('recorded_start', 'recorded', 'added_by_display',
-                       'in_half', 'in_whole', 'out_half', 'out_whole',)
+        fields = [
+            'recorded_start',
+            'recorded',
+            'in_half',
+            'in_whole',
+            'out_half',
+            'out_whole',
+        ]
+        field_order = (
+            'recorded_start',
+            'recorded',
+            'in_half',
+            'in_whole',
+            'out_half',
+            'out_whole',
+        )
 
 
-class HoursByTaskDataset(MetricDatasetMixin, ModelDataset):
+class HoursByGeographyDataset(HoursByGeographyDatasetMixin, MetricDatasetMixin,
+                              ModelDataset):
+    pass
+
+
+class PublicHoursByGeographyDataset(HoursByGeographyDatasetMixin,
+                                    PublicMetricDatasetMixin, ModelDataset):
+    pass
+
+
+class HoursByTaskDatasetMixin(object):
     recorded_start = Field(header='recorded start')
     recorded = Field(header='recorded end')
 
@@ -44,16 +69,50 @@ class HoursByTaskDataset(MetricDatasetMixin, ModelDataset):
         self.base_fields['task_other'] = Field(header='other tasks examples')
         self._meta.field_order += ('task_other',)
 
-        super(HoursByTaskDataset, self).__init__(*args, **kwargs)
+        super(HoursByTaskDatasetMixin, self).__init__(*args, **kwargs)
 
     class Meta:
         model = HoursByTask
-        field_order = ('recorded_start', 'recorded', 'added_by_display',)
+        fields = [
+            'recorded_start',
+            'recorded',
+        ]
+        field_order = (
+            'recorded_start',
+            'recorded',
+        )
 
 
-class HoursByProjectDataset(MetricDatasetMixin, ModelDataset):
+class HoursByTaskDataset(HoursByTaskDatasetMixin, MetricDatasetMixin,
+                         ModelDataset):
+    pass
+
+
+class PublicHoursByTaskDataset(HoursByTaskDatasetMixin,
+                               PublicMetricDatasetMixin, ModelDataset):
+    pass
+
+
+class HoursByProjectDatasetMixin(object):
+
+    class Meta:
+        model = HoursByProject
+        fields = [
+            'recorded',
+        ]
+        field_order = (
+            'recorded',
+        )
+
+
+class HoursByProjectDataset(HoursByProjectDatasetMixin, MetricDatasetMixin,
+                            ModelDataset):
 
     def __init__(self, *args, **kwargs):
+        # Add project
+        self.base_fields['project'] = Field(header='project')
+        self._meta.field_order += ('project',)
+
         garden = kwargs.get('gardens', [])[0]
         gardeners = garden.gardener_set.all().order_by('name')
         gardener_fields = []
@@ -74,6 +133,13 @@ class HoursByProjectDataset(MetricDatasetMixin, ModelDataset):
 
         super(HoursByProjectDataset, self).__init__(*args, **kwargs)
 
-    class Meta:
-        model = HoursByProject
-        field_order = ('recorded', 'added_by_display',)
+
+class PublicHoursByProjectDataset(HoursByProjectDatasetMixin,
+                                  PublicMetricDatasetMixin, ModelDataset):
+
+    def __init__(self, *args, **kwargs):
+        # Add total_hours
+        self.base_fields['total_hours'] = Field(header='total hours')
+        self._meta.field_order += ('total_hours',)
+
+        super(PublicHoursByProjectDataset, self).__init__(*args, **kwargs)

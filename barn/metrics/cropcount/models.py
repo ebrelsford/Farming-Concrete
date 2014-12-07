@@ -86,6 +86,18 @@ class Patch(BaseMetricRecord):
             return self.box.name
         return None
 
+    def _bed_width(self):
+        if self.box and self.box.width:
+            return self.box.width
+        return None
+    bed_width = property(_bed_width)
+
+    def _bed_length(self):
+        if self.box and self.box.length:
+            return self.box.length
+        return None
+    bed_length = property(_bed_length)
+
     def get_crop_variety_display(self):
         if self.crop_variety:
             return self.crop_variety.name
@@ -106,7 +118,7 @@ class Patch(BaseMetricRecord):
         }
 
 
-from .export import CropcountDataset
+from .export import CropcountDataset, PublicCropcountDataset
 
 
 register('Crop Count', {
@@ -119,6 +131,7 @@ register('Crop Count', {
     'group_number': 0,
     'index_url_name': 'cropcount_index',
     'dataset': CropcountDataset,
+    'public_dataset': PublicCropcountDataset,
     'description': _('Keeping track of your crop count helps you get a handle '
                      'on the annual productivity of your garden. This report '
                      'displays total number of crops in a garden, and how '

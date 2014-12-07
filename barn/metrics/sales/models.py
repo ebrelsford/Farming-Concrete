@@ -61,7 +61,7 @@ class Sale(BaseMetricRecord):
         return kwargs
 
 
-from .export import SaleDataset
+from .export import SaleDataset, PublicSaleDataset
 
 
 register('Market Sales', {
@@ -72,4 +72,5 @@ register('Market Sales', {
     'group': 'Economic Data',
     'group_number': 4,
     'dataset': SaleDataset,
+    'public_dataset': PublicSaleDataset,
 })

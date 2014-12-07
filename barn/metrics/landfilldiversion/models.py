@@ -81,7 +81,8 @@ class LandfillDiversionVolume(BaseMetricRecord):
         return kwargs
 
 
-from .export import VolumeDataset, WeightDataset
+from .export import (VolumeDataset, PublicVolumeDataset, WeightDataset,
+                     PublicWeightDataset)
 
 
 register('Landfill Waste Diversion by Weight', {
@@ -95,6 +96,7 @@ register('Landfill Waste Diversion by Weight', {
     'index_url_name': 'landfilldiversion_weight_index',
     'short_name': 'weight',
     'dataset': WeightDataset,
+    'public_dataset': PublicWeightDataset,
 })
 
 
@@ -109,4 +111,5 @@ register('Landfill Waste Diversion by Volume', {
     'index_url_name': 'landfilldiversion_volume_index',
     'short_name': 'volume',
     'dataset': VolumeDataset,
+    'public_dataset': PublicVolumeDataset,
 })

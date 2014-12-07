@@ -149,6 +149,7 @@ class ProgramReach(BaseMetricRecord):
     def get_features_display(self):
         features = self.features.all().order_by('name')
         return ', '.join(features.values_list('name', flat=True))
+    features_display = property(get_features_display)
 
     @classmethod
     def get_summarize_kwargs(cls):
@@ -161,7 +162,7 @@ class ProgramReach(BaseMetricRecord):
         return kwargs
 
 
-from .export import ProgramReachDataset
+from .export import ProgramReachDataset, PublicProgramReachDataset
 
 
 register('Reach of Programs', {
@@ -174,4 +175,5 @@ register('Reach of Programs', {
     'index_url_name': 'reach_program_index',
     'short_name': 'program',
     'dataset': ProgramReachDataset,
+    'public_dataset': PublicProgramReachDataset,
 })

@@ -1,10 +1,11 @@
 from django_tablib import Field, ModelDataset
 
+from api.export import PublicMetricDatasetMixin
 from ..export import MetricDatasetMixin
 from .models import YumYuck
 
 
-class YumYuckDataset(MetricDatasetMixin, ModelDataset):
+class YumYuckDatasetMixin(object):
     recorded = Field(header='recorded')
     crop = Field(header='crop')
     yum_before = Field(header='yum before')
@@ -14,12 +15,28 @@ class YumYuckDataset(MetricDatasetMixin, ModelDataset):
 
     class Meta:
         model = YumYuck
+        fields = [
+            'recorded',
+            'crop',
+            'yum_before',
+            'yuck_before',
+            'yum_after',
+            'yuck_after',
+        ]
         field_order = (
             'recorded',
-            'added_by_display',
             'crop',
             'yum_before',
             'yuck_before',
             'yum_after',
             'yuck_after',
         )
+
+
+class YumYuckDataset(YumYuckDatasetMixin, MetricDatasetMixin, ModelDataset):
+    pass
+
+
+class PublicYumYuckDataset(YumYuckDatasetMixin, PublicMetricDatasetMixin,
+                           ModelDataset):
+    pass

@@ -49,7 +49,7 @@ class YumYuck(BaseMetricRecord):
         return kwargs
 
 
-from .export import YumYuckDataset
+from .export import YumYuckDataset, PublicYumYuckDataset
 
 
 register('Changes in Attitude: Yum & Yuck', {
@@ -63,4 +63,5 @@ register('Changes in Attitude: Yum & Yuck', {
     'index_url_name': 'yumyuck_change_index',
     'short_name': 'change',
     'dataset': YumYuckDataset,
+    'public_dataset': PublicYumYuckDataset,
 })

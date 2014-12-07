@@ -1,10 +1,11 @@
 from django_tablib import Field, ModelDataset
 
+from api.export import PublicMetricDatasetMixin
 from ..export import MetricDatasetMixin
 from .models import SmartsAndSkills
 
 
-class SmartsAndSkillsDataset(MetricDatasetMixin, ModelDataset):
+class SmartsAndSkillsDatasetMixin(object):
     participants = Field(header='number of participants')
     skills_shared = Field(header='# of skills shared')
     skills_shared_examples = Field(header='examples of skills shared')
@@ -21,7 +22,7 @@ class SmartsAndSkillsDataset(MetricDatasetMixin, ModelDataset):
 
     class Meta:
         model = SmartsAndSkills
-        field_order = (
+        fields = [
             'recorded',
             'added_by_display',
             'participants',
@@ -35,4 +36,14 @@ class SmartsAndSkillsDataset(MetricDatasetMixin, ModelDataset):
             'ideas_to_learn_examples',
             'intentions_to_collaborate',
             'intentions_to_collaborate_examples',
-        )
+        ]
+
+
+class SmartsAndSkillsDataset(SmartsAndSkillsDatasetMixin, MetricDatasetMixin,
+                             ModelDataset):
+    pass
+
+
+class PublicSmartsAndSkillsDataset(SmartsAndSkillsDatasetMixin,
+                                   PublicMetricDatasetMixin, ModelDataset):
+    pass

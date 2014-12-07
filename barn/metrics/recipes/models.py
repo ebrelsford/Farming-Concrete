@@ -36,7 +36,7 @@ class RecipeTally(BaseMetricRecord):
         return kwargs
 
 
-from .export import RecipeTallyDataset
+from .export import RecipeTallyDataset, PublicRecipeTallyDataset
 
 
 register('Healthy Eating', {
@@ -50,4 +50,5 @@ register('Healthy Eating', {
     'index_url_name': 'recipes_tally_index',
     'short_name': 'tally',
     'dataset': RecipeTallyDataset,
+    'public_dataset': PublicRecipeTallyDataset,
 })

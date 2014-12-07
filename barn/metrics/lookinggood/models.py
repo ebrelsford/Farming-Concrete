@@ -73,7 +73,7 @@ class LookingGoodEvent(BaseMetricRecord):
 
 
 
-from .export import LookingGoodDataset
+from .export import LookingGoodDataset, PublicLookingGoodDataset
 
 
 register('Beauty of the Garden', {
@@ -88,4 +88,5 @@ register('Beauty of the Garden', {
     'index_url_name': 'lookinggood_event_index',
     'short_name': 'event',
     'dataset': LookingGoodDataset,
+    'public_dataset': PublicLookingGoodDataset,
 })

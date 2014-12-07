@@ -63,6 +63,21 @@ class Harvest(BaseMetricRecord):
         else:
             return None
 
+    def _garden_pk(self):
+        """Get garden pk, convenient for exporting"""
+        return self.gardener.garden.pk
+    garden_pk = property(_garden_pk)
+
+    def _garden_state(self):
+        """Get garden state, convenient for exporting"""
+        return self.gardener.garden.state
+    garden_state = property(_garden_state)
+
+    def _garden_zip(self):
+        """Get garden state, convenient for exporting"""
+        return self.gardener.garden.zip
+    garden_zip = property(_garden_zip)
+
     @classmethod
     def summarize(cls, harvests):
         if not harvests:
@@ -76,7 +91,7 @@ class Harvest(BaseMetricRecord):
         }
 
 
-from .export import HarvestcountDataset
+from .export import HarvestcountDataset, PublicHarvestcountDataset
 
 
 register('Harvest Count', {
@@ -89,4 +104,5 @@ register('Harvest Count', {
     'group_number': 0,
     'index_url_name': 'harvestcount_index',
     'dataset': HarvestcountDataset,
+    'public_dataset': PublicHarvestcountDataset,
 })

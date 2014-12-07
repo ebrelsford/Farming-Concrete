@@ -2,11 +2,12 @@ from itertools import product
 
 from django_tablib import Field, ModelDataset
 
+from api.export import PublicMetricDatasetMixin
 from ..export import MetricDatasetMixin
 from .models import Mood, MoodChange
 
 
-class MoodChangeDataset(MetricDatasetMixin, ModelDataset):
+class MoodChangeDatasetMixin(object):
     recorded_start = Field(header='recorded start')
     recorded = Field(header='recorded end')
 
@@ -20,8 +21,25 @@ class MoodChangeDataset(MetricDatasetMixin, ModelDataset):
             mood_fields.append(field_name)
 
         self._meta.field_order += tuple(mood_fields)
-        super(MoodChangeDataset, self).__init__(*args, **kwargs)
+        super(MoodChangeDatasetMixin, self).__init__(*args, **kwargs)
 
     class Meta:
         model = MoodChange
-        field_order = ('recorded_start', 'recorded', 'added_by_display',)
+        fields = [
+            'recorded_start',
+            'recorded',
+        ]
+        field_order = (
+            'recorded_start',
+            'recorded',
+        )
+
+
+class MoodChangeDataset(MoodChangeDatasetMixin, MetricDatasetMixin,
+                        ModelDataset):
+    pass
+
+
+class PublicMoodChangeDataset(MoodChangeDatasetMixin, PublicMetricDatasetMixin,
+                              ModelDataset):
+    pass

@@ -100,7 +100,7 @@ class MoodChange(BaseMetricRecord):
         return kwargs
 
 
-from .export import MoodChangeDataset
+from .export import MoodChangeDataset, PublicMoodChangeDataset
 
 
 register('Good Moods in the Garden', {
@@ -114,4 +114,5 @@ register('Good Moods in the Garden', {
     'index_url_name': 'moods_change_index',
     'short_name': 'change',
     'dataset': MoodChangeDataset,
+    'public_dataset': PublicMoodChangeDataset,
 })

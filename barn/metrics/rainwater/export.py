@@ -1,10 +1,11 @@
 from django_tablib import Field, ModelDataset
 
+from api.export import PublicMetricDatasetMixin
 from ..export import MetricDatasetMixin
 from .models import RainwaterHarvest
 
 
-class RainwaterHarvestDataset(MetricDatasetMixin, ModelDataset):
+class RainwaterHarvestDatasetMixin(object):
     recorded_start = Field(header='recorded start')
     recorded = Field(header='recorded end')
     roof_length = Field(header='roof length (feet)')
@@ -13,5 +14,27 @@ class RainwaterHarvestDataset(MetricDatasetMixin, ModelDataset):
 
     class Meta:
         model = RainwaterHarvest
-        field_order = ('recorded_start', 'recorded', 'added_by_display',
-                       'roof_length', 'roof_width', 'volume',)
+        fields = [
+            'recorded_start',
+            'recorded',
+            'roof_length',
+            'roof_width',
+            'volume',
+        ]
+        field_order = (
+            'recorded_start',
+            'recorded',
+            'roof_length',
+            'roof_width',
+            'volume',
+        )
+
+
+class RainwaterHarvestDataset(RainwaterHarvestDatasetMixin, MetricDatasetMixin,
+                              ModelDataset):
+    pass
+
+
+class PublicRainwaterHarvestDataset(RainwaterHarvestDatasetMixin,
+                                    PublicMetricDatasetMixin, ModelDataset):
+    pass

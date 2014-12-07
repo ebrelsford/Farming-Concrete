@@ -59,7 +59,7 @@ class RainwaterHarvest(BaseMetricRecord):
         return kwargs
 
 
-from .export import RainwaterHarvestDataset
+from .export import RainwaterHarvestDataset, PublicRainwaterHarvestDataset
 
 
 register('Rainwater Harvesting', {
@@ -72,4 +72,5 @@ register('Rainwater Harvesting', {
     'index_url_name': 'rainwater_harvest_index',
     'short_name': 'harvest',
     'dataset': RainwaterHarvestDataset,
+    'public_dataset': PublicRainwaterHarvestDataset,
 })

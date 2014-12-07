@@ -271,6 +271,10 @@ class HoursByProject(BaseMetricRecord):
         except Exception:
             return getattr(self, key, None)
 
+    def _total_hours(self):
+        return self.projecthours_set.aggregate(total_hours=Sum('hours'))['total_hours']
+    total_hours = property(_total_hours)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(HoursByProject, cls).get_summarize_kwargs()
@@ -282,8 +286,9 @@ class HoursByProject(BaseMetricRecord):
         return kwargs
 
 
-from .export import (HoursByGeographyDataset, HoursByProjectDataset,
-                     HoursByTaskDataset)
+from .export import (HoursByGeographyDataset, PublicHoursByGeographyDataset,
+                     HoursByProjectDataset, PublicHoursByProjectDataset,
+                     HoursByTaskDataset, PublicHoursByTaskDataset)
 
 
 register('Participation by Geography', {
@@ -298,6 +303,7 @@ register('Participation by Geography', {
     'index_url_name': 'participation_geography_index',
     'short_name': 'geography',
     'dataset': HoursByGeographyDataset,
+    'public_dataset': PublicHoursByGeographyDataset,
 })
 
 
@@ -313,6 +319,7 @@ register('Participation by Task', {
     'index_url_name': 'participation_task_index',
     'short_name': 'task',
     'dataset': HoursByTaskDataset,
+    'public_dataset': PublicHoursByTaskDataset,
 })
 
 
@@ -328,4 +335,5 @@ register('Participation by Project', {
     'index_url_name': 'participation_project_index',
     'short_name': 'project',
     'dataset': HoursByProjectDataset,
+    'public_dataset': PublicHoursByProjectDataset,
 })

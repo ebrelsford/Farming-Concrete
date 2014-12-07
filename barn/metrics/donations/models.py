@@ -48,7 +48,7 @@ class Donation(BaseMetricRecord):
         return kwargs
 
 
-from .export import DonationDataset
+from .export import DonationDataset, PublicDonationDataset
 
 
 register('Donations of Food', {
@@ -58,5 +58,6 @@ register('Donations of Food', {
     'garden_detail_url_name': 'donations_garden_details',
     'group': 'Economic Data',
     'group_number': 4,
-    'dataset': DonationDataset
+    'dataset': DonationDataset,
+    'public_dataset': PublicDonationDataset,
 })
