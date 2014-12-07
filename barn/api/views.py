@@ -30,10 +30,15 @@ class DecimalJSONEncoder(DjangoJSONEncoder):
 
 
 class AvailableFiltersView(JSONResponseMixin, View):
+    # TODO cache
 
     def get_cities(self, state):
         cities = list(set(Garden.objects.filter(state=state).values_list('city', flat=True)))
         return sorted(filter(None, cities))
+
+    def get_groups(self):
+        groups = list(set(Garden.objects.values_list('gardengroup__name', flat=True)))
+        return sorted(filter(None, groups))
 
     def get_states(self):
         states = list(set(Garden.objects.values_list('state', flat=True)))
@@ -43,6 +48,10 @@ class AvailableFiltersView(JSONResponseMixin, View):
         zips = list(set(Garden.objects.filter(state=state).values_list('zip', flat=True)))
         return sorted(filter(None, zips))
 
+    def get_types(self):
+        types = list(set(Garden.objects.values_list('type__name', flat=True)))
+        return sorted(filter(None, types))
+
     def get(self, request, *args, **kwargs):
         states_dict = {}
         for state in self.get_states():
@@ -51,7 +60,9 @@ class AvailableFiltersView(JSONResponseMixin, View):
                 'zips': self.get_zips(state),
             }
         return self.render_json_response({
+            'groups': self.get_groups(),
             'states': states_dict,
+            'types': self.get_types(),
         })
 
 
