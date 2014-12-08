@@ -127,9 +127,9 @@ class FilteredApiMixin(object):
             if zip:
                 garden_filters = garden_filters & Q(garden__zip=zip)
             if groups:
-                garden_filters = garden_filters & Q(garden__gardengroup__in=groups)
+                garden_filters = garden_filters & Q(garden__gardengroup__name__in=groups)
             if garden_types:
-                garden_filters = garden_filters & Q(garden__type__in=garden_types)
+                garden_filters = garden_filters & Q(garden__type__name__in=garden_types)
 
             when_filters = Q()
             if start:
