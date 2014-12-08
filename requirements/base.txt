@@ -12,6 +12,7 @@ matplotlib==1.0.1
 pandas==0.14.1
 Pint==0.5
 py==1.4.9
+pygeocoder==1.2.5
 pyPdf==1.13
 pytest==2.2.4
 reportlab==2.7
