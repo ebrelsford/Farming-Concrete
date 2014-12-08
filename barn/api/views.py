@@ -119,9 +119,12 @@ class FilteredApiMixin(object):
                             garden_types=None, start=None, end=None, **kwargs):
             garden_filters = Q()
             if city:
-                # TODO if city OR borough OR "all NYC" -> all boroughs
-                garden_filters = garden_filters & Q(Q(garden__city=city) |
-                                                    Q(garden__borough=city))
+                # If searching in all boroughs, require borough
+                if city == 'All boroughs':
+                    garden_filters = garden_filters & Q(garden__borough__isnull=False)
+                else:
+                    garden_filters = garden_filters & Q(Q(garden__city=city) |
+                                                        Q(garden__borough=city))
             if state:
                 garden_filters = garden_filters & Q(garden__state=state)
             if zip:
