@@ -5,16 +5,9 @@ from metrics.export import DynamicQuerysetDatasetMixin
 
 class PublicMetricDatasetMixin(DynamicQuerysetDatasetMixin):
 
-    def __init__(self, when=None, where=None, **kwargs):
+    def __init__(self, filters=None, **kwargs):
         # Save filters for later
-        try:
-            self.start = when['start']
-        except Exception:
-            pass
-        try:
-            self.end = when['end']
-        except Exception:
-            pass
+        self.filters = filters
 
         # Update available base fields
         # XXX Not really anonymized here, garden_pk needs obfuscation before
@@ -48,8 +41,7 @@ class PublicMetricDatasetMixin(DynamicQuerysetDatasetMixin):
         super(PublicMetricDatasetMixin, self).__init__()
 
     def get_queryset(self):
-        return self.model.get_records(start=self.start, end=self.end) \
-                .select_related('garden')
+        return self.model.objects.filter(self.filters).select_related('garden')
 
     class Meta:
         field_order = (

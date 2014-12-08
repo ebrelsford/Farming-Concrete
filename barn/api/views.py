@@ -112,6 +112,34 @@ class FilteredApiMixin(object):
 
         return filters
 
+    def get_queryset_filters(self, request):
+        filters = self.filters(request)
+
+        def explode_filters(city=None, state=None, zip=None, groups=None,
+                            garden_types=None, start=None, end=None, **kwargs):
+            garden_filters = Q()
+            if city:
+                # TODO if city OR borough OR "all NYC" -> all boroughs
+                garden_filters = garden_filters & Q(Q(garden__city=city) |
+                                                    Q(garden__borough=city))
+            if state:
+                garden_filters = garden_filters & Q(garden__state=state)
+            if zip:
+                garden_filters = garden_filters & Q(garden__zip=zip)
+            if groups:
+                garden_filters = garden_filters & Q(garden__gardengroup__in=groups)
+            if garden_types:
+                garden_filters = garden_filters & Q(garden__type__in=garden_types)
+
+            when_filters = Q()
+            if start:
+                when_filters = when_filters & Q(recorded__gte=start)
+            if end:
+                when_filters = when_filters & Q(recorded__lte=end)
+            return Q(garden_filters & when_filters)
+
+        return explode_filters(**filters)
+
     def get_metrics(self, metrics=None, **kwargs):
         return registry.sorted(metrics=metrics)
 
@@ -160,27 +188,8 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
         if not metric:
             return []
 
-        garden_filters = Q()
-        if city:
-            # TODO if city OR borough OR "all NYC" -> all boroughs
-            garden_filters = garden_filters & Q(Q(garden__city=city) |
-                                                Q(garden__borough=city))
-        if state:
-            garden_filters = garden_filters & Q(garden__state=state)
-        if zip:
-            garden_filters = garden_filters & Q(garden__zip=zip)
-        if groups:
-            garden_filters = garden_filters & Q(garden__gardengroup__in=groups)
-        if garden_types:
-            garden_filters = garden_filters & Q(garden__type__in=garden_types)
-
-        when_filters = Q()
-        if start:
-            when_filters = when_filters & Q(recorded__gte=start)
-        if end:
-            when_filters = when_filters & Q(recorded__lte=end)
-
-        return metric['model'].objects.filter(garden_filters, when_filters) \
+        return metric['model'].objects \
+                .filter(self.get_queryset_filters(self.request)) \
                 .order_by('recorded') \
                 .public_dict()
 
@@ -256,7 +265,7 @@ class SpreadsheetView(FilteredApiMixin, TablibView):
             if not dataset_cls:
                 continue
 
-            ds = dataset_cls(**self.request_filters)
+            ds = dataset_cls(filters=self.get_queryset_filters(self.request))
 
             # Replace garden column with a randomized unique id
             index = ds.headers.index('garden')
