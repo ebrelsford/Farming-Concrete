@@ -159,7 +159,7 @@ class OverviewView(JSONResponseMixin, View):
 
     def get(self, request, *args, **kwargs):
         return self.render_json_response({
-            'gardens': Garden.objects.count(),
+            'gardens': Garden.objects.filter(has_metric_records=True).count(),
             'pounds_of_compost': self.get_compost_pounds(),
             'pounds_of_food': self.get_food_pounds(),
         })

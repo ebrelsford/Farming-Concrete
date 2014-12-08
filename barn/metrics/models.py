@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import Count, Max, Min
 from django.db.models.query import QuerySet
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
@@ -172,3 +174,15 @@ class BaseMetricRecord(AuditedModel):
         if gardens and not isinstance(gardens, (list, tuple)):
             gardens = (gardens,)
         return cls.summarize(cls.get_records(gardens=gardens, **kwargs))
+
+
+@receiver(post_save)
+def update_garden_has_records(sender, instance=None, **kwargs):
+    """
+    When a record is saved, make sure the garden it's associated with knows it
+    has records.
+    """
+    if not (instance and isinstance(instance, BaseMetricRecord)):
+        return
+    instance.garden.has_metric_records = True
+    instance.garden.save()

@@ -42,6 +42,8 @@ class Garden(models.Model):
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    has_metric_records = models.BooleanField(default=False)
+
     class Meta:
         permissions = (
             ('can_edit_any_garden', 'Can edit any garden'),
