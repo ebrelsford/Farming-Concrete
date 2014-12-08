@@ -218,11 +218,16 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
             gardens += [r['garden__pk'] for r in entry['records']]
         return len(set(gardens))
 
+    def get_metric_headers(self, metric):
+        fields = metric._meta.fields
+        return dict([(f.name, f.verbose_name.lower()) for f in fields])
+
     def get_results(self, **filters):
         metrics = self.get_metrics(**filters)
         metric_entries = []
         for metric in metrics:
             metric_entries.append({
+                'headers': self.get_metric_headers(metric['model']),
                 'name': metric['name'],
                 'records': list(self.get_records(metric=metric, **filters)),
             })
