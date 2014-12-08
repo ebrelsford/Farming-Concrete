@@ -92,16 +92,9 @@ class FilteredApiMixin(object):
         metrics = GET.getlist('metric')
         if len(metrics) == 1 and metrics[0] == '':
             metrics = None
-        return {
+        filters = {
             # Metrics
             'metrics': metrics,
-
-            # Where
-            'where': dict([(k, GET.get(k, None)) for k in self.where_fields]),
-
-            # When
-            'when': dict([(k, self.parse_date(GET.get(k, None))) for k in \
-                          self.when_fields]),
 
             # Groups
             'groups': GET.getlist('group'),
@@ -109,6 +102,15 @@ class FilteredApiMixin(object):
             # Garden types
             'garden_types': GET.getlist('garden_type'),
         }
+
+        # Where
+        filters.update(dict([(k, GET.get(k, None)) for k in self.where_fields]))
+
+        # When
+        filters.update(dict([(k, self.parse_date(GET.get(k, None))) for k 
+                             in self.when_fields]))
+
+        return filters
 
     def get_metrics(self, metrics=None, **kwargs):
         return registry.sorted(metrics=metrics)
@@ -174,9 +176,9 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
 
         when_filters = Q()
         if start:
-            when_filters & Q(recorded__gte=start)
+            when_filters = when_filters & Q(recorded__gte=start)
         if end:
-            when_filters & Q(recorded__lte=end)
+            when_filters = when_filters & Q(recorded__lte=end)
 
         return metric['model'].objects.filter(garden_filters, when_filters) \
                 .order_by('recorded') \
