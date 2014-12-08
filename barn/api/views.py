@@ -89,9 +89,12 @@ class FilteredApiMixin(object):
     def filters(self, request):
         """Get filters from the request"""
         GET = request.GET
+        metrics = GET.getlist('metric')
+        if len(metrics) == 1 and metrics[0] == '':
+            metrics = None
         return {
             # Metrics
-            'metrics': GET.getlist('metric'),
+            'metrics': metrics,
 
             # Where
             'where': dict([(k, GET.get(k, None)) for k in self.where_fields]),
