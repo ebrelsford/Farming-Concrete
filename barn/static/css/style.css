@@ -6618,6 +6618,11 @@ fieldset[disabled] .btn-primary.active {
   background: #ededed;
   border-left: none;
 }
+.select2-container .select2-choices {
+  background: #ededed;
+  border: none;
+  border-radius: 0;
+}
 .select2-drop {
   background: #ededed;
   border: none;
