@@ -26,4 +26,39 @@ h2#your-gardens-title {
     .actions {
         margin-top: 50px;
     }
+
+    .overview {
+
+        h2 {
+            border-bottom: @separator-border;
+            border-top: @section-border;
+        }
+
+        &-list {
+            .make-row();
+            padding-bottom: 40px;
+            padding-top: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+            &-item {
+                .make-sm-column(3);
+                text-align: center;
+
+                &-counting {
+                    color: @garden-color;
+                    font-weight: bold;
+                    margin-top: 60px;
+                }
+
+                &-number {
+                    .summary-callout-number();
+                }
+
+                &-label {
+                    .summary-callout-label();
+                }
+            }
+        }
+    }
 }

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load garden_tags i18n static %}
+{% load farmingconcrete_tags garden_tags humanize i18n static %}
 
 {% block title %}{% trans "Home" %}{% endblock %}
 
@@ -54,6 +54,32 @@
                         </a>
                     </div>
                 {% endif %}
+            </section>
+
+            <section class="overview">
+                <h2><img src="{% static "img/overview.jpg" %}" /></h2>
+                {% overview as overview_data %}
+                <div class="overview-list">
+                    <div class="overview-list-item">
+                        <div class="overview-list-item-number overview-gardens">
+                            {{ overview_data.gardens }}
+                        </div>
+                        <div class="overview-list-item-label">gardens recording data</div>
+                    </div>
+                    <div class="overview-list-item">
+                        <div class="overview-list-item-number overview-harvest-pounds">
+                            {{ overview_data.pounds_of_food|floatformat|intcomma }}
+                        </div>
+                        <div class="overview-list-item-label">pounds of food harvested</div>
+                    </div>
+                    <div class="overview-list-item">
+                        <div class="overview-list-item-number overview-compost-pounds">
+                            {{ overview_data.pounds_of_compost|floatformat|intcomma }}
+                        </div>
+                        <div class="overview-list-item-label">pounds of compost</div>
+                    </div>
+                    <div class="overview-list-item overview-list-item-counting">and counting!</div>
+                </div>
             </section>
 
             {% if user.is_authenticated %}

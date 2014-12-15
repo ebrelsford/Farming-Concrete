@@ -6002,7 +6002,9 @@ button.close {
 .garden-detail-page .metric-group .metric:before,
 .garden-detail-page .metric-group .metric:after,
 .garden-list-garden:before,
-.garden-list-garden:after {
+.garden-list-garden:after,
+.main-index-page .overview-list:before,
+.main-index-page .overview-list:after {
   content: " ";
   display: table;
 }
@@ -6042,7 +6044,8 @@ button.close {
 .moods-change-record .field-counts .moods-negative:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after,
-.garden-list-garden:after {
+.garden-list-garden:after,
+.main-index-page .overview-list:after {
   clear: both;
 }
 .center-block {
@@ -9706,6 +9709,45 @@ fieldset[disabled] .btn-add-garden.active {
 }
 .main-index-page .actions {
   margin-top: 50px;
+}
+.main-index-page .overview h2 {
+  border-bottom: 1px dotted #8c8c8c;
+  border-top: 1px solid #404040;
+}
+.main-index-page .overview-list {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.main-index-page .overview-list-item {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .main-index-page .overview-list-item {
+    float: left;
+    width: 25%;
+  }
+}
+.main-index-page .overview-list-item-counting {
+  color: #f63c04;
+  font-weight: bold;
+  margin-top: 60px;
+}
+.main-index-page .overview-list-item-number {
+  font-size: 48px;
+}
+.main-index-page .overview-list-item-label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 .olControlAttribution {
   bottom: 3px !important;
