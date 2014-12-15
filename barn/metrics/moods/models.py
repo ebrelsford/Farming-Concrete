@@ -12,7 +12,7 @@ class MoodChangeQuerySet(MetricQuerySet):
         values_args = self.public_dict_values_args + (
             'moods',
         )
-        return self.annotate(moods=Sum('mood_counts__moodcount__count')) \
+        return self.annotate(moods=Sum('moodcount__count')) \
                 .values(*values_args)
 
 
