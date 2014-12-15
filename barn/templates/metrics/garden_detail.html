@@ -41,6 +41,7 @@
     {% count_records metric_name garden=garden year=year as records_count %}
     {% if records_count %}
         <a class="btn btn-default btn-download-center" href="{% url "reports_export" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download data</a>
+        <a class="btn btn-default btn-download-center" href="{% url "reports_pdf" pk=garden.pk %}?metrics={{ metric_name|urlencode }}">download report</a>
     {% endif %}
 {% endblock %}
 
