@@ -32,7 +32,7 @@ class HoursByTaskQuerySet(MetricQuerySet):
         values_args = self.public_dict_values_args + (
             'hours',
         )
-        return self.annotate(hours=Sum('tasks__taskhours__hours')) \
+        return self.annotate(hours=Sum('taskhours__hours')) \
                 .values(*values_args)
 
 
