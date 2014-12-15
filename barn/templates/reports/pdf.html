@@ -220,9 +220,13 @@
 {% endblock %}
 
 {% block content %}
-    {% metrics_with_records garden=garden start=min end=max as metrics %}
-    {% for metric in metrics %}
-        {% metric_report_page metric.name garden %}
+    {% metrics_with_records garden=garden start=min end=max as recorded_metrics %}
+    {% for metric in recorded_metrics %}
+        {% if not selected_metrics %}
+            {% metric_report_page metric.name garden %}
+        {% elif metric.name in selected_metrics %}
+            {% metric_report_page metric.name garden %}
+        {% endif %}
     {% endfor %}
 {% endblock %}
 

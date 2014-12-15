@@ -75,15 +75,19 @@ class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
     template_name = 'reports/pdf.html'
 
     def get_params(self):
+        metrics = self.request.GET.get('metrics', None)
+        if metrics:
+            metrics = metrics.split(',')
         return (
             self.request.GET.get('min', None),
             self.request.GET.get('max', None),
             self.request.GET.get('year', None),
+            metrics,
         )
 
     def get_pdf_filename(self):
         garden = self.get_object()
-        min_date, max_date, year = self.get_params()
+        min_date, max_date, year, metrics = self.get_params()
         dates = ''
         if year:
             dates = year
@@ -96,7 +100,7 @@ class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
     def get_context_data(self, pk=None):
         self.object = self.get_object()
         context = super(PDFView, self).get_context_data()
-        min_date, max_date, year = self.get_params()
+        min_date, max_date, year, metrics = self.get_params()
 
         if min_date:
             min_date = datetime.strptime(min_date, '%m/%d/%Y')
@@ -117,6 +121,7 @@ class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
             'garden': self.object,
             'min': min_date,
             'max': max_date,
+            'selected_metrics': metrics,
             'today': date.today(),
         })
         return context
