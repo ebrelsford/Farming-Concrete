@@ -147,6 +147,9 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
 
 def line_fill(data_frame, destination_file, color='#F63C04', xlabel='',
               ylabel='', **kwargs):
+    # Line charts with one or fewer points make very little sense
+    if len(data_frame) <= 1:
+        return None
     _set_font()
     data_frame.plot(kind='line', color=color, linewidth=1)
 

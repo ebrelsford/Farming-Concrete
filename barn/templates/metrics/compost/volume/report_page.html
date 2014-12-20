@@ -29,13 +29,14 @@
                 </div>
             </td>
         </tr>
+        {% compost_volume_line_chart garden=garden start=min end=max as chart_url %}
+        {% if chart_url %}
         <tr>
             <td colspan="2" class="chart-separator"></td>
         </tr>
         <tr>
             <td class="metric-chart-left-padding"></td>
             <td>
-                {% compost_volume_line_chart garden=garden start=min end=max as chart_url %}
                 <img class="metric-chart metric-chart-compost-volume" src="{% get_media_prefix %}{{ chart_url }}" />
             </td>
         </tr>
@@ -46,5 +47,6 @@
                 </div>
             </td>
         </tr>
+        {% endif %}
     </table>
 {% endblock %}
