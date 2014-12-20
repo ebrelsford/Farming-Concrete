@@ -11,6 +11,7 @@ class GardenType(models.Model):
 
     name = models.CharField(max_length=64)
     short_name = models.CharField(max_length=32)
+    description = models.TextField(blank=True, null=True)
 
 
 class Garden(models.Model):
