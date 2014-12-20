@@ -9390,6 +9390,17 @@ h2 a.text {
     width: 50%;
   }
 }
+.add-gardens-page .field-type-help {
+  color: white;
+  cursor: pointer;
+  background: black;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: bold;
+  height: 20px;
+  text-align: center;
+  width: 20px;
+}
 .add-gardens-page .field-address {
   position: relative;
   min-height: 1px;
@@ -9464,6 +9475,11 @@ h2 a.text {
 }
 .add-gardens-page .field-groups .help-text {
   display: none;
+}
+.add-gardens-page .tooltip-inner {
+  max-width: 400px;
+  text-align: left;
+  width: 400px;
 }
 .add-garden-map {
   height: 200px;

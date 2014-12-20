@@ -1,0 +1,6 @@
+{% for type, description in garden_types.items %}
+    <div>
+        <strong>{{ type }}</strong>
+    </div>
+    <p>{{ description|default:"No description." }}</p>
+{% endfor %}

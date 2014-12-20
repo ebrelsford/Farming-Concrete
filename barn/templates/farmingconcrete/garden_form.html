@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load garden_tags i18n widget_tweaks %}
+{% load farmingconcrete_tags garden_tags i18n widget_tweaks %}
 
 {% block title %}{% include "farmingconcrete/garden_form_title.html" with garden=garden %}{% endblock %}
 {% block header_title %}{% include "farmingconcrete/garden_form_title.html" with garden=garden %}{% endblock %}
@@ -56,7 +56,25 @@
                         </div>
                     {% endwith %}
 
-                    {% include "forms/field.html" with field=form.type %}
+                    {% with field=form.type %}
+                        <div class="form-group field-type {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                            <div class="control-label">
+                                <div style="float: right;" class="field-type-help" data-toggle="tooltip" data-placement="left" data-html="true" title="{% garden_type_descriptions %}">?</div>
+                                {{ field.label_tag }}
+                            </div>
+                            <div class="controls">
+                                {% render_field field class+="form-control" placeholder=field.help_text %}
+
+                                {% if field.errors %}
+                                    <div class="help-block">
+                                        {% for error in field.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endwith %}
                 </div>
                 <div class="row">
                     {% include "forms/field.html" with field=form.address %}

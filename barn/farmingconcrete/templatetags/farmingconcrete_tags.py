@@ -1,11 +1,13 @@
+from collections import OrderedDict
+
 from django import template
 from django.db.models import Sum
 
 from classytags.arguments import Argument
 from classytags.core import Options
-from classytags.helpers import AsTag
+from classytags.helpers import AsTag, InclusionTag
 
-from farmingconcrete.models import Garden
+from farmingconcrete.models import Garden, GardenType
 from metrics.compost.models import CompostProductionWeight
 from metrics.harvestcount.models import Harvest
 
@@ -35,4 +37,16 @@ class Overview(AsTag):
         return context
 
 
+class GardenTypeDescriptions(InclusionTag):
+    template = 'farmingconcrete/garden_type_descriptions.html'
+
+    def get_context(self, context):
+        descriptions = OrderedDict()
+        for garden_type in GardenType.objects.all().order_by('name'):
+            descriptions[garden_type.name] = garden_type.description
+        context['garden_types'] = descriptions
+        return context
+
+
 register.tag(Overview)
+register.tag(GardenTypeDescriptions)

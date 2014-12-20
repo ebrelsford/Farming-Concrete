@@ -13,6 +13,7 @@ define(
         'geocode',
 
         // Other requirements
+        'bootstrap',
         'jquery.form',
         'jquery.spin',
         'leaflet.dataoptions',
@@ -177,6 +178,8 @@ define(
                     return false;
                 });
             });
+
+            $('[data-toggle="tooltip"]').tooltip();
         });
 
     }
