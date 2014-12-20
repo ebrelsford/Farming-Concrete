@@ -73,4 +73,9 @@ register('Rainwater Harvesting', {
     'short_name': 'harvest',
     'dataset': RainwaterHarvestDataset,
     'public_dataset': PublicRainwaterHarvestDataset,
+    'description': _('This report utilizes rainfall data from local weather '
+                     'stations to measure the total gallons of rainwater your '
+                     'garden harvested for a specified period (top graph) and '
+                     'for the whole period you\'ve been collecting this data '
+                     '(bottom graph).'),
 })

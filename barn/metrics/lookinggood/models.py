@@ -89,4 +89,10 @@ register('Beauty of the Garden', {
     'short_name': 'event',
     'dataset': LookingGoodDataset,
     'public_dataset': PublicLookingGoodDataset,
+    'description': _('Green spaces in the form of community gardens and urban '
+                     'farms add to the beauty of neighborhoods. This protocol '
+                     'will help you discover what everyone living near your '
+                     'garden feels about its contribution to the community. '
+                     'This report illustrates what visitors, volunteers and '
+                     'members are attracted to in the garden.'),
 })

@@ -115,4 +115,15 @@ register('Good Moods in the Garden', {
     'short_name': 'change',
     'dataset': MoodChangeDataset,
     'public_dataset': PublicMoodChangeDataset,
+    'description': _('Community gardens and green spaces are believed to '
+                     'positively impact emotional wellbeing of people they '
+                     'serve. They reduce stress and increase feelings of '
+                     'happiness and peacefulness. In order to evaluate this '
+                     'valuable quality of your garden, this report measures '
+                     'all of the good and bad moods people registered as they '
+                     'walked in and out of your garden in a particular '
+                     'period. The following results will help you understand '
+                     'your garden\'s emotional value and might also lead to '
+                     'different ways to make your space have an increased '
+                     'positive impact on participants and visitors.'),
 })

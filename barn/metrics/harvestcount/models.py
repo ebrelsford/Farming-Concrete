@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Sum
+from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
@@ -105,4 +106,8 @@ register('Harvest Count', {
     'index_url_name': 'harvestcount_index',
     'dataset': HarvestcountDataset,
     'public_dataset': PublicHarvestcountDataset,
+    'description': _('This report tallies up all of the pounds of produce '
+                     'harvested in your garden this year. Keeping track of '
+                     'your produce helps you quantify the wealth of fruits '
+                     'and vegetables grown in your garden.'),
 })

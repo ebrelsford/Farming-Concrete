@@ -60,4 +60,12 @@ register('Donations of Food', {
     'group_number': 4,
     'dataset': DonationDataset,
     'public_dataset': PublicDonationDataset,
+    'description': _('Many community gardeners are motivated to grow fresh '
+                     'and healthy vegetables for food banks, soup kitchens, '
+                     'and other charitable organizations. In fact, some '
+                     'gardens grow food with no other goal in mind. Tracking '
+                     'the amount of food you donate can help pantries better '
+                     'manage their weekly inventories. This report quantifies '
+                     'the type and quantity of produce donated by your garden '
+                     'in a specified period.')
 })

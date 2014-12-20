@@ -64,4 +64,11 @@ register('Changes in Attitude: Yum & Yuck', {
     'short_name': 'change',
     'dataset': YumYuckDataset,
     'public_dataset': PublicYumYuckDataset,
+    'description': _('Some community gardens and urban farms - particularly '
+                     'those that feature programs for school-age youth - have '
+                     'some sense of how they want to change attitudes about '
+                     'eating fresh fruits and vegetables. This report '
+                     'measures how many attitudes changed from negative to '
+                     'positive about a particular vegetable after doing a '
+                     'taste-test in the garden.'),
 })

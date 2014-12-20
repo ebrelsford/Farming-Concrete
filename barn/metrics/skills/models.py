@@ -112,4 +112,14 @@ register('Skills & Knowledge in the Garden', {
     'short_name': 'smarts',
     'dataset': SmartsAndSkillsDataset,
     'public_dataset': PublicSmartsAndSkillsDataset,
+    'description': _('Discovering all of the skills and knowledge within a '
+                     'gardening community can help gardeners make connections '
+                     'with each other and take on new projects for a stronger '
+                     'garden. This report measures the number of skills, new '
+                     'ideas and opportunities for collaboration within your '
+                     'garden and the bigger urban agriculture community in '
+                     'your city. The bottom of the report also lists some '
+                     'examples of the types of skills, ideas, concepts, and '
+                     'potential collaborations or projects shared during your '
+                     'workshops.'),
 })

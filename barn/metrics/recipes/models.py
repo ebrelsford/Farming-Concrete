@@ -51,4 +51,12 @@ register('Healthy Eating', {
     'short_name': 'tally',
     'dataset': RecipeTallyDataset,
     'public_dataset': PublicRecipeTallyDataset,
+    'description': _('Community gardens and urban farms make freshly picked '
+                     'produce accessible and affordable for city dwellers. '
+                     'Discovering how people use garden-grown produce in '
+                     'their kitchens can influence what gets planted each '
+                     'year. This protocol helps you record all the recipes '
+                     'that were created using your garden produce, and the '
+                     'report measures the number of recipes shared in a '
+                     'specified period.'),
 })

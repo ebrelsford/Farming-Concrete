@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Sum
+from django.utils.translation import ugettext_lazy as _
 
 from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 from ..registry import register
@@ -97,6 +98,16 @@ register('Landfill Waste Diversion by Weight', {
     'short_name': 'weight',
     'dataset': WeightDataset,
     'public_dataset': PublicWeightDataset,
+    'description': _('This report displays the total pounds of trash your '
+                     'garden prevented from going into a landfill by turning '
+                     'it into compost instead. Garden composting helps divert '
+                     'a significant amount of waste that would have gone into '
+                     'the landfill waste stream. Calculating the weight of '
+                     'waste diverted measures your garden\'s positive '
+                     'environmental impact. The top graph shows waste '
+                     'diverted for specified time period, and the bottom '
+                     'graph shows the total gallons diverted since you '
+                     'started collecting data.'),
 })
 
 
@@ -112,4 +123,14 @@ register('Landfill Waste Diversion by Volume', {
     'short_name': 'volume',
     'dataset': VolumeDataset,
     'public_dataset': PublicVolumeDataset,
+    'description': _('This report displays the total gallons of trash '
+                     'prevented from going into a landfill by turning it into '
+                     'compost instead. Garden composting helps divert a '
+                     'significant amount of waste that would have gone into '
+                     'the landfill waste stream. Calculating the volume of '
+                     'waste diverted measures your garden\'s positive '
+                     'environmental impact. The top graph shows waste '
+                     'diverted for specified time period, and the bottom '
+                     'graph shows the total gallons diverted since you '
+                     'started collecting data.'),
 })

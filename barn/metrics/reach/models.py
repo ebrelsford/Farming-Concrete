@@ -176,4 +176,9 @@ register('Reach of Programs', {
     'short_name': 'program',
     'dataset': ProgramReachDataset,
     'public_dataset': PublicProgramReachDataset,
+    'description': _('This report displays the number of people who attended '
+                     'the various programs offered in your garden during a '
+                     'specified time period. The report also references the '
+                     'age, gender, and geographic location of attendees, as '
+                     'well as the nature of the program.'),
 })

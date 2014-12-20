@@ -73,4 +73,12 @@ register('Market Sales', {
     'group_number': 4,
     'dataset': SaleDataset,
     'public_dataset': PublicSaleDataset,
+    'description': _('Making fresh vegetables accessible and affordable to '
+                     'city-dwellers is one of the joys of urban gardening. '
+                     'This protocol helps you track what you\'re selling, and '
+                     'how much you\'re making, at local farmer\'s markets. '
+                     'These results are powerful source of information for '
+                     'adjusting what you choose to sell each week, or for '
+                     'quantifying how your garden contributes to the local '
+                     'economy.'),
 })
