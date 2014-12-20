@@ -276,11 +276,15 @@ class SpreadsheetView(FilteredApiMixin, TablibView):
             ds = dataset_cls(filters=self.get_queryset_filters(self.request))
 
             # Replace garden column with a randomized unique id
-            index = ds.headers.index('garden')
-            ds.insert_col(index,
-                          lambda r: obfuscated_garden(garden_mapping, r, index), 
-                          header='garden unique id')
-            del ds['garden']
+            try:
+                index = ds.headers.index('garden')
+                ds.insert_col(index,
+                              lambda r: obfuscated_garden(garden_mapping, r, index), 
+                              header='garden unique id')
+                del ds['garden']
+            except IndexError:
+                # Ignore case where garden column not present
+                pass
 
             # Only append if there is data to append
             if not ds.height:
