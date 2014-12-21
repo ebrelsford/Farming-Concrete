@@ -19,7 +19,6 @@
         'addlookinggoodeventpage',
         'addparticipationhourspage',
         'addsales',
-        'chosen.jquery_ready',
         'gardenmemberlist',
         'leaflet.basicmap',
         'landfilldiversionvolumechart',

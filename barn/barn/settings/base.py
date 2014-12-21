@@ -128,7 +128,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'ajax_select',
-    'chosen',
     'compressor',
     'djangojs',
     'easy_pdf',

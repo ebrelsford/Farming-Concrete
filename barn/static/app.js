@@ -27,8 +27,6 @@ requirejs.config({
     },
     shim: {
         'bootstrap': ['jquery'],
-        'chosen.jquery.min': ['jquery'],
-        'chosen.jquery_ready': ['jquery', 'chosen.jquery.min'],
         'd3': {
             exports: 'd3'
         },
