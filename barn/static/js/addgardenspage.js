@@ -17,7 +17,8 @@ define(
         'jquery.form',
         'jquery.spin',
         'leaflet.dataoptions',
-        'leaflet.usermarker'
+        'leaflet.usermarker',
+        'newgardengroupwidget'
     ], function ($, Django, L, geocode) {
 
         var map;

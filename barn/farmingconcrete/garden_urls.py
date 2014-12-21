@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
 
-from .views import (AddSuggestedGardenView, CreateGardenView, GardenDetails,
+from .views import (AddSuggestedGardenView, CreateGardenView,
+                    CreateGardenGroupView, GardenDetails,
                     GardenGroupDetailView, GardenSuggestionView, UserGardens,
                     UserGardenLeaveView, UpdateGardenView,
                     UserGardenLeaveConfirmedView)
@@ -21,6 +22,9 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$', GardenDetails.as_view(),
         name='farmingconcrete_garden_details'
     ),
+
+    url(r'^group/add/$', CreateGardenGroupView.as_view(),
+        name='farmingconcrete_gardengroup_add'),
 
     url(r'^group/(?P<pk>\d+)/$', GardenGroupDetailView.as_view(),
         name='farmingconcrete_gardengroup_detail',

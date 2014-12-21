@@ -1,5 +1,6 @@
 from datetime import datetime
 import geojson
+import json
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
@@ -18,7 +19,7 @@ from generic.views import (DefaultYearMixin, LoginRequiredMixin,
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
-from .forms import GardenForm
+from .forms import GardenForm, GardenGroupForm
 from .models import Garden, GardenGroup, GardenType
 
 
@@ -285,3 +286,32 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
 
 class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
+
+
+class CreateGardenGroupView(LoginRequiredMixin, CreateView):
+    form_class = GardenGroupForm
+    model = GardenGroup
+    template_name = 'farmingconcrete/gardengroup/gardengroup_form.html'
+
+    def get_initial(self):
+        initial = self.initial.copy()
+        initial.update({
+            'added_by': self.request.user,
+            'updated_by': self.request.user,
+        })
+        return initial
+
+    def get_gardengroup(self, name, user):
+        return GardenGroup.objects.get_or_create(
+            name=name,
+            added_by=user,
+        )
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        gardengroup, created = self.get_gardengroup(name, self.request.user)
+        self.object = gardengroup
+        return HttpResponse(json.dumps({
+            'name': gardengroup.name,
+            'pk': gardengroup.pk,
+        }), content_type='application/json')

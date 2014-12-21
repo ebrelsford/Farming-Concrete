@@ -1,12 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.forms import (Form, HiddenInput, IntegerField, ModelForm,
-                          ModelChoiceField, ValidationError)
+                          ModelChoiceField, ModelMultipleChoiceField,
+                          ValidationError)
 
 from ajax_select.fields import AutoCompleteSelectField
-import chosen.forms
+from floppyforms.widgets import SelectMultiple
 
 from accounts.utils import get_profile
 from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
+
+
+class AddNewGardenGroupWidget(SelectMultiple):
+    template_name = 'farmingconcrete/gardengroup/new_gardengroup_widget.html'
 
 
 class GardenTypeField(ModelChoiceField):
@@ -48,9 +53,10 @@ class GardenForm(ModelForm):
         widget=HiddenInput(),
     )
     type = GardenTypeField()
-    groups = chosen.forms.ChosenModelMultipleChoiceField(
+    groups = ModelMultipleChoiceField(
         queryset=GardenGroup.objects.all().order_by('name'),
         required=False,
+        widget=AddNewGardenGroupWidget(),
     )
     added_by = ModelChoiceField(
         queryset=get_user_model().objects.all(),
@@ -76,7 +82,10 @@ class GardenForm(ModelForm):
             )
 
     def clean(self):
+        print 'clean:', self.data
         cleaned_data = super(GardenForm, self).clean()
+
+        print 'clean:', cleaned_data
 
         latitude = cleaned_data.get('latitude')
         longitude = cleaned_data.get('longitude')
@@ -135,3 +144,15 @@ class GardenForm(ModelForm):
             )
             membership.save()
         return garden
+
+
+class GardenGroupForm(ModelForm):
+
+    class Meta:
+        model = GardenGroup
+        exclude = ('description', 'gardens',)
+        widgets = {
+            'added_by': HiddenInput(),
+            'needs_moderation': HiddenInput(),
+            'updated_by': HiddenInput(),
+        }
