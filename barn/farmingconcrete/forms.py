@@ -63,6 +63,10 @@ class GardenForm(ModelForm):
         widget=HiddenInput(),
     )
 
+    def _privacy_fields(self):
+        return [self[name] for name in ('share_name', 'share_location',)]
+    privacy_fields = property(_privacy_fields)
+
     class Meta:
         model = Garden
         exclude = ('gardenid', 'added', 'updated')

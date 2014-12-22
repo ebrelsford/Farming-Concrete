@@ -14,7 +14,21 @@ class GardenType(models.Model):
     description = models.TextField(blank=True, null=True)
 
 
-class Garden(models.Model):
+class PrivacyMixin(models.Model):
+    share_name = models.BooleanField(_('share garden name'),
+        default=False,
+        help_text=_("Share the garden's name in publicly available data."),
+    )
+    share_location = models.BooleanField(_('share garden location'),
+        default=False,
+        help_text=_("Share the garden's location in publicly available data."),
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Garden(PrivacyMixin, models.Model):
     name = models.CharField('garden name', max_length=512)
     type = models.ForeignKey(GardenType)
     gardenid = models.CharField(max_length=64, null=True, blank=True)

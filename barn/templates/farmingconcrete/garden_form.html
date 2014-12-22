@@ -91,6 +91,18 @@
                     {% include "forms/field.html" with field=form.groups %}
                 </div>
 
+                <section class="add-garden-privacy">
+                    <h2>Privacy settings</h2>
+                    <p>
+                        {% trans "Your data will be made anonymously available on the" %}
+                        <a href="/mill/">Mill</a>.
+                        {% trans "If you would like to share more information about your garden, enable the following settings:" %}
+                    </p>
+                    {% for field in form.privacy_fields %}
+                        {% include "farmingconcrete/gardens/privacy_checkbox_field.html" %}
+                    {% endfor %}
+                </section>
+
                 {% include "forms/buttons.html" %}
             </form>
         </section>

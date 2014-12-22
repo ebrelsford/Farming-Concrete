@@ -6733,7 +6733,8 @@ input.ac_loading {
   -webkit-box-shadow: none;
   box-shadow: none;
   display: inline;
-  width: inherit;
+  height: 15px;
+  width: 15px;
 }
 .projecthours-formset {
   margin-top: 35px;
@@ -9486,6 +9487,12 @@ h2 a.text {
   color: #d9534f;
   display: none;
   font-weight: bold;
+}
+.add-garden-privacy {
+  margin-top: 50px;
+}
+.add-garden-privacy .form-group {
+  margin-bottom: 0;
 }
 .add-garden-current-members {
   margin-top: 75px;
