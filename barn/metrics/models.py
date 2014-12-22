@@ -122,6 +122,27 @@ class BaseMetricRecord(AuditedModel):
         return self.garden.zip
     garden_zip = property(_garden_zip)
 
+    def _garden_public_name(self):
+        """Get garden name, if allowed"""
+        if self.garden.share_name:
+            return self.garden.name
+        return None
+    garden_public_name = property(_garden_public_name)
+
+    def _garden_public_latitude(self):
+        """Get garden latitude, if allowed"""
+        if self.garden.share_location:
+            return self.garden.latitude
+        return None
+    garden_public_latitude = property(_garden_public_latitude)
+
+    def _garden_public_longitude(self):
+        """Get garden longitude, if allowed"""
+        if self.garden.share_location:
+            return self.garden.longitude
+        return None
+    garden_public_longitude = property(_garden_public_longitude)
+
     class Meta:
         abstract = True
 

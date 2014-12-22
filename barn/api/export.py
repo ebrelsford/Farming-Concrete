@@ -22,6 +22,18 @@ class PublicMetricDatasetMixin(DynamicQuerysetDatasetMixin):
         self.base_fields.update({
             'garden_zip': Field(attribute='garden_zip', header='garden zip code')
         })
+        self.base_fields.update({
+            'garden_name': Field(attribute='garden_public_name',
+                                 header='garden name')
+        })
+        self.base_fields.update({
+            'garden_latitude': Field(attribute='garden_public_latitude',
+                                     header='garden latitude')
+        })
+        self.base_fields.update({
+            'garden_longitude': Field(attribute='garden_public_longitude',
+                                      header='garden longitude')
+        })
 
         # Update fields to be exported
         self._meta.fields = [
@@ -29,6 +41,9 @@ class PublicMetricDatasetMixin(DynamicQuerysetDatasetMixin):
             'garden_pk',
             'garden_state',
             'garden_zip',
+            'garden_name',
+            'garden_latitude',
+            'garden_longitude',
         ] + self._meta.fields
 
         self._meta.field_order += (
@@ -36,6 +51,9 @@ class PublicMetricDatasetMixin(DynamicQuerysetDatasetMixin):
             'garden_pk',
             'garden_state',
             'garden_zip',
+            'garden_name',
+            'garden_latitude',
+            'garden_longitude',
         )
 
         super(PublicMetricDatasetMixin, self).__init__()
@@ -49,4 +67,7 @@ class PublicMetricDatasetMixin(DynamicQuerysetDatasetMixin):
             'garden_pk',
             'garden_state',
             'garden_zip',
+            'garden_name',
+            'garden_latitude',
+            'garden_longitude',
         )
