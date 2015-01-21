@@ -62,5 +62,9 @@ class PublicHarvestcountDataset(HarvestcountDatasetMixin,
 
     def __init__(self, *args, **kwargs):
         super(PublicHarvestcountDataset, self).__init__(*args, **kwargs)
-        self.append_col(self.gardener_unique_id, header='gardener unique id') 
+        try:
+            self.append_col(self.gardener_unique_id, header='gardener unique id') 
+        except IndexError:
+            # Thrown on empty dataset
+            pass
         del self['gardener']
