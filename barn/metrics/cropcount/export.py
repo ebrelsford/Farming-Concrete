@@ -68,5 +68,9 @@ class PublicCropcountDataset(CropcountDatasetMixin, PublicMetricDatasetMixin,
 
     def __init__(self, *args, **kwargs):
         super(PublicCropcountDataset, self).__init__(*args, **kwargs)
-        self.append_col(self.bed_unique_id, header='bed unique id') 
+        try:
+            self.append_col(self.bed_unique_id, header='bed unique id') 
+        except IndexError:
+            # Thrown on empty dataset
+            pass
         del self['box']
