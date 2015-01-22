@@ -56,7 +56,7 @@ def kml(request):
     }
     return render_to_response('harvestmap/gardens.kml', context,
                               context_instance=RequestContext(request),
-                              mimetype='application/vnd.google-earth.kml+xml')
+                              content_type='application/vnd.google-earth.kml+xml')
 
 def data(request):
     """
@@ -88,7 +88,7 @@ def data(request):
         else:
             totals = {}
 
-    return HttpResponse(json.dumps(totals), mimetype='application/json')
+    return HttpResponse(json.dumps(totals), content_type='application/json')
 
 def _get_data(year, borough=None, neighborhood=None, variety=None, type=None):
     """

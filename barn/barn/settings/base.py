@@ -134,7 +134,6 @@ INSTALLED_APPS = (
     'feedback',
     'floppyforms',
     'registration',
-    'south',
     'widget_tweaks',
 
     'accounts',
@@ -145,7 +144,7 @@ INSTALLED_APPS = (
     'farmingconcrete',
     'harvestmap',
     'imagekit',
-    'metrics',
+    'metrics.base',
     'metrics.compost',
     'metrics.cropcount',
     'metrics.donations',
@@ -224,3 +223,5 @@ NOAA_TOKEN = get_env_variable('FARMING_CONCRETE_NOAA_TOKEN')
 BASE_URL = get_env_variable('FARMING_CONCRETE_BASE_URL')
 
 MAX_INVITES = 50
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'

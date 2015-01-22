@@ -142,7 +142,7 @@ def quantity_for_last_harvest(request, pk=None, year=None):
             result['area'] = float(harvest.area)
         except:
             result['area'] = None
-    return HttpResponse(json.dumps(result), mimetype='application/json')
+    return HttpResponse(json.dumps(result), content_type='application/json')
 
 
 class GardenerAddView(LoginRequiredMixin, PermissionRequiredMixin,

@@ -7,9 +7,10 @@ from classytags.arguments import Argument
 from classytags.helpers import AsTag
 import pandas as pd
 
+from metrics.base.templatetags.metrics_tags import (ChartMixin,
+                                                    MetricRecordsMixin,
+                                                    MetricTotalTag)
 from metrics.charts import vertical_bar, make_chart_name
-from metrics.templatetags.metrics_tags import (ChartMixin, MetricRecordsMixin,
-                                               MetricTotalTag)
 from ..models import LookingGoodEvent, LookingGoodPhoto
 
 register = template.Library()

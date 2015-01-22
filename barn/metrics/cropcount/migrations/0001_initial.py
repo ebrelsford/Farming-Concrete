@@ -1,94 +1,58 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Box'
-        db.create_table('cropcount_box', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('garden', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['farmingconcrete.Garden'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('length', self.gf('django.db.models.fields.DecimalField')(max_digits=4, decimal_places=1)),
-            ('width', self.gf('django.db.models.fields.DecimalField')(max_digits=4, decimal_places=1)),
-            ('added', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal('cropcount', ['Box'])
-
-        # Adding model 'Patch'
-        db.create_table('cropcount_patch', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('box', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cropcount.Box'])),
-            ('variety', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['farmingconcrete.Variety'])),
-            ('plants', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('area', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=4, decimal_places=2, blank=True)),
-            ('added', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal('cropcount', ['Patch'])
+from django.db import models, migrations
+from django.conf import settings
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Box'
-        db.delete_table('cropcount_box')
+class Migration(migrations.Migration):
 
-        # Deleting model 'Patch'
-        db.delete_table('cropcount_patch')
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('farmingconcrete', '0001_initial'),
+        ('crops', '0001_initial'),
+    ]
 
-
-    models = {
-        'cropcount.box': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Box'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'garden': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['farmingconcrete.Garden']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'length': ('django.db.models.fields.DecimalField', [], {'max_digits': '4', 'decimal_places': '1'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'width': ('django.db.models.fields.DecimalField', [], {'max_digits': '4', 'decimal_places': '1'})
-        },
-        'cropcount.patch': {
-            'Meta': {'ordering': "['variety']", 'object_name': 'Patch'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'area': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '4', 'decimal_places': '2', 'blank': 'True'}),
-            'box': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cropcount.Box']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'plants': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'variety': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['farmingconcrete.Variety']"})
-        },
-        'farmingconcrete.garden': {
-            'Meta': {'object_name': 'Garden'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'address': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'borough': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'gardenid': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'latitude': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '9', 'decimal_places': '6', 'blank': 'True'}),
-            'longitude': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '9', 'decimal_places': '6', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
-            'neighborhood': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['farmingconcrete.GardenType']"}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'zip': ('django.db.models.fields.CharField', [], {'max_length': '16'})
-        },
-        'farmingconcrete.gardentype': {
-            'Meta': {'ordering': "['name']", 'object_name': 'GardenType'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '32'})
-        },
-        'farmingconcrete.variety': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Variety'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'})
-        }
-    }
-
-    complete_apps = ['cropcount']
+    operations = [
+        migrations.CreateModel(
+            name='Box',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('added', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('name', models.CharField(max_length=32)),
+                ('length', models.DecimalField(max_digits=4, decimal_places=1)),
+                ('width', models.DecimalField(max_digits=4, decimal_places=1)),
+                ('added_by', models.ForeignKey(related_name='cropcount_box_added', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('garden', models.ForeignKey(to='farmingconcrete.Garden')),
+                ('updated_by', models.ForeignKey(related_name='cropcount_box_updated', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+            ],
+            options={
+                'ordering': ['name'],
+                'verbose_name_plural': 'Boxes',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Patch',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('added', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('recorded', models.DateField(help_text='The date this was recorded', null=True, verbose_name='recorded', blank=True)),
+                ('quantity', models.DecimalField(max_digits=5, decimal_places=2)),
+                ('units', models.CharField(max_length=15, choices=[(b'plants', b'plants'), (b'row feet', b'row feet'), (b'square feet', b'square feet')])),
+                ('added_by', models.ForeignKey(related_name='cropcount_patch_added', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('box', models.ForeignKey(to='cropcount.Box')),
+                ('crop', models.ForeignKey(to='crops.Crop', null=True)),
+                ('crop_variety', models.ForeignKey(blank=True, to='crops.Variety', null=True)),
+                ('garden', models.ForeignKey(blank=True, to='farmingconcrete.Garden', help_text='The garden this refers to', null=True, verbose_name='garden')),
+                ('updated_by', models.ForeignKey(related_name='cropcount_patch_updated', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+            ],
+            options={
+                'ordering': ['crop'],
+                'verbose_name_plural': 'Patches',
+            },
+            bases=(models.Model,),
+        ),
+    ]

@@ -1,11 +1,8 @@
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
 from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
-from ..registry import register
 
 
 class CropCountQuerySet(MetricQuerySet):
@@ -116,25 +113,3 @@ class Patch(BaseMetricRecord):
             'plants': patches.filter(units='plants').aggregate(models.Sum('quantity'))['quantity__sum'],
             'recorded_max': patches.aggregate(models.Max('recorded'))['recorded__max'],
         }
-
-
-from .export import CropcountDataset, PublicCropcountDataset
-
-
-register('Crop Count', {
-    'all_gardens_url_name': 'cropcount_all_gardens',
-    'bed_content_type': ContentType.objects.get_for_model(Box),
-    'model': Patch,
-    'number': 1,
-    'garden_detail_url_name': 'cropcount_garden_details',
-    'group': 'Food Production Data',
-    'group_number': 0,
-    'index_url_name': 'cropcount_index',
-    'dataset': CropcountDataset,
-    'public_dataset': PublicCropcountDataset,
-    'description': _('Keeping track of your crop count helps you get a handle '
-                     'on the annual productivity of your garden. This report '
-                     'displays total number of crops in a garden, and how '
-                     'many plants of each crop type measure by bed, row feet '
-                     'or square feet.'),
-})

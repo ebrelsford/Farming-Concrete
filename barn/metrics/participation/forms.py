@@ -40,6 +40,7 @@ class HoursByGeographyForm(RecordForm):
 
 class TaskHoursForm(ModelForm):
     class Meta:
+        fields = '__all__'
         model = TaskHours
 
 
@@ -67,6 +68,7 @@ class AddNewProjectWidget(Select):
 class ProjectForm(ModelForm):
 
     class Meta:
+        fields = '__all__'
         model = Project
         widgets = {
             'garden': HiddenInput(),

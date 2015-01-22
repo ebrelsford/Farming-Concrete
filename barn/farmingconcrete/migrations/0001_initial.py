@@ -1,85 +1,92 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'GardenType'
-        db.create_table('farmingconcrete_gardentype', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('short_name', self.gf('django.db.models.fields.CharField')(max_length=32)),
-        ))
-        db.send_create_signal('farmingconcrete', ['GardenType'])
-
-        # Adding model 'Garden'
-        db.create_table('farmingconcrete_garden', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=512)),
-            ('type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['farmingconcrete.GardenType'])),
-            ('gardenid', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True)),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('borough', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('neighborhood', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('zip', self.gf('django.db.models.fields.CharField')(max_length=16)),
-            ('longitude', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=9, decimal_places=6, blank=True)),
-            ('latitude', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=9, decimal_places=6, blank=True)),
-            ('added', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal('farmingconcrete', ['Garden'])
-
-        # Adding model 'Variety'
-        db.create_table('farmingconcrete_variety', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-        ))
-        db.send_create_signal('farmingconcrete', ['Variety'])
+from django.db import models, migrations
+from django.conf import settings
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'GardenType'
-        db.delete_table('farmingconcrete_gardentype')
+class Migration(migrations.Migration):
 
-        # Deleting model 'Garden'
-        db.delete_table('farmingconcrete_garden')
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
-        # Deleting model 'Variety'
-        db.delete_table('farmingconcrete_variety')
-
-
-    models = {
-        'farmingconcrete.garden': {
-            'Meta': {'object_name': 'Garden'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'address': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'borough': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'gardenid': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'latitude': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '9', 'decimal_places': '6', 'blank': 'True'}),
-            'longitude': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '9', 'decimal_places': '6', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
-            'neighborhood': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['farmingconcrete.GardenType']"}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'zip': ('django.db.models.fields.CharField', [], {'max_length': '16'})
-        },
-        'farmingconcrete.gardentype': {
-            'Meta': {'ordering': "['name']", 'object_name': 'GardenType'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '32'})
-        },
-        'farmingconcrete.variety': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Variety'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'})
-        }
-    }
-
-    complete_apps = ['farmingconcrete']
+    operations = [
+        migrations.CreateModel(
+            name='Garden',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('share_name', models.BooleanField(default=False, help_text="Share the garden's name in publicly available data.", verbose_name='share garden name')),
+                ('share_location', models.BooleanField(default=False, help_text="Share the garden's location in publicly available data.", verbose_name='share garden location')),
+                ('name', models.CharField(max_length=512, verbose_name=b'garden name')),
+                ('gardenid', models.CharField(max_length=64, null=True, blank=True)),
+                ('address', models.CharField(max_length=64, verbose_name=b'address')),
+                ('city', models.CharField(max_length=128, null=True, verbose_name='city', blank=True)),
+                ('state', models.CharField(max_length=128, null=True, verbose_name='state', blank=True)),
+                ('borough', models.CharField(blank=True, max_length=32, null=True, choices=[(b'Brooklyn', b'Brooklyn'), (b'Bronx', b'Bronx'), (b'Manhattan', b'Manhattan'), (b'Queens', b'Queens'), (b'Staten Island', b'Staten Island')])),
+                ('neighborhood', models.CharField(max_length=64, null=True, blank=True)),
+                ('zip', models.CharField(max_length=16, null=True, blank=True)),
+                ('longitude', models.DecimalField(null=True, max_digits=9, decimal_places=6, blank=True)),
+                ('latitude', models.DecimalField(null=True, max_digits=9, decimal_places=6, blank=True)),
+                ('added', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('has_metric_records', models.BooleanField(default=False)),
+            ],
+            options={
+                'permissions': (('can_edit_any_garden', 'Can edit any garden'),),
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='GardenGroup',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=512, verbose_name='name')),
+                ('description', models.TextField(null=True, verbose_name='description', blank=True)),
+                ('added', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('added_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='GardenGroupMembership',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('added', models.DateTimeField(auto_now_add=True)),
+                ('added_by', models.ForeignKey(editable=False, to=settings.AUTH_USER_MODEL)),
+                ('garden', models.ForeignKey(to='farmingconcrete.Garden')),
+                ('group', models.ForeignKey(to='farmingconcrete.GardenGroup')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='GardenType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=64)),
+                ('short_name', models.CharField(max_length=32)),
+                ('description', models.TextField(null=True, blank=True)),
+            ],
+            options={
+                'ordering': ['name'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='gardengroup',
+            name='gardens',
+            field=models.ManyToManyField(to='farmingconcrete.Garden', through='farmingconcrete.GardenGroupMembership'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='garden',
+            name='type',
+            field=models.ForeignKey(to='farmingconcrete.GardenType'),
+            preserve_default=True,
+        ),
+    ]

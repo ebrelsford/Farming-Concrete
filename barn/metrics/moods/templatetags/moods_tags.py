@@ -4,8 +4,8 @@ from django.db.models import Count, Sum
 from classytags.helpers import AsTag
 import pandas as pd
 
+from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import vertical_bar, make_chart_name
-from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from ..models import MoodChange, MoodCount
 
 register = template.Library()

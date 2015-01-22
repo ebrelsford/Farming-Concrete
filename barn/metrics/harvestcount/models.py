@@ -1,11 +1,9 @@
 from django.db import models
 from django.db.models import Sum
-from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
 from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
-from ..registry import register
 
 
 class Gardener(AuditedModel):
@@ -90,24 +88,3 @@ class Harvest(BaseMetricRecord):
             'plant_types': harvests.values('crop__id').distinct().count(),
             'recorded_max': harvests.aggregate(models.Max('recorded'))['recorded__max'],
         }
-
-
-from .export import HarvestcountDataset, PublicHarvestcountDataset
-
-
-register('Harvest Count', {
-    'all_gardens_url_name': 'harvestcount_all_gardens',
-    'download_url_name': 'harvestcount_download_garden_harvestcount_as_csv',
-    'model': Harvest,
-    'number': 2,
-    'garden_detail_url_name': 'harvestcount_garden_details',
-    'group': 'Food Production Data',
-    'group_number': 0,
-    'index_url_name': 'harvestcount_index',
-    'dataset': HarvestcountDataset,
-    'public_dataset': PublicHarvestcountDataset,
-    'description': _('This report tallies up all of the pounds of produce '
-                     'harvested in your garden this year. Keeping track of '
-                     'your produce helps you quantify the wealth of fruits '
-                     'and vegetables grown in your garden.'),
-})

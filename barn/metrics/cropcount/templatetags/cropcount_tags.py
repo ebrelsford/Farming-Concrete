@@ -3,10 +3,11 @@ from django import template
 from classytags.helpers import AsTag
 import pandas as pd
 
+from metrics.base.templatetags.metrics_tags import (ChartMixin,
+                                                    MetricRecordsMixin,
+                                                    MetricTotalTag)
 from metrics.charts import horizontal_bar, make_chart_name
 from metrics.cropcount.models import Box, Patch
-from metrics.templatetags.metrics_tags import (ChartMixin, MetricRecordsMixin,
-                                               MetricTotalTag)
 
 register = template.Library()
 

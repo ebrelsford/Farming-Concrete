@@ -153,7 +153,7 @@ class TablibView(View):
     def render_to_response(self):
         response = self.response_class(
             getattr(self.get_dataset(), self.get_format()),
-            mimetype=mimetype_map.get(self.get_format(), 'application/octet-stream')
+            content_type=mimetype_map.get(self.get_format(), 'application/octet-stream')
         )
         response['Content-Disposition'] = ('attachment; filename="%s.%s"' % (
             self.get_filename(),

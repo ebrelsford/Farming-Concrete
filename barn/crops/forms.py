@@ -12,6 +12,7 @@ class AddNewCropWidget(Select):
 class CropForm(ModelForm):
 
     class Meta:
+        fields = '__all__'
         model = Crop
         widgets = {
             'added_by': HiddenInput(),
@@ -32,6 +33,7 @@ class VarietyField(ModelChoiceField):
 class VarietyForm(ModelForm):
 
     class Meta:
+        fields = '__all__'
         model = Variety
         widgets = {
             'added_by': HiddenInput(),

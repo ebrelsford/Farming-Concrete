@@ -8,6 +8,7 @@ from .models import Mood, MoodChange, MoodCount
 class MoodCountForm(ModelForm):
 
     class Meta:
+        fields = '__all__'
         model = MoodCount
 
 

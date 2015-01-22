@@ -6,8 +6,8 @@ from classytags.helpers import AsTag
 from django import template
 from django.db.models import Sum
 
+from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import make_chart_name, vertical_bar
-from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from ..models import HoursByGeography, HoursByProject, HoursByTask, Task
 
 register = template.Library()

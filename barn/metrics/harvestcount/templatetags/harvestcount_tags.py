@@ -3,9 +3,9 @@ from django import template
 from classytags.helpers import AsTag
 import pandas as pd
 
+from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import horizontal_bar, make_chart_name
 from metrics.harvestcount.models import Harvest
-from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 
 register = template.Library()
 

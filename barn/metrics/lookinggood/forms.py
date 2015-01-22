@@ -8,6 +8,7 @@ from .models import LookingGoodEvent, LookingGoodItem, LookingGoodPhoto
 class LookingGoodPhotoForm(ModelForm):
 
     class Meta:
+        fields = '__all__'
         model = LookingGoodPhoto
 
 
@@ -21,6 +22,7 @@ LookingGoodPhotoFormSet = inlineformset_factory(LookingGoodEvent, LookingGoodPho
 class LookingGoodItemForm(ModelForm):
 
     class Meta:
+        fields = '__all__'
         model = LookingGoodItem
 
 

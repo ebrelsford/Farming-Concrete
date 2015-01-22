@@ -249,7 +249,7 @@ def gardens_geojson(request):
 
     gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)),
-                        mimetype='application/json')
+                        content_type='application/json')
 
 
 def _get_garden_type(short_name):

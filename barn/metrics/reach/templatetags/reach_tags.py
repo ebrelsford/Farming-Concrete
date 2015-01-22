@@ -3,8 +3,8 @@ from django import template
 from classytags.helpers import AsTag
 import pandas as pd
 
+from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import vertical_bar, make_chart_name
-from metrics.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from ..models import ProgramReach
 
 register = template.Library()
