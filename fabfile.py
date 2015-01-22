@@ -59,12 +59,6 @@ def install_requirements():
 
 
 @task
-def syncdb():
-    with workon(server_virtualenv):
-        run('django-admin.py syncdb')
-
-
-@task
 def migrate():
     with workon(server_virtualenv):
         run('django-admin.py migrate')
@@ -89,7 +83,6 @@ def status():
 def deploy():
     pull()
     install_requirements()
-    syncdb()
     migrate()
     build_static()
     restart_django()
