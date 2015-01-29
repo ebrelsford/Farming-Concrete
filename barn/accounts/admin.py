@@ -37,11 +37,29 @@ class EnteredDataListFilter(admin.SimpleListFilter):
             return queryset.exclude(pk__in=users_entered_data)
 
 
+class MetricEnteredDataListFilter(admin.SimpleListFilter):
+    title = _('metric entered data')
+    parameter_name = 'metric_entered_data'
+
+    def lookups(self, request, model_admin):
+        def metric_display(metric):
+            return '%d.%d %s' % (metric['group_number'], metric['number'],
+                                 metric['name'])
+        return ((m['name'], metric_display(m)) for m in registry.sorted())
+
+    def queryset(self, request, queryset):
+        if self.value():
+            metric_model = registry[self.value()]['model']
+            users_entered_data = metric_model.objects.values_list('added_by', flat=True)
+            users_entered_data = filter(None, list(set(users_entered_data)))
+            return queryset.filter(pk__in=users_entered_data)
+
+
 class UserProfileAdmin(UserAdmin):
     inlines = [UserProfileInline]
     list_display = ('username', 'email', 'first_name', 'last_name', 'gardens',)
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups',
-                   EnteredDataListFilter,)
+                   EnteredDataListFilter, MetricEnteredDataListFilter,)
 
     def gardens(self, instance):
         gardens = get_profile(instance).gardens.all()
