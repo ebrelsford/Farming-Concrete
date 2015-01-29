@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -83,6 +84,9 @@ class Garden(PrivacyMixin, models.Model):
         return self.gardenmembership_set.filter(
             user_profile__user=user,
         ).exists()
+
+    def get_absolute_url(self):
+        return reverse('farmingconcrete_garden_details', kwargs={ 'pk': self.pk })
 
 
 class GardenGroup(models.Model):
