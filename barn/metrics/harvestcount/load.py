@@ -1,5 +1,3 @@
-from datetime import date
-
 from dateutil.parser import parse
 import tablib
 
@@ -14,6 +12,8 @@ field_names = {
     'variety': ('crop variety', 'variety',),
     'weight': ('pounds', 'quantity', 'weight',),
 }
+
+ignored_crops = ('greens', 'herbs',)
 
 
 def _get_field_value(row, field):
@@ -35,8 +35,9 @@ def _get_harvested(row):
 
 def _get_crop(row, create=False):
     value = _get_field_value(row, 'crop')
-    # TODO Ignore very generic crop names like "herbs" and "greens"?
-    # TODO create, without a user
+    # Ignore very generic crop names like "herbs" and "greens"
+    if value in ignored_crops:
+        return None
     return get_crop(value, None)[0]
 
 
@@ -46,7 +47,6 @@ def _get_variety(row, crop, create=False):
     if not value:
         return None
     try:
-        # TODO create, without a user
         return get_variety(value, crop, None)[0]
     except Exception:
         return None
