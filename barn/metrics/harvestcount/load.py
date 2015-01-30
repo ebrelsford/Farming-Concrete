@@ -13,7 +13,7 @@ field_names = {
     'weight': ('pounds', 'quantity', 'weight',),
 }
 
-ignored_crops = ('greens', 'herbs',)
+ignored_crops = ('green', 'greens', 'herb', 'herbs',)
 
 
 def _get_field_value(row, field):
@@ -106,6 +106,9 @@ def load(filename, user, garden, create_crops=False, create_gardeners=False,
             print row
             print crop, gardener, harvested, weight, variety
             print
+
+        if not all([crop, gardener, harvested, weight]):
+            continue
 
         if not dry_run:
             harvest = Harvest(
