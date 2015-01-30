@@ -33,26 +33,26 @@ def _get_harvested(row):
         return None
 
 
-def _get_crop(row, create=False):
+def _get_crop(row, user, create=False):
     value = _get_field_value(row, 'crop')
     # Ignore very generic crop names like "herbs" and "greens"
     if value in ignored_crops:
         return None
-    return get_crop(value, None)[0]
+    return get_crop(value, user)[0]
 
 
-def _get_variety(row, crop, create=False):
+def _get_variety(row, user, crop, create=False):
     value = _get_field_value(row, 'variety')
 
     if not value:
         return None
     try:
-        return get_variety(value, crop, None)[0]
+        return get_variety(value, crop, user)[0]
     except Exception:
         return None
 
 
-def _get_gardener(row, garden, create=False):
+def _get_gardener(row, user, garden, create=False):
     """
     Attempt to get a gardener for the given row and garden.
     
@@ -74,6 +74,7 @@ def _get_gardener(row, garden, create=False):
         return Gardener.objects.get(**kwargs)
     except Gardener.DoesNotExist:
         if create:
+            kwargs['added_by'] = user
             gardener = Gardener(**kwargs)
             gardener.save()
             return gardener
@@ -87,7 +88,7 @@ def _get_weight(row):
         return None
 
 
-def load(filename, garden, create_crops=False, create_gardeners=False,
+def load(filename, user, garden, create_crops=False, create_gardeners=False,
          create_varieties=False, dry_run=False, verbose=True):
     # Load file
     harvests = tablib.Dataset()
@@ -95,10 +96,10 @@ def load(filename, garden, create_crops=False, create_gardeners=False,
 
     # For each record create a harvest
     for row in harvests.dict:
-        crop = _get_crop(row, create=create_crops)
-        gardener = _get_gardener(row, garden, create=create_gardeners)
+        crop = _get_crop(row, user, create=create_crops)
+        gardener = _get_gardener(row, user, garden, create=create_gardeners)
         harvested = _get_harvested(row)
-        variety = _get_variety(row, crop, create=create_varieties)
+        variety = _get_variety(row, user, crop, create=create_varieties)
         weight = _get_weight(row)
 
         if verbose:
@@ -108,10 +109,13 @@ def load(filename, garden, create_crops=False, create_gardeners=False,
 
         if not dry_run:
             harvest = Harvest(
+                added_by=user,
                 crop=crop,
                 crop_variety=variety,
+                garden=garden,
                 gardener=gardener,
                 harvested=harvested,
+                recorded=harvested,
                 weight=weight,
             )
             harvest.save()
