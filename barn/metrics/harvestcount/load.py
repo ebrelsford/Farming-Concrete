@@ -34,7 +34,7 @@ def _get_harvested(row):
 
 
 def _get_crop(row, user, create=False):
-    value = _get_field_value(row, 'crop')
+    value = _get_field_value(row, 'crop').lower()
     # Ignore very generic crop names like "herbs" and "greens"
     if value in ignored_crops:
         return None
