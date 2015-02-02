@@ -20,6 +20,7 @@ reportlab==2.7
 requests==2.2.1
 simplejson==3.3.2
 simplekml==1.2.3
+six==1.9.0
 xhtml2pdf>=0.0.6
 virtualenv==1.11.2
 wsgiref==0.1.2
