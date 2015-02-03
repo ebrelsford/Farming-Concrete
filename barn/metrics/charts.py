@@ -4,6 +4,7 @@ import os
 from django.conf import settings
 
 import matplotlib
+from matplotlib.dates import DateFormatter
 from matplotlib.patches import Rectangle
 import matplotlib.pyplot as plt
 import pylab
@@ -87,7 +88,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
     ax.set_xlabel(xlabel, fontsize=10)
 
     if isinstance(data_frame.index[0], date):
-        ax.set_yticklabels([date.strftime(d, '%m/%d/%y') for d in data_frame.index])
+        ax.set_yticklabels([date.strftime(d, date_format) for d in data_frame.index])
 
     _format_ticks(ax, data_frame)
 
@@ -122,7 +123,7 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
     ax.set_xlabel(xlabel, fontsize=10)
 
     if isinstance(data_frame.index[0], date):
-        ax.set_xticklabels([date.strftime(d, '%m/%d/%y') for d in data_frame.index])
+        ax.set_xticklabels([date.strftime(d, date_format) for d in data_frame.index])
 
     _format_ticks(ax, data_frame)
 
@@ -163,6 +164,9 @@ def line_fill(data_frame, destination_file, color='#F63C04', xlabel='',
     ax.set_xlabel(xlabel, fontsize=10)
 
     _format_ticks(ax, data_frame)
+
+    if isinstance(data_frame.index[0], date):
+        ax.xaxis.set_major_formatter(DateFormatter(date_format))
 
     # Fill between the line and y=0
     ax.fill_between(sorted(data_frame.keys()), 0, data_frame.values, color=color)
