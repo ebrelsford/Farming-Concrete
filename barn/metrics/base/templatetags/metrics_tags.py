@@ -354,15 +354,10 @@ class MetricYears(MetricRecordTagMixin, AsTag):
     )
 
     def get_value(self, context, metric, garden):
-        min_year = datetime.now().year - 1
-        max_year = datetime.now().year
-        try:
-            records = list(metric['model'].objects.for_garden(garden))
-            recordeds = records.values_list('recorded', flat=True).order_by('recorded')
-            min_year = min(min_year, recordeds[0].year)
-            max_year = max(max_year, recordeds[-1].year)
-        except Exception:
-            pass
+        records = metric['model'].objects.for_garden(garden)
+        recordeds = list(records.values_list('recorded', flat=True).order_by('recorded'))
+        min_year = min(datetime.now().year - 1, recordeds[0].year)
+        max_year = max(datetime.now().year, recordeds[-1].year)
         return [year for year in range(min_year, max_year + 1)]
 
 
