@@ -110,6 +110,9 @@ define(
                     // Grab crop value from crop select input
                     var crop = findCrop($(e.relatedTarget), cropSelector).val();
                     $(modalSelector).find('#id_crop').val(crop);
+
+                    // Focus on variety name field
+                    $('.modal:visible form :input:visible:eq(0)').focus();
                 });
             });
 
