@@ -38,7 +38,7 @@ class LookingGoodChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()['total_tags']
         return vertical_bar(qdf, make_chart_name('lookinggood', garden),
-                            ylabel='TAGS')
+                            shape='short', ylabel='TAGS')
 
 
 class LookingGoodExampleTags(MetricRecordsMixin, AsTag):
