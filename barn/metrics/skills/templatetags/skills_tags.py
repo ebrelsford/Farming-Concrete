@@ -42,6 +42,7 @@ class SkillsChart(ChartMixin, AsTag):
 
         qdf = df.groupby('recorded').sum()[shared]
         return vertical_bar(qdf, make_chart_name('skills_%s' % shared, garden),
+                            shape='short',
                             ylabel='NUMBER OF %s' % shared.upper().replace('_', ' '))
 
 
