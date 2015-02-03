@@ -76,6 +76,13 @@ def _get_bar_rectangles(axis):
 def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
                    ylabel='', **kwargs):
     _set_font()
+
+    # If we're not dealing with dates, sort and cut off appropriately
+    if not isinstance(data_frame.index[0], date):
+        data_frame = data_frame.sort(ascending=False, inplace=False)
+        if len(data_frame) > 15:
+            data_frame = data_frame[:15]
+
     data_frame.plot(kind='barh', color=color, linewidth=0)
 
     ax = plt.gca()
@@ -101,7 +108,7 @@ def horizontal_bar(data_frame, destination_file, color='#849F38', xlabel='',
         if label_x < 0:
             label_color = color
             label_x = width + x_diff
-        ax.text(label_x, rect.get_y() + rect.get_height() / 2. - .03,
+        ax.text(label_x, rect.get_y() + rect.get_height() / 2. - .03 * (len(data_frame) / 5),
                 '%d' % int(width), ha='center', va='bottom', color=label_color,
                 size=9)
 
