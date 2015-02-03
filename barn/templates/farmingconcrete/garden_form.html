@@ -59,7 +59,7 @@
                     {% with field=form.type %}
                         <div class="form-group field-type {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
                             <div class="control-label">
-                                <div style="float: right;" class="field-type-help" data-toggle="tooltip" data-placement="left" data-html="true" title="{% garden_type_descriptions %}">?</div>
+                                <div style="float: right;" class="field-type-help" data-toggle="tooltip" data-placement="left" data-html="true" title="<h3>How do I pick a garden type?</h3>{% garden_type_descriptions %}">?</div>
                                 {{ field.label_tag }}
                             </div>
                             <div class="controls">
