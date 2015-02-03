@@ -1,3 +1,6 @@
+@select2-image: data-uri("../bower_components/select2/select2.png"); 
+@select2-spinner-image: data-uri("../bower_components/select2/select2-spinner.gif");
+
 .select2-container {
     width: 100%;
 
@@ -16,9 +19,17 @@
         border: none;
         border-radius: 0;
 
+        abbr {
+            background-image: @select2-image;
+        }
+
         .select2-arrow {
             background: @form-input-background;
             border-left: none;
+
+            b {
+                background-image: @select2-image;
+            }
         }
     }
 
@@ -28,7 +39,21 @@
         border-radius: 0;
 
         .select2-search-choice-close {
-            background-image: data-uri("../bower_components/select2/select2.png");
+            background-image: @select2-image;
+        }
+    }
+}
+
+.select2-search {
+    &-choice-close {
+        background-image: @select2-image;
+    }
+
+    input {
+        background-image: @select2-image;
+
+        &.select2-active {
+            background-image: @select2-spinner-image;
         }
     }
 }
@@ -40,4 +65,12 @@
     .select2-highlighted {
         background: @metric-color;
     }
+}
+
+.select2-more-results.select2-active {
+    background-image: @select2-spinner-image;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+    background-image: @select2-spinner-image;
 }
