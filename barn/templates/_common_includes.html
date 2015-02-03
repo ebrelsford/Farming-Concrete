@@ -1,14 +1,5 @@
 {% load compress js static %}
 
-{% compress css %}
-    <link rel="stylesheet" href="{% static "bower_components/leaflet/leaflet.css" %}" />
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="{% static "bower_components/leaflet/leaflet.ie.css" %}" />
-    <![endif]-->
-    <link rel="stylesheet" href="{% static "bower_components/leaflet-usermarker/src/leaflet.usermarker.css" %}" />
-    <link rel="stylesheet" href="{% static "bower_components/colorbox/example1/colorbox.css" %}" />
-{% endcompress %}
-
 {% django_js_init jquery=false i18n=false csrf=false %}
 
 <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>

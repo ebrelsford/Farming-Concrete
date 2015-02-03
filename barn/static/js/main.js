@@ -45,6 +45,7 @@ define(
                 $('input[type=date]').each(function () {
                     var max = $(this).attr('max');
                     $(this).pickadate({
+                        editable: true,
                         format: 'mm/dd/yyyy',
                         'max': max
                     });
