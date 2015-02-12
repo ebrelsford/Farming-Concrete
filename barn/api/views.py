@@ -227,8 +227,10 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
         metric_entries = []
         for metric in metrics:
             metric_entries.append({
+                'group_number': metric['group_number'],
                 'headers': self.get_metric_headers(metric['model']),
                 'name': metric['name'],
+                'number': metric['number'],
                 'records': list(self.get_records(metric=metric, **filters)),
             })
         return {
