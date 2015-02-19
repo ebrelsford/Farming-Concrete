@@ -9,7 +9,14 @@ class CropCountQuerySet(MetricQuerySet):
 
     def public_dict(self):
         values_args = self.public_dict_values_args + ('crop__name', 'quantity',)
-        return self.values(*values_args)
+        record_dicts = self.values(*values_args)
+
+        # Rename 'quantity' to 'plants'
+        for record_dict in record_dicts:
+            record_dict['plants'] = record_dict['quantity']
+            del record_dict['quantity']
+
+        return record_dicts
 
 
 class CropCountManager(MetricManager):
