@@ -58,8 +58,15 @@ class HoursByProjectQuerySet(MetricQuerySet):
         values_args = self.public_dict_values_args + (
             'hours',
         )
-        return self.annotate(hours=Sum('projecthours__hours')) \
+        record_dicts = self.annotate(hours=Sum('projecthours__hours')) \
                 .values(*values_args)
+
+        # Rename 'hours'
+        for record_dict in record_dicts:
+            record_dict['hours spent on project'] = record_dict['hours']
+            del record_dict['hours']
+
+        return record_dicts
 
 
 class HoursByProjectManager(MetricManager):
