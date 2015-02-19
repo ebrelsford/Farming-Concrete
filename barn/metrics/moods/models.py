@@ -9,10 +9,28 @@ class MoodChangeQuerySet(MetricQuerySet):
 
     def public_dict(self):
         values_args = self.public_dict_values_args + (
+            'pk',
             'moods',
         )
-        return self.annotate(moods=Sum('moodcount__count')) \
-                .values(*values_args)
+        record_dicts = self.annotate(moods=Sum('moodcount__count')).values(*values_args)
+
+        # Get positive and negative mood counts for merging
+        positive = self.filter(moodcount__mood__type='positive') \
+                .annotate(positive_moods=Sum('moodcount__count')) \
+                .values('pk', 'positive_moods')
+        negative = self.filter(moodcount__mood__type='negative') \
+                .annotate(negative_moods=Sum('moodcount__count')) \
+                .values('pk', 'negative_moods')
+
+        for record_dict in record_dicts:
+            # For the each record, find the positive and negative counts
+            for types_dicts in (positive, negative):
+                types_dict = filter(lambda x: x['pk'] == record_dict['pk'], types_dicts)[0]
+                record_dict.update(types_dict)
+
+            # No longer need the pk
+            del record_dict['pk']
+        return record_dicts
 
 
 class MoodChangeManager(MetricManager):
