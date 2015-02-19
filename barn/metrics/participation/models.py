@@ -16,7 +16,18 @@ class HoursByGeographyQuerySet(MetricQuerySet):
             'out_half',
             'out_whole',
         )
-        return self.values(*values_args)
+        record_dicts = self.values(*values_args)
+
+        for record_dict in record_dicts:
+            record_dict['hours_in_neighborhood'] = record_dict['in_whole'] + record_dict['in_half'] / 2
+            record_dict['hours_outside_neighborhood'] = record_dict['out_whole'] + record_dict['out_half'] / 2
+            record_dict['hours'] = record_dict['hours_in_neighborhood'] + \
+                    record_dict['hours_outside_neighborhood']
+
+            for pin in ('in_half', 'in_whole', 'out_half', 'out_whole'):
+                del record_dict[pin]
+
+        return record_dicts
 
 
 class HoursByGeographyManager(MetricManager):
