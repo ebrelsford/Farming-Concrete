@@ -14,7 +14,14 @@ class SaleQuerySet(MetricQuerySet):
             'units_sold',
             'total_price',
         )
-        return self.values(*values_args)
+        record_dicts = self.values(*values_args)
+
+        # Rename total_price
+        for record_dict in record_dicts:
+            record_dict['sale price ($)'] = record_dict['total_price']
+            del record_dict['total_price']
+
+        return record_dicts
 
 
 class SaleManager(MetricManager):
