@@ -16,7 +16,17 @@ class YumYuckQuerySet(MetricQuerySet):
             'yum_after',
             'yuck_after',
         )
-        return self.values(*values_args)
+        record_dicts = self.values(*values_args)
+
+        # Add change in yum
+        for record_dict in record_dicts:
+            record_dict['change in yums'] = record_dict['yum_after'] - \
+                    record_dict['yum_before']
+            for field_to_delete in ('yum_after', 'yum_before', 'yuck_after',
+                                    'yuck_before'):
+                del record_dict[field_to_delete]
+
+        return record_dicts
 
 
 class YumYuckManager(MetricManager):
