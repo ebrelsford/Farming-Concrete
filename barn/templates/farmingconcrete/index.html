@@ -55,50 +55,10 @@
                     </div>
                 {% endif %}
             </section>
-
-            <section class="overview">
-                <h2><img src="{% static "img/overview.jpg" %}" /></h2>
-                {% overview as overview_data %}
-                <div class="overview-list">
-                    <div class="overview-list-item">
-                        <div class="overview-list-item-number overview-gardens">
-                            {{ overview_data.gardens }}
-                        </div>
-                        <div class="overview-list-item-label">gardens recording data</div>
-                    </div>
-                    <div class="overview-list-item">
-                        <div class="overview-list-item-number overview-harvest-pounds">
-                            {{ overview_data.pounds_of_food|floatformat|intcomma }}
-                        </div>
-                        <div class="overview-list-item-label">pounds of food harvested</div>
-                    </div>
-                    <div class="overview-list-item">
-                        <div class="overview-list-item-number overview-compost-pounds">
-                            {{ overview_data.pounds_of_compost|floatformat|intcomma }}
-                        </div>
-                        <div class="overview-list-item-label">pounds of compost</div>
-                    </div>
-                    <div class="overview-list-item overview-list-item-counting">and counting!</div>
-                </div>
-            </section>
-
-            {% if user.is_authenticated %}
-                <section id="your-gardens-section">
-                    <h2 id="your-gardens-title">
-                        <img src="{% static "img/your_gardens.jpg" %}" />
-                    </h2>
-                    {% garden_list user %}
-
-                    <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
-                        Add a garden
-                    </a>
-                </section>
-            {% endif %}
-
         </div>
 
         <div id="right">
-            <div id="map" style="width: 100%; height: 300px;"
+            <div id="map"
                 {% block map_options %}
                     data-l-zoom="8"
                     data-l-center="[40.71, -73.98]"
@@ -107,6 +67,44 @@
                 {% endblock %}
             ></div>
         </div>
-
     </div>
+
+    <section class="overview">
+        <h2><img src="{% static "img/overview.jpg" %}" /></h2>
+        {% overview as overview_data %}
+        <div class="overview-list">
+            <div class="overview-list-item">
+                <div class="overview-list-item-number overview-gardens">
+                    {{ overview_data.gardens }}
+                </div>
+                <div class="overview-list-item-label">gardens recording data</div>
+            </div>
+            <div class="overview-list-item">
+                <div class="overview-list-item-number overview-harvest-pounds">
+                    {{ overview_data.pounds_of_food|floatformat|intcomma }}
+                </div>
+                <div class="overview-list-item-label">pounds of food harvested</div>
+            </div>
+            <div class="overview-list-item">
+                <div class="overview-list-item-number overview-compost-pounds">
+                    {{ overview_data.pounds_of_compost|floatformat|intcomma }}
+                </div>
+                <div class="overview-list-item-label">pounds of compost</div>
+            </div>
+            <div class="overview-list-item overview-list-item-counting">and counting!</div>
+        </div>
+    </section>
+
+    {% if user.is_authenticated %}
+        <section id="your-gardens-section">
+            <h2 id="your-gardens-title">
+                <img src="{% static "img/your_gardens.jpg" %}" />
+            </h2>
+            {% garden_list user %}
+
+            <a href="{% url "farmingconcrete_gardens_add" %}" class="btn btn-primary btn-add-garden">
+                Add a garden
+            </a>
+        </section>
+    {% endif %}
 {% endblock %}

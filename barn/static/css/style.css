@@ -10979,6 +10979,38 @@ fieldset[disabled] .btn-add-garden.active {
 .main-index-page .actions {
   margin-top: 50px;
 }
+.main-index-page #left {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .main-index-page #left {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.main-index-page #right {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .main-index-page #right {
+    float: left;
+    width: 58.33333333%;
+  }
+}
+.main-index-page #map {
+  height: 400px;
+  width: 100%;
+}
+.main-index-page .overview {
+  clear: both;
+  margin-top: 25px;
+}
 .main-index-page .overview h2 {
   border-bottom: 1px dotted #8c8c8c;
   border-top: 1px solid #404040;
