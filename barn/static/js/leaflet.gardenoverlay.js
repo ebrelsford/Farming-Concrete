@@ -25,8 +25,8 @@ define(
         var style = {
             fill: true,
             fillColor: '#F63C04',
-            fillOpacity: 0.4,
-            radius: 15,
+            fillOpacity: 0.7,
+            radius: 5,
             stroke: false
         };
 
