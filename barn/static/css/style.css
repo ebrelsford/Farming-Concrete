@@ -10683,6 +10683,18 @@ h2 a.text {
     width: 25%;
   }
 }
+.add-gardens-page .field-country {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .add-gardens-page .field-country {
+    float: left;
+    width: 25%;
+  }
+}
 .add-gardens-page .field-zip {
   position: relative;
   min-height: 1px;

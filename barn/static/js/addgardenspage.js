@@ -11,6 +11,7 @@ define(
         'django',
         'leaflet',
         'geocode',
+        'underscore',
 
         // Other requirements
         'bootstrap',
@@ -19,7 +20,7 @@ define(
         'leaflet.dataoptions',
         'leaflet.usermarker',
         'newgardengroupwidget'
-    ], function ($, Django, L, geocode) {
+    ], function ($, Django, L, geocode, _) {
 
         var map;
 
@@ -66,14 +67,19 @@ define(
             var address = $('#id_address').val(),
                 city = $('#id_city').val(),
                 state = $('#id_state').val(),
-                formattedAddress = address + ', ' + city + ', ' + state;
+                country = $('#id_country').val(),
+                postal_code = $('#id_zip').val(),
+                components = _.filter([address, city, state, country, postal_code],
+                        function (c) { return c !== ''; });
 
-            geocode.geocode(formattedAddress, state, function (result, status) {
-                if (status === 'OK' && result) {
-                    showGeocodedResultOnMap(result);
-                    setGardenLocation(result);
-                }
-            });
+            if (components.length >= 3) {
+                geocode.geocode(components.join(','), state, function (result, status) {
+                    if (status === 'OK' && result) {
+                        showGeocodedResultOnMap(result);
+                        setGardenLocation(result);
+                    }
+                });
+            }
         }
 
         function roundCoordinate(c) {
@@ -89,6 +95,7 @@ define(
             $('#id_neighborhood').val(geocode.get_neighborhood(result));
             $('#id_city').val(geocode.get_city(result));
             $('#id_state').val(geocode.get_state(result));
+            $('#id_country').val(geocode.get_country(result));
             $('#id_zip').val(geocode.get_zip(result));
 
             var borough = geocode.get_borough(result),
@@ -147,7 +154,7 @@ define(
                 });
             }
 
-            $('#id_address,#id_city,#id_state').change(geocodeAddress);
+            $('#id_address,#id_city,#id_state,#id_country').change(geocodeAddress);
 
             $('#invite-member-modal').on('shown.bs.modal', function () {
                 var $modal = $(this);

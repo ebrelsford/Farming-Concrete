@@ -9,13 +9,19 @@ define(
             geocoder.geocode({
                 'address': address
             }, function (results, status) {
-                for (var i = 0; i < results.length; i++) {
-                    var result_state = get_component(results[i],
-                                                     'administrative_area_level_1');
-                    if (result_state.short_name.toLowerCase() === state ||
-                        result_state.long_name.toLowerCase() === state) {
-                        return f(results[i], status);
+                if (state) {
+                    for (var i = 0; i < results.length; i++) {
+                        var result_state = get_component(results[i],
+                                                         'administrative_area_level_1');
+                        if (result_state && (result_state.short_name.toLowerCase() === state ||
+                            result_state.long_name.toLowerCase() === state)) {
+                            return f(results[i], status);
+                        }
                     }
+                }
+                else {
+                    // If no state to compare to, just pick the best match
+                    return f(results[0], status);
                 }
                 return f(null, status);
             });
@@ -70,6 +76,10 @@ define(
             return get(result, 'administrative_area_level_1');
         }
 
+        function get_country(result) {
+            return get(result, 'country');
+        }
+
         function get_zip(result) {
             return get(result, 'postal_code');
         }
@@ -90,6 +100,7 @@ define(
             'get_borough': get_borough,
             'get_city': get_city,
             'get_state': get_state,
+            'get_country': get_country,
             'get_zip': get_zip,
             'get_longitude': get_longitude,
             'get_latitude': get_latitude
