@@ -134,6 +134,8 @@ INSTALLED_APPS = (
     'feedback',
     'floppyforms',
     'registration',
+    'report_builder',
+    'rest_framework',
     'widget_tweaks',
 
     'accounts',
@@ -225,3 +227,5 @@ BASE_URL = get_env_variable('FARMING_CONCRETE_BASE_URL')
 MAX_INVITES = 50
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+REPORT_BUILDER_ASYNC_REPORT = False
