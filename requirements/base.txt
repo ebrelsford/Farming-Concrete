@@ -25,6 +25,9 @@ xhtml2pdf>=0.0.6
 virtualenv==1.11.2
 wsgiref==0.1.2
 
+# Required for django-report-builder
+openpyxl==2.1.5
+
 # Django requirements
 Django==1.7.5
 git+https://github.com/noirbizarre/django.js.git@65b267b04
