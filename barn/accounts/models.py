@@ -51,6 +51,23 @@ class GardenMembership(models.Model):
     added = models.DateTimeField(auto_now_add=True, editable=False)
 
 
+class GardenGroupUserMembership(models.Model):
+    """
+    Represents the membership of a user in a garden group.
+    
+    Previously we assumed that the person who added a garden group was the 
+    owner and admin of it, but this is too simplistic as there may be multiple
+    admins of a group and the person who added the group may be a site
+    administrator rather than a group admin.
+    """
+    group = models.ForeignKey('farmingconcrete.GardenGroup')
+    user_profile = models.ForeignKey('UserProfile')
+    is_admin = models.BooleanField(default=False)
+
+    added_by = models.ForeignKey('auth.User', editable=False, null=True)
+    added = models.DateTimeField(auto_now_add=True, editable=False)
+
+
 @receiver(post_save, sender=GardenMembership)
 def new_garden_membership(sender, instance, created=False, **kwargs):
     if created:
