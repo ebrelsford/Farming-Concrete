@@ -116,6 +116,26 @@ class GardenGroup(models.Model):
         membership.save()
         return membership
 
+    def is_admin(self, user):
+        """Is the user an admin of this group?"""
+        from accounts.models import GardenGroupUserMembership
+
+        return GardenGroupUserMembership.objects.filter(
+            is_admin=True,
+            user_profile__user=user,
+            group=self,
+        ).exists()
+
+    def is_admin_of_member_garden(self, user):
+        """Is the user an admin of a garden in this group?"""
+        from accounts.models import GardenMembership
+
+        return GardenMembership.objects.filter(
+            garden__gardengroup=self,
+            is_admin=True,
+            user_profile__user=user,
+        ).exists()
+
     def __unicode__(self):
         return self.name
 
