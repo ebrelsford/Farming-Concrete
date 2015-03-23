@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import (CreateView, DetailView, UpdateView,
                                   TemplateView)
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
@@ -284,17 +285,16 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
         return HttpResponseRedirect(reverse('home'))
 
 
-class GardenGroupDetailView(LoginRequiredMixin, DetailView):
+class GardenGroupMixin(SingleObjectMixin):
     model = GardenGroup
 
-    def check_permission(self):
+    def check_permission(self, group):
         """
         Can the user see the garden group's page? Only if they are:
          * admin
          * admin of the group
          * admin of a garden in the group
         """
-        group = self.get_object()
         user = self.request.user
 
         # Admins can see anything
@@ -307,10 +307,15 @@ class GardenGroupDetailView(LoginRequiredMixin, DetailView):
             return True
         return False
 
-    def get(self, request, *args, **kwargs):
-        if not self.check_permission():
+    def get_object(self, queryset=None):
+        object = super(GardenGroupMixin, self).get_object(queryset=queryset)
+        if not self.check_permission(object):
             raise PermissionDenied
-        return super(GardenGroupDetailView, self).get(request, *args, **kwargs)
+        return object
+
+
+class GardenGroupDetailView(GardenGroupMixin, LoginRequiredMixin, DetailView):
+    pass
 
 
 class CreateGardenGroupView(LoginRequiredMixin, CreateView):
