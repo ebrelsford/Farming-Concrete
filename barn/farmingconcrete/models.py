@@ -101,6 +101,21 @@ class GardenGroup(models.Model):
     added = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True, editable=False)
 
+    def add_admin(self, user):
+        """Add the given user as an admin of this group."""
+        from accounts.models import GardenGroupUserMembership
+        from accounts.utils import get_profile
+
+        membership, created = GardenGroupUserMembership.objects.get_or_create(
+            group=self,
+            user_profile=get_profile(user),
+            defaults={ 'added_by': user, 'is_admin': True },
+        )
+        if not created:
+            membership.is_admin = True
+        membership.save()
+        return membership
+
     def __unicode__(self):
         return self.name
 
