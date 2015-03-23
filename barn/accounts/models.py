@@ -8,7 +8,6 @@ from feedback.models import Feedback
 from registration.signals import user_activated
 from templated_emails.utils import send_templated_email
 
-from farmingconcrete.models import GardenType
 from metrics.harvestcount.models import Gardener
 
 
@@ -24,7 +23,7 @@ class UserProfile(models.Model):
     )
 
     # GardenTypes this user is restricted to. If none, user can access all.
-    garden_types = models.ManyToManyField(GardenType, blank=True, null=True)
+    garden_types = models.ManyToManyField('farmingconcrete.GardenType', blank=True, null=True)
 
     # The corresponding Gardener for this user, if any.
     gardener = models.ForeignKey(Gardener, blank=True, null=True)
