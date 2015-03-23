@@ -287,6 +287,31 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
 class GardenGroupDetailView(LoginRequiredMixin, DetailView):
     model = GardenGroup
 
+    def check_permission(self):
+        """
+        Can the user see the garden group's page? Only if they are:
+         * admin
+         * admin of the group
+         * admin of a garden in the group
+        """
+        group = self.get_object()
+        user = self.request.user
+
+        # Admins can see anything
+        if user.has_perm('can_edit_any_garden'):
+            return True
+
+        # Only allow access to users who are admins of this group or of a
+        # member garden
+        if group.is_admin(user) or group.is_admin_of_member_garden(user):
+            return True
+        return False
+
+    def get(self, request, *args, **kwargs):
+        if not self.check_permission():
+            raise PermissionDenied
+        return super(GardenGroupDetailView, self).get(request, *args, **kwargs)
+
 
 class CreateGardenGroupView(LoginRequiredMixin, CreateView):
     form_class = GardenGroupForm
