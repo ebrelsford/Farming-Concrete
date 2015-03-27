@@ -183,7 +183,7 @@ class BaseMetricRecord(AuditedModel):
             records = records.after(start)
         elif end:
             records = records.before(end)
-        return records
+        return records.select_related('garden', 'added_by')
 
     @classmethod
     def get_summary_data(cls, gardens, **kwargs):

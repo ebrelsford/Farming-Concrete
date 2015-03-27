@@ -45,7 +45,13 @@ class CropcountDatasetMixin(object):
 
 
 class CropcountDataset(CropcountDatasetMixin, MetricDatasetMixin, ModelDataset):
-    pass
+
+    def get_queryset(self):
+        return self.model.get_records(
+            gardens=self.gardens,
+            start=self.start,
+            end=self.end
+        ).select_related('box', 'crop', 'crop_variety')
 
 
 class PublicCropcountDataset(CropcountDatasetMixin, PublicMetricDatasetMixin,
