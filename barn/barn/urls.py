@@ -71,6 +71,7 @@ urlpatterns = patterns('',
     # reports
     url(r'^reports/', include(reports.urls.main_patterns)),
     url(r'^gardens/(?P<pk>\d+)/report/', include(reports.urls.garden_patterns)),
+    url(r'^gardens/group/(?P<pk>\d+)/report/', include(reports.urls.garden_group_patterns)),
 
     # API
     url(r'^api/', include('api.urls')),
