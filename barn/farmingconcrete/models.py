@@ -142,6 +142,20 @@ class GardenGroup(models.Model):
             user_profile__user=user,
         ).exists()
 
+    def can_join(self, garden=None, user=None):
+        # Open to anyone
+        if self.is_open:
+            return True
+
+        # Already in it
+        if garden and garden in self.gardens.all():
+            return True
+
+        # User is an admin (of group or site)
+        if user and (self.is_admin(user) or user.has_perm('can_edit_any_garden')):
+            return True
+        return False
+
     def __unicode__(self):
         return self.name
 

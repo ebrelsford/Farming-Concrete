@@ -85,21 +85,6 @@ class GardenForm(ModelForm):
                 user=self.user
             )
 
-    def _garden_can_join_group(self, group, garden=None, user=None):
-        # Open to anyone
-        if group.is_open:
-            return True
-
-        # Already in it
-        if garden and garden in group.gardens.all():
-            return True
-
-        # User is an admin (of group or site)
-        if user and (group.is_admin(user) or
-                     user.has_perm('can_edit_any_garden')):
-            return True
-        return False
-
     def clean_groups(self):
         """
         Ensure that all groups:
@@ -116,7 +101,7 @@ class GardenForm(ModelForm):
             # Must be adding a new garden
             pass
         failures = filter(
-            lambda g: not self._garden_can_join_group(g, garden=garden, user=self.user),
+            lambda g: not g.can_join(garden=garden, user=self.user),
             groups
         )
         if failures:
@@ -125,8 +110,7 @@ class GardenForm(ModelForm):
             if len(failures) == 1:
                 error_str = """%s is not an open group. Please ask for 
                     permission before adding this garden to it.""" % failures[0].name
-            else:
-                raise ValidationError(error_str)
+            raise ValidationError(error_str)
         return groups
 
     def clean(self):
