@@ -11,6 +11,8 @@
         {% endfor %}
     </div>
 
-    {% include "forms/buttons.html" %}
+    {% block buttons %}
+        {% include "forms/buttons.html" %}
+    {% endblock %}
 
 </form>

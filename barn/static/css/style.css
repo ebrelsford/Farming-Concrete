@@ -10846,6 +10846,12 @@ fieldset[disabled] .btn-invite-member.active {
     width: 75%;
   }
 }
+.garden-group-update-form .btn {
+  float: right;
+}
+.garden-group-update-form .btn:first-child {
+  margin-left: 0;
+}
 .garden-group-list {
   list-style: none;
   margin: 0;

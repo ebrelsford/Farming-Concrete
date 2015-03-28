@@ -4,4 +4,13 @@
     &-inner {
         .make-sm-column(9);
     }
+
+    .btn {
+        float: right;
+
+        // Override submit buttons liking to push themselves right
+        &:first-child {
+            margin-left: 0;
+        }
+    }
 }

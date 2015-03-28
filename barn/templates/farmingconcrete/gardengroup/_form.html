@@ -1,0 +1,13 @@
+{% extends "_form.html" %}
+{% load i18n %}
+
+{% block buttons %}
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit">
+            {% trans "submit" %}
+        </button>
+        <a class="btn btn-default btn-cancel" href="{% url "farmingconcrete_gardengroup_detail" pk=group.pk %}">
+            {% trans "cancel" %}
+        </a>
+    </div>
+{% endblock %}
