@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Edit {{ gardengroup.name }}</h1>
+    <div class="garden-group-update-form">
+        <div class="garden-group-update-form-inner">
+            {% include "_form.html" with form=form action=action_url cancel_button=True %}
+        </div>
+    </div>
+{% endblock %}

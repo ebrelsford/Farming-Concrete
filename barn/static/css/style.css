@@ -7227,6 +7227,8 @@ button.close {
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
 .garden-detail-page .metric-group .metric:after,
+.garden-group-update-form:before,
+.garden-group-update-form:after,
 .garden-group-list-group:before,
 .garden-group-list-group:after,
 .garden-list-garden:before,
@@ -7272,6 +7274,7 @@ button.close {
 .moods-change-record .field-counts .moods-negative:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after,
+.garden-group-update-form:after,
 .garden-group-list-group:after,
 .garden-list-garden:after,
 .main-index-page .overview-list:after {
@@ -10826,6 +10829,22 @@ fieldset[disabled] .btn-invite-member.active {
 }
 .garden-group-page .garden-group-section {
   margin-top: 25px;
+}
+.garden-group-update-form {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.garden-group-update-form-inner {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-group-update-form-inner {
+    float: left;
+    width: 75%;
+  }
 }
 .garden-group-list {
   list-style: none;

@@ -345,3 +345,29 @@ class CreateGardenGroupView(LoginRequiredMixin, CreateView):
             'name': gardengroup.name,
             'pk': gardengroup.pk,
         }), content_type='application/json')
+
+
+class UpdateGardenGroupView(LoginRequiredMixin, SuccessMessageFormMixin,
+                            UpdateView):
+    form_class = GardenGroupForm
+    model = GardenGroup
+    template_name = 'farmingconcrete/gardengroup/update.html'
+
+    def get(self, request, *args, **kwargs):
+        if not self.get_object().is_admin(request.user):
+            raise PermissionDenied
+        return super(UpdateGardenGroupView, self).get(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = self.initial.copy()
+        initial.update({
+            'updated_by': self.request.user,
+        })
+        return initial
+
+    def get_success_message(self):
+        return 'Successfully edited %s' % self.object
+
+    def get_success_url(self):
+        return reverse('farmingconcrete_gardengroup_detail',
+                       kwargs={ 'pk': self.object.pk })
