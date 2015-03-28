@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
-from .views import (AddSuggestedGardenView, CreateGardenView,
-                    CreateGardenGroupView, GardenDetails,
+from .views import (AddSuggestedGardenView, CheckGardenGroupMembershipAccess,
+                    CreateGardenView, CreateGardenGroupView, GardenDetails,
                     GardenGroupDetailView, GardenSuggestionView, UserGardens,
                     UserGardenLeaveView, UpdateGardenView,
                     UpdateGardenGroupView, UserGardenLeaveConfirmedView)
@@ -70,6 +70,11 @@ urlpatterns = patterns('',
 
     url(r'^group/(?P<pk>\d+)/edit/$', UpdateGardenGroupView.as_view(),
         name='farmingconcrete_gardengroup_update',
+    ),
+
+    url(r'^group/(?P<pk>\d+)/can-join/', 
+        CheckGardenGroupMembershipAccess.as_view(),
+        name='farmingconcrete_gardengroup_can_join',
     ),
 
 )

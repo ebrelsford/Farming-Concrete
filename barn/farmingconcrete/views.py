@@ -3,6 +3,7 @@ import geojson
 import json
 
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -12,6 +13,8 @@ from django.views.generic import (CreateView, DetailView, UpdateView,
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
+
+from braces.views import JSONResponseMixin
 
 from accounts.models import GardenMembership
 from accounts.utils import get_profile
@@ -372,3 +375,21 @@ class UpdateGardenGroupView(LoginRequiredMixin, SuccessMessageFormMixin,
     def get_success_url(self):
         return reverse('farmingconcrete_gardengroup_detail',
                        kwargs={ 'pk': self.object.pk })
+
+
+class CheckGardenGroupMembershipAccess(LoginRequiredMixin, JSONResponseMixin,
+                                       DetailView):
+    model = GardenGroup
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        garden = Garden.objects.get(pk=request.GET.get('garden', None))
+        user = User.objects.get(pk=request.GET.get('user', None))
+        context = {
+            'can_join': self.object.can_join(garden=garden, user=user),
+            'group': {
+                'pk': self.object.pk,
+                'name': self.object.name,
+            },
+        }
+        return self.render_json_response(context)

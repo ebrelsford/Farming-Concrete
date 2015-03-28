@@ -188,6 +188,22 @@ define(
             });
 
             $('[data-toggle="tooltip"]').tooltip();
+
+            $('#id_groups').change(function () {
+                $.each($(this).val(), function () {
+                    var url = Django.url('farmingconcrete_gardengroup_can_join', { pk: this }),
+                        params = {
+                            garden: $(':input[name=id]').val(),
+                            user: $(':input[name=added_by]').val(),
+                        };
+                    $.getJSON(url, params, function (data) {
+                        if (!data.can_join) {
+                            alert("Sorry, you don't have permission to join " + data.group.name);
+                            // TODO Let them ask for permission
+                        }
+                    });
+                });
+            });
         });
 
     }
