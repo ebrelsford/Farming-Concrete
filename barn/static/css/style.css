@@ -10923,6 +10923,30 @@ fieldset[disabled] .btn-invite-member.active {
 .garden-group-list-group-name:hover {
   color: #f63c04;
 }
+#new-gardengroup-modal .field-name {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-gardengroup-modal .field-name {
+    float: left;
+    width: 100%;
+  }
+}
+#new-gardengroup-modal .field-is_open {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  #new-gardengroup-modal .field-is_open {
+    float: left;
+    width: 100%;
+  }
+}
 ul.garden-list {
   list-style: none;
   margin: 0;

@@ -97,6 +97,12 @@ class GardenGroup(models.Model):
     description = models.TextField(_('description'), blank=True, null=True)
     gardens = models.ManyToManyField('Garden', through='GardenGroupMembership')
 
+    is_open = models.BooleanField(_('is open'),
+        default=False,
+        help_text=_('Can any garden join the group, or are they required to '
+                    'get permission first?')
+    )
+
     added_by = models.ForeignKey('auth.User')
     added = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True, editable=False)
