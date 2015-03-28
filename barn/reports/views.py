@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.views.generic import TemplateView
 
+from django_tablib import Field
 from easy_pdf.views import PDFTemplateView
 
 from generic.views import LoginRequiredMixin, TablibView
@@ -12,21 +13,14 @@ from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
 from metrics.registry import registry
 
+from farmingconcrete.views import GardenGroupMixin
+
 
 class Index(LoginRequiredMixin, TemplateView):
     template_name = 'reports/index.html'
 
 
-class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
-    """
-    Export data for a garden for some or all metrics as an Excel spreadsheet.
-    """
-    format = 'xlsx'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.garden = self.get_object()
-        self.metrics = self.get_metrics()
-        return super(SpreadsheetView, self).get(request, *args, **kwargs)
+class MetricSpreadsheetMixin(object):
 
     def get_dataset_class(self, metric_name):
         try:
@@ -34,15 +28,12 @@ class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
         except KeyError:
             return None
 
-    def get_metrics(self):
-        try:
-            return self.request.GET['metrics'].split(',')
-        except Exception:
-            # If no metrics and user has access, get all metrics
-            if self.garden.is_admin(self.request.user):
-                return registry.keys()
-            else:
-                raise PermissionDenied
+    def get_filename(self):
+        return '%s - %s - %s' % (
+            self.object.name,
+            'Barn export',
+            date.today().strftime('%Y-%m-%d'),
+        )
 
     def get_dataset(self):
         datasets = []
@@ -50,7 +41,7 @@ class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
             dataset_cls = self.get_dataset_class(metric)
             if not dataset_cls:
                 continue
-            ds = dataset_cls(gardens=[self.garden])
+            ds = dataset_cls(gardens=self.get_gardens())
 
             # Only append if there is data to append
             if not ds.height:
@@ -63,12 +54,70 @@ class SpreadsheetView(LoginRequiredMixin, GardenMixin, TablibView):
             raise Http404
         return Databook(datasets)
 
-    def get_filename(self):
-        return '%s - %s - %s' % (
-            self.garden.name,
-            'Barn export',
-            date.today().strftime('%Y-%m-%d'),
-        )
+
+class SpreadsheetView(MetricSpreadsheetMixin, LoginRequiredMixin, GardenMixin,
+                      TablibView):
+    """
+    Export data for a garden for some or all metrics as an Excel spreadsheet.
+    """
+    format = 'xlsx'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.garden = self.get_object()
+        self.metrics = self.get_metrics()
+        return super(SpreadsheetView, self).get(request, *args, **kwargs)
+
+    def get_gardens(self):
+        return [self.garden,]
+
+    def get_metrics(self):
+        try:
+            return self.request.GET['metrics'].split(',')
+        except Exception:
+            # If no metrics and user has access, get all metrics
+            if self.garden.is_admin(self.request.user):
+                return registry.keys()
+            else:
+                raise PermissionDenied
+
+
+class SpreadsheetGroupView(MetricSpreadsheetMixin, GardenGroupMixin,
+                           LoginRequiredMixin, TablibView):
+    """
+    Export data for a garden group for some or all metrics as an Excel 
+    spreadsheet.
+    """
+    format = 'xlsx'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.garden_group = self.get_object()
+        self.metrics = self.get_metrics()
+        return super(SpreadsheetGroupView, self).get(request, *args, **kwargs)
+
+    def get_dataset_class(self, metric_name):
+        try:
+            dataset_cls = super(SpreadsheetGroupView, self).get_dataset_class(metric_name)
+
+            # Wrap the dataset from the metric with a class that inserts the
+            # garden name as a field
+            class GardenDataset(dataset_cls):
+                garden = Field(header='garden')
+                def __init__(self, *args, **kwargs):
+                    self._meta.fields = ['garden',] + super(GardenDataset, self)._meta.fields
+                    # garden will be made first in MetricDatasetMixin
+                    super(GardenDataset, self).__init__(*args, **kwargs)
+            return GardenDataset
+        except KeyError:
+            return None
+
+    def get_gardens(self):
+        return list(self.garden_group.gardens.all())
+
+    def get_metrics(self):
+        try:
+            return self.request.GET['metrics'].split(',')
+        except Exception:
+            return registry.keys()
 
 
 class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):

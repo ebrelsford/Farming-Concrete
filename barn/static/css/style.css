@@ -10821,6 +10821,9 @@ fieldset[disabled] .btn-invite-member.active {
 #invite-member-modal.error .alert-danger {
   display: block;
 }
+.garden-group-page .garden-group-section {
+  margin-top: 25px;
+}
 ul.garden-list {
   list-style: none;
   margin: 0;

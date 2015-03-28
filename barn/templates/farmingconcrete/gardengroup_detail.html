@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block body_class %}garden-group-page{% endblock %}
+
 {% block header_title %}{{ gardengroup.name }}{% endblock %}
 
 {% block content %}
     <section>
         <h1>{{ gardengroup.name }}</h1>
 
-        <section>
+        <section class="garden-group-section">
             <h2>{% trans "Gardens in this group" %}</h2>
             <ul class="garden-list">
                 {% for garden in gardengroup.gardens.all %}
@@ -16,6 +18,11 @@
                     </li>
                 {% endfor %}
             </ul>
+        </section>
+
+        <section class="garden-group-section">
+            <h2>{% trans "Export" %}</h2>
+            <a class="btn btn-default btn-download" href="{% url "reports_group_export" pk=gardengroup.pk %}">download data</a>
         </section>
 
     </section>
