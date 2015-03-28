@@ -166,7 +166,8 @@ class UpdateGardenView(LoginRequiredMixin, SuccessMessageFormMixin,
         return 'Successfully edited %s' % self.object
 
     def get_success_url(self):
-        return reverse('home')
+        return reverse('farmingconcrete_garden_details',
+                       kwargs={ 'pk': self.object.pk })
 
 
 class GardenSuggestionView(LoginRequiredMixin, ListView):
