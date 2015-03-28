@@ -86,10 +86,7 @@ class GardenForm(ModelForm):
             )
 
     def clean(self):
-        print 'clean:', self.data
         cleaned_data = super(GardenForm, self).clean()
-
-        print 'clean:', cleaned_data
 
         latitude = cleaned_data.get('latitude')
         longitude = cleaned_data.get('longitude')
