@@ -1,12 +1,20 @@
 {% extends "reports/base.html" %}
-{% load garden_tags %}
+{% load garden_tags garden_group_tags %}
 
 {% block title %}Reports{% endblock %}
 
 {% block content %}
     <h1>Reports</h1>
 
-    {% garden_list user "reports/garden_list.html" %}
+    <section class="report-section">
+        <h2>Gardens</h2>
+        {% garden_list user "reports/garden_list.html" %}
+    </section>
+
+    <section class="report-section">
+        <h2>Groups</h2>
+        {% garden_group_list user "reports/gardengroup_list.html" %}
+    </section>
 
     <div class="modal fade pdf-modal">
         <div class="modal-dialog">

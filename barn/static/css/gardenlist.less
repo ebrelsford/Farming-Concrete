@@ -1,54 +1,9 @@
 ul.garden-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    .list();
 }
 
 .garden-list-garden {
-    .make-row();
-
-    border-bottom: @separator-border;
-    margin-left: 0;
-    padding-bottom: 15px;
-    padding-top: 15px;
-
-    &:first-child {
-        border-top: @separator-border;
-    }
-
-    &-main {
-        .make-md-column(6);
-        font-size: 12px;
-        padding-left: 5px;
-    }
-
-    &-actions {
-        font-size: 12px;
-
-        &-separator {
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-    }
-
-    &-details {
-        font-size: 12px;
-        line-height: 18px;
-    }
-
-    &-buttons {
-        .make-md-column(3);
-
-        a {
-            width: 100%;
-        }
-    }
-}
-
-.garden-list-garden-actions {
-    .make-md-column(3);
-    padding-top: 20px;
-    text-align: right;
+    .list-item();
 }
 
 .garden-detail-page,

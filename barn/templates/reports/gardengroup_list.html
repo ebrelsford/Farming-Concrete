@@ -1,0 +1,10 @@
+{% extends "farmingconcrete/gardengroup_list_base.html" %}
+{% load i18n metrics_tags %}
+
+{% block actions %}{% endblock %}
+
+{% block buttons %}
+    <a href="{% url "reports_group_export" pk=group.pk %}" class="btn btn-default" {% if not group.gardens.exists %}disabled{% endif %}>
+        {% trans "spreadsheet" %}
+    </a>
+{% endblock %}

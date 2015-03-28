@@ -7227,6 +7227,8 @@ button.close {
 .summary:after,
 .garden-detail-page .metric-group .metric:before,
 .garden-detail-page .metric-group .metric:after,
+.garden-group-list-group:before,
+.garden-group-list-group:after,
 .garden-list-garden:before,
 .garden-list-garden:after,
 .main-index-page .overview-list:before,
@@ -7270,6 +7272,7 @@ button.close {
 .moods-change-record .field-counts .moods-negative:after,
 .summary:after,
 .garden-detail-page .metric-group .metric:after,
+.garden-group-list-group:after,
 .garden-list-garden:after,
 .main-index-page .overview-list:after {
   clear: both;
@@ -10824,6 +10827,83 @@ fieldset[disabled] .btn-invite-member.active {
 .garden-group-page .garden-group-section {
   margin-top: 25px;
 }
+.garden-group-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.garden-group-list-group {
+  margin-left: -15px;
+  margin-right: -15px;
+  border-bottom: 1px dotted #8c8c8c;
+  margin-left: 0;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.garden-group-list-group:first-child {
+  border-top: 1px dotted #8c8c8c;
+}
+.garden-group-list-group-main {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
+  padding-left: 5px;
+}
+@media (min-width: 992px) {
+  .garden-group-list-group-main {
+    float: left;
+    width: 50%;
+  }
+}
+.garden-group-list-group-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
+  text-align: right;
+}
+@media (min-width: 992px) {
+  .garden-group-list-group-actions {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-group-list-group-actions-separator {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.garden-group-list-group-details {
+  font-size: 12px;
+  line-height: 18px;
+}
+.garden-group-list-group-buttons {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .garden-group-list-group-buttons {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-group-list-group-buttons a {
+  width: 100%;
+}
+.garden-group-list-group-name {
+  color: #f63c04;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+.garden-group-list-group-name:hover {
+  color: #f63c04;
+}
 ul.garden-list {
   list-style: none;
   margin: 0;
@@ -10855,7 +10935,18 @@ ul.garden-list {
   }
 }
 .garden-list-garden-actions {
-  font-size: 12px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
+  text-align: right;
+}
+@media (min-width: 992px) {
+  .garden-list-garden-actions {
+    float: left;
+    width: 25%;
+  }
 }
 .garden-list-garden-actions-separator {
   margin-left: 5px;
@@ -10879,20 +10970,6 @@ ul.garden-list {
 }
 .garden-list-garden-buttons a {
   width: 100%;
-}
-.garden-list-garden-actions {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 20px;
-  text-align: right;
-}
-@media (min-width: 992px) {
-  .garden-list-garden-actions {
-    float: left;
-    width: 25%;
-  }
 }
 .garden-detail-page .garden-list-garden-actions,
 .metric-garden-page .garden-list-garden-actions {
@@ -11217,6 +11294,9 @@ fieldset[disabled] .btn-add-garden.active {
 }
 .pdf-modal.is-downloading .pdf-download-select {
   display: none;
+}
+.report-section {
+  margin-top: 25px;
 }
 .share .sharebox {
   display: none;
