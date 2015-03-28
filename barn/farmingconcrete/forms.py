@@ -76,14 +76,58 @@ class GardenForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+        self.user = kwargs.pop('user', None)
         super(GardenForm, self).__init__(*args, **kwargs)
 
-        if user:
+        if self.user:
             self.fields['type'] = GardenTypeField(
                 queryset=self.fields['type'].queryset,
-                user=user
+                user=self.user
             )
+
+    def _garden_can_join_group(self, group, garden=None, user=None):
+        # Open to anyone
+        if group.is_open:
+            return True
+
+        # Already in it
+        if garden and garden in group.gardens.all():
+            return True
+
+        # User is an admin (of group or site)
+        if user and (group.is_admin(user) or
+                     user.has_perm('can_edit_any_garden')):
+            return True
+        return False
+
+    def clean_groups(self):
+        """
+        Ensure that all groups:
+         * are open OR
+         * already have the garden in them OR
+         * have the adding user as an admin
+        """
+        groups = self.cleaned_data['groups']
+        garden = None
+
+        try:
+            garden = Garden.objects.get(pk=self.cleaned_data['id'])
+        except Garden.DoesNotExist:
+            # Must be adding a new garden
+            pass
+        failures = filter(
+            lambda g: not self._garden_can_join_group(g, garden=garden, user=self.user),
+            groups
+        )
+        if failures:
+            error_str = """%s are not open groups. Please ask for permission 
+                before adding this garden to them.""" % ', '.join([g.name for g in failures])
+            if len(failures) == 1:
+                error_str = """%s is not an open group. Please ask for 
+                    permission before adding this garden to it.""" % failures[0].name
+            else:
+                raise ValidationError(error_str)
+        return groups
 
     def clean(self):
         cleaned_data = super(GardenForm, self).clean()
