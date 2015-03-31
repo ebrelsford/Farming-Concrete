@@ -388,7 +388,10 @@ class CheckGardenGroupMembershipAccess(LoginRequiredMixin, JSONResponseMixin,
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        garden = Garden.objects.get(pk=request.GET.get('garden', None))
+        try:
+            garden = Garden.objects.get(pk=request.GET.get('garden', None))
+        except (Garden.DoesNotExist, ValueError):
+            garden = None
         user = User.objects.get(pk=request.GET.get('user', None))
         context = {
             'can_join': self.object.can_join(garden=garden, user=user),
