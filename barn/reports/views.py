@@ -111,7 +111,7 @@ class SpreadsheetGroupView(MetricSpreadsheetMixin, GardenGroupMixin,
             return None
 
     def get_gardens(self):
-        return list(self.garden_group.gardens.all())
+        return list(self.garden_group.active_gardens.all())
 
     def get_metrics(self):
         try:

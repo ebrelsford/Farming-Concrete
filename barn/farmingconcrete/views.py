@@ -129,7 +129,7 @@ class GardenFormMixin(FormMixin):
 
     def get_initial(self):
         try:
-            groups = self.object.gardengroup_set.all()
+            groups = self.object.groups()
         except Exception:
             groups = None
         initial = super(GardenFormMixin, self).get_initial()

@@ -2,6 +2,6 @@
     <a class="garden-group-list-group-name" href="{% url "farmingconcrete_gardengroup_detail" pk=group.pk %}">{{ group.name }}</a>
 
     <div class="garden-group-list-group-details">
-        {{ group.gardens.count }} garden{{ group.gardens.count|pluralize }}
+        {{ group.active_gardens.count }} garden{{ group.active_gardens.count|pluralize }}
     </div>
 </div>

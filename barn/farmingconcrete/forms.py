@@ -164,6 +164,7 @@ class GardenForm(ModelForm):
         user = self.cleaned_data['added_by']
         groups = self.cleaned_data['groups']
         garden = super(GardenForm, self).save(*args, **kwargs)
+        # NB this is an okay use of gardengroup_set
         garden.gardengroup_set.clear()
         for group in groups:
             membership = GardenGroupMembership(

@@ -14,7 +14,7 @@
         <section class="garden-group-section">
             <h2>{% trans "Gardens in this group" %}</h2>
             <ul class="garden-list">
-                {% for garden in gardengroup.gardens.all %}
+                {% for garden in gardengroup.active_gardens.all %}
                     <li class="garden-list-garden">
                         {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
                     </li>

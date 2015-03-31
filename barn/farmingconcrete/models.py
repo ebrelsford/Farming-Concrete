@@ -71,6 +71,12 @@ class Garden(PrivacyMixin, models.Model):
     def __unicode__(self):
         return self.name
 
+    def groups(self):
+        """Get the groups this garden is actively a member of"""
+        groups = GardenGroupMembership.objects.filter(garden=self) \
+                .values_list('group__pk', flat=True)
+        return GardenGroup.objects.filter(pk__in=groups)
+
     def is_admin(self, user):
         """Returns true if the given user is an admin of this garden"""
         if user.has_perm('farmingconcrete.can_edit_any_garden'):
@@ -106,6 +112,12 @@ class GardenGroup(models.Model):
     added_by = models.ForeignKey('auth.User')
     added = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True, editable=False)
+
+    def active_gardens(self):
+        """Get the gardens this group actively contains"""
+        gardens = GardenGroupMembership.objects.filter(group=self) \
+                .values_list('garden__pk', flat=True)
+        return Garden.objects.filter(pk__in=gardens)
 
     def add_admin(self, user):
         """Add the given user as an admin of this group."""
@@ -160,9 +172,47 @@ class GardenGroup(models.Model):
         return self.name
 
 
+class GardenGroupMembershipManager(models.Manager):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        return super(GardenGroupMembershipManager, self).get_queryset().filter(
+            status=GardenGroupMembership.ACTIVE
+        )
+
+
+class GardenGroupMembershipStatusQuerySet(models.QuerySet):
+
+    def status_is(self, status):
+        return self.filter(status=status)
+
+    def active(self):
+        return self.status_is(GardenGroupMembership.ACTIVE)
+
+    def pending_invited(self):
+        return self.status_is(GardenGroupMembership.PENDING_INVITED)
+
+    def pending_requested(self):
+        return self.status_is(GardenGroupMembership.PENDING_REQUESTED)
+
+
 class GardenGroupMembership(models.Model):
+    objects = GardenGroupMembershipManager()
+    by_status = GardenGroupMembershipStatusQuerySet.as_manager()
+
     garden = models.ForeignKey('Garden')
     group = models.ForeignKey('GardenGroup')
 
     added_by = models.ForeignKey('auth.User', editable=False)
     added = models.DateTimeField(auto_now_add=True, editable=False)
+
+    ACTIVE = 'active'
+    PENDING_REQUESTED = 'pending_requested'
+    PENDING_INVITED = 'pending_invited'
+    STATUS_CHOICES = (
+        (ACTIVE, 'active'),
+        (PENDING_REQUESTED, 'pending: requested'),
+        (PENDING_INVITED, 'pending: invited'),
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES,
+                              default=ACTIVE)
