@@ -127,6 +127,11 @@ class GardenFormMixin(FormMixin):
     form_class = GardenForm
     model = Garden
 
+    def get_form_kwargs(self):
+        kwargs = super(GardenFormMixin, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_initial(self):
         try:
             groups = self.object.groups()
