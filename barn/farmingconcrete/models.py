@@ -119,6 +119,13 @@ class GardenGroup(models.Model):
                 .values_list('garden__pk', flat=True)
         return Garden.objects.filter(pk__in=gardens)
 
+    def requesting_gardens(self):
+        """Get the gardens that have requested access to this group"""
+        gardens = GardenGroupMembership.by_status.pending_requested() \
+                .filter(group=self) \
+                .values_list('garden__pk', flat=True)
+        return Garden.objects.filter(pk__in=gardens)
+
     def add_admin(self, user):
         """Add the given user as an admin of this group."""
         from accounts.models import GardenGroupUserMembership
@@ -133,6 +140,15 @@ class GardenGroup(models.Model):
             membership.is_admin = True
         membership.save()
         return membership
+
+    def admins(self):
+        from accounts.models import GardenGroupUserMembership
+
+        admin_members = GardenGroupUserMembership.objects.filter(
+            is_admin=True,
+            group=self,
+        )
+        return [a.user_profile.user for a in admin_members]
 
     def is_admin(self, user):
         """Is the user an admin of this group?"""
