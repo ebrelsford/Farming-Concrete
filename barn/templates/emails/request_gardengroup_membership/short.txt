@@ -1,0 +1,1 @@
+{{ garden.name }} wants to join {{ group.name }}

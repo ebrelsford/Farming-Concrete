@@ -10742,6 +10742,10 @@ h2 a.text {
   text-align: left;
   width: 400px;
 }
+.add-gardens-page .group-permission-required-message.request-sent,
+.add-gardens-page .group-permission-required-message.request-sent a {
+  color: grey;
+}
 .add-garden-map {
   height: 200px;
   width: 100%;

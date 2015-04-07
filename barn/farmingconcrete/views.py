@@ -2,19 +2,22 @@ from datetime import datetime
 import geojson
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.views.generic import (CreateView, DetailView, UpdateView,
                                   TemplateView)
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
-from braces.views import JSONResponseMixin
+from braces.views import JSONResponseMixin, MessageMixin
+from templated_emails.utils import send_templated_email
 
 from accounts.models import GardenMembership
 from accounts.utils import get_profile
@@ -24,7 +27,7 @@ from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
 from .forms import GardenForm, GardenGroupForm
-from .models import Garden, GardenGroup, GardenType
+from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
 
 
 class UserGardensMixin(object):
@@ -401,3 +404,101 @@ class CheckGardenGroupMembershipAccess(LoginRequiredMixin, JSONResponseMixin,
             },
         }
         return self.render_json_response(context)
+
+
+class AcceptGardenGroupMembership(GardenGroupMixin, MessageMixin, 
+                                  LoginRequiredMixin, JSONResponseMixin,
+                                  DetailView):
+
+    def approve_membership(self, garden, group):
+        memberships = GardenGroupMembership.by_status.pending_requested().filter(
+            garden=garden,
+            group=group,
+        )
+        memberships.update(status=GardenGroupMembership.ACTIVE)
+        return memberships
+
+    def remove_extra_memberships(self, garden, group):
+        memberships = GardenGroupMembership.by_status.any().filter(
+            garden=garden,
+            group=group,
+        )
+        if memberships.count() > 1:
+            GardenGroupMembership.by_status.any().filter(
+                pk__in=[m.pk for m in memberships.order_by('added')[1:]],
+            ).delete()
+
+    def check_permission(self, group):
+        user = self.request.user
+        return group.is_admin(user) or user.has_perm('can_edit_any_garden')
+
+    def get(self, request, garden_pk=None, *args, **kwargs):
+        group = self.object = self.get_object()
+        garden = Garden.objects.get(pk=garden_pk)
+
+        self.approve_membership(garden, group)
+        self.remove_extra_memberships(garden, group)
+        self.messages.success('Successfully approved %s' % garden.name)
+
+        return redirect('farmingconcrete_gardengroup_detail', pk=self.object.pk)
+
+
+class RequestGardenGroupMembership(LoginRequiredMixin, JSONResponseMixin,
+                                   DetailView):
+    model = GardenGroup
+
+    def email_group_admins(self, garden, user, membership):
+        send_templated_email(
+            [admin.email for admin in self.object.admins()],
+            'emails/request_gardengroup_membership', {
+                'base_url': settings.BASE_URL,
+                'garden': garden,
+                'group': self.object,
+                'membership': membership,
+                'user': user,
+            }
+        )
+
+    def add_requested_membership(self, garden, user):
+        membership = GardenGroupMembership(
+            added_by=user,
+            garden=garden,
+            group=self.object,
+            status=GardenGroupMembership.PENDING_REQUESTED,
+        )
+        membership.save()
+        return membership
+
+    def failure(self, group, message):
+        context = {
+            'request_sent': False,
+            'message': message,
+            'group': {
+                'pk': group.pk,
+                'name': group.name,
+            },
+        }
+        return self.render_json_response(context)
+
+    def success(self, group):
+        context = {
+            'request_sent': True,
+            'group': {
+                'pk': group.pk,
+                'name': group.name,
+            },
+        }
+        return self.render_json_response(context)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            garden = Garden.objects.get(pk=request.GET.get('garden', None))
+        except (Garden.DoesNotExist, ValueError):
+            msg = ('Please save garden before requesting permission to join a '
+                   'group.')
+            return self.failure(self.object, msg)
+        user = User.objects.get(pk=request.GET.get('user', None))
+        membership = self.add_requested_membership(garden, user)
+        self.email_group_admins(garden, user, membership)
+        return self.success(self.object)

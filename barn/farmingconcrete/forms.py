@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse
 from django.forms import (Form, HiddenInput, IntegerField, ModelForm,
                           ModelChoiceField, ModelMultipleChoiceField,
                           ValidationError)
+from django.utils.safestring import mark_safe
 
 from ajax_select.fields import AutoCompleteSelectField
 from floppyforms.widgets import SelectMultiple
@@ -105,12 +107,25 @@ class GardenForm(ModelForm):
             groups
         )
         if failures:
-            error_str = """%s are not open groups. Please ask for permission 
-                before adding this garden to them.""" % ', '.join([g.name for g in failures])
-            if len(failures) == 1:
-                error_str = """%s is not an open group. Please ask for 
-                    permission before adding this garden to it.""" % failures[0].name
-            raise ValidationError(error_str)
+            errors = []
+            for failure in failures:
+                if garden:
+                    url = reverse('farmingconcrete_gardengroup_request', kwargs={
+                        'pk': failure.pk,
+                    }) + '?garden=%s&user=%s' % (garden.pk or '', self.user.pk)
+                    errors.append("""
+<p class="group-permission-required-message">
+    %s is not an open group. 
+    <a href="%s" class="request-group-permission">Ask for permission</a> to join it.
+</p>""" % (failure.name, url))
+                else:
+                    errors.append("""
+<p class="group-permission-required-message">
+    %s is not an open group. Please remove it from this list, save this garden,
+    and then try adding the garden to it. You will then be able to request 
+    permission to join it.
+</p>""" % failure.name)
+            raise ValidationError(mark_safe(''.join(errors)))
         return groups
 
     def clean(self):
@@ -164,8 +179,7 @@ class GardenForm(ModelForm):
         user = self.cleaned_data['added_by']
         groups = self.cleaned_data['groups']
         garden = super(GardenForm, self).save(*args, **kwargs)
-        # NB this is an okay use of gardengroup_set
-        garden.gardengroup_set.clear()
+        GardenGroupMembership.objects.filter(garden=garden).delete()
         for group in groups:
             membership = GardenGroupMembership(
                 added_by=user,

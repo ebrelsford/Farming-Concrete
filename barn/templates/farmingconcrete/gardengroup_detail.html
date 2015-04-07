@@ -22,6 +22,15 @@
             </ul>
         </section>
 
+        {% with requests=gardengroup.requesting_gardens.all %}
+            {% if requests.exists %}
+                <section class="garden-group-section" id="requests">
+                    <h2>{% trans "Gardens requesting access to join this group" %}</h2>
+                    {% include "farmingconcrete/gardens/_group_requesting_list.html" with gardens=requests group=gardengroup %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
         <section class="garden-group-section">
             <h2>{% trans "Export" %}</h2>
             <a class="btn btn-default btn-download" href="{% url "reports_group_export" pk=gardengroup.pk %}">download data</a>

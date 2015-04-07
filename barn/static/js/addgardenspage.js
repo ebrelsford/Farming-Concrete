@@ -189,21 +189,60 @@ define(
 
             $('[data-toggle="tooltip"]').tooltip();
 
-            $('#id_groups').change(function () {
-                $.each($(this).val(), function () {
-                    var url = Django.url('farmingconcrete_gardengroup_can_join', { pk: this }),
-                        params = {
-                            garden: $(':input[name=id]').val(),
-                            user: $(':input[name=added_by]').val(),
-                        };
-                    $.getJSON(url, params, function (data) {
-                        if (!data.can_join) {
-                            alert("Sorry, you don't have permission to join " + data.group.name);
-                            // TODO Let them ask for permission
-                        }
+            // Request permission to join a group
+            $('.request-group-permission').click(function (e) {
+                e.preventDefault();
+                if ($(this).hasClass('loading')) {
+                    return false;
+                }
+                var $message = $(this).parents('.group-permission-required-message');
+                var $loading = $('<span></span>')
+                    .css({
+                        display: 'inline-block',
+                        width: '15px',
+                        height: '15px' 
                     });
+                $message.append($loading);
+                $loading.spin({
+                    color: '#000',
+                    left: 0,
+                    length: 4,
+                    radius: 3,
+                    top: 0,
+                    width: 1
                 });
+
+                // Disable link
+                $(this).addClass('loading');
+                $.getJSON($(this).attr('href'))
+                    .done(function (data) {
+                        if (data.request_sent === true) {
+                            $message.append(
+                                $('<p></p>')
+                                    .text('Request sent.')
+                            );
+                        }
+                        else {
+                            $message.append(
+                                $('<p></p>')
+                                    .text('Request not sent. ' + data.message)
+                            );
+                        }
+                    })
+                    .fail(function () {
+                        $message.append(
+                            $('<p></p>')
+                                .text('There was an error while sending your request. Please try again later and let us know if this continues.')
+                        );
+                    })
+                    .always(function () {
+                        $loading.spin(false);
+                        $loading.remove();
+                        $message.addClass('request-sent');
+                    });
+                return false;
             });
+
         });
 
     }

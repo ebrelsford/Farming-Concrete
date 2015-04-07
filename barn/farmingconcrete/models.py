@@ -117,14 +117,14 @@ class GardenGroup(models.Model):
         """Get the gardens this group actively contains"""
         gardens = GardenGroupMembership.objects.filter(group=self) \
                 .values_list('garden__pk', flat=True)
-        return Garden.objects.filter(pk__in=gardens)
+        return Garden.objects.filter(pk__in=gardens).order_by('name')
 
     def requesting_gardens(self):
         """Get the gardens that have requested access to this group"""
         gardens = GardenGroupMembership.by_status.pending_requested() \
                 .filter(group=self) \
                 .values_list('garden__pk', flat=True)
-        return Garden.objects.filter(pk__in=gardens)
+        return Garden.objects.filter(pk__in=gardens).order_by('name')
 
     def add_admin(self, user):
         """Add the given user as an admin of this group."""
@@ -165,7 +165,7 @@ class GardenGroup(models.Model):
         from accounts.models import GardenMembership
 
         return GardenMembership.objects.filter(
-            garden__gardengroup=self,
+            garden__in=self.active_gardens(),
             is_admin=True,
             user_profile__user=user,
         ).exists()
@@ -176,7 +176,7 @@ class GardenGroup(models.Model):
             return True
 
         # Already in it
-        if garden and garden in self.gardens.all():
+        if garden and garden in self.active_gardens():
             return True
 
         # User is an admin (of group or site)
@@ -198,6 +198,9 @@ class GardenGroupMembershipManager(models.Manager):
 
 
 class GardenGroupMembershipStatusQuerySet(models.QuerySet):
+
+    def any(self):
+        return self.all()
 
     def status_is(self, status):
         return self.filter(status=status)

@@ -1,0 +1,7 @@
+{{ user.username }} requested that {{ group.name }} add {{ garden.name }} to its group.
+
+Since you're an administrator for {{ group.name }} you can approve {{ garden.name }}'s membership in {{ group.name }} by going here:
+
+    {{ base_url }}{% url "farmingconcrete_gardengroup_detail" pk=group.pk %}#requests
+
+and clicking the Approve button.
