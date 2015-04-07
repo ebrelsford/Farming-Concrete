@@ -12,18 +12,17 @@ from metrics.harvestcount.models import Gardener
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
 
     # Gardens this user has access to. If none, and has 'any' permissions,
     # user can access all.
     gardens = models.ManyToManyField('farmingconcrete.Garden',
         blank=True,
-        null=True,
         through='GardenMembership',
     )
 
     # GardenTypes this user is restricted to. If none, user can access all.
-    garden_types = models.ManyToManyField('farmingconcrete.GardenType', blank=True, null=True)
+    garden_types = models.ManyToManyField('farmingconcrete.GardenType', blank=True)
 
     # The corresponding Gardener for this user, if any.
     gardener = models.ForeignKey(Gardener, blank=True, null=True)

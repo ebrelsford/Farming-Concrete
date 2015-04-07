@@ -135,7 +135,6 @@ class ProgramReach(BaseMetricRecord):
 
     features = models.ManyToManyField('ProgramFeature',
         blank=True,
-        null=True,
         help_text=_('Features this program included'),
         verbose_name=_('features'),
     )
