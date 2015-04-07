@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import YumYuckDataset, PublicYumYuckDataset
-from .models import YumYuck
 
 
 class YumYuckConfig(AppConfig):
@@ -11,10 +9,12 @@ class YumYuckConfig(AppConfig):
     name = 'metrics.yumyuck'
 
     def ready(self):
+        from .export import YumYuckDataset, PublicYumYuckDataset
+
         register('Changes in Attitude: Yum & Yuck', {
             'add_record_template': 'metrics/yumyuck/change/add_record.html',
             'all_gardens_url_name': 'yumyuck_change_all_gardens',
-            'model': YumYuck,
+            'model': self.get_model('YumYuck'),
             'number': 1,
             'garden_detail_url_name': 'yumyuck_change_garden_details',
             'group': 'Health Data',

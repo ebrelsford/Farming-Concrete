@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import LookingGoodDataset, PublicLookingGoodDataset
-from .models import LookingGoodEvent
 
 
 class LookingGoodConfig(AppConfig):
@@ -11,11 +9,13 @@ class LookingGoodConfig(AppConfig):
     name = 'metrics.lookinggood'
 
     def ready(self):
+        from .export import LookingGoodDataset, PublicLookingGoodDataset
+
         register('Beauty of the Garden', {
             'add_record_label': 'Add looking good tags',
             'add_record_template': 'metrics/lookinggood/event/add_record.html',
             'all_gardens_url_name': 'lookinggood_event_all_gardens',
-            'model': LookingGoodEvent,
+            'model': self.get_model('LookingGoodEvent'),
             'number': 4,
             'garden_detail_url_name': 'lookinggood_event_garden_details',
             'group': 'Health Data',

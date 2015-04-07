@@ -2,10 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import (HoursByGeographyDataset, PublicHoursByGeographyDataset,
-                     HoursByProjectDataset, PublicHoursByProjectDataset,
-                     HoursByTaskDataset, PublicHoursByTaskDataset)
-from .models import HoursByGeography, HoursByProject, HoursByTask
 
 
 class ParticipationConfig(AppConfig):
@@ -13,11 +9,17 @@ class ParticipationConfig(AppConfig):
     name = 'metrics.participation'
 
     def ready(self):
+        from .export import (HoursByGeographyDataset, 
+                             PublicHoursByGeographyDataset,
+                             HoursByProjectDataset,
+                             PublicHoursByProjectDataset, HoursByTaskDataset,
+                             PublicHoursByTaskDataset)
+
         register('Participation by Geography', {
             'add_record_label': 'Add participation hours',
             'add_record_template': 'metrics/participation/geography/add_record.html',
             'all_gardens_url_name': 'participation_geography_all_gardens',
-            'model': HoursByGeography,
+            'model': self.get_model('HoursByGeography'),
             'number': 1,
             'garden_detail_url_name': 'participation_geography_garden_details',
             'group': 'Social Data',
@@ -41,7 +43,7 @@ class ParticipationConfig(AppConfig):
             'add_record_label': 'Add participation hours',
             'add_record_template': 'metrics/participation/task/add_record.html',
             'all_gardens_url_name': 'participation_task_all_gardens',
-            'model': HoursByTask,
+            'model': self.get_model('HoursByTask'),
             'number': 2,
             'garden_detail_url_name': 'participation_task_garden_details',
             'group': 'Social Data',
@@ -64,7 +66,7 @@ class ParticipationConfig(AppConfig):
             'add_record_label': 'Add participation hours',
             'add_record_template': 'metrics/participation/project/add_record.html',
             'all_gardens_url_name': 'participation_project_all_gardens',
-            'model': HoursByProject,
+            'model': self.get_model('HoursByProject'),
             'number': 3,
             'garden_detail_url_name': 'participation_project_garden_details',
             'group': 'Social Data',

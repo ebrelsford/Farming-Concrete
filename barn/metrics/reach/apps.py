@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import ProgramReachDataset, PublicProgramReachDataset
-from .models import ProgramReach
 
 
 class ReachConfig(AppConfig):
@@ -11,9 +9,11 @@ class ReachConfig(AppConfig):
     name = 'metrics.reach'
 
     def ready(self):
+        from .export import ProgramReachDataset, PublicProgramReachDataset
+
         register('Reach of Programs', {
             'all_gardens_url_name': 'reach_program_all_gardens',
-            'model': ProgramReach,
+            'model': self.get_model('ProgramReach'),
             'number': 5,
             'garden_detail_url_name': 'reach_program_garden_details',
             'group': 'Social Data',

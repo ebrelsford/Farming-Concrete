@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import SmartsAndSkillsDataset, PublicSmartsAndSkillsDataset
-from .models import SmartsAndSkills
 
 
 class SkillsConfig(AppConfig):
@@ -11,10 +9,12 @@ class SkillsConfig(AppConfig):
     name = 'metrics.skills'
 
     def ready(self):
+        from .export import SmartsAndSkillsDataset, PublicSmartsAndSkillsDataset
+
         register('Skills & Knowledge in the Garden', {
             'add_record_template': 'metrics/skills/smarts/add_record.html',
             'all_gardens_url_name': 'skills_smarts_all_gardens',
-            'model': SmartsAndSkills,
+            'model': self.get_model('SmartsAndSkills'),
             'number': 4,
             'garden_detail_url_name': 'skills_smarts_garden_details',
             'group': 'Social Data',

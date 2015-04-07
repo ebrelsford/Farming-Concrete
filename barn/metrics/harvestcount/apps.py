@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import HarvestcountDataset, PublicHarvestcountDataset
-from .models import Harvest
 
 
 class HarvestcountConfig(AppConfig):
@@ -11,10 +9,12 @@ class HarvestcountConfig(AppConfig):
     name = 'metrics.harvestcount'
 
     def ready(self):
+        from .export import HarvestcountDataset, PublicHarvestcountDataset
+
         register('Harvest Count', {
             'all_gardens_url_name': 'harvestcount_all_gardens',
             'download_url_name': 'harvestcount_download_garden_harvestcount_as_csv',
-            'model': Harvest,
+            'model': self.get_model('Harvest'),
             'number': 2,
             'garden_detail_url_name': 'harvestcount_garden_details',
             'group': 'Food Production Data',

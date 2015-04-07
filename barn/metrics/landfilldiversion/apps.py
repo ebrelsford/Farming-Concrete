@@ -2,9 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import (VolumeDataset, PublicVolumeDataset, WeightDataset,
-                     PublicWeightDataset)
-from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
 
 class LandfillDiversionConfig(AppConfig):
@@ -12,10 +9,13 @@ class LandfillDiversionConfig(AppConfig):
     name = 'metrics.landfilldiversion'
 
     def ready(self):
+        from .export import (VolumeDataset, PublicVolumeDataset, WeightDataset,
+                             PublicWeightDataset)
+
         register('Landfill Waste Diversion by Weight', {
             'add_record_label': 'Add landfill diversion by weight',
             'all_gardens_url_name': 'landfilldiversion_weight_all_gardens',
-            'model': LandfillDiversionWeight,
+            'model': self.get_model('LandfillDiversionWeight'),
             'number': 1,
             'garden_detail_url_name': 'landfilldiversion_weight_garden_details',
             'group': 'Environmental Data',
@@ -39,7 +39,7 @@ class LandfillDiversionConfig(AppConfig):
         register('Landfill Waste Diversion by Volume', {
             'add_record_label': 'Add landfill diversion by volume',
             'all_gardens_url_name': 'landfilldiversion_volume_all_gardens',
-            'model': LandfillDiversionVolume,
+            'model': self.get_model('LandfillDiversionVolume'),
             'number': 1,
             'garden_detail_url_name': 'landfilldiversion_volume_garden_details',
             'group': 'Environmental Data',

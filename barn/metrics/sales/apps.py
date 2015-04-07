@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import SaleDataset, PublicSaleDataset
-from .models import Sale
 
 
 class SalesConfig(AppConfig):
@@ -11,9 +9,11 @@ class SalesConfig(AppConfig):
     name = 'metrics.sales'
 
     def ready(self):
+        from .export import SaleDataset, PublicSaleDataset
+
         register('Market Sales', {
             'add_record_label': 'Add market sale',
-            'model': Sale,
+            'model': self.get_model('Sale'),
             'number': 1,
             'garden_detail_url_name': 'sales_garden_details',
             'group': 'Economic Data',

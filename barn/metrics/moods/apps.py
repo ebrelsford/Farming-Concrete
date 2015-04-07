@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import MoodChangeDataset, PublicMoodChangeDataset
-from .models import MoodChange
 
 
 class MoodsConfig(AppConfig):
@@ -11,10 +9,12 @@ class MoodsConfig(AppConfig):
     name = 'metrics.moods'
 
     def ready(self):
+        from .export import MoodChangeDataset, PublicMoodChangeDataset
+
         register('Good Moods in the Garden', {
             'add_record_template': 'metrics/moods/change/add_record.html',
             'all_gardens_url_name': 'moods_change_all_gardens',
-            'model': MoodChange,
+            'model': self.get_model('MoodChange'),
             'number': 2,
             'garden_detail_url_name': 'moods_change_garden_details',
             'group': 'Health Data',

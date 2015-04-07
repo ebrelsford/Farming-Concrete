@@ -2,9 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import (VolumeDataset, WeightDataset, PublicVolumeDataset,
-                     PublicWeightDataset)
-from .models import CompostProductionVolume, CompostProductionWeight
 
 
 class CompostConfig(AppConfig):
@@ -12,10 +9,13 @@ class CompostConfig(AppConfig):
     name = 'metrics.compost'
 
     def ready(self):
+        from .export import (VolumeDataset, WeightDataset, PublicVolumeDataset,
+                             PublicWeightDataset)
+
         register('Compost Production by Weight', {
             'add_record_label': 'Add compost by weight',
             'all_gardens_url_name': 'compostproduction_weight_all_gardens',
-            'model': CompostProductionWeight,
+            'model': self.get_model('CompostProductionWeight'),
             'number': 2,
             'garden_detail_url_name': 'compostproduction_weight_garden_details',
             'group': 'Environmental Data',
@@ -36,7 +36,7 @@ class CompostConfig(AppConfig):
         register('Compost Production by Volume', {
             'add_record_label': 'Add compost by volume',
             'all_gardens_url_name': 'compostproduction_volume_all_gardens',
-            'model': CompostProductionVolume,
+            'model': self.get_model('CompostProductionVolume'),
             'number': 2,
             'garden_detail_url_name': 'compostproduction_volume_garden_details',
             'group': 'Environmental Data',

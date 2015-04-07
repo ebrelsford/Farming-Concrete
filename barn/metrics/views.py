@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 
+from django.contrib.auth import get_permission_codename
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
@@ -85,7 +86,7 @@ class DeleteRecordView(DeleteView):
 
     def has_permission(self, user, record):
         meta = self.object._meta
-        perm = '%s.%s' % (meta.app_label, meta.get_delete_permission(),)
+        perm = '%s.%s' % (meta.app_label, get_permission_codename('delete', meta))
         return user.has_perm(perm)
 
     def delete(self, request, *args, **kwargs):

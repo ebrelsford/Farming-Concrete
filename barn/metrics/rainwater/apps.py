@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import RainwaterHarvestDataset, PublicRainwaterHarvestDataset
-from .models import RainwaterHarvest
 
 
 class RainwaterConfig(AppConfig):
@@ -11,9 +9,12 @@ class RainwaterConfig(AppConfig):
     name = 'metrics.rainwater'
 
     def ready(self):
+        from .export import (RainwaterHarvestDataset,
+                             PublicRainwaterHarvestDataset)
+
         register('Rainwater Harvesting', {
             'add_record_label': 'Add rainwater harvesting',
-            'model': RainwaterHarvest,
+            'model': self.get_model('RainwaterHarvest'),
             'number': 3,
             'garden_detail_url_name': 'rainwater_harvest_garden_details',
             'group': 'Environmental Data',

@@ -3,8 +3,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import CropcountDataset, PublicCropcountDataset
-from .models import Box, Patch
 
 
 class CropcountConfig(AppConfig):
@@ -12,10 +10,12 @@ class CropcountConfig(AppConfig):
     name = 'metrics.cropcount'
 
     def ready(self):
+        from .export import CropcountDataset, PublicCropcountDataset
+
         register('Crop Count', {
             'all_gardens_url_name': 'cropcount_all_gardens',
-            'bed_content_type': ContentType.objects.get_for_model(Box),
-            'model': Patch,
+            'bed_content_type': ContentType.objects.get_for_model(self.get_model('Box')),
+            'model': self.get_model('Patch'),
             'number': 1,
             'garden_detail_url_name': 'cropcount_garden_details',
             'group': 'Food Production Data',

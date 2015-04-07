@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import RecipeTallyDataset, PublicRecipeTallyDataset
-from .models import RecipeTally
 
 
 class RecipesConfig(AppConfig):
@@ -11,10 +9,12 @@ class RecipesConfig(AppConfig):
     name = 'metrics.recipes'
 
     def ready(self):
+        from .export import RecipeTallyDataset, PublicRecipeTallyDataset
+
         register('Healthy Eating', {
             'add_record_template': 'metrics/recipes/tally/add_record.html',
             'all_gardens_url_name': 'recipes_tally_all_gardens',
-            'model': RecipeTally,
+            'model': self.get_model('RecipeTally'),
             'number': 3,
             'garden_detail_url_name': 'recipes_tally_garden_details',
             'group': 'Health Data',

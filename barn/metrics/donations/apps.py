@@ -2,8 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
 from ..registry import register
-from .export import DonationDataset, PublicDonationDataset
-from .models import Donation
 
 
 class DonationsConfig(AppConfig):
@@ -11,9 +9,11 @@ class DonationsConfig(AppConfig):
     name = 'metrics.donations'
 
     def ready(self):
+        from .export import DonationDataset, PublicDonationDataset
+
         register('Donations of Food', {
             'add_record_label': 'Add donation of food',
-            'model': Donation,
+            'model': self.get_model('Donation'),
             'number': 2,
             'garden_detail_url_name': 'donations_garden_details',
             'group': 'Economic Data',
