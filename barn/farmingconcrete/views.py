@@ -366,7 +366,8 @@ class UpdateGardenGroupView(LoginRequiredMixin, SuccessMessageFormMixin,
     template_name = 'farmingconcrete/gardengroup/update.html'
 
     def get(self, request, *args, **kwargs):
-        if not self.get_object().is_admin(request.user):
+        if not (request.user.has_perm('can_edit_any_garden') or
+                self.get_object().is_admin(request.user)):
             raise PermissionDenied
         return super(UpdateGardenGroupView, self).get(request, *args, **kwargs)
 
