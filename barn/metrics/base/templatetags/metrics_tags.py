@@ -4,6 +4,7 @@ from itertools import groupby
 from operator import itemgetter
 
 from django import template
+from django.contrib.auth import get_permission_codename
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Max, Sum
 from django.template.base import TemplateDoesNotExist
@@ -306,7 +307,7 @@ class AddRecord(MetricRecordTagMixin, InclusionTag):
             templates = [registry[metric_name]['add_record_template'],] + templates
         except Exception:
             pass
-        return select_template(templates).name
+        return select_template(templates).template.name
 
 
 class MetricContentType(AsTag):
@@ -336,7 +337,7 @@ class IfCanDelete(Tag):
     def render_tag(self, context, metric, nodelist):
         user = context['user']
         meta = metric['model']._meta
-        if user.has_perm('%s.%s' % (meta.app_label, meta.get_delete_permission(),)):
+        if user.has_perm('%s.%s' % (meta.app_label, get_permission_codename('delete', meta))):
             return nodelist.render(context)
         return ''
 
@@ -356,8 +357,16 @@ class MetricYears(MetricRecordTagMixin, AsTag):
     def get_value(self, context, metric, garden):
         records = metric['model'].objects.for_garden(garden)
         recordeds = list(records.values_list('recorded', flat=True).order_by('recorded'))
-        min_year = min(datetime.now().year - 1, recordeds[0].year)
-        max_year = max(datetime.now().year, recordeds[-1].year)
+        min_year = datetime.now().year - 1
+        try:
+           min_year = min(min_year, recordeds[0].year)
+        except Exception:
+            pass
+        max_year = datetime.now().year
+        try:
+           max_year = max(max_year, recordeds[-1].year)
+        except Exception:
+            pass
         return [year for year in range(min_year, max_year + 1)]
 
 
@@ -426,7 +435,7 @@ class MetricReportPage(MetricRecordTagMixin, InclusionTag):
             templates = [registry[metric_name]['report_page_template'],] + templates
         except Exception:
             pass
-        return select_template(templates).name
+        return select_template(templates).template.name
 
 
 register.tag(AddRecord)
