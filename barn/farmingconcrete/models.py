@@ -77,6 +77,12 @@ class Garden(PrivacyMixin, models.Model):
                 .values_list('group__pk', flat=True)
         return GardenGroup.objects.filter(pk__in=groups)
 
+    def groups_pending_requested(self):
+        """Get the groups this garden has requested membership in"""
+        groups = GardenGroupMembership.by_status.pending_requested() \
+                .filter(garden=self).values_list('group__pk', flat=True)
+        return GardenGroup.objects.filter(pk__in=groups).order_by('name')
+
     def is_admin(self, user):
         """Returns true if the given user is an admin of this garden"""
         if user.has_perm('farmingconcrete.can_edit_any_garden'):

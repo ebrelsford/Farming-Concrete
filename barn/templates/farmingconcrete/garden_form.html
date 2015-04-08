@@ -91,6 +91,18 @@
                 <div class="row">
                     {% include "forms/field.html" with field=form.groups %}
                 </div>
+                {% if garden.groups_pending_requested %}
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div>
+                                <strong>Groups this garden has requested membership in:</strong>
+                            </div>
+                            {% for group in garden.groups_pending_requested %}
+                                {{ group.name }}<br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
 
                 <section class="add-garden-privacy">
                     <h2>Privacy settings</h2>
