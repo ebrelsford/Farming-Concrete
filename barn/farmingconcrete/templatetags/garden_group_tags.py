@@ -33,4 +33,23 @@ class GardenGroupList(InclusionTag):
         return kwargs.get('template', None) or default_template
 
 
+class GardenGroupMemberList(InclusionTag):
+    options = Options(
+        Argument('group'),
+    )
+    template = 'farmingconcrete/gardengroup/member_list.html'
+
+    def get_garden_group_members(self, group):
+        if group:
+            return group.members()
+        return []
+
+    def get_context(self, context, group):
+        context.update({
+            'members': self.get_garden_group_members(group),
+        })
+        return context
+
+
 register.tag(GardenGroupList)
+register.tag(GardenGroupMemberList)

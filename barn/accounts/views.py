@@ -8,8 +8,9 @@ from django.views.generic import DetailView, FormView, UpdateView
 from generic.views import LoginRequiredMixin
 from templated_emails.utils import send_templated_email
 
+from farmingconcrete.views import GardenGroupAdminPermissionMixin
 from .forms import InviteForm, UserForm
-from .models import GardenMembership
+from .models import GardenMembership, GardenGroupUserMembership
 from .utils import get_profile
 
 
@@ -123,3 +124,20 @@ class InviteMemberView(FormView):
 
     def get_success_url(self):
         return reverse('gardenmemberships_invite')
+
+
+class DeleteGardenGroupMemberView(LoginRequiredMixin,
+                                  GardenGroupAdminPermissionMixin, DetailView):
+    """Remove a user from a garden group."""
+    model = GardenGroupUserMembership
+
+    def get_success_message(self, membership):
+        return 'Successfully removed %s' % membership.user_profile.user.username
+
+    def get(self, request, *args, **kwargs):
+        membership = self.get_object()
+        if not super(DeleteGardenGroupMemberView, self).check_permission(membership.group):
+            raise PermissionDenied
+        membership.delete()
+        messages.success(request, self.get_success_message(membership))
+        return HttpResponse('OK', content_type='text/plain')

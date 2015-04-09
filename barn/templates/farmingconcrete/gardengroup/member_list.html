@@ -1,0 +1,32 @@
+{% load account_tags %}
+
+<ul class="garden-group-member-list">
+    {% for member in members %}
+        <li class="garden-group-member-list-item">
+            <div class="garden-group-member-list-item-user">
+                {{ member.user_profile.user }}
+            </div>
+            <div class="garden-group-member-list-item-type">
+                {% if member.is_admin %}
+                    admin
+                {% endif %}
+            </div>
+            <div class="garden-group-member-list-item-last-login">
+                last login:
+                {{ member.user_profile.user.last_login|date:"m/d/Y"|default:"never" }}
+            </div>
+            <div class="garden-group-member-list-item-actions btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    actions <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="#" class="garden-group-member-list-action delete-member" data-membership-pk="{{ member.pk }}">
+                            Remove from group
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

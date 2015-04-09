@@ -326,6 +326,13 @@ class GardenGroupMixin(SingleObjectMixin):
         return object
 
 
+class GardenGroupAdminPermissionMixin(object):
+
+    def check_permission(self, group):
+        user = self.request.user
+        return group.is_admin(user) or user.has_perm('can_edit_any_garden')
+
+
 class GardenGroupDetailView(GardenGroupMixin, LoginRequiredMixin, DetailView):
     pass
 
@@ -407,7 +414,7 @@ class CheckGardenGroupMembershipAccess(LoginRequiredMixin, JSONResponseMixin,
         return self.render_json_response(context)
 
 
-class AcceptGardenGroupMembership(GardenGroupMixin, MessageMixin, 
+class AcceptGardenGroupMembership(GardenGroupAdminPermissionMixin, MessageMixin, 
                                   LoginRequiredMixin, JSONResponseMixin,
                                   DetailView):
 
@@ -428,10 +435,6 @@ class AcceptGardenGroupMembership(GardenGroupMixin, MessageMixin,
             GardenGroupMembership.by_status.any().filter(
                 pk__in=[m.pk for m in memberships.order_by('added')[1:]],
             ).delete()
-
-    def check_permission(self, group):
-        user = self.request.user
-        return group.is_admin(user) or user.has_perm('can_edit_any_garden')
 
     def get(self, request, garden_pk=None, *args, **kwargs):
         group = self.object = self.get_object()

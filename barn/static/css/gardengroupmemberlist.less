@@ -1,0 +1,28 @@
+.garden-group-member-list {
+    .list();
+
+    &-item {
+        .list-item();
+
+        &-user {
+            .make-sm-column(3);
+        }
+
+        &-type {
+            .make-sm-column(2);
+        }
+
+        &-last-login {
+            .make-sm-column(4);
+        }
+
+        &-actions {
+            .make-sm-column(3);
+            padding-top: 0;
+
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+}

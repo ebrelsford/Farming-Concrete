@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load garden_group_tags i18n %}
 
 {% block body_class %}garden-group-page{% endblock %}
 
@@ -30,6 +30,11 @@
                 </section>
             {% endif %}
         {% endwith %}
+
+        <section class="garden-group-section">
+            <h2>{% trans "Group admins" %}</h2>
+            {% garden_group_member_list gardengroup %}
+        </section>
 
         <section class="garden-group-section">
             <h2>{% trans "Export" %}</h2>

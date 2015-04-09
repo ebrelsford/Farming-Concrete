@@ -7183,6 +7183,8 @@ button.close {
 .panel-body:after,
 .modal-footer:before,
 .modal-footer:after,
+.garden-group-member-list-item:before,
+.garden-group-member-list-item:after,
 .garden-member-list-item:before,
 .garden-member-list-item:after,
 .form-actions:before,
@@ -7252,6 +7254,7 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-footer:after,
+.garden-group-member-list-item:after,
 .garden-member-list-item:after,
 .form-actions:after,
 .form-horizontal .fields:after,
@@ -7910,6 +7913,124 @@ input.ac_loading {
 }
 .collapsible.collapsed .expandee {
   display: none;
+}
+.garden-group-member-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.garden-group-member-list-item {
+  margin-right: 0;
+  border-bottom: 1px dotted #8c8c8c;
+  margin-left: 0;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.garden-group-member-list-item:first-child {
+  border-top: 1px dotted #8c8c8c;
+}
+.garden-group-member-list-item-main {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
+  padding-left: 5px;
+}
+@media (min-width: 992px) {
+  .garden-group-member-list-item-main {
+    float: left;
+    width: 50%;
+  }
+}
+.garden-group-member-list-item-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
+  text-align: right;
+}
+@media (min-width: 992px) {
+  .garden-group-member-list-item-actions {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-group-member-list-item-actions-separator {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.garden-group-member-list-item-details {
+  font-size: 12px;
+  line-height: 18px;
+}
+.garden-group-member-list-item-buttons {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .garden-group-member-list-item-buttons {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-group-member-list-item-buttons a {
+  width: 100%;
+}
+.garden-group-member-list-item-user {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-group-member-list-item-user {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-group-member-list-item-type {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-group-member-list-item-type {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.garden-group-member-list-item-last-login {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .garden-group-member-list-item-last-login {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.garden-group-member-list-item-actions {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 0;
+}
+@media (min-width: 768px) {
+  .garden-group-member-list-item-actions {
+    float: left;
+    width: 25%;
+  }
+}
+.garden-group-member-list-item-actions .btn {
+  width: 100%;
 }
 .garden-member-list {
   list-style: none;
@@ -10862,8 +10983,7 @@ fieldset[disabled] .btn-invite-member.active {
   padding: 0;
 }
 .garden-group-list-group {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-right: 0;
   border-bottom: 1px dotted #8c8c8c;
   margin-left: 0;
   padding-bottom: 15px;
@@ -10963,8 +11083,7 @@ ul.garden-list {
   padding: 0;
 }
 .garden-list-garden {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-right: 0;
   border-bottom: 1px dotted #8c8c8c;
   margin-left: 0;
   padding-bottom: 15px;
@@ -11064,7 +11183,6 @@ h2#your-gardens-title {
 }
 #your-gardens-section {
   border-top: 1px solid #404040;
-  padding-right: 15px;
 }
 .btn-add-garden {
   color: #ffffff;
