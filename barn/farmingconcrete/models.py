@@ -156,6 +156,11 @@ class GardenGroup(models.Model):
         )
         return [a.user_profile.user for a in admin_members]
 
+    def members(self):
+        from accounts.models import GardenGroupUserMembership
+
+        return GardenGroupUserMembership.objects.filter(group=self)
+
     def is_admin(self, user):
         """Is the user an admin of this group?"""
         from accounts.models import GardenGroupUserMembership
