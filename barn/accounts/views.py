@@ -4,12 +4,16 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.views.generic import DetailView, FormView, UpdateView
+from django.views.generic.detail import SingleObjectMixin
+
+from braces.views import FormValidMessageMixin
 
 from generic.views import LoginRequiredMixin
 from templated_emails.utils import send_templated_email
 
+from farmingconcrete.models import GardenGroup
 from farmingconcrete.views import GardenGroupAdminPermissionMixin
-from .forms import InviteForm, UserForm
+from .forms import AddGardenGroupAdminForm, InviteForm, UserForm
 from .models import GardenMembership, GardenGroupUserMembership
 from .utils import get_profile
 
@@ -141,3 +145,38 @@ class DeleteGardenGroupMemberView(LoginRequiredMixin,
         membership.delete()
         messages.success(request, self.get_success_message(membership))
         return HttpResponse('OK', content_type='text/plain')
+
+
+class AddGardenGroupAdminView(GardenGroupAdminPermissionMixin, 
+                              LoginRequiredMixin, FormValidMessageMixin,
+                              SingleObjectMixin, FormView):
+    """Add a user as admin for a garden group."""
+    form_class = AddGardenGroupAdminForm
+    form_valid_message = 'Successfully updated group'
+    model = GardenGroup
+
+    def add_admins(self, group, garden_members):
+        for garden_member in garden_members:
+            admin, created = GardenGroupUserMembership.objects.get_or_create(
+                group=group,
+                user_profile=garden_member.user_profile,
+            )
+            admin.is_admin = True
+            admin.save()
+
+    def get_form_kwargs(self):
+        kwargs = super(AddGardenGroupAdminView, self).get_form_kwargs()
+        kwargs['group'] = self.get_object()
+        return kwargs
+
+    def get_success_url(self):
+        return self.get_object().get_absolute_url()
+
+    def form_valid(self, form):
+        group = self.get_object()
+
+        if not self.check_permission(group):
+            raise PermissionDenied
+        garden_members = form.cleaned_data['users']
+        self.add_admins(group, garden_members)
+        return super(AddGardenGroupAdminView, self).form_valid(form)

@@ -156,6 +156,9 @@ class GardenGroup(models.Model):
         )
         return [a.user_profile.user for a in admin_members]
 
+    def get_absolute_url(self):
+        return reverse('farmingconcrete_gardengroup_detail', kwargs={ 'pk': self.pk })
+
     def members(self):
         from accounts.models import GardenGroupUserMembership
 

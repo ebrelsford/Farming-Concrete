@@ -19,6 +19,7 @@ from django.views.generic.list import ListView
 from braces.views import JSONResponseMixin, MessageMixin
 from templated_emails.utils import send_templated_email
 
+from accounts.forms import AddGardenGroupAdminForm
 from accounts.models import GardenMembership
 from accounts.utils import get_profile
 from generic.views import (DefaultYearMixin, LoginRequiredMixin,
@@ -334,7 +335,13 @@ class GardenGroupAdminPermissionMixin(object):
 
 
 class GardenGroupDetailView(GardenGroupMixin, LoginRequiredMixin, DetailView):
-    pass
+
+    def get_context_data(self, **kwargs):
+        context = super(GardenGroupDetailView, self).get_context_data(**kwargs)
+        context.update({
+            'add_admin_form': AddGardenGroupAdminForm(group=self.object),
+        })
+        return context
 
 
 class CreateGardenGroupView(LoginRequiredMixin, CreateView):

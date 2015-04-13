@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load garden_group_tags i18n %}
+{% load account_tags garden_group_tags i18n %}
 
 {% block body_class %}garden-group-page{% endblock %}
 
@@ -34,6 +34,15 @@
         <section class="garden-group-section">
             <h2>{% trans "Group admins" %}</h2>
             {% garden_group_member_list gardengroup %}
+
+            {% ifgardengroupadmin gardengroup %}
+                <section class="add-garden-group-admin">
+                    <h3>{% trans "Add group admins" %}</h3>
+                    <p>Choose from the gardeners in the group to add as admins for this group. Admins can add and remove admins, accept gardens' requests to join the group, and download data for the whole group.</p>
+                    {% url "gardengroupmemberships_member_add" pk=gardengroup.pk as add_action %}
+                    {% include "_form.html" with action=add_action form=add_admin_form %}
+                </section>
+            {% endifgardengroupadmin %}
         </section>
 
         <section class="garden-group-section">

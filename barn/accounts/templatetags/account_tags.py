@@ -21,4 +21,20 @@ class IfGardenAdmin(Tag):
         return ''
 
 
+class IfGardenGroupAdmin(Tag):
+    name = 'ifgardengroupadmin'
+    options = Options(
+        Argument('gardengroup'),
+        blocks=[('endifgardengroupadmin', 'nodelist')],
+    )
+
+    def render_tag(self, context, gardengroup, nodelist):
+        user = context['user']
+        if (user.has_perm('farmingconcrete.can_edit_any_garden') or
+            gardengroup.is_admin(user)):
+            return nodelist.render(context)
+        return ''
+
+
 register.tag(IfGardenAdmin)
+register.tag(IfGardenGroupAdmin)

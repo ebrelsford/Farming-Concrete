@@ -116,6 +116,10 @@ define(
             require(['addsales']);
         }
 
+        if ($('.add-garden-group-admin').length > 0) {
+            require(['addgardengroupadmin']);
+        }
+
         if ($('.garden-group-member-list').length > 0) {
             require(['gardengroupmemberlist']);
         }
