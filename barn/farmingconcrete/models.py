@@ -71,6 +71,13 @@ class Garden(PrivacyMixin, models.Model):
     def __unicode__(self):
         return self.name
 
+    def admins(self):
+        """Get the admin users for this garden"""
+        admins = self.gardenmembership_set.filter(
+            is_admin=True,
+        )
+        return [a.user_profile.user for a in admins]
+
     def groups(self):
         """Get the groups this garden is actively a member of"""
         groups = GardenGroupMembership.objects.filter(garden=self) \
