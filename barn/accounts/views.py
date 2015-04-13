@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
@@ -135,6 +137,23 @@ class DeleteGardenGroupMemberView(LoginRequiredMixin,
     """Remove a user from a garden group."""
     model = GardenGroupUserMembership
 
+    def add_garden_admins(self, group, deleted_user):
+        """If the group no longer has admins, promote all garden admins."""
+        memberships = GardenGroupUserMembership.objects.filter(group=group)
+        if memberships.exists():
+            return
+        new_admins = chain(*[g.admins() for g in group.active_gardens()])
+
+        # Don't re-add the just deleted user
+        new_admins = filter(lambda a: a != deleted_user, new_admins)
+
+        # Add admins
+        for user in new_admins:
+            group.add_admin(user)
+        if new_admins:
+            messages.info(self.request, ('You deleted the last admin, so we '
+                                         'added all member garden admins'))
+
     def get_success_message(self, membership):
         return 'Successfully removed %s' % membership.user_profile.user.username
 
@@ -143,6 +162,7 @@ class DeleteGardenGroupMemberView(LoginRequiredMixin,
         if not super(DeleteGardenGroupMemberView, self).check_permission(membership.group):
             raise PermissionDenied
         membership.delete()
+        self.add_garden_admins(membership.group, membership.user_profile.user)
         messages.success(request, self.get_success_message(membership))
         return HttpResponse('OK', content_type='text/plain')
 
