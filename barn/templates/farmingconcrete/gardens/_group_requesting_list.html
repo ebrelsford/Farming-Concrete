@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block buttons %}
-    <a href="{% url "farmingconcrete_gardengroup_accept" pk=group.pk garden_pk=garden.pk %}" class="btn btn-default btn-approve">
+    <a href="{% url "farmingconcrete_gardengroup_approve" pk=group.pk garden_pk=garden.pk %}" class="btn btn-default btn-approve">
         {% trans "Approve" %}
     </a>
 {% endblock %}

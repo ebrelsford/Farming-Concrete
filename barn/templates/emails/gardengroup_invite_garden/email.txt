@@ -1,0 +1,7 @@
+{{ user.username }} invited {{ garden.name }} to join the group {{ group.name }}.
+
+Since you're an administrator for {{ garden.name }} you can accept the invitation by going here:
+
+    {{ base_url }}{% url "farmingconcrete_gardens_update" pk=garden.pk %}#invitations
+
+and clicking the Accept button.

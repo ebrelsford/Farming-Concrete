@@ -200,3 +200,11 @@ class GardenGroupForm(ModelForm):
             'needs_moderation': HiddenInput(),
             'updated_by': HiddenInput(),
         }
+
+
+class InviteGardenForm(Form):
+    garden = AutoCompleteSelectField('garden', required=True)
+
+    def __init__(self, group=None, *args, **kwargs):
+        super(InviteGardenForm, self).__init__(*args, **kwargs)
+        self.group = group

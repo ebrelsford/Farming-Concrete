@@ -20,6 +20,15 @@
                     </li>
                 {% endfor %}
             </ul>
+
+            {% ifgardengroupadmin gardengroup %}
+                <section class="garden-group-section" id="requests">
+                    <h3>{% trans "Invite gardens to join this group" %}</h3>
+                    <p>{% trans "Type to select a garden below and invite the garden to the group. The admins of those gardens will get emails asking them to join." %}</p>
+                    {% url "farmingconcrete_gardengroup_invite" pk=gardengroup.pk as invite_action %}
+                    {% include "_form.html" with action=invite_action form=invite_garden_form %}
+                </section>
+            {% endifgardengroupadmin %}
         </section>
 
         {% with requests=gardengroup.requesting_gardens.all %}

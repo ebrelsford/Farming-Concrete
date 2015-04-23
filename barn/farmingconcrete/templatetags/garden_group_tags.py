@@ -2,9 +2,10 @@ from django import template
 
 from classytags.arguments import Argument
 from classytags.core import Options
-from classytags.helpers import InclusionTag
+from classytags.helpers import AsTag, InclusionTag
 
 from accounts.models import GardenGroupUserMembership
+from ..models import GardenGroupMembership
 
 register = template.Library()
 
@@ -33,6 +34,42 @@ class GardenGroupList(InclusionTag):
         return kwargs.get('template', None) or default_template
 
 
+class GardenGroupInviteList(InclusionTag):
+    options = Options(
+        Argument('garden'),
+        Argument('template', required=False, resolve=False),
+    )
+    template = 'farmingconcrete/gardengroup/invite_list.html'
+
+    def get_group_memberships(self, garden):
+        return GardenGroupMembership.by_status.pending_invited().filter(
+            garden=garden,
+        )
+
+    def get_context(self, context, garden, template):
+        context.update({
+            'group_memberships': self.get_group_memberships(garden),
+        })
+        return context
+
+    def get_template(self, context, **kwargs):
+        default_template = super(GardenGroupInviteList, self).get_template(context, **kwargs)
+        return kwargs.get('template', None) or default_template
+
+
+class GardenGroupInviteCount(AsTag):
+    options = Options(
+        Argument('garden'),
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context, garden):
+        return GardenGroupMembership.by_status.pending_invited().filter(
+            garden=garden,
+        ).count()
+
+
 class GardenGroupMemberList(InclusionTag):
     options = Options(
         Argument('group'),
@@ -52,4 +89,6 @@ class GardenGroupMemberList(InclusionTag):
 
 
 register.tag(GardenGroupList)
+register.tag(GardenGroupInviteCount)
+register.tag(GardenGroupInviteList)
 register.tag(GardenGroupMemberList)

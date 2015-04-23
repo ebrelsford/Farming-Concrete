@@ -1,0 +1,30 @@
+{% load i18n %}
+
+{% if group_memberships %}
+    <ul class="garden-group-list">
+        {% for membership in group_memberships %}
+            <li class="garden-group-list-group">
+                <div class="garden-group-list-group-main">
+                    {% block detail %}
+                        {% include "farmingconcrete/gardengroup/_detail.html" with group=membership.group %}
+                    {% endblock %}
+                </div>
+                <div class="garden-group-list-group-actions">
+                    {% block actions %}
+                        <a href="{% url "farmingconcrete_gardengroup_detail" pk=membership.group.pk %}">{% trans "Edit" %}</a>
+                    {% endblock %}
+                </div>
+                <div class="garden-group-list-group-buttons">
+                    {% block buttons %}
+                    {% endblock %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>
+        {% block empty_message %}
+            It looks like you don't have access to any garden groups yet.
+        {% endblock %}
+    </p>
+{% endif %}

@@ -10,13 +10,13 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
-from django.views.generic import (CreateView, DetailView, UpdateView,
+from django.views.generic import (CreateView, DetailView, FormView, UpdateView,
                                   TemplateView)
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
-from braces.views import JSONResponseMixin, MessageMixin
+from braces.views import FormValidMessageMixin, JSONResponseMixin, MessageMixin
 from templated_emails.utils import send_templated_email
 
 from accounts.forms import AddGardenGroupAdminForm
@@ -27,7 +27,7 @@ from generic.views import (DefaultYearMixin, LoginRequiredMixin,
 from metrics.registry import registry
 from middleware.http import Http403
 from .geo import garden_collection
-from .forms import GardenForm, GardenGroupForm
+from .forms import GardenForm, GardenGroupForm, InviteGardenForm
 from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
 
 
@@ -340,6 +340,7 @@ class GardenGroupDetailView(GardenGroupMixin, LoginRequiredMixin, DetailView):
         context = super(GardenGroupDetailView, self).get_context_data(**kwargs)
         context.update({
             'add_admin_form': AddGardenGroupAdminForm(group=self.object),
+            'invite_garden_form': InviteGardenForm(group=self.object),
         })
         return context
 
@@ -421,9 +422,9 @@ class CheckGardenGroupMembershipAccess(LoginRequiredMixin, JSONResponseMixin,
         return self.render_json_response(context)
 
 
-class AcceptGardenGroupMembership(GardenGroupAdminPermissionMixin, MessageMixin, 
-                                  LoginRequiredMixin, JSONResponseMixin,
-                                  DetailView):
+class ApproveGardenGroupMembership(GardenGroupAdminPermissionMixin,
+                                   MessageMixin, LoginRequiredMixin,
+                                   JSONResponseMixin, DetailView):
 
     def approve_membership(self, garden, group):
         memberships = GardenGroupMembership.by_status.pending_requested().filter(
@@ -513,3 +514,69 @@ class RequestGardenGroupMembership(LoginRequiredMixin, JSONResponseMixin,
         membership = self.add_requested_membership(garden, user)
         self.email_group_admins(garden, user, membership)
         return self.success(self.object)
+
+
+class InviteGardenView(LoginRequiredMixin, GardenGroupAdminPermissionMixin,
+                       FormValidMessageMixin, SingleObjectMixin, FormView):
+    """Invite a garden to join a group"""
+    form_class = InviteGardenForm
+    form_valid_message = 'Successfully invited garden'
+    model = GardenGroup
+
+    def add_invited_membership(self, garden):
+        membership = GardenGroupMembership(
+            added_by=self.request.user,
+            garden=garden,
+            group=self.get_object(),
+            status=GardenGroupMembership.PENDING_INVITED,
+        )
+        membership.save()
+        return membership
+
+    def email_garden_admins(self, garden, membership):
+        send_templated_email(
+            [admin.email for admin in garden.admins()],
+            'emails/gardengroup_invite_garden', {
+                'base_url': settings.BASE_URL,
+                'garden': garden,
+                'group': self.get_object(),
+                'membership': membership,
+                'user': self.request.user,
+            }
+        )
+
+    def get_form_kwargs(self):
+        kwargs = super(InviteGardenView, self).get_form_kwargs()
+        kwargs['group'] = self.get_object()
+        return kwargs
+
+    def get_success_url(self):
+        return self.get_object().get_absolute_url()
+
+    def form_valid(self, form):
+        group = self.get_object()
+
+        if not self.check_permission(group):
+            raise PermissionDenied
+        garden = form.cleaned_data['garden']
+        membership = self.add_invited_membership(garden)
+        self.email_garden_admins(garden, membership)
+        return super(InviteGardenView, self).form_valid(form)
+
+
+class AcceptGardenGroupMembership(LoginRequiredMixin, MessageMixin,
+                                  JSONResponseMixin, DetailView):
+    queryset = GardenGroupMembership.by_status.pending_invited()
+
+    def accept_membership(self, membership):
+        self.queryset.filter(pk=membership.pk).update(status=GardenGroupMembership.ACTIVE)
+
+    def get(self, request, *args, **kwargs):
+        membership = self.object = self.get_object()
+        if not membership.garden.is_admin(self.request.user):
+            raise PermissionDenied
+
+        self.accept_membership(membership)
+        self.messages.success('Successfully accepted membership in %s' %
+                              membership.group.name)
+        return redirect('farmingconcrete_gardens_update', pk=membership.garden.pk)

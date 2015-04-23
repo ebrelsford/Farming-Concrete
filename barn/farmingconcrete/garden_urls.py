@@ -1,11 +1,11 @@
 from django.conf.urls import patterns, url
 
-from .views import (AcceptGardenGroupMembership, AddSuggestedGardenView,
-                    CheckGardenGroupMembershipAccess, CreateGardenView,
-                    CreateGardenGroupView, GardenDetails,
+from .views import (AcceptGardenGroupMembership, ApproveGardenGroupMembership,
+                    AddSuggestedGardenView, CheckGardenGroupMembershipAccess,
+                    CreateGardenView, CreateGardenGroupView, GardenDetails,
                     GardenGroupDetailView, GardenSuggestionView,
-                    RequestGardenGroupMembership, UserGardens,
-                    UserGardenLeaveView, UpdateGardenView,
+                    InviteGardenView, RequestGardenGroupMembership,
+                    UserGardens, UserGardenLeaveView, UpdateGardenView,
                     UpdateGardenGroupView, UserGardenLeaveConfirmedView)
 
 
@@ -66,6 +66,10 @@ urlpatterns = patterns('',
     url(r'^group/add/$', CreateGardenGroupView.as_view(),
         name='farmingconcrete_gardengroup_add'),
 
+    url(r'^group/membership/(?P<pk>\d+)/accept/$', 
+        AcceptGardenGroupMembership.as_view(),
+        name='farmingconcrete_gardengroup_accept'),
+
     url(r'^group/(?P<pk>\d+)/$', GardenGroupDetailView.as_view(),
         name='farmingconcrete_gardengroup_detail',
     ),
@@ -84,9 +88,14 @@ urlpatterns = patterns('',
         name='farmingconcrete_gardengroup_request',
     ),
 
-    url(r'^group/(?P<pk>\d+)/accept/(?P<garden_pk>\d+)/', 
-        AcceptGardenGroupMembership.as_view(),
-        name='farmingconcrete_gardengroup_accept',
+    url(r'^group/(?P<pk>\d+)/approve/(?P<garden_pk>\d+)/', 
+        ApproveGardenGroupMembership.as_view(),
+        name='farmingconcrete_gardengroup_approve',
+    ),
+
+    url(r'^group/(?P<pk>\d+)/invite/', 
+        InviteGardenView.as_view(),
+        name='farmingconcrete_gardengroup_invite',
     ),
 
 )

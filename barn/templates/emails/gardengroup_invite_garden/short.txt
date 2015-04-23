@@ -1,0 +1,1 @@
+Invitation for {{ garden.name }} to join {{ group.name }}
