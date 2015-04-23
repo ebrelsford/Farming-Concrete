@@ -104,13 +104,15 @@
                     </div>
                 {% endif %}
 
-                {% garden_group_invite_count garden as invitation_count %}
-                {% if invitation_count > 0 %}
-                    <section id="invitations">
-                        <h2>Group invitations</h2>
-                        <p>This garden has been invited to join the following groups:</p>
-                        {% garden_group_invite_list garden %}
-                    </section>
+                {% if garden %}
+                    {% garden_group_invite_count garden as invitation_count %}
+                    {% if invitation_count > 0 %}
+                        <section id="invitations">
+                            <h2>Group invitations</h2>
+                            <p>This garden has been invited to join the following groups:</p>
+                            {% garden_group_invite_list garden %}
+                        </section>
+                    {% endif %}
                 {% endif %}
 
                 <section class="add-garden-privacy">
