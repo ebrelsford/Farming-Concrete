@@ -191,6 +191,15 @@ class GardenGroup(models.Model):
             user_profile__user=user,
         ).exists()
 
+    def is_member_of_member_garden(self, user):
+        """Is the user a member of a garden in this group?"""
+        from accounts.models import GardenMembership
+
+        return GardenMembership.objects.filter(
+            garden__in=self.active_gardens(),
+            user_profile__user=user,
+        ).exists()
+
     def can_join(self, garden=None, user=None):
         # Open to anyone
         if self.is_open:

@@ -298,7 +298,7 @@ class UserGardenLeaveConfirmedView(LoginRequiredMixin, DetailView):
         return HttpResponseRedirect(reverse('home'))
 
 
-class GardenGroupMixin(SingleObjectMixin):
+class GardenGroupMemberMixin(SingleObjectMixin):
     model = GardenGroup
 
     def check_permission(self, group):
@@ -307,6 +307,7 @@ class GardenGroupMixin(SingleObjectMixin):
          * admin
          * admin of the group
          * admin of a garden in the group
+         * member of a garden in thee group
         """
         user = self.request.user
 
@@ -316,12 +317,13 @@ class GardenGroupMixin(SingleObjectMixin):
 
         # Only allow access to users who are admins of this group or of a
         # member garden
-        if group.is_admin(user) or group.is_admin_of_member_garden(user):
+        if any([group.is_admin(user), group.is_admin_of_member_garden(user),
+                group.is_member_of_member_garden(user)]):
             return True
         return False
 
     def get_object(self, queryset=None):
-        object = super(GardenGroupMixin, self).get_object(queryset=queryset)
+        object = super(GardenGroupMemberMixin, self).get_object(queryset=queryset)
         if not self.check_permission(object):
             raise PermissionDenied
         return object
@@ -334,7 +336,7 @@ class GardenGroupAdminPermissionMixin(object):
         return group.is_admin(user) or user.has_perm('can_edit_any_garden')
 
 
-class GardenGroupDetailView(GardenGroupMixin, LoginRequiredMixin, DetailView):
+class GardenGroupDetailView(GardenGroupMemberMixin, LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(GardenGroupDetailView, self).get_context_data(**kwargs)

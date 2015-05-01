@@ -1,4 +1,4 @@
-{% load account_tags %}
+{% load account_tags garden_group_tags %}
 
 <ul class="garden-group-member-list">
     {% for member in members %}
@@ -15,18 +15,20 @@
                 last login:
                 {{ member.user_profile.user.last_login|date:"m/d/Y"|default:"never" }}
             </div>
-            <div class="garden-group-member-list-item-actions btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    actions <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="#" class="garden-group-member-list-action delete-member" data-membership-pk="{{ member.pk }}">
-                            Remove from group
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            {% ifcaneditgroup member.group request.user %}
+                <div class="garden-group-member-list-item-actions btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        actions <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#" class="garden-group-member-list-action delete-member" data-membership-pk="{{ member.pk }}">
+                                Remove from group
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endifcaneditgroup %}
         </li>
     {% empty %}
         <p>

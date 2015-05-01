@@ -1,7 +1,7 @@
 from django import template
 
 from classytags.arguments import Argument
-from classytags.core import Options
+from classytags.core import Options, Tag
 from classytags.helpers import AsTag, InclusionTag
 
 from accounts.models import GardenGroupUserMembership
@@ -88,7 +88,22 @@ class GardenGroupMemberList(InclusionTag):
         return context
 
 
+class IfCanEditGroup(Tag):
+    name = 'ifcaneditgroup'
+    options = Options(
+        Argument('group', resolve=True, required=True),
+        Argument('user', resolve=True, required=True),
+        blocks=[('endifcaneditgroup', 'nodelist')],
+    )
+
+    def render_tag(self, context, group, user, nodelist):
+        if group.is_admin(user) or user.has_perm('can_edit_any_garden'):
+            return nodelist.render(context)
+        return ''
+
+
 register.tag(GardenGroupList)
 register.tag(GardenGroupInviteCount)
 register.tag(GardenGroupInviteList)
 register.tag(GardenGroupMemberList)
+register.tag(IfCanEditGroup)

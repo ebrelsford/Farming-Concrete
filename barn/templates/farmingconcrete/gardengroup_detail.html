@@ -9,7 +9,9 @@
     <section>
         <h1>{{ gardengroup.name }}</h1>
 
-        <a class="btn btn-default" href="{% url "farmingconcrete_gardengroup_update" pk=gardengroup.pk %}">Edit</a>
+        {% ifcaneditgroup gardengroup request.user %}
+            <a class="btn btn-default" href="{% url "farmingconcrete_gardengroup_update" pk=gardengroup.pk %}">Edit</a>
+        {% endifcaneditgroup %}
 
         <section class="garden-group-section">
             <h2>{% trans "Gardens in this group" %}</h2>

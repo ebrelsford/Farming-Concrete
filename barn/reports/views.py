@@ -13,7 +13,7 @@ from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
 from metrics.registry import registry
 
-from farmingconcrete.views import GardenGroupMixin
+from farmingconcrete.views import GardenGroupMemberMixin
 
 
 class Index(LoginRequiredMixin, TemplateView):
@@ -81,7 +81,7 @@ class SpreadsheetView(MetricSpreadsheetMixin, LoginRequiredMixin, GardenMixin,
                 raise PermissionDenied
 
 
-class SpreadsheetGroupView(MetricSpreadsheetMixin, GardenGroupMixin,
+class SpreadsheetGroupView(MetricSpreadsheetMixin, GardenGroupMemberMixin,
                            LoginRequiredMixin, TablibView):
     """
     Export data for a garden group for some or all metrics as an Excel 
