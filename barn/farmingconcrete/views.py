@@ -218,6 +218,7 @@ def gardens_geojson(request):
     ids = request.GET.get('ids', None)
     cropcount = request.GET.get('cropcount', None)
     gardenid = request.GET.get('gardenid', None)
+    group = request.GET.get('group', None)
     harvestcount = request.GET.get('harvestcount', None)
     metric = request.GET.get('metric', None)
     participating = request.GET.get('participating', None)
@@ -252,6 +253,14 @@ def gardens_geojson(request):
         gardens = gardens.filter(type__short_name=type)
     if borough:
         gardens = gardens.filter(borough=borough)
+    if group:
+        try:
+            gardengroup = GardenGroup.objects.get(pk=group)
+            gardens = gardens.filter(
+                pk__in=gardengroup.active_gardens().values_list('pk', flat=True)
+            )
+        except GardenGroup.DoesNotExist:
+            pass
 
     if cropcount and cropcount != 'no':
         gardens = gardens.filter(box__patch__added__year=year)

@@ -140,6 +140,10 @@ define(
             require(['leaflet.basicmap']);
         }
 
+        if ($('.garden-group-page').length > 0) {
+            require(['leaflet.basicmap']);
+        }
+
         if ($('.photo-gallery').length > 0) {
             require(['photogallery']);
         }

@@ -10958,6 +10958,10 @@ fieldset[disabled] .btn-invite-member.active {
 .garden-group-page .form-control.select2-container {
   padding: 0;
 }
+.garden-group-page .group-map {
+  height: 300px;
+  width: 100%;
+}
 .garden-group-update-form {
   margin-left: -15px;
   margin-right: -15px;
@@ -10979,9 +10983,6 @@ fieldset[disabled] .btn-invite-member.active {
 }
 .garden-group-update-form .btn:first-child {
   margin-left: 0;
-}
-.garden-group-update-form .form-control.select2-container {
-  padding: 0;
 }
 .garden-group-list {
   list-style: none;

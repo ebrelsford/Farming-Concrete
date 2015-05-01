@@ -13,6 +13,11 @@
             <a class="btn btn-default" href="{% url "farmingconcrete_gardengroup_update" pk=gardengroup.pk %}">Edit</a>
         {% endifcaneditgroup %}
 
+        <div id="map" class="group-map"
+            data-l-group="{{ gardengroup.pk }}"
+            data-l-mapbox-id="farmingconcrete.i29og38a"
+        ></div>
+
         <section class="garden-group-section">
             <h2>{% trans "Gardens in this group" %}</h2>
             <ul class="garden-list">
