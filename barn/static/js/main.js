@@ -120,6 +120,10 @@ define(
             require(['addgardengroupadmin']);
         }
 
+        if ($('.garden-detail-page').length > 0) {
+            require(['gardendetailpage']);
+        }
+
         if ($('.garden-group-member-list').length > 0) {
             require(['gardengroupmemberlist']);
         }

@@ -29,7 +29,11 @@
                             {% summarize metric.name gardens=garden_list year=year %}
                         </div>
                         <div class="metric-actions">
-                            {% ifequal garden_list|length 1 %}
+                            {% if garden_list|length == 0 %}
+                                <a href="#" class="btn btn-default btn-add-data btn-add-data-empty">
+                                    {% trans "add data" %}
+                                </a>
+                            {% elif garden_list|length == 1 %}
                                 <a href="{% url metric.garden_detail_url_name pk=garden_list.0.pk %}" class="btn btn-default btn-add-data">
                                     {% trans "add data" %}
                                 </a>
@@ -47,7 +51,7 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
-                            {% endifequal %}
+                            {% endif %}
                         </div>
                     </section>
                 {% endfor %}
