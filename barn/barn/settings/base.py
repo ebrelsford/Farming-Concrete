@@ -169,6 +169,11 @@ AJAX_LOOKUP_CHANNELS = {
     'gardener': ('metrics.harvestcount.lookups', 'GardenerLookup'),
 }
 
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 DEFAULT_GROUPS = ('gardeners',)
 
