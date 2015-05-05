@@ -10728,6 +10728,9 @@ h2 a.text {
 .garden-detail-page .metric-group h3:only-child {
   display: none;
 }
+.garden-detail-page .year-picker {
+  margin-bottom: 15px;
+}
 .record-list-empty {
   font-style: italic;
   padding: 25px;

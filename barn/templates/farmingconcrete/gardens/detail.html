@@ -6,6 +6,18 @@
 {% block body_class %}{{ block.super }} garden-detail-page{% endblock %}
 
 {% block left %}
+    <div class="year-picker">
+        You are viewing data for
+        <select class="year-picker-select">
+            <option value="" {% if not year %}selected{% endif %}>all years</option>
+            {% for select_year in years %}
+                <option {% ifequal select_year year %}selected{% endifequal %} value="{{ select_year }}">
+                    {{ select_year }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
 
     <section>
         {% for group, metrics in grouped_metrics.items %}

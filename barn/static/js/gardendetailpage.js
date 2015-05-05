@@ -14,6 +14,19 @@ define(['jquery', 'django'], function ($, Django) {
             return false;
         });
 
+        $('.year-picker-select').change(function () {
+            var year = $(this).val(),
+                url = Django.url('farmingconcrete_gardens_user');
+            console.log(year);
+
+            if (year) {
+                url = Django.url('farmingconcrete_gardens_user_by_year', {
+                    year: $(this).val()
+                });
+            }
+            window.location.href = url;
+        });
+
     });
 
 });
