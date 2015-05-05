@@ -10621,6 +10621,18 @@ ul.values li .even {
     width: 66.66666667%;
   }
 }
+.account-page .edit .field-email_address_public {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .account-page .edit .field-email_address_public {
+    float: left;
+    width: 66.66666667%;
+  }
+}
 h2 a.text {
   position: absolute;
   padding-top: 3px;

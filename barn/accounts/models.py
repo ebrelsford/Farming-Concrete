@@ -28,6 +28,7 @@ class UserProfile(models.Model):
     gardener = models.ForeignKey(Gardener, blank=True, null=True)
 
     invite_count = models.PositiveIntegerField(default=0)
+    email_address_public = models.BooleanField(default=False)
 
 
 class GardenMembership(models.Model):

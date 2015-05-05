@@ -35,6 +35,11 @@ class AccountDetailsView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('account_details')
 
+    def get_initial(self):
+        initial = super(AccountDetailsView, self).get_initial()
+        initial['email_address_public'] = get_profile(self.object).email_address_public
+        return initial
+
 
 class AddAdminView(LoginRequiredMixin, DetailView):
     """Add a user as admin for a garden."""

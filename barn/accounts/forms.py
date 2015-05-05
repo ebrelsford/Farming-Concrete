@@ -1,19 +1,33 @@
 from django.contrib.auth.models import User
-from django.forms import (EmailField, Form, HiddenInput,  ModelChoiceField,
-                          ModelForm, ValidationError)
+from django.forms import (BooleanField, EmailField, Form, HiddenInput,
+                          ModelChoiceField, ModelForm, ValidationError)
 
 from farmingconcrete.models import Garden
 from generic.forms import GroupedModelMultipleChoiceField
 from .models import GardenMembership
+from .utils import get_profile
 
 
 class UserForm(ModelForm):
     # Require email
     email = EmailField()
 
+    email_address_public = BooleanField(
+        help_text='If this is checked, other Barn users will be able to find your email address',
+        label='Make email address public',
+        required=False,
+    )
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email',]
+        fields = ['first_name', 'last_name', 'email', 'email_address_public',]
+
+    def save(self, *args, **kwargs):
+        user = super(UserForm, self).save(*args, **kwargs)
+        user_profile = get_profile(user)
+        user_profile.email_address_public = self.cleaned_data['email_address_public']
+        user_profile.save()
+        return user
 
 
 class InviteForm(Form):
