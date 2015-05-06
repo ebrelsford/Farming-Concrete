@@ -137,6 +137,18 @@ label {
     }
 }
 
+// Styling .btn overrides all of these, which is slightly annoying. Redefining
+// here from bootstrap's buttons file.
+.btn-lg {
+    .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-large);
+}
+.btn-sm {
+    .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+}
+.btn-xs {
+    .button-size(@padding-xs-vertical; @padding-xs-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+}
+
 .nav > li > a:hover,
 .nav > li > a:focus {
   background-color: inherit;

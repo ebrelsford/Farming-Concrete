@@ -7813,6 +7813,24 @@ fieldset[disabled] .btn-primary.active {
   color: #849f38;
   text-decoration: underline;
 }
+.btn-lg {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
 .nav > li > a:hover,
 .nav > li > a:focus {
   background-color: inherit;
@@ -11288,6 +11306,18 @@ fieldset[disabled] .btn-add-garden.active {
 .main-index-page #map {
   height: 400px;
   width: 100%;
+}
+.main-index-page .btn-map {
+  color: white;
+  position: absolute;
+  right: 5px;
+  z-index: 1999;
+}
+.main-index-page .btn-map-user-gardens {
+  top: 5px;
+}
+.main-index-page .btn-map-all-gardens {
+  top: 30px;
 }
 .main-index-page .overview {
   clear: both;
