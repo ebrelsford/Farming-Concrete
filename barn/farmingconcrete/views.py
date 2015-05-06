@@ -224,7 +224,7 @@ def gardens_geojson(request):
     harvestcount = request.GET.get('harvestcount', None)
     metric = request.GET.get('metric', None)
     participating = request.GET.get('participating', None)
-    type = request.GET.get('gardentype', None)
+    types = request.GET.get('gardentype', None)
     borough = request.GET.get('borough', None)
     year = request.GET.get('year', datetime.now().year)
     user_gardens = request.GET.get('user_gardens', False)
@@ -251,8 +251,9 @@ def gardens_geojson(request):
         except Exception:
             pass
         gardens = gardens.filter(id__in=ids)
-    if type and type != 'all':
-        gardens = gardens.filter(type__short_name=type)
+    if types and types != 'all':
+        types = types.split(',')
+        gardens = gardens.filter(type__short_name__in=types)
     if borough:
         gardens = gardens.filter(borough=borough)
     if group:

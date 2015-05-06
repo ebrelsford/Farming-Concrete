@@ -11314,6 +11314,9 @@ fieldset[disabled] .btn-add-garden.active {
   top: 5px;
   z-index: 1999;
 }
+.main-index-page .btn-map-types {
+  top: 30px;
+}
 .main-index-page .overview {
   clear: both;
   margin-top: 25px;

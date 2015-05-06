@@ -37,6 +37,16 @@ class Overview(AsTag):
         return context
 
 
+class GardenTypes(AsTag):
+    options = Options(
+        'as',
+        Argument('varname', resolve=False, required=False),
+    )
+
+    def get_value(self, context):
+        return GardenType.objects.all().order_by('name')
+
+
 class GardenTypeDescriptions(InclusionTag):
     template = 'farmingconcrete/garden_type_descriptions.html'
 
@@ -49,4 +59,5 @@ class GardenTypeDescriptions(InclusionTag):
 
 
 register.tag(Overview)
+register.tag(GardenTypes)
 register.tag(GardenTypeDescriptions)

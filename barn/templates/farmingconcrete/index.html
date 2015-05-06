@@ -67,13 +67,22 @@
                 {% endblock %}
             >
                 {% if user.is_authenticated %}
-                    <div class="btn-group btn-map" data-toggle="buttons">
+                    <div class="btn-group btn-map btn-map-membership" data-toggle="buttons">
                         <label class="btn btn-default btn-xs active">
                             <input type="radio" name="garden-membership" id="user" autocomplete="off" checked> Your Gardens
                         </label>
                         <label class="btn btn-default btn-xs">
                             <input type="radio" name="garden-membership" id="all" autocomplete="off"> All Gardens
                         </label>
+                    </div>
+
+                    <div class="btn-group btn-map btn-map-types" data-toggle="buttons">
+                        {% garden_types as types %}
+                        {% for type in types %}
+                            <label class="btn btn-default btn-xs active">
+                                <input type="checkbox" id="{{ type.short_name }}" autocomplete="off" checked> {{ type.short_name }}
+                            </label>
+                        {% endfor %}
                     </div>
                 {% endif %}
             </div>
