@@ -77,9 +77,13 @@ define(
                         return marker;
                     },
                 }).addTo(instance);
-                instance.fitBounds(instance.gardens.getBounds(), {
-                    padding: [50, 50]
-                });
+
+                // If there is anything mapped, fit map to it
+                if (instance.gardens.getLayers().length > 0) {
+                    instance.fitBounds(instance.gardens.getBounds(), {
+                        padding: [50, 50]
+                    });
+                }
             }
 
         });
