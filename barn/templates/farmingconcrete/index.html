@@ -65,7 +65,12 @@
                     data-l-mapbox-id="farmingconcrete.i29og38a"
                     data-l-user_gardens="true"
                 {% endblock %}
-            ></div>
+            >
+                {% if user.is_authenticated %}
+                    <a href="#" class="btn btn-xs btn-default btn-map btn-map-user-gardens">Your gardens</a>
+                    <a href="#" class="btn btn-xs btn-default btn-map btn-map-all-gardens">All gardens</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 

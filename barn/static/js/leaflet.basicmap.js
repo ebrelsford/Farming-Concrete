@@ -18,6 +18,9 @@ define(
         $(document).ready(function () {
             var map = L.map('map');
             map.attributionControl.setPrefix('');
+
+            // Put the map somewhere we can access it later
+            $('body').data('map', map);
         });
     }
 );

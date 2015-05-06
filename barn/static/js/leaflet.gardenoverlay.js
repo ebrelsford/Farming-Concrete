@@ -41,10 +41,11 @@ define(
 
         L.Map.include({
 
-            addGardenOverlay: function () {
+            addGardenOverlay: function (options) {
                 var instance = this,
                     url = Django.url('farmingconcrete_gardens_geojson');
-                url += '?' + $.param(_.pick(instance.options, mapParams));
+                options = options || instance.options;
+                url += '?' + $.param(_.pick(options, mapParams));
                 $.getJSON(url, function (data) {
                     instance.addGardenData(data);
                 });
@@ -63,7 +64,10 @@ define(
                     popupTemplate = Handlebars.compile($('#popup-template').html()),
                     style = instance.pickStyle();
 
-                var gardens = L.geoJson(data, {
+                if (instance.gardens) {
+                    instance.removeLayer(instance.gardens);
+                }
+                instance.gardens = L.geoJson(data, {
                     pointToLayer: function (feature, latlng) {
                         var marker = L.circleMarker(latlng, style);
                         marker.bindPopup(popupTemplate({
@@ -73,7 +77,7 @@ define(
                         return marker;
                     },
                 }).addTo(instance);
-                instance.fitBounds(gardens.getBounds(), {
+                instance.fitBounds(instance.gardens.getBounds(), {
                     padding: [50, 50]
                 });
             }

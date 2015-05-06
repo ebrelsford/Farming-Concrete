@@ -137,7 +137,7 @@ define(
         }
 
         if ($('.main-index-page').length > 0) {
-            require(['leaflet.basicmap']);
+            require(['index', 'leaflet.basicmap']);
         }
 
         if ($('.map-base-page').length > 0) {
