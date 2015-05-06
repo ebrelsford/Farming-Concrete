@@ -20,6 +20,7 @@
         'addparticipationhourspage',
         'addsales',
         'gardenmemberlist',
+        'index',
         'leaflet.basicmap',
         'landfilldiversionvolumechart',
         'lookinggoodtagset',
