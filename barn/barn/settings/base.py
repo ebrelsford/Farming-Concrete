@@ -144,7 +144,6 @@ INSTALLED_APPS = (
     'crops',
     'estimates',
     'farmingconcrete',
-    'harvestmap',
     'imagekit',
     'metrics.base',
     'metrics.compost',

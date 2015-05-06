@@ -98,10 +98,6 @@ urlpatterns = patterns('',
     ), name='feedback_success'),
     url(r'feedback/', include('feedback.urls')),
 
-    (r'^harvestmap/$', 'harvestmap.views.map'),
-    (r'^harvestmap/gardens/kml', 'harvestmap.views.kml'),
-    (r'^harvestmap/data', 'harvestmap.views.data'),
-
     (r'^report_builder/', include('report_builder.urls')),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
