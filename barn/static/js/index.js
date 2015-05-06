@@ -9,16 +9,13 @@ define(['jquery'], function ($) {
     }
 
     $(document).ready(function () {
-
-        $('.btn-map-user-gardens').click(function () {
-            getMap().addGardenOverlay({user_gardens: true});
-            return false;
+        $(':input[name=garden-membership]').change(function () {
+            var selected = $(this).attr('id'),
+                options = {};
+            if (selected === 'user') {
+                options.user_gardens = true;
+            }
+            getMap().addGardenOverlay(options);
         });
-
-        $('.btn-map-all-gardens').click(function () {
-            getMap().addGardenOverlay({});
-            return false;
-        });
-
     });
 });

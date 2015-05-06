@@ -11311,13 +11311,8 @@ fieldset[disabled] .btn-add-garden.active {
   color: white;
   position: absolute;
   right: 5px;
-  z-index: 1999;
-}
-.main-index-page .btn-map-user-gardens {
   top: 5px;
-}
-.main-index-page .btn-map-all-gardens {
-  top: 30px;
+  z-index: 1999;
 }
 .main-index-page .overview {
   clear: both;

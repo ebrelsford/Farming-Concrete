@@ -67,8 +67,14 @@
                 {% endblock %}
             >
                 {% if user.is_authenticated %}
-                    <a href="#" class="btn btn-xs btn-default btn-map btn-map-user-gardens">Your gardens</a>
-                    <a href="#" class="btn btn-xs btn-default btn-map btn-map-all-gardens">All gardens</a>
+                    <div class="btn-group btn-map" data-toggle="buttons">
+                        <label class="btn btn-default btn-xs active">
+                            <input type="radio" name="garden-membership" id="user" autocomplete="off" checked> Your Gardens
+                        </label>
+                        <label class="btn btn-default btn-xs">
+                            <input type="radio" name="garden-membership" id="all" autocomplete="off"> All Gardens
+                        </label>
+                    </div>
                 {% endif %}
             </div>
         </div>
