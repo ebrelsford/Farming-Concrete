@@ -1,17 +1,17 @@
-@select2-image: data-uri("../bower_components/select2/select2.png"); 
 @select2-spinner-image: data-uri("../bower_components/select2/select2-spinner.gif");
 
 .select2-container {
     width: 100%;
 
-    &.select2-dropdown-open {
-        &.select2-drop-above,
-        &.select2-drop-below {
-            .select2-choice {
-                background: @form-input-background;
-                border: none;
-            }
-        }
+    .select2-selection {
+        background-color: @form-input-background;
+        border: none;
+        border-radius: 0;
+    }
+
+    .select2-dropdown, .select2-choice {
+        background-color: @form-input-background;
+        border: none;
     }
 
     .select2-choice {
@@ -19,17 +19,9 @@
         border: none;
         border-radius: 0;
 
-        abbr {
-            background-image: @select2-image;
-        }
-
         .select2-arrow {
             background: @form-input-background;
             border-left: none;
-
-            b {
-                background-image: @select2-image;
-            }
         }
     }
 
@@ -37,24 +29,13 @@
         background: @form-input-background;
         border: none;
         border-radius: 0;
-
-        .select2-search-choice-close {
-            background-image: @select2-image;
-        }
     }
 }
 
 .select2-search {
-    &-choice-close {
-        background-image: @select2-image;
-    }
-
     input {
-        background-image: @select2-image;
-
-        &.select2-active {
-            background-image: @select2-spinner-image;
-        }
+        background-color: @form-input-background;
+        border: none;
     }
 }
 
