@@ -67,9 +67,10 @@ gulp.task('css-dev', function () {
 });
 
 gulp.task('css-prod', function () {
-    return gulp.src('dist/style.css')
+    return gulp.src('dist/style.dev.css')
         .pipe(plumber())
         .pipe(minifyCSS())
+        .pipe(rename('style.css'))
         .pipe(gulp.dest('dist'));
 });
 
