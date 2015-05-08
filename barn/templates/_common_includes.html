@@ -1,14 +1,23 @@
 {% load compress js static %}
 
-{% django_js_init jquery=false i18n=false csrf=false %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 
-<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
-
-{# Load requirejs main, built if in production #}
-{% if not debug %}
-    {% compress js %}
-        <script src="{% static "main-built.js" %}"></script>
-    {% endcompress %}
+{% if debug %}
+    <link rel="stylesheet" href="{% static "dist/style.dev.css" %}">
 {% else %}
-    <script src="{% static "bower_components/requirejs/require.js" %}" data-main="{% static "app.js" %}"></script>
+    <link rel="stylesheet" href="{% static "dist/style.css" %}">
+{% endif %}
+
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+{% django_js jquery=false i18n=false csrf=false %}
+
+{% if debug %}
+    <script src="{% static "dist/app.dev.js" %}"></script>
+{% else %}
+    <script src="{% static "dist/app.js" %}"></script>
 {% endif %}

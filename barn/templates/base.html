@@ -11,12 +11,6 @@
         <link rel="icon" href="{% static "img/favicon.png" %}" />
         <link rel="shortcut icon" href="{% static "img/favicon.png" %}" />
 
-        {% if debug %}
-            <link rel="stylesheet" href="{% static "css/style.css" %}">
-        {% else %}
-            <link rel="stylesheet" href="{% static "dist/style.css" %}">
-        {% endif %}
-
         {% compress js %}
             <script src="{% static "js/ajax_select.js" %}" type="text/javascript"></script>
         {% endcompress %}
