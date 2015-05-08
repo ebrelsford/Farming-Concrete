@@ -5,6 +5,7 @@ var browserify = require('browserify'),
     less = require('gulp-less'),
     minifyCSS = require('gulp-minify-css'),
     path = require('path'),
+    plumber = require('gulp-plumber'),
     rename = require('gulp-rename'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -29,6 +30,7 @@ function makeDevBundle() {
         .transform({global: true}, 'browserify-shim')
         .bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+        .pipe(plumber())
         .pipe(source('app.dev.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
@@ -42,6 +44,7 @@ function makeProdBundle() {
         .transform({global: true}, 'browserify-shim')
         .bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+        .pipe(plumber())
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(uglify())
@@ -52,7 +55,9 @@ gulp.task('watch', function () {
 
     // Watch LESS files for development
     watch('css/**/*.less', function () {
+        gutil.log('Building dev CSS');
         return gulp.src('css/**/style.less', { base: 'css' })
+            .pipe(plumber())
             .pipe(sourcemaps.init())
                 .pipe(less({
                     paths: [path.join(__dirname, 'css')]
@@ -65,6 +70,7 @@ gulp.task('watch', function () {
     // Watch style.css for production
     watch('css/style.css', function () {
         return gulp.src('css/style.css')
+            .pipe(plumber())
             .pipe(minifyCSS())
             .pipe(gulp.dest('dist'));
     });
