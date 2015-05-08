@@ -2,6 +2,7 @@ var browserify = require('browserify'),
     buffer = require('vinyl-buffer'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
+    jshint = require('gulp-jshint'),
     less = require('gulp-less'),
     minifyCSS = require('gulp-minify-css'),
     path = require('path'),
@@ -32,6 +33,8 @@ function makeDevBundle() {
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(plumber())
         .pipe(source('app.dev.js'))
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(sourcemaps.write())
@@ -50,6 +53,14 @@ function makeProdBundle() {
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 }
+
+gulp.task('lintjs', function () {
+    return gulp.src([
+        'gulpfile.js',
+        'js/**/*.js',
+    ]).pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
 
 gulp.task('watch', function () {
 
@@ -74,6 +85,8 @@ gulp.task('watch', function () {
             .pipe(minifyCSS())
             .pipe(gulp.dest('dist'));
     });
+
+    gulp.watch('js/**/*.js', ['lintjs']);
 
     // Watch JS for development
     watch('js/**/*.js', makeDevBundle);

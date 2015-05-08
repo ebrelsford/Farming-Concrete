@@ -73,7 +73,7 @@ $(document).ready(function () {
         // If something is already selected (eg, on error), load crop
         // varieties as soon as we can
         $crops.each(function () {
-            if ($(this).val() != '') {
+            if ($(this).val() !== '') {
                 loadCropVarieties($(this),
                                   findCropVariety($(this), cropVarietySelector));
             }

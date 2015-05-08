@@ -14,7 +14,7 @@ require('bootstrap');
 function updateDownloadButtonUrl() {
     var url = Django.url('reports_pdf', { pk: $('.pdf-modal :input[name=pk]').val() }),
         params = {},
-        dateType = $(':input[name=date_type]:checked').attr('id');;
+        dateType = $(':input[name=date_type]:checked').attr('id');
 
     // Add parameters for date
     if (dateType === 'year') {
