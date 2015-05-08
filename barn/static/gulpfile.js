@@ -55,11 +55,11 @@ function makeProdBundle() {
 }
 
 gulp.task('css-dev', function () {
-    return gulp.src('css/**/style.less', { base: 'css' })
+    return gulp.src('less/**/style.less', { base: 'less' })
         .pipe(plumber())
         .pipe(sourcemaps.init())
             .pipe(less({
-                paths: [path.join(__dirname, 'css')]
+                paths: [path.join(__dirname, 'less')]
             }))
         .pipe(sourcemaps.write())
         .pipe(rename('style.dev.css'))
@@ -67,7 +67,7 @@ gulp.task('css-dev', function () {
 });
 
 gulp.task('css-prod', function () {
-    return gulp.src('css/style.css')
+    return gulp.src('dist/style.css')
         .pipe(plumber())
         .pipe(minifyCSS())
         .pipe(gulp.dest('dist'));
@@ -82,7 +82,7 @@ gulp.task('lintjs', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('css/**/*.less', ['css-dev', 'css-prod']);
+    gulp.watch('less/**/*.less', ['css-dev', 'css-prod']);
 
     gulp.watch('js/**/*.js', ['lintjs']);
 
