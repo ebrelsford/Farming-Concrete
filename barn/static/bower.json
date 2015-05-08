@@ -17,26 +17,12 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.1.0",
-    "jquery-form": "~3.46.0",
-    "spin.js": "~1.3.3",
-    "modernizr": "~2.7.1",
-    "underscore": "~1.5.2",
-    "almond": "~0.2.9",
-    "requirejs": "~2.1.10",
-    "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-stable.zip",
-    "jquery-autocomplete": "https://github.com/agarzola/jQueryAutocompletePlugin.git#master",
     "stupid-jquery-table-sort": "*",
-    "leaflet-usermarker": "https://github.com/heyman/leaflet-usermarker.git#master",
     "leaflet.dataoptions": "https://github.com/ebrelsford/Leaflet.dataoptions.git#master",
     "django-dynamic-formset": "*",
-    "pickadate": "~3.5.4",
-    "d3": "~3.4.1",
-    "select2": "3.4.8",
     "resig-class": "https://github.com/ebrelsford/resig-class.git#master",
     "colorbox": "~1.4.36",
     "jquery.expander": "~1.4.7",
-    "handlebars": "~1.3.0",
-    "jQuery": "~2.1.0"
+    "pickadate": "~3.5.6"
   }
 }
