@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 var Help = {
     init: function(options, elem) {
         var t = this;

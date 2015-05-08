@@ -2,10 +2,11 @@
 // gardengroupmemberlist
 //
 
-define(['jquery', 'django'], function ($, Django) {
+var $ = require('jquery');
+var Django = require('django');
 
-    $(document).ready(function () {
-
+$(document).ready(function () {
+    if ($('.garden-group-member-list').length > 0) {
         $('.delete-member').click(function () {
             var confirm = window.confirm("Remove user? They will no longer be able to access the group's data and add gardens to it.");
             if (!confirm) return;
@@ -22,7 +23,5 @@ define(['jquery', 'django'], function ($, Django) {
                 });
             return false;
         });
-
-    });
-
+    }
 });

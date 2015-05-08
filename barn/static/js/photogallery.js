@@ -2,22 +2,12 @@
 // photogallery
 //
 
-define(
-    [
-        // Requirements with exports
-        'jquery',
+var $ = require('jquery');
 
-        'colorbox',
+require('colorbox');
 
-    ], function ($) {
-
-        $(document).ready(function () {
-
-            $('.photo-gallery a').colorbox({
-                rel: 'gal',
-            });
-
-        });
-
-    }
-);
+$(document).ready(function () {
+    $('.photo-gallery a').colorbox({
+        rel: 'gal',
+    });
+});

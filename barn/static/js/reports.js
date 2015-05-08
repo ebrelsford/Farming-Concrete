@@ -4,51 +4,67 @@
 // Scripts dealing with the reports section of the Barn.
 //
 
-define(['jquery', 'django', 'bootstrap'], function ($, Django) {
+var $ = require('jquery');
+var Django = require('django');
+var moment = require('moment');
+var rome = require('rome');
+var _ = require('underscore');
+require('bootstrap');
 
-    function updateDownloadButtonUrl() {
-        var url = Django.url('reports_pdf', { pk: $('.pdf-modal :input[name=pk]').val() }),
-            params = {},
-            dateType = $(':input[name=date_type]:checked').attr('id');;
+function updateDownloadButtonUrl() {
+    var url = Django.url('reports_pdf', { pk: $('.pdf-modal :input[name=pk]').val() }),
+        params = {},
+        dateType = $(':input[name=date_type]:checked').attr('id');;
 
-        // Add parameters for date
-        if (dateType === 'year') {
-            params.year = $(':input[name=year]').val();
-        }
-        if (dateType === 'range') {
-            params.min = $(':input[name=min]').val();
-            params.max = $(':input[name=max]').val();
-        }
-        url += '?' + $.param(params);
-        $('.pdf-modal .btn-primary').attr('href', url);
+    // Add parameters for date
+    if (dateType === 'year') {
+        params.year = $(':input[name=year]').val();
     }
-
-    function updateYearSelect(years) {
-        var $yearSelect = $(':input[name=year]');
-        $yearSelect.empty();
-
-        $.each(years, function (i, year) {
-            var $option = $('<option></option>')
-                .val(year)
-                .text(year);
-            $yearSelect.append($option);
-        });
-
-        $yearSelect.find('option').last().prop('selected', true);
+    if (dateType === 'range') {
+        params.min = $(':input[name=min]').val();
+        params.max = $(':input[name=max]').val();
     }
+    url += '?' + $.param(params);
+    $('.pdf-modal .btn-primary').attr('href', url);
+}
 
-    function updateDateRange(min, max) {
-        var setParams = { format: 'mm/dd/yyyy' };
-        $(':input[name=min]').data('pickadate').set('select', min, setParams);
-        $(':input[name=max]').data('pickadate').set('select', max, setParams);
-    }
+function updateYearSelect(years) {
+    var $yearSelect = $(':input[name=year]');
+    $yearSelect.empty();
 
-    function updateFormInputs(options) {
-        updateYearSelect(options.years);
-        updateDateRange(options.min, options.max);
-    }
+    $.each(years, function (i, year) {
+        var $option = $('<option></option>')
+            .val(year)
+            .text(year);
+        $yearSelect.append($option);
+    });
 
-    $(document).ready(function () {
+    $yearSelect.find('option').last().prop('selected', true);
+}
+
+function updateDateRange(min, max) {
+    var options = {
+        max: moment(max, 'MM/DD/YYYY'),
+        min: moment(min, 'MM/DD/YYYY'),
+        time: false
+    };
+    var minRome = $(':input[name=min]')[0],
+        maxRome = $(':input[name=max]')[0];
+    rome.find(minRome).options(_.extend({}, options, {
+        dateValidator: rome.val.beforeEq(maxRome)
+    }));
+    rome.find(maxRome).options(_.extend({}, options, {
+        dateValidator: rome.val.afterEq(minRome)
+    }));
+}
+
+function updateFormInputs(options) {
+    updateYearSelect(options.years);
+    updateDateRange(options.min, options.max);
+}
+
+$(document).ready(function () {
+    if ($('.reports-page').length > 0) {
         $('.btn-reports').click(function () {
             if ($(this).data('has-records')) {
                 return true;
@@ -80,6 +96,5 @@ define(['jquery', 'django', 'bootstrap'], function ($, Django) {
             $(this).find('.btn-primary').removeClass('disabled');
             $(this).removeClass('is-downloading');
         });
-    });
-
+    }
 });

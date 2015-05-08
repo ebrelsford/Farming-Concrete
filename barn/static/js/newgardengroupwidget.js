@@ -2,20 +2,16 @@
 // newgardengroupwidget
 //
 
-define(
-    [
-        // Requirements with exports
-        'jquery',
-        'new_widget'
+var $ = require('jquery');
+var NewInstanceWidget = require('./new_widget');
 
-    ], function ($, NewInstanceWidget) {
-        var NewGardenGroupWidget = NewInstanceWidget.extend({});
+var NewGardenGroupWidget = NewInstanceWidget.extend({});
 
-        $(document).ready(function () {
-            var widget = new NewGardenGroupWidget({
-                buttonSelector: '.btn-new-gardengroup',
-                selectSelector: 'select[name=groups]'
-            });
+$(document).ready(function () {
+    if ($('.btn-new-gardengroup').length > 0) {
+        var widget = new NewGardenGroupWidget({
+            buttonSelector: '.btn-new-gardengroup',
+            selectSelector: 'select[name=groups]'
         });
     }
-);
+});

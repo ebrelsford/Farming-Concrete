@@ -3,24 +3,19 @@
 // Set up basic map that will work on most pages.
 //
 
-define(
-    [
-        // Requirements with exports
-        'jquery',
-        'leaflet',
+var $ = require('jquery');
+var L = require('leaflet');
 
-        // Requirements without exports
-        'leaflet.dataoptions',
-        'leaflet.gardenoverlay',
-        'leaflet.mapbox'
+require('leaflet.dataoptions');
+require('./leaflet.gardenoverlay');
+require('./leaflet.mapbox');
 
-    ], function ($, L) {
-        $(document).ready(function () {
-            var map = L.map('map');
-            map.attributionControl.setPrefix('');
+$(document).ready(function () {
+    if ($('#map').length > 0) {
+        var map = L.map('map');
+        map.attributionControl.setPrefix('');
 
-            // Put the map somewhere we can access it later
-            $('body').data('map', map);
-        });
+        // Put the map somewhere we can access it later
+        $('body').data('map', map);
     }
-);
+});

@@ -2,10 +2,11 @@
 // gardenmemberlist
 //
 
-define(['jquery', 'django'], function ($, Django) {
+var $ = require('jquery');
+var Django = require('django');
 
-    $(document).ready(function () {
-
+$(document).ready(function () {
+    if ($('.garden-member-list').length > 0) {
         $('.add-admin').click(function () {
             var confirm = window.confirm('Add user as admin? They will receive emails about this garden and be able to add and remove other admins.');
             if (!confirm) return;
@@ -53,6 +54,5 @@ define(['jquery', 'django'], function ($, Django) {
             return false;
         });
 
-    });
-
+    }
 });

@@ -2,10 +2,11 @@
 // gardendetailpage
 //
 
-define(['jquery', 'django'], function ($, Django) {
+var $ = require('jquery');
+var Django = require('django');
 
-    $(document).ready(function () {
-
+$(document).ready(function () {
+    if ($('.garden-detail-page').length > 0) {
         $('.btn-add-data-empty').click(function () {
             var confirm = window.confirm("You can't add data without joining a garden. Join one now?");
             if (confirm) {
@@ -26,7 +27,5 @@ define(['jquery', 'django'], function ($, Django) {
             }
             window.location.href = url;
         });
-
-    });
-
+    }
 });
