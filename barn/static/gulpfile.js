@@ -54,6 +54,25 @@ function makeProdBundle() {
         .pipe(gulp.dest('dist'));
 }
 
+gulp.task('css-dev', function () {
+    return gulp.src('css/**/style.less', { base: 'css' })
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+            .pipe(less({
+                paths: [path.join(__dirname, 'css')]
+            }))
+        .pipe(sourcemaps.write())
+        .pipe(rename('style.dev.css'))
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('css-prod', function () {
+    return gulp.src('css/style.css')
+        .pipe(plumber())
+        .pipe(minifyCSS())
+        .pipe(gulp.dest('dist'));
+});
+
 gulp.task('lintjs', function () {
     return gulp.src([
         'gulpfile.js',
@@ -63,28 +82,7 @@ gulp.task('lintjs', function () {
 });
 
 gulp.task('watch', function () {
-
-    // Watch LESS files for development
-    watch('css/**/*.less', function () {
-        gutil.log('Building dev CSS');
-        return gulp.src('css/**/style.less', { base: 'css' })
-            .pipe(plumber())
-            .pipe(sourcemaps.init())
-                .pipe(less({
-                    paths: [path.join(__dirname, 'css')]
-                }))
-            .pipe(sourcemaps.write())
-            .pipe(rename('style.dev.css'))
-            .pipe(gulp.dest('dist'));
-    });
-
-    // Watch style.css for production
-    watch('css/style.css', function () {
-        return gulp.src('css/style.css')
-            .pipe(plumber())
-            .pipe(minifyCSS())
-            .pipe(gulp.dest('dist'));
-    });
+    gulp.watch('css/**/*.less', ['css-dev', 'css-prod']);
 
     gulp.watch('js/**/*.js', ['lintjs']);
 
