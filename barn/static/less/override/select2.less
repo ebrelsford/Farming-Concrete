@@ -39,12 +39,11 @@
     }
 }
 
-.select2-drop {
-    background: @form-input-background;
-    border: none;
-
-    .select2-highlighted {
-        background: @metric-color;
+.select2-container--default {
+    .select2-results__option {
+        &--highlighted[aria-selected] {
+            background-color: @metric-color;
+        }
     }
 }
 
