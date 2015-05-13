@@ -9,7 +9,6 @@ var Django = require('django');
 var L = require('leaflet');
 var geocode = require('./geocode');
 var _ = require('underscore');
-// TODO make this work?
 var Spinner = require('spin.js');
 
 require('bootstrap');
@@ -23,13 +22,13 @@ var map;
 function updateSuggestions() {
     var baseUrl = Django.url('farmingconcrete_gardens_suggest'),
         name = $('#id_name').val(),
-        $wrapper = $('.garden-suggestions-wrapper');
+        $wrapper = $('.garden-suggestions-wrapper'),
+        spinner = new Spinner().spin($wrapper[0]);
     $wrapper
-        .spin('large')
         .addClass('is-loading')
         .load(baseUrl + '?' + $.param({ name: name }), function () {
+            spinner.stop();
             $wrapper
-                .spin(false)
                 .removeClass('is-loading');
             activateSuggestedGardens();
         });
@@ -200,14 +199,15 @@ $(document).ready(function () {
                     height: '15px' 
                 });
             $message.append($loading);
-            $loading.spin({
+
+            var spinner = new Spinner({
                 color: '#000',
                 left: 0,
                 length: 4,
                 radius: 3,
                 top: 0,
                 width: 1
-            });
+            }).spin($loading[0]);
 
             // Disable link
             $(this).addClass('loading');
@@ -233,7 +233,7 @@ $(document).ready(function () {
                     );
                 })
                 .always(function () {
-                    $loading.spin(false);
+                    spinner.stop();
                     $loading.remove();
                     $message.addClass('request-sent');
                 });
