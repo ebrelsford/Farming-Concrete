@@ -439,6 +439,7 @@ class CheckGardenGroupMembershipAccess(LoginRequiredMixin, JSONResponseMixin,
 class ApproveGardenGroupMembership(GardenGroupAdminPermissionMixin,
                                    MessageMixin, LoginRequiredMixin,
                                    JSONResponseMixin, DetailView):
+    model = GardenGroup
 
     def approve_membership(self, garden, group):
         memberships = GardenGroupMembership.by_status.pending_requested().filter(
