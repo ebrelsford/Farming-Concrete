@@ -29,7 +29,7 @@ wsgiref==0.1.2
 openpyxl==2.1.5
 
 # Django requirements
-Django==1.8.1
+Django==1.8.2
 git+https://github.com/noirbizarre/django.js.git@65b267b04
 django-ajax-selects==1.3.6
 git+git://github.com/brack3t/django-braces.git@master
