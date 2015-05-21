@@ -9,7 +9,7 @@ geojson==1.0.9
 html5lib==0.90
 ipython>=3.0.0
 matplotlib==1.0.1
-pandas==0.16.0
+pandas==0.16.1
 Pint==0.6
 py==1.4.9
 pygeocoder==1.2.5
@@ -32,7 +32,7 @@ openpyxl==2.1.5
 Django==1.8.2
 git+https://github.com/noirbizarre/django.js.git@65b267b04
 django-ajax-selects==1.3.6
-git+git://github.com/brack3t/django-braces.git@master
+django-braces==1.8.0
 django-classy-tags==0.6.1
 django_compressor>=1.4
 git+git://github.com/girasquid/django-feedback.git
@@ -41,6 +41,7 @@ django-floppyforms==1.4.1
 django-imagekit==3.2.6
 django-registration-redux==1.1
 git+git://github.com/ebrelsford/django-report-builder.git@master
+djangorestframework==3.1.2
 git+git://github.com/ebrelsford/django-tablib.git@master
 django-widget-tweaks==1.3
 django-xhtml2pdf==0.0.3
