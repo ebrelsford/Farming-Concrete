@@ -11,6 +11,7 @@ ipython>=3.0.0
 matplotlib==1.0.1
 pandas==0.16.1
 Pint==0.6
+pip==7.0.3
 py==1.4.9
 pygeocoder==1.2.5
 pyPdf==1.13
