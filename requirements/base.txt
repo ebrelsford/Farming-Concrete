@@ -8,7 +8,6 @@ docutils==0.9.1
 geojson==1.0.9
 html5lib==0.90
 ipython>=3.0.0
-matplotlib==1.4.3
 pandas==0.16.2
 Pint==0.6
 pip==7.0.3
