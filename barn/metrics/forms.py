@@ -11,14 +11,11 @@ from farmingconcrete.models import Garden
 class RecordedInput(DateInput):
     template_name = 'metrics/forms/recorded_input.html'
 
-    def __init__(self, attrs=None, *args, **kwargs):
-        try:
-            if not attrs or not 'max' in attrs:
-                attrs = {}
-            attrs['max'] = now().date().isoformat()
-        except Exception:
-            pass
-        super(RecordedInput, self).__init__(attrs=attrs, *args, **kwargs)
+    def render(self, name, value, attrs=None, **kwargs):
+        attrs = attrs or {}
+        attrs['max'] = now().date().isoformat()
+        return super(RecordedInput, self).render(name, value, attrs=attrs,
+                                                 **kwargs)
 
 
 class RecordedField(DateField):
