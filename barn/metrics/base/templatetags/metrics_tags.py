@@ -1,6 +1,7 @@
 from datetime import datetime
 import itertools
 from itertools import groupby
+import logging
 from operator import itemgetter
 
 from django import template
@@ -17,6 +18,7 @@ from classytags.helpers import AsTag, InclusionTag
 from ...registry import registry
 from ...utils import get_min_recorded
 
+logger = logging.getLogger(__name__)
 register = template.Library()
 
 
@@ -98,7 +100,11 @@ class ChartMixin(MetricRecordsMixin):
     def get_value(self, context, garden, year, start, end):
         kwargs = self.args_to_dict(garden, year, start, end)
         records = self.get_records(**kwargs)
-        return self.get_chart(records, kwargs['garden'])
+        try:
+            return self.get_chart(records, kwargs['garden'])
+        except Exception:
+            logger.exception('Exception while generating report chart')
+            return None
 
 
 class MetricTotalTag(MetricRecordsMixin, AsTag):
