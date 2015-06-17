@@ -19,7 +19,9 @@
             <td class="metric-chart-left-padding"></td>
             <td>
                 {% compost_weight_chart garden=garden start=min end=max as chart_url %}
-                <img class="metric-chart metric-chart-compost-weight" src="{% get_media_prefix %}{{ chart_url }}" />
+                {% if chart_url %}
+                    <img class="metric-chart metric-chart-compost-weight" src="{% get_media_prefix %}{{ chart_url }}" />
+                {% endif %}
             </td>
         </tr>
         <tr>
