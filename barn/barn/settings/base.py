@@ -212,6 +212,11 @@ LOGGING = {
             'level': 'WARN',
             'propagate': True,
         },
+        'metrics_tags': {
+            'handlers': ['log_file', 'mail_admins',],
+            'level': 'WARN',
+            'propagate': True,
+        }
     },
 }
 
