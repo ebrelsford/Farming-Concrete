@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'easy_pdf',
     'feedback',
     'floppyforms',
+    'hijack',
     'registration',
     'report_builder',
     'rest_framework',
@@ -238,3 +239,5 @@ MAX_INVITES = 50
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 REPORT_BUILDER_ASYNC_REPORT = False
+
+REVERSE_HIJACK_LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'

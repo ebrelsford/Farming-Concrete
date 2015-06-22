@@ -39,6 +39,7 @@ django_compressor>=1.4
 git+git://github.com/girasquid/django-feedback.git
 django-easy-pdf==0.1.0
 django-floppyforms==1.4.1
+django-hijack==1.0.8
 django-imagekit==3.2.6
 django-registration-redux==1.1
 git+git://github.com/ebrelsford/django-report-builder.git@master

@@ -1,4 +1,4 @@
-{% load compress i18n static %}
+{% load compress hijack_tags i18n static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +20,7 @@
         {% block head %}{% endblock %}
     </head>
     <body class="{% block body_class %}{% endblock %}">
+        {{ request|hijackNotification }}
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-sm-10 col-sm-offset-1" data-role="page">
 
