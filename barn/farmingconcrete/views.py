@@ -98,7 +98,10 @@ class UserGardens(LoginRequiredMixin, UserGardensMixin, ListView):
         context = super(UserGardens, self).get_context_data(**kwargs)
         context['garden_ids'] = self.get_queryset().values_list('pk', flat=True)
         context['page_type'] = 'data_entry'
-        context['year'] = self.kwargs.get('year', None)
+        try:
+            context['year'] = int(self.kwargs['year'])
+        except KeyError:
+            context['year'] = None
         context['years'] = range(2010, date.today().year + 1)
         return context
 
