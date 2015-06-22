@@ -25,10 +25,6 @@ urlpatterns = patterns('',
     url(r'^(?P<year>\d{4})/$', UserGardens.as_view(),
         name='farmingconcrete_gardens_user_by_year'),
 
-    url(r'^(?P<pk>\d+)/(?:(?P<year>\d{4})/)?$', GardenDetails.as_view(),
-        name='farmingconcrete_garden_details'
-    ),
-
     #
     # Add / edit
     #

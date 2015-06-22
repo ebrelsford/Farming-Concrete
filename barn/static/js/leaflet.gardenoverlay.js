@@ -70,7 +70,7 @@ L.Map.include({
                 var marker = L.circleMarker(latlng, style);
                 marker.bindPopup(popupTemplate({
                     garden: feature,
-                    url: Django.url('farmingconcrete_garden_details', { pk: feature.id })
+                    url: Django.url('farmingconcrete_gardens_user')
                 }));
                 return marker;
             },
