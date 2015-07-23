@@ -14,22 +14,24 @@ var browserify = require('browserify'),
     watch = require('gulp-watch'),
     watchify = require('watchify');
 
-var bDev = watchify(browserify('./js/main.js', {
+var bDev = watchify(browserify({
     debug: true,
+    entries: ['./js/main.js'],
     insertGlobals: true
-})); 
+})).transform({global: true}, 'browserify-shim');
 bDev.on('update', makeDevBundle);
 bDev.on('log', gutil.log);
 
-var bProd = watchify(browserify('./js/main.js', { insertGlobals: true })); 
+var bProd = watchify(browserify({
+    entries: ['./js/main.js'],
+    insertGlobals: true
+})).transform({global: true}, 'browserify-shim');
 bProd.on('update', makeProdBundle);
 bProd.on('log', gutil.log);
 
 function makeDevBundle() {
     gutil.log('Building dev js');
-    return bDev
-        .transform({global: true}, 'browserify-shim')
-        .bundle()
+    return bDev.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(plumber())
         .pipe(source('app.dev.js'))
@@ -43,9 +45,7 @@ function makeDevBundle() {
 
 function makeProdBundle() {
     gutil.log('Building prod js');
-    return bProd
-        .transform({global: true}, 'browserify-shim')
-        .bundle()
+    return bProd.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(plumber())
         .pipe(source('app.js'))
@@ -82,13 +82,13 @@ gulp.task('lintjs', function () {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('watch', function () {
+gulp.task('bundle', function () {
+    makeDevBundle();
+    makeProdBundle();
+});
+
+gulp.task('watch', ['bundle'], function () {
     gulp.watch('less/**/*.less', ['css-dev', 'css-prod']);
 
-    gulp.watch('js/**/*.js', ['lintjs']);
-
-    // Watch JS for development
-    watch('js/**/*.js', makeDevBundle);
-
-    watch('dist/app.dev.js', makeProdBundle);
+    //gulp.watch('js/**/*.js', ['lintjs']);
 });
