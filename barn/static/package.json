@@ -9,9 +9,10 @@
   "author": "Eric Brelsford",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "browserify": "^10.1.0",
-    "browserify-shim": "^3.8.6",
+    "browserify": "^11.0.0",
+    "browserify-shim": "^3.8.10",
     "deamdify": "^0.1.1",
+    "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.2.0",
     "gulp-jshint": "^1.10.0",
     "gulp-less": "^3.0.2",
@@ -25,7 +26,7 @@
     "path": "^0.11.14",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.1"
+    "watchify": "^3.3.0"
   },
   "dependencies": {
     "bootstrap": "^3.3.4",
@@ -36,7 +37,7 @@
     "leaflet-usermarker": "^1.0.0",
     "modernizr": "^3.0.0-alpha.4",
     "moment": "^2.10.2",
-    "rome": "^2.1.17",
+    "rome": "^2.1.22",
     "spin.js": "^2.1.0"
   },
   "browser": {
