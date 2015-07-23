@@ -50,12 +50,16 @@ function updateDateRange(min, max) {
     };
     var minRome = $(':input[name=min]')[0],
         maxRome = $(':input[name=max]')[0];
-    rome.find(minRome).options(_.extend({}, options, {
-        dateValidator: rome.val.beforeEq(maxRome)
-    }));
-    rome.find(maxRome).options(_.extend({}, options, {
-        dateValidator: rome.val.afterEq(minRome)
-    }));
+    rome.find(minRome)
+        .options(_.extend({}, options, {
+            dateValidator: rome.val.beforeEq(maxRome)
+        }))
+        .on('data', function () { updateDownloadButtonUrl(); });
+    rome.find(maxRome)
+        .options(_.extend({}, options, {
+            dateValidator: rome.val.afterEq(minRome)
+        }))
+        .on('data', function () { updateDownloadButtonUrl(); });
 }
 
 function updateFormInputs(options) {
