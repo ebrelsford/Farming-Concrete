@@ -21,8 +21,8 @@ function updateDownloadButtonUrl() {
         params.year = $(':input[name=year]').val();
     }
     if (dateType === 'range') {
-        params.min = $(':input[name=min]').val();
-        params.max = $(':input[name=max]').val();
+        params.min = moment($(':input[name=min]').val()).format('MM/DD/YYYY');
+        params.max = moment($(':input[name=max]').val()).format('MM/DD/YYYY');
     }
     url += '?' + $.param(params);
     $('.pdf-modal .btn-primary').attr('href', url);
