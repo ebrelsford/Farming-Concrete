@@ -46,6 +46,8 @@
                         {{ last_recorded|date:"m/d/Y" }}
                     </div>
                 </li>
+            {% empty %}
+                No records yet
             {% endfor %}
         </ul>
     </div>
