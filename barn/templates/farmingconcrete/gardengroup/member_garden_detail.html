@@ -1,0 +1,52 @@
+{% load metrics_tags %}
+
+<div>
+    <a class="garden-list-garden-name" href="{% url "farmingconcrete_gardens_user" %}">{{ garden.name }}</a>
+
+    <div class="garden-list-garden-details">
+        {% if garden.address %}
+            {{ garden.address }},
+        {% endif %}
+        {% if garden.borough %}
+            {{ garden.borough }}
+        {% else %}
+            {{ garden.city }}, {{ garden.state }}
+        {% endif %}
+    </div>
+
+    {% if garden.groups.count > 0 %}
+        <span class="garden-list-garden-groups">
+            {% for group in garden.groups.all %}
+                <a href="{% url "farmingconcrete_gardengroup_detail" pk=group.pk %}" class="label label-default">
+                    {{ group }}
+                </a>
+            {% endfor %}
+        </span>
+    {% endif %}
+
+    <div class="garden-metrics">
+        <div class="garden-metrics-list-item">
+            <div class="garden-metrics-list-item-name">
+                <div class="garden-metrics-header">Methods recorded</div>
+            </div>
+            <div class="garden-metrics-list-item-count">records</div>
+            <div class="garden-metrics-list-item-recorded">last record</div>
+        </div>
+        <ul class="garden-metrics-list">
+            {% metrics_with_records garden=garden as metrics %}
+            {% for metric in metrics %}
+                <li class="garden-metrics-list-item">
+                    <div class="garden-metrics-list-item-name">{{ metric.name }}</div>
+                    <div class="garden-metrics-list-item-count">
+                        {% count_records metric.name garden=garden as count %}
+                        {{ count }}
+                    </div>
+                    <div class="garden-metrics-list-item-recorded">
+                        {% garden_max_recorded garden metric=metric.name as last_recorded %}
+                        {{ last_recorded|date:"m/d/Y" }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

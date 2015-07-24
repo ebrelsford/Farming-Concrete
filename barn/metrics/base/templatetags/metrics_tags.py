@@ -393,16 +393,22 @@ class GardenYearsRecorded(AsTag):
         return sorted(years)
 
 
-class GardenMaxRecorded(AsTag):
+class GardenMaxRecorded(MetricRecordTagMixin, AsTag):
     """Get the date of the latest record of any type for a given garden."""
     options = Options(
         Argument('garden'),
+        KeywordArgument('metric', required=False),
         'as',
         Argument('varname', resolve=False, required=False),
     )
 
-    def get_value(self, context, garden):
-        metric_models = [m['model'] for m in registry.values()]
+    def get_value(self, context, garden, metric):
+        kwargs = self.args_to_dict(metric)
+        metric = kwargs.get('metric', None)
+        if not metric:
+            metric_models = [m['model'] for m in registry.values()]
+        else:
+            metric_models = [registry[metric]['model'],]
         max_dates = [m.objects.for_garden(garden).aggregate(max_date=Max('recorded'))['max_date'] for
                      m in metric_models]
         try:

@@ -1,0 +1,29 @@
+.garden-metrics {
+    margin-top: 15px;
+
+    &-header {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    &-list {
+        list-style: none;
+        padding: 0;
+
+        &-item {
+            .make-row();
+
+            &-count {
+                .make-sm-column(3);
+            }
+
+            &-name {
+                .make-sm-column(6);
+            }
+
+            &-recorded {
+                .make-sm-column(3);
+            }
+        }
+    }
+}

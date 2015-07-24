@@ -23,7 +23,7 @@
             <ul class="garden-list">
                 {% for garden in gardengroup.active_gardens.all %}
                     <li class="garden-list-garden">
-                        {% include "farmingconcrete/gardens/_detail.html" with garden=garden %}
+                        {% include "farmingconcrete/gardengroup/member_garden_detail.html" with garden=garden %}
                     </li>
                 {% endfor %}
             </ul>
