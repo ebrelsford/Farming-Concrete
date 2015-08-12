@@ -37,7 +37,10 @@
 
                 <header>
                     <a href="{% url "home" %}"><img src="{% static "img/barn_logo.png" %}" /></a>
-                    <a id="logout-link" href="{% url "django.contrib.auth.views.logout" %}"><span class="arrow">&rarr;</span> Logout</a>
+
+                    {% if user.is_authenticated %}
+                        <a id="logout-link" href="{% url "django.contrib.auth.views.logout" %}"><span class="arrow">&rarr;</span> Logout</a>
+                    {% endif %}
 
                     <nav id="nav" class="navbar navbar-default" role="navigation">
                         <div class="container-fluid">
