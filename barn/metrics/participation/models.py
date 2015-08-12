@@ -40,6 +40,7 @@ class HoursByTaskQuerySet(MetricQuerySet):
 
     def public_dict(self):
         values_args = self.public_dict_values_args + (
+            'pk',
             'hours',
         )
         record_dicts = self.annotate(hours=Sum('taskhours__hours')) \
@@ -49,6 +50,11 @@ class HoursByTaskQuerySet(MetricQuerySet):
         for record_dict in record_dicts:
             record_dict['hours worked'] = record_dict['hours']
             del record_dict['hours']
+
+            record = HoursByTask.objects.get(pk=record_dict['pk'])
+            for taskhour in record.taskhours_set.all():
+                record_dict[taskhour.task.name] = taskhour.hours
+            del record_dict['pk']
 
         return record_dicts
 
