@@ -8,7 +8,11 @@ from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 class CropCountQuerySet(MetricQuerySet):
 
     def public_dict(self):
-        values_args = self.public_dict_values_args + ('crop__name', 'quantity',)
+        values_args = self.public_dict_values_args + (
+            'crop__name',
+            'crop_variety__name',
+            'quantity',
+        )
         record_dicts = self.values(*values_args)
 
         # Rename 'quantity' to 'plants'
