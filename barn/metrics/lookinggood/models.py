@@ -11,6 +11,7 @@ class LookingGoodEventQuerySet(MetricQuerySet):
         values_args = self.public_dict_values_args + (
             'total_participants',
             'total_tags',
+            'items_tagged',
         )
         return self.values(*values_args)
 
