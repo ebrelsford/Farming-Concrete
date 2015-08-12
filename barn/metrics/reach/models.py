@@ -10,6 +10,22 @@ class ProgramReachQuerySet(MetricQuerySet):
     def public_dict(self):
         values_args = self.public_dict_values_args + (
             'hours_each_day',
+            'collaborated_with_organization',
+            'collaboration_first',
+            'age_10',
+            'age_10_14',
+            'age_15_19',
+            'age_20_24',
+            'age_25_34',
+            'age_35_44',
+            'age_45_54',
+            'age_55_64',
+            'age_65',
+            'gender_male',
+            'gender_female',
+            'gender_other',
+            'zipcode_inside',
+            'zipcode_outside',
             'recorded_start',
         )
         return self.values(*values_args)
