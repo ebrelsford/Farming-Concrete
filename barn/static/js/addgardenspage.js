@@ -17,7 +17,8 @@ require('leaflet.dataoptions');
 require('leaflet-usermarker');
 require('./newgardengroupwidget');
 
-var map;
+var map,
+    gardenMarker;
 
 function updateSuggestions() {
     var baseUrl = Django.url('farmingconcrete_gardens_suggest'),
@@ -102,17 +103,20 @@ function setGardenLocation(result) {
 }
 
 function showPointOnMap(lat, lng, result) {
-    var latlng = [lat, lng],
-        marker = L.userMarker(latlng, { smallIcon: true }).addTo(map);
+    var latlng = [lat, lng];
+    if (gardenMarker) {
+        map.removeLayer(gardenMarker);
+    }
+    gardenMarker = L.userMarker(latlng, { smallIcon: true }).addTo(map);
 
     if (roundCoordinate(lat) !== parseFloat($('#id_latitude').val()) || roundCoordinate(lng) !== parseFloat($('#id_longitude').val())) {
         var popupContent = 'This is the point we found. Use this address? <a href="#" class="btn btn-default btn-use-address">Ok</a>.';
-        marker.bindPopup(popupContent, { maxWidth: 100 }).openPopup();
+        gardenMarker.bindPopup(popupContent, { maxWidth: 100 }).openPopup();
     }
 
     $('.btn-use-address').click(function () {
         setGardenLocation(result)
-        marker.closePopup();
+        gardenMarker.closePopup();
         return false;
     });
     map.setView(latlng, 15);
