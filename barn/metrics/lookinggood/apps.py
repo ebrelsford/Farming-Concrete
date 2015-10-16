@@ -25,7 +25,7 @@ class LookingGoodConfig(AppConfig):
             'dataset': LookingGoodDataset,
             'public_dataset': PublicLookingGoodDataset,
             'description': _('Green spaces in the form of community gardens and urban '
-                             'farms add to the beauty of neighborhoods. This protocol '
+                             'farms add to the beauty of neighborhoods. This method '
                              'will help you discover what everyone living near your '
                              'garden feels about its contribution to the community. '
                              'This report illustrates what visitors, volunteers and '
