@@ -20,6 +20,13 @@ class Overview(AsTag):
         Argument('varname', resolve=False, required=False),
     )
 
+    def get_cities(self):
+        cities = Garden.objects.filter(
+            has_metric_records=True,
+            city__isnull=False
+        ).exclude(city='').values_list( 'city', 'state').distinct()
+        return len(cities)
+
     def get_compost_pounds(self):
         pounds = CompostProductionWeight.objects.aggregate(pounds=Sum('weight'))['pounds']
         return round(pounds)
@@ -30,6 +37,7 @@ class Overview(AsTag):
 
     def get_value(self, context):
         context.update({
+            'cities': self.get_cities(),
             'gardens': Garden.objects.filter(has_metric_records=True).count(),
             'pounds_of_compost': self.get_compost_pounds(),
             'pounds_of_food': self.get_food_pounds(),

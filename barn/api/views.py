@@ -149,6 +149,13 @@ class FilteredApiMixin(object):
 
 class OverviewView(JSONResponseMixin, View):
 
+    def get_cities(self):
+        cities = Garden.objects.filter(
+            has_metric_records=True,
+            city__isnull=False
+        ).exclude(city='').values_list( 'city', 'state').distinct()
+        return len(cities)
+
     def get_compost_pounds(self):
         pounds = CompostProductionWeight.objects.aggregate(pounds=Sum('weight'))['pounds']
         return round(pounds)
@@ -159,6 +166,7 @@ class OverviewView(JSONResponseMixin, View):
 
     def get(self, request, *args, **kwargs):
         return self.render_json_response({
+            'cities': self.get_cities(),
             'gardens': Garden.objects.filter(has_metric_records=True).count(),
             'pounds_of_compost': self.get_compost_pounds(),
             'pounds_of_food': self.get_food_pounds(),
