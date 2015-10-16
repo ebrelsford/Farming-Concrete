@@ -17,8 +17,11 @@ var browserify = require('browserify'),
 var bDev = watchify(browserify({
     debug: true,
     entries: ['./js/main.js'],
+    cache: {},
+    packageCache: {},
     insertGlobals: true
 })).transform({global: true}, 'browserify-shim');
+
 bDev.on('update', makeDevBundle);
 bDev.on('log', gutil.log);
 
@@ -35,8 +38,6 @@ function makeDevBundle() {
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(plumber())
         .pipe(source('app.dev.js'))
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(sourcemaps.write())
