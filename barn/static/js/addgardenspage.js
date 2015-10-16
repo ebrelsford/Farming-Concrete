@@ -71,7 +71,6 @@ function geocodeAddress() {
         geocode.geocode(components.join(','), state, function (result, status) {
             if (status === 'OK' && result) {
                 showGeocodedResultOnMap(result);
-                setGardenLocation(result);
             }
         });
     }
@@ -102,15 +101,25 @@ function setGardenLocation(result) {
     }
 }
 
-function showPointOnMap(lat, lng) {
+function showPointOnMap(lat, lng, result) {
     var latlng = [lat, lng],
         marker = L.userMarker(latlng, { smallIcon: true }).addTo(map);
+
+    if (roundCoordinate(lat) !== parseFloat($('#id_latitude').val()) || roundCoordinate(lng) !== parseFloat($('#id_longitude').val())) {
+        var popupContent = 'This is the point we found. Use this address? <a href="#" class="btn btn-default btn-use-address">Ok</a>.';
+        marker.bindPopup(popupContent, { maxWidth: 100 }).openPopup();
+    }
+
+    $('.btn-use-address').click(function () {
+        setGardenLocation(result)
+        marker.closePopup();
+        return false;
+    });
     map.setView(latlng, 15);
 }
 
 function showGeocodedResultOnMap(result) {
-    showPointOnMap(geocode.get_latitude(result),
-                   geocode.get_longitude(result));
+    showPointOnMap(geocode.get_latitude(result), geocode.get_longitude(result), result);
 }
 
 $(document).ready(function () {
@@ -121,6 +130,7 @@ $(document).ready(function () {
             lng = $('#id_longitude').val();
         if (lat && lng) {
             showPointOnMap(lat, lng);
+            map.setView([lat, lng], 16);
         }
 
         $('form.add-garden').on('submit', function () {
