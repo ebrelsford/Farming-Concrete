@@ -28,13 +28,6 @@ EMAIL_HOST = get_env_variable('FARMING_CONCRETE_EMAIL_HOST')
 EMAIL_HOST_USER = get_env_variable('FARMING_CONCRETE_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_env_variable('FARMING_CONCRETE_EMAIL_HOST_PASSWORD')
 
-# TODO
-#  * app to create mailings
-#  * associate mailings with users once sent
-#  * allow for "faking" mailings
-#  * mailings only get sent to users under certain conditions
-#  * consider basing on django-drip https://github.com/zapier/django-drip
-
 #
 # Caching
 #
