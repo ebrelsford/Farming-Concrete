@@ -562,6 +562,13 @@ class InviteGardenView(LoginRequiredMixin, GardenGroupAdminPermissionMixin,
             }
         )
 
+    def get_context_data(self, **kwargs):
+        try:
+            self.object
+        except AttributeError:
+            self.object = None
+        super(InviteGardenView, self).get_context_data(**kwargs)
+
     def get_form_kwargs(self):
         kwargs = super(InviteGardenView, self).get_form_kwargs()
         kwargs['group'] = self.get_object()
@@ -569,6 +576,10 @@ class InviteGardenView(LoginRequiredMixin, GardenGroupAdminPermissionMixin,
 
     def get_success_url(self):
         return self.get_object().get_absolute_url()
+
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse('farmingconcrete_gardengroup_detail',
+                                            kwargs={ 'pk': self.kwargs['pk'] }))
 
     def form_valid(self, form):
         group = self.get_object()
