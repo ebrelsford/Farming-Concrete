@@ -148,7 +148,7 @@ class GardenFormMixin(FormMixin):
             groups = None
         initial = super(GardenFormMixin, self).get_initial()
         initial.update({
-            'added_by': self.request.user,
+            'edited_by': self.request.user,
             'groups': groups,
         })
         return initial
@@ -168,6 +168,12 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin, GardenFormMixin,
         garden = self.object = form.save()
         self.add_garden_to_user(garden)
         self.add_success_message()
+
+        # Make user the added_by value, TODO if first garden user is adding send email
+        if not garden.added_by:
+            garden.added_by = self.request.user
+            garden.save()
+
         return HttpResponseRedirect(self.get_success_url())
 
 

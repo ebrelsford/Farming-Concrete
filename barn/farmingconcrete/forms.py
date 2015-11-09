@@ -60,7 +60,7 @@ class GardenForm(ModelForm):
         required=False,
         widget=AddNewGardenGroupWidget(),
     )
-    added_by = ModelChoiceField(
+    edited_by = ModelChoiceField(
         queryset=get_user_model().objects.all(),
         widget=HiddenInput(),
     )
@@ -73,6 +73,7 @@ class GardenForm(ModelForm):
         model = Garden
         exclude = ('gardenid', 'added', 'updated')
         widgets = {
+            'added_by': HiddenInput(),
             'latitude': HiddenInput(),
             'longitude': HiddenInput(),
         }
@@ -176,7 +177,7 @@ class GardenForm(ModelForm):
         return cleaned_data
 
     def save(self, *args, **kwargs):
-        user = self.cleaned_data['added_by']
+        user = self.cleaned_data['edited_by']
         groups = self.cleaned_data['groups']
         garden = super(GardenForm, self).save(*args, **kwargs)
         GardenGroupMembership.objects.filter(garden=garden).delete()

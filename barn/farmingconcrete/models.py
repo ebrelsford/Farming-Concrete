@@ -58,6 +58,7 @@ class Garden(PrivacyMixin, models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6,
                                    null=True, blank=True)
 
+    added_by = models.ForeignKey('auth.User', null=True, blank=True)
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
