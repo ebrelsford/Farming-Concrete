@@ -41,7 +41,7 @@ django-easy-pdf==0.1.0
 django-floppyforms==1.4.1
 django-hijack==1.0.8
 django-imagekit==3.2.6
-django-registration-redux==1.1
+django-registration-redux==1.1.0
 git+git://github.com/ebrelsford/django-report-builder.git@master
 djangorestframework==3.1.2
 git+git://github.com/ebrelsford/django-tablib.git@master
