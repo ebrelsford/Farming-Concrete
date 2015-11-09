@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'ajax_select',
     'compressor',
     'djangojs',
+    'drip',
     'easy_pdf',
     'feedback',
     'floppyforms',
@@ -241,3 +242,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 REPORT_BUILDER_ASYNC_REPORT = False
 
 REVERSE_HIJACK_LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL = '/barn/'
+
+#
+# Drip
+#
+DRIP_FROM_EMAIL = 'Farming Concrete <gardens@farmingconcrete.org>'
