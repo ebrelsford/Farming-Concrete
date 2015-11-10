@@ -62,7 +62,10 @@ class Garden(PrivacyMixin, models.Model):
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    # Store metric information on the garden since this can be expensive and
+    # tricky to calculate in real time
     has_metric_records = models.BooleanField(default=False)
+    metric_record_added = models.DateTimeField(null=True, blank=True)
     metric_records_count = models.PositiveIntegerField(default=0)
 
     class Meta:
