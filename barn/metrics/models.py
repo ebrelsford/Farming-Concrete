@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 from audit.models import AuditedModel
+from .registry import registry
 
 
 class MetricQuerySet(QuerySet):
@@ -205,5 +206,19 @@ def update_garden_has_records(sender, instance=None, **kwargs):
     """
     if not (instance and isinstance(instance, BaseMetricRecord)):
         return
+    instance.garden.metric_records_count += 1
     instance.garden.has_metric_records = True
     instance.garden.save()
+
+
+def count_records_for_garden(garden):
+    """
+    Count the total number of records for the given garden.
+
+    Intended as a way to prime existing gardens that don't know how many records
+    they have currently.
+    """
+    count = 0
+    for metric in registry.values():
+        count += metric['model'].get_records(gardens=(garden,)).count()
+    return count

@@ -63,6 +63,7 @@ class Garden(PrivacyMixin, models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     has_metric_records = models.BooleanField(default=False)
+    metric_records_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         permissions = (
