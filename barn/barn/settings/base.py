@@ -250,7 +250,9 @@ REVERSE_HIJACK_LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL = '/barn/'
 DRIP_FROM_EMAIL = 'Farming Concrete <gardens@farmingconcrete.org>'
 DRIP_MODEL_CLASSES = [
     'barndrips.BarnGardenDrip',
+    'barndrips.BarnHundredRecordDrip',
 ]
 DRIP_MESSAGE_CLASSES = {
     'garden_message': 'barndrips.drips.GardenMessage',
+    'hundred_record_message': 'barndrips.drips.HundredRecordMessage',
 }
