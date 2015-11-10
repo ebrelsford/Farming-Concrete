@@ -169,7 +169,7 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin, GardenFormMixin,
         self.add_garden_to_user(garden)
         self.add_success_message()
 
-        # Make user the added_by value, TODO if first garden user is adding send email
+        # Make user the added_by value
         if not garden.added_by:
             garden.added_by = self.request.user
             garden.save()

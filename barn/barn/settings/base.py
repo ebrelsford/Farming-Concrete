@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'accounts',
     'api',
     'audit',
+    'barndrips',
     'crops',
     'estimates',
     'farmingconcrete',
@@ -247,3 +248,6 @@ REVERSE_HIJACK_LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL = '/barn/'
 # Drip
 #
 DRIP_FROM_EMAIL = 'Farming Concrete <gardens@farmingconcrete.org>'
+DRIP_MESSAGE_CLASSES = {
+    'garden_message': 'barndrips.drips.GardenMessage',
+}
