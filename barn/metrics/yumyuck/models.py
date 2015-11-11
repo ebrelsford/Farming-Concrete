@@ -20,10 +20,10 @@ class YumYuckQuerySet(MetricQuerySet):
 
         # Add change in yum
         for record_dict in record_dicts:
-            record_dict['change in yums'] = record_dict['yum_after'] - \
-                    record_dict['yum_before']
-            record_dict['change in yucks'] = record_dict['yuck_after'] - \
-                    record_dict['yuck_before']
+            record_dict['change in number of yums'] = \
+                    record_dict['yum_after'] - record_dict['yum_before']
+            record_dict['change in number of yucks'] = \
+                    record_dict['yuck_after'] - record_dict['yuck_before']
             for field_to_delete in ('yum_after', 'yum_before', 'yuck_after',
                                     'yuck_before'):
                 del record_dict[field_to_delete]
