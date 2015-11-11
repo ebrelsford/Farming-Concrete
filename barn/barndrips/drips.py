@@ -131,7 +131,10 @@ class NewGardenGroupMessage(DripMessage):
         context = super(NewGardenGroupMessage, self).context
         if not context:
             context = Context({'user': self.user})
-        context['gardengroup'] = GardenGroup.objects.filter(added_by=self.user)[0]
+        context['gardengroup'] = GardenGroup.objects.filter(
+            added_by=self.user,
+            added__gte=now() - timedelta(days=14),
+        )[0]
         self._context = context
         return context
 
