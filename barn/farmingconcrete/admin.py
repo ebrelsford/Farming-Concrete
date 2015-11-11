@@ -9,6 +9,12 @@ class GardenAdmin(admin.ModelAdmin):
     search_fields = ('name', 'neighborhood', 'borough',)
 
 
+class GardenGroupAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'is_open', 'added_by',)
+    search_fields = ('name', 'description',)
+    readonly_fields = ('gardens',)
+
+
 admin.site.register(Garden, GardenAdmin)
-admin.site.register(GardenGroup)
+admin.site.register(GardenGroup, GardenGroupAdmin)
 admin.site.register(GardenType)
