@@ -68,10 +68,12 @@ L.Map.include({
         instance.gardens = L.geoJson(data, {
             pointToLayer: function (feature, latlng) {
                 var marker = L.circleMarker(latlng, style);
-                marker.bindPopup(popupTemplate({
-                    garden: feature,
-                    url: Django.url('farmingconcrete_gardens_user')
-                }));
+                if (feature.properties.name) {
+                    marker.bindPopup(popupTemplate({
+                        garden: feature,
+                        url: Django.url('farmingconcrete_gardens_user')
+                    }));
+                }
                 return marker;
             },
         }).addTo(instance);
