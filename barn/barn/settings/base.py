@@ -251,8 +251,10 @@ DRIP_FROM_EMAIL = 'Farming Concrete <gardens@farmingconcrete.org>'
 DRIP_MODEL_CLASSES = [
     'barndrips.BarnGardenDrip',
     'barndrips.BarnHundredRecordDrip',
+    'barndrips.BarnInactiveGardenDrip',
 ]
 DRIP_MESSAGE_CLASSES = {
     'garden_message': 'barndrips.drips.GardenMessage',
     'hundred_record_message': 'barndrips.drips.HundredRecordMessage',
+    'inactive_garden_message': 'barndrips.drips.InactiveGardenMessage',
 }

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.template import Context
 from django.utils.timezone import now
 
@@ -71,6 +71,49 @@ class HundredRecordDripBase(DripBase):
             garden__metric_records_count__gte=100,
             is_admin=True,
         )
+        users = get_user_model().objects.filter(
+            userprofile__gardenmembership__in=garden_memberships,
+        )
+        return users
+
+
+# Select admins for gardens that are inactive--they were added in the past 9 to
+# 12 months and have not entered records in the past 9 months.
+inactive_gardenmembership_filters = Q(
+    Q(garden__metric_record_added__isnull=True) |
+    Q(garden__metric_record_added__lte=now() - timedelta(days=270)),
+    garden__added__gte=now() - timedelta(days=365),
+    garden__added__lte=now() - timedelta(days=270),
+    is_admin=True,
+)
+
+class InactiveGardenMessage(DripMessage):
+    """
+    Override default DripMessage and add user's inactive garden to the
+    context.
+    """
+
+    @property
+    def context(self):
+        context = super(InactiveGardenMessage, self).context
+        if not context:
+            context = Context({'user': self.user})
+        garden_memberships = GardenMembership.objects.filter(inactive_gardenmembership_filters)
+        context['garden'] = Garden.objects.filter(
+            gardenmembership__in=garden_memberships,
+            gardenmembership__user_profile__user=self.user,
+        )[0]
+        self._context = context
+        return context
+
+
+class InactiveGardenDripBase(DripBase):
+    def queryset(self):
+        """
+        Select users that are admins of gardens that haven't had records added
+        recently.
+        """
+        garden_memberships = GardenMembership.objects.filter(inactive_gardenmembership_filters)
         users = get_user_model().objects.filter(
             userprofile__gardenmembership__in=garden_memberships,
         )
