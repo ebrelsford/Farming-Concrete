@@ -1,7 +1,7 @@
 from drip.models import BaseDripModel
 
 from .drips import (BarnGardenDripBase, HundredRecordDripBase,
-                    InactiveGardenDripBase)
+                    InactiveGardenDripBase, NewGardenGroupDripBase)
 
 
 class BarnGardenDrip(BaseDripModel):
@@ -20,3 +20,9 @@ class BarnInactiveGardenDrip(BaseDripModel):
     @property
     def drip_class(self):
         return InactiveGardenDripBase
+
+
+class BarnNewGardenGroupDrip(BaseDripModel):
+    @property
+    def drip_class(self):
+        return NewGardenGroupDripBase

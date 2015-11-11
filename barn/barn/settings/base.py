@@ -252,9 +252,11 @@ DRIP_MODEL_CLASSES = [
     'barndrips.BarnGardenDrip',
     'barndrips.BarnHundredRecordDrip',
     'barndrips.BarnInactiveGardenDrip',
+    'barndrips.BarnNewGardenGroupDrip',
 ]
 DRIP_MESSAGE_CLASSES = {
     'garden_message': 'barndrips.drips.GardenMessage',
     'hundred_record_message': 'barndrips.drips.HundredRecordMessage',
     'inactive_garden_message': 'barndrips.drips.InactiveGardenMessage',
+    'new_garden_group_message': 'barndrips.drips.NewGardenGroupMessage',
 }

@@ -8,7 +8,7 @@ from django.utils.timezone import now
 from drip.drips import DripBase, DripMessage
 
 from accounts.models import GardenMembership
-from farmingconcrete.models import Garden
+from farmingconcrete.models import Garden, GardenGroup
 
 
 class BarnGardenDripBase(DripBase):
@@ -118,3 +118,35 @@ class InactiveGardenDripBase(DripBase):
             userprofile__gardenmembership__in=garden_memberships,
         )
         return users
+
+
+class NewGardenGroupMessage(DripMessage):
+    """
+    Override default DripMessage and add user's new garden group to the 
+    context.
+    """
+
+    @property
+    def context(self):
+        context = super(NewGardenGroupMessage, self).context
+        if not context:
+            context = Context({'user': self.user})
+        context['gardengroup'] = GardenGroup.objects.filter(added_by=self.user)[0]
+        self._context = context
+        return context
+
+
+class NewGardenGroupDripBase(DripBase):
+    def queryset(self):
+        """
+        Select Users where the number of garden groups added by that user is 
+        one and it was added in the past two weeks.
+        """
+        garden_groups = GardenGroup.objects.values('added_by') \
+                .annotate(count=Count('id')) \
+                .filter(
+                    added__gte=now() - timedelta(days=14),
+                    count=1
+                )
+        single_garden_group_users = [g['added_by'] for g in garden_groups]
+        return get_user_model().objects.filter(pk__in=single_garden_group_users)
