@@ -11,14 +11,17 @@ def garden_collection(gardens):
 
 def garden_feature(garden):
     """Get a geojson Feature for a garden"""
+    coordinates = (float(garden.longitude), float(garden.latitude))
+    if not garden.share_location:
+        coordinates = [round(coord, 2) for coord in coordinates]
+
+    properties = {}
+    if garden.share_name:
+        properties['name'] = garden.name
     return geojson.Feature(
         garden.id,
-        geometry=geojson.Point(
-            coordinates=(float(garden.longitude), float(garden.latitude))
-        ),
-        properties={
-            'name': garden.name,
-        }
+        geometry=geojson.Point(coordinates=coordinates),
+        properties=properties
     )
 
 
