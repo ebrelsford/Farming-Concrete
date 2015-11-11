@@ -185,7 +185,11 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
             "metrics": [
                 {
                     "name": "<metric name>",
-                    "records": [*]
+                    "records": [*],
+                    "chart": {
+                        "y": "<header_name>",
+                        "title": "<title>"
+                    }
                 }
             ]
         }
@@ -240,6 +244,7 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
                 'name': metric['name'],
                 'number': metric['number'],
                 'records': list(self.get_records(metric=metric, **filters)),
+                'chart': metric.get('chart', {}),
             })
         return {
             'gardens': {

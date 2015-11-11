@@ -26,4 +26,7 @@ class HarvestcountConfig(AppConfig):
                              'harvested in your garden this year. Keeping track of '
                              'your produce helps you quantify the wealth of fruits '
                              'and vegetables grown in your garden.'),
+            'chart': {
+                'y': 'weight',
+            },
         })
