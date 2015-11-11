@@ -232,6 +232,7 @@ def gardens_geojson(request):
     harvestcount = request.GET.get('harvestcount', None)
     metric = request.GET.get('metric', None)
     participating = request.GET.get('participating', None)
+    records = request.GET.get('records', None)
     types = request.GET.get('gardentype', None)
     borough = request.GET.get('borough', None)
     year = request.GET.get('year', datetime.now().year)
@@ -280,6 +281,8 @@ def gardens_geojson(request):
     elif participating and participating != 'no':
         gardens = gardens.filter(Q(box__patch__added__year=year) |
                                  Q(gardener__harvest__harvested__year=year))
+    elif records and records != 'no':
+        gardens = gardens.filter(has_metric_records=True)
 
     gardens = gardens.distinct()
     return HttpResponse(geojson.dumps(garden_collection(gardens)),
