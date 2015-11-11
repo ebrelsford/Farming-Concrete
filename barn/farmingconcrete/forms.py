@@ -71,7 +71,8 @@ class GardenForm(ModelForm):
 
     class Meta:
         model = Garden
-        exclude = ('gardenid', 'added', 'updated')
+        exclude = ('gardenid', 'added', 'updated', 'has_metric_records',
+                   'metric_record_added', 'metric_records_count',)
         widgets = {
             'added_by': HiddenInput(),
             'latitude': HiddenInput(),
