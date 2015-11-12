@@ -108,7 +108,10 @@ function showPointOnMap(lat, lng, result) {
         map.removeLayer(gardenMarker);
     }
     gardenMarker = L.userMarker(latlng, { smallIcon: true }).addTo(map);
+    map.setView(latlng, 15);
+}
 
+function showPointPopup(lat, lng, result) {
     if (roundCoordinate(lat) !== parseFloat($('#id_latitude').val()) || roundCoordinate(lng) !== parseFloat($('#id_longitude').val())) {
         var popupContent = 'This is the point we found. Use this address? <a href="#" class="btn btn-default btn-use-address">Ok</a>.';
         gardenMarker.bindPopup(popupContent, { maxWidth: 100 }).openPopup();
@@ -119,11 +122,13 @@ function showPointOnMap(lat, lng, result) {
         gardenMarker.closePopup();
         return false;
     });
-    map.setView(latlng, 15);
 }
 
 function showGeocodedResultOnMap(result) {
-    showPointOnMap(geocode.get_latitude(result), geocode.get_longitude(result), result);
+    var lat = geocode.get_latitude(result),
+        lng = geocode.get_longitude(result);
+    showPointOnMap(lat, lng, result);
+    showPointPopup(lat, lng, result);
 }
 
 $(document).ready(function () {
