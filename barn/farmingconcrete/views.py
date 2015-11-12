@@ -285,7 +285,7 @@ def gardens_geojson(request):
         gardens = gardens.filter(has_metric_records=True)
 
     gardens = gardens.distinct()
-    return HttpResponse(geojson.dumps(garden_collection(gardens)),
+    return HttpResponse(geojson.dumps(garden_collection(gardens, user=request.user)),
                         content_type='application/json')
 
 

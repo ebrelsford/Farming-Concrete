@@ -1,22 +1,28 @@
 import geojson
 from pygeocoder import Geocoder
 
+from accounts.utils import get_profile
 from .models import Garden
 
 
-def garden_collection(gardens):
+def garden_collection(gardens, user=None):
     """Get GeoJSON FeatureCollection for the given gardens"""
-    return geojson.FeatureCollection(features=[garden_feature(g) for g in gardens])
+    return geojson.FeatureCollection(features=[garden_feature(g, user) for g in gardens])
 
 
-def garden_feature(garden):
+def garden_feature(garden, user=None):
     """Get a geojson Feature for a garden"""
+    is_user_garden = (user and user.is_authenticated() and 
+                      get_profile(user).gardens.filter(pk=garden.pk).exists())
+
+    # Round coordinates if user doesn't have access to them
     coordinates = (float(garden.longitude), float(garden.latitude))
-    if not garden.share_location:
+    if not (garden.share_location or is_user_garden):
         coordinates = [round(coord, 2) for coord in coordinates]
 
+    # Only show name if user has access to it
     properties = {}
-    if garden.share_name:
+    if garden.share_name or is_user_garden:
         properties['name'] = garden.name
     return geojson.Feature(
         garden.id,
