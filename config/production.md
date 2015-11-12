@@ -9,6 +9,19 @@
 ### Local ssh config
 
 
+## Firewall
+
+### UFW
+
+ * sudo ufw default deny incoming
+ * sudo ufw default allow outgoing
+ * sudo ufw allow ssh
+ * sudo ufw allow http
+ * sudo ufw allow https
+ * sudo ufw allow smtp
+ * sudo ufw enable
+
+
 ## Basic software
 
     apt-get install vim
