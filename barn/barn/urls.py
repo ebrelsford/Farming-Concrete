@@ -86,6 +86,9 @@ urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
 
+    # Activity Stream
+    ('^activity/', include('actstream.urls')),
+
     # Pages
     url(r'^data-collection-toolkit/$', views.flatpage,
         {'url': '/data-collection-toolkit/'}, name='data_collection_toolkit'),

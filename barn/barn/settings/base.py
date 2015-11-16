@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.staticfiles',
 
+    'actstream',
     'ajax_select',
     'compressor',
     'djangojs',
