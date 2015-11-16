@@ -32,6 +32,7 @@ openpyxl==2.1.5
 # Django requirements
 Django==1.8.6
 git+https://github.com/noirbizarre/django.js.git@65b267b04
+django-admin-tools==0.7.0
 django-ajax-selects==1.3.6
 django-braces==1.8.0
 django-classy-tags==0.6.1

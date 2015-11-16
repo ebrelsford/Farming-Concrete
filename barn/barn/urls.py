@@ -82,6 +82,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('django.contrib.auth.urls')),
 
     # admin
+    (r'^admin_tools/', include('admin_tools.urls')),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
 

@@ -71,6 +71,7 @@ SECRET_KEY = get_env_variable('FARMING_CONCRETE_SECRET_KEY')
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+    'admin_tools.template_loaders.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -116,6 +117,11 @@ STATICFILES_FINDERS = (
 )
 
 INSTALLED_APPS = (
+    'admin_tools',
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.flatpages',
