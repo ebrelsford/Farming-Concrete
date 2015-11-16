@@ -266,3 +266,9 @@ DRIP_MESSAGE_CLASSES = {
     'inactive_garden_message': 'barndrips.drips.InactiveGardenMessage',
     'new_garden_group_message': 'barndrips.drips.NewGardenGroupMessage',
 }
+
+
+#
+# Admin Tools
+#
+ADMIN_TOOLS_INDEX_DASHBOARD = 'barn.dashboard.CustomIndexDashboard'
