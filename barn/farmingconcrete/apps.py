@@ -9,3 +9,4 @@ class FarmingConcreteAppConfig(AppConfig):
     def ready(self):
         from .signals import *
         registry.register(self.get_model('Garden'))
+        registry.register(self.get_model('GardenGroup'))
