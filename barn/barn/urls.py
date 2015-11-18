@@ -74,6 +74,7 @@ urlpatterns = patterns('',
     url(r'^gardens/group/(?P<pk>\d+)/report/', include(reports.urls.garden_group_patterns)),
 
     # API
+    url(r'^api-admin/', include('adminapi.urls')),
     url(r'^api/', include('api.urls')),
 
     # auth

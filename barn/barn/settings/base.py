@@ -273,3 +273,11 @@ DRIP_MESSAGE_CLASSES = {
 # Admin Tools
 #
 ADMIN_TOOLS_INDEX_DASHBOARD = 'barn.dashboard.CustomIndexDashboard'
+
+
+#
+# REST Framework
+#
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+}
