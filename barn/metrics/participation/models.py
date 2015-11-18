@@ -148,7 +148,7 @@ class HoursByGeography(BaseMetricRecord):
         return 'HoursByGeography (%d) %s %.2f hours' % (
             self.pk,
             self.garden,
-            self.hours,
+            self.hours_in + self.hours_out,
         )
 
     @classmethod
