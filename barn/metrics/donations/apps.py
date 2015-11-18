@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class DonationsConfig(AppConfig):
+class DonationsConfig(MetricConfig):
     label = 'donations'
     name = 'metrics.donations'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('Donation',)]
+
     def ready(self):
+        super(DonationsConfig, self).ready()
+
         from .export import DonationDataset, PublicDonationDataset
 
         register('Donations of Food', {

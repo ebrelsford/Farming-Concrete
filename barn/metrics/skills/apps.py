@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class SkillsConfig(AppConfig):
+class SkillsConfig(MetricConfig):
     label = 'skills'
     name = 'metrics.skills'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('SmartsAndSkills',)]
+
     def ready(self):
+        super(SkillsConfig, self).ready()
+
         from .export import SmartsAndSkillsDataset, PublicSmartsAndSkillsDataset
 
         register('Skills & Knowledge in the Garden', {

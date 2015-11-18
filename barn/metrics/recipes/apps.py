@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class RecipesConfig(AppConfig):
+class RecipesConfig(MetricConfig):
     label = 'recipes'
     name = 'metrics.recipes'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('RecipeTally',)]
+
     def ready(self):
+        super(RecipesConfig, self).ready()
+
         from .export import RecipeTallyDataset, PublicRecipeTallyDataset
 
         register('Healthy Eating', {

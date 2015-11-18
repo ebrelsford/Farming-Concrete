@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class YumYuckConfig(AppConfig):
+class YumYuckConfig(MetricConfig):
     label = 'yumyuck'
     name = 'metrics.yumyuck'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('YumYuck',)]
+
     def ready(self):
+        super(YumYuckConfig, self).ready()
+
         from .export import YumYuckDataset, PublicYumYuckDataset
 
         register('Changes in Attitude: Yum & Yuck', {

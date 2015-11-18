@@ -15,6 +15,10 @@ from metrics.registry import registry
 
 from farmingconcrete.views import GardenGroupMemberMixin
 
+from .actions import (download_garden_group_spreadsheet_action,
+                      download_garden_report_action,
+                      download_garden_spreadsheet_action)
+
 
 class Index(LoginRequiredMixin, TemplateView):
     template_name = 'reports/index.html'
@@ -65,6 +69,7 @@ class SpreadsheetView(MetricSpreadsheetMixin, LoginRequiredMixin, GardenMixin,
     def get(self, request, *args, **kwargs):
         self.object = self.garden = self.get_object()
         self.metrics = self.get_metrics()
+        download_garden_spreadsheet_action(request.user, self.object)
         return super(SpreadsheetView, self).get(request, *args, **kwargs)
 
     def get_gardens(self):
@@ -92,6 +97,7 @@ class SpreadsheetGroupView(MetricSpreadsheetMixin, GardenGroupMemberMixin,
     def get(self, request, *args, **kwargs):
         self.object = self.garden_group = self.get_object()
         self.metrics = self.get_metrics()
+        download_garden_group_spreadsheet_action(request.user, self.object)
         return super(SpreadsheetGroupView, self).get(request, *args, **kwargs)
 
     def get_dataset_class(self, metric_name):
@@ -122,6 +128,10 @@ class SpreadsheetGroupView(MetricSpreadsheetMixin, GardenGroupMemberMixin,
 
 class PDFView(LoginRequiredMixin, GardenMixin, PDFTemplateView):
     template_name = 'reports/pdf.html'
+
+    def get(self, request, *args, **kwargs):
+        download_garden_report_action(request.user, self.get_object())
+        return super(PDFView, self).get(request, *args, **kwargs)
 
     def get_params(self):
         metrics = self.request.GET.get('metrics', None)

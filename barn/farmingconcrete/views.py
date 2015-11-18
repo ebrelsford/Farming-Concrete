@@ -26,6 +26,7 @@ from generic.views import (DefaultYearMixin, LoginRequiredMixin,
                            SuccessMessageFormMixin)
 from metrics.registry import registry
 from middleware.http import Http403
+from .actions import new_garden_action
 from .geo import garden_collection
 from .forms import GardenForm, GardenGroupForm, InviteGardenForm
 from .models import Garden, GardenGroup, GardenGroupMembership, GardenType
@@ -171,6 +172,7 @@ class CreateGardenView(LoginRequiredMixin, AddUserGardenMixin, GardenFormMixin,
 
         # Make user the added_by value
         if not garden.added_by:
+            new_garden_action(garden, self.request.user)
             garden.added_by = self.request.user
             garden.save()
 
