@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class ReachConfig(AppConfig):
+class ReachConfig(MetricConfig):
     label = 'reach'
     name = 'metrics.reach'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('ProgramReach',)]
+
     def ready(self):
+        super(ReachConfig, self).ready()
+
         from .export import ProgramReachDataset, PublicProgramReachDataset
 
         register('Reach of Programs', {

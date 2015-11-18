@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class SalesConfig(AppConfig):
+class SalesConfig(MetricConfig):
     label = 'sales'
     name = 'metrics.sales'
 
+    def get_metric_models(self):
+        return [self.get_model('Sale'),]
+
     def ready(self):
+        super(SalesConfig, self).ready()
+
         from .export import SaleDataset, PublicSaleDataset
 
         register('Market Sales', {

@@ -5,6 +5,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
+from actstream import action
+
 from audit.models import AuditedModel
 from .registry import registry
 
@@ -210,6 +212,14 @@ def update_garden_has_records(sender, instance=None, **kwargs):
     instance.garden.metric_records_count += 1
     instance.garden.has_metric_records = True
     instance.garden.save()
+
+
+@receiver(post_save)
+def add_activity(sender, instance=None, **kwargs):
+    if not (instance and isinstance(instance, BaseMetricRecord)):
+        return
+    action.send(instance.added_by, verb='recorded', action_object=instance,
+                target=instance.garden)
 
 
 def count_records_for_garden(garden):

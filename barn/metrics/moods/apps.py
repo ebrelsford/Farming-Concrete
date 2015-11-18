@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class MoodsConfig(AppConfig):
+class MoodsConfig(MetricConfig):
     label = 'moods'
     name = 'metrics.moods'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('MoodChange',)]
+
     def ready(self):
+        super(MoodsConfig, self).ready()
+
         from .export import MoodChangeDataset, PublicMoodChangeDataset
 
         register('Good Moods in the Garden', {

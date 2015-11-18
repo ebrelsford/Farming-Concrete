@@ -1,14 +1,20 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class CompostConfig(AppConfig):
+class CompostConfig(MetricConfig):
     label = 'compost'
     name = 'metrics.compost'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('CompostProductionWeight',
+                                            'CompostProductionVolume',)]
+
     def ready(self):
+        super(CompostConfig, self).ready()
+
         from .export import (VolumeDataset, WeightDataset, PublicVolumeDataset,
                              PublicWeightDataset)
 

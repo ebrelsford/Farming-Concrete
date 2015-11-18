@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class HarvestcountConfig(AppConfig):
+class HarvestcountConfig(MetricConfig):
     label = 'harvestcount'
     name = 'metrics.harvestcount'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('Harvest',)]
+
     def ready(self):
+        super(HarvestcountConfig, self).ready()
+
         from .export import HarvestcountDataset, PublicHarvestcountDataset
 
         register('Harvest Count', {

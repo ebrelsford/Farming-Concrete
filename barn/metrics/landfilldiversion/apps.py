@@ -1,14 +1,20 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class LandfillDiversionConfig(AppConfig):
+class LandfillDiversionConfig(MetricConfig):
     label = 'landfilldiversion'
     name = 'metrics.landfilldiversion'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('LandfillDiversionWeight',
+                                            'LandfillDiversionVolume',)]
+
     def ready(self):
+        super(LandfillDiversionConfig, self).ready()
+
         from .export import (VolumeDataset, PublicVolumeDataset, WeightDataset,
                              PublicWeightDataset)
 

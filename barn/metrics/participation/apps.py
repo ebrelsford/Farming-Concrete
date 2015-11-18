@@ -1,14 +1,20 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class ParticipationConfig(AppConfig):
+class ParticipationConfig(MetricConfig):
     label = 'participation'
     name = 'metrics.participation'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('HoursByGeography',
+                                            'HoursByProject', 'HoursByTask',)]
+
     def ready(self):
+        super(ParticipationConfig, self).ready()
+
         from .export import (HoursByGeographyDataset, 
                              PublicHoursByGeographyDataset,
                              HoursByProjectDataset,

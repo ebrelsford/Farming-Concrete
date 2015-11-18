@@ -1,15 +1,20 @@
-from django.apps import AppConfig
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class CropcountConfig(AppConfig):
+class CropcountConfig(MetricConfig):
     label = 'cropcount'
     name = 'metrics.cropcount'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('Patch',)]
+
     def ready(self):
+        super(CropcountConfig, self).ready()
+
         from .export import CropcountDataset, PublicCropcountDataset
 
         register('Crop Count', {

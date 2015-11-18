@@ -1,14 +1,19 @@
-from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from ..apps import MetricConfig
 from ..registry import register
 
 
-class LookingGoodConfig(AppConfig):
+class LookingGoodConfig(MetricConfig):
     label = 'lookinggood'
     name = 'metrics.lookinggood'
 
+    def get_metric_models(self):
+        return [self.get_model(c) for c in ('LookingGoodEvent',)]
+
     def ready(self):
+        super(LookingGoodConfig, self).ready()
+
         from .export import LookingGoodDataset, PublicLookingGoodDataset
 
         register('Beauty of the Garden', {
