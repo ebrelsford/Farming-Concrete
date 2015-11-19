@@ -273,6 +273,7 @@ DRIP_MESSAGE_CLASSES = {
 # Admin Tools
 #
 ADMIN_TOOLS_INDEX_DASHBOARD = 'barn.dashboard.CustomIndexDashboard'
+ADMIN_TOOLS_THEMING_CSS = 'css/admin_theme.css'
 
 
 #
