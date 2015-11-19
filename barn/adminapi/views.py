@@ -6,5 +6,5 @@ from .serializers import ActionSerializer
 
 class ActionsViewset(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.IsAdminUser,)
-    queryset = Action.objects.all()
+    queryset = Action.objects.all().order_by('-timestamp')
     serializer_class = ActionSerializer

@@ -1,0 +1,91 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% load static %}
+
+{% block module_content %}
+    <style>
+        .set-limit {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .actions-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .action-timestamp {
+            float: right;
+        }
+    </style>
+    <script src="{% static "actions/node_modules/dot/doT.min.js" %}"></script>
+    <script src="{% static "actions/node_modules/moment/moment.js" %}"></script>
+    <script src="{% static "actions/node_modules/qwest/qwest.min.js" %}"></script>
+    {% verbatim %}
+    <script id="item-template" type="text/x-dot-template">
+<a href="auth/user/{{=it.actor.id}}">{{=it.actor.username}}</a>
+ {{=it.verb}}
+
+{{? it.action_object}}
+ for
+<a href="{{=it.action_object.app_label}}/{{=it.action_object.model_name}}/{{=it.action_object.id}}">
+    {{=it.action_object.display_name}}
+</a>
+{{?}}
+
+{{? it.target}}
+ on
+<a href="{{=it.target.app_label}}/{{=it.target.model_name}}/{{=it.target.id}}">
+    {{=it.target.display_name}}
+</a>
+{{?}}
+
+<span class="action-timestamp">{{=it.formatted_timestamp}}</span>
+    </script>
+    {% endverbatim %}
+    <script>
+        function showActions(limit) {
+            var list = document.querySelectorAll('.actions-list')[0];
+            list.innerHTML = null;
+
+            var template = document.getElementById('item-template').innerHTML,
+                compiledTemplate = doT.template(template);
+
+            qwest.get('../api-admin/actions/?limit=' + limit)
+                .then(function (xhr, data) {
+                    data.results.forEach(function (action) {
+                        var listItem = document.createElement('li');
+                        action.formatted_timestamp = moment(action.timestamp).fromNow();
+                        listItem.innerHTML = compiledTemplate(action);
+                        list.appendChild(listItem);
+                    });
+                });
+        }
+
+        function onReady() {
+            showActions(5);
+
+            var setLimitLinks = document.querySelectorAll('.set-limit');
+            for (var i = 0; i < setLimitLinks.length; i++) {
+                setLimitLinks[i].addEventListener('click', function (e) {
+                    showActions(e.target.getAttribute('data-limit'))
+                    e.preventDefault();
+                });
+            }
+        }
+
+        if (document.readyState !== 'loading') {
+            onReady();
+        }
+        else {
+            document.addEventListener('DOMContentLoaded', onReady);
+        }
+    </script>
+    <div>
+        <p>
+            show
+            <a href="#" class="set-limit" data-limit="5">5</a>
+            <a href="#" class="set-limit" data-limit="15">15</a>
+            <a href="#" class="set-limit" data-limit="50">50</a>
+            actions
+        </p>
+    </div>
+    <ul class="actions-list"></ul>
+{% endblock %}

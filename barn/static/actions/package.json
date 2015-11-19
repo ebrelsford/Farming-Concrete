@@ -1,0 +1,16 @@
+{
+  "name": "actions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Brelsford <ebrelsford@gmail.com> (http://ebrelsford.github.io/)",
+  "license": "MIT",
+  "dependencies": {
+    "dot": "^1.0.3",
+    "moment": "^2.10.6",
+    "qwest": "^2.2.3"
+  }
+}
