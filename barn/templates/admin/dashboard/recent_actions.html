@@ -11,6 +11,16 @@
             max-height: 400px;
             overflow-y: auto;
         }
+        .actions-header {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .actions-nav {
+            float: right;
+        }
+        .actions-nav a {
+            margin-left: 20px;
+        }
         .action-timestamp {
             float: right;
         }
@@ -41,14 +51,18 @@
     </script>
     {% endverbatim %}
     <script src="{% static "actions/index.js" %}"></script>
-    <div>
-        <p>
+    <div class="actions-header">
+        <div class="actions-nav">
+            <a href="#" class="actions-previous">previous</a>
+            <a href="#" class="actions-next">next</a>
+        </div>
+        <div class="actions-limits">
             show
             <a href="#" class="set-limit" data-limit="5">5</a>
             <a href="#" class="set-limit" data-limit="15">15</a>
             <a href="#" class="set-limit" data-limit="50">50</a>
             actions
-        </p>
+        </div>
     </div>
     <ul class="actions-list"></ul>
 {% endblock %}
