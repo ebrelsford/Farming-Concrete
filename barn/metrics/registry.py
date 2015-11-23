@@ -56,6 +56,12 @@ class MetricRegistry(dict):
             g[group] = list(metrics)
         return g
 
+    def get_for_model(self, model):
+        for registered_metric in self.values():
+            if registered_metric['model'] == model:
+                return registered_metric
+        return None
+
 
 registry = MetricRegistry()
 

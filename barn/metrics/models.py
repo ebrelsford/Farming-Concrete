@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count, Max, Min
 from django.db.models.query import QuerySet
@@ -98,6 +99,13 @@ class BaseMetricRecord(AuditedModel):
         null=True,
         help_text=_('The date this was recorded'),
     )
+
+    def get_absolute_url(self):
+        url_name = registry.get_for_model(self.__class__)['garden_detail_url_name']
+        return reverse(url_name, kwargs={
+            'pk': self.garden.pk,
+            'year': self.recorded.year,
+        }) + '#record-%d' % self.pk
 
     def _added_by_display(self):
         u = self.added_by
