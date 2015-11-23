@@ -63,6 +63,9 @@ class LookingGoodEvent(BaseMetricRecord):
         default=0,
     )
 
+    def __unicode__(self):
+        return "%d looking good tags" % (self.total_tags,)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(LookingGoodEvent, cls).get_summarize_kwargs()

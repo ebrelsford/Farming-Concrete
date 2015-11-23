@@ -27,11 +27,7 @@ class LandfillDiversionWeight(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'LandfillDiversionWeight (%d) %s %.2f pounds' % (
-            self.pk,
-            self.garden,
-            self.weight,
-        )
+        return '%.2f pounds of landfill diversion' % (self.weight,)
 
     @classmethod
     def get_summarize_kwargs(cls):
@@ -65,11 +61,7 @@ class LandfillDiversionVolume(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'LandfillDiversionWeight (%d) %s %.2f gallons' % (
-            self.pk,
-            self.garden,
-            self.volume,
-        )
+        return '%.2f gallons of landfill diversion' % (self.volume,)
 
     @classmethod
     def get_summarize_kwargs(cls):

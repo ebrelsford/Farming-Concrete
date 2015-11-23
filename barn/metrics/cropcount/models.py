@@ -81,12 +81,10 @@ class Patch(BaseMetricRecord):
     units = models.CharField(max_length=15, choices=UNITS_CHOICES)
 
     def __unicode__(self):
-        return "%s (%s), %s: %f %s" % (
-            self.box.garden.name,
-            self.box.name,
-            self.crop,
+        return "%.1f %s of %s" % (
             self.quantity or 0,
             self.units,
+            self.crop,
         )
 
     def get_bed_display(self):

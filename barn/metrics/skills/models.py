@@ -81,6 +81,8 @@ class SmartsAndSkills(BaseMetricRecord):
         null=True,
     )
 
+    def __unicode__(self):
+        return '%d participants in smarts and skills' % (self.participants,)
 
     @classmethod
     def get_summarize_kwargs(cls):

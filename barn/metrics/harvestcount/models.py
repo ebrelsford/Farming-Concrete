@@ -49,9 +49,7 @@ class Harvest(BaseMetricRecord):
     reportable = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return "Harvest (%d) %s, %.2f pounds of %s" % (
-            self.id,
-            self.gardener.name,
+        return "%.2f harvested pounds of %s" % (
             self.weight,
             self.crop.name,
         )

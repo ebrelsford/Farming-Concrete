@@ -108,6 +108,9 @@ class MoodChange(BaseMetricRecord):
                 pass
         return super(MoodChange, self).__getattr__(name)
 
+    def __unicode__(self):
+        return '%d mood changes' % (self.mood_counts.count(),)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(MoodChange, cls).get_summarize_kwargs()

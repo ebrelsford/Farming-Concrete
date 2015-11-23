@@ -25,11 +25,7 @@ class CompostProductionWeight(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'CompostProductionWeight (%d) %s %.2f pounds' % (
-            self.pk,
-            self.garden,
-            self.weight,
-        )
+        return '%.2f pounds of compost' % (self.weight,)
 
     @classmethod
     def get_summarize_kwargs(cls):
@@ -61,11 +57,7 @@ class CompostProductionVolume(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'CompostProductionVolume (%d) %s %.2f gallons' % (
-            self.pk,
-            self.garden,
-            self.volume,
-        )
+        return '%.2f gallons of compost' % (self.volume,)
 
     @classmethod
     def get_summarize_kwargs(cls):

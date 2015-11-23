@@ -26,6 +26,9 @@ class RecipeTally(BaseMetricRecord):
     recorded_start = models.DateField(_('recorded start'))
     recipes_count = models.PositiveIntegerField(_('# of recipes'))
 
+    def __unicode__(self):
+        return '%d recipes' % (self.recipes_count,)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(RecipeTally, cls).get_summarize_kwargs()

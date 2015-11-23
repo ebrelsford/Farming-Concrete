@@ -145,9 +145,7 @@ class HoursByGeography(BaseMetricRecord):
     hours_out = property(hours_out)
 
     def __unicode__(self):
-        return 'HoursByGeography (%d) %s %.2f hours' % (
-            self.pk,
-            self.garden,
+        return '%.2f hours participation by geography' % (
             self.hours_in + self.hours_out,
         )
 
@@ -248,7 +246,9 @@ class HoursByTask(BaseMetricRecord):
             return getattr(self, key, None)
 
     def __unicode__(self):
-        return 'HoursByTask (%d) %s' % (self.pk, self.garden,)
+        return '%d hours of participation by task' % (
+            self.taskhours_set.all().aggregate(hours=Sum('hours'))['hours'],
+        )
 
     @classmethod
     def get_summarize_kwargs(cls):
@@ -300,6 +300,9 @@ class HoursByProject(BaseMetricRecord):
             return self.projecthours_set.get(gardener__name=key)
         except Exception:
             return getattr(self, key, None)
+
+    def __unicode__(self):
+        return '%d hours of participation by project' % (self.total_hours,)
 
     def _total_hours(self):
         return self.projecthours_set.aggregate(total_hours=Sum('hours'))['total_hours']

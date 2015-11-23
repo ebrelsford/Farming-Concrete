@@ -32,9 +32,7 @@ class Donation(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'Donation (%d) %s %.2f pounds' % (
-            self.pk,
-            self.garden,
+        return '%.2f pounds of donations' % (
             self.pounds or 0,
         )
 

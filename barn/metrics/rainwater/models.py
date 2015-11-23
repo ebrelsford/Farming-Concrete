@@ -43,9 +43,7 @@ class RainwaterHarvest(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'RainwaterHarvest (%d) %s %.2f gallons' % (
-            self.pk,
-            self.garden,
+        return '%.2f gallons of rainwater harvested' % (
             self.volume or 0,
         )
 

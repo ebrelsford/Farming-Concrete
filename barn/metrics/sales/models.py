@@ -52,9 +52,10 @@ class Sale(BaseMetricRecord):
     )
 
     def __unicode__(self):
-        return 'Sale (%d) %s' % (
-            self.pk,
-            self.garden,
+        return '%d %s of %s sold' % (
+            self.units_sold,
+            self.unit,
+            self.product,
         )
 
     @classmethod

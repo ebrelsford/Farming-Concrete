@@ -47,6 +47,9 @@ class YumYuck(BaseMetricRecord):
     yum_after = models.PositiveIntegerField(_('yums after'))
     yuck_after = models.PositiveIntegerField(_('yucks after'))
 
+    def __unicode__(self):
+        return 'yum yuck for %s' % (self.crop,)
+
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(YumYuck, cls).get_summarize_kwargs()

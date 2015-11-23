@@ -160,6 +160,9 @@ class ProgramReach(BaseMetricRecord):
         null=True,
     )
 
+    def __unicode__(self):
+        return 'program reach for %s' % (self.name,)
+
     def get_features_display(self):
         features = self.features.all().order_by('name')
         return ', '.join(features.values_list('name', flat=True))
