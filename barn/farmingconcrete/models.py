@@ -113,7 +113,9 @@ class Garden(PrivacyMixin, models.Model):
         ).exists()
 
     def get_absolute_url(self):
-        return reverse('farmingconcrete_gardens_user')
+        return reverse('farmingconcrete_gardens_update', kwargs={
+            'pk': self.pk,
+        })
 
 
 class GardenGroup(models.Model):
