@@ -16,12 +16,17 @@ class GenericSerializer(serializers.BaseSerializer):
         return str(obj)
 
     def to_representation(self, obj):
-        return {
+        obj_repr = {
             'app_label': obj._meta.app_label,
             'id': obj.pk,
             'display_name': self.display_name(obj),
             'model_name': obj._meta.model_name,
         }
+        try:
+            obj_repr['url'] =  obj.get_absolute_url()
+        except Exception:
+            pass
+        return obj_repr
 
 
 class ActionSerializer(serializers.ModelSerializer):

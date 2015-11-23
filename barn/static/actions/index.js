@@ -1,6 +1,25 @@
 var limit = 5,
     offset = 0;
 
+function prepareAction(action) {
+    action.formatted_timestamp = moment(action.timestamp).fromNow();
+    if (action.action_object && !action.action_object.url) {
+        action.action_object.url = [
+            action.action_object.app_label,
+            action.action_object.model_name,
+            action.action_object.id
+        ].join('/');
+    }
+    if (action.target && !action.target.url) {
+        action.target.url = [
+            action.target.app_label,
+            action.target.model_name,
+            action.target.id
+        ].join('/');
+    }
+    return action;
+}
+
 function showActions(limit, offset) {
     var list = document.querySelectorAll('.actions-list')[0];
     list.innerHTML = null;
@@ -12,8 +31,7 @@ function showActions(limit, offset) {
         .then(function (xhr, data) {
             data.results.forEach(function (action) {
                 var listItem = document.createElement('li');
-                action.formatted_timestamp = moment(action.timestamp).fromNow();
-                listItem.innerHTML = compiledTemplate(action);
+                listItem.innerHTML = compiledTemplate(prepareAction(action));
                 list.appendChild(listItem);
             });
         });

@@ -34,14 +34,14 @@
  {{=it.verb}}
 
 {{? it.action_object}}
-<a href="{{=it.action_object.app_label}}/{{=it.action_object.model_name}}/{{=it.action_object.id}}">
+<a href="{{=it.action_object.url}}">
     {{=it.action_object.display_name}}
 </a>
 {{?}}
 
 {{? it.target}}
  on
-<a href="{{=it.target.app_label}}/{{=it.target.model_name}}/{{=it.target.id}}">
+<a href="{{=it.target.url}}">
     {{=it.target.display_name}}
 </a>
 {{?}}
