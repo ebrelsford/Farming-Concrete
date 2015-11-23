@@ -16,7 +16,7 @@
     <ul>
         {% metric_content_type metric as content_type %}
         {% for record in records %}
-            <li class="record {% block record_class %}{% endblock %}" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}">
+            <li class="record {% block record_class %}{% endblock %}" data-record-type-pk="{{ content_type.pk }}" data-pk="{{ record.pk }}" id="record-{{ record.pk }}">
 
                 {% block record_row_content %}
                     {% block recorded %}
