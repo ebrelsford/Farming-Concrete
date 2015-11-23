@@ -26,7 +26,7 @@ function onReady() {
     var setLimitLinks = document.querySelectorAll('.set-limit');
     for (var i = 0; i < setLimitLinks.length; i++) {
         setLimitLinks[i].addEventListener('click', function (e) {
-            limit = e.target.getAttribute('data-limit');
+            limit = parseInt(e.target.getAttribute('data-limit'));
             showActions(limit, offset)
             e.preventDefault();
         });
