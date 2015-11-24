@@ -1,7 +1,7 @@
 from django.db.models import Count
 
 from actstream.models import Action
-from django_filters import FilterSet, DateFilter
+from django_filters import FilterSet, DateFilter, MultipleChoiceFilter
 from rest_framework import filters, generics, permissions, viewsets
 from rest_framework.response import Response
 
@@ -11,10 +11,19 @@ from .serializers import ActionSerializer
 class ActionFilter(FilterSet):
     min_timestamp = DateFilter(name='timestamp', lookup_type='gte')
     max_timestamp = DateFilter(name='timestamp', lookup_type='lte')
+    verb = MultipleChoiceFilter(choices=(
+        ('added garden', 'added garden'),
+        ('added garden group', 'added garden group'),
+        ('downloaded garden group spreadsheet', 'downloaded garden group spreadsheet'),
+        ('downloaded garden report', 'downloaded garden report'),
+        ('downloaded garden spreadsheet', 'downloaded garden spreadsheet'),
+        ('joined Farming Concrete', 'joined Farming Concrete'),
+        ('recorded', 'recorded'),
+    ))
 
     class Meta:
         model = Action
-        fields = ['timestamp',]
+        fields = ['timestamp', 'verb',]
 
 
 class ActionsViewset(viewsets.ReadOnlyModelViewSet):
