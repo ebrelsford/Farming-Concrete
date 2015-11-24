@@ -1,13 +1,20 @@
-from datetime import timedelta
-
 from django.db.models import Count
-from django.utils.timezone import now
 
 from actstream.models import Action
-from rest_framework import generics, permissions, viewsets
+from django_filters import FilterSet, DateFilter
+from rest_framework import filters, generics, permissions, viewsets
 from rest_framework.response import Response
 
 from .serializers import ActionSerializer
+
+
+class ActionFilter(FilterSet):
+    min_timestamp = DateFilter(name='timestamp', lookup_type='gte')
+    max_timestamp = DateFilter(name='timestamp', lookup_type='lte')
+
+    class Meta:
+        model = Action
+        fields = ['timestamp',]
 
 
 class ActionsViewset(viewsets.ReadOnlyModelViewSet):
@@ -17,14 +24,13 @@ class ActionsViewset(viewsets.ReadOnlyModelViewSet):
 
 
 class ActionsSummaryView(generics.ListAPIView):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = ActionFilter
     permission_classes = (permissions.IsAdminUser,)
     queryset = Action.objects.all()
 
     def get(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-
-        # Only get actions from the past year
-        queryset = queryset.filter(timestamp__gte=now() - timedelta(days=365))
 
         # Get count of actions by month
         counts = queryset.extra(select={

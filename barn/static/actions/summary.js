@@ -1,7 +1,14 @@
 (function () {
+    var endpoint = '../api-admin/actions/summary/',
+        dateFormat = 'YYYY-MM-DD';
+
     function actionsSummaryOnReady() {
         setTimeout(function () {
-            qwest.get('../api-admin/actions/summary/')
+            var now = moment(new Date()),
+                lastYear = now.clone().subtract(1, 'years'),
+                url = endpoint + '?min_timestamp=' +  lastYear.format(dateFormat) + '&max_timestamp=' + now.format(dateFormat);
+
+            qwest.get(url)
                 .then(function (xhr, data) {
                     var countsColumn = ['counts'];
                     _.each(data.counts, function (count) {
