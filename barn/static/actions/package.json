@@ -9,8 +9,11 @@
   "author": "Eric Brelsford <ebrelsford@gmail.com> (http://ebrelsford.github.io/)",
   "license": "MIT",
   "dependencies": {
+    "c3": "^0.4.10",
+    "d3": "^3.5.9",
     "dot": "^1.0.3",
     "moment": "^2.10.6",
-    "qwest": "^2.2.3"
+    "qwest": "^2.2.3",
+    "underscore": "^1.8.3"
   }
 }

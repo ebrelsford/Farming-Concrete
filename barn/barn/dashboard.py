@@ -13,6 +13,12 @@ class ActionsModule(modules.DashboardModule):
     title = 'Recent User Actions'
 
 
+class ActionsSummaryModule(modules.DashboardModule):
+    pre_content = 'Recent User Actions Summary'
+    template = 'admin/dashboard/recent_actions_summary.html'
+    title = 'Recent User Actions Summary'
+
+
 class CustomIndexDashboard(Dashboard):
 
     def init_with_context(self, context):
@@ -27,5 +33,7 @@ class CustomIndexDashboard(Dashboard):
         ))
 
         self.children.append(ActionsModule())
+
+        self.children.append(ActionsSummaryModule())
 
         self.children.append(modules.RecentActions(_('Recent Actions'), 5))

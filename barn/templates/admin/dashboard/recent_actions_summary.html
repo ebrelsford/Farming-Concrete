@@ -1,0 +1,20 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% load static %}
+
+{% block module_content %}
+    <link href="{% static "actions/node_modules/c3/c3.min.css" %}" rel="stylesheet" type="text/css" />
+    <style>
+        #actions-summary-chart {
+            height: 300px;
+            width: 100%;
+        }
+    </style>
+    <script src="{% static "actions/node_modules/d3/d3.min.js" %}"></script>
+    <script src="{% static "actions/node_modules/c3/c3.min.js" %}"></script>
+    <script src="{% static "actions/node_modules/qwest/qwest.min.js" %}"></script>
+    <script src="{% static "actions/node_modules/underscore/underscore-min.js" %}"></script>
+    <script src="{% static "actions/summary.js" %}"></script>
+    <div class="actions-summary">
+        <div id="actions-summary-chart"></div>
+    </div>
+{% endblock %}
