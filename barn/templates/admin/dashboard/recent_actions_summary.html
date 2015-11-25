@@ -8,6 +8,18 @@
             height: 300px;
             width: 100%;
         }
+
+        .actions-summary-filters-verb-wrapper {
+            float: left;
+            padding-left: 10px;
+            padding-bottom: 10px;
+        }
+
+        .actions-summary-filters-timestamp-wrapper {
+            float: left;
+            padding-left: 10px;
+            padding-bottom: 10px;
+        }
     </style>
     <script src="{% static "actions/node_modules/d3/d3.min.js" %}"></script>
     <script src="{% static "actions/node_modules/c3/c3.min.js" %}"></script>
@@ -19,11 +31,23 @@
     <div class="actions-summary">
         <div id="actions-summary-chart"></div>
         <div class="actions-summary-filters">
-            <div>
-                <label>Show actions:</label>
+            <div class="actions-summary-filters-verb-wrapper">
+                <div>
+                    <label>Show actions:</label>
+                </div>
+                <select class="actions-summary-filters-verb" multiple></select>
             </div>
-            <select class="actions-summary-filters-verb" multiple>
-            </select>
+            <div class="actions-summary-filters-timestamp-wrapper">
+                <div>
+                    <label>From:</label>
+                </div>
+                <input type="date" class="actions-summary-filters-min-timestamp" />
+                <div>
+                    <label>To:</label>
+                </div>
+                <input type="date" class="actions-summary-filters-max-timestamp" />
+            </div>
+            <div style="clear: both;"></div>
         </div>
     </div>
 {% endblock %}

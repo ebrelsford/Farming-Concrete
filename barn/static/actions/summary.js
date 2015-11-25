@@ -1,6 +1,7 @@
 (function () {
     var endpoint = '../api-admin/actions/summary/',
-        dateFormat = 'YYYY-MM-DD';
+        apiDateFormat = 'YYYY-MM-DD',
+        inputDateFormat = 'YYYY-MM-DD';
 
     function createChart(data) {
         var countsColumn = ['counts'];
@@ -39,10 +40,8 @@
     }
 
     function updateChart() {
-        var now = moment(new Date()),
-            lastYear = now.clone().subtract(1, 'years'),
-            minTimestamp = lastYear.format(dateFormat),
-            maxTimestamp = now.format(dateFormat);
+        var minTimestamp = document.querySelector('.actions-summary-filters-min-timestamp').value,
+            maxTimestamp = document.querySelector('.actions-summary-filters-max-timestamp').value;
 
         var verbOptions = document.querySelectorAll('.actions-summary-filters-verb option');
         var verbs = _.chain(verbOptions)
@@ -72,6 +71,22 @@
         });
 
         select.addEventListener('change', function () {
+            updateChart();
+        });
+
+        // Initialize min/max timestamp fields
+        var minTimestamp = document.querySelector('.actions-summary-filters-min-timestamp'),
+            maxTimestamp = document.querySelector('.actions-summary-filters-max-timestamp'),
+            now = moment(new Date()),
+            lastYear = now.clone().subtract(1, 'years');
+        minTimestamp.setAttribute('value', lastYear.format(inputDateFormat));
+        maxTimestamp.setAttribute('value', now.format(inputDateFormat));
+
+        // When timestamp fields change, update
+        minTimestamp.addEventListener('change', function () {
+            updateChart();
+        });
+        maxTimestamp.addEventListener('change', function () {
             updateChart();
         });
 
