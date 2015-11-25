@@ -14,8 +14,16 @@
     <script src="{% static "actions/node_modules/moment/moment.js" %}"></script>
     <script src="{% static "actions/node_modules/qwest/qwest.min.js" %}"></script>
     <script src="{% static "actions/node_modules/underscore/underscore-min.js" %}"></script>
+    <script src="{% static "actions/verbs.js" %}"></script>
     <script src="{% static "actions/summary.js" %}"></script>
     <div class="actions-summary">
         <div id="actions-summary-chart"></div>
+        <div class="actions-summary-filters">
+            <div>
+                <label>Show actions:</label>
+            </div>
+            <select class="actions-summary-filters-verb" multiple>
+            </select>
+        </div>
     </div>
 {% endblock %}
