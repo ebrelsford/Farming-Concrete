@@ -24,6 +24,9 @@
         .action-timestamp {
             float: right;
         }
+        .actions-list-filters-verb-wrapper {
+            padding-bottom: 10px;
+        }
     </style>
     <script src="{% static "actions/node_modules/dot/doT.min.js" %}"></script>
     <script src="{% static "actions/node_modules/moment/moment.js" %}"></script>
@@ -49,8 +52,18 @@
 <span class="action-timestamp">{{=it.formatted_timestamp}}</span>
     </script>
     {% endverbatim %}
+    <script src="{% static "actions/verbs.js" %}"></script>
     <script src="{% static "actions/index.js" %}"></script>
     <div class="actions-header">
+        <div class="actions-list-filters">
+            <div class="actions-list-filters-verb-wrapper">
+                <div>
+                    <label>Action types:</label>
+                </div>
+                <select class="actions-list-filters-verb" multiple></select>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
         <div class="actions-nav">
             <a href="#" class="actions-previous">previous</a>
             <a href="#" class="actions-next">next</a>

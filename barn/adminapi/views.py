@@ -27,6 +27,8 @@ class ActionFilter(FilterSet):
 
 
 class ActionsViewset(viewsets.ReadOnlyModelViewSet):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = ActionFilter
     permission_classes = (permissions.IsAdminUser,)
     queryset = Action.objects.all().order_by('-timestamp')
     serializer_class = ActionSerializer

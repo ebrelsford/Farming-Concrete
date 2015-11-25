@@ -1,5 +1,6 @@
 (function () {
-    var limit = 5,
+    var endpoint = '../api-admin/actions/',
+        limit = 5,
         offset = 0;
 
     function prepareAction(action) {
@@ -28,7 +29,19 @@
         var template = document.getElementById('item-template').innerHTML,
             compiledTemplate = doT.template(template);
 
-        qwest.get('../api-admin/actions/?limit=' + limit + '&offset=' + offset)
+        var verbOptions = document.querySelectorAll('.actions-list-filters-verb option');
+        var verbs = _.chain(verbOptions)
+            .filter(function (option) {
+                return option.selected;
+            })
+            .map(function (option) {
+                return 'verb=' + option.value;
+            });
+
+        qwest.get(endpoint + '?' + verbs.join('&'), {
+            limit: limit,
+            offset: offset
+        })
             .then(function (xhr, data) {
                 data.results.forEach(function (action) {
                     var listItem = document.createElement('li');
@@ -61,6 +74,19 @@
             offset += limit;
             showActions(limit, offset);
             e.preventDefault();
+        });
+
+        // Initialize verb selector
+        var select = document.querySelectorAll('.actions-list-filters-verb')[0];
+        actionVerbs.forEach(function (verb) {
+            var option = document.createElement('option');
+            option.setAttribute('value', verb);
+            option.textContent = verb;
+            select.appendChild(option);
+        });
+
+        select.addEventListener('change', function () {
+            showActions(limit, offset);
         });
     }
 
