@@ -62,7 +62,7 @@
         var minTimestamp = document.querySelector('.actions-map-filters-min-timestamp'),
             maxTimestamp = document.querySelector('.actions-map-filters-max-timestamp'),
             now = moment(new Date()),
-            lastYear = now.clone().subtract(1, 'years');
+            lastYear = now.clone().subtract(1, 'weeks');
         minTimestamp.setAttribute('value', lastYear.format(inputDateFormat));
         maxTimestamp.setAttribute('value', now.format(inputDateFormat));
 
