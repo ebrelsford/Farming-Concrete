@@ -85,6 +85,8 @@ class ActionsGeojsonView(generics.ListAPIView):
                     ]
                 except AttributeError:
                     continue
+            if not (coordinates[0] and coordinates[1]):
+                continue
 
             yield geojson.Feature(
                 id=action.pk,
