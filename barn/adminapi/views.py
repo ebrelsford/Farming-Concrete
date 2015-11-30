@@ -64,28 +64,72 @@ class ActionsGeojsonView(generics.ListAPIView):
     filter_class = ActionFilter
     permission_classes = (permissions.IsAdminUser,)
     queryset = Action.objects.all()
+    coordinate_cache = {}
 
     def get(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         features = self.get_features(queryset)
         return Response(geojson.FeatureCollection(features))
 
-    def get_features(self, queryset):
-        for action in queryset.all():
+    def get_action_object_coordinates(self, action):
+        if not action.action_object:
+            return None
+
+        key = '%s:%s' % (
+            action.action_object_content_type.pk,
+            action.action_object_object_id
+        )
+
+        try:
+            return self.coordinate_cache[key]
+        except KeyError:
             try:
                 coordinates = [
                     action.action_object.longitude,
                     action.action_object.latitude,
                 ]
+                if coordinates[0] and coordinates[1]:
+                    self.coordinate_cache[key] = coordinates
+                    return coordinates
             except AttributeError:
-                try:
-                    coordinates = [
-                        action.target.longitude,
-                        action.target.latitude,
-                    ]
-                except AttributeError:
-                    continue
-            if not (coordinates[0] and coordinates[1]):
+                pass
+        return None
+
+
+    def get_target_coordinates(self, action):
+        if not action.target:
+            return None
+
+        key = '%s:%s' % (
+            action.target_content_type.pk,
+            action.target_object_id
+        )
+
+        try:
+            return self.coordinate_cache[key]
+        except KeyError:
+            try:
+                coordinates = [
+                    action.target.longitude,
+                    action.target.latitude,
+                ]
+                if coordinates[0] and coordinates[1]:
+                    self.coordinate_cache[key] = coordinates
+                    return coordinates
+            except AttributeError:
+                pass
+        return None
+
+    def get_coordinates(self, action):
+        return (
+            self.get_action_object_coordinates(action) or
+            self.get_target_coordinates(action)
+        )
+
+    def get_features(self, queryset):
+        for action in queryset.all():
+            coordinates = self.get_coordinates(action)
+            if not coordinates:
                 continue
 
             yield geojson.Feature(
