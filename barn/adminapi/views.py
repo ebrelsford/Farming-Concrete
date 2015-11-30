@@ -1,3 +1,5 @@
+import geojson
+
 from django.db.models import Count
 
 from actstream.models import Action
@@ -55,3 +57,36 @@ class ActionsSummaryView(generics.ListAPIView):
         return Response({
             'counts': counts,
         })
+
+
+class ActionsGeojsonView(generics.ListAPIView):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = ActionFilter
+    permission_classes = (permissions.IsAdminUser,)
+    queryset = Action.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        features = self.get_features(queryset)
+        return Response(geojson.FeatureCollection(features))
+
+    def get_features(self, queryset):
+        for action in queryset.all():
+            try:
+                coordinates = [
+                    action.action_object.longitude,
+                    action.action_object.latitude,
+                ]
+            except AttributeError:
+                try:
+                    coordinates = [
+                        action.target.longitude,
+                        action.target.latitude,
+                    ]
+                except AttributeError:
+                    continue
+
+            yield geojson.Feature(
+                id=action.pk,
+                geometry=geojson.Point(coordinates=coordinates)
+            )

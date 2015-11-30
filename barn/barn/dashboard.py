@@ -19,6 +19,12 @@ class ActionsSummaryModule(modules.DashboardModule):
     title = 'Recent User Actions Summary'
 
 
+class ActionsMapModule(modules.DashboardModule):
+    pre_content = 'Recent User Actions Map'
+    template = 'admin/dashboard/recent_actions_map.html'
+    title = 'Recent User Actions Map'
+
+
 class CustomIndexDashboard(Dashboard):
 
     def init_with_context(self, context):
@@ -35,5 +41,7 @@ class CustomIndexDashboard(Dashboard):
         self.children.append(ActionsModule())
 
         self.children.append(ActionsSummaryModule())
+
+        self.children.append(ActionsMapModule())
 
         self.children.append(modules.RecentActions(_('Recent Actions'), 5))

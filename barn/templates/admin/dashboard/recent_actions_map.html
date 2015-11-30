@@ -1,0 +1,55 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% load static %}
+
+{% block module_content %}
+    <link href="{% static "actions/node_modules/leaflet/dist/leaflet.css" %}" rel="stylesheet"/>
+    <link href="{% static "actions/node_modules/leaflet.markercluster/dist/MarkerCluster.css" %}" rel="stylesheet"/>
+    <link href="{% static "actions/node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css" %}" rel="stylesheet"/>
+    <style>
+        #actions-map-map {
+            height: 300px;
+            width: 100%;
+        }
+
+        .actions-map-filters-verb-wrapper {
+            float: left;
+            padding-left: 10px;
+            padding-bottom: 10px;
+        }
+
+        .actions-map-filters-timestamp-wrapper {
+            float: left;
+            padding-left: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+    <script src="{% static "actions/node_modules/moment/moment.js" %}"></script>
+    <script src="{% static "actions/node_modules/qwest/qwest.min.js" %}"></script>
+    <script src="{% static "actions/node_modules/underscore/underscore-min.js" %}"></script>
+    <script src="{% static "actions/node_modules/leaflet/dist/leaflet.js" %}"></script>
+    <script src="{% static "actions/node_modules/leaflet.markercluster/dist/leaflet.markercluster.js" %}"></script>
+    <script src="{% static "actions/verbs.js" %}"></script>
+    <script src="{% static "actions/map.js" %}"></script>
+    <div class="actions-map">
+        <div class="actions-map-filters">
+            <div class="actions-map-filters-verb-wrapper">
+                <div>
+                    <label>Show actions:</label>
+                </div>
+                <select class="actions-map-filters-verb" multiple></select>
+            </div>
+            <div class="actions-map-filters-timestamp-wrapper">
+                <div>
+                    <label>From:</label>
+                </div>
+                <input type="date" class="actions-map-filters-min-timestamp" />
+                <div>
+                    <label>To:</label>
+                </div>
+                <input type="date" class="actions-map-filters-max-timestamp" />
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <div id="actions-map-map"></div>
+    </div>
+{% endblock %}
