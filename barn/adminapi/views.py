@@ -95,7 +95,6 @@ class ActionsGeojsonView(generics.ListAPIView):
                 pass
         return None
 
-
     def get_target_coordinates(self, action):
         if not action.target:
             return None
