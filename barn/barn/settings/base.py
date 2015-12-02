@@ -27,7 +27,7 @@ DATABASES = {
         # CREATE DATABASE farmingconcrete;
         # CREATE USER 'farmingconcrete'@'localhost' IDENTIFIED BY 'XXX';
         # GRANT ALL ON farmingconcrete.* TO 'farmingconcrete'@'localhost';
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': get_env_variable('FARMING_CONCRETE_DB_NAME'),
         'USER': get_env_variable('FARMING_CONCRETE_DB_USER'),
         'PASSWORD': get_env_variable('FARMING_CONCRETE_DB_PASSWORD'),
@@ -142,12 +142,14 @@ INSTALLED_APPS = (
     'feedback',
     'floppyforms',
     'hijack',
+    'inplace_activity_stream',
     'registration',
     'report_builder',
     'rest_framework',
     'widget_tweaks',
 
     'accounts',
+    'adminapi',
     'api',
     'audit',
     'barndrips',
