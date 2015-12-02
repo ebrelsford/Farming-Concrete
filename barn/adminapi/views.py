@@ -71,67 +71,12 @@ class ActionsGeojsonView(generics.ListAPIView):
         features = self.get_features(queryset)
         return Response(geojson.FeatureCollection(features))
 
-    def get_action_object_coordinates(self, action):
-        if not action.action_object:
-            return None
-
-        key = '%s:%s' % (
-            action.action_object_content_type.pk,
-            action.action_object_object_id
-        )
-
-        try:
-            return self.coordinate_cache[key]
-        except KeyError:
-            try:
-                coordinates = [
-                    action.action_object.longitude,
-                    action.action_object.latitude,
-                ]
-                if coordinates[0] and coordinates[1]:
-                    self.coordinate_cache[key] = coordinates
-                    return coordinates
-            except AttributeError:
-                pass
-        return None
-
-    def get_target_coordinates(self, action):
-        if not action.target:
-            return None
-
-        key = '%s:%s' % (
-            action.target_content_type.pk,
-            action.target_object_id
-        )
-
-        try:
-            return self.coordinate_cache[key]
-        except KeyError:
-            try:
-                coordinates = [
-                    action.target.longitude,
-                    action.target.latitude,
-                ]
-                if coordinates[0] and coordinates[1]:
-                    self.coordinate_cache[key] = coordinates
-                    return coordinates
-            except AttributeError:
-                pass
-        return None
-
     def get_coordinates(self, action):
-        return (
-            self.get_action_object_coordinates(action) or
-            self.get_target_coordinates(action)
-        )
+        return [action.place.x, action.place.y]
 
     def get_features(self, queryset):
-        for action in queryset.all():
-            coordinates = self.get_coordinates(action)
-            if not coordinates:
-                continue
-
+        for action in queryset.filter(place__isnull=False):
             yield geojson.Feature(
                 id=action.pk,
-                geometry=geojson.Point(coordinates=coordinates)
+                geometry=geojson.Point(coordinates=self.get_coordinates(action))
             )
