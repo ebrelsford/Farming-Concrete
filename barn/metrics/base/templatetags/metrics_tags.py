@@ -8,7 +8,7 @@ from django import template
 from django.contrib.auth import get_permission_codename
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Max, Sum
-from django.template.base import TemplateDoesNotExist
+from django.template import TemplateDoesNotExist
 from django.template.loader import render_to_string, select_template
 
 from classytags.arguments import Argument, KeywordArgument
