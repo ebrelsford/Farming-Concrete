@@ -30,7 +30,7 @@ wsgiref==0.1.2
 openpyxl==2.1.5
 
 # Django requirements
-Django==1.8.6
+Django==1.8.7
 git+https://github.com/noirbizarre/django.js.git@65b267b04
 git+git://github.com/ebrelsford/django-activity-stream.git@place-field
 django-admin-tools==0.7.0
