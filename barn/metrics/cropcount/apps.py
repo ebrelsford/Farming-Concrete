@@ -1,4 +1,3 @@
-from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
 from ..apps import MetricConfig
@@ -14,6 +13,8 @@ class CropcountConfig(MetricConfig):
 
     def ready(self):
         super(CropcountConfig, self).ready()
+
+        from django.contrib.contenttypes.models import ContentType
 
         from .export import CropcountDataset, PublicCropcountDataset
 
