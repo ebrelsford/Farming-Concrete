@@ -13,7 +13,7 @@ class DynamicQuerysetDatasetMixin(object):
 
 class MetricDatasetMixin(DynamicQuerysetDatasetMixin):
 
-    def __init__(self, gardens=None, start=None, end=None):
+    def __init__(self, gardens=None, start=None, end=None, **kwargs):
         self.gardens = gardens
         self.start = start
         self.end = end
