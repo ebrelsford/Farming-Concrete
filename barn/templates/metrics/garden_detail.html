@@ -16,7 +16,7 @@
         {% endwith %}
     </h1>
 
-    <section class="metric-add-record">
+    <section class="metric-add-record" data-measurement-system="{{ garden.measurement_system }}">
         {% block add_record %}
             {% add_record metric_name garden form %}
         {% endblock %}
