@@ -1,8 +1,11 @@
-{% load i18n %}
+{% load i18n units_tags %}
 
 <div class="summary">
     <div class="summary-details">
-        <span class="number">{{ weight|default:"0"|floatformat:"0" }}</span>
-        <span class="units">{% trans "pound" %}{{ weight|pluralize }}</span>
+        <span class="number">
+            {% to_preferred_weight_units weight gardens as converted %}
+            {{ converted.magnitude|floatformat }} 
+        </span>
+        <span class="units">{{ converted.units }}{{ converted.magnitude|pluralize }}</span>
     </div>
 </div>

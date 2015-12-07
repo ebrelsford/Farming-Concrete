@@ -36,8 +36,9 @@ class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
     template_name = 'metrics/compost/weight/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f pounds to %s' % (self.record.weight,
-                                                         self.object)
+        return 'Successfully added %.1f %s to %s' % (self.record.weight_new.value,
+                                                     self.record.weight_new.unit,
+                                                     self.object)
 
 
 class VolumeMixin(MetricMixin):

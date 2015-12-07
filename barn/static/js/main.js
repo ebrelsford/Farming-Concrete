@@ -105,6 +105,7 @@ require('./photogallery');
 /*
  * Page-specific modules
  */
+require('./addcompostweight');
 require('./addcropcountpage');
 require('./addgardenspage');
 require('./addharvestpage');
