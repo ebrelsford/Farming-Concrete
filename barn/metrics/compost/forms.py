@@ -6,7 +6,7 @@ class CompostProductionWeightForm(RecordForm):
 
     class Meta(RecordForm.Meta):
         model = CompostProductionWeight
-        fields = ('recorded', 'weight_new', 'added_by', 'garden',)
+        fields = ('recorded', 'weight', 'added_by', 'garden',)
 
 
 class CompostProductionVolumeForm(RecordForm):
