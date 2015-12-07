@@ -12,6 +12,7 @@ from generic.views import LoginRequiredMixin, TablibView
 from metrics.utils import get_min_recorded
 from metrics.views import GardenMixin
 from metrics.registry import registry
+from units.convert import find_preferred_measurement_system
 
 from farmingconcrete.views import GardenGroupMemberMixin
 
@@ -45,7 +46,10 @@ class MetricSpreadsheetMixin(object):
             dataset_cls = self.get_dataset_class(metric)
             if not dataset_cls:
                 continue
-            ds = dataset_cls(gardens=self.get_gardens())
+            gardens = self.get_gardens()
+            measurement_system = find_preferred_measurement_system(gardens)
+            ds = dataset_cls(gardens=gardens,
+                             measurement_system=measurement_system)
 
             # Only append if there is data to append
             if not ds.height:
