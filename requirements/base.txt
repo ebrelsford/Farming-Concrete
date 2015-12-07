@@ -46,6 +46,7 @@ django-floppyforms==1.4.1
 django-hijack==1.0.8
 django-imagekit==3.2.6
 git+git://github.com/ebrelsford/django-inplace-activity-stream@v2.0.0
+django-measurement==2.0.2
 django-registration-redux==1.1.0
 git+git://github.com/ebrelsford/django-report-builder.git@master
 djangorestframework==3.3.1
