@@ -7,12 +7,12 @@
 
 var $ = require('jquery'),
     _ = require('underscore'),
-    qs = require('qs');
+    queryString = require('query-string');
 
 $(document).ready(function () {
     if ($('.add-compost-weight').length > 0) {
         var measurementSystem = $('.metric-add-record').data('measurement-system'),
-            params = qs.parse(window.location.search.slice(1)),
+            params = queryString.parse(location.search),
             unitPicker = $(':input[name=weight_1]'),
             validUnits = $(':input[name=weight_1] option').map(function () {
                 return $(this).attr('value');
