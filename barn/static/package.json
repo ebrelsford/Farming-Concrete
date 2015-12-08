@@ -37,6 +37,7 @@
     "leaflet-usermarker": "^1.0.0",
     "modernizr": "^3.0.0-alpha.4",
     "moment": "^2.10.2",
+    "qs": "^6.0.1",
     "rome": "^2.1.22",
     "spin.js": "^2.1.0"
   },

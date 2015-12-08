@@ -229,10 +229,14 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
         return initial
 
     def get_success_url(self):
-        return reverse(self.get_metric()['garden_detail_url_name'], kwargs={
+        units = self.request.POST.get('weight_1', None)
+        url = reverse(self.get_metric()['garden_detail_url_name'], kwargs={
             'pk': self.object.pk,
             'year': self.record.recorded.year,
         })
+        if units:
+            url += '?units=' + units
+        return url
 
     def get_context_data(self, **kwargs):
         context = super(GardenDetailAddRecordView, self).get_context_data(**kwargs)
