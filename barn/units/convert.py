@@ -12,7 +12,7 @@ def find_preferred_measurement_system(gardens):
     For the given garden(s), find the preferred measurement system
     """
     try:
-        return Counter([g.measurement_system for g in gardens]).most_common()[0][0]
+        return Counter([g.measurement_system for g in gardens if g]).most_common()[0][0]
     except TypeError:
         # Looks like we only have one garden, return that system
         return gardens.measurement_system
