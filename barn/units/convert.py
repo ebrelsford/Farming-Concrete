@@ -13,6 +13,9 @@ def find_preferred_measurement_system(gardens):
     """
     try:
         return Counter([g.measurement_system for g in gardens if g]).most_common()[0][0]
+    except IndexError:
+        # No valid gardens, assume default
+        return 'imperial'
     except TypeError:
         # Looks like we only have one garden, return that system
         return gardens.measurement_system
