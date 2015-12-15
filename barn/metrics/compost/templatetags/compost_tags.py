@@ -5,7 +5,9 @@ import pandas as pd
 
 from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import vertical_bar, line_fill, make_chart_name
-from units.convert import preferred_weight_units, to_preferred_weight_units
+from units.convert import (preferred_volume_units, preferred_weight_units,
+                           to_preferred_volume_units,
+                           to_preferred_weight_units)
 from ..models import CompostProductionVolume, CompostProductionWeight
 
 register = template.Library()
@@ -16,12 +18,16 @@ class CompostVolumeChart(ChartMixin, AsTag):
         return CompostProductionVolume
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('volume', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('volume_new', 'recorded'),
                                        coerce_float=True)
 
-        qdf = df.groupby('recorded').sum()['volume']
+        qdf = df.groupby('recorded').sum()['volume_new']
+        qdf = qdf.apply(lambda x: to_preferred_volume_units(garden,
+                                                            cubic_meters=x,
+                                                            force_large_units=True).magnitude)
+        units = preferred_volume_units(garden, large=True)
         return vertical_bar(qdf, make_chart_name('compost_volume', garden),
-                            ylabel='GALLONS', shape='short')
+                            ylabel=units.upper(), shape='short')
 
 
 class CompostVolumeLineChart(ChartMixin, AsTag):
@@ -29,13 +35,17 @@ class CompostVolumeLineChart(ChartMixin, AsTag):
         return CompostProductionVolume
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('volume', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('volume_new', 'recorded'),
                                        coerce_float=True)
 
-        qdf = df.groupby('recorded').sum()['volume']
+        qdf = df.groupby('recorded').sum()['volume_new']
+        qdf = qdf.apply(lambda x: to_preferred_volume_units(garden,
+                                                            cubic_meters=x,
+                                                            force_large_units=True).magnitude)
+        units = preferred_volume_units(garden, large=True)
         return line_fill(qdf.cumsum(),
                          make_chart_name('compost_volume_line', garden),
-                         ylabel='GALLONS', shape='short')
+                         ylabel=units.upper(), shape='short')
 
 
 class CompostVolumeTotal(MetricTotalTag):
@@ -44,7 +54,7 @@ class CompostVolumeTotal(MetricTotalTag):
         return CompostProductionVolume
 
     def get_sum_field(self):
-        return 'volume'
+        return 'volume_new'
 
 
 class CompostWeightChart(ChartMixin, AsTag):

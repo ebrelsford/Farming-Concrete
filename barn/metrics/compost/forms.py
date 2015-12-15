@@ -13,4 +13,4 @@ class CompostProductionVolumeForm(RecordForm):
 
     class Meta:
         model = CompostProductionVolume
-        fields = ('recorded', 'volume', 'added_by', 'garden',)
+        fields = ('recorded', 'volume_new', 'added_by', 'garden',)

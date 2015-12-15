@@ -1,8 +1,11 @@
-{% load i18n %}
+{% load i18n units_tags %}
 
 <div class="summary">
     <div class="summary-details">
-        <span class="number">{{ volume|default:"0"|floatformat:"0" }}</span>
-        <span class="units">{% trans "gallon" %}{{ volume|pluralize }}</span>
+        <span class="number">
+            {% to_preferred_volume_units_from_cubic_meters volume gardens as converted %}
+            {{ converted.magnitude|floatformat }} 
+        </span>
+        <span class="units">{{ converted.units }}{{ converted.magnitude|pluralize }}</span>
     </div>
 </div>

@@ -31,11 +31,24 @@ def to_preferred_units(measurement, value, gardens):
     return None
 
 
+def preferred_volume_units(gardens, large=True):
+    if find_preferred_measurement_system(gardens) == 'imperial':
+        if large:
+            return 'gallons'
+    return 'liters'
+
+
 def preferred_weight_units(gardens, large=True):
     if find_preferred_measurement_system(gardens) == 'imperial':
         if large:
             return 'pounds'
     return 'kilograms'
+
+
+def system_volume_units(system):
+    if system == 'imperial':
+        return 'gallons'
+    return 'liters'
 
 
 def system_weight_units(system):
@@ -53,6 +66,25 @@ def round_if_very_close(value):
     if value % 1 > 0.999:
         return round(value)
     return value
+
+
+def to_preferred_volume_units(gardens, liters=None, cubic_meters=None,
+                              force_large_units=True):
+    if liters:
+        liters = liters * ureg.liter
+    elif cubic_meters:
+        ccs = (cubic_meters * (100 ** 3)) * ureg.cubic_centimeters
+        liters = ccs.to(ureg.liter)
+    else:
+        raise ValueError(('to_preferred_volume_units requires liters or '
+                          'cubic_meters'))
+
+    # Imperial
+    if find_preferred_measurement_system(gardens) == 'imperial':
+        return liters.to(ureg.gallon)
+
+    # Metric
+    return liters
 
 
 def to_preferred_weight_units(value, gardens, force_large_units=True):
