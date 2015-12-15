@@ -13,8 +13,8 @@ $(document).ready(function () {
     if ($('.add-compost-volume').length > 0) {
         var measurementSystem = $('.metric-add-record').data('measurement-system'),
             params = queryString.parse(location.search),
-            unitPicker = $(':input[name=volume_new_1]'),
-            validUnits = $(':input[name=volume_new_1] option').map(function () {
+            unitPicker = $(':input[name=volume_1]'),
+            validUnits = $(':input[name=volume_1] option').map(function () {
                 return $(this).attr('value');
             }).get();
 

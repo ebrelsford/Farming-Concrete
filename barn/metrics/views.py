@@ -231,7 +231,7 @@ class GardenDetailAddRecordView(SuccessMessageFormMixin, LoginRequiredMixin,
     def get_success_url(self):
         units = self.request.POST.get('weight_1', None)
         if not units:
-            units = self.request.POST.get('volume_new_1', None)
+            units = self.request.POST.get('volume_1', None)
 
         url = reverse(self.get_metric()['garden_detail_url_name'], kwargs={
             'pk': self.object.pk,

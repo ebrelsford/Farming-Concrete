@@ -64,10 +64,10 @@ class VolumeGardenDetails(VolumeMixin, GardenDetailAddRecordView):
     template_name = 'metrics/compost/volume/garden_detail.html'
 
     def get_success_message(self):
-        unit = self.record.volume_new.unit
+        unit = self.record.volume.unit
         if unit == 'us_g':
             unit = 'gallons'
-        return 'Successfully added %.1f %s to %s' % (self.record.volume_new.value,
+        return 'Successfully added %.1f %s to %s' % (self.record.volume.value,
                                                      unit, self.object)
 
 
