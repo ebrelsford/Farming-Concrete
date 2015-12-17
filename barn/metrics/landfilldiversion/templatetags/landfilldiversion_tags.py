@@ -5,6 +5,7 @@ import pandas as pd
 
 from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import line_fill, vertical_bar, make_chart_name
+from units.convert import preferred_weight_units, to_preferred_weight_units
 from ..models import LandfillDiversionVolume, LandfillDiversionWeight
 
 register = template.Library()
@@ -15,12 +16,13 @@ class LandfilldiversionWeightChart(ChartMixin, AsTag):
         return LandfillDiversionWeight
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('weight', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('weight_new', 'recorded'),
                                        coerce_float=True)
-
-        qdf = df.groupby('recorded').sum()['weight']
+        qdf = df.groupby('recorded').sum()['weight_new']
+        qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden, force_large_units=True).magnitude)
+        units = preferred_weight_units(garden, large=True)
         return vertical_bar(qdf, make_chart_name('landfilldiversion_weight', garden),
-                            ylabel='LBS', shape='short')
+                            ylabel=units.upper(), shape='short')
 
 
 class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
@@ -28,13 +30,14 @@ class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
         return LandfillDiversionWeight
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('weight', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('weight_new', 'recorded'),
                                        coerce_float=True)
-
-        qdf = df.groupby('recorded').sum()['weight']
+        qdf = df.groupby('recorded').sum()['weight_new']
+        qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden, force_large_units=True).magnitude)
+        units = preferred_weight_units(garden, large=True)
         return line_fill(qdf.cumsum(),
                          make_chart_name('landfilldiversion_weight_line', garden),
-                         ylabel='LBS', shape='short')
+                         ylabel=units.upper(), shape='short')
 
 
 class LandfilldiversionWeightTotal(MetricTotalTag):
@@ -43,7 +46,7 @@ class LandfilldiversionWeightTotal(MetricTotalTag):
         return LandfillDiversionWeight
 
     def get_sum_field(self):
-        return 'weight'
+        return 'weight_new'
 
 
 class LandfilldiversionVolumeChart(ChartMixin, AsTag):
