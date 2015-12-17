@@ -16,9 +16,9 @@ class LandfilldiversionWeightChart(ChartMixin, AsTag):
         return LandfillDiversionWeight
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('weight_new', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('weight', 'recorded'),
                                        coerce_float=True)
-        qdf = df.groupby('recorded').sum()['weight_new']
+        qdf = df.groupby('recorded').sum()['weight']
         qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden, force_large_units=True).magnitude)
         units = preferred_weight_units(garden, large=True)
         return vertical_bar(qdf, make_chart_name('landfilldiversion_weight', garden),
@@ -30,9 +30,9 @@ class LandfilldiversionWeightLineChart(ChartMixin, AsTag):
         return LandfillDiversionWeight
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('weight_new', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('weight', 'recorded'),
                                        coerce_float=True)
-        qdf = df.groupby('recorded').sum()['weight_new']
+        qdf = df.groupby('recorded').sum()['weight']
         qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden, force_large_units=True).magnitude)
         units = preferred_weight_units(garden, large=True)
         return line_fill(qdf.cumsum(),
@@ -46,7 +46,7 @@ class LandfilldiversionWeightTotal(MetricTotalTag):
         return LandfillDiversionWeight
 
     def get_sum_field(self):
-        return 'weight_new'
+        return 'weight'
 
 
 class LandfilldiversionVolumeChart(ChartMixin, AsTag):

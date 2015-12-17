@@ -6,7 +6,7 @@ class LandfillDiversionWeightForm(RecordForm):
 
     class Meta:
         model = LandfillDiversionWeight
-        fields = ('recorded', 'weight_new', 'added_by', 'garden',)
+        fields = ('recorded', 'weight', 'added_by', 'garden',)
 
 
 class LandfillDiversionVolumeForm(RecordForm):
