@@ -1,4 +1,3 @@
-from django.db import models
 from django.db.models import Sum
 
 from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
