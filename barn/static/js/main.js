@@ -110,6 +110,7 @@ require('./addcompostweight');
 require('./addcropcountpage');
 require('./addgardenspage');
 require('./addharvestpage');
+require('./addlandfilldiversionvolume');
 require('./addlandfilldiversionweight');
 require('./addlookinggoodeventpage');
 require('./addparticipationhourspage');

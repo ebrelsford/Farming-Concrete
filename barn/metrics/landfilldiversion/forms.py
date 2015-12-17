@@ -13,4 +13,4 @@ class LandfillDiversionVolumeForm(RecordForm):
 
     class Meta:
         model = LandfillDiversionVolume
-        fields = ('recorded', 'volume', 'added_by', 'garden',)
+        fields = ('recorded', 'volume_new', 'added_by', 'garden',)

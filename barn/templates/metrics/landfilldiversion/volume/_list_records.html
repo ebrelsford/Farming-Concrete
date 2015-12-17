@@ -3,5 +3,8 @@
 {% block record_class %}landfilldiversion-volume-record{% endblock %}
 
 {% block record_detail %}
-    <div class="field-volume">{{ record.volume|floatformat }} gallons</div>
+    <div class="field-volume">
+        {{ record.volume_for_garden.magnitude|floatformat }} 
+        {{ record.volume_for_garden.units }}{{ record.volume_for_garden.magnitude|pluralize }}
+    </div>
 {% endblock %}

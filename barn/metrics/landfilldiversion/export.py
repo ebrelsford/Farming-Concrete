@@ -1,7 +1,7 @@
 from django_tablib import Field, ModelDataset
 
 from api.export import PublicMetricDatasetMixin
-from units.convert import system_weight_units
+from units.convert import system_volume_units, system_weight_units
 from ..export import MetricDatasetMixin
 from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
@@ -37,11 +37,23 @@ class PublicWeightDataset(WeightDatasetMixin, PublicMetricDatasetMixin,
 
 
 class VolumeDatasetMixin(object):
-    volume = Field(header='volume (gallons)')
+
+    def __init__(self, **kwargs):
+        units = system_volume_units(kwargs.get('measurement_system', None))
+
+        self.base_fields.update({
+            'volume': Field(attribute='volume_%s' % units,
+                            header='volume (%s)' % units)
+        })
+        self._meta.fields = ['volume',] + self._meta.fields
+        if self._meta.field_order:
+            self._meta.field_order = ('volume',) + self._meta.field_order
+        else:
+            self._meta.field_order = ('volume',)
+        super(VolumeDatasetMixin, self).__init__(**kwargs)
 
     class Meta:
         model = LandfillDiversionVolume
-        fields = ['volume',]
 
 
 class VolumeDataset(VolumeDatasetMixin, MetricDatasetMixin, ModelDataset):

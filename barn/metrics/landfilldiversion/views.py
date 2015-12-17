@@ -67,8 +67,9 @@ class VolumeGardenDetails(VolumeMixin, GardenDetailAddRecordView):
     template_name = 'metrics/landfilldiversion/volume/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f gallons to %s' % (self.record.volume,
-                                                          self.object)
+        return 'Successfully added %.1f %s to %s' % (self.record.volume_new.value,
+                                                     self.record.volume_new.unit,
+                                                     self.object)
 
 
 class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,

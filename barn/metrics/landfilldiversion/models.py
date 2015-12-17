@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models import Sum
 
-from units.convert import to_preferred_weight_units
-from units.models import WeightField
+from units.convert import to_preferred_volume_units, to_preferred_weight_units
+from units.models import VolumeField, WeightField
 from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 
 
@@ -66,10 +66,12 @@ class LandfillDiversionWeight(BaseMetricRecord):
 class LandfillDiversionVolumeQuerySet(MetricQuerySet):
 
     def public_dict(self):
-        values_args = self.public_dict_values_args + (
-            'volume',
-        )
-        return self.values(*values_args)
+        values_args = self.public_dict_values_args + ('volume',
+                                                      'volume_units',)
+        return self.extra(select={
+            'volume': '1000 * volume_new',
+            'volume_units': '\'liter\'',
+        }).values(*values_args)
 
 
 class LandfillDiversionVolumeManager(MetricManager):
@@ -82,16 +84,45 @@ class LandfillDiversionVolume(BaseMetricRecord):
     objects = LandfillDiversionVolumeManager()
     volume = models.DecimalField('volume (gallons)',
         max_digits=8,
-        decimal_places=2
+        decimal_places=2,
+        blank=True,
+        null=True,
     )
+    volume_new = VolumeField(blank=True, null=True)
 
     def __unicode__(self):
-        return '%.2f gallons of landfill diversion' % (self.volume,)
+        try:
+            return '%s of landfill diversion' % self.volume_new
+        except Exception:
+            return '%d' % self.pk
+
+    @property
+    def volume_liters(self):
+        if not self.volume_new:
+            return 0
+        return self.volume_new.l
+
+    @property
+    def volume_gallons(self):
+        if not self.volume_new:
+            return 0
+        return self.volume_new.us_g
+
+    @property
+    def volume_for_garden(self):
+        """Convert volume to proper units for garden."""
+        try:
+            return to_preferred_volume_units(self.garden,
+                                             liters=self.volume_new.value,
+                                             force_large_units=False)
+        except AttributeError:
+            return None
+
 
     @classmethod
     def get_summarize_kwargs(cls):
         kwargs = super(LandfillDiversionVolume, cls).get_summarize_kwargs()
         kwargs.update({
-            'volume': Sum('volume'),
+            'volume': Sum('volume_new'),
         })
         return kwargs

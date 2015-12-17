@@ -220,9 +220,18 @@
 }
 
 .add-landfilldiversion-volume {
-    .field-volume {
-        .make-sm-column(4);
+    .field-volume_new {
+        .make-sm-column(6);
         .make-sm-column-offset(2);
+        .form-control {
+            display: inline-block;
+            width: 50%;
+
+            &:last-child {
+                margin-left: 5%;
+                width: 40%;
+            }
+        }
     }
     .field-recorded {
         .make-sm-column(4);
