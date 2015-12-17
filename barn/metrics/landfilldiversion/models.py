@@ -1,4 +1,3 @@
-from django.db import models
 from django.db.models import Sum
 
 from units.convert import to_preferred_volume_units, to_preferred_weight_units
@@ -69,7 +68,7 @@ class LandfillDiversionVolumeQuerySet(MetricQuerySet):
         values_args = self.public_dict_values_args + ('volume',
                                                       'volume_units',)
         return self.extra(select={
-            'volume': '1000 * volume_new',
+            'volume': '1000 * volume',
             'volume_units': '\'liter\'',
         }).values(*values_args)
 
@@ -82,38 +81,32 @@ class LandfillDiversionVolumeManager(MetricManager):
 
 class LandfillDiversionVolume(BaseMetricRecord):
     objects = LandfillDiversionVolumeManager()
-    volume = models.DecimalField('volume (gallons)',
-        max_digits=8,
-        decimal_places=2,
-        blank=True,
-        null=True,
-    )
-    volume_new = VolumeField(blank=True, null=True)
+    volume = VolumeField(blank=True, null=True)
 
     def __unicode__(self):
         try:
-            return '%s of landfill diversion' % self.volume_new
+            return '%s of landfill diversion' % self.volume
         except Exception:
             return '%d' % self.pk
 
     @property
     def volume_liters(self):
-        if not self.volume_new:
+        if not self.volume:
             return 0
-        return self.volume_new.l
+        return self.volume.l
 
     @property
     def volume_gallons(self):
-        if not self.volume_new:
+        if not self.volume:
             return 0
-        return self.volume_new.us_g
+        return self.volume.us_g
 
     @property
     def volume_for_garden(self):
         """Convert volume to proper units for garden."""
         try:
             return to_preferred_volume_units(self.garden,
-                                             liters=self.volume_new.value,
+                                             liters=self.volume.value,
                                              force_large_units=False)
         except AttributeError:
             return None
@@ -123,6 +116,6 @@ class LandfillDiversionVolume(BaseMetricRecord):
     def get_summarize_kwargs(cls):
         kwargs = super(LandfillDiversionVolume, cls).get_summarize_kwargs()
         kwargs.update({
-            'volume': Sum('volume_new'),
+            'volume': Sum('volume'),
         })
         return kwargs

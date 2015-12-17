@@ -56,11 +56,11 @@ class LandfilldiversionVolumeChart(ChartMixin, AsTag):
         return LandfillDiversionVolume
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('volume_new', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('volume', 'recorded'),
                                        coerce_float=True)
 
 
-        qdf = df.groupby('recorded').sum()['volume_new']
+        qdf = df.groupby('recorded').sum()['volume']
         qdf = qdf.apply(lambda x: to_preferred_volume_units(garden,
                                                             cubic_meters=x,
                                                             force_large_units=True).magnitude)
@@ -74,10 +74,10 @@ class LandfilldiversionVolumeLineChart(ChartMixin, AsTag):
         return LandfillDiversionVolume
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('volume_new', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('volume', 'recorded'),
                                        coerce_float=True)
 
-        qdf = df.groupby('recorded').sum()['volume_new']
+        qdf = df.groupby('recorded').sum()['volume']
         qdf = qdf.apply(lambda x: to_preferred_volume_units(garden,
                                                             cubic_meters=x,
                                                             force_large_units=True).magnitude)
@@ -93,7 +93,7 @@ class LandfilldiversionVolumeTotal(MetricTotalTag):
         return LandfillDiversionVolume
 
     def get_sum_field(self):
-        return 'volume_new'
+        return 'volume'
 
 
 register.tag(LandfilldiversionWeightChart)
