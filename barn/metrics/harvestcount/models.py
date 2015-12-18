@@ -23,10 +23,10 @@ class HarvestCountQuerySet(MetricQuerySet):
             'crop__name',
             'crop_variety__name',
             'plants',
-            'weight_new',
-            'weight_new_units',
+            'weight',
+            'weight_units',
         )
-        return self.extra(select={'weight_new_units': '\'g\''}).values(*values_args)
+        return self.extra(select={'weight_units': '\'g\''}).values(*values_args)
 
 
 class HarvestCountManager(MetricManager):
@@ -42,9 +42,7 @@ class Harvest(BaseMetricRecord):
     crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 
-    weight = models.DecimalField('weight (pounds)', max_digits=6,
-                                 decimal_places=2, blank=True, null=True)
-    weight_new = WeightField(blank=True, null=True)
+    weight = WeightField(null=True)
     plants = models.IntegerField(null=True, blank=True)
     area = models.DecimalField(max_digits=4, decimal_places=2, null=True,
                                blank=True)
@@ -55,7 +53,7 @@ class Harvest(BaseMetricRecord):
     def __unicode__(self):
         try:
             return "%s harvested of %s" % (
-                self.weight_new,
+                self.weight,
                 self.crop.name,
             )
         except Exception:
@@ -84,25 +82,25 @@ class Harvest(BaseMetricRecord):
 
     @property
     def weight_kilograms(self):
-        if not self.weight_new:
+        if not self.weight:
             return 0
-        return self.weight_new.kg
+        return self.weight.kg
 
     @property
     def weight_pounds(self):
-        if not self.weight_new:
+        if not self.weight:
             return 0
-        return self.weight_new.lb
+        return self.weight.lb
 
     @property
     def weight_for_garden(self):
         """Convert weight to proper units for garden."""
         if self.garden:
-            return to_preferred_weight_units(self.weight_new.value,
+            return to_preferred_weight_units(self.weight.value,
                                              self.garden,
                                              force_large_units=False)
         else:
-            return to_weight_units(self.weight_new.value, 'imperial',
+            return to_weight_units(self.weight.value, 'imperial',
                                    force_large_units=False)
 
 
@@ -113,7 +111,7 @@ class Harvest(BaseMetricRecord):
         return {
             'count': harvests.count(),
             'harvests': harvests.order_by('harvested', 'gardener__name'),
-            'weight': harvests.aggregate(t=Sum('weight_new'))['t'],
+            'weight': harvests.aggregate(t=Sum('weight'))['t'],
             'plant_types': harvests.values('crop__id').distinct().count(),
             'recorded_max': harvests.aggregate(models.Max('recorded'))['recorded__max'],
         }

@@ -56,8 +56,8 @@ class GardenDetails(HarvestcountMixin, GardenDetailAddRecordView):
     template_name = 'metrics/harvestcount/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f %s to %s' % (self.record.weight_new.value,
-                                                     self.record.weight_new.unit,
+        return 'Successfully added %.1f %s to %s' % (self.record.weight.value,
+                                                     self.record.weight.unit,
                                                      self.object)
 
     def get_initial(self):

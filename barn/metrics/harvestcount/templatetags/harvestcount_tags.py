@@ -16,10 +16,10 @@ class HarvestcountChart(ChartMixin, AsTag):
         return Harvest
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('crop__name', 'weight_new', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('crop__name', 'weight', 'recorded'),
                                        coerce_float=True)
 
-        qdf = df.groupby('crop__name').sum()['weight_new']
+        qdf = df.groupby('crop__name').sum()['weight']
         qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden, force_large_units=True).magnitude)
         units = preferred_weight_units(garden, large=True)
         return horizontal_bar(qdf, make_chart_name('harvestcount', garden),
@@ -32,7 +32,7 @@ class HarvestcountTotal(MetricTotalTag):
         return Harvest
 
     def get_sum_field(self):
-        return 'weight_new'
+        return 'weight'
 
 
 register.tag(HarvestcountChart)

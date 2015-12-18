@@ -34,8 +34,8 @@ $(document).ready(function () {
 
         var measurementSystem = $('.metric-add-record').data('measurement-system'),
             params = queryString.parse(location.search),
-            unitPicker = $(':input[name=weight_new_1]'),
-            validUnits = $(':input[name=weight_new_1] option').map(function () {
+            unitPicker = $(':input[name=weight_1]'),
+            validUnits = $(':input[name=weight_1] option').map(function () {
                 return $(this).attr('value');
             }).get();
 
@@ -57,6 +57,6 @@ $(document).ready(function () {
             .tooltip({
                 title: 'Default units can be changed by editing your garden. This setting also determines the units you will see when downloading data and reports.'
             });
-        $('.field-weight_new .control-label:eq(0)').append($helpButton);
+        $('.field-weight .control-label:eq(0)').append($helpButton);
     }
 });

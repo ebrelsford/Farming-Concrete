@@ -32,6 +32,6 @@ class HarvestcountConfig(MetricConfig):
                              'your produce helps you quantify the wealth of fruits '
                              'and vegetables grown in your garden.'),
             'chart': {
-                'y': 'weight_new',
+                'y': 'weight',
             },
         })
