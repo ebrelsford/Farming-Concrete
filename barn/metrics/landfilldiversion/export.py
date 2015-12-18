@@ -7,7 +7,6 @@ from .models import LandfillDiversionVolume, LandfillDiversionWeight
 
 
 class WeightDatasetMixin(object):
-    weight = Field(header='weight (pounds)')
 
     def __init__(self, **kwargs):
         units = system_weight_units(kwargs.get('measurement_system', None))
