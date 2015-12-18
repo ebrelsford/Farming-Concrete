@@ -51,7 +51,7 @@ class CompostConfig(MetricConfig):
             'short_name': 'volume',
             'dataset': VolumeDataset,
             'public_dataset': PublicVolumeDataset,
-            'description': _('This report measures the gallons of compost your garden '
+            'description': _('This report measures the volume of compost your garden '
                              'produced in a specified time period (top graph) and for '
                              'the whole period you\'ve been collecting this data '
                              '(bottom graph).  Knowing how much compost your garden '

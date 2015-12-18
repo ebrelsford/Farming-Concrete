@@ -38,7 +38,7 @@ class LandfillDiversionConfig(MetricConfig):
                              'waste diverted measures your garden\'s positive '
                              'environmental impact. The top graph shows waste '
                              'diverted for specified time period, and the bottom '
-                             'graph shows the total gallons diverted since you '
+                             'graph shows the total volume diverted since you '
                              'started collecting data.'),
         })
 
@@ -54,7 +54,7 @@ class LandfillDiversionConfig(MetricConfig):
             'short_name': 'volume',
             'dataset': VolumeDataset,
             'public_dataset': PublicVolumeDataset,
-            'description': _('This report displays the total gallons of trash '
+            'description': _('This report displays the total volume of trash '
                              'prevented from going into a landfill by turning it into '
                              'compost instead. Garden composting helps divert a '
                              'significant amount of waste that would have gone into '
@@ -62,6 +62,6 @@ class LandfillDiversionConfig(MetricConfig):
                              'waste diverted measures your garden\'s positive '
                              'environmental impact. The top graph shows waste '
                              'diverted for specified time period, and the bottom '
-                             'graph shows the total gallons diverted since you '
+                             'graph shows the total volume diverted since you '
                              'started collecting data.'),
         })
