@@ -417,8 +417,17 @@
         &-crop_variety {
             .make-sm-column(4);
         }
-        &-weight {
-            .make-sm-column(4);
+        &-weight_new {
+            .make-sm-column(6);
+            .form-control {
+                display: inline-block;
+                width: 50%;
+
+                &:last-child {
+                    margin-left: 5%;
+                    width: 40%;
+                }
+            }
         }
         &-plants-area {
             .make-sm-column(4);

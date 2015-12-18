@@ -87,11 +87,11 @@ def to_preferred_volume_units(gardens, liters=None, cubic_meters=None,
     return liters
 
 
-def to_preferred_weight_units(value, gardens, force_large_units=True):
+def to_weight_units(value, system, force_large_units=True):
     grams = value * ureg.gram
 
     # Imperial
-    if find_preferred_measurement_system(gardens) == 'imperial':
+    if system == 'imperial':
         pounds = grams.to(ureg.pound)
         if force_large_units or round_if_very_close(pounds.magnitude) >= 1:
             return pounds
@@ -101,3 +101,8 @@ def to_preferred_weight_units(value, gardens, force_large_units=True):
     if force_large_units or round_if_very_close(grams.magnitude) >= 1000:
         return grams.to(ureg.kg)
     return grams
+
+
+def to_preferred_weight_units(value, gardens, force_large_units=True):
+    return to_weight_units(value, find_preferred_measurement_system(gardens),
+                           force_large_units=force_large_units)

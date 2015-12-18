@@ -17,8 +17,10 @@
             </div>
 
             <div class="row">
-                {% include "forms/field.html" with field=form.weight %}
+                {% include "forms/field.html" with field=form.weight_new %}
+            </div>
 
+            <div class="row">
                 <div class="field-plants-area form-group required">
                     {{ form.plants.errors }}{{ form.area.errors }}
                     <div>
