@@ -30,7 +30,7 @@ class CompostConfig(MetricConfig):
             'short_name': 'weight',
             'dataset': WeightDataset,
             'public_dataset': PublicWeightDataset,
-            'description': _('This report measures the pounds of compost your garden '
+            'description': _('This report measures the weight of compost your garden '
                              'produced in a specified time period (top graph) and for '
                              'the whole period you\'ve been collecting this data '
                              '(bottom graph).  Knowing how much compost your garden '

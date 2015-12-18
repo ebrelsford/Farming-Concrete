@@ -27,7 +27,7 @@ class HarvestcountConfig(MetricConfig):
             'index_url_name': 'harvestcount_index',
             'dataset': HarvestcountDataset,
             'public_dataset': PublicHarvestcountDataset,
-            'description': _('This report tallies up all of the pounds of produce '
+            'description': _('This report tallies up all of the weight of produce '
                              'harvested in your garden this year. Keeping track of '
                              'your produce helps you quantify the wealth of fruits '
                              'and vegetables grown in your garden.'),
