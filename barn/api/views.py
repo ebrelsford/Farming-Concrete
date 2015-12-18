@@ -17,6 +17,7 @@ from generic.views import TablibView
 from metrics.compost.models import CompostProductionWeight
 from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
+from units.convert import to_weight_units
 
 
 def get_random_id():
@@ -157,12 +158,12 @@ class OverviewView(JSONResponseMixin, View):
         return len(cities)
 
     def get_compost_pounds(self):
-        pounds = CompostProductionWeight.objects.aggregate(pounds=Sum('weight'))['pounds']
-        return round(pounds)
+        grams = CompostProductionWeight.objects.aggregate(grams=Sum('weight'))['grams']
+        return round(to_weight_units(grams, 'imperial').magnitude)
 
     def get_food_pounds(self):
-        pounds = Harvest.objects.aggregate(pounds=Sum('weight'))['pounds']
-        return round(pounds)
+        grams = Harvest.objects.aggregate(grams=Sum('weight'))['grams']
+        return round(to_weight_units(grams, 'imperial').magnitude)
 
     def get(self, request, *args, **kwargs):
         return self.render_json_response({
