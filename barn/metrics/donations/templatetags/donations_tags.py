@@ -5,6 +5,7 @@ import pandas as pd
 
 from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import vertical_bar, make_chart_name
+from units.convert import preferred_weight_units, to_preferred_weight_units
 from ..models import Donation
 
 register = template.Library()
@@ -15,12 +16,16 @@ class DonationsChart(ChartMixin, AsTag):
         return Donation
 
     def get_chart(self, records, garden):
-        df = pd.DataFrame.from_records(records.values('pounds', 'recorded'),
+        df = pd.DataFrame.from_records(records.values('weight', 'recorded'),
                                        coerce_float=True)
 
-        qdf = df.groupby('recorded').sum()['pounds']
+        qdf = df.groupby('recorded').sum()['weight']
+        qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden,
+                                                            force_large_units=True).magnitude)
+        units = preferred_weight_units(garden, large=True)
         return vertical_bar(qdf, make_chart_name('donations', garden),
-                            ylabel='POUNDS DONATED')
+                            xlabel=('%s donated by period' % units).upper(),
+                            ylabel=units.upper())
 
 
 class DonationsTotal(MetricTotalTag):
@@ -29,7 +34,7 @@ class DonationsTotal(MetricTotalTag):
         return Donation
 
     def get_sum_field(self):
-        return 'pounds'
+        return 'weight'
 
 
 register.tag(DonationsChart)

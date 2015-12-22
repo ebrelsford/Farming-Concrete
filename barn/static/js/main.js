@@ -108,6 +108,7 @@ require('./photogallery');
 require('./addcompostvolume');
 require('./addcompostweight');
 require('./addcropcountpage');
+require('./adddonation');
 require('./addgardenspage');
 require('./addharvestpage');
 require('./addlandfilldiversionvolume');
