@@ -29,13 +29,7 @@ class Donation(BaseMetricRecord):
     produce_name = models.CharField(_('produce name'),
         max_length=100,
     )
-    pounds = models.DecimalField(_('pounds donated'),
-        max_digits=10,
-        decimal_places=2,
-        blank=True,
-        null=True,
-    )
-    weight = WeightField(blank=True, null=True)
+    weight = WeightField(null=True)
 
     def __unicode__(self):
         try:
