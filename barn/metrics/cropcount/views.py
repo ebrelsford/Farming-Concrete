@@ -1,21 +1,16 @@
 from datetime import datetime
 
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 
-from accounts.utils import get_profile
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
-from units.convert import preferred_distance_units
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, RecordsMixin)
 from .forms import BoxForm, PatchFormSet
 from .models import Box, Patch
-
-from middleware.http import Http403
 
 
 def _patches(year=datetime.now().year):
