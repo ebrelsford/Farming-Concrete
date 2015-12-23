@@ -26,11 +26,6 @@ urlpatterns = patterns('metrics.cropcount.views',
         name='cropcount_garden_details'
     ),
 
-    url(r'^gardens/(?P<id>\d+)/(?:(?P<year>\d{4})/)?summary/$',
-        'summary',
-        name='cropcount_summary'
-    ),
-
 
     # Beds
 
