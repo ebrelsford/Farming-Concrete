@@ -62,7 +62,7 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
                 garden=garden,
                 added__year=self.get_year(),
             ).order_by('-added')[0]
-            return most_recent_box.length_new, most_recent_box.width_new
+            return most_recent_box.length, most_recent_box.width
         except IndexError:
             return '', ''
 
@@ -73,8 +73,8 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
         initial = super(GardenDetails, self).get_initial()
         initial.update({
             'name': _get_next_box_name(garden, year=self.get_year()),
-            'length_new': length,
-            'width_new': width,
+            'length': length,
+            'width': width,
         })
         return initial
 

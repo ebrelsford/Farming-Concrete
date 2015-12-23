@@ -34,16 +34,16 @@ class BoxForm(ModelForm):
 
     class Meta:
         model = Box
-        exclude = ('added', 'updated', 'length', 'width',)
+        exclude = ('added', 'updated',)
 
     def clean(self):
         super(BoxForm, self).clean()
         data = self.cleaned_data
-        length_new = data.get('length_new')
-        width_new = data.get('width_new')
+        length = data.get('length')
+        width = data.get('width')
 
         # only give one message for missing bed sizes
-        if not length_new or not width_new:
+        if not length or not width:
             raise ValidationError("Please enter the bed's size.")
 
         return data

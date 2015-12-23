@@ -71,8 +71,8 @@ $(document).ready(function () {
         // Set form inputs to proper units
         var measurementSystem = $('.metric-add-record').data('measurement-system'),
             params = queryString.parse(location.search),
-            unitPickers = $(':input[name=length_new_1],:input[name=width_new_1]'),
-            $lengthUnitPicker = $(':input[name=length_new_1]'),
+            unitPickers = $(':input[name=length_1],:input[name=width_1]'),
+            $lengthUnitPicker = $(':input[name=length_1]'),
             validUnits = $lengthUnitPicker.find('option').map(function () {
                 return $(this).attr('value');
             }).get();
@@ -88,7 +88,7 @@ $(document).ready(function () {
         }
         unitPickers.val(units);
         if (units !== 'm') {
-            $(':input[name=length_new_0],:input[name=width_new_0]').val(function () {
+            $(':input[name=length_0],:input[name=width_0]').val(function () {
                 return round10(Qty($(this).val() + ' m').to(units).scalar);
             });
         }

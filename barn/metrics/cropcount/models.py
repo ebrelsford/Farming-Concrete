@@ -40,54 +40,50 @@ class Box(AuditedModel):
     name = models.CharField(
         max_length=32
     )
-    length = models.DecimalField(max_digits=4, decimal_places=1, blank=True,
-                                 null=True)
-    width = models.DecimalField(max_digits=4, decimal_places=1, blank=True,
-                                null=True)
-    length_new = DistanceField(null=True)
-    width_new = DistanceField(null=True)
+    length = DistanceField(null=True)
+    width = DistanceField(null=True)
 
     def __unicode__(self):
         try:
             return "%s (%s), %s x %s" % (self.garden.name, self.name,
-                                         self.length_new, self.width_new)
+                                         self.length, self.width)
         except Exception:
             return '%d' % self.pk
 
     @property
     def length_meters(self):
-        if not self.length_new:
+        if not self.length:
             return 0
-        return self.length_new.m
+        return self.length.m
 
     @property
     def length_feet(self):
-        if not self.length_new:
+        if not self.length:
             return 0
-        return self.length_new.ft
+        return self.length.ft
 
     @property
     def length_for_garden(self):
         """Convert length to proper units for garden."""
-        return to_preferred_distance_units(self.length_new.value, self.garden,
+        return to_preferred_distance_units(self.length.value, self.garden,
                                            force_large_units=False)
 
     @property
     def width_meters(self):
-        if not self.width_new:
+        if not self.width:
             return 0
-        return self.width_new.m
+        return self.width.m
 
     @property
     def width_feet(self):
-        if not self.width_new:
+        if not self.width:
             return 0
-        return self.width_new.ft
+        return self.width.ft
 
     @property
     def width_for_garden(self):
         """Convert width to proper units for garden."""
-        return to_preferred_distance_units(self.width_new.value, self.garden,
+        return to_preferred_distance_units(self.width.value, self.garden,
                                            force_large_units=False)
 
     def __cmp__(self, other):
