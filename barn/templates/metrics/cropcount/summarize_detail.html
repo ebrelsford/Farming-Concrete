@@ -9,6 +9,6 @@
     </div>
     <div class="summary-details">
         <span class="number">{{ area|default:"0"|floatformat:"0" }}</span>
-        <span class="units">square {{ area|pluralize:"foot,feet" }}</span>
+        <span class="units">square {{ area_units }}</span>
     </div>
 </div>

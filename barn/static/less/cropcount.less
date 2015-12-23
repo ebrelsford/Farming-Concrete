@@ -33,11 +33,15 @@
 
 #new-bed form {
     .field-dimensions {
-        .make-sm-column(8);
+        .make-sm-column(9);
 
-        input {
+        input, select {
             display: inline-block;
             max-width: 30%;
+
+            &:last-of-type {
+                margin-left: 5px;
+            }
         }
     }
 

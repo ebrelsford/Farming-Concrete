@@ -7,6 +7,11 @@ register = template.Library()
 
 
 @register.assignment_tag
+def preferred_distance_units(gardens):
+    return convert.preferred_distance_units(gardens)
+
+
+@register.assignment_tag
 def to_preferred_volume_units_from_cubic_meters(value, gardens):
     if not value or value == '':
         return None

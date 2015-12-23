@@ -1,5 +1,5 @@
 {% extends "metrics/report_base.html" %}
-{% load cropcount_tags static %}
+{% load cropcount_tags static units_tags %}
 
 {% block metric_summary %}
     <span class="metric-summary-number">
@@ -59,7 +59,8 @@
                 </span>
                 <br />
                 <span class="metric-summary-units">
-                    {{ "total square feet"|upper }}
+                    {% preferred_distance_units gardens=garden as units %}
+                    {{ "total square"|upper }} {{ units|upper }}
                 </span>
             </td>
             <td style="width: 25%;"></td>

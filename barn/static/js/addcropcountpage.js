@@ -2,10 +2,17 @@
 // addcropcountpage
 //
 
-var $ = require('jquery');
+var $ = require('jquery'),
+    _ = require('underscore'),
+    Qty = require('js-quantities'),
+    queryString = require('query-string');
 
 require('django-dynamic-formset');
 require('jquery.expander');
+
+function round10(value) {
+    return Math.round(value * 10.0) / 10.0;
+}
 
 $(document).ready(function () {
     if ($('.add-cropcount-page').length > 0) {
@@ -60,5 +67,47 @@ $(document).ready(function () {
                 });
             return false;
         });
+
+        // Set form inputs to proper units
+        var measurementSystem = $('.metric-add-record').data('measurement-system'),
+            params = queryString.parse(location.search),
+            unitPickers = $(':input[name=length_new_1],:input[name=width_new_1]'),
+            $lengthUnitPicker = $(':input[name=length_new_1]'),
+            validUnits = $lengthUnitPicker.find('option').map(function () {
+                return $(this).attr('value');
+            }).get();
+
+        var units = params.units;
+        if (!(units && _.contains(validUnits, units))) {
+            if (measurementSystem === 'metric') {
+                units = 'm';
+            }
+            else if (measurementSystem === 'imperial') {
+                units = 'ft';
+            }
+        }
+        unitPickers.val(units);
+        if (units !== 'm') {
+            $(':input[name=length_new_0],:input[name=width_new_0]').val(function () {
+                return round10(Qty($(this).val() + ' m').to(units).scalar);
+            });
+        }
+
+        // When one unit picker changes, change the other to match
+        unitPickers.change(function () {
+            unitPickers.val($(this).val());
+        });
+
+        // Only show one unit picker
+        unitPickers.eq(0).hide();
+
+        // Add help for dimensions
+        var $helpButton = $('<span></span>')
+            .addClass('help_link')
+            .text('?')
+            .tooltip({
+                title: 'Default units can be changed by editing your garden. This setting also determines the units you will see when downloading data and reports.'
+            });
+        $('.field-dimensions .control-label:eq(0)').append($helpButton);
     }
 });

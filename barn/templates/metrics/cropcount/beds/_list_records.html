@@ -9,7 +9,9 @@
     </div> 
     <div class="field-bed-details">
         <div class="field-dimensions">
-            {{ record.width }} ft x {{ record.length }} ft
+            {{ record.width_for_garden.magnitude|floatformat }} x
+            {{ record.length_for_garden.magnitude|floatformat }}
+            {{ record.length_for_garden.units }}
         </div>
 
         <div class="field-recorded-details">

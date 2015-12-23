@@ -13,29 +13,6 @@ from ..forms import RecordedInput
 from .models import Box, Patch
 
 
-class BedSizeField(DecimalField):
-    def __init__(self, *args, **kwargs):
-        super(BedSizeField, self).__init__(
-            max_value=Decimal('10000'),
-            min_value=Decimal('0.1'),
-            max_digits=5,
-            decimal_places=2,
-            error_messages={
-                'required': "Please enter the bed's size.",
-                'invalid': "Please enter numbers for the bed's size.",
-                'min_value': "Please enter a non-negative number.",
-                'max_value': "Please enter a smaller number.",
-                'max_digits': "Please enter a smaller number.",
-                'max_whole_digits': "Please enter a smaller number (%d digits).",
-                'max_decimal_places': ("Please enter a number with at most %d "
-                                       "decimal places."),
-            },
-            widget=TextInput(attrs={'size': 6, 'maxlength': 6}),
-            required=False,
-            *args, **kwargs
-        )
-
-
 class BoxForm(ModelForm):
     garden = ModelChoiceField(label='garden', queryset=Garden.objects.all(),
                               widget=HiddenInput())
@@ -49,8 +26,6 @@ class BoxForm(ModelForm):
         widget=TextInput(attrs={'size': 10}),
         label="Bed #"
     )
-    length = BedSizeField()
-    width = BedSizeField(label='Dimensions (feet)')
 
     recorded = DateField(
         label='Recorded',
@@ -59,16 +34,16 @@ class BoxForm(ModelForm):
 
     class Meta:
         model = Box
-        exclude = ('added', 'updated')
+        exclude = ('added', 'updated', 'length', 'width',)
 
     def clean(self):
         super(BoxForm, self).clean()
         data = self.cleaned_data
-        length = data.get('length')
-        width = data.get('width')
+        length_new = data.get('length_new')
+        width_new = data.get('width_new')
 
         # only give one message for missing bed sizes
-        if not length or not width:
+        if not length_new or not width_new:
             raise ValidationError("Please enter the bed's size.")
 
         return data

@@ -9,6 +9,7 @@ from django.db.models import Sum
 from accounts.utils import get_profile
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
+from units.convert import preferred_distance_units
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, RecordsMixin)
 from .forms import BoxForm, PatchFormSet
@@ -64,12 +65,16 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
     template_name = 'metrics/cropcount/gardens/detail.html'
 
     def get_initial_box_dimensions(self, garden):
+        """
+        Get inital/most recent box dimensions, will be converted on the client
+        side.
+        """
         try:
             most_recent_box = Box.objects.filter(
                 garden=garden,
                 added__year=self.get_year(),
             ).order_by('-added')[0]
-            return "%d" % most_recent_box.length, "%d" % most_recent_box.width
+            return most_recent_box.length_new, most_recent_box.width_new
         except IndexError:
             return '', ''
 
@@ -80,8 +85,8 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
         initial = super(GardenDetails, self).get_initial()
         initial.update({
             'name': _get_next_box_name(garden, year=self.get_year()),
-            'length': length,
-            'width': width,
+            'length_new': length,
+            'width_new': width,
         })
         return initial
 
@@ -99,7 +104,7 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
             context['patch_formset'] = PatchFormSet()
 
         context.update({
-            'area': sum([b.length * b.width for b in beds]),
+            'area': sum([b.length_for_garden * b.width_for_garden for b in beds]),
             'bed_list': sorted(beds),
             'beds': beds.count(),
             'form': self.get_form(self.form_class),
@@ -156,7 +161,8 @@ def summary(request, id=None, year=None):
     return render_to_response('metrics/cropcount/gardens/summary.html', {
         'garden': garden,
         'bed_list': sorted(beds),
-        'area': sum([b.length * b.width for b in beds]),
+        'area': sum([b.length_for_garden * b.width_for_garden for b in beds]),
+        'area_units': preferred_distance_units(garden),
         'bed_months': bed_months,
         'beds': beds.count(),
         'plants': patches.filter(units='plants').aggregate(Sum('quantity'))['quantity__sum'],

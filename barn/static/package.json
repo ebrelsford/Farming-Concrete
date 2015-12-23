@@ -34,6 +34,7 @@
     "handlebars": "^3.0.3",
     "jquery-autocomplete": "^1.2.1",
     "jquery-form": "^3.50.0",
+    "js-quantities": "^1.5.0",
     "leaflet-usermarker": "^1.0.0",
     "modernizr": "^3.0.0-alpha.4",
     "moment": "^2.10.2",

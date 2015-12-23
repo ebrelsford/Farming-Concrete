@@ -10,8 +10,8 @@
             {{ form.non_field_errors }}
             {{ form.garden.errors }}
             {{ form.name.errors }}
-            {{ form.width.errors }}
-            {{ form.length.errors }}
+            {{ form.width_new.errors }}
+            {{ form.length_new.errors }}
         </div>
         <div id="inputs">
 
@@ -20,11 +20,11 @@
 
                 <div class="form-group field-dimensions required">
                     <div class="control-label">
-                        {{ form.width.label_tag }}
+                        <label>Dimensions</label>
                     </div>
                     <div class="controls">
-                        {% render_field form.width class+="form-control tooltip-trigger" data-title="Enter the dimensions for this bed. This helps us determine how much space is being used to grow food." data-trigger="hover focus" data-container="body" %} x
-                        {% render_field form.length class+="form-control" %}
+                        {% render_field form.width_new class+="form-control tooltip-trigger" data-title="Enter the dimensions for this bed. This helps us determine how much space is being used to grow food." data-trigger="hover focus" data-container="body" %} x
+                        {% render_field form.length_new class+="form-control" %}
                     </div>
                 </div>
             </div>

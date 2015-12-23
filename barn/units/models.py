@@ -1,5 +1,15 @@
 from django_measurement.models import MeasurementField
-from measurement.measures import Volume, Weight
+from measurement.measures import Distance, Volume, Weight
+
+
+class DistanceField(MeasurementField):
+    def __init__(self, *args, **kwargs):
+        kwargs['measurement'] = Distance
+        kwargs['unit_choices'] = (
+            ('m', 'meters'),
+            ('ft', 'feet'),
+        )
+        super(DistanceField, self).__init__(*args, **kwargs)
 
 
 class VolumeField(MeasurementField):
