@@ -10,6 +10,7 @@ from classytags.helpers import AsTag, InclusionTag
 from farmingconcrete.models import Garden, GardenType
 from metrics.compost.models import CompostProductionWeight
 from metrics.harvestcount.models import Harvest
+from units.convert import to_weight_units
 
 register = template.Library()
 
@@ -28,12 +29,12 @@ class Overview(AsTag):
         return len(cities)
 
     def get_compost_pounds(self):
-        pounds = CompostProductionWeight.objects.aggregate(pounds=Sum('weight'))['pounds']
-        return round(pounds)
+        grams = CompostProductionWeight.objects.aggregate(grams=Sum('weight'))['grams']
+        return round(to_weight_units(grams, 'imperial').magnitude)
 
     def get_food_pounds(self):
-        pounds = Harvest.objects.aggregate(pounds=Sum('weight'))['pounds']
-        return round(pounds)
+        grams = Harvest.objects.aggregate(grams=Sum('weight'))['grams']
+        return round(to_weight_units(grams, 'imperial').magnitude)
 
     def get_value(self, context):
         context.update({

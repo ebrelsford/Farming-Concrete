@@ -1,20 +1,16 @@
 from datetime import datetime
 
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 
-from accounts.utils import get_profile
 from farmingconcrete.models import Garden
 from generic.views import TitledPageMixin
 from ..views import (AllGardensView, GardenDetailAddRecordView, IndexView,
                      MetricMixin, RecordsMixin)
 from .forms import BoxForm, PatchFormSet
 from .models import Box, Patch
-
-from middleware.http import Http403
 
 
 def _patches(year=datetime.now().year):
@@ -40,19 +36,12 @@ class CropcountIndex(CropcountMixin, IndexView):
     def get_context_data(self, **kwargs):
         context = super(CropcountIndex, self).get_context_data(**kwargs)
         patches = self.get_records()
-
-        # TODO Add garden_type back?
-
         beds = Box.objects.filter(patch__in=patches)
         gardens = Garden.objects.filter(box__in=beds)
-        recent_types = patches.order_by('-added').values_list('crop__name',
-                                                              flat=True)[:3],
         context.update({
-            'area': sum([b.length * b.width for b in beds]),
             'beds': beds.count(),
             'gardens': gardens.count(),
             'plants': patches.filter(units='plants').aggregate(Sum('quantity'))['quantity__sum'],
-            'recent_types': recent_types[0],
         })
         return context
 
@@ -64,12 +53,16 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
     template_name = 'metrics/cropcount/gardens/detail.html'
 
     def get_initial_box_dimensions(self, garden):
+        """
+        Get inital/most recent box dimensions, will be converted on the client
+        side.
+        """
         try:
             most_recent_box = Box.objects.filter(
                 garden=garden,
                 added__year=self.get_year(),
             ).order_by('-added')[0]
-            return "%d" % most_recent_box.length, "%d" % most_recent_box.width
+            return most_recent_box.length, most_recent_box.width
         except IndexError:
             return '', ''
 
@@ -99,7 +92,6 @@ class GardenDetails(CropcountMixin, GardenDetailAddRecordView):
             context['patch_formset'] = PatchFormSet()
 
         context.update({
-            'area': sum([b.length * b.width for b in beds]),
             'bed_list': sorted(beds),
             'beds': beds.count(),
             'form': self.get_form(self.form_class),
@@ -130,37 +122,6 @@ class CropcountAllGardensView(RecordsMixin, TitledPageMixin, CropcountMixin,
 
     def get_title(self):
         return 'All counted gardens'
-
-
-@login_required
-def summary(request, id=None, year=None):
-    """Show cropcount for a garden, don't let user add boxes"""
-
-    garden = get_object_or_404(Garden, pk=id)
-
-    if not request.user.has_perm('can_edit_any_garden'):
-        profile = get_profile(request.user)
-        if garden not in profile.gardens.all():
-            raise Http403
-
-    patches = _patches(year=year).filter(box__garden=garden)
-    beds = Box.objects.filter(patch__in=patches).distinct()
-
-    bed_added = beds.values_list('added', flat=True).order_by('added')
-    bed_months = []
-    for added in bed_added:
-        month_name = added.strftime('%B')
-        if month_name not in bed_months:
-            bed_months.append(month_name)
-
-    return render_to_response('metrics/cropcount/gardens/summary.html', {
-        'garden': garden,
-        'bed_list': sorted(beds),
-        'area': sum([b.length * b.width for b in beds]),
-        'bed_months': bed_months,
-        'beds': beds.count(),
-        'plants': patches.filter(units='plants').aggregate(Sum('quantity'))['quantity__sum'],
-    }, context_instance=RequestContext(request))
 
 
 @login_required

@@ -37,8 +37,17 @@
 
 .add-compost-volume {
     .field-volume {
-        .make-sm-column(4);
+        .make-sm-column(6);
         .make-sm-column-offset(2);
+        .form-control {
+            display: inline-block;
+            width: 50%;
+
+            &:last-child {
+                margin-left: 5%;
+                width: 40%;
+            }
+        }
     }
     .field-recorded {
         .make-sm-column(4);
@@ -47,8 +56,17 @@
 
 .add-compost-weight {
     .field-weight {
-        .make-sm-column(4);
+        .make-sm-column(6);
         .make-sm-column-offset(2);
+        .form-control {
+            display: inline-block;
+            width: 50%;
+
+            &:last-child {
+                margin-left: 5%;
+                width: 40%;
+            }
+        }
     }
     .field-recorded {
         .make-sm-column(4);
@@ -203,8 +221,17 @@
 
 .add-landfilldiversion-volume {
     .field-volume {
-        .make-sm-column(4);
+        .make-sm-column(6);
         .make-sm-column-offset(2);
+        .form-control {
+            display: inline-block;
+            width: 50%;
+
+            &:last-child {
+                margin-left: 5%;
+                width: 40%;
+            }
+        }
     }
     .field-recorded {
         .make-sm-column(4);
@@ -213,8 +240,17 @@
 
 .add-landfilldiversion-weight {
     .field-weight {
-        .make-sm-column(4);
+        .make-sm-column(6);
         .make-sm-column-offset(2);
+        .form-control {
+            display: inline-block;
+            width: 50%;
+
+            &:last-child {
+                margin-left: 5%;
+                width: 40%;
+            }
+        }
     }
     .field-recorded {
         .make-sm-column(4);
@@ -355,9 +391,17 @@
         &-produce_name {
             .make-sm-column(6);
         }
-        &-pounds {
-            .make-sm-column(4);
-            .make-sm-column-offset(1);
+        &-weight {
+            .make-sm-column(6);
+            .form-control {
+                display: inline-block;
+                width: 50%;
+
+                &:last-child {
+                    margin-left: 5%;
+                    width: 40%;
+                }
+            }
         }
     }
 }
@@ -382,7 +426,16 @@
             .make-sm-column(4);
         }
         &-weight {
-            .make-sm-column(4);
+            .make-sm-column(6);
+            .form-control {
+                display: inline-block;
+                width: 50%;
+
+                &:last-child {
+                    margin-left: 5%;
+                    width: 40%;
+                }
+            }
         }
         &-plants-area {
             .make-sm-column(4);
@@ -638,7 +691,7 @@
         .make-sm-column(4);
         font-weight: bold;
     }
-    .field-pounds {
+    .field-weight {
         .make-sm-column(4);
         font-weight: bold;
     }

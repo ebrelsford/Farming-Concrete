@@ -216,6 +216,8 @@ def update_garden_has_records(sender, instance=None, **kwargs):
     """
     if not (instance and isinstance(instance, BaseMetricRecord)):
         return
+    if not instance.garden:
+        return
     instance.garden.metric_record_added = instance.added
     instance.garden.metric_records_count += 1
     instance.garden.has_metric_records = True
@@ -223,8 +225,8 @@ def update_garden_has_records(sender, instance=None, **kwargs):
 
 
 @receiver(post_save)
-def add_activity(sender, instance=None, **kwargs):
-    if not (instance and isinstance(instance, BaseMetricRecord)):
+def add_activity(sender, instance=None, created=False, **kwargs):
+    if not (instance and isinstance(instance, BaseMetricRecord) and created):
         return
     action.send(instance.added_by, verb='recorded', action_object=instance,
                 target=instance.garden)

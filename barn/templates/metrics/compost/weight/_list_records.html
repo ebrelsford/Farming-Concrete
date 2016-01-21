@@ -3,5 +3,8 @@
 {% block record_class %}compost-weight-record{% endblock %}
 
 {% block record_detail %}
-    <div class="field-weight">{{ record.weight|floatformat }} pounds</div>
+    <div class="field-weight">
+        {{ record.weight_for_garden.magnitude|floatformat }} 
+        {{ record.weight_for_garden.units }}{{ record.weight_for_garden.magnitude|pluralize }}
+    </div>
 {% endblock %}

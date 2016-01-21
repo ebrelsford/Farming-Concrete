@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n units_tags %}
 
 <div class="summary">
     <div class="summary-details">
@@ -6,7 +6,10 @@
         <span class="units">{% trans "donation entr" %}{{ count|pluralize:"y,ies" }}</span>
     </div>
     <div class="summary-details">
-        <span class="number">{{ pounds|default:"0"|floatformat:"0" }}</span>
-        <span class="units">{% trans "pound" %}{{ pounds|pluralize }}</span>
+        <span class="number">
+            {% to_preferred_weight_units weight gardens as converted %}
+            {{ converted.magnitude|floatformat }} 
+        </span>
+        <span class="units">{{ converted.units }}{{ converted.magnitude|pluralize }}</span>
     </div>
 </div>

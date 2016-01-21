@@ -1,14 +1,15 @@
 {% extends "metrics/report_base.html" %}
-{% load harvestcount_tags static %}
+{% load harvestcount_tags static units_tags %}
 
 {% block metric_summary %}
+    {% harvestcount_total garden=garden start=min end=max as total %}
+    {% to_preferred_weight_units total garden as converted %}
     <span class="metric-summary-number">
-        {% harvestcount_total garden=garden start=min end=max as total %}
-        {{ total|floatformat }}
+        {{ converted.magnitude|floatformat }} 
     </span>
     <br />
     <span class="metric-summary-units">
-        {{ "pounds"|upper }}
+        {{ converted.units|upper }}{{ converted.magnitude|pluralize|upper }}
     </span>
 {% endblock %}
 
@@ -22,13 +23,6 @@
                 {% if chart_url %}
                     <img class="metric-chart metric-chart-harvestcount" src="{% get_media_prefix %}{{ chart_url }}" />
                 {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="metric-chart-title">
-                    {{ "pounds harvested"|upper }}
-                </div>
             </td>
         </tr>
     </table>

@@ -1,6 +1,7 @@
 {% extends "metrics/summarize.html" %}
-{% load i18n %}
+{% load i18n units_tags %}
 
 {% block summary_details %}
-    {{ volume|floatformat }} {% trans "gallons" %}
+    {% to_preferred_volume_units_from_cubic_meters volume gardens as converted %}
+    {{ converted.magnitude|floatformat }} {{ converted.units }}{{ converted.magnitude|pluralize }}
 {% endblock %}

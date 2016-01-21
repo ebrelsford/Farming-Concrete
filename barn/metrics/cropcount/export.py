@@ -3,6 +3,7 @@ from uuid import uuid4
 from django_tablib import Field, ModelDataset
 
 from api.export import PublicMetricDatasetMixin
+from units.convert import system_distance_units
 from ..export import MetricDatasetMixin
 from .models import Patch
 
@@ -16,11 +17,16 @@ class CropcountDatasetMixin(object):
     units = Field(header='units')
 
     def __init__(self, *args, **kwargs):
+        units = system_distance_units(kwargs.get('measurement_system', None))
+
         # Add bed dimensions
-        self.base_fields['bed_width'] = Field(header='bed width (feet)')
-        self._meta.field_order += ('bed_width',)
-        self.base_fields['bed_length'] = Field(header='bed length (feet)')
-        self._meta.field_order += ('bed_length',)
+        self.base_fields.update({
+            'bed_length': Field(attribute='bed_length_%s' % units,
+                                header='bed length (%s)' % units),
+            'bed_width': Field(attribute='bed_width_%s' % units,
+                               header='bed width (%s)' % units)
+        })
+        self._meta.field_order += ('bed_width', 'bed_length',)
 
         super(CropcountDatasetMixin, self).__init__(*args, **kwargs)
 

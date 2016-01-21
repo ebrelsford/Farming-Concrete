@@ -7,4 +7,4 @@ class DonationForm(RecordForm):
 
     class Meta:
         model = Donation
-        fields = ('produce_name', 'pounds', 'recorded', 'added_by', 'garden',)
+        fields = ('produce_name', 'weight', 'recorded', 'added_by', 'garden',)

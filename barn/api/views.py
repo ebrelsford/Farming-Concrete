@@ -17,6 +17,7 @@ from generic.views import TablibView
 from metrics.compost.models import CompostProductionWeight
 from metrics.harvestcount.models import Harvest
 from metrics.registry import registry
+from units.convert import to_weight_units
 
 
 def get_random_id():
@@ -157,12 +158,12 @@ class OverviewView(JSONResponseMixin, View):
         return len(cities)
 
     def get_compost_pounds(self):
-        pounds = CompostProductionWeight.objects.aggregate(pounds=Sum('weight'))['pounds']
-        return round(pounds)
+        grams = CompostProductionWeight.objects.aggregate(grams=Sum('weight'))['grams']
+        return round(to_weight_units(grams, 'imperial').magnitude)
 
     def get_food_pounds(self):
-        pounds = Harvest.objects.aggregate(pounds=Sum('weight'))['pounds']
-        return round(pounds)
+        grams = Harvest.objects.aggregate(grams=Sum('weight'))['grams']
+        return round(to_weight_units(grams, 'imperial').magnitude)
 
     def get(self, request, *args, **kwargs):
         return self.render_json_response({
@@ -203,10 +204,25 @@ class RecordsView(FilteredApiMixin, JSONResponseMixin, View):
         if not metric:
             return []
 
-        return metric['model'].objects \
+        records = metric['model'].objects \
                 .filter(self.get_queryset_filters(self.request)) \
                 .order_by('recorded') \
                 .public_dict()
+        return self._records_combine_units(records)
+
+    def _records_combine_units(self, records):
+        """Include units of measurement for measurements."""
+        for record in records:
+            for k, v in record.items():
+                if k.endswith('_units'):
+                    mag_key = k.replace('_units', '')
+                    if mag_key in record:
+                        record[mag_key] = {
+                            'magnitude': record[mag_key],
+                            'units': v,
+                        }
+                        del record[k]
+        return records
 
     def anonymize(self, metric_entries):
         """
@@ -288,7 +304,8 @@ class SpreadsheetView(FilteredApiMixin, TablibView):
             if not dataset_cls:
                 continue
 
-            ds = dataset_cls(filters=self.get_queryset_filters(self.request))
+            ds = dataset_cls(filters=self.get_queryset_filters(self.request),
+                             measurement_system='imperial')
 
             # Replace garden column with a randomized unique id
             try:

@@ -1,3 +1,5 @@
+{% load i18n units_tags %}
+
 <div class="summary">
     <div class="summary-details">
         <span class="number">{{ count|default:"0" }}</span>
@@ -8,7 +10,10 @@
         <span class="units">crop{{ plant_types|pluralize }}</span>
     </div>
     <div class="summary-details">
-        <span class="number">{{ weight|floatformat|default:"0" }}</span>
-        <span class="units">pound{{ weight|pluralize }}</span>
+        {% to_preferred_weight_units weight gardens as converted %}
+        <span class="number">
+            {{ converted.magnitude|floatformat }} 
+        </span>
+        <span class="units">{{ converted.units }}{{ converted.magnitude|pluralize }}</span>
     </div>
 </div>

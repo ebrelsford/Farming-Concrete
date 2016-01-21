@@ -172,6 +172,7 @@ INSTALLED_APPS = (
     'metrics.sales',
     'metrics.skills',
     'metrics.yumyuck',
+    'units',
 )
 
 AJAX_LOOKUP_CHANNELS = {

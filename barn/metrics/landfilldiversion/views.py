@@ -40,8 +40,9 @@ class WeightGardenDetails(WeightMixin, GardenDetailAddRecordView):
     template_name = 'metrics/landfilldiversion/weight/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f pounds to %s' % (self.record.weight,
-                                                         self.object)
+        return 'Successfully added %.1f %s to %s' % (self.record.weight.value,
+                                                     self.record.weight.unit,
+                                                     self.object)
 
 
 class VolumeMixin(MetricMixin):
@@ -66,8 +67,9 @@ class VolumeGardenDetails(VolumeMixin, GardenDetailAddRecordView):
     template_name = 'metrics/landfilldiversion/volume/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f gallons to %s' % (self.record.volume,
-                                                          self.object)
+        return 'Successfully added %.1f %s to %s' % (self.record.volume.value,
+                                                     self.record.volume.unit,
+                                                     self.object)
 
 
 class VolumeAllGardensView(RecordsMixin, TitledPageMixin, VolumeMixin,

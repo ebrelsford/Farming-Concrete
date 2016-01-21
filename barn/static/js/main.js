@@ -105,9 +105,14 @@ require('./photogallery');
 /*
  * Page-specific modules
  */
+require('./addcompostvolume');
+require('./addcompostweight');
 require('./addcropcountpage');
+require('./adddonation');
 require('./addgardenspage');
 require('./addharvestpage');
+require('./addlandfilldiversionvolume');
+require('./addlandfilldiversionweight');
 require('./addlookinggoodeventpage');
 require('./addparticipationhourspage');
 require('./addsales');

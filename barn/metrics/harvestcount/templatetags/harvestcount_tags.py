@@ -6,6 +6,7 @@ import pandas as pd
 from metrics.base.templatetags.metrics_tags import ChartMixin, MetricTotalTag
 from metrics.charts import horizontal_bar, make_chart_name
 from metrics.harvestcount.models import Harvest
+from units.convert import preferred_weight_units, to_preferred_weight_units
 
 register = template.Library()
 
@@ -19,7 +20,10 @@ class HarvestcountChart(ChartMixin, AsTag):
                                        coerce_float=True)
 
         qdf = df.groupby('crop__name').sum()['weight']
-        return horizontal_bar(qdf, make_chart_name('harvestcount', garden))
+        qdf = qdf.apply(lambda x: to_preferred_weight_units(x, garden, force_large_units=True).magnitude)
+        units = preferred_weight_units(garden, large=True)
+        return horizontal_bar(qdf, make_chart_name('harvestcount', garden),
+                              xlabel=('%s harvested' % units).upper())
 
 
 class HarvestcountTotal(MetricTotalTag):

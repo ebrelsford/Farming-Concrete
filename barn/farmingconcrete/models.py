@@ -29,7 +29,21 @@ class PrivacyMixin(models.Model):
         abstract = True
 
 
-class Garden(PrivacyMixin, models.Model):
+class MeasurementPreferenceMixin(models.Model):
+    UNITS_CHOICES = (
+        ('imperial', 'imperial (feet, pounds)'),
+        ('metric', 'metric (meters, kilograms)'),
+    )
+    measurement_system = models.CharField(_('measurement system'),
+        choices=UNITS_CHOICES, max_length=25, default='imperial',
+        help_text=_("Pick the measurement system that will be used for this garden."),
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Garden(PrivacyMixin, MeasurementPreferenceMixin, models.Model):
     name = models.CharField('garden name', max_length=512)
     type = models.ForeignKey(GardenType)
     gardenid = models.CharField(max_length=64, null=True, blank=True)

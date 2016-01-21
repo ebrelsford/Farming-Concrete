@@ -23,7 +23,6 @@ class DonationGardenDetails(DonationMixin, GardenDetailAddRecordView):
     template_name = 'metrics/donations/garden_detail.html'
 
     def get_success_message(self):
-        return 'Successfully added %.1f pounds to %s' % (
-            self.record.pounds or 0,
-            self.object,
-        )
+        return 'Successfully added %.1f %s to %s' % (self.record.weight.value,
+                                                     self.record.weight.unit,
+                                                     self.object)

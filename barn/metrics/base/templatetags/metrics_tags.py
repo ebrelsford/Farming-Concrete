@@ -196,6 +196,10 @@ class Summarize(MetricRecordTagMixin, Tag):
                 return ''
             return render_to_string(self.empty_template_name)
 
+        if gardens:
+            summary['gardens'] = gardens
+        else:
+            summary['gardens'] = (garden,)
         templates = self.get_page_templates(name, page) + self.get_templates(name)
         for template in templates:
             try:

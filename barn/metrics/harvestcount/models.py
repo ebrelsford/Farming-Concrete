@@ -3,6 +3,8 @@ from django.db.models import Sum
 
 from audit.models import AuditedModel
 from farmingconcrete.models import Garden
+from units.convert import to_preferred_weight_units, to_weight_units
+from units.models import WeightField
 from ..models import BaseMetricRecord, MetricManager, MetricQuerySet
 
 
@@ -22,8 +24,9 @@ class HarvestCountQuerySet(MetricQuerySet):
             'crop_variety__name',
             'plants',
             'weight',
+            'weight_units',
         )
-        return self.values(*values_args)
+        return self.extra(select={'weight_units': '\'g\''}).values(*values_args)
 
 
 class HarvestCountManager(MetricManager):
@@ -39,8 +42,7 @@ class Harvest(BaseMetricRecord):
     crop = models.ForeignKey('crops.Crop', null=True)
     crop_variety = models.ForeignKey('crops.Variety', blank=True, null=True)
 
-    weight = models.DecimalField('weight (pounds)', max_digits=6,
-                                 decimal_places=2)
+    weight = WeightField(null=True)
     plants = models.IntegerField(null=True, blank=True)
     area = models.DecimalField(max_digits=4, decimal_places=2, null=True,
                                blank=True)
@@ -49,10 +51,13 @@ class Harvest(BaseMetricRecord):
     reportable = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return "%.2f harvested pounds of %s" % (
-            self.weight,
-            self.crop.name,
-        )
+        try:
+            return "%s harvested of %s" % (
+                self.weight,
+                self.crop.name,
+            )
+        except Exception:
+            return '%d' % self.pk
 
     def get_crop_variety_display(self):
         if self.crop_variety:
@@ -74,6 +79,30 @@ class Harvest(BaseMetricRecord):
         """Get garden state, convenient for exporting"""
         return self.gardener.garden.zip
     garden_zip = property(_garden_zip)
+
+    @property
+    def weight_kilograms(self):
+        if not self.weight:
+            return 0
+        return self.weight.kg
+
+    @property
+    def weight_pounds(self):
+        if not self.weight:
+            return 0
+        return self.weight.lb
+
+    @property
+    def weight_for_garden(self):
+        """Convert weight to proper units for garden."""
+        if self.garden:
+            return to_preferred_weight_units(self.weight.value,
+                                             self.garden,
+                                             force_large_units=False)
+        else:
+            return to_weight_units(self.weight.value, 'imperial',
+                                   force_large_units=False)
+
 
     @classmethod
     def summarize(cls, harvests):

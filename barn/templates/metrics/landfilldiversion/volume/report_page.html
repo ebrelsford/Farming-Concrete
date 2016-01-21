@@ -1,14 +1,15 @@
 {% extends "metrics/report_base.html" %}
-{% load landfilldiversion_tags static %}
+{% load landfilldiversion_tags static units_tags %}
 
 {% block metric_summary %}
+    {% landfilldiversion_volume_total garden=garden start=min end=max as total %}
+    {% to_preferred_volume_units_from_cubic_meters total garden as converted %}
     <span class="metric-summary-number">
-        {% landfilldiversion_volume_total garden=garden start=min end=max as total %}
-        {{ total|floatformat }}
+        {{ converted.magnitude|floatformat }} 
     </span>
     <br />
     <span class="metric-summary-units">
-        {{ "gallons"|upper }}
+        {{ converted.units|upper }}{{ converted.magnitude|pluralize|upper }}
     </span>
 {% endblock %}
 

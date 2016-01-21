@@ -4,5 +4,8 @@
 
 {% block record_detail %}
     <div class="field-produce-name">{{ record.produce_name }}</div>
-    <div class="field-pounds">{{ record.pounds|floatformat }} pounds</div>
+    <div class="field-weight">
+        {{ record.weight_for_garden.magnitude|floatformat }} 
+        {{ record.weight_for_garden.units }}{{ record.weight_for_garden.magnitude|pluralize }}
+    </div>
 {% endblock %}

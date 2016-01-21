@@ -54,8 +54,8 @@ class CropcountTotalArea(MetricRecordsMixin, AsTag):
     def get_value(self, context, garden, year, start, end):
         kwargs = self.args_to_dict(garden, year, start, end)
         records = self.get_records(**kwargs)
-        boxes = Box.objects.filter(patch__in=records).distinct()
-        return sum([b.length * b.width for b in boxes])
+        beds = Box.objects.filter(patch__in=records).distinct()
+        return sum([b.length_for_garden * b.width_for_garden for b in beds]).magnitude
 
 
 register.tag(CropcountChart)

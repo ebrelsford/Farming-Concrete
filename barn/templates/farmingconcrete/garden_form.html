@@ -103,6 +103,9 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="row">
+                    {% include "forms/field.html" with field=form.measurement_system %}
+                </div>
 
                 {% if garden %}
                     {% garden_group_invite_count garden as invitation_count %}
