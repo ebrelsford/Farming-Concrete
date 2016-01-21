@@ -43,7 +43,7 @@ git+git://github.com/girasquid/django-feedback.git
 django-easy-pdf==0.1.0
 django-filter==0.11.0
 django-floppyforms==1.6.0
-django-hijack==1.0.8
+django-hijack==2.0.3
 django-imagekit==3.3
 git+git://github.com/ebrelsford/django-inplace-activity-stream@v2.0.0
 django-measurement==2.1.1
