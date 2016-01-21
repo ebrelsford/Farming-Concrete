@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.shortcuts import redirect
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from estimates.models import EstimatedYield, EstimatedCost
 from estimates.admin_views import make_yield_estimates
@@ -26,11 +26,11 @@ class EstimatedYieldAdmin(admin.ModelAdmin):
         prefix = "%s_%s" % (app_label, object_name)
 
         urls = super(EstimatedYieldAdmin, self).get_urls()
-        my_urls = patterns('',
+        my_urls = [
             url(r'^makeall/$', make_yield_estimates, name='%s_makeall' % prefix),
             url(r'^makeall/success/$', self.make_yield_estimates_success,
                 name='%s_makeall_success' % prefix),
-        )
+        ]
         return my_urls + urls
 
 

@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (AccountDetailsView, AddAdminView, AddGardenGroupAdminView,
                     DeleteAdminView, DeleteGardenGroupMemberView,
                     DeleteMemberView, InviteMemberView)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^$',
         AccountDetailsView.as_view(),
@@ -42,4 +42,4 @@ urlpatterns = patterns('',
         name='gardengroupmemberships_member_add',
     ),
 
-)
+]

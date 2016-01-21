@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (SmartsAndSkillsAllGardensView,
                     SmartsAndSkillsGardenDetails, SmartsAndSkillsIndex)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^smarts/(?:(?P<year>\d{4})/)?$',
         SmartsAndSkillsIndex.as_view(),
@@ -27,4 +27,4 @@ urlpatterns = patterns('',
         name='skills_smarts_garden_details',
     ),
 
-)
+]

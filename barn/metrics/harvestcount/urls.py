@@ -1,10 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (CreateGardenerView, GardenDetails, GardenerAddView,
-                    HarvestcountAllGardensView, HarvestcountIndex)
+                    HarvestcountAllGardensView, HarvestcountIndex,
+                    delete_harvest, quantity_for_last_harvest)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^(?:(?P<year>\d{4})/)?$',
         HarvestcountIndex.as_view(),
@@ -31,7 +32,7 @@ urlpatterns = patterns('',
     # Add / delete harvests
 
     url(r'^harvests/(?P<id>\d+)/delete/$',
-        'metrics.harvestcount.views.delete_harvest',
+        delete_harvest,
         name='harvestcount_delete_harvest'
     ),
 
@@ -49,8 +50,8 @@ urlpatterns = patterns('',
     # Other
 
     url(r'^gardens/(?P<pk>\d+)/(?:(?P<year>\d{4})/)?last_harvest',
-        'metrics.harvestcount.views.quantity_for_last_harvest',
+        quantity_for_last_harvest,
         name='harvestcount_quantity_for_last_harvest'
     ),
 
-)
+]

@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import YumYuckAllGardensView, YumYuckGardenDetails, YumYuckIndex
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^change/(?:(?P<year>\d{4})/)?$',
         YumYuckIndex.as_view(),
@@ -26,4 +26,4 @@ urlpatterns = patterns('',
         name='yumyuck_change_garden_details',
     ),
 
-)
+]

@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import RainwaterHarvestIndex, RainwaterHarvestGardenDetails
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     #
     # RainwaterHarvest
@@ -22,4 +22,4 @@ urlpatterns = patterns('',
         name='rainwater_harvest_garden_details',
     ),
 
-)
+]

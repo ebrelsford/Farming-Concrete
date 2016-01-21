@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (LookingGoodEventAllGardensView,
                     LookingGoodEventGardenDetails, LookingGoodEventIndex)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^event/(?:(?P<year>\d{4})/)?$',
         LookingGoodEventIndex.as_view(),
@@ -27,4 +27,4 @@ urlpatterns = patterns('',
         name='lookinggood_event_garden_details',
     ),
 
-)
+]

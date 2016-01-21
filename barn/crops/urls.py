@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import CreateCropView, CreateVarietyView, ListVarietiesView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^crop/add/', CreateCropView.as_view(), name='crops_crop_add'),
 
@@ -13,4 +13,4 @@ urlpatterns = patterns('',
     url(r'^variety/list/', ListVarietiesView.as_view(),
         name='crops_variety_list'),
 
-)
+]

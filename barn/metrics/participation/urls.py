@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (HoursByGeographyAllGardensView,
                     HoursByGeographyGardenDetails, HoursByGeographyIndex)
@@ -9,7 +9,7 @@ from .views import (HoursByProjectAllGardensView, HoursByProjectGardenDetails,
 from .views import CreateProjectView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     #
     # Hours by geography
@@ -99,4 +99,4 @@ urlpatterns = patterns('',
         name='participation_project_add',
     )
 
-)
+]

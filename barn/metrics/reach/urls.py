@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (ProgramReachAllGardensView, ProgramReachGardenDetails,
                     ProgramReachIndex)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^program/(?:(?P<year>\d{4})/)?$',
         ProgramReachIndex.as_view(),
@@ -27,4 +27,4 @@ urlpatterns = patterns('',
         name='reach_program_garden_details',
     ),
 
-)
+]

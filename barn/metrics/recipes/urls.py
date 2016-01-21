@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (RecipeTallyAllGardensView, RecipeTallyGardenDetails,
                     RecipeTallyIndex)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^tally/(?:(?P<year>\d{4})/)?$',
         RecipeTallyIndex.as_view(),
@@ -27,4 +27,4 @@ urlpatterns = patterns('',
         name='recipes_tally_garden_details',
     ),
 
-)
+]

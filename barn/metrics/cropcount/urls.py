@@ -1,9 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
-from .views import CropcountIndex, CropcountAllGardensView, GardenDetails
+from .views import (CropcountIndex, CropcountAllGardensView, GardenDetails,
+                    delete_bed)
 
 
-urlpatterns = patterns('metrics.cropcount.views',
+urlpatterns = [
 
     url(r'^(?:(?P<year>\d{4})/)?$',
         CropcountIndex.as_view(),
@@ -29,9 +30,6 @@ urlpatterns = patterns('metrics.cropcount.views',
 
     # Beds
 
-    url(r'^beds/(?P<id>\d+)/delete/$',
-        'delete_bed',
-        name='cropcount_delete_bed'
-    ),
+    url(r'^beds/(?P<id>\d+)/delete/$', delete_bed, name='cropcount_delete_bed'),
 
-)
+]

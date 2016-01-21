@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (MoodChangeAllGardensView, MoodChangeGardenDetails,
                     MoodChangeIndex)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^change/(?:(?P<year>\d{4})/)?$',
         MoodChangeIndex.as_view(),
@@ -27,4 +27,4 @@ urlpatterns = patterns('',
         name='moods_change_garden_details',
     ),
 
-)
+]

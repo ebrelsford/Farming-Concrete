@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import ExplainEstimatedYieldView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^estimatedyield/explain/',
         ExplainEstimatedYieldView.as_view(),
         name='estimates_estimatedyield_explain',
     ),
-)
+]

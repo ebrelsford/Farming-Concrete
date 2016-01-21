@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (AcceptGardenGroupMembership, ApproveGardenGroupMembership,
                     AddSuggestedGardenView, CheckGardenGroupMembershipAccess,
@@ -6,18 +6,17 @@ from .views import (AcceptGardenGroupMembership, ApproveGardenGroupMembership,
                     GardenGroupDetailView, GardenSuggestionView,
                     InviteGardenView, RequestGardenGroupMembership,
                     UserGardens, UserGardenLeaveView, UpdateGardenView,
-                    UpdateGardenGroupView, UserGardenLeaveConfirmedView)
+                    UpdateGardenGroupView, UserGardenLeaveConfirmedView,
+                    gardens_geojson)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     #
     # View
     #
 
-    url(r'^geojson', 'farmingconcrete.views.gardens_geojson',
-        name='farmingconcrete_gardens_geojson'
-    ),
+    url(r'^geojson', gardens_geojson, name='farmingconcrete_gardens_geojson'),
 
     url(r'^$', UserGardens.as_view(), name='farmingconcrete_gardens_user'),
 
@@ -98,4 +97,4 @@ urlpatterns = patterns('',
         name='farmingconcrete_gardengroup_invite',
     ),
 
-)
+]

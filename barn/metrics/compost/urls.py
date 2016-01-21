@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (WeightAllGardensView, WeightGardenDetails, WeightIndex,
                     VolumeAllGardensView, VolumeGardenDetails, VolumeIndex)
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     #
     # Weight
@@ -57,4 +57,4 @@ urlpatterns = patterns('',
         name='compostproduction_volume_garden_details',
     ),
 
-)
+]
