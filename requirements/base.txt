@@ -31,7 +31,7 @@ openpyxl==2.1.5
 
 # Django requirements
 Django==1.9.1
-git+git://github.com/Lightmatter/django.js@24a9a41b
+git+git://github.com/ebrelsford/django.js@return-urls
 git+git://github.com/ebrelsford/django-activity-stream.git@place-field
 django-admin-tools==0.7.0
 django-ajax-selects==1.4.1
