@@ -35,6 +35,7 @@ git+git://github.com/ebrelsford/django.js@return-urls
 git+git://github.com/ebrelsford/django-activity-stream.git@place-field
 django-admin-tools==0.7.0
 django-ajax-selects==1.4.1
+django-appconf==1.0.1
 django-braces==1.8.0
 django-classy-tags==0.6.1
 django_compressor==1.6
