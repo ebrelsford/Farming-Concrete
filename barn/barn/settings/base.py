@@ -14,7 +14,6 @@ def get_env_variable(var_name):
 
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Eric', 'ebrelsford@gmail.com'),
@@ -68,26 +67,6 @@ ADMIN_MEDIA_PREFIX = '/admin/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = get_env_variable('FARMING_CONCRETE_SECRET_KEY')
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'admin_tools.template_loaders.Loader',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.static',
-
-    'feedback.context_processors.feedback_form',
-
-    'barn.context_processors.garden_types',
-    'metrics.context_processors.metrics',
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -101,9 +80,33 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'barn.urls'
 
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, 'templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(PROJECT_ROOT, 'templates')],
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+                'django.template.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.static',
+
+                'feedback.context_processors.feedback_form',
+
+                'barn.context_processors.garden_types',
+                'metrics.context_processors.metrics',
+            ],
+            'debug': DEBUG,
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+                'admin_tools.template_loaders.Loader',
+            ]
+        }
+    },
+]
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
