@@ -146,9 +146,9 @@ def vertical_bar(data_frame, destination_file, color='#849F38', xlabel='',
         elif label_y < 0:
             label_color = color
             label_y = height + y_diff
-        ax.text(rect.get_x() + rect.get_width() / 2.0, label_y,
-                '%d' % int(height), ha='center', va='bottom', color=label_color,
-                size=9)
+        label_x = rect.get_x() + rect.get_width() / 2.0
+        ax.text(label_x, label_y, '%d' % int(height), ha='center', va='bottom',
+                color=label_color, size=9)
 
     return _save_chart(destination_file, **kwargs)
 
