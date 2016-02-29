@@ -40,7 +40,7 @@ django-braces==1.8.0
 django-classy-tags==0.6.1
 django_compressor==1.6
 git+git://github.com/ebrelsford/django-drip.git
-git+git://github.com/girasquid/django-feedback.git
+git+git://github.com/ebrelsford/django-feedback.git@remove-url-patterns
 django-easy-pdf==0.1.0
 django-filter==0.12.0
 django-floppyforms==1.6.0
