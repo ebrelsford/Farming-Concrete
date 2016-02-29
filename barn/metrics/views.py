@@ -75,8 +75,7 @@ class DeleteRecordView(DeleteView):
         return False
 
     def not_too_old(self, record):
-        now = datetime.now()
-        a_year_ago = now.replace(year=now.year - 1)
+        a_year_ago = datetime.now() - timedelta(days=365)
         return record.added > a_year_ago
 
     def can_edit_garden(self, user, record):
