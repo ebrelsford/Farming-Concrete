@@ -30,7 +30,7 @@ wsgiref==0.1.2
 openpyxl==2.1.5
 
 # Django requirements
-Django==1.9.1
+Django==1.9.2
 git+git://github.com/ebrelsford/django.js@return-urls
 git+git://github.com/ebrelsford/django-activity-stream.git@place-field
 django-admin-tools==0.7.0
