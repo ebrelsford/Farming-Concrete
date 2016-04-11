@@ -15,7 +15,7 @@
 
             {% if form.errors %}
                 <div class="alert alert-danger">
-                    {% trans "Your username and password didn't match. Please try again." %}
+                    {% trans "There was a problem logging in. Either your username and password didn't match, or you used an email address with multiple accounts. Please try again. If your email address has multiple accounts associated with it, please use the username you would like to log in with." %}
                 </div>
             {% endif %}
 

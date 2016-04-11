@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 
 
 class EmailOrUsernameModelBackend(object):
@@ -18,6 +19,8 @@ class EmailOrUsernameModelBackend(object):
                 user = User.objects.get(email=username)
             except User.DoesNotExist:
                 return None
+            except User.MultipleObjectsReturned:
+                raise PermissionDenied('Too many users with that email address!')
         if user.check_password(password):
             return user
 
