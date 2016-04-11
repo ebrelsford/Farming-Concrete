@@ -52,12 +52,14 @@ function updateDateRange(min, max) {
         maxRome = $(':input[name=max]')[0];
     rome.find(minRome)
         .options(_.extend({}, options, {
-            dateValidator: rome.val.beforeEq(maxRome)
+            dateValidator: rome.val.beforeEq(maxRome),
+            initialValue: options.min
         }))
         .on('data', function () { updateDownloadButtonUrl(); });
     rome.find(maxRome)
         .options(_.extend({}, options, {
-            dateValidator: rome.val.afterEq(minRome)
+            dateValidator: rome.val.afterEq(minRome),
+            initialValue: options.max
         }))
         .on('data', function () { updateDownloadButtonUrl(); });
 }
