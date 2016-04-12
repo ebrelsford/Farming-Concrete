@@ -139,6 +139,7 @@ INSTALLED_APPS = (
 
     'actstream',
     'ajax_select',
+    'compat',
     'compressor',
     'djangojs',
     'drip',
