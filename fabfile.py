@@ -8,7 +8,7 @@ env.use_ssh_config = True
 
 server_project_dir = '/opt/fc'
 server_src_dir = '/'.join([server_project_dir, 'Farming-Concrete'])
-server_virtualenv = 'fc'
+server_virtualenv = 'fc2'
 
 server_front_dir = '/opt/mill'
 
