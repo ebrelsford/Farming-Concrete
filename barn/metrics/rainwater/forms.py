@@ -2,6 +2,8 @@ from django.forms import HiddenInput, ValidationError
 
 from ..forms import RecordedField, RecordForm
 from .models import RainwaterHarvest
+import decimal
+
 from .utils import calculate_rainwater_gallons
 
 
@@ -11,13 +13,18 @@ class RainwaterHarvestForm(RecordForm):
 
     def calculate_volume(self, garden=None, roof_length=0, roof_width=0,
                          recorded_start=None, recorded=None, **kwargs):
-        return calculate_rainwater_gallons(
+        gallons = calculate_rainwater_gallons(
             [garden.latitude, garden.longitude],
             float(roof_length),
             float(roof_width),
             recorded_start,
             recorded
         )
+
+        # Round result to two decimals
+        decimal_ctx = decimal.Context(prec=10, rounding=decimal.ROUND_HALF_UP)
+        gallons = decimal_ctx.create_decimal(gallons).quantize(decimal.Decimal(10) ** - 2)
+        return gallons
 
     def clean(self):
         cleaned_data = super(RainwaterHarvestForm, self).clean()
