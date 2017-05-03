@@ -16,6 +16,7 @@ ureg = UnitRegistry()
 
 
 def calculate_rainwater_gallons(latlng, length, width, start, end):
+    print latlng, length, width, start, end
     station = get_station(latlng, start, end)
     rainfall = get_rainfall_total(station['id'], start, end)
     return rainfall * length * width * GALLONS_PER_SF * HARVESTING_EFFICIENCY
@@ -43,7 +44,7 @@ def get_rainfall_entries(stationid, start, end):
     headers = {
         'token': settings.NOAA_TOKEN,
     }
-    response = requests.get(NOAA_DATA_URL, params=params, headers=headers).json()
+    response = requests.get(NOAA_DATA_URL, params=params, headers=headers, verify=False).json()
     try:
         return response['results']
     except KeyError:
@@ -89,7 +90,7 @@ def get_stations_buffer(latlng, start, end, buffer=.2):
     headers = {
         'token': settings.NOAA_TOKEN,
     }
-    response = requests.get(NOAA_STATIONS_URL, params=params, headers=headers).json()
+    response = requests.get(NOAA_STATIONS_URL, params=params, headers=headers, verify=False).json()
     try:
         return response['results']
     except KeyError:
