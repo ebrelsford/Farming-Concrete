@@ -9,8 +9,8 @@ from .exceptions import NoRainfallResultsException, NoStationResultsException
 
 GALLONS_PER_SF = 0.6
 HARVESTING_EFFICIENCY = 0.75
-NOAA_DATA_URL = 'http://www.ncdc.noaa.gov/cdo-web/api/v2/data'
-NOAA_STATIONS_URL = 'http://www.ncdc.noaa.gov/cdo-web/api/v2/stations'
+NOAA_DATA_URL = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/data'
+NOAA_STATIONS_URL = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/stations'
 
 ureg = UnitRegistry()
 
