@@ -1,7 +1,9 @@
+from ajax_select import LookupChannel
+
 from farmingconcrete.models import Garden
 
 
-class GardenLookup(object):
+class GardenLookup(LookupChannel):
     """Lookup for Gardens"""
 
     def get_query(self, q, request):
