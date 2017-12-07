@@ -34,7 +34,10 @@ urlpatterns = [
     url(r'^metrics/harvestcount/', include('metrics.harvestcount.urls')),
 
     # landfill diversion
-    url(r'^metrics/landfilldiversion/', include('metrics.landfilldiversion.urls')),
+    url(
+        r'^metrics/landfilldiversion/',
+        include('metrics.landfilldiversion.urls')
+    ),
 
     # looking good
     url(r'^metrics/lookinggood/', include('metrics.lookinggood.urls')),
