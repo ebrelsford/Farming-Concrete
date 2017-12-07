@@ -12,7 +12,8 @@ import reports.urls
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^(?:(?P<year>\d{4})/)?$',
+    url(
+        r'^(?:(?P<year>\d{4})/)?$',
         IndexView.as_view(),
         name='home'
     ),
@@ -70,8 +71,14 @@ urlpatterns = [
 
     # reports
     url(r'^reports/', include(reports.urls.main_patterns)),
-    url(r'^gardens/(?P<pk>\d+)/report/', include(reports.urls.garden_patterns)),
-    url(r'^gardens/group/(?P<pk>\d+)/report/', include(reports.urls.garden_group_patterns)),
+    url(
+        r'^gardens/(?P<pk>\d+)/report/',
+        include(reports.urls.garden_patterns)
+    ),
+    url(
+        r'^gardens/group/(?P<pk>\d+)/report/',
+        include(reports.urls.garden_group_patterns)
+    ),
 
     # API
     url(r'^api-admin/', include('adminapi.urls')),
@@ -79,7 +86,10 @@ urlpatterns = [
 
     # auth
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^accounts/registration/', include('registration.backends.default.urls')),
+    url(
+        r'^accounts/registration/',
+        include('registration.backends.default.urls')
+    ),
     url(r'^accounts/', include('django.contrib.auth.urls')),
 
     # admin
