@@ -28,6 +28,7 @@ wsgiref==0.1.2
 
 # Required for django-report-builder
 openpyxl==2.1.5
+tablib==0.10.0
 
 # Django requirements
 Django==1.9.2
